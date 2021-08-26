@@ -2,7 +2,14 @@
   "name": "nacelle-js",
   "version": "0.0.0",
   "description": "Nacelle-powered, JavaScript-fueled packages and example projects to elevate your composable commerce experience",
-  "scripts": {},
+  "scripts": {
+    "bootstrap": "lerna bootstrap --hoist --strict",
+    "clean": "lerna clean",
+    "lint": "lerna run lint",
+    "build": "lerna run build",
+    "test:ci": "jest --clearCache && lerna run test:ci",
+    "publish": "npm run build && lerna publish"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/getnacelle/nacelle-js.git"
@@ -20,6 +27,9 @@
   },
   "homepage": "https://github.com/getnacelle/nacelle-js#readme",
   "devDependencies": {
-    "lerna": "^4.0.0"
+    "eslint": "^7.32.0",
+    "jest": "^27.0.6",
+    "lerna": "^4.0.0",
+    "prettier": "^2.3.2"
   }
 }
