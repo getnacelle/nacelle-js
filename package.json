@@ -1,0 +1,25 @@
+{
+  "name": "nacelle-js",
+  "version": "0.0.0",
+  "description": "Nacelle-powered, JavaScript-fueled packages and example projects to elevate your composable commerce experience",
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/getnacelle/nacelle-js.git"
+  },
+  "keywords": [
+    "Nacelle",
+    "eCommerce",
+    "Headless",
+    "JAMstack"
+  ],
+  "author": "Nacelle Inc.",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/getnacelle/nacelle-js/issues"
+  },
+  "homepage": "https://github.com/getnacelle/nacelle-js#readme",
+  "devDependencies": {
+    "lerna": "^4.0.0"
+  }
+}
