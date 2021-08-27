@@ -34,7 +34,7 @@ Alternatively, you can:
 4. `cd ../../` back to the monorepo root
 5. run `npm run bootstrap`
 
-## Creating a new example
+## Creating a new example project
 
 1. `cd examples/`
 2. either run a project creation tool that scaffolds a new project, or manually create & `npm init` a project from scratch
