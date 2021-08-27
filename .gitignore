@@ -1,0 +1,12 @@
+# packages
+node_modules
+
+# build outputs
+dist
+build
+
+# environment variables
+.env
+
+# log files
+lerna-debug.log

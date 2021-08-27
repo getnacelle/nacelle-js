@@ -1,0 +1,15 @@
+{
+  "packages": ["packages/*", "examples/*"],
+  "version": "independent",
+  "npmClient": "npm",
+  "publish": {
+    "allowBranch": "main",
+    "ignoreChanges": [
+      "*.md",
+      ".gitignore",
+      "**/**/**.test.*",
+      "**/.storybook/**"
+    ],
+    "message": "chore(release): publish"
+  }
+}

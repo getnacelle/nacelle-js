@@ -1,0 +1,37 @@
+{
+  "name": "@nacelle/nacelle-js",
+  "version": "0.0.0",
+  "description": "Nacelle-powered, JavaScript-fueled packages and example projects to elevate your composable commerce experience",
+  "scripts": {
+    "bootstrap": "lerna bootstrap --hoist --strict",
+    "clean": "lerna clean",
+    "create": "lerna create",
+    "changed": "lerna changed",
+    "lint": "lerna run lint",
+    "build": "lerna run build",
+    "test:ci": "jest --clearCache && lerna run test:ci",
+    "publish": "npm run build && lerna publish"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/getnacelle/nacelle-js.git"
+  },
+  "keywords": [
+    "Nacelle",
+    "eCommerce",
+    "Headless",
+    "JAMstack"
+  ],
+  "author": "Nacelle Inc.",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/getnacelle/nacelle-js/issues"
+  },
+  "homepage": "https://github.com/getnacelle/nacelle-js#readme",
+  "devDependencies": {
+    "eslint": "^7.32.0",
+    "jest": "^27.0.6",
+    "lerna": "^4.0.0",
+    "prettier": "^2.3.2"
+  }
+}
