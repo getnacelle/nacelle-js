@@ -5,6 +5,8 @@
   "scripts": {
     "bootstrap": "lerna bootstrap --hoist --strict",
     "clean": "lerna clean",
+    "create": "lerna create",
+    "changed": "lerna changed",
     "lint": "lerna run lint",
     "build": "lerna run build",
     "test:ci": "jest --clearCache && lerna run test:ci",
