@@ -1,5 +1,5 @@
 {
-  "name": "nacelle-js",
+  "name": "@nacelle/nacelle-js",
   "version": "0.0.0",
   "description": "Nacelle-powered, JavaScript-fueled packages and example projects to elevate your composable commerce experience",
   "scripts": {
