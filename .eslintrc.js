@@ -3,27 +3,36 @@ module.exports = {
     browser: true,
     es2021: true,
     jest: true,
-    node: true,
+    node: true
   },
   extends: [
-    "eslint:recommended",
-    "plugin:react/recommended",
-    "plugin:react-hooks/recommended",
-    "plugin:vue/recommended",
-    "plugin:nuxt/recommended",
-    "plugin:jsx-a11y/recommended",
-    "plugin:@typescript-eslint/recommended",
-    "plugin:monorepo/recommended",
-    "prettier",
+    'eslint:recommended',
+    'plugin:@typescript-eslint/recommended',
+    'plugin:import/recommended',
+    'plugin:import/typescript',
+    'plugin:react/recommended',
+    'plugin:react-hooks/recommended',
+    'plugin:vue/recommended',
+    '@vue/typescript',
+    'plugin:nuxt/recommended',
+    '@nuxtjs/eslint-config-typescript',
+    'plugin:jsx-a11y/recommended',
+    'plugin:monorepo/recommended',
+    'prettier'
   ],
-  parser: "@typescript-eslint/parser",
+  ignorePatterns: ['node_modules', 'build', 'dist', 'public'],
+  parser: 'vue-eslint-parser',
   parserOptions: {
     ecmaFeatures: {
-      jsx: true,
+      jsx: true
     },
     ecmaVersion: 12,
-    sourceType: "module",
+    parser: '@typescript-eslint/parser',
+    sourceType: 'module'
   },
   plugins: [],
-  rules: {},
+  rules: {
+    '@typescript-eslint/explicit-module-boundary-types': 'off',
+    'react/react-in-jsx-scope': 'off'
+  }
 };
