@@ -7,6 +7,7 @@
     "clean": "lerna clean",
     "create": "lerna create",
     "changed": "lerna changed",
+    "format": "prettier --write .",
     "lint": "lerna run lint",
     "build": "lerna run build",
     "test:ci": "jest --clearCache && lerna run test:ci",
