@@ -8,7 +8,13 @@ This repository contains packages and examples you can use to build your storefr
 
 This project uses [Lerna](https://lerna.js.org) to coordinate dependencies throughout the monorepo. Lerna allows us to make changes to a package and see the effects of those changes in other packages and example projects, without the need to manually mangage package symlinks via `npm link`.
 
-When you clone this repository for the first time, run `npm i` followed by `npm run bootstrap` from the monorepo root. This will install Lerna, and will run Lerna's [`bootstrap`](https://github.com/lerna/lerna/blob/main/commands/bootstrap/README.md) command, which installs dependencies across `packages/` and `examples/` and creates symlinks between them.
+When you clone this repository for the first time, run:
+
+```
+npm i && npm run bootstrap && npm run prepare
+```
+
+This will install Lerna, and will run Lerna's [`bootstrap`](https://github.com/lerna/lerna/blob/main/commands/bootstrap/README.md) command, which installs dependencies across `packages/` and `examples/` and creates symlinks between them. The `prepare` script initializes [Husky](https://typicode.github.io/husky), which supports linting of staged changes.
 
 ## Installing dependencies in packages and examples
 
@@ -34,9 +40,21 @@ Alternatively, you can:
 4. `cd ../../` back to the monorepo root
 5. run `npm run bootstrap`
 
+After creating `packages/<package-name>`, add the following script to its `package.json`:
+
+```
+"precommit": "lint-staged",
+```
+
 ## Creating a new example project
 
 1. `cd examples/`
 2. either run a project creation tool that scaffolds a new project, or manually create & `npm init` a project from scratch
 3. `cd ../../` back to the monorepo root
 4. run `npm run bootstrap`
+
+After creating `examples/<project-name>`, add the following script to its `package.json`:
+
+```
+"precommit": "lint-staged",
+```
