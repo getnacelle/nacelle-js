@@ -1,4 +1,5 @@
 module.exports = {
+  root: true,
   env: {
     browser: true,
     es2021: true,
@@ -10,29 +11,29 @@ module.exports = {
     'plugin:@typescript-eslint/recommended',
     'plugin:import/recommended',
     'plugin:import/typescript',
-    'plugin:react/recommended',
-    'plugin:react-hooks/recommended',
-    'plugin:vue/recommended',
-    '@vue/typescript',
-    'plugin:nuxt/recommended',
-    '@nuxtjs/eslint-config-typescript',
-    'plugin:jsx-a11y/recommended',
     'plugin:monorepo/recommended',
     'prettier'
   ],
   ignorePatterns: ['node_modules', 'build', 'dist', 'public'],
-  parser: 'vue-eslint-parser',
+  parser: '@typescript-eslint/parser',
   parserOptions: {
     ecmaFeatures: {
       jsx: true
     },
     ecmaVersion: 12,
-    parser: '@typescript-eslint/parser',
     sourceType: 'module'
   },
   plugins: [],
+
   rules: {
-    '@typescript-eslint/explicit-module-boundary-types': 'off',
-    'react/react-in-jsx-scope': 'off'
-  }
+    '@typescript-eslint/explicit-module-boundary-types': 'off'
+  },
+  overrides: [
+    {
+      files: ['*.ts', '*.tsx'],
+      rules: {
+        '@typescript-eslint/explicit-module-boundary-types': ['error']
+      }
+    }
+  ]
 };
