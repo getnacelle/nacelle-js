@@ -1,8 +1,4 @@
-// import NacelleClient from '@nacelle/client-js-sdk';
-
-class NacelleClient {
-  //
-}
+import NacelleClient from '@nacelle/client-js-sdk';
 
 export default function useSdk({ config }) {
   return new NacelleClient({
