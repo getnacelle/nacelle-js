@@ -1,4 +1,3 @@
-import { get, set } from 'idb-keyval';
 import {
   h,
   reactive,
@@ -6,6 +5,7 @@ import {
   readonly,
   onMounted
 } from '@vue/composition-api';
+import { get, set } from 'idb-keyval';
 import { v4 as uuid } from 'uuid';
 
 export default {

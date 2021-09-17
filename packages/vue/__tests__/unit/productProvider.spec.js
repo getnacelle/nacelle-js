@@ -61,7 +61,6 @@ describe('Product Provider', () => {
   });
 
   it('initializes provider with productHandle prop', async () => {
-    console.log(`PRODUCT HANDLE: ${productData.handle}`);
     nacelleSdk.mockImplementation(() => ({
       data: { product: () => Promise.resolve(productData) }
     }));
