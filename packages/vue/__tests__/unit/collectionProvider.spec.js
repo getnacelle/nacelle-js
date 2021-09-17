@@ -10,12 +10,12 @@ const InjectedComponent = () => {
   return {
     name: 'InjectedWithCollection',
     inject: ['collection', 'isFetching', 'setCollection', 'loadProducts'],
-    template: `<div></div>`
+    render: h => h('div')
   };
 };
 
 const CollectionProviderContainer = ({ props } = {}) => ({
-  render: (h) =>
+  render: h =>
     h(SpaceProvider, {}, [
       h(CollectionProvider, { props }, [h(InjectedComponent())])
     ])
@@ -65,7 +65,7 @@ describe('Collection Provider', () => {
     const injectedCollectionComponent = collectionProvider.findComponent({
       name: 'InjectedWithCollection'
     });
-    await new Promise((resolve) => setTimeout(() => resolve(true)));
+    await new Promise(resolve => setTimeout(() => resolve(true)));
     expect(injectedCollectionComponent.vm.collection.value.handle).toEqual(
       collectionData.handle
     );

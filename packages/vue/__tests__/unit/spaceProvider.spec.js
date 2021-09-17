@@ -22,12 +22,12 @@ const InjectedWithSpaceData = () => {
       'getMetafield',
       'getLinks'
     ],
-    template: `<div></div>`
+    render: h => h('div')
   };
 };
 
 const SpaceProviderContainer = ({ props }) => ({
-  render: (h) =>
+  render: h =>
     h(SpaceProvider, { props: { ...props, config } }, [
       h(InjectedWithSpaceData())
     ])

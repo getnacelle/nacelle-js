@@ -27,12 +27,12 @@ const InjectedComponent = () => {
       'decrementItem',
       'clearCart'
     ],
-    template: `<div></div>`
+    render: h => h('div')
   };
 };
 
 const CartProviderContainer = ({ props = {} } = {}) => ({
-  render: (h) => h(CartProvider, { props }, [h(InjectedComponent())])
+  render: h => h(CartProvider, { props }, [h(InjectedComponent())])
 });
 
 jest.mock('idb-keyval');
@@ -58,7 +58,7 @@ describe('Cart Provider', () => {
     expect(typeof injectedComponent.vm.clearCart).toEqual('function');
   });
 
-  it('gets cached cart from IndexedDB when mounted', (done) => {
+  it('gets cached cart from IndexedDB when mounted', done => {
     get.mockResolvedValue([{ ...product }]);
     const cartProvider = mount(CartProviderContainer());
     const injectedComponent = cartProvider.findComponent({
@@ -192,7 +192,7 @@ describe('Cart Provider', () => {
     expect(injectedComponent.vm.cart.lineItems[0]).toMatchObject(
       updatedProduct
     );
-    expect(injectedComponent.vm.cart.lineItems[1].id).toContain(12345);
+    expect(injectedComponent.vm.cart.lineItems[1].id).toContain('12345');
 
     expect(set).toHaveBeenCalledTimes(3);
     expect(set).toHaveBeenCalledWith(

@@ -67,8 +67,6 @@
     "regenerator-runtime": "^0.11.1",
     "rollup-plugin-visualizer": "^5.5.2",
     "vite": "^2.5.4",
-    "vue-composition-test-utils": "^1.0.3",
-    "vue-jest": "^3.0.7",
-    "vue-template-compiler": "^2.6.14"
+    "vue-jest": "^4.0.1"
   }
 }

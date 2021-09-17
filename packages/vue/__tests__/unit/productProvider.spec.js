@@ -15,11 +15,11 @@ const InjectedComponent = {
     'setSelectedOptions',
     'setSelectedVariant'
   ],
-  template: `<div></div>`
+  render: h => h('div')
 };
 
 const ProductProviderContainer = ({ props } = {}) => ({
-  render: (h) =>
+  render: h =>
     h(SpaceProvider, {}, [
       h(ProductProvider, { props }, [h(InjectedComponent)])
     ])
@@ -67,7 +67,7 @@ describe('Product Provider', () => {
     const injectedProductComponent = productProvider.findComponent({
       name: 'InjectedWithProduct'
     });
-    await new Promise((resolve) => setTimeout(() => resolve(true)));
+    await new Promise(resolve => setTimeout(() => resolve(true)));
     expect(injectedProductComponent.vm.product.value.handle).toEqual(
       productData.handle
     );
