@@ -4,5 +4,5 @@ Providers and composables for your Vue.js + Nacelle-powered eCommerce storefront
 
 ## Features
 
-- [Vue Composition API]-friendly
-- Supports Vue 2.x and 3.x projects
+- Supports Vue 2.x projects
+- Compatible with [`@vue/composition-api`](https://www.npmjs.com/package/@vue/composition-api) and [`@nuxtjs/composition-api`](https://composition-api.nuxtjs.org/)
