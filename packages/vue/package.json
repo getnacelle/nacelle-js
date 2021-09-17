@@ -43,18 +43,15 @@
     "test:watch": "jest --watch"
   },
   "dependencies": {
+    "@nacelle/client-js-sdk": "^3.4.4",
     "@vue/composition-api": "^1.1.5",
     "idb-keyval": "^6.0.2",
     "vue": "^2.6.14"
-  },
-  "peerDependencies": {
-    "@nacelle/client-js-sdk": "^3.4.4"
   },
   "devDependencies": {
     "@babel/cli": "^7.15.4",
     "@babel/core": "^7.15.5",
     "@babel/preset-env": "^7.15.6",
-    "@nacelle/client-js-sdk": "^3.4.4",
     "@testing-library/jest-dom": "^5.14.1",
     "@vitejs/plugin-vue": "^1.6.1",
     "@vue/compiler-sfc": "^3.2.11",
