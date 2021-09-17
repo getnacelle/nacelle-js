@@ -1,12 +1,8 @@
-import { createLocalVue, mount } from '@vue/test-utils';
-import CompositionApi from '@vue/composition-api';
+import { mount } from '@vue/test-utils';
 import nacelleSdk from '@nacelle/client-js-sdk';
 import SpaceProvider from '~/providers/SpaceProvider';
 import CollectionProvider from '~/providers/CollectionProvider';
 import collectionData from 'mocks/collection';
-
-const localVue = createLocalVue();
-localVue.use(CompositionApi);
 
 jest.mock('@nacelle/client-js-sdk');
 
@@ -27,9 +23,7 @@ const CollectionProviderContainer = ({ props } = {}) => ({
 
 describe('Collection Provider', () => {
   it('provides `collection`, `isFetching`, `setCollection`  and `loadProducts` to children', () => {
-    const collectionProvider = mount(CollectionProviderContainer(), {
-      localVue
-    });
+    const collectionProvider = mount(CollectionProviderContainer());
     const injectedCollectionComponent = collectionProvider.findComponent({
       name: 'InjectedWithCollection'
     });
@@ -46,8 +40,7 @@ describe('Collection Provider', () => {
 
   it('initializes provider with collection prop', () => {
     const collectionProvider = mount(
-      CollectionProviderContainer({ props: { collection: collectionData } }),
-      { localVue }
+      CollectionProviderContainer({ props: { collection: collectionData } })
     );
     const injectedCollectionComponent = collectionProvider.findComponent({
       name: 'InjectedWithCollection'
@@ -67,8 +60,7 @@ describe('Collection Provider', () => {
     const collectionProvider = await mount(
       CollectionProviderContainer({
         props: { collectionHandle: collectionData.handle }
-      }),
-      { localVue }
+      })
     );
     const injectedCollectionComponent = collectionProvider.findComponent({
       name: 'InjectedWithCollection'
@@ -80,9 +72,7 @@ describe('Collection Provider', () => {
   });
 
   it('it calls setCollection with a collection object', () => {
-    const collectionProvider = mount(CollectionProviderContainer(), {
-      localVue
-    });
+    const collectionProvider = mount(CollectionProviderContainer());
     const injectedCollectionComponent = collectionProvider.findComponent({
       name: 'InjectedWithCollection'
     });
@@ -105,9 +95,7 @@ describe('Collection Provider', () => {
         collectionPage: () => Promise.resolve(collectionData.products)
       }
     }));
-    const collectionProvider = mount(CollectionProviderContainer(), {
-      localVue
-    });
+    const collectionProvider = mount(CollectionProviderContainer());
     const injectedCollectionComponent = collectionProvider.findComponent({
       name: 'InjectedWithCollection'
     });
@@ -132,8 +120,7 @@ describe('Collection Provider', () => {
     const collectionProvider = mount(
       CollectionProviderContainer({
         props: { collection: { ...collectionData, products: [] } }
-      }),
-      { localVue }
+      })
     );
     const injectedCollectionComponent = collectionProvider.findComponent({
       name: 'InjectedWithCollection'

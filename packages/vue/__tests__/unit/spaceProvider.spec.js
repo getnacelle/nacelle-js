@@ -1,10 +1,6 @@
-import { createLocalVue, mount } from '@vue/test-utils';
-import CompositionApi from '@vue/composition-api';
+import { mount } from '@vue/test-utils';
 import { linklists, mainMenu } from 'mocks/linklists';
 import SpaceProvider from '~/providers/SpaceProvider';
-
-const localVue = createLocalVue();
-localVue.use(CompositionApi);
 
 const config = {
   nacelleId: process.env.NACELLE_SPACE_ID,
@@ -24,7 +20,7 @@ const InjectedWithSpaceData = () => {
       'nacelleSdk',
       'getMetafieldsObj',
       'getMetafield',
-      'getLocalizedLinks'
+      'getLinks'
     ],
     template: `<div></div>`
   };
@@ -52,9 +48,7 @@ describe('Space Provider', () => {
     linklists
   };
 
-  const spaceProvider = mount(SpaceProviderContainer({ props: { space } }), {
-    localVue
-  });
+  const spaceProvider = mount(SpaceProviderContainer({ props: { space } }));
   const injectedSpaceComponent = spaceProvider.findComponent({
     name: 'InjectedWithSpaceData'
   });
@@ -75,7 +69,7 @@ describe('Space Provider', () => {
   });
 
   it('gets menu by handle', () => {
-    expect(injectedSpaceComponent.vm.getLocalizedLinks('main-menu')).toEqual(
+    expect(injectedSpaceComponent.vm.getLinks('main-menu')).toEqual(
       mainMenu.links
     );
   });

@@ -1,4 +1,5 @@
 module.exports = {
+  setupFiles: ['<rootDir>/jest-vue-composition.setup.js'],
   setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
   moduleFileExtensions: ['js', 'json'],
   moduleNameMapper: {

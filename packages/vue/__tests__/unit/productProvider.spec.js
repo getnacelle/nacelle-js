@@ -1,12 +1,8 @@
-import { createLocalVue, mount } from '@vue/test-utils';
-import CompositionApi from '@vue/composition-api';
+import { mount } from '@vue/test-utils';
 import nacelleSdk from '@nacelle/client-js-sdk';
 import SpaceProvider from '~/providers/SpaceProvider';
 import ProductProvider from '~/providers/ProductProvider';
 import productData from 'mocks/product';
-
-const localVue = createLocalVue();
-localVue.use(CompositionApi);
 
 jest.mock('@nacelle/client-js-sdk');
 
@@ -31,7 +27,7 @@ const ProductProviderContainer = ({ props } = {}) => ({
 
 describe('Product Provider', () => {
   it('provides `product`, `isFetching`, `setProduct  and `setSelectedVariant` to children', () => {
-    const productProvider = mount(ProductProviderContainer(), { localVue });
+    const productProvider = mount(ProductProviderContainer());
     const injectedProductComponent = productProvider.findComponent({
       name: 'InjectedWithProduct'
     });
@@ -49,8 +45,7 @@ describe('Product Provider', () => {
 
   it('initializes provider with product prop', () => {
     const productProvider = mount(
-      ProductProviderContainer({ props: { product: productData } }),
-      { localVue }
+      ProductProviderContainer({ props: { product: productData } })
     );
     const injectedProductComponent = productProvider.findComponent({
       name: 'InjectedWithProduct'
@@ -67,8 +62,7 @@ describe('Product Provider', () => {
     const productProvider = await mount(
       ProductProviderContainer({
         props: { productHandle: productData.handle }
-      }),
-      { localVue }
+      })
     );
     const injectedProductComponent = productProvider.findComponent({
       name: 'InjectedWithProduct'
@@ -80,7 +74,7 @@ describe('Product Provider', () => {
   });
 
   it('it calls setProduct with a product object', () => {
-    const productProvider = mount(ProductProviderContainer(), { localVue });
+    const productProvider = mount(ProductProviderContainer());
     const injectedProductComponent = productProvider.findComponent({
       name: 'InjectedWithProduct'
     });
@@ -96,7 +90,7 @@ describe('Product Provider', () => {
     nacelleSdk.mockImplementation(() => ({
       data: { product: () => Promise.resolve(productData) }
     }));
-    const productProvider = mount(ProductProviderContainer(), { localVue });
+    const productProvider = mount(ProductProviderContainer());
     const injectedProductComponent = productProvider.findComponent({
       name: 'InjectedWithProduct'
     });
@@ -112,8 +106,7 @@ describe('Product Provider', () => {
 
   it('it calls setSelectedOptions with options array', () => {
     const productProvider = mount(
-      ProductProviderContainer({ props: { product: productData } }),
-      { localVue }
+      ProductProviderContainer({ props: { product: productData } })
     );
     const injectedProductComponent = productProvider.findComponent({
       name: 'InjectedWithProduct'
@@ -135,8 +128,7 @@ describe('Product Provider', () => {
 
   it('it calls setSelectedVariant with variant object', () => {
     const productProvider = mount(
-      ProductProviderContainer({ props: { product: productData } }),
-      { localVue }
+      ProductProviderContainer({ props: { product: productData } })
     );
     const injectedProductComponent = productProvider.findComponent({
       name: 'InjectedWithProduct'
@@ -155,8 +147,7 @@ describe('Product Provider', () => {
 
   it('it calls setSelectedVariant with variant id', () => {
     const productProvider = mount(
-      ProductProviderContainer({ props: { product: productData } }),
-      { localVue }
+      ProductProviderContainer({ props: { product: productData } })
     );
     const injectedProductComponent = productProvider.findComponent({
       name: 'InjectedWithProduct'

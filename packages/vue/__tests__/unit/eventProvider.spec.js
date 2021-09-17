@@ -1,9 +1,5 @@
-import { createLocalVue, mount } from '@vue/test-utils';
-import CompositionApi from '@vue/composition-api';
+import { mount } from '@vue/test-utils';
 import EventProvider from '~/providers/EventProvider';
-
-const localVue = createLocalVue();
-localVue.use(CompositionApi);
 
 const eventTypes = {
   productView: 'PRODUCT_VIEW',
@@ -32,7 +28,7 @@ const EventProviderContainer = ({ props = {}, event } = {}) => ({
 
 describe('Event Bus', () => {
   it('provides `events`, `onEvent`, and `addEvent` to children', () => {
-    const eventProvider = mount(EventProviderContainer(), { localVue });
+    const eventProvider = mount(EventProviderContainer());
     const injectedEventsComponent = eventProvider.findComponent({
       name: 'InjectedWithEvents'
     });
@@ -57,8 +53,7 @@ describe('Event Bus', () => {
         props: {
           eventHandlers: [pageViewEventHandler]
         }
-      }),
-      { localVue }
+      })
     );
     const injectedEventsComponent = eventProvider.findComponent({
       name: 'InjectedWithEvents'
@@ -81,8 +76,7 @@ describe('Event Bus', () => {
       payload: { handle: 'some-collection' }
     };
     const eventProvider = mount(
-      EventProviderContainer({ event: collectionViewEvent }),
-      { localVue }
+      EventProviderContainer({ event: collectionViewEvent })
     );
     const injectedEventsComponent = eventProvider.findComponent({
       name: 'InjectedWithEvents'
@@ -125,8 +119,7 @@ describe('Event Bus', () => {
       EventProviderContainer({
         props: { maxLength: 5 },
         event: productViewEvent
-      }),
-      { localVue }
+      })
     );
     const injectedEventsComponent = eventProvider.findComponent({
       name: 'InjectedWithEvents'

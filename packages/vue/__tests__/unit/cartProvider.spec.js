@@ -1,10 +1,6 @@
-import { mount, createLocalVue } from '@vue/test-utils';
-import CompositionApi from '@vue/composition-api';
+import { mount } from '@vue/test-utils';
 import { set, get } from 'idb-keyval';
 import CartProvider from '~/providers/CartProvider';
-
-const localVue = createLocalVue();
-localVue.use(CompositionApi);
 
 const product = {
   image: {
@@ -48,7 +44,7 @@ describe('Cart Provider', () => {
   });
 
   it('provides `cart`, `addItem`, `removeItem`, `updateItem`, `incrementItem`, `decrementItem`, `clearCart` to children', () => {
-    const cartProvider = mount(CartProviderContainer(), { localVue });
+    const cartProvider = mount(CartProviderContainer());
     const injectedComponent = cartProvider.findComponent({
       name: 'InjectedComponent'
     });
@@ -64,7 +60,7 @@ describe('Cart Provider', () => {
 
   it('gets cached cart from IndexedDB when mounted', (done) => {
     get.mockResolvedValue([{ ...product }]);
-    const cartProvider = mount(CartProviderContainer(), { localVue });
+    const cartProvider = mount(CartProviderContainer());
     const injectedComponent = cartProvider.findComponent({
       name: 'InjectedComponent'
     });
@@ -83,7 +79,7 @@ describe('Cart Provider', () => {
   });
 
   it('adds item to cart with `addItem`', () => {
-    const cartProvider = mount(CartProviderContainer(), { localVue });
+    const cartProvider = mount(CartProviderContainer());
     const injectedComponent = cartProvider.findComponent({
       name: 'InjectedComponent'
     });
@@ -103,8 +99,7 @@ describe('Cart Provider', () => {
 
   it('adds item to cart with a custom cache key with `addItem`', () => {
     const cartProvider = mount(
-      CartProviderContainer({ props: { cacheKey: 'custom-cart' } }),
-      { localVue }
+      CartProviderContainer({ props: { cacheKey: 'custom-cart' } })
     );
     const injectedComponent = cartProvider.findComponent({
       name: 'InjectedComponent'
@@ -124,7 +119,7 @@ describe('Cart Provider', () => {
   });
 
   it('increases quantity with `addItem` if item is already in cart', () => {
-    const cartProvider = mount(CartProviderContainer(), { localVue });
+    const cartProvider = mount(CartProviderContainer());
     const injectedComponent = cartProvider.findComponent({
       name: 'InjectedComponent'
     });
@@ -148,7 +143,7 @@ describe('Cart Provider', () => {
   });
 
   it('removes item from cart with `removeItem`', () => {
-    const cartProvider = mount(CartProviderContainer(), { localVue });
+    const cartProvider = mount(CartProviderContainer());
     const injectedComponent = cartProvider.findComponent({
       name: 'InjectedComponent'
     });
@@ -171,7 +166,7 @@ describe('Cart Provider', () => {
   });
 
   it('updates item in cart with `updateItem`', () => {
-    const cartProvider = mount(CartProviderContainer(), { localVue });
+    const cartProvider = mount(CartProviderContainer());
     const injectedComponent = cartProvider.findComponent({
       name: 'InjectedComponent'
     });
@@ -207,7 +202,7 @@ describe('Cart Provider', () => {
   });
 
   it('increases item quantity by 1 with `incrementItem`', () => {
-    const cartProvider = mount(CartProviderContainer(), { localVue });
+    const cartProvider = mount(CartProviderContainer());
     const injectedComponent = cartProvider.findComponent({
       name: 'InjectedComponent'
     });
@@ -232,7 +227,7 @@ describe('Cart Provider', () => {
   });
 
   it('decreases item quantity by 1 with `decrementItem`', () => {
-    const cartProvider = mount(CartProviderContainer(), { localVue });
+    const cartProvider = mount(CartProviderContainer());
     const injectedComponent = cartProvider.findComponent({
       name: 'InjectedComponent'
     });
@@ -251,7 +246,7 @@ describe('Cart Provider', () => {
   });
 
   it('removes item at 0 quantity with `decrementItem`', () => {
-    const cartProvider = mount(CartProviderContainer(), { localVue });
+    const cartProvider = mount(CartProviderContainer());
     const injectedComponent = cartProvider.findComponent({
       name: 'InjectedComponent'
     });
@@ -275,7 +270,7 @@ describe('Cart Provider', () => {
   });
 
   it('clears the cart with `clearCart`', () => {
-    const cartProvider = mount(CartProviderContainer(), { localVue });
+    const cartProvider = mount(CartProviderContainer());
     const injectedComponent = cartProvider.findComponent({
       name: 'InjectedComponent'
     });
@@ -305,8 +300,7 @@ describe('Cart Provider', () => {
 
   it('does not `get` from IndexedDB when mounted if `persistence` is false', () => {
     const cartProvider = mount(
-      CartProviderContainer({ props: { persistence: false } }),
-      { localVue }
+      CartProviderContainer({ props: { persistence: false } })
     );
     const injectedComponent = cartProvider.findComponent({
       name: 'InjectedComponent'
@@ -318,8 +312,7 @@ describe('Cart Provider', () => {
 
   it('does not `set` to IndexedDB if `persistence` is false', () => {
     const cartProvider = mount(
-      CartProviderContainer({ props: { persistence: false } }),
-      { localVue }
+      CartProviderContainer({ props: { persistence: false } })
     );
     const injectedComponent = cartProvider.findComponent({
       name: 'InjectedComponent'
