@@ -15,14 +15,14 @@ export { default as useSpaceProvider } from './composables/useSpaceProvider';
 // @endindex
 
 // EXPORT PROVIDERS
-// @index('./providers/*.js', (f, _) => `export { default as ${_.camelCase(f.name)} } from '${f.path}';`)
-export { default as cartProvider } from './providers/CartProvider';
-export { default as collectionProvider } from './providers/CollectionProvider';
-export { default as eventProvider } from './providers/EventProvider';
-export { default as productProvider } from './providers/ProductProvider';
-export { default as refinementProvider } from './providers/RefinementProvider';
-export { default as searchProvider } from './providers/SearchProvider';
-export { default as spaceProvider } from './providers/SpaceProvider';
+// @index('./providers/*.js', (f, _) => `export { default as ${_.pascalCase(f.name)} } from '${f.path}';`)
+export { default as CartProvider } from './providers/CartProvider';
+export { default as CollectionProvider } from './providers/CollectionProvider';
+export { default as EventProvider } from './providers/EventProvider';
+export { default as ProductProvider } from './providers/ProductProvider';
+export { default as RefinementProvider } from './providers/RefinementProvider';
+export { default as SearchProvider } from './providers/SearchProvider';
+export { default as SpaceProvider } from './providers/SpaceProvider';
 // @endindex
 
 // EXPORT UTILS
