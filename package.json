@@ -13,7 +13,7 @@
     "lint:fix": "lerna run lint:fix",
     "build": "lerna run build",
     "test:ci": "jest --clearCache && lerna run test:ci",
-    "publish": "npm run build && lerna publish"
+    "release": "npm run build && lerna publish"
   },
   "repository": {
     "type": "git",
