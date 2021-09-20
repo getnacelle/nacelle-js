@@ -1,17 +1,11 @@
 import { inject } from '@vue/composition-api';
 
 export default function useProductProvider() {
-  const product = inject('product');
-  const isFetching = inject('isFetching');
-  const setProduct = inject('setProduct');
-  const setSelectedOptions = inject('setSelectedOptions');
-  const setSelectedVariant = inject('setSelectedVariant');
-
   return {
-    product,
-    isFetching,
-    setProduct,
-    setSelectedOptions,
-    setSelectedVariant
+    product: inject('product'),
+    isFetching: inject('isFetching'),
+    setProduct: inject('setProduct'),
+    setSelectedOptions: inject('setSelectedOptions'),
+    setSelectedVariant: inject('setSelectedVariant')
   };
 }
