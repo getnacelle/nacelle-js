@@ -1,6 +1,6 @@
 <template>
   <div v-if="product && product.handle" class="product">
-    <nuxt-img :src="product.featuredMedia.src" class="product__image" />
+    <img :src="product.featuredMedia.src" class="product__image" />
     {{ product }}
   </div>
   <div v-else-if="fetchState.pending">Loading...</div>
@@ -8,10 +8,8 @@
 
 <script>
 import { inject, ref, useContext, useFetch } from '@nuxtjs/composition-api';
-import nuxtImg from '@nuxt/image';
 
 export default {
-  // components: { nuxtImg },
   /// shevonne-bag
   setup() {
     const product = ref({});
