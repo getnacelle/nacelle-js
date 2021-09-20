@@ -66,5 +66,8 @@
     "vite": "^2.5.4",
     "vue-jest": "^4.0.1",
     "vue-template-compiler": "^2.6.14"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }
