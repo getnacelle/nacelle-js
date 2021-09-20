@@ -1,6 +1,6 @@
 {
   "name": "@nacelle/vue",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Vue components and composables for your Nacelle-powered storefront",
   "keywords": [
     "nacelle",
@@ -66,5 +66,8 @@
     "vite": "^2.5.4",
     "vue-jest": "^4.0.1",
     "vue-template-compiler": "^2.6.14"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }
