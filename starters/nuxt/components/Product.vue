@@ -38,7 +38,7 @@
         min="1"
         class="product__quantity"
       />
-      <button class="product__button">
+      <button class="product__button" @click="handleAddItem">
         {{ buttonText }}
       </button>
     </div>
@@ -47,10 +47,11 @@
 
 <script>
 import { computed, ref } from '@nuxtjs/composition-api';
-import { useProductProvider } from '@nacelle/vue';
+import { useCartProvider, useProductProvider } from '@nacelle/vue';
 
 export default {
   setup() {
+    const { addItem, cart } = useCartProvider();
     const {
       product,
       setSelectedOptions,
@@ -77,15 +78,29 @@ export default {
       const optionIndex = selectedOptions?.findIndex(selectedOption => {
         return option.name === selectedOption.name;
       });
-      if (optionIndex >= 0) {
-        selectedOptions[optionIndex] = newOption;
-      } else {
-        selectedOptions.push(newOption);
-      }
+      if (optionIndex >= 0) selectedOptions[optionIndex] = newOption;
+      else selectedOptions.push(newOption);
       setSelectedOptions({ options: selectedOptions });
     };
 
-    return { product, variant, quantity, buttonText, handleOptionChange };
+    const handleAddItem = () => {
+      if (product?.value?.selectedVariant) {
+        addItem({
+          variant: product.value.selectedVariant,
+          quantity: quantity.value
+        });
+      }
+    };
+
+    return {
+      product,
+      variant,
+      quantity,
+      buttonText,
+      handleOptionChange,
+      handleAddItem,
+      cart
+    };
   }
 };
 </script>
