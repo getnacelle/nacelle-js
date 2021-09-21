@@ -3,20 +3,27 @@
     <nuxt-img :src="product.featuredMedia.src" class="product__image" />
     <div class="product__main">
       <h1 class="product__title">{{ product.title }}</h1>
-      <div v-if="variant">
-        {{ variant.id }}
+      <div v-if="product.selectedVariant">
+        {{ product.selectedVariant.title }}
+      </div>
+      <div v-if="product.selectedOptions">
+        {{ product.selectedOptions }}
       </div>
       <div
-        v-for="(option, index) in product.options"
-        :key="index"
+        v-for="(option, oIndex) in product.options"
+        :key="oIndex"
         class="product__option"
       >
         <label class="product__label">{{ option.name }}</label>
-        <select class="product__select">
+        <select
+          class="product__select"
+          @change="$event => handleOptionChange($event, option)"
+        >
           <option
-            v-for="(value, index) in option.values"
-            :key="index"
+            v-for="(value, vIndex) in option.values"
+            :key="vIndex"
             :value="value"
+            :selected="value === product.selectedOptions[oIndex].value"
           >
             {{ value }}
           </option>
@@ -44,10 +51,15 @@ import { useProductProvider } from '@nacelle/vue';
 
 export default {
   setup() {
-    const { product, setSelectedVariant } = useProductProvider();
+    const {
+      product,
+      setSelectedOptions,
+      setSelectedVariant
+    } = useProductProvider();
     const quantity = ref(1);
 
     const defaultVariant = product?.value?.variants[0];
+
     if (defaultVariant) {
       setSelectedVariant({ variant: defaultVariant });
     }
@@ -57,7 +69,23 @@ export default {
     });
     const buttonText = computed(() => 'Add To Cart');
 
-    return { product, variant, quantity, buttonText };
+    const handleOptionChange = ($event, option) => {
+      const newOption = { name: option.name, value: $event.target.value };
+      const selectedOptions = product?.value?.selectedOptions
+        ? [...product.value.selectedOptions]
+        : [];
+      const optionIndex = selectedOptions?.findIndex(selectedOption => {
+        return option.name === selectedOption.name;
+      });
+      if (optionIndex >= 0) {
+        selectedOptions[optionIndex] = newOption;
+      } else {
+        selectedOptions.push(newOption);
+      }
+      setSelectedOptions({ options: selectedOptions });
+    };
+
+    return { product, variant, quantity, buttonText, handleOptionChange };
   }
 };
 </script>
