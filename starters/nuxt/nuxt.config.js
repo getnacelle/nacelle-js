@@ -36,6 +36,15 @@ export default {
     }
   },
 
+  // Nuxt image component: https://image.nuxtjs.org/
+  image: {
+    domains: [
+      'https://cdn.shopify.com',
+      'https://cdn.accentuate.io',
+      'https://images.ctfassets.net'
+    ]
+  },
+
   // PWA module configuration: https://go.nuxtjs.dev/pwa
   pwa: {
     manifest: {
