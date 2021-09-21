@@ -34,9 +34,9 @@
     "url": "git+https://github.com/getnacelle/nacelle-js.git"
   },
   "scripts": {
-    "dev": "vite",
     "build": "tsc && vite build",
     "analyze": "vite build --config analyze.config.js",
+    "lint": "eslint .",
     "precommit": "lint-staged",
     "serve": "vite preview",
     "test": "jest",
@@ -50,11 +50,15 @@
     "@babel/core": "^7.15.5",
     "@babel/preset-env": "^7.15.6",
     "@babel/preset-typescript": "^7.15.0",
+    "@nacelle/types": "^5.0.2",
     "@types/jest": "^27.0.1",
     "babel-jest": "^27.0.1",
     "jest": "^27.0.1",
     "rollup-plugin-visualizer": "^5.5.2",
     "typescript": "4.4.2",
     "vite": "^2.5.4"
+  },
+  "dependencies": {
+    "@manifoldco/gql-zero": "^0.2.0"
   }
 }

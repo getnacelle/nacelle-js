@@ -1,0 +1,16 @@
+// NOTE: @index directives are for the 'Generate Index' VSCode Extension (jayfong.generate-index)
+//  once the 'Generate Index' extension is installed,
+//  open the command palette with Command+Shift+P / Ctrl+Shift+P,
+//  then search for & select 'Generate Index'
+
+// EXPORT UTILS
+// @index('./*.ts', (f, _) => `export { default as ${_.camelCase(f.name)} } from '${f.path}';`)
+export { default as buildCheckout } from './buildCheckout';
+export { default as checkoutDoesNotExist } from './checkoutDoesNotExist';
+export { default as getCurrentStorefrontVersion } from './getCurrentStorefrontVersion';
+export { default as handleShopifyError } from './handleShopifyError';
+export { default as isVerifiedCheckoutId } from './isVerifiedCheckoutId';
+export { default as mapLineItems } from './mapLineItems';
+export { default as mapMetafieldsToAttributes } from './mapMetafieldsToAttributes';
+export { default as sanitizeShopifyDomain } from './sanitizeShopifyDomain';
+// @endindex

@@ -12,7 +12,7 @@ export const config: UserConfigExport = {
   build: {
     target: 'esnext',
     lib: {
-      entry: path.resolve(__dirname, 'src/index.js'),
+      entry: path.resolve(__dirname, 'src/client/index.ts'),
       name: 'NacelleShopifyCheckout',
       fileName: (format): string => `nacelle-shopify-checkout.${format}.js`,
       formats: ['es', 'umd', 'iife']
