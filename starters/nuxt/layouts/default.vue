@@ -4,16 +4,20 @@
     :space="initialSpace"
     :locale="$config.nacelle.locale"
   >
-    <nuxt />
+    <event-provider>
+      <cart-provider>
+        <nuxt />
+      </cart-provider>
+    </event-provider>
   </space-provider>
 </template>
 
 <script>
 import { inject } from '@nuxtjs/composition-api';
-import { SpaceProvider } from '@nacelle/vue';
+import { SpaceProvider, EventProvider, CartProvider } from '@nacelle/vue';
 
 export default {
-  components: { SpaceProvider },
+  components: { SpaceProvider, EventProvider, CartProvider },
   setup() {
     const initialSpace = inject('initialSpace');
     return { initialSpace };
