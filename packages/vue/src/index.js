@@ -5,6 +5,7 @@
 
 // EXPORT COMPOSABLES
 // @index('./composables/*.js', (f, _) => `export { default as ${_.camelCase(f.name)} } from '${f.path}';`)
+export { default as useCartProvider } from './composables/useCartProvider';
 export { default as useCollectionProvider } from './composables/useCollectionProvider';
 export { default as useEventProvider } from './composables/useEventProvider';
 export { default as useProductProvider } from './composables/useProductProvider';
