@@ -10,8 +10,8 @@ export default function useSpaceProvider() {
     nacelleSdk: inject('nacelleSdk'),
     getLinks: inject('getLinks'),
     getMetatag: inject('getMetatag'),
-    getMetafieldsObj: inject('getMetafie,dsObj'),
-    getMetafieldsByNamespace: inject('ge,MetafieldsByNamespace'),
+    getMetafieldsObj: inject('getMetafieldsObj'),
+    getMetafieldsByNamespace: inject('getMetafieldsByNamespace'),
     getMetafield: inject('getMetafield')
   };
 }

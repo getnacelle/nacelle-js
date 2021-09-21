@@ -27,15 +27,6 @@ export default {
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
 
-  publicRuntimeConfig: {
-    nacelle: {
-      id: process.env.NACELLE_SPACE_ID,
-      token: process.env.NACELLE_GRAPHQL_TOKEN,
-      nacelleEndpoint: process.env.NACELLE_ENDPOINT,
-      locale: process.env.NACELLE_LOCALE
-    }
-  },
-
   // Nuxt image component: https://image.nuxtjs.org/
   image: {
     domains: [
@@ -45,18 +36,31 @@ export default {
     ]
   },
 
+  publicRuntimeConfig: {
+    nacelle: {
+      id: process.env.NACELLE_SPACE_ID,
+      token: process.env.NACELLE_GRAPHQL_TOKEN,
+      nacelleEndpoint: process.env.NACELLE_ENDPOINT,
+      locale: process.env.NACELLE_LOCALE
+    }
+  },
+
+  // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
+  buildModules: [
+    '@nuxt/image',
+    '@nuxtjs/composition-api/module',
+    '@nuxtjs/pwa'
+  ],
+
+  // Modules: https://go.nuxtjs.dev/config-modules
+  modules: [],
+
   // PWA module configuration: https://go.nuxtjs.dev/pwa
   pwa: {
     manifest: {
       lang: 'en'
     }
   },
-
-  // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
-  buildModules: ['@nuxt/image', '@nuxtjs/composition-api/module'],
-
-  // Modules: https://go.nuxtjs.dev/config-modules
-  modules: ['@nuxtjs/pwa'],
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {}
