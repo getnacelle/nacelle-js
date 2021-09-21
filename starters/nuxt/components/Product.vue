@@ -3,11 +3,14 @@
     <nuxt-img :src="product.featuredMedia.src" class="product__image" />
     <div class="product__main">
       <h1 class="product__title">{{ product.title }}</h1>
-      <div v-if="product.selectedVariant">
-        {{ product.selectedVariant.title }}
-      </div>
-      <div v-if="product.selectedOptions">
-        {{ product.selectedOptions }}
+      <div class="product__prices">
+        <div
+          v-if="product.selectedVariant.compareAtPrice"
+          class="product__compare"
+        >
+          ${{ product.selectedVariant.compareAtPrice }}
+        </div>
+        <div class="product__price">${{ product.selectedVariant.price }}</div>
       </div>
       <div
         v-for="(option, oIndex) in product.options"
@@ -32,12 +35,15 @@
       <!-- eslint-disable vue/no-v-html -->
       <div class="product__decription" v-html="product.description" />
       <!-- eslint-disable vue/no-v-html -->
-      <input
-        v-model="quantity"
-        type="number"
-        min="1"
-        class="product__quantity"
-      />
+      <div class="product__quantity">
+        <label class="product__label">Quantity:</label>
+        <input
+          v-model="quantity"
+          type="number"
+          min="1"
+          class="product__input"
+        />
+      </div>
       <button class="product__button" @click="handleAddItem">
         {{ buttonText }}
       </button>
@@ -51,7 +57,7 @@ import { useCartProvider, useProductProvider } from '@nacelle/vue';
 
 export default {
   setup() {
-    const { addItem, cart } = useCartProvider();
+    const { addItem } = useCartProvider();
     const {
       product,
       setSelectedOptions,
@@ -60,15 +66,16 @@ export default {
     const quantity = ref(1);
 
     const defaultVariant = product?.value?.variants[0];
-
     if (defaultVariant) {
       setSelectedVariant({ variant: defaultVariant });
     }
 
-    const variant = computed(() => {
-      return product.selectedVariant || defaultVariant;
+    const buttonText = computed(() => {
+      if (product?.value?.selectedVariant?.availableForSale) {
+        return 'Add To Cart';
+      }
+      return 'Sold Out';
     });
-    const buttonText = computed(() => 'Add To Cart');
 
     const handleOptionChange = ($event, option) => {
       const newOption = { name: option.name, value: $event.target.value };
@@ -87,19 +94,17 @@ export default {
       if (product?.value?.selectedVariant) {
         addItem({
           variant: product.value.selectedVariant,
-          quantity: quantity.value
+          quantity: parseInt(quantity.value)
         });
       }
     };
 
     return {
       product,
-      variant,
       quantity,
       buttonText,
       handleOptionChange,
-      handleAddItem,
-      cart
+      handleAddItem
     };
   }
 };
@@ -122,5 +127,12 @@ export default {
   flex-direction: column;
   align-items: flex-start;
   gap: 10px;
+}
+.product__prices {
+  display: flex;
+  gap: 10px;
+}
+.product__compare {
+  text-decoration: line-through;
 }
 </style>
