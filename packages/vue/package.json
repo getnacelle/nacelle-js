@@ -1,6 +1,6 @@
 {
   "name": "@nacelle/vue",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Vue components and composables for your Nacelle-powered storefront",
   "keywords": [
     "nacelle",
