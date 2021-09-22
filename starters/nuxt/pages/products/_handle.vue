@@ -11,8 +11,6 @@
 </template>
 
 <script>
-// aurora-high-tops
-
 import { inject, ref, useContext, useFetch } from '@nuxtjs/composition-api';
 import { ProductProvider } from '@nacelle/vue';
 import Product from '~/components/Product';
