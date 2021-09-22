@@ -13,7 +13,7 @@
         <div class="product__price">${{ product.selectedVariant.price }}</div>
       </div>
       <div
-        v-for="(option, oIndex) in product.options"
+        v-for="(option, oIndex) in options"
         :key="oIndex"
         class="product__option"
       >
@@ -54,6 +54,7 @@
 <script>
 import { computed, ref } from '@nuxtjs/composition-api';
 import { useCartProvider, useProductProvider } from '@nacelle/vue';
+
 export default {
   setup() {
     const { addItem } = useCartProvider();
@@ -63,16 +64,23 @@ export default {
       setSelectedVariant
     } = useProductProvider();
     const quantity = ref(1);
+
     const defaultVariant = product?.value?.variants[0];
     if (defaultVariant) {
       setSelectedVariant({ variant: defaultVariant });
     }
+
+    const options = computed(() => {
+      return product?.value?.options.length > 1 && product?.value?.options;
+    });
+
     const buttonText = computed(() => {
       if (product?.value?.selectedVariant?.availableForSale) {
         return 'Add To Cart';
       }
       return 'Sold Out';
     });
+
     const handleOptionChange = ($event, option) => {
       const newOption = { name: option.name, value: $event.target.value };
       const selectedOptions = product?.value?.selectedOptions
@@ -85,6 +93,7 @@ export default {
       else selectedOptions.push(newOption);
       setSelectedOptions({ options: selectedOptions });
     };
+
     const handleAddItem = () => {
       if (product?.value?.selectedVariant) {
         addItem({
@@ -93,8 +102,10 @@ export default {
         });
       }
     };
+
     return {
       product,
+      options,
       quantity,
       buttonText,
       handleOptionChange,
@@ -103,6 +114,7 @@ export default {
   }
 };
 </script>
+
 <style lang="scss" scoped>
 .product {
   width: 100%;

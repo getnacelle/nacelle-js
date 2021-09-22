@@ -8,20 +8,39 @@
     >
       <product />
     </product-provider>
+    <div v-if="!loaded" class="collection__footer">
+      <button
+        class="collection__more"
+        :disabled="isFetching"
+        @click="loadProducts"
+      >
+        Load More
+      </button>
+    </div>
   </div>
 </template>
 
 <script>
+import { computed } from '@nuxtjs/composition-api';
 import { ProductProvider, useCollectionProvider } from '@nacelle/vue';
 import Product from '~/components/Product';
 
 export default {
   components: { ProductProvider, Product },
   setup() {
-    const { collection } = useCollectionProvider();
+    const { collection, isFetching, loadProducts } = useCollectionProvider();
+
+    const loaded = computed(() => {
+      const total = collection?.value?.productLists[0]?.handles?.length || 0;
+      const current = collection?.value?.products?.length;
+      return current >= total;
+    });
 
     return {
-      collection
+      collection,
+      isFetching,
+      loadProducts,
+      loaded
     };
   }
 };
@@ -48,5 +67,9 @@ export default {
       display: none;
     }
   }
+}
+.collection__footer {
+  width: 100%;
+  text-align: center;
 }
 </style>
