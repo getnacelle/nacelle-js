@@ -1,16 +1,16 @@
 <template>
   <div>
     <h1>Cart</h1>
-    <ul v-if="cart.lineItems.length">
-      <li v-for="item in cart.lineItems" :key="item.id">
-        <div>
+    <ul v-if="cart.lineItems.length" class="cart">
+      <li v-for="item in cart.lineItems" :key="item.id" class="cart__item">
+        <div class="cart__item-image">
           <img :src="item.image.thumbnailSrc" :alt="item.image.alt" />
         </div>
         <div>
           <h2>{{ item.title }}</h2>
           <p>{{ formatPrice(item.variant.price) }}</p>
           <p>
-            x{{ item.quantity }}
+            <strong>Quantity</strong>: {{ item.quantity }}
             <button @click="incrementItem(item.id)">+</button>
             <button @click="decrementItem(item.id)">-</button>
             <button @click="removeItem(item.id)">Remove</button>
@@ -38,7 +38,13 @@ export default {
       decrementItem,
       clearCart
     } = useCartProvider();
-    return { cart, removeItem, incrementItem, decrementItem, clearCart };
+    return {
+      cart,
+      removeItem,
+      incrementItem,
+      decrementItem,
+      clearCart
+    };
   },
   computed: {
     subtotal() {
@@ -58,3 +64,17 @@ export default {
   }
 };
 </script>
+
+<style lang="scss" scoped>
+.cart {
+  padding: 0;
+}
+.cart__item {
+  display: flex;
+}
+.cart__item-image {
+  align-items: center;
+  display: flex;
+  margin-right: 1rem;
+}
+</style>
