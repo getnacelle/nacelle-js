@@ -3,6 +3,7 @@
     :config="$config.nacelle"
     :space="initialSpace"
     :locale="$config.nacelle.locale"
+    class="app"
   >
     <nuxt />
   </space-provider>
@@ -20,3 +21,9 @@ export default {
   }
 };
 </script>
+
+<style lang="scss" scoped>
+.app::v-deep * {
+  box-sizing: border-box;
+}
+</style>
