@@ -1,7 +1,60 @@
 <template>
-  <div>Cart</div>
+  <div>
+    <h1>Cart</h1>
+    <ul v-if="cart.lineItems.length">
+      <li v-for="item in cart.lineItems" :key="item.id">
+        <div>
+          <img :src="item.image.thumbnailSrc" :alt="item.image.alt" />
+        </div>
+        <div>
+          <h2>{{ item.title }}</h2>
+          <p>{{ formatPrice(item.variant.price) }}</p>
+          <p>
+            x{{ item.quantity }}
+            <button @click="incrementItem(item.id)">+</button>
+            <button @click="decrementItem(item.id)">-</button>
+            <button @click="removeItem(item.id)">Remove</button>
+          </p>
+        </div>
+      </li>
+    </ul>
+    <p v-else>Empty Cart</p>
+    <p><strong>Subtotal:</strong> {{ subtotal }}</p>
+    <p>
+      <button @click="clearCart()">Clear Cart</button>
+    </p>
+  </div>
 </template>
 
 <script>
-export default {};
+import { useCartProvider } from '@nacelle/vue';
+
+export default {
+  setup() {
+    const {
+      cart,
+      removeItem,
+      incrementItem,
+      decrementItem,
+      clearCart
+    } = useCartProvider();
+    return { cart, removeItem, incrementItem, decrementItem, clearCart };
+  },
+  computed: {
+    subtotal() {
+      const value = this.cart.lineItems.reduce((sum, item) => {
+        return sum + item.quantity * item.variant.price;
+      }, 0);
+      return this.formatPrice(value);
+    }
+  },
+  methods: {
+    formatPrice(price) {
+      return Intl.NumberFormat('en-us', {
+        style: 'currency',
+        currency: 'USD'
+      }).format(price);
+    }
+  }
+};
 </script>
