@@ -1,4 +1,5 @@
-import { Attribute, Metafield } from '~/checkout-client.types';
+import { Metafield } from '@nacelle/types';
+import { Attribute } from '~/checkout-client.types';
 
 export default function mapMetafieldsToAttributes(
   metafields: Metafield[]

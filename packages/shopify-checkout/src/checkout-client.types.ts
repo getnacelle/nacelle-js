@@ -3,13 +3,9 @@ export interface Attribute {
   value: string;
 }
 
-export interface Metafield extends Attribute {
-  [key: string]: string;
-}
-
 export interface BuildCheckoutParams {
   id: string;
-  webUrl: string;
+  webUrl?: string;
   customAttributes?: Attribute[];
   note?: string;
 }
@@ -31,18 +27,12 @@ export interface CheckoutLineItem {
   variantId: string;
 }
 
-export interface ShopifyCheckoutUserError {
-  code?: string;
-  field: string[];
-  message: string;
-}
-
 export interface VerboseErrorParams {
   caller?: string;
   message?: string;
 }
 
-export interface ShopifyCheckoutUserErrors {
+export interface ShopifyCheckoutUserError {
   code: string;
   field: string[];
   message: string;
@@ -62,3 +52,17 @@ export interface ShopifyError {
 export interface AnyObject {
   [key: string]: AnyObject | string | unknown;
 }
+
+export type ShopifyResponse<D> = {
+  data?: D;
+  errors?: ShopifyError[];
+};
+
+export interface GqlClientParams {
+  query: string;
+  variables: AnyObject;
+}
+
+export type GqlClient = <R>(
+  params: GqlClientParams
+) => Promise<ShopifyResponse<R>>;
