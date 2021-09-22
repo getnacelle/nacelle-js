@@ -11,7 +11,7 @@
           />
         </div>
         <div>
-          <h2>{{ item.title }}</h2>
+          <h2 class="cart__item-title">{{ item.title }}</h2>
           <p>{{ item.variant.title }}</p>
           <p>{{ formatPrice(item.variant.price) }}</p>
           <p>
@@ -26,7 +26,7 @@
     <p v-else>Empty Cart</p>
     <p><strong>Subtotal:</strong> {{ subtotal }}</p>
     <p>
-      <button @click="clearCart()">Clear Cart</button>
+      <button @click="clearCart">Clear Cart</button>
     </p>
   </div>
 </template>
@@ -76,10 +76,12 @@ export default {
 }
 .cart__item {
   display: flex;
+  margin-bottom: 1rem;
 }
 .cart__item-image {
-  align-items: center;
-  display: flex;
   margin-right: 1rem;
+}
+.cart__item-title {
+  margin-top: 0;
 }
 </style>
