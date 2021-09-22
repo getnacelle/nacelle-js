@@ -1,6 +1,8 @@
 <template>
   <div v-if="product && Object.keys(product).length" class="product">
-    <nuxt-img :src="product.featuredMedia.src" class="product__image" />
+    <nuxt-link :to="`/products/${product.handle}`">
+      <nuxt-img :src="product.featuredMedia.src" class="product__image" />
+    </nuxt-link>
     <div class="product__main">
       <h1 class="product__title">{{ product.title }}</h1>
       <div class="product__prices">
