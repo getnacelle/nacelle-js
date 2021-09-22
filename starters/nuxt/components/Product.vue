@@ -13,7 +13,7 @@
         <div class="product__price">${{ product.selectedVariant.price }}</div>
       </div>
       <div
-        v-for="(option, oIndex) in product.options"
+        v-for="(option, oIndex) in options"
         :key="oIndex"
         class="product__option"
       >
@@ -33,7 +33,7 @@
         </select>
       </div>
       <!-- eslint-disable vue/no-v-html -->
-      <div class="product__decription" v-html="product.description" />
+      <div class="product__description" v-html="product.description" />
       <!-- eslint-disable vue/no-v-html -->
       <div class="product__quantity">
         <label class="product__label">Quantity:</label>
@@ -70,6 +70,10 @@ export default {
       setSelectedVariant({ variant: defaultVariant });
     }
 
+    const options = computed(() => {
+      return product?.value?.options.length > 1 && product?.value?.options;
+    });
+
     const buttonText = computed(() => {
       if (product?.value?.selectedVariant?.availableForSale) {
         return 'Add To Cart';
@@ -101,6 +105,7 @@ export default {
 
     return {
       product,
+      options,
       quantity,
       buttonText,
       handleOptionChange,
