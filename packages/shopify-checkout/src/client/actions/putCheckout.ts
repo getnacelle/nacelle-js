@@ -29,29 +29,28 @@ export default async function putCheckout({
   queueToken
 }: PutCheckoutParams): Promise<void | ShopifyCheckout> {
   let checkout: ShopifyCheckout | void = undefined;
-  const shouldUpdateAttributes = customAttributes?.length || note !== undefined;
+  const shouldUpdateAttributes = customAttributes?.length || note;
+  const shouldUpdateLineItems = lineItems?.length;
 
   try {
     if (checkoutId && isVerifiedCheckoutId(checkoutId)) {
       // Update attributes if provided
+
       if (shouldUpdateAttributes) {
         checkout = await checkoutAttributesUpdate({
           gqlClient,
+          checkoutId,
           customAttributes,
-          note,
-          checkoutId
+          note
         });
       }
 
       // Update line items
-      if (
-        (!checkout && shouldUpdateAttributes) || // updateAttributes was successful
-        !shouldUpdateAttributes // updateAttributes was not needed
-      ) {
+      if (shouldUpdateLineItems) {
         checkout = await checkoutLineItemsReplace({
           gqlClient,
-          lineItems,
-          checkoutId
+          checkoutId,
+          lineItems
         });
       }
     }

@@ -41,13 +41,18 @@ export interface CheckoutClient {
   process: ProcessCheckout;
 }
 
+/**
+ * Create a Shopify checkout client that can:
+ * - `get` an existing Shopify checkout
+ * - `process` a new Shopify checkout, or update an existing Shopify checkout
+ */
 export default function createShopifyCheckoutClient({
   storefrontCheckoutToken,
   myshopifyDomain,
   storefrontApiVersion,
   customEndpoint,
   queueToken,
-  ...params
+  fetchClient
 }: CreateClientParams): CheckoutClient {
   const gqlClient = ({ query, variables }: GqlClientParams) => {
     let endpoint = customEndpoint;
@@ -63,11 +68,11 @@ export default function createShopifyCheckoutClient({
       endpoint = `https://${domain}.myshopify.com/api/${storefrontApiVersion}/graphql`;
     }
 
-    let fetchClient = params.fetchClient;
+    let fetcher = fetchClient;
 
-    if (!fetchClient) {
+    if (!fetcher) {
       if (typeof window !== 'undefined') {
-        fetchClient = window.fetch;
+        fetcher = window.fetch;
       } else {
         throw new Error(
           '[@nacelle/shopify-checkout] in order to create a checkout server-side, ' +
@@ -77,7 +82,7 @@ export default function createShopifyCheckoutClient({
       }
     }
 
-    return fetchClient(endpoint, {
+    return fetcher(endpoint, {
       method: 'POST',
       headers: {
         Accept: 'application/json',
