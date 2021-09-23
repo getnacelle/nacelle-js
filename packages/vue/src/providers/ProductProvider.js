@@ -51,12 +51,11 @@ export default {
           );
           return;
         }
+        isFetching = true;
         let productObject = {};
         if (product && Object.keys(product).length) productObject = product;
         else if (handle) {
-          isFetching = true;
           productObject = await nacelleSdk.data.product({ handle });
-          isFetching = false;
         }
         if (productObject && Object.keys(productObject).length) {
           productProvided.value = {
@@ -66,6 +65,7 @@ export default {
             ...productObject
           };
         }
+        isFetching = false;
       } catch (err) {
         console.warn(`Error: ${err}`);
         isFetching = false;
