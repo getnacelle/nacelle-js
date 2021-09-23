@@ -44,7 +44,11 @@
           class="product__input"
         />
       </div>
-      <button class="product__button" @click="handleAddItem">
+      <button
+        class="product__button"
+        :disabled="!product.selectedVariant.availableForSale"
+        @click="handleAddItem"
+      >
         {{ buttonText }}
       </button>
     </div>
@@ -97,6 +101,7 @@ export default {
     const handleAddItem = () => {
       if (product?.value?.selectedVariant) {
         addItem({
+          product: product.value,
           variant: product.value.selectedVariant,
           quantity: parseInt(quantity.value)
         });
