@@ -1,4 +1,7 @@
-import queries, { GetCheckoutData } from '~/graphql/queries';
+import {
+  getCheckout as getCheckoutQuery,
+  GetCheckoutData
+} from '~/graphql/queries';
 import { handleShopifyError } from '~/utils';
 import { ShopifyCheckout, GqlClient } from '~/checkout-client.types';
 
@@ -11,7 +14,7 @@ export default async function findCheckout({
   gqlClient,
   id
 }: FindCheckoutParams): Promise<ShopifyCheckout | void> {
-  const query = queries.getCheckout;
+  const query = getCheckoutQuery;
   const variables = { id };
 
   try {

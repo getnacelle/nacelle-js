@@ -11,6 +11,6 @@ export { default as getCurrentStorefrontVersion } from './getCurrentStorefrontVe
 export { default as handleShopifyError } from './handleShopifyError';
 export { default as isVerifiedCheckoutId } from './isVerifiedCheckoutId';
 export { default as mapLineItems } from './mapLineItems';
-export { default as mapMetafieldsToAttributes } from './mapMetafieldsToAttributes';
+export { default as reconcileCustomAttributes } from './reconcileCustomAttributes';
 export { default as sanitizeShopifyDomain } from './sanitizeShopifyDomain';
 // @endindex

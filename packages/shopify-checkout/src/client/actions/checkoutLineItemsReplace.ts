@@ -1,4 +1,7 @@
-import mutations, { CheckoutLineItemsReplaceData } from '~/graphql/mutations';
+import {
+  checkoutLineItemsReplace as checkoutLineItemsReplaceMutation,
+  CheckoutLineItemsReplaceData
+} from '~/graphql/mutations';
 import { buildCheckout, checkoutDoesNotExist } from '~/utils';
 import { CartItem, ShopifyCheckout, GqlClient } from '~/checkout-client.types';
 
@@ -13,7 +16,7 @@ export default async function checkoutLineItemsReplace({
   lineItems,
   checkoutId
 }: CheckoutLineItemsReplaceParams): Promise<ShopifyCheckout | void> {
-  const query = mutations.checkoutLineItemsReplace;
+  const query = checkoutLineItemsReplaceMutation;
   const variables = { checkoutId, lineItems };
   const { data, errors } = await gqlClient<CheckoutLineItemsReplaceData>({
     query,

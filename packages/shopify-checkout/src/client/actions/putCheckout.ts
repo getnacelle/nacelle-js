@@ -5,32 +5,32 @@ import {
 } from '~/client/actions';
 import { isVerifiedCheckoutId, mapLineItems } from '~/utils';
 import {
-  CartItem,
-  ShopifyCheckout,
   Attribute,
-  GqlClient
+  CartItem,
+  GqlClient,
+  ShopifyCheckout
 } from '~/checkout-client.types';
 
 export interface PutCheckoutParams {
   gqlClient: GqlClient;
-  cartItems: CartItem[];
+  lineItems: CartItem[];
   checkoutId?: string;
   customAttributes?: Attribute[];
   note?: string;
+  queueToken?: string;
 }
 
 export default async function putCheckout({
   gqlClient,
-  cartItems,
   checkoutId,
   customAttributes,
-  note
+  note,
+  queueToken,
+  ...params
 }: PutCheckoutParams): Promise<void | ShopifyCheckout> {
-  let checkout;
-  const lineItems = mapLineItems(cartItems);
-
-  const shouldUpdateAttributes =
-    customAttributes !== undefined || note !== undefined;
+  let checkout: ShopifyCheckout | void = undefined;
+  const lineItems = mapLineItems(params.lineItems);
+  const shouldUpdateAttributes = customAttributes?.length || note !== undefined;
 
   try {
     if (checkoutId && isVerifiedCheckoutId(checkoutId)) {
@@ -46,7 +46,7 @@ export default async function putCheckout({
 
       // Update line items
       if (
-        (checkout && shouldUpdateAttributes) || // updateAttributes was successful
+        (!checkout && shouldUpdateAttributes) || // updateAttributes was successful
         !shouldUpdateAttributes // updateAttributes was not needed
       ) {
         checkout = await checkoutLineItemsReplace({
@@ -57,13 +57,14 @@ export default async function putCheckout({
       }
     }
 
-    // Create new checkout if unsuccessful due to checkout not existing
+    // Create new checkout if checkout does not exist
     if (!checkout) {
       checkout = await createCheckout({
         gqlClient,
         customAttributes,
         note,
-        lineItems
+        lineItems,
+        queueToken
       });
     }
 

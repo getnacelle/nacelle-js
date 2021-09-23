@@ -11,7 +11,7 @@ export interface CheckoutCreateData {
   };
 }
 
-const checkoutCreate = gql`
+export const checkoutCreate = gql`
   mutation checkoutCreate($input: CheckoutCreateInput!) {
     checkoutCreate(input: $input) {
       checkout {
@@ -37,7 +37,7 @@ export interface CheckoutLineItemsReplaceData {
   };
 }
 
-const checkoutLineItemsReplace = gql`
+export const checkoutLineItemsReplace = gql`
   mutation checkoutLineItemsReplace(
     $lineItems: [CheckoutLineItemInput!]!
     $checkoutId: ID!
@@ -65,7 +65,7 @@ export interface CheckoutAttributesUpdateData {
   };
 }
 
-const checkoutAttributesUpdate = gql`
+export const checkoutAttributesUpdate = gql`
   mutation checkoutAttributesUpdate(
     $checkoutId: ID!
     $input: CheckoutAttributesUpdateV2Input!
@@ -82,9 +82,3 @@ const checkoutAttributesUpdate = gql`
     }
   }
 `;
-
-export default {
-  checkoutCreate,
-  checkoutLineItemsReplace,
-  checkoutAttributesUpdate
-};

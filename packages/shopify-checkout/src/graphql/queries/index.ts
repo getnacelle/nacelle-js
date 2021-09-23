@@ -1,19 +1,18 @@
 import { gql } from '@manifoldco/gql-zero';
 
-import { Attribute } from '~/checkout-client.types';
-type Field = string | null;
+import { Attribute, GqlStringField } from '~/checkout-client.types';
 
 export interface GetCheckoutData {
   node: {
-    id: Field;
-    webUrl: Field;
-    completedAt: Field;
-    note: Field;
+    id: GqlStringField;
+    webUrl: GqlStringField;
+    completedAt: GqlStringField;
+    note: GqlStringField;
     customAttributes: Attribute[] | null;
   };
 }
 
-const getCheckout = gql`
+export const getCheckout = gql`
   query getCheckout($id: ID!) {
     node(id: $id) {
       ... on Checkout {
@@ -29,5 +28,3 @@ const getCheckout = gql`
     }
   }
 `;
-
-export default { getCheckout };

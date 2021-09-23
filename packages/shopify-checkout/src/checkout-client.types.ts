@@ -2,7 +2,6 @@ export interface Attribute {
   key: string;
   value: string;
 }
-
 export interface BuildCheckoutParams {
   id: string;
   webUrl?: string;
@@ -15,17 +14,15 @@ export interface ShopifyCheckout extends BuildCheckoutParams {
 }
 
 export interface CartItem {
+  quantity: number;
+  variantId: string;
   customAttributes?: Attribute[];
   metafields?: Attribute[];
-  quantity: number;
-  variantId: string;
 }
 
-export interface CheckoutLineItem {
-  customAttributes: Attribute[];
-  quantity: number;
-  variantId: string;
-}
+export type CheckoutLineItem = Required<
+  Pick<CartItem, 'quantity' | 'variantId' | 'customAttributes'>
+>;
 
 export interface VerboseErrorParams {
   caller?: string;
@@ -66,3 +63,15 @@ export interface GqlClientParams {
 export type GqlClient = <R>(
   params: GqlClientParams
 ) => Promise<ShopifyResponse<R>>;
+
+export type GqlStringField = string | null;
+
+export interface PutCheckoutParams {
+  gqlClient: GqlClient;
+  cartItems: CartItem[];
+  checkoutId?: string;
+  metafields?: Attribute[];
+  customAttributes?: Attribute[];
+  note?: string;
+  queueToken?: string;
+}

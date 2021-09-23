@@ -1,11 +1,11 @@
+import { Metafield } from '@nacelle/types';
 import { findCheckout, putCheckout } from '~/client/actions';
-import { sanitizeShopifyDomain } from '~/utils';
+import { reconcileCustomAttributes, sanitizeShopifyDomain } from '~/utils';
 
 import {
   CartItem,
   ShopifyCheckout,
   Attribute,
-  GqlClient,
   GqlClientParams
 } from '~/checkout-client.types';
 
@@ -15,6 +15,7 @@ export interface CreateClientParams {
   storefrontApiVersion?: string;
   customEndpoint?: string;
   fetchClient?: typeof fetch;
+  queueToken?: string;
 }
 
 export interface GetCheckoutParams {
@@ -29,6 +30,7 @@ export interface ProcessCheckoutParams {
   cartItems: CartItem[];
   checkoutId?: string;
   customAttributes?: Attribute[];
+  metafields?: Metafield[];
   note?: string;
 }
 
@@ -36,55 +38,19 @@ export type ProcessCheckout = (
   params: ProcessCheckoutParams
 ) => Promise<void | ShopifyCheckout>;
 
-export interface CheckoutClientParams {
-  gqlClient: GqlClient;
-}
-
 export interface CheckoutClient {
-  checkout: {
-    get: GetCheckout;
-    process: ProcessCheckout;
-  };
+  get: GetCheckout;
+  process: ProcessCheckout;
 }
 
-export function checkoutClient({
-  gqlClient
-}: CheckoutClientParams): CheckoutClient {
-  const get: GetCheckout = async ({ checkoutId }) =>
-    await findCheckout({ gqlClient, id: checkoutId });
-
-  const process: ProcessCheckout = async ({
-    cartItems,
-    checkoutId,
-    customAttributes,
-    note
-  }) =>
-    await putCheckout({
-      gqlClient,
-      cartItems,
-      checkoutId,
-      customAttributes,
-      note
-    });
-
-  return {
-    checkout: {
-      get,
-      process
-    }
-  };
-}
-
-export default function createShopifyCheckoutClient(
-  params: CreateClientParams
-): CheckoutClient {
-  const {
-    storefrontCheckoutToken,
-    myshopifyDomain,
-    storefrontApiVersion,
-    customEndpoint
-  } = params;
-
+export default function createShopifyCheckoutClient({
+  storefrontCheckoutToken,
+  myshopifyDomain,
+  storefrontApiVersion,
+  customEndpoint,
+  queueToken,
+  ...params
+}: CreateClientParams): CheckoutClient {
   const gqlClient = ({ query, variables }: GqlClientParams) => {
     let endpoint = customEndpoint;
 
@@ -130,5 +96,37 @@ export default function createShopifyCheckoutClient(
       });
   };
 
-  return checkoutClient({ gqlClient });
+  async function getCheckout({
+    checkoutId
+  }: GetCheckoutParams): Promise<ShopifyCheckout | void> {
+    return await findCheckout({ gqlClient, id: checkoutId });
+  }
+
+  async function processCheckout({
+    cartItems,
+    checkoutId,
+    note,
+    ...params
+  }: ProcessCheckoutParams): Promise<ShopifyCheckout | void> {
+    const customAttributes = reconcileCustomAttributes({
+      customAttributes: params.customAttributes,
+      metafields: params.metafields
+    });
+
+    await putCheckout({
+      gqlClient,
+      lineItems: cartItems,
+      checkoutId,
+      customAttributes,
+      note,
+      queueToken
+    });
+  }
+
+  const checkoutClient: CheckoutClient = {
+    get: getCheckout,
+    process: processCheckout
+  };
+
+  return checkoutClient;
 }

@@ -1,4 +1,7 @@
-import mutations, { CheckoutAttributesUpdateData } from '~/graphql/mutations';
+import {
+  checkoutAttributesUpdate as checkoutAttributesUpdateMutation,
+  CheckoutAttributesUpdateData
+} from '~/graphql/mutations';
 
 import {
   buildCheckout,
@@ -21,7 +24,7 @@ export default async function checkoutAttributesUpdate({
   customAttributes,
   note
 }: CheckoutAttributesUpdateParams): Promise<ShopifyCheckout | void> {
-  const query = mutations.checkoutAttributesUpdate;
+  const query = checkoutAttributesUpdateMutation;
   const variables = {
     input: {
       customAttributes,

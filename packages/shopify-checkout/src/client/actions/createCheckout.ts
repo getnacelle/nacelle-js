@@ -1,19 +1,26 @@
-import mutations, { CheckoutCreateData } from '~/graphql/mutations';
+import {
+  checkoutCreate as checkoutCreateMutation,
+  CheckoutCreateData
+} from '~/graphql/mutations';
 
 import { buildCheckout, handleShopifyError } from '~/utils';
 
 import {
-  CartItem,
-  ShopifyCheckout,
   Attribute,
-  GqlClient
+  CartItem,
+  GqlClient,
+  PutCheckoutParams,
+  ShopifyCheckout
 } from '~/checkout-client.types';
+
+export type C = Pick<PutCheckoutParams, 'cartItems' | 'checkoutId'>;
 
 export interface CreateCheckoutParams {
   gqlClient: GqlClient;
   lineItems: CartItem[];
   customAttributes?: Attribute[];
   note?: string;
+  queueToken?: string;
 }
 
 export default async function createCheckout({
@@ -22,7 +29,7 @@ export default async function createCheckout({
   lineItems,
   note
 }: CreateCheckoutParams): Promise<ShopifyCheckout | void> {
-  const query = mutations.checkoutCreate;
+  const query = checkoutCreateMutation;
   const variables = { input: { customAttributes, lineItems, note } };
 
   try {
