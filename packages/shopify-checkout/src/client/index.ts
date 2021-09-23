@@ -10,8 +10,8 @@ import {
 
 export interface CreateClientParams {
   storefrontCheckoutToken: string;
-  myshopifyDomain?: string;
   storefrontApiVersion?: string;
+  myshopifyDomain?: string;
   customEndpoint?: string;
   fetchClient?: typeof fetch;
   queueToken?: string;
@@ -104,7 +104,8 @@ export default function createShopifyCheckoutClient({
   }
 
   /**
-   * Creates a Shopify checkout, or updates an existing Shopify checkout.
+   * Creates a Shopify checkout, or updates an existing Shopify checkout
+   * if a valid `checkoutId` is provided.
    */
   async function processCheckout({
     cartItems,
