@@ -13,6 +13,13 @@ export interface CheckoutAttributesUpdateParams {
   note?: string;
 }
 
+export type CheckoutUpdateVariables = Pick<
+  CheckoutAttributesUpdateParams,
+  'checkoutId'
+> & {
+  input: Pick<CheckoutAttributesUpdateParams, 'customAttributes' | 'note'>;
+};
+
 export default async function checkoutAttributesUpdate({
   gqlClient,
   checkoutId,
@@ -28,7 +35,10 @@ export default async function checkoutAttributesUpdate({
     }
   };
 
-  const { data, errors } = await gqlClient<CheckoutAttributesUpdateData>({
+  const { data, errors } = await gqlClient<
+    CheckoutUpdateVariables,
+    CheckoutAttributesUpdateData
+  >({
     query,
     variables
   });

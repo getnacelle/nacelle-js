@@ -11,6 +11,11 @@ export interface CheckoutLineItemsReplaceParams {
   lineItems: CartItem[];
 }
 
+export type CheckoutUpdateVariables = Pick<
+  CheckoutLineItemsReplaceParams,
+  'checkoutId' | 'lineItems'
+>;
+
 export default async function checkoutLineItemsReplace({
   gqlClient,
   lineItems,
@@ -18,7 +23,10 @@ export default async function checkoutLineItemsReplace({
 }: CheckoutLineItemsReplaceParams): Promise<ShopifyCheckout | void> {
   const query = checkoutLineItemsReplaceMutation;
   const variables = { checkoutId, lineItems };
-  const { data, errors } = await gqlClient<CheckoutLineItemsReplaceData>({
+  const { data, errors } = await gqlClient<
+    CheckoutUpdateVariables,
+    CheckoutLineItemsReplaceData
+  >({
     query,
     variables
   });

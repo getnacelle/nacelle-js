@@ -2,11 +2,7 @@ import { Metafield } from '@nacelle/types';
 import { findCheckout, putCheckout } from '~/client/actions';
 import { metafieldsToCustomAttributes, sanitizeShopifyDomain } from '~/utils';
 
-import {
-  CartItem,
-  ShopifyCheckout,
-  GqlClientParams
-} from '~/checkout-client.types';
+import { CartItem, GqlClient, ShopifyCheckout } from '~/checkout-client.types';
 
 export interface CreateClientParams {
   storefrontCheckoutToken: string;
@@ -54,7 +50,10 @@ export default function createShopifyCheckoutClient({
   queueToken,
   fetchClient
 }: CreateClientParams): CheckoutClient {
-  const gqlClient = ({ query, variables }: GqlClientParams) => {
+  /**
+   * Create a GraphQL client using `window.fetch` or the provided `fetchClient`
+   */
+  const gqlClient: GqlClient = ({ query, variables }) => {
     let endpoint = customEndpoint;
 
     if (!endpoint) {
@@ -115,8 +114,8 @@ export default function createShopifyCheckoutClient({
   async function processCheckout({
     cartItems,
     checkoutId,
-    note,
-    metafields
+    metafields,
+    note
   }: ProcessCheckoutParams): Promise<ShopifyCheckout | void> {
     const customAttributes = metafieldsToCustomAttributes({ metafields });
     const lineItems = cartItems.map((cartItem) => {
@@ -138,10 +137,8 @@ export default function createShopifyCheckoutClient({
     });
   }
 
-  const checkoutClient: CheckoutClient = {
+  return {
     get: getCheckout,
     process: processCheckout
   };
-
-  return checkoutClient;
 }

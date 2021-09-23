@@ -10,6 +10,8 @@ export interface FindCheckoutParams {
   id: string;
 }
 
+export type FindCheckoutVariables = Pick<FindCheckoutParams, 'id'>;
+
 export default async function findCheckout({
   gqlClient,
   id
@@ -18,7 +20,10 @@ export default async function findCheckout({
   const variables = { id };
 
   try {
-    const { data, errors } = await gqlClient<GetCheckoutData>({
+    const { data, errors } = await gqlClient<
+      FindCheckoutVariables,
+      GetCheckoutData
+    >({
       query,
       variables
     });

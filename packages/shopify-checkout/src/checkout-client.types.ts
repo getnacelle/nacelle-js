@@ -20,34 +20,30 @@ export interface CartItem {
   metafields?: Attribute[];
 }
 
-export type CheckoutLineItem = Required<
-  Pick<CartItem, 'quantity' | 'variantId' | 'customAttributes'>
->;
-
-export interface VerboseErrorParams {
-  caller?: string;
-  message?: string;
-}
-
 export interface ShopifyCheckoutUserError {
   code: string;
   field: string[];
   message: string;
 }
 
-export interface ShopifyErrorLocation {
+interface ShopifyErrorLocation {
   line: string;
   column: string;
+}
+
+interface ShopifyErrorExtensionProblems {
+  path: string[];
+  explanation: string;
+  message: string;
 }
 
 export interface ShopifyError {
   message: string;
   locations: ShopifyErrorLocation[];
-  extensions: AnyObject;
-}
-
-export interface AnyObject {
-  [key: string]: AnyObject | string | unknown;
+  extensions: {
+    value: string;
+    problems: ShopifyErrorExtensionProblems[];
+  };
 }
 
 export type ShopifyResponse<D> = {
@@ -55,22 +51,13 @@ export type ShopifyResponse<D> = {
   errors?: ShopifyError[];
 };
 
-export interface GqlClientParams {
+export interface GqlClientParams<V> {
   query: string;
-  variables: AnyObject;
+  variables: V;
 }
 
-export type GqlClient = <R>(
-  params: GqlClientParams
+export type GqlClient = <V, R>(
+  params: GqlClientParams<V>
 ) => Promise<ShopifyResponse<R>>;
 
 export type GqlStringField = string | null;
-
-export interface PutCheckoutParams {
-  gqlClient: GqlClient;
-  lineItems: CartItem[];
-  checkoutId?: string;
-  customAttributes?: Attribute[];
-  note?: string;
-  queueToken?: string;
-}
