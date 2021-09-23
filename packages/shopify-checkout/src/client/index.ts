@@ -1,11 +1,10 @@
 import { Metafield } from '@nacelle/types';
 import { findCheckout, putCheckout } from '~/client/actions';
-import { reconcileCustomAttributes, sanitizeShopifyDomain } from '~/utils';
+import { metafieldsToCustomAttributes, sanitizeShopifyDomain } from '~/utils';
 
 import {
   CartItem,
   ShopifyCheckout,
-  Attribute,
   GqlClientParams
 } from '~/checkout-client.types';
 
@@ -29,7 +28,6 @@ export type GetCheckout = (
 export interface ProcessCheckoutParams {
   cartItems: CartItem[];
   checkoutId?: string;
-  customAttributes?: Attribute[];
   metafields?: Metafield[];
   note?: string;
 }
@@ -112,18 +110,13 @@ export default function createShopifyCheckoutClient({
     cartItems,
     checkoutId,
     note,
-    customAttributes,
     metafields
   }: ProcessCheckoutParams): Promise<ShopifyCheckout | void> {
-    const attrs = reconcileCustomAttributes({
-      customAttributes,
-      metafields
-    });
+    const customAttributes = metafieldsToCustomAttributes({ metafields });
     const lineItems = cartItems.map((cartItem) => {
       return {
         ...cartItem,
-        customAttributes: reconcileCustomAttributes({
-          customAttributes: cartItem.customAttributes,
+        customAttributes: metafieldsToCustomAttributes({
           metafields: cartItem.metafields
         })
       };
@@ -133,7 +126,7 @@ export default function createShopifyCheckoutClient({
       gqlClient,
       lineItems,
       checkoutId,
-      customAttributes: attrs,
+      customAttributes,
       note,
       queueToken
     });

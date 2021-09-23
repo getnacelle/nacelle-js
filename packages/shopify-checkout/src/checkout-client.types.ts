@@ -68,7 +68,7 @@ export type GqlStringField = string | null;
 
 export interface PutCheckoutParams {
   gqlClient: GqlClient;
-  cartItems: CartItem[];
+  lineItems: CartItem[];
   checkoutId?: string;
   customAttributes?: Attribute[];
   note?: string;

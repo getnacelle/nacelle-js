@@ -1,27 +1,15 @@
+import { buildCheckout, handleShopifyError } from '~/utils';
 import {
   checkoutCreate as checkoutCreateMutation,
   CheckoutCreateData
 } from '~/graphql/mutations';
 
-import { buildCheckout, handleShopifyError } from '~/utils';
+import { PutCheckoutParams, ShopifyCheckout } from '~/checkout-client.types';
 
-import {
-  Attribute,
-  CartItem,
-  GqlClient,
+export type CreateCheckoutParams = Pick<
   PutCheckoutParams,
-  ShopifyCheckout
-} from '~/checkout-client.types';
-
-export type C = Pick<PutCheckoutParams, 'cartItems' | 'checkoutId'>;
-
-export interface CreateCheckoutParams {
-  gqlClient: GqlClient;
-  lineItems: CartItem[];
-  customAttributes?: Attribute[];
-  note?: string;
-  queueToken?: string;
-}
+  'lineItems' | 'gqlClient' | 'customAttributes' | 'note' | 'queueToken'
+>;
 
 export default async function createCheckout({
   gqlClient,
