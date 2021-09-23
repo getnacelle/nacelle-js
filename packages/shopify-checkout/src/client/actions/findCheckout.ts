@@ -24,12 +24,13 @@ export default async function findCheckout({
     });
 
     if (errors) {
-      handleShopifyError(errors);
+      handleShopifyError(errors, { caller: 'findCheckout' });
       return;
     }
 
     if (!data?.node) {
       handleShopifyError(undefined, {
+        caller: 'findCheckout',
         message: 'Checkout response has no data'
       });
       return;

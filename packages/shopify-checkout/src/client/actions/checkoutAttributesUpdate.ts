@@ -1,13 +1,8 @@
+import { buildCheckout, handleShopifyError } from '~/utils';
 import {
   checkoutAttributesUpdate as checkoutAttributesUpdateMutation,
   CheckoutAttributesUpdateData
 } from '~/graphql/mutations';
-
-import {
-  buildCheckout,
-  checkoutDoesNotExist,
-  handleShopifyError
-} from '~/utils';
 
 import { ShopifyCheckout, Attribute, GqlClient } from '~/checkout-client.types';
 
@@ -26,11 +21,11 @@ export default async function checkoutAttributesUpdate({
 }: CheckoutAttributesUpdateParams): Promise<ShopifyCheckout | void> {
   const query = checkoutAttributesUpdateMutation;
   const variables = {
+    checkoutId,
     input: {
       customAttributes,
       note
-    },
-    checkoutId
+    }
   };
 
   const { data, errors } = await gqlClient<CheckoutAttributesUpdateData>({
@@ -40,15 +35,9 @@ export default async function checkoutAttributesUpdate({
 
   const errs = errors || data?.checkoutAttributesUpdateV2.checkoutUserErrors;
 
-  if (errs && checkoutDoesNotExist(errs)) {
-    console.info(
-      'Checkout does not exist when checkoutAttributesUpdate is called; creating new checkout.'
-    );
-
-    return;
+  if (errs?.length) {
+    handleShopifyError(errs, { caller: 'checkoutAttributesUpdate' });
   }
-
-  handleShopifyError(errs, { caller: checkoutAttributesUpdate.name });
 
   if (data) {
     return buildCheckout(data.checkoutAttributesUpdateV2.checkout);

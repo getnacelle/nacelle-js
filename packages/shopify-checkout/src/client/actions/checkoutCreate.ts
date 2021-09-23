@@ -27,7 +27,7 @@ export default async function createCheckout({
     });
 
     if (errors) {
-      handleShopifyError(errors);
+      handleShopifyError(errors, { caller: 'checkoutCreate' });
     }
 
     if (data?.checkoutCreate.checkout) {

@@ -1,7 +1,7 @@
 import {
   checkoutAttributesUpdate,
   checkoutLineItemsReplace,
-  createCheckout
+  checkoutCreate
 } from '~/client/actions';
 import { isVerifiedCheckoutId } from '~/utils';
 import {
@@ -82,7 +82,7 @@ export default async function putCheckout({
 
     // Create new checkout if checkout does not exist
     if (typeof checkout === 'undefined') {
-      checkout = await createCheckout({
+      checkout = await checkoutCreate({
         gqlClient,
         customAttributes,
         note,

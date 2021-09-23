@@ -6,8 +6,8 @@
 // EXPORT CLIENT ACTIONS
 // @index('./*.ts', (f, _) => `export { default as ${_.camelCase(f.name)} } from '${f.path}';`)
 export { default as checkoutAttributesUpdate } from './checkoutAttributesUpdate';
+export { default as checkoutCreate } from './checkoutCreate';
 export { default as checkoutLineItemsReplace } from './checkoutLineItemsReplace';
-export { default as createCheckout } from './createCheckout';
 export { default as findCheckout } from './findCheckout';
 export { default as putCheckout } from './putCheckout';
 // @endindex
