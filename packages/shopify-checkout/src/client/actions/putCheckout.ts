@@ -29,34 +29,59 @@ export default async function putCheckout({
   queueToken
 }: PutCheckoutParams): Promise<void | ShopifyCheckout> {
   let checkout: ShopifyCheckout | void = undefined;
-  const shouldUpdateAttributes = customAttributes?.length || note;
   const shouldUpdateLineItems = lineItems?.length;
+  const shouldUpdateAttributes = customAttributes?.length || note;
 
   try {
     if (checkoutId && isVerifiedCheckoutId(checkoutId)) {
-      // Update attributes if provided
-
-      if (shouldUpdateAttributes) {
-        checkout = await checkoutAttributesUpdate({
-          gqlClient,
-          checkoutId,
-          customAttributes,
-          note
-        });
-      }
+      const checkoutUpdatePromises: Promise<ShopifyCheckout | void>[] = [];
 
       // Update line items
       if (shouldUpdateLineItems) {
-        checkout = await checkoutLineItemsReplace({
-          gqlClient,
-          checkoutId,
-          lineItems
-        });
+        checkoutUpdatePromises.push(
+          checkoutLineItemsReplace({
+            gqlClient,
+            checkoutId,
+            lineItems
+          })
+        );
       }
+
+      // Update attributes if provided
+      if (shouldUpdateAttributes) {
+        checkoutUpdatePromises.push(
+          checkoutAttributesUpdate({
+            gqlClient,
+            checkoutId,
+            customAttributes,
+            note
+          })
+        );
+      }
+
+      const settledPromises = await Promise.allSettled(checkoutUpdatePromises);
+      settledPromises.forEach((p) => {
+        if (p.status === 'fulfilled' && p.value) {
+          // Note that the order of the promises is important here,
+          // since the last-fulfilled promise's value will overwrite
+          // the checkout data.
+          //
+          // This is why `checkoutAttributesUpdate`, which can return an updated
+          // `note` or `customAttributes`, goes after `checkoutLineItemsReplace`,
+          // which doesn't update any properties of the checkout object
+          // (the `checkoutId` remains the same after a checkoutLineItemsReplace`).
+          checkout = {
+            ...(checkout || {}),
+            ...p.value
+          };
+        } else if (p.status === 'rejected') {
+          throw new Error(p.reason);
+        }
+      });
     }
 
     // Create new checkout if checkout does not exist
-    if (!checkout) {
+    if (typeof checkout === 'undefined') {
       checkout = await createCheckout({
         gqlClient,
         customAttributes,
