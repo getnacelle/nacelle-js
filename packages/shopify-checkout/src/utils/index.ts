@@ -10,7 +10,6 @@ export { default as checkoutDoesNotExist } from './checkoutDoesNotExist';
 export { default as getCurrentStorefrontVersion } from './getCurrentStorefrontVersion';
 export { default as handleShopifyError } from './handleShopifyError';
 export { default as isVerifiedCheckoutId } from './isVerifiedCheckoutId';
-export { default as mapLineItems } from './mapLineItems';
 export { default as reconcileCustomAttributes } from './reconcileCustomAttributes';
 export { default as sanitizeShopifyDomain } from './sanitizeShopifyDomain';
 // @endindex

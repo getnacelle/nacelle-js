@@ -96,28 +96,44 @@ export default function createShopifyCheckoutClient({
       });
   };
 
+  /**
+   * Retrieves a previously-created Shopify checkout.
+   */
   async function getCheckout({
     checkoutId
   }: GetCheckoutParams): Promise<ShopifyCheckout | void> {
     return await findCheckout({ gqlClient, id: checkoutId });
   }
 
+  /**
+   * Creates a Shopify checkout, or updates an existing Shopify checkout.
+   */
   async function processCheckout({
     cartItems,
     checkoutId,
     note,
-    ...params
+    customAttributes,
+    metafields
   }: ProcessCheckoutParams): Promise<ShopifyCheckout | void> {
-    const customAttributes = reconcileCustomAttributes({
-      customAttributes: params.customAttributes,
-      metafields: params.metafields
+    const attrs = reconcileCustomAttributes({
+      customAttributes,
+      metafields
+    });
+    const lineItems = cartItems.map((cartItem) => {
+      return {
+        ...cartItem,
+        customAttributes: reconcileCustomAttributes({
+          customAttributes: cartItem.customAttributes,
+          metafields: cartItem.metafields
+        })
+      };
     });
 
     await putCheckout({
       gqlClient,
-      lineItems: cartItems,
+      lineItems,
       checkoutId,
-      customAttributes,
+      customAttributes: attrs,
       note,
       queueToken
     });

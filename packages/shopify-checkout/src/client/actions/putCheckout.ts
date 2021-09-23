@@ -3,7 +3,7 @@ import {
   checkoutLineItemsReplace,
   createCheckout
 } from '~/client/actions';
-import { isVerifiedCheckoutId, mapLineItems } from '~/utils';
+import { isVerifiedCheckoutId } from '~/utils';
 import {
   Attribute,
   CartItem,
@@ -23,13 +23,12 @@ export interface PutCheckoutParams {
 export default async function putCheckout({
   gqlClient,
   checkoutId,
+  lineItems,
   customAttributes,
   note,
-  queueToken,
-  ...params
+  queueToken
 }: PutCheckoutParams): Promise<void | ShopifyCheckout> {
   let checkout: ShopifyCheckout | void = undefined;
-  const lineItems = mapLineItems(params.lineItems);
   const shouldUpdateAttributes = customAttributes?.length || note !== undefined;
 
   try {

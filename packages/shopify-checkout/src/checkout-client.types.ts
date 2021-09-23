@@ -70,7 +70,6 @@ export interface PutCheckoutParams {
   gqlClient: GqlClient;
   cartItems: CartItem[];
   checkoutId?: string;
-  metafields?: Attribute[];
   customAttributes?: Attribute[];
   note?: string;
   queueToken?: string;
