@@ -1,5 +1,5 @@
 <template>
-  <div v-if="product && Object.keys(product).length" class="product">
+  <div v-if="product" class="product">
     <nuxt-link :to="`/products/${product.handle}`">
       <nuxt-img :src="product.featuredMedia.src" class="product__image" />
     </nuxt-link>
@@ -22,7 +22,7 @@
         <label class="product__label">{{ option.name }}</label>
         <select
           class="product__select"
-          @change="$event => handleOptionChange($event, option)"
+          @change="($event) => handleOptionChange($event, option)"
         >
           <option
             v-for="(value, vIndex) in option.values"
@@ -60,11 +60,8 @@ import { useCartProvider, useProductProvider } from '@nacelle/vue';
 export default {
   setup() {
     const { addItem } = useCartProvider();
-    const {
-      product,
-      setSelectedOptions,
-      setSelectedVariant
-    } = useProductProvider();
+    const { product, setSelectedOptions, setSelectedVariant } =
+      useProductProvider();
     const quantity = ref(1);
 
     const defaultVariant = product?.value?.variants[0];
@@ -73,7 +70,10 @@ export default {
     }
 
     const options = computed(() => {
-      return product?.value?.options.length > 1 && product?.value?.options;
+      const optionsExist = product?.value?.options?.find(
+        (option) => option.values.length > 1
+      );
+      return optionsExist ? product?.value?.options : null;
     });
 
     const buttonText = computed(() => {
@@ -88,7 +88,7 @@ export default {
       const selectedOptions = product?.value?.selectedOptions
         ? [...product.value.selectedOptions]
         : [];
-      const optionIndex = selectedOptions?.findIndex(selectedOption => {
+      const optionIndex = selectedOptions?.findIndex((selectedOption) => {
         return option.name === selectedOption.name;
       });
       if (optionIndex >= 0) selectedOptions[optionIndex] = newOption;

@@ -1,5 +1,5 @@
 <template>
-  <div v-if="collection && Object.keys(collection).length" class="collection">
+  <div v-if="collection" class="collection">
     <product-provider
       v-for="(product, index) in collection.products"
       :key="index"
