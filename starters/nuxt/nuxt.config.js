@@ -73,6 +73,7 @@ export default {
   },
 
   generate: {
-    interval: 2000
+    interval: 2000,
+    fallback: true
   }
 };
