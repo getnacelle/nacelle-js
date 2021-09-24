@@ -1,5 +1,4 @@
-import { gql } from '@manifoldco/gql-zero';
-
+import { gql } from '~/utils';
 import { Attribute, GqlStringField } from '~/checkout-client.types';
 
 export interface GetCheckoutData {

@@ -1,16 +1,15 @@
 import { Metafield } from '@nacelle/types';
 import { findCheckout, putCheckout } from '~/client/actions';
-import { metafieldsToCustomAttributes, sanitizeShopifyDomain } from '~/utils';
-
-import { CartItem, GqlClient, ShopifyCheckout } from '~/checkout-client.types';
+import { createGqlClient, metafieldsToCustomAttributes } from '~/utils';
+import { CartItem, ShopifyCheckout } from '~/checkout-client.types';
 
 export interface CreateClientParams {
   storefrontCheckoutToken: string;
   storefrontApiVersion?: string;
   myshopifyDomain?: string;
   customEndpoint?: string;
-  fetchClient?: typeof fetch;
   queueToken?: string;
+  fetchClient?: typeof fetch;
 }
 
 export interface GetCheckoutParams {
@@ -50,53 +49,13 @@ export default function createShopifyCheckoutClient({
   queueToken,
   fetchClient
 }: CreateClientParams): CheckoutClient {
-  /**
-   * Create a GraphQL client using `window.fetch` or the provided `fetchClient`
-   */
-  const gqlClient: GqlClient = ({ query, variables }) => {
-    let endpoint = customEndpoint;
-
-    if (!endpoint) {
-      if (!myshopifyDomain || !storefrontApiVersion) {
-        throw new Error(
-          '[@nacelle/shopify-checkout]: missing required parameters. ' +
-            'Either use both `myshopifyDomain` and `storefrontApiVersion`, or provide a `customEndpoint`.'
-        );
-      }
-      const domain = sanitizeShopifyDomain(myshopifyDomain || '');
-      endpoint = `https://${domain}.myshopify.com/api/${storefrontApiVersion}/graphql`;
-    }
-
-    let fetcher = fetchClient;
-
-    if (!fetcher) {
-      if (typeof window !== 'undefined') {
-        fetcher = window.fetch;
-      } else {
-        throw new Error(
-          '[@nacelle/shopify-checkout] in order to create a checkout server-side, ' +
-            'you must provide a fetch API-compatible `fetchClient` capable of running ' +
-            'on both the client & server. Examples include `isomorphic-unfetch` and `cross-fetch`.'
-        );
-      }
-    }
-
-    return fetcher(endpoint, {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-        'X-Shopify-Storefront-Access-Token': storefrontCheckoutToken
-      },
-      body: JSON.stringify({ query, variables })
-    })
-      .then((res: Response) => res.json())
-      .catch((err: string) => {
-        throw new Error(
-          `Could not complete Shopify Storefront API request:\n${err}`
-        );
-      });
-  };
+  const gqlClient = createGqlClient({
+    customEndpoint,
+    fetchClient,
+    myshopifyDomain,
+    storefrontApiVersion,
+    storefrontCheckoutToken
+  });
 
   /**
    * Retrieves a previously-created Shopify checkout.

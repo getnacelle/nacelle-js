@@ -18,6 +18,7 @@ export interface CartItem {
   variantId: string;
   customAttributes?: Attribute[];
   metafields?: Attribute[];
+  [key: string]: unknown;
 }
 
 export interface ShopifyCheckoutUserError {

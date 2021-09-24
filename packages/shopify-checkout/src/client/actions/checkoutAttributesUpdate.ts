@@ -3,7 +3,6 @@ import {
   checkoutAttributesUpdate as checkoutAttributesUpdateMutation,
   CheckoutAttributesUpdateData
 } from '~/graphql/mutations';
-
 import { ShopifyCheckout, Attribute, GqlClient } from '~/checkout-client.types';
 
 export interface CheckoutAttributesUpdateParams {

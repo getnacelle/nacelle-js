@@ -47,18 +47,14 @@
     "url": "https://github.com/getnacelle/nacelle-js/issues"
   },
   "devDependencies": {
-    "@babel/core": "^7.15.5",
-    "@babel/preset-env": "^7.15.6",
     "@babel/preset-typescript": "^7.15.0",
     "@nacelle/types": "^5.0.2",
     "@types/jest": "^27.0.1",
-    "babel-jest": "^27.0.1",
+    "isomorphic-unfetch": "^3.1.0",
     "jest": "^27.0.1",
     "rollup-plugin-visualizer": "^5.5.2",
+    "ts-jest": "^27.0.5",
     "typescript": "4.4.2",
     "vite": "^2.5.4"
-  },
-  "dependencies": {
-    "@manifoldco/gql-zero": "^0.2.0"
   }
 }

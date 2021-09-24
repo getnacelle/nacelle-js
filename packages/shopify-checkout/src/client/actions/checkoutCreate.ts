@@ -3,7 +3,6 @@ import {
   checkoutCreate as checkoutCreateMutation,
   CheckoutCreateData
 } from '~/graphql/mutations';
-
 import { ShopifyCheckout } from '~/checkout-client.types';
 import { PutCheckoutParams } from '~/client/actions/putCheckout';
 

@@ -1,4 +1,4 @@
-import { gql } from '@manifoldco/gql-zero';
+import { gql } from '~/utils';
 import { ShopifyCheckoutUserError } from '~/checkout-client.types';
 
 export interface CheckoutCreateData {
