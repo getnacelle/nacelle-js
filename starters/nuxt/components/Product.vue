@@ -80,7 +80,7 @@ export default {
       const optionsExist = product?.value?.options?.find(
         option => option.values.length > 1
       );
-      return optionsExist ? product?.value?.options : null;
+      return optionsExist ? product?.value.options : null;
     });
 
     const buttonText = computed(() => {

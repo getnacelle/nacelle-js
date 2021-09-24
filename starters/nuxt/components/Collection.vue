@@ -48,16 +48,12 @@ export default {
 
 <style lang="scss" scoped>
 .collection {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(20em, 1fr));
   gap: 30px 0;
 }
 .collection__item {
-  width: 50%;
   padding: 0 20px;
-  @media only screen and (min-width: 768px) {
-    width: 25%;
-  }
   &::v-deep {
     .product {
       flex-direction: column;
