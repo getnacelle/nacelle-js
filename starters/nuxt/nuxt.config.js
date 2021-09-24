@@ -41,7 +41,7 @@ export default {
       id: process.env.NACELLE_SPACE_ID,
       token: process.env.NACELLE_GRAPHQL_TOKEN,
       nacelleEndpoint: process.env.NACELLE_ENDPOINT,
-      locale: process.env.NACELLE_LOCALE
+      locale: process.env.NACELLE_LOCALE || 'en-us'
     }
   },
 
@@ -63,5 +63,12 @@ export default {
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
-  build: {}
+  build: {},
+
+  vue: {
+    config: {
+      productionTip: false,
+      devtools: true
+    }
+  }
 };
