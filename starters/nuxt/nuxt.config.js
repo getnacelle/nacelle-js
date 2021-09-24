@@ -26,7 +26,7 @@ const handlesQuery = gql`
 `;
 
 function buildRoutes(items, path) {
-  return items.map(item => {
+  return items.map((item) => {
     return `${path}${item.handle}`;
   });
 }
@@ -93,7 +93,7 @@ export default {
     concurrency: 25,
     interval: 2000,
     routes() {
-      return graphQLClient.request(handlesQuery).then(data => {
+      return graphQLClient.request(handlesQuery).then((data) => {
         return [
           ...buildRoutes(data.products.items, '/products/'),
           ...buildRoutes(data.collections.items, '/collections/')
