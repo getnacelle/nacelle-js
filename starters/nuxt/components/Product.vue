@@ -22,7 +22,7 @@
         <label class="product__label">{{ option.name }}</label>
         <select
           class="product__select"
-          @change="($event) => handleOptionChange($event, option)"
+          @change="$event => handleOptionChange($event, option)"
         >
           <option
             v-for="(value, vIndex) in option.values"
@@ -46,7 +46,11 @@
           class="product__input"
         />
       </div>
-      <button class="product__button" @click="handleAddItem">
+      <button
+        class="product__button"
+        :disabled="!product.selectedVariant.availableForSale"
+        @click="handleAddItem"
+      >
         {{ buttonText }}
       </button>
     </div>
@@ -60,8 +64,11 @@ import { useCartProvider, useProductProvider } from '@nacelle/vue';
 export default {
   setup() {
     const { addItem } = useCartProvider();
-    const { product, setSelectedOptions, setSelectedVariant } =
-      useProductProvider();
+    const {
+      product,
+      setSelectedOptions,
+      setSelectedVariant
+    } = useProductProvider();
     const quantity = ref(1);
 
     const defaultVariant = product?.value?.variants[0];
@@ -71,7 +78,7 @@ export default {
 
     const options = computed(() => {
       const optionsExist = product?.value?.options?.find(
-        (option) => option.values.length > 1
+        option => option.values.length > 1
       );
       return optionsExist ? product?.value?.options : null;
     });
@@ -88,7 +95,7 @@ export default {
       const selectedOptions = product?.value?.selectedOptions
         ? [...product.value.selectedOptions]
         : [];
-      const optionIndex = selectedOptions?.findIndex((selectedOption) => {
+      const optionIndex = selectedOptions?.findIndex(selectedOption => {
         return option.name === selectedOption.name;
       });
       if (optionIndex >= 0) selectedOptions[optionIndex] = newOption;
@@ -99,6 +106,7 @@ export default {
     const handleAddItem = () => {
       if (product?.value?.selectedVariant) {
         addItem({
+          product: product.value,
           variant: product.value.selectedVariant,
           quantity: parseInt(quantity.value)
         });
@@ -121,13 +129,20 @@ export default {
 .product {
   width: 100%;
   display: flex;
+  flex-direction: column;
   align-items: flex-start;
   gap: 40px;
+  @media only screen and (min-width: 768px) {
+    flex-direction: row;
+  }
 }
 .product__image,
 .product__main {
-  width: 50%;
+  width: 100%;
   overflow: hidden;
+  @media only screen and (min-width: 768px) {
+    width: 50%;
+  }
 }
 .product__main {
   display: flex;

@@ -53,8 +53,11 @@ export default {
   gap: 30px 0;
 }
 .collection__item {
-  width: 25%;
+  width: 50%;
   padding: 0 20px;
+  @media only screen and (min-width: 768px) {
+    width: 25%;
+  }
   &::v-deep {
     .product {
       flex-direction: column;
