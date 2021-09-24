@@ -70,5 +70,10 @@ export default {
       productionTip: false,
       devtools: true
     }
+  },
+
+  generate: {
+    interval: 2000,
+    routes: ['/products/aurora-high-tops']
   }
 };
