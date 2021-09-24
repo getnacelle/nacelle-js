@@ -8,7 +8,6 @@ export interface CreateClientParams {
   storefrontApiVersion?: string;
   myshopifyDomain?: string;
   customEndpoint?: string;
-  queueToken?: string;
   fetchClient?: typeof fetch;
 }
 
@@ -25,6 +24,7 @@ export interface ProcessCheckoutParams {
   checkoutId?: string;
   metafields?: Metafield[];
   note?: string;
+  queueToken?: string;
 }
 
 export type ProcessCheckout = (
@@ -46,7 +46,6 @@ export default function createShopifyCheckoutClient({
   myshopifyDomain,
   storefrontApiVersion,
   customEndpoint,
-  queueToken,
   fetchClient
 }: CreateClientParams): CheckoutClient {
   const gqlClient = createGqlClient({
@@ -74,7 +73,8 @@ export default function createShopifyCheckoutClient({
     cartItems,
     checkoutId,
     metafields,
-    note
+    note,
+    queueToken
   }: ProcessCheckoutParams): Promise<ShopifyCheckout | void> {
     const customAttributes = metafieldsToCustomAttributes({ metafields });
     const lineItems = cartItems.map((cartItem) => {
