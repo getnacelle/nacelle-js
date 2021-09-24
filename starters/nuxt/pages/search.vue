@@ -1,5 +1,8 @@
 <template>
-  <search-provider v-if="searchData" :search-data="searchData">
+  <search-provider
+    v-if="searchData && searchData.length"
+    :search-data="searchData"
+  >
     <search />
   </search-provider>
   <div v-else-if="fetchState.pending">Loading...</div>
