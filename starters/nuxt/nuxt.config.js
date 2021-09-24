@@ -92,6 +92,7 @@ export default {
     crawler: false,
     concurrency: 25,
     interval: 2000,
+    fallback: true,
     routes() {
       return graphQLClient.request(handlesQuery).then((data) => {
         return [
@@ -117,10 +118,5 @@ export default {
       productionTip: false,
       devtools: true
     }
-  },
-
-  generate: {
-    interval: 2000,
-    fallback: true
   }
 };
