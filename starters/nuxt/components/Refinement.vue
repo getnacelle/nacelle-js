@@ -4,7 +4,7 @@
       <button @click="clearFilters">Clear Filters</button>
       <h3>Sort By</h3>
       <select @change="setSortBy($event.target.value)">
-        <option value="Sort By">Sort By</option>
+        <option>Sort By</option>
         <option value="price-asc">Low to High</option>
         <option value="price-desc">High to Low</option>
       </select>

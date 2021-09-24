@@ -29,7 +29,7 @@ export default {
     const filteredData = ref(props.inputData);
     const activeFilters = ref([]);
     const activePriceRange = ref(null);
-    const sortBy = ref('Sort By');
+    const sortBy = ref(null);
 
     /**
      Computed properties
@@ -278,7 +278,7 @@ export default {
     const clearFilters = () => {
       activeFilters.value = [];
       activePriceRange.value = null;
-      sortBy.value = 'Sort By';
+      sortBy.value = null;
       sortFilteredData();
     };
 
@@ -339,7 +339,7 @@ export default {
       if (['price-asc', 'price-desc'].includes(payload)) {
         sortBy.value = payload;
       } else {
-        sortBy.value = 'Sort By';
+        sortBy.value = null;
       }
       sortFilteredData();
     };
@@ -361,10 +361,7 @@ export default {
           if (activeFilters.value && activeFilters.value.length) {
             sortFilteredData();
           }
-          if (
-            activePriceRange.value ||
-            (sortBy.value && sortBy.value !== 'Sort By')
-          ) {
+          if (activePriceRange.value || sortBy.value) {
             sortInputData();
           }
         }
