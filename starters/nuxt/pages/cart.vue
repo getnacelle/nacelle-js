@@ -11,14 +11,14 @@
           />
         </div>
         <div>
-          <h2 class="cart__item-title">{{ item.title }}</h2>
+          <h2 class="cart__item-title">{{ item.product.title }}</h2>
           <p>{{ item.variant.title }}</p>
           <p>{{ formatPrice(item.variant.price) }}</p>
           <p>
             <strong>Quantity</strong>: {{ item.quantity }}
-            <button @click="incrementItem(item.id)">+</button>
-            <button @click="decrementItem(item.id)">-</button>
-            <button @click="removeItem(item.id)">Remove</button>
+            <button type="button" @click="incrementItem(item.id)">+</button>
+            <button type="button" @click="decrementItem(item.id)">-</button>
+            <button type="button" @click="removeItem(item.id)">Remove</button>
           </p>
         </div>
       </li>
@@ -26,7 +26,7 @@
     <p v-else>Empty Cart</p>
     <p><strong>Subtotal:</strong> {{ subtotal }}</p>
     <p>
-      <button @click="clearCart">Clear Cart</button>
+      <button type="button" @click="clearCart">Clear Cart</button>
     </p>
   </div>
 </template>
@@ -36,13 +36,8 @@ import { useCartProvider } from '@nacelle/vue';
 
 export default {
   setup() {
-    const {
-      cart,
-      removeItem,
-      incrementItem,
-      decrementItem,
-      clearCart
-    } = useCartProvider();
+    const { cart, removeItem, incrementItem, decrementItem, clearCart } =
+      useCartProvider();
     return {
       cart,
       removeItem,
