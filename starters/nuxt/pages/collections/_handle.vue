@@ -18,7 +18,6 @@ export default {
   components: { CollectionProvider, Collection },
   setup() {
     const collection = ref({});
-    const test = ref(null);
     const { route } = useContext();
     const nacelleSdk = inject('nacelleSdk');
     const handle = route.value.params.handle;
@@ -35,7 +34,7 @@ export default {
         collection.value = { ...data[0], products: data[1] };
       }
     });
-    return { fetchState, collection, test };
+    return { fetchState, collection };
   }
 };
 </script>

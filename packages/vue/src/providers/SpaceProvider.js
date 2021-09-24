@@ -18,11 +18,11 @@ export default {
     }
   },
   setup(props, context) {
-    const id = ref(props.space.id || '');
-    const name = ref(props.space.name || '');
-    const domain = ref(props.space.domain || '');
-    const metafields = ref(props.space.metafields || []);
-    const linklists = ref(props.space.linklists || []);
+    const id = ref(props.space?.id || '');
+    const name = ref(props.space?.name || '');
+    const domain = ref(props.space?.domain || '');
+    const metafields = ref(props.space?.metafields || []);
+    const linklists = ref(props.space?.linklists || []);
 
     const config = props.config;
     const nacelleSdk = useSdk({ config });
@@ -33,10 +33,10 @@ export default {
      * @returns {Object} menu
      */
     const getLinks = (handle) => {
-      if (!props.space.linklists) {
+      if (!props.space?.linklists) {
         return [];
       }
-      const linklist = props.space.linklists.find((l) => l.handle === handle);
+      const linklist = props.space?.linklists.find((l) => l.handle === handle);
       return linklist ? linklist.links : [];
     };
 

@@ -54,11 +54,11 @@ export default {
           );
           return;
         }
+        isFetching = true;
         let collectionObject = {};
         if (collection && Object.keys(collection).length)
           collectionObject = collection;
         else if (handle) {
-          isFetching = true;
           const data = await Promise.all([
             nacelleSdk.data.collection({ handle }),
             nacelleSdk.data.collectionPage({
@@ -70,13 +70,13 @@ export default {
           if (data) {
             collectionObject = { ...data[0], products: data[1] };
           }
-          isFetching = false;
         }
         if (collectionObject && Object.keys(collectionObject).length) {
           collectionProvided.value = {
             ...collectionObject
           };
         }
+        isFetching = false;
       } catch (err) {
         console.warn(`Error: ${err}`);
         isFetching = false;
@@ -92,6 +92,7 @@ export default {
      */
     const loadProducts = async ({ count, offset }) => {
       try {
+        isFetching = true;
         if (collectionProvided.value) {
           const productHandles =
             collectionProvided.value.productLists[0]?.handles;
@@ -115,6 +116,7 @@ export default {
             }
           }
         }
+        isFetching = false;
       } catch (err) {
         console.warn(`Error: ${err}`);
         isFetching = false;

@@ -1,5 +1,5 @@
 <template>
-  <div v-if="collection && Object.keys(collection).length" class="collection">
+  <div v-if="collection" class="collection">
     <product-provider
       v-for="(product, index) in collection.products"
       :key="index"
@@ -48,18 +48,17 @@ export default {
 
 <style lang="scss" scoped>
 .collection {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(20em, 1fr));
   gap: 30px 0;
 }
 .collection__item {
-  width: 25%;
   padding: 0 20px;
   &::v-deep {
     .product {
       flex-direction: column;
     }
-    .product__image,
+    .product__media,
     .product__main {
       width: 100%;
     }

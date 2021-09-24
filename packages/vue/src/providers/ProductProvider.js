@@ -51,12 +51,11 @@ export default {
           );
           return;
         }
+        isFetching = true;
         let productObject = {};
         if (product && Object.keys(product).length) productObject = product;
         else if (handle) {
-          isFetching = true;
           productObject = await nacelleSdk.data.product({ handle });
-          isFetching = false;
         }
         if (productObject && Object.keys(productObject).length) {
           productProvided.value = {
@@ -66,6 +65,7 @@ export default {
             ...productObject
           };
         }
+        isFetching = false;
       } catch (err) {
         console.warn(`Error: ${err}`);
         isFetching = false;
@@ -109,7 +109,7 @@ export default {
       let selectedVariant = null;
       if (variant) selectedVariant = variant;
       else if (id) {
-        selectedVariant = productProvided.value.variants?.find(variant => {
+        selectedVariant = productProvided.value.variants?.find((variant) => {
           return variant.id === id;
         });
       }
@@ -136,7 +136,7 @@ export default {
      */
     watch(
       productProvided,
-      value => {
+      (value) => {
         context.emit('input', value);
       },
       { immediate: true }
@@ -145,10 +145,10 @@ export default {
     /**
      Update provider with product or productHandle props
      */
-    watch(product, value => {
+    watch(product, (value) => {
       setProduct({ product: value });
     });
-    watch(productHandle, value => {
+    watch(productHandle, (value) => {
       setProduct({ handle: value });
     });
 
