@@ -12,8 +12,7 @@
     "@nacelle/vue": "^0.0.3",
     "@nuxtjs/composition-api": "^0.29.0",
     "core-js": "^3.17.3",
-    "graphql": "^15.6.0",
-    "graphql-request": "^3.5.0",
+    "isomorphic-unfetch": "^3.1.0",
     "nuxt": "^2.15.7"
   },
   "devDependencies": {
