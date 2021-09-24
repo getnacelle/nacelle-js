@@ -35,7 +35,7 @@ export default {
      Use sdk from injection or config prop
      */
     let { nacelleSdk } = useSpaceProvider();
-    if (!nacelleSdk || Object.keys(config).length) {
+    if (Object.keys(config).length) {
       nacelleSdk = useSdk({ config });
     }
 
@@ -137,7 +137,7 @@ export default {
      */
     watch(
       collectionProvided,
-      value => {
+      (value) => {
         context.emit('input', value);
       },
       { immediate: true }
@@ -146,10 +146,10 @@ export default {
     /**
      Update provider with collection or collectionHandle props
      */
-    watch(collection, value => {
+    watch(collection, (value) => {
       setCollection({ collection: value });
     });
-    watch(collectionHandle, value => {
+    watch(collectionHandle, (value) => {
       setCollection({ handle: value });
     });
 
