@@ -1,0 +1,22 @@
+export const clientSettings = {
+  storefrontCheckoutToken: '1122334455',
+  myshopifyDomain: 'nacelle-swag-store',
+  storefrontApiVersion: '2021-07'
+};
+
+export const graphqlEndpoint = `https://${clientSettings.myshopifyDomain}.myshopify.com/api/${clientSettings.storefrontApiVersion}/graphql`;
+
+const checkoutUuidWithKey = '998877?key=123123';
+export const checkoutId = Buffer.from(
+  'gid://shopify/Checkout/' + checkoutUuidWithKey
+).toString('base64');
+
+export const webUrl =
+  'https://nacelle-swag-store.myshopify.com/112233/checkouts/' +
+  checkoutUuidWithKey;
+
+export const headers = {
+  Accept: 'application/json',
+  'Content-Type': 'application/json',
+  'X-Shopify-Storefront-Access-Token': clientSettings.storefrontCheckoutToken
+};
