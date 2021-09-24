@@ -36,7 +36,6 @@
       </div>
       <!-- eslint-disable vue/no-v-html -->
       <div class="product__description" v-html="product.description" />
-      <!-- eslint-disable vue/no-v-html -->
       <div class="product__quantity">
         <label class="product__label">Quantity:</label>
         <input
