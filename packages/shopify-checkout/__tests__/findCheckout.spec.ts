@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import isoFetch from 'isomorphic-unfetch';
+import isoFetch from 'cross-fetch';
 import { mocked } from 'ts-jest/utils';
 import { findCheckout } from '~/client/actions';
 import { getCheckout as getCheckoutQuery } from '~/graphql/queries';
@@ -13,7 +13,7 @@ import {
 } from '__tests__/fixtures';
 import { mockJsonResponse } from '__tests__/testUtils';
 
-jest.mock('isomorphic-unfetch');
+jest.mock('cross-fetch');
 const gqlClient = createGqlClient({ ...clientSettings, fetchClient: isoFetch });
 
 describe('findCheckout', () => {

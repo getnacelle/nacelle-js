@@ -1,11 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import createShopifyCheckoutClient from '~/client';
-import isoFetch from 'isomorphic-unfetch';
+import isoFetch from 'cross-fetch';
 import { mocked } from 'ts-jest/utils';
 import { clientSettings, checkoutId, webUrl } from '__tests__/fixtures';
 import { mockJsonResponse } from '__tests__/testUtils';
 
-jest.mock('isomorphic-unfetch');
+jest.mock('cross-fetch');
 
 describe('createShopifyCheckoutClient', () => {
   afterEach(() => {
