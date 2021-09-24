@@ -58,7 +58,7 @@ export default {
     .product {
       flex-direction: column;
     }
-    .product__image,
+    .product__media,
     .product__main {
       width: 100%;
     }
