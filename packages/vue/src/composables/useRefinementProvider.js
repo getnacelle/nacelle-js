@@ -5,6 +5,9 @@ export default function useRefinementProvider() {
     filters: inject('filters'),
     setupFilters: inject('setupFilters'),
     activeFilters: inject('activeFilters'),
+    toggleActiveFilter: inject('toggleActiveFilter'),
+    setActivePriceRange: inject('setActivePriceRange'),
+    setSortBy: inject('setSortBy'),
     filteredData: inject('filteredData'),
     clearFilters: inject('clearFilters')
   };
