@@ -1,14 +1,14 @@
 {
   "name": "@nacelle/shopify-checkout",
   "version": "0.0.0",
-  "description": "A lightweight client that creates Shopify checkouts for headless storefronts",
+  "description": "A minimal Shopify checkout client for headless storefronts",
   "keywords": [
     "nacelle",
     "shopify",
     "headless",
     "ecommerce"
   ],
-  "author": "Nick Richmond <nick@getnacelle.com>",
+  "author": "Nacelle Inc.",
   "homepage": "https://github.com/getnacelle/nacelle-js/tree/main/packages/shopify-checkout#readme",
   "license": "Apache-2.0",
   "main": "dist/nacelle-shopify-checkout.umd.js",
