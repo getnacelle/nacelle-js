@@ -1,4 +1,4 @@
-import { ShopifyError } from '~/checkout-client.types';
+import { CartItem, ShopifyError } from '~/checkout-client.types';
 
 export const clientSettings = {
   storefrontCheckoutToken: '1122334455',
@@ -22,6 +22,21 @@ export const headers = {
   'Content-Type': 'application/json',
   'X-Shopify-Storefront-Access-Token': clientSettings.storefrontCheckoutToken
 };
+
+export const cartItems: CartItem[] = [
+  {
+    quantity: 1,
+    variantId: '112233'
+  },
+  {
+    quantity: 4,
+    variantId: '223344'
+  },
+  {
+    quantity: 7,
+    variantId: '334455'
+  }
+];
 
 export const shopifyErrors = {
   checkoutIdNotValid(id: string): ShopifyError {

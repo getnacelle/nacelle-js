@@ -94,6 +94,6 @@ export default async function putCheckout({
 
     return checkout;
   } catch (err) {
-    throw new Error();
+    throw new Error(String(err));
   }
 }
