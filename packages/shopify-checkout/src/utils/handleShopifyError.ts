@@ -21,8 +21,7 @@ export default function handleShopifyError(
   errorMessage =
     errorMessage +
     (message || 'Shopify Storefront API Errors:') +
-    '\n' +
-    JSON.stringify(errors, null, 2);
+    (errors ? '\n' + JSON.stringify(errors, null, 2) : '');
 
   throw new Error(errorMessage);
 }

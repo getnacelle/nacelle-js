@@ -28,8 +28,8 @@ export interface ShopifyCheckoutUserError {
 }
 
 interface ShopifyErrorLocation {
-  line: string;
-  column: string;
+  line: number;
+  column: number;
 }
 
 interface ShopifyErrorExtensionProblems {

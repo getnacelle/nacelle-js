@@ -29,6 +29,8 @@ export default async function checkoutLineItemsReplace({
   >({
     query,
     variables
+  }).catch((err) => {
+    throw new Error(err);
   });
 
   const errs = errors || data?.checkoutLineItemsReplace.userErrors;

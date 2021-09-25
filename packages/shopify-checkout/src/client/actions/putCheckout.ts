@@ -59,25 +59,26 @@ export default async function putCheckout({
         );
       }
 
-      const settledPromises = await Promise.allSettled(checkoutUpdatePromises);
-      settledPromises.forEach((p) => {
-        if (p.status === 'fulfilled' && p.value) {
-          // Note that the order of the promises is important here,
-          // since the last-fulfilled promise's value will overwrite
-          // the checkout data.
-          //
-          // This is why `checkoutAttributesUpdate`, which can return an updated
-          // `note` or `customAttributes`, goes after `checkoutLineItemsReplace`,
-          // which doesn't update any properties of the checkout object
-          // (the `checkoutId` remains the same after a checkoutLineItemsReplace`).
-          checkout = {
-            ...(checkout || {}),
-            ...p.value
-          };
-        } else if (p.status === 'rejected') {
-          throw new Error(p.reason);
-        }
-      });
+      await Promise.allSettled(checkoutUpdatePromises).then((settledPromises) =>
+        settledPromises.forEach((p) => {
+          if (p.status === 'fulfilled' && p.value) {
+            // Note that the order of the promises is important here,
+            // since the last-fulfilled promise's value will overwrite
+            // the checkout data.
+            //
+            // This is why `checkoutAttributesUpdate`, which can return an updated
+            // `note` or `customAttributes`, goes after `checkoutLineItemsReplace`,
+            // which doesn't update any properties of the checkout object
+            // (the `checkoutId` remains the same after a checkoutLineItemsReplace`).
+            checkout = {
+              ...(checkout || {}),
+              ...p.value
+            };
+          } else if (p.status === 'rejected') {
+            throw new Error(p.reason);
+          }
+        })
+      );
     }
 
     // Create new checkout if checkout does not exist
@@ -93,6 +94,6 @@ export default async function putCheckout({
 
     return checkout;
   } catch (err) {
-    throw new Error(String(err));
+    throw new Error();
   }
 }

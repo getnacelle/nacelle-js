@@ -9,7 +9,8 @@ import {
   checkoutId,
   webUrl,
   graphqlEndpoint,
-  headers
+  headers,
+  shopifyErrors
 } from '__tests__/fixtures';
 import { mockJsonResponse } from '__tests__/testUtils';
 
@@ -33,7 +34,14 @@ describe('findCheckout', () => {
           }
         })
     );
-    const checkout = await findCheckout({ gqlClient, id: checkoutId });
+
+    await expect(
+      findCheckout({ gqlClient, id: checkoutId }).then((checkout) => checkout)
+    ).resolves.toMatchObject({
+      id: checkoutId,
+      webUrl: webUrl
+    });
+
     expect(isoFetch).toHaveBeenCalledTimes(1);
     expect(isoFetch).toHaveBeenCalledWith(graphqlEndpoint, {
       method: 'POST',
@@ -43,9 +51,6 @@ describe('findCheckout', () => {
         variables: { id: checkoutId }
       })
     });
-    expect(checkout).toBeTruthy();
-    expect(checkout?.id).toBe(checkoutId);
-    expect(checkout?.webUrl).toBe(webUrl);
   });
 
   it("signals that the checkout hasn't been completed when `completedAt` is `null`", async () => {
@@ -59,8 +64,12 @@ describe('findCheckout', () => {
           }
         })
     );
-    const checkout = await findCheckout({ gqlClient, id: checkoutId });
-    expect(checkout?.completed).toBe(false);
+
+    await expect(
+      findCheckout({ gqlClient, id: checkoutId }).then(
+        (checkout) => checkout?.completed
+      )
+    ).resolves.toBe(false);
   });
 
   it('signals that the checkout has been completed when `completedAt` is a timestamp', async () => {
@@ -74,7 +83,52 @@ describe('findCheckout', () => {
           }
         })
     );
-    const checkout = await findCheckout({ gqlClient, id: checkoutId });
-    expect(checkout?.completed).toBe(true);
+    await expect(
+      findCheckout({ gqlClient, id: checkoutId }).then(
+        (checkout) => checkout?.completed
+      )
+    ).resolves.toBe(true);
+  });
+
+  it("throws an error if the checkout can't be found", async () => {
+    mocked(isoFetch).mockImplementationOnce(
+      (): Promise<any> =>
+        mockJsonResponse({
+          data: {
+            node: null
+          }
+        })
+    );
+
+    expect.assertions(1);
+    await findCheckout({ gqlClient, id: checkoutId }).catch((e) =>
+      expect(e).toStrictEqual(
+        Error('[findCheckout] Checkout response has no data')
+      )
+    );
+  });
+
+  it('throws an error if the checkout id is invalid', async () => {
+    mocked(isoFetch).mockImplementationOnce(
+      (): Promise<any> =>
+        mockJsonResponse({
+          errors: [shopifyErrors.checkoutIdNotValid('not-a-valid-id')]
+        })
+    );
+
+    expect.assertions(1);
+    await findCheckout({ gqlClient, id: checkoutId }).catch((e) =>
+      expect(e).toStrictEqual(
+        Error(
+          '[findCheckout] Shopify Storefront API Errors:' +
+            '\n' +
+            JSON.stringify(
+              [shopifyErrors.checkoutIdNotValid('not-a-valid-id')],
+              null,
+              2
+            )
+        )
+      )
+    );
   });
 });

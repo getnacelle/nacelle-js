@@ -1,3 +1,5 @@
+import { ShopifyError } from '~/checkout-client.types';
+
 export const clientSettings = {
   storefrontCheckoutToken: '1122334455',
   myshopifyDomain: 'nacelle-swag-store',
@@ -19,4 +21,28 @@ export const headers = {
   Accept: 'application/json',
   'Content-Type': 'application/json',
   'X-Shopify-Storefront-Access-Token': clientSettings.storefrontCheckoutToken
+};
+
+export const shopifyErrors = {
+  checkoutIdNotValid(id: string): ShopifyError {
+    return {
+      message: 'Variable $id of type ID! was provided invalid value',
+      locations: [
+        {
+          line: 1,
+          column: 23
+        }
+      ],
+      extensions: {
+        value: 'not-a-valid-id',
+        problems: [
+          {
+            path: [],
+            explanation: 'Invalid global id `' + id + '`',
+            message: 'Invalid global id `' + id + '`'
+          }
+        ]
+      }
+    };
+  }
 };

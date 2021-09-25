@@ -40,6 +40,8 @@ export default async function checkoutAttributesUpdate({
   >({
     query,
     variables
+  }).catch((err) => {
+    throw new Error(err);
   });
 
   const errs = errors || data?.checkoutAttributesUpdateV2.checkoutUserErrors;

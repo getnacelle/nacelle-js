@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 interface MockJsonResponseParams {
-  data: any;
+  data?: any;
+  errors?: any;
 }
 
 export function mockJsonResponse(data: MockJsonResponseParams): Promise<{

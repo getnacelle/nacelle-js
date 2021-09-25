@@ -19,44 +19,42 @@ export default async function findCheckout({
   const query = getCheckoutQuery;
   const variables = { id };
 
-  try {
-    const { data, errors } = await gqlClient<
-      FindCheckoutVariables,
-      GetCheckoutData
-    >({
-      query,
-      variables
-    });
+  const { data, errors } = await gqlClient<
+    FindCheckoutVariables,
+    GetCheckoutData
+  >({
+    query,
+    variables
+  }).catch((err) => {
+    throw new Error(err);
+  });
 
-    if (errors) {
-      handleShopifyError(errors, { caller: 'findCheckout' });
-      return;
-    }
-
-    if (!data?.node) {
-      handleShopifyError(undefined, {
-        caller: 'findCheckout',
-        message: 'Checkout response has no data'
-      });
-      return;
-    }
-
-    const {
-      id: checkoutId,
-      webUrl,
-      completedAt,
-      note,
-      customAttributes
-    } = data.node;
-
-    return {
-      completed: Boolean(completedAt),
-      id: checkoutId || '',
-      customAttributes: customAttributes || [],
-      note: note || '',
-      webUrl: webUrl || ''
-    };
-  } catch (err) {
-    throw new Error(String(err));
+  if (errors) {
+    handleShopifyError(errors, { caller: 'findCheckout' });
+    return;
   }
+
+  if (!data?.node) {
+    handleShopifyError(undefined, {
+      caller: 'findCheckout',
+      message: 'Checkout response has no data'
+    });
+    return;
+  }
+
+  const {
+    id: checkoutId,
+    webUrl,
+    completedAt,
+    note,
+    customAttributes
+  } = data.node;
+
+  return {
+    completed: Boolean(completedAt),
+    id: checkoutId || '',
+    customAttributes: customAttributes || [],
+    note: note || '',
+    webUrl: webUrl || ''
+  };
 }
