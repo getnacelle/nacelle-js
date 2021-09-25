@@ -52,8 +52,8 @@ export default {
      * @param {Object} payload Product data
      * @returns {void}
      */
-    const addItem = payload => {
-      const index = cart.lineItems.findIndex(item => {
+    const addItem = (payload) => {
+      const index = cart.lineItems.findIndex((item) => {
         if (item.variant.id === payload.variant.id) {
           return (
             JSON.stringify(payload.metafields) ===
@@ -78,8 +78,8 @@ export default {
      * @param {String} payload Unique item ID
      * @returns {void}
      */
-    const removeItem = payload => {
-      const index = cart.lineItems.findIndex(item => item.id === payload);
+    const removeItem = (payload) => {
+      const index = cart.lineItems.findIndex((item) => item.id === payload);
       cart.lineItems.splice(index, 1);
       cacheCart();
     };
@@ -89,11 +89,11 @@ export default {
      * @param {String} payload
      * @returns {void}
      */
-    const updateItem = payload => {
+    const updateItem = (payload) => {
       // find matching item in cart
-      const index = cart.lineItems.findIndex(item => item.id === payload.id);
+      const index = cart.lineItems.findIndex((item) => item.id === payload.id);
       // loop through keys in the payload to update
-      Object.keys(cart.lineItems[index]).forEach(key => {
+      Object.keys(cart.lineItems[index]).forEach((key) => {
         const value = payload[key];
         if (key !== 'id' && cart.lineItems[index][key] !== value) {
           cart.lineItems[index][key] = value;
@@ -107,8 +107,8 @@ export default {
      * @param {String} payload Unique item ID
      * @returns {void}
      */
-    const incrementItem = payload => {
-      const index = cart.lineItems.findIndex(item => item.id === payload);
+    const incrementItem = (payload) => {
+      const index = cart.lineItems.findIndex((item) => item.id === payload);
       if (index !== -1) {
         cart.lineItems[index].quantity++;
       }
@@ -120,8 +120,8 @@ export default {
      * @param {String} payload Unique item ID
      * @returns {void}
      */
-    const decrementItem = payload => {
-      const index = cart.lineItems.findIndex(item => item.id === payload);
+    const decrementItem = (payload) => {
+      const index = cart.lineItems.findIndex((item) => item.id === payload);
       if (index !== -1 && cart.lineItems[index].quantity >= 1) {
         cart.lineItems[index].quantity--;
         if (cart.lineItems[index].quantity === 0) {

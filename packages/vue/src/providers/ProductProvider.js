@@ -109,7 +109,7 @@ export default {
       let selectedVariant = null;
       if (variant) selectedVariant = variant;
       else if (id) {
-        selectedVariant = productProvided.value.variants?.find(variant => {
+        selectedVariant = productProvided.value.variants?.find((variant) => {
           return variant.id === id;
         });
       }
@@ -136,7 +136,7 @@ export default {
      */
     watch(
       productProvided,
-      value => {
+      (value) => {
         context.emit('input', value);
       },
       { immediate: true }
@@ -145,10 +145,10 @@ export default {
     /**
      Update provider with product or productHandle props
      */
-    watch(product, value => {
+    watch(product, (value) => {
       setProduct({ product: value });
     });
-    watch(productHandle, value => {
+    watch(productHandle, (value) => {
       setProduct({ handle: value });
     });
 

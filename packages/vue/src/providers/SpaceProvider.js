@@ -32,11 +32,11 @@ export default {
      * @param {String} handle
      * @returns {Object} menu
      */
-    const getLinks = handle => {
+    const getLinks = (handle) => {
       if (!props.space?.linklists) {
         return [];
       }
-      const linklist = props.space?.linklists.find(l => l.handle === handle);
+      const linklist = props.space?.linklists.find((l) => l.handle === handle);
       return linklist ? linklist.links : [];
     };
 
@@ -45,10 +45,10 @@ export default {
      * @param {String} tag
      * @returns {Object|null}
      */
-    const getMetatag = tag => {
+    const getMetatag = (tag) => {
       if (metafields.value) {
         return metafields.value.find(
-          field => field.namespace === 'metatag' && field.key === tag
+          (field) => field.namespace === 'metatag' && field.key === tag
         );
       }
       return null;
@@ -77,7 +77,7 @@ export default {
      * @param {String} namespace
      * @returns {Object|null} meta namespace
      */
-    const getMetafieldsByNamespace = namespace => {
+    const getMetafieldsByNamespace = (namespace) => {
       if (metafields.value) {
         return metafields.value.reduce((obj, metafield) => {
           if (metafield.namespace === namespace) {
@@ -99,7 +99,7 @@ export default {
     const getMetafield = ({ namespace, key }) => {
       if (metafields.value) {
         const metafield = metafields.value.find(
-          field => field.namespace === namespace && field.key === key
+          (field) => field.namespace === namespace && field.key === key
         );
 
         if (metafield) {

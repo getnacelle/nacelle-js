@@ -35,7 +35,7 @@ export default {
      Computed properties
      */
     const inputData = computed(() =>
-      props.inputData.map(item => transformProductData(item))
+      props.inputData.map((item) => transformProductData(item))
     );
 
     /**
@@ -46,11 +46,11 @@ export default {
         const inputData = e.data.inputData;
         const activeFilters = e.data.activeFilters;
         if (inputData && activeFilters) {
-          const output = inputData.filter(item => {
-            const filterChecks = activeFilters.map(filter => {
+          const output = inputData.filter((item) => {
+            const filterChecks = activeFilters.map((filter) => {
               if (
-                filter.values.some(filterCheck => {
-                  const value = item.facets.find(facet => {
+                filter.values.some((filterCheck) => {
+                  const value = item.facets.find((facet) => {
                     return facet.value === filterCheck;
                   });
                   if (value) {
@@ -64,7 +64,7 @@ export default {
               return false;
             });
 
-            const itemShouldPass = filterChecks.every(filterCheck => {
+            const itemShouldPass = filterChecks.every((filterCheck) => {
               return filterCheck === true;
             });
             return itemShouldPass;
@@ -140,11 +140,11 @@ export default {
     /**
      * Transform Product Data
      */
-    const transformProductData = product => {
+    const transformProductData = (product) => {
       const { tags, variants, productType, ...rest } = product;
 
       // Get product filter facets from variant data
-      const variantOptions = variants.map(variant => {
+      const variantOptions = variants.map((variant) => {
         return variant.selectedOptions;
       });
 
@@ -152,18 +152,18 @@ export default {
         .reduce((acc, item) => {
           return acc.concat(item);
         }, [])
-        .map(option => JSON.stringify(option));
+        .map((option) => JSON.stringify(option));
 
       const facets = Array.from(new Set(variantFacets))
-        .map(option => JSON.parse(option))
-        .map(option => {
+        .map((option) => JSON.parse(option))
+        .map((option) => {
           return { name: option.name.toLowerCase(), value: option.value };
         });
 
       // Get product filter facets from tags. Tags should be formatted "filter_property-name_value"
-      const rootFacets = tags.filter(tag => tag.includes('filter'));
+      const rootFacets = tags.filter((tag) => tag.includes('filter'));
 
-      rootFacets.forEach(facet => {
+      rootFacets.forEach((facet) => {
         const facetFragments = facet.split('_');
         const facetName = facetFragments[1];
         const facetValue = facetFragments[2] || true;
@@ -230,9 +230,9 @@ export default {
               );
             } else {
               item.facets
-                .filter(facet => facet.name.toLowerCase() !== 'title')
-                .forEach(facet => {
-                  const index = output.findIndex(arrayItem => {
+                .filter((facet) => facet.name.toLowerCase() !== 'title')
+                .forEach((facet) => {
+                  const index = output.findIndex((arrayItem) => {
                     return facet.name === arrayItem.property;
                   });
                   if (index === -1) {
@@ -247,17 +247,17 @@ export default {
             }
             return output;
           }, [])
-          .map(facet => {
+          .map((facet) => {
             const values = Array.from(new Set(facet.values));
             return { property: facet.property, values };
           })
-          .filter(facet => {
-            return props.propertyFilters.find(filter => {
+          .filter((facet) => {
+            return props.propertyFilters.find((filter) => {
               return filter.field === facet.property;
             });
           })
-          .map(facet => {
-            const index = props.propertyFilters.findIndex(filter => {
+          .map((facet) => {
+            const index = props.propertyFilters.findIndex((filter) => {
               return filter.field === facet.property;
             });
             return {
@@ -288,14 +288,14 @@ export default {
      */
     const toggleActiveFilter = ({ property, value }) => {
       const hasProperty = activeFilters.value.some(
-        activeFilter => activeFilter.property === property
+        (activeFilter) => activeFilter.property === property
       );
       if (hasProperty) {
         activeFilters.value = activeFilters.value
-          .map(activeFilter => {
+          .map((activeFilter) => {
             if (activeFilter.property === property) {
               const index = activeFilter.values.findIndex(
-                index => index === value
+                (index) => index === value
               );
               if (index >= 0) {
                 activeFilter.values.splice(index);
@@ -305,7 +305,7 @@ export default {
             }
             return activeFilter;
           })
-          .filter(activeFilter => activeFilter.values.length);
+          .filter((activeFilter) => activeFilter.values.length);
       } else {
         activeFilters.value = [
           ...activeFilters.value,
@@ -320,7 +320,7 @@ export default {
      * @param {Object} {range: [number, number], label: string }
      * @returns {null}
      */
-    const setActivePriceRange = payload => {
+    const setActivePriceRange = (payload) => {
       if (payload && payload.range) {
         activePriceRange.value = payload;
       } else {
@@ -334,7 +334,7 @@ export default {
      * @param {string} 'price-asc', 'price-desc'
      * @returns {null}
      */
-    const setSortBy = payload => {
+    const setSortBy = (payload) => {
       if (['price-asc', 'price-desc'].includes(payload)) {
         sortBy.value = payload;
       } else {
@@ -354,7 +354,7 @@ export default {
 
     watch(
       inputData,
-      value => {
+      (value) => {
         if (process.browser) {
           setupFilters();
           if (activeFilters.value && activeFilters.value.length) {
