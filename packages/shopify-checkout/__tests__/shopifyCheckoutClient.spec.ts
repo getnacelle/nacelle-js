@@ -2,7 +2,7 @@
 import createShopifyCheckoutClient from '~/client';
 import isoFetch from 'cross-fetch';
 import { mocked } from 'ts-jest/utils';
-import { clientSettings, checkoutId, webUrl } from '__tests__/fixtures';
+import { clientSettings, checkoutId, webUrl } from '__tests__/mocks';
 import { mockJsonResponse } from '__tests__/testUtils';
 
 jest.mock('cross-fetch');

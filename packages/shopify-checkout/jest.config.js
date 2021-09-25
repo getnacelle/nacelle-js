@@ -6,5 +6,5 @@ module.exports = {
   },
   preset: 'ts-jest',
   testEnvironment: 'node',
-  testPathIgnorePatterns: ['node_modules', 'fixtures', 'testUtils']
+  testPathIgnorePatterns: ['node_modules', 'mocks', 'testUtils']
 };

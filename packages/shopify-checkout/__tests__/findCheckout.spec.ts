@@ -11,7 +11,7 @@ import {
   graphqlEndpoint,
   headers,
   shopifyErrors
-} from '__tests__/fixtures';
+} from '__tests__/mocks';
 import { mockJsonResponse } from '__tests__/testUtils';
 
 jest.mock('cross-fetch');
