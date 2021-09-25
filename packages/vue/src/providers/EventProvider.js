@@ -80,9 +80,9 @@ export default {
       }, {});
     });
 
-    watch(lastEvent, (event) => {
+    watch(lastEvent, event => {
       if (event?.type && eventCallbacks.value[event.type]) {
-        eventCallbacks.value[event.type].callbacks.forEach((callbackObj) =>
+        eventCallbacks.value[event.type].callbacks.forEach(callbackObj =>
           callbackObj.callback(event)
         );
       }

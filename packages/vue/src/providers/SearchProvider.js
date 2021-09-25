@@ -23,7 +23,7 @@ export default {
 
     // Worker blobs
     function workerFetchCatalog(origin) {
-      onmessage = async function () {
+      onmessage = async function() {
         const response = await fetch(`${origin}/data/search.json`);
         if (!response.ok) {
           throw new Error('Network response was not ok');
@@ -42,8 +42,8 @@ export default {
         const { searchData, options, value } = e.data;
         const results = new Fuse(searchData, options)
           .search(String(value))
-          .filter((result) => typeof result.item !== 'undefined')
-          .map((result) => result.item);
+          .filter(result => typeof result.item !== 'undefined')
+          .map(result => result.item);
 
         postMessage(results);
       };
@@ -66,16 +66,16 @@ export default {
     } else if (typeof props.searchData === 'function') {
       props
         .searchData()
-        .then((res) => {
+        .then(res => {
           searchData.value = res.data ? res.data : res;
         })
-        .catch((err) => console.error(err));
+        .catch(err => console.error(err));
     } else {
       onMounted(() => {
         const blobURL = fnToBlobUrl(workerFetchCatalog(window.location.origin));
         const worker = new Worker(blobURL);
         worker.postMessage(null);
-        worker.onmessage = (e) => {
+        worker.onmessage = e => {
           try {
             const data = Object.values(e.data).flat();
             searchData.value = data;
@@ -92,7 +92,7 @@ export default {
      * @param {Object} options search parameters
      * @returns {void}
      */
-    const setSearchOptions = (options) => {
+    const setSearchOptions = options => {
       searchOptions.value = options;
     };
 
@@ -117,7 +117,7 @@ export default {
         options: options || searchOptions.value,
         value: query
       });
-      searchWorker.value.onmessage = (e) => {
+      searchWorker.value.onmessage = e => {
         results.value = e.data;
         return results;
       };
