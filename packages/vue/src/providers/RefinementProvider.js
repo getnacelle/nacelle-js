@@ -42,7 +42,7 @@ export default {
      Worker blobs
      */
     function filterWorkerBlob() {
-      onmessage = function(e) {
+      onmessage = function (e) {
         const inputData = e.data.inputData;
         const activeFilters = e.data.activeFilters;
         if (inputData && activeFilters) {
@@ -77,7 +77,7 @@ export default {
     }
 
     function sortWorkerBlob() {
-      onmessage = function(e) {
+      onmessage = function (e) {
         const { filteredData, activePriceRange, sortBy } = e.data;
         const output = filteredData.filter(({ minPrice }) => {
           if (activePriceRange) {
@@ -195,7 +195,7 @@ export default {
         activePriceRange: activePriceRange.value,
         sortBy: sortBy.value
       });
-      sortWorker.value.onmessage = function(e) {
+      sortWorker.value.onmessage = function (e) {
         filteredData.value = e.data;
       };
     };
@@ -210,7 +210,7 @@ export default {
         activeFilters: activeFilters.value,
         inputData: inputData.value
       });
-      filterWorker.value.onmessage = function(e) {
+      filterWorker.value.onmessage = function (e) {
         filteredData.value = e.data;
         sortInputData();
       };

@@ -23,7 +23,7 @@ export default {
 
     // Worker blobs
     function workerFetchCatalog(origin) {
-      onmessage = async function() {
+      onmessage = async function () {
         const response = await fetch(`${origin}/data/search.json`);
         if (!response.ok) {
           throw new Error('Network response was not ok');
