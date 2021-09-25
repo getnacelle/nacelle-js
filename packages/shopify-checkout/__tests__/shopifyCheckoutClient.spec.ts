@@ -36,14 +36,16 @@ describe('createShopifyCheckoutClient', () => {
           }
         })
     );
-    const response = await checkoutClient.get({ checkoutId: '998877' });
-    expect(isoFetch).toHaveBeenCalledTimes(1);
-    expect(response).toMatchObject({
+
+    await expect(
+      checkoutClient.get({ checkoutId: '998877' }).then((checkout) => checkout)
+    ).resolves.toMatchObject({
       completed: false,
       id: checkoutId,
       customAttributes: [],
       webUrl
     });
+    expect(isoFetch).toHaveBeenCalledTimes(1);
   });
 
   it('makes requests to the expected graphql endpoint when given a `customEndpoint`', async () => {
@@ -73,13 +75,15 @@ describe('createShopifyCheckoutClient', () => {
           }
         })
     );
-    const response = await checkoutClient.get({ checkoutId: '998877' });
-    expect(isoFetch).toHaveBeenCalledTimes(1);
-    expect(response).toMatchObject({
+
+    await expect(
+      checkoutClient.get({ checkoutId: '998877' }).then((checkout) => checkout)
+    ).resolves.toMatchObject({
       completed: false,
       id: checkoutId,
       customAttributes: [],
       webUrl: customEndointCheckoutUrl
     });
+    expect(isoFetch).toHaveBeenCalledTimes(1);
   });
 });
