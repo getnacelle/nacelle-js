@@ -4,11 +4,11 @@ import { mocked } from 'ts-jest/utils';
 import { putCheckout } from '~/client/actions';
 import * as mutations from '~/graphql/mutations';
 import { createGqlClient } from '~/utils';
+import { Attribute } from '~/checkout-client.types';
 import {
   cartItems,
   clientSettings,
-  checkoutId,
-  webUrl,
+  checkouts,
   graphqlEndpoint,
   headers
 } from '__tests__/mocks';
@@ -22,23 +22,13 @@ describe('putCheckout', () => {
     jest.clearAllMocks();
   });
 
-  it('make a request with the expected query and variables', async () => {
+  it('creates a new checkout', async () => {
     mocked(isoFetch).mockImplementationOnce(
       (): Promise<any> =>
         mockJsonResponse({
           data: {
             checkoutCreate: {
-              checkout: {
-                id: checkoutId,
-                webUrl,
-                note: null,
-                createdAt: '2021-09-23T20:14:18Z',
-                customAttributes: [],
-                paymentDueV2: {
-                  amount: '115.0',
-                  currencyCode: 'USD'
-                }
-              }
+              checkout: checkouts.checkoutCreate
             }
           }
         })
@@ -49,8 +39,8 @@ describe('putCheckout', () => {
         (checkout) => checkout
       )
     ).resolves.toMatchObject({
-      id: checkoutId,
-      webUrl: webUrl
+      id: checkouts.checkoutCreate.id,
+      webUrl: checkouts.checkoutCreate.webUrl
     });
 
     expect(isoFetch).toHaveBeenCalledTimes(1);
@@ -61,6 +51,54 @@ describe('putCheckout', () => {
         query: mutations.checkoutCreate,
         variables: {
           input: { lineItems: cartItems }
+        }
+      })
+    });
+  });
+
+  it('creates a new checkout with the correct attributes', async () => {
+    const customAttributes: Attribute[] = [
+      { key: 'includeGlitterInBox', value: 'definitely' }
+    ];
+    const note = 'Happy Birthday!';
+
+    mocked(isoFetch).mockImplementationOnce(
+      (): Promise<any> =>
+        mockJsonResponse({
+          data: {
+            checkoutCreate: {
+              checkout: { ...checkouts.checkoutCreate, customAttributes, note }
+            }
+          }
+        })
+    );
+
+    await expect(
+      putCheckout({
+        gqlClient,
+        lineItems: cartItems,
+        customAttributes,
+        note
+      }).then((checkout) => checkout)
+    ).resolves.toMatchObject({
+      id: checkouts.checkoutCreate.id,
+      webUrl: checkouts.checkoutCreate.webUrl,
+      customAttributes,
+      note
+    });
+
+    expect(isoFetch).toHaveBeenCalledTimes(1);
+    expect(isoFetch).toHaveBeenCalledWith(graphqlEndpoint, {
+      method: 'POST',
+      headers,
+      body: JSON.stringify({
+        query: mutations.checkoutCreate,
+        variables: {
+          input: {
+            customAttributes,
+            lineItems: cartItems,
+            note
+          }
         }
       })
     });

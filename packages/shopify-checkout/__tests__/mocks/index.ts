@@ -38,6 +38,20 @@ export const cartItems: CartItem[] = [
   }
 ];
 
+export const checkouts = {
+  checkoutCreate: {
+    id: checkoutId,
+    webUrl,
+    note: null,
+    createdAt: '2021-09-23T20:14:18Z',
+    customAttributes: [],
+    paymentDueV2: {
+      amount: '115.0',
+      currencyCode: 'USD'
+    }
+  }
+};
+
 export const shopifyErrors = {
   checkoutIdNotValid(id: string): ShopifyError {
     return {
