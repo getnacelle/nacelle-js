@@ -2,11 +2,12 @@
 import fetchClient from 'cross-fetch';
 import { mocked } from 'ts-jest/utils';
 import { findCheckout } from '~/client/actions';
-import { getCheckout as getCheckoutQuery } from '~/graphql/queries';
+import * as queries from '~/graphql/queries';
 import { createGqlClient } from '~/utils';
 import {
   clientSettings,
   checkoutId,
+  checkouts,
   webUrl,
   graphqlEndpoint,
   headers,
@@ -25,14 +26,7 @@ describe('findCheckout', () => {
   it('make a request with the expected query and variables', async () => {
     mocked(fetchClient).mockImplementationOnce(
       (): Promise<any> =>
-        mockJsonResponse({
-          data: {
-            node: {
-              id: checkoutId,
-              webUrl
-            }
-          }
-        })
+        mockJsonResponse<queries.GetCheckoutData>(checkouts.findCheckout)
     );
 
     await expect(
@@ -47,22 +41,21 @@ describe('findCheckout', () => {
       method: 'POST',
       headers,
       body: JSON.stringify({
-        query: getCheckoutQuery,
+        query: queries.getCheckout,
         variables: { id: checkoutId }
       })
     });
   });
 
   it("signals that the checkout hasn't been completed when `completedAt` is `null`", async () => {
+    const checkoutResponse = checkouts.findCheckout;
+    if (checkoutResponse.data?.node) {
+      checkoutResponse.data.node.completedAt = null;
+    }
+
     mocked(fetchClient).mockImplementationOnce(
       (): Promise<any> =>
-        mockJsonResponse({
-          data: {
-            node: {
-              completedAt: null
-            }
-          }
-        })
+        mockJsonResponse<queries.GetCheckoutData>(checkoutResponse)
     );
 
     await expect(
@@ -73,15 +66,14 @@ describe('findCheckout', () => {
   });
 
   it('signals that the checkout has been completed when `completedAt` is a timestamp', async () => {
+    const checkoutResponse = { ...checkouts.findCheckout };
+    if (checkoutResponse.data?.node) {
+      checkoutResponse.data.node.completedAt = '2021-09-23T22:52:53Z';
+    }
+
     mocked(fetchClient).mockImplementationOnce(
       (): Promise<any> =>
-        mockJsonResponse({
-          data: {
-            node: {
-              completedAt: '2021-09-23T22:52:53Z'
-            }
-          }
-        })
+        mockJsonResponse<queries.GetCheckoutData>(checkoutResponse)
     );
     await expect(
       findCheckout({ gqlClient, id: checkoutId }).then(
@@ -93,7 +85,7 @@ describe('findCheckout', () => {
   it("throws an error if the checkout can't be found", async () => {
     mocked(fetchClient).mockImplementationOnce(
       (): Promise<any> =>
-        mockJsonResponse({
+        mockJsonResponse<queries.GetCheckoutData>({
           data: {
             node: null
           }
@@ -111,7 +103,7 @@ describe('findCheckout', () => {
   it('throws an error if the checkout id is invalid', async () => {
     mocked(fetchClient).mockImplementationOnce(
       (): Promise<any> =>
-        mockJsonResponse({
+        mockJsonResponse<queries.GetCheckoutData>({
           errors: [shopifyErrors.checkoutIdNotValid('not-a-valid-id')]
         })
     );

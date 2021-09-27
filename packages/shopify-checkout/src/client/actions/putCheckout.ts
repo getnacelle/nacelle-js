@@ -13,7 +13,7 @@ import {
 
 export interface PutCheckoutParams {
   gqlClient: GqlClient;
-  lineItems: CartItem[];
+  lineItems?: CartItem[];
   checkoutId?: string;
   customAttributes?: Attribute[];
   note?: string;

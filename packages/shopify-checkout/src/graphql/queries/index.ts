@@ -1,14 +1,15 @@
 import { gql } from '~/utils';
 import { Attribute, GqlStringField } from '~/checkout-client.types';
 
+export interface CheckoutNode {
+  id: GqlStringField;
+  webUrl: GqlStringField;
+  completedAt: GqlStringField;
+  note: GqlStringField;
+  customAttributes: Attribute[];
+}
 export interface GetCheckoutData {
-  node: {
-    id: GqlStringField;
-    webUrl: GqlStringField;
-    completedAt: GqlStringField;
-    note: GqlStringField;
-    customAttributes: Attribute[] | null;
-  };
+  node: CheckoutNode | null;
 }
 
 export const getCheckout = gql`

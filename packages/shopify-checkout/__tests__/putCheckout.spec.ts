@@ -8,6 +8,7 @@ import { Attribute } from '~/checkout-client.types';
 import {
   cartItems,
   clientSettings,
+  checkoutId,
   checkouts,
   graphqlEndpoint,
   headers
@@ -25,23 +26,20 @@ describe('putCheckout', () => {
   it('creates a new checkout', async () => {
     mocked(fetchClient).mockImplementationOnce(
       (): Promise<any> =>
-        mockJsonResponse({
-          data: {
-            checkoutCreate: {
-              checkout: checkouts.checkoutCreate
-            }
-          }
-        })
+        mockJsonResponse<mutations.CheckoutCreateData>(checkouts.checkoutCreate)
     );
+
+    if (typeof checkouts.checkoutCreate.data === 'undefined') {
+      fail('mock checkoutCreate data is falsey');
+    }
 
     await expect(
       putCheckout({ gqlClient, lineItems: cartItems }).then(
         (checkout) => checkout
       )
-    ).resolves.toMatchObject({
-      id: checkouts.checkoutCreate.id,
-      webUrl: checkouts.checkoutCreate.webUrl
-    });
+    ).resolves.toMatchObject(
+      checkouts.checkoutCreate.data.checkoutCreate.checkout
+    );
 
     expect(fetchClient).toHaveBeenCalledTimes(1);
     expect(fetchClient).toHaveBeenCalledWith(graphqlEndpoint, {
@@ -64,14 +62,12 @@ describe('putCheckout', () => {
 
     mocked(fetchClient).mockImplementationOnce(
       (): Promise<any> =>
-        mockJsonResponse({
-          data: {
-            checkoutCreate: {
-              checkout: { ...checkouts.checkoutCreate, customAttributes, note }
-            }
-          }
-        })
+        mockJsonResponse<mutations.CheckoutCreateData>(checkouts.checkoutCreate)
     );
+
+    if (typeof checkouts.checkoutCreate.data === 'undefined') {
+      fail('mock checkoutCreate data is falsey');
+    }
 
     await expect(
       putCheckout({
@@ -80,12 +76,9 @@ describe('putCheckout', () => {
         customAttributes,
         note
       }).then((checkout) => checkout)
-    ).resolves.toMatchObject({
-      id: checkouts.checkoutCreate.id,
-      webUrl: checkouts.checkoutCreate.webUrl,
-      customAttributes,
-      note
-    });
+    ).resolves.toMatchObject(
+      checkouts.checkoutCreate.data.checkoutCreate.checkout
+    );
 
     expect(fetchClient).toHaveBeenCalledTimes(1);
     expect(fetchClient).toHaveBeenCalledWith(graphqlEndpoint, {
@@ -97,6 +90,57 @@ describe('putCheckout', () => {
           input: {
             customAttributes,
             lineItems: cartItems,
+            note
+          }
+        }
+      })
+    });
+  });
+
+  it('updates an existing checkout with new properties', async () => {
+    const customAttributes: Attribute[] = [
+      { key: 'includeGlitterInBox', value: 'definitely' }
+    ];
+    const note = 'Happy Birthday!';
+
+    const checkoutUpdate = checkouts.checkoutUpdate({
+      checkoutId,
+      input: { customAttributes, note }
+    });
+
+    if (
+      typeof checkouts.checkoutCreate.data === 'undefined' ||
+      typeof checkoutUpdate.data === 'undefined'
+    ) {
+      fail('mock checkoutCreate data is falsey');
+    }
+
+    mocked(fetchClient).mockImplementationOnce(
+      (): Promise<any> =>
+        mockJsonResponse<mutations.CheckoutAttributesUpdateData>(checkoutUpdate)
+    );
+
+    await expect(
+      putCheckout({
+        gqlClient,
+        checkoutId,
+        customAttributes,
+        note
+      }).then((checkout) => checkout)
+    ).resolves.toMatchObject(
+      checkoutUpdate.data.checkoutAttributesUpdateV2.checkout
+    );
+
+    expect(fetchClient).toHaveBeenCalledTimes(1);
+    expect(fetchClient).toHaveBeenCalledWith(graphqlEndpoint, {
+      method: 'POST',
+      headers,
+      body: JSON.stringify({
+        query: mutations.checkoutAttributesUpdate,
+        variables: {
+          checkoutId,
+          input: {
+            customAttributes,
             note
           }
         }

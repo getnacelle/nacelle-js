@@ -1,15 +1,17 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-interface MockJsonResponseParams {
-  data?: any;
-  errors?: any;
-}
+import { ShopifyError } from '~/checkout-client.types';
+type MockJsonResponseParams<D> = {
+  data?: D;
+  errors?: ShopifyError[];
+};
 
-export function mockJsonResponse(data: MockJsonResponseParams): Promise<{
-  json(): Promise<any>;
+export function mockJsonResponse<R>(
+  response: MockJsonResponseParams<R>
+): Promise<{
+  json(): Promise<MockJsonResponseParams<R>>;
 }> {
   return Promise.resolve({
     json() {
-      return Promise.resolve(data);
+      return Promise.resolve(response);
     }
   });
 }

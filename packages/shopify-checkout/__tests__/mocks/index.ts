@@ -1,4 +1,11 @@
-import { CartItem, ShopifyError } from '~/checkout-client.types';
+import {
+  CartItem,
+  ShopifyError,
+  ShopifyResponse
+} from '~/checkout-client.types';
+import * as mutations from '~/graphql/mutations';
+import * as queries from '~/graphql/queries';
+import { CheckoutUpdateVariables } from '~/client/actions/checkoutAttributesUpdate';
 
 export const clientSettings = {
   storefrontCheckoutToken: '1122334455',
@@ -38,17 +45,49 @@ export const cartItems: CartItem[] = [
   }
 ];
 
-export const checkouts = {
-  checkoutCreate: {
-    id: checkoutId,
-    webUrl,
-    note: null,
-    createdAt: '2021-09-23T20:14:18Z',
-    customAttributes: [],
-    paymentDueV2: {
-      amount: '115.0',
-      currencyCode: 'USD'
+interface Checkouts {
+  findCheckout: ShopifyResponse<queries.GetCheckoutData>;
+  checkoutCreate: ShopifyResponse<mutations.CheckoutCreateData>;
+  checkoutUpdate(
+    params: CheckoutUpdateVariables
+  ): ShopifyResponse<mutations.CheckoutAttributesUpdateData>;
+}
+
+export const checkouts: Checkouts = {
+  findCheckout: {
+    data: {
+      node: {
+        id: checkoutId,
+        webUrl,
+        completedAt: null,
+        customAttributes: [],
+        note: null
+      }
     }
+  },
+  checkoutCreate: {
+    data: {
+      checkoutCreate: {
+        checkout: {
+          id: checkoutId,
+          webUrl
+        },
+        checkoutUserErrors: []
+      }
+    }
+  },
+  checkoutUpdate(params) {
+    return {
+      data: {
+        checkoutAttributesUpdateV2: {
+          checkout: {
+            id: params.checkoutId,
+            webUrl
+          },
+          checkoutUserErrors: []
+        }
+      }
+    };
   }
 };
 
@@ -73,5 +112,19 @@ export const shopifyErrors = {
         ]
       }
     };
+  },
+  checkoutAttributesUpdateCheckoutDoesNotExist: {
+    data: {
+      checkoutAttributesUpdateV2: {
+        checkout: null,
+        checkoutUserErrors: [
+          {
+            code: 'INVALID',
+            field: ['checkoutId'],
+            message: 'Checkout does not exist'
+          }
+        ]
+      }
+    }
   }
 };
