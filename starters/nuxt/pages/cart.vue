@@ -4,10 +4,10 @@
     <ul v-if="cart.lineItems.length" class="cart">
       <li v-for="item in cart.lineItems" :key="item.id" class="cart__item">
         <div class="cart__item-image">
-          <img
+          <nuxt-img
             v-if="item.variant.featuredMedia"
             :src="item.variant.featuredMedia.thumbnailSrc"
-            :alt="item.variant.featuredMedia.alt"
+            :alt="item.variant.featuredMedia.altText"
           />
         </div>
         <div>
