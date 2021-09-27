@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import createShopifyCheckoutClient from '~/client';
-import isoFetch from 'cross-fetch';
+import fetchClient from 'cross-fetch';
 import { mocked } from 'ts-jest/utils';
 import { clientSettings, checkoutId, webUrl } from '__tests__/mocks';
-import { mockJsonResponse } from '__tests__/testUtils';
+import { mockJsonResponse } from '__tests__/utils';
 
 jest.mock('cross-fetch');
 
@@ -22,9 +22,9 @@ describe('createShopifyCheckoutClient', () => {
   it('makes requests to the expected graphql endpoint when given a `myshopifyDomain` and `storefrontApiVersion`', async () => {
     const checkoutClient = createShopifyCheckoutClient({
       ...clientSettings,
-      fetchClient: isoFetch
+      fetchClient
     });
-    mocked(isoFetch).mockImplementationOnce(
+    mocked(fetchClient).mockImplementationOnce(
       (): Promise<any> =>
         mockJsonResponse({
           data: {
@@ -45,7 +45,7 @@ describe('createShopifyCheckoutClient', () => {
       customAttributes: [],
       webUrl
     });
-    expect(isoFetch).toHaveBeenCalledTimes(1);
+    expect(fetchClient).toHaveBeenCalledTimes(1);
   });
 
   it('makes requests to the expected graphql endpoint when given a `customEndpoint`', async () => {
@@ -56,14 +56,14 @@ describe('createShopifyCheckoutClient', () => {
     };
     const checkoutClient = createShopifyCheckoutClient({
       ...settings,
-      fetchClient: isoFetch
+      fetchClient
     });
 
     const parsedUrl = new URL(webUrl);
     parsedUrl.host = 'checkout.nacelle-swag-store.shopify.com';
     const customEndointCheckoutUrl = parsedUrl.toString();
 
-    mocked(isoFetch).mockImplementationOnce(
+    mocked(fetchClient).mockImplementationOnce(
       (): Promise<any> =>
         mockJsonResponse({
           data: {
@@ -84,6 +84,6 @@ describe('createShopifyCheckoutClient', () => {
       customAttributes: [],
       webUrl: customEndointCheckoutUrl
     });
-    expect(isoFetch).toHaveBeenCalledTimes(1);
+    expect(fetchClient).toHaveBeenCalledTimes(1);
   });
 });

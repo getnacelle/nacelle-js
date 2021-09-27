@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import isoFetch from 'cross-fetch';
+import fetchClient from 'cross-fetch';
 import { mocked } from 'ts-jest/utils';
 import { putCheckout } from '~/client/actions';
 import * as mutations from '~/graphql/mutations';
@@ -12,10 +12,10 @@ import {
   graphqlEndpoint,
   headers
 } from '__tests__/mocks';
-import { mockJsonResponse } from '__tests__/testUtils';
+import { mockJsonResponse } from '__tests__/utils';
 
 jest.mock('cross-fetch');
-const gqlClient = createGqlClient({ ...clientSettings, fetchClient: isoFetch });
+const gqlClient = createGqlClient({ ...clientSettings, fetchClient });
 
 describe('putCheckout', () => {
   afterEach(() => {
@@ -23,7 +23,7 @@ describe('putCheckout', () => {
   });
 
   it('creates a new checkout', async () => {
-    mocked(isoFetch).mockImplementationOnce(
+    mocked(fetchClient).mockImplementationOnce(
       (): Promise<any> =>
         mockJsonResponse({
           data: {
@@ -43,8 +43,8 @@ describe('putCheckout', () => {
       webUrl: checkouts.checkoutCreate.webUrl
     });
 
-    expect(isoFetch).toHaveBeenCalledTimes(1);
-    expect(isoFetch).toHaveBeenCalledWith(graphqlEndpoint, {
+    expect(fetchClient).toHaveBeenCalledTimes(1);
+    expect(fetchClient).toHaveBeenCalledWith(graphqlEndpoint, {
       method: 'POST',
       headers,
       body: JSON.stringify({
@@ -62,7 +62,7 @@ describe('putCheckout', () => {
     ];
     const note = 'Happy Birthday!';
 
-    mocked(isoFetch).mockImplementationOnce(
+    mocked(fetchClient).mockImplementationOnce(
       (): Promise<any> =>
         mockJsonResponse({
           data: {
@@ -87,8 +87,8 @@ describe('putCheckout', () => {
       note
     });
 
-    expect(isoFetch).toHaveBeenCalledTimes(1);
-    expect(isoFetch).toHaveBeenCalledWith(graphqlEndpoint, {
+    expect(fetchClient).toHaveBeenCalledTimes(1);
+    expect(fetchClient).toHaveBeenCalledWith(graphqlEndpoint, {
       method: 'POST',
       headers,
       body: JSON.stringify({

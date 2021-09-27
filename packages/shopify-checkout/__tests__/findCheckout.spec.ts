@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import isoFetch from 'cross-fetch';
+import fetchClient from 'cross-fetch';
 import { mocked } from 'ts-jest/utils';
 import { findCheckout } from '~/client/actions';
 import { getCheckout as getCheckoutQuery } from '~/graphql/queries';
@@ -12,10 +12,10 @@ import {
   headers,
   shopifyErrors
 } from '__tests__/mocks';
-import { mockJsonResponse } from '__tests__/testUtils';
+import { mockJsonResponse } from '__tests__/utils';
 
 jest.mock('cross-fetch');
-const gqlClient = createGqlClient({ ...clientSettings, fetchClient: isoFetch });
+const gqlClient = createGqlClient({ ...clientSettings, fetchClient });
 
 describe('findCheckout', () => {
   afterEach(() => {
@@ -23,7 +23,7 @@ describe('findCheckout', () => {
   });
 
   it('make a request with the expected query and variables', async () => {
-    mocked(isoFetch).mockImplementationOnce(
+    mocked(fetchClient).mockImplementationOnce(
       (): Promise<any> =>
         mockJsonResponse({
           data: {
@@ -39,11 +39,11 @@ describe('findCheckout', () => {
       findCheckout({ gqlClient, id: checkoutId }).then((checkout) => checkout)
     ).resolves.toMatchObject({
       id: checkoutId,
-      webUrl: webUrl
+      webUrl
     });
 
-    expect(isoFetch).toHaveBeenCalledTimes(1);
-    expect(isoFetch).toHaveBeenCalledWith(graphqlEndpoint, {
+    expect(fetchClient).toHaveBeenCalledTimes(1);
+    expect(fetchClient).toHaveBeenCalledWith(graphqlEndpoint, {
       method: 'POST',
       headers,
       body: JSON.stringify({
@@ -54,7 +54,7 @@ describe('findCheckout', () => {
   });
 
   it("signals that the checkout hasn't been completed when `completedAt` is `null`", async () => {
-    mocked(isoFetch).mockImplementationOnce(
+    mocked(fetchClient).mockImplementationOnce(
       (): Promise<any> =>
         mockJsonResponse({
           data: {
@@ -73,7 +73,7 @@ describe('findCheckout', () => {
   });
 
   it('signals that the checkout has been completed when `completedAt` is a timestamp', async () => {
-    mocked(isoFetch).mockImplementationOnce(
+    mocked(fetchClient).mockImplementationOnce(
       (): Promise<any> =>
         mockJsonResponse({
           data: {
@@ -91,7 +91,7 @@ describe('findCheckout', () => {
   });
 
   it("throws an error if the checkout can't be found", async () => {
-    mocked(isoFetch).mockImplementationOnce(
+    mocked(fetchClient).mockImplementationOnce(
       (): Promise<any> =>
         mockJsonResponse({
           data: {
@@ -109,7 +109,7 @@ describe('findCheckout', () => {
   });
 
   it('throws an error if the checkout id is invalid', async () => {
-    mocked(isoFetch).mockImplementationOnce(
+    mocked(fetchClient).mockImplementationOnce(
       (): Promise<any> =>
         mockJsonResponse({
           errors: [shopifyErrors.checkoutIdNotValid('not-a-valid-id')]
