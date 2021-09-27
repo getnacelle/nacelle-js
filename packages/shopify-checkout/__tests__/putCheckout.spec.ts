@@ -147,4 +147,53 @@ describe('putCheckout', () => {
       })
     });
   });
+
+  it("updates an existing checkout's line items", async () => {
+    const newLineItems = cartItems.slice(0, 2).map((lineItem) => ({
+      ...lineItem,
+      quantity: lineItem.quantity * 2,
+      customAttributes: [
+        { key: 'care_instructions', value: 'hand wash; drip dry' }
+      ]
+    }));
+
+    const checkoutLineItemsReplace = checkouts.checkoutLineItemsReplace({
+      checkoutId,
+      lineItems: newLineItems
+    });
+
+    if (typeof checkoutLineItemsReplace.data === 'undefined') {
+      fail('mock checkoutCreate data is falsey');
+    }
+
+    mocked(fetchClient).mockImplementationOnce(
+      (): Promise<any> =>
+        mockJsonResponse<mutations.CheckoutLineItemsReplaceData>(
+          checkoutLineItemsReplace
+        )
+    );
+
+    await expect(
+      putCheckout({
+        gqlClient,
+        checkoutId,
+        lineItems: newLineItems
+      }).then((checkout) => checkout)
+    ).resolves.toMatchObject(
+      checkoutLineItemsReplace.data.checkoutLineItemsReplace.checkout
+    );
+
+    expect(fetchClient).toHaveBeenCalledTimes(1);
+    expect(fetchClient).toHaveBeenCalledWith(graphqlEndpoint, {
+      method: 'POST',
+      headers,
+      body: JSON.stringify({
+        query: mutations.checkoutLineItemsReplace,
+        variables: {
+          checkoutId,
+          lineItems: newLineItems
+        }
+      })
+    });
+  });
 });

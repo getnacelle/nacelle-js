@@ -11,7 +11,7 @@ export interface CheckoutLineItemsReplaceParams {
   lineItems: CartItem[];
 }
 
-export type CheckoutUpdateVariables = Pick<
+export type CheckoutLineItemsReplaceVariables = Pick<
   CheckoutLineItemsReplaceParams,
   'checkoutId' | 'lineItems'
 >;
@@ -24,7 +24,7 @@ export default async function checkoutLineItemsReplace({
   const query = checkoutLineItemsReplaceMutation;
   const variables = { checkoutId, lineItems };
   const { data, errors } = await gqlClient<
-    CheckoutUpdateVariables,
+    CheckoutLineItemsReplaceVariables,
     CheckoutLineItemsReplaceData
   >({
     query,

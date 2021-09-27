@@ -6,6 +6,7 @@ import {
 import * as mutations from '~/graphql/mutations';
 import * as queries from '~/graphql/queries';
 import { CheckoutUpdateVariables } from '~/client/actions/checkoutAttributesUpdate';
+import { CheckoutLineItemsReplaceVariables } from '~/client/actions/checkoutLineItemsReplace';
 
 export const clientSettings = {
   storefrontCheckoutToken: '1122334455',
@@ -51,6 +52,9 @@ interface Checkouts {
   checkoutUpdate(
     params: CheckoutUpdateVariables
   ): ShopifyResponse<mutations.CheckoutAttributesUpdateData>;
+  checkoutLineItemsReplace(
+    params: CheckoutLineItemsReplaceVariables
+  ): ShopifyResponse<mutations.CheckoutLineItemsReplaceData>;
 }
 
 export const checkouts: Checkouts = {
@@ -85,6 +89,19 @@ export const checkouts: Checkouts = {
             webUrl
           },
           checkoutUserErrors: []
+        }
+      }
+    };
+  },
+  checkoutLineItemsReplace(params) {
+    return {
+      data: {
+        checkoutLineItemsReplace: {
+          checkout: {
+            id: params.checkoutId,
+            webUrl
+          },
+          userErrors: []
         }
       }
     };
