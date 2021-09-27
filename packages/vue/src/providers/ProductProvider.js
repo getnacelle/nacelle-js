@@ -32,7 +32,7 @@ export default {
      Use sdk from injection or config prop
      */
     let { nacelleSdk } = useSpaceProvider();
-    if (!nacelleSdk || Object.keys(config).length) {
+    if (Object.keys(config).length) {
       nacelleSdk = useSdk({ config });
     }
 
