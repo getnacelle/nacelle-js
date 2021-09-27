@@ -13,6 +13,11 @@ export interface ShopifyCheckout extends BuildCheckoutParams {
   completed: boolean;
 }
 
+export type ShopifyCheckoutResponseProperties = Pick<
+  ShopifyCheckout,
+  'id' | 'webUrl'
+>;
+
 export interface CartItem {
   quantity: number;
   variantId: string;
@@ -33,16 +38,16 @@ interface ShopifyErrorLocation {
 }
 
 interface ShopifyErrorExtensionProblems {
-  path: string[];
+  path: (string | number)[];
   explanation: string;
-  message: string;
+  message?: string;
 }
 
 export interface ShopifyError {
   message: string;
   locations: ShopifyErrorLocation[];
   extensions: {
-    value: string;
+    value: string | unknown;
     problems: ShopifyErrorExtensionProblems[];
   };
 }

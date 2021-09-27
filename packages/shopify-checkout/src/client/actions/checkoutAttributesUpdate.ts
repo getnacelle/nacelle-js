@@ -50,7 +50,7 @@ export default async function checkoutAttributesUpdate({
     handleShopifyError(errs, { caller: 'checkoutAttributesUpdate' });
   }
 
-  if (data) {
+  if (data?.checkoutAttributesUpdateV2.checkout) {
     return buildCheckout(data.checkoutAttributesUpdateV2.checkout);
   }
 }

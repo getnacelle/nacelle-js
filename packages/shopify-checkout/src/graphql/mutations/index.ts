@@ -1,12 +1,12 @@
 import { gql } from '~/utils';
-import { ShopifyCheckoutUserError } from '~/checkout-client.types';
+import {
+  ShopifyCheckoutUserError,
+  ShopifyCheckoutResponseProperties
+} from '~/checkout-client.types';
 
 export interface CheckoutCreateData {
   checkoutCreate: {
-    checkout: {
-      id: string;
-      webUrl: string;
-    };
+    checkout: ShopifyCheckoutResponseProperties | null;
     checkoutUserErrors: ShopifyCheckoutUserError[];
   };
 }
@@ -29,10 +29,7 @@ export const checkoutCreate = gql`
 
 export interface CheckoutLineItemsReplaceData {
   checkoutLineItemsReplace: {
-    checkout: {
-      id: string;
-      webUrl: string;
-    };
+    checkout: ShopifyCheckoutResponseProperties | null;
     userErrors: ShopifyCheckoutUserError[];
   };
 }
@@ -58,9 +55,7 @@ export const checkoutLineItemsReplace = gql`
 
 export interface CheckoutAttributesUpdateData {
   checkoutAttributesUpdateV2: {
-    checkout: {
-      id: string;
-    };
+    checkout: ShopifyCheckoutResponseProperties | null;
     checkoutUserErrors: ShopifyCheckoutUserError[];
   };
 }

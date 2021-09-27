@@ -2,8 +2,9 @@
 import fetchClient from 'cross-fetch';
 import { mocked } from 'ts-jest/utils';
 import { findCheckout } from '~/client/actions';
-import * as queries from '~/graphql/queries';
 import { createGqlClient } from '~/utils';
+import * as queries from '~/graphql/queries';
+import { mockJsonResponse } from '__tests__/utils';
 import {
   clientSettings,
   checkoutId,
@@ -13,7 +14,6 @@ import {
   headers,
   shopifyErrors
 } from '__tests__/mocks';
-import { mockJsonResponse } from '__tests__/utils';
 
 jest.mock('cross-fetch');
 const gqlClient = createGqlClient({ ...clientSettings, fetchClient });
@@ -82,6 +82,7 @@ describe('findCheckout', () => {
     ).resolves.toBe(true);
   });
 
+  // Test Error Handling
   it("throws an error if the checkout can't be found", async () => {
     mocked(fetchClient).mockImplementationOnce(
       (): Promise<any> =>
@@ -94,13 +95,19 @@ describe('findCheckout', () => {
 
     expect.assertions(1);
     await findCheckout({ gqlClient, id: checkoutId }).catch((e) =>
-      expect(e).toStrictEqual(
-        Error('[findCheckout] Checkout response has no data')
-      )
+      expect(
+        String(e).includes('[findCheckout] Checkout response has no data')
+      ).toBe(true)
     );
   });
 
   it('throws an error if the checkout id is invalid', async () => {
+    const checkoutIdNotValid =
+      shopifyErrors.checkoutIdNotValid('not-a-valid-id');
+    const problemMessage = String(
+      checkoutIdNotValid.extensions.problems[0].message
+    );
+
     mocked(fetchClient).mockImplementationOnce(
       (): Promise<any> =>
         mockJsonResponse<queries.GetCheckoutData>({
@@ -110,17 +117,7 @@ describe('findCheckout', () => {
 
     expect.assertions(1);
     await findCheckout({ gqlClient, id: checkoutId }).catch((e) =>
-      expect(e).toStrictEqual(
-        Error(
-          '[findCheckout] Shopify Storefront API Errors:' +
-            '\n' +
-            JSON.stringify(
-              [shopifyErrors.checkoutIdNotValid('not-a-valid-id')],
-              null,
-              2
-            )
-        )
-      )
+      expect(String(e).includes(problemMessage)).toBe(true)
     );
   });
 });

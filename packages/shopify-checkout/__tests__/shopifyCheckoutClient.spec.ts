@@ -3,8 +3,8 @@ import createShopifyCheckoutClient from '~/client';
 import fetchClient from 'cross-fetch';
 import { mocked } from 'ts-jest/utils';
 import * as queries from '~/graphql/queries';
-import { clientSettings, checkoutId, webUrl } from '__tests__/mocks';
 import { mockJsonResponse } from '__tests__/utils';
+import { clientSettings, checkoutId, webUrl } from '__tests__/mocks';
 
 jest.mock('cross-fetch');
 

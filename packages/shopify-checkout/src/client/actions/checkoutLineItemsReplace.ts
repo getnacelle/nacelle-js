@@ -39,7 +39,7 @@ export default async function checkoutLineItemsReplace({
     handleShopifyError(errs, { caller: 'checkoutLineItemsReplace' });
   }
 
-  if (data) {
+  if (data?.checkoutLineItemsReplace.checkout) {
     return buildCheckout(data.checkoutLineItemsReplace.checkout);
   }
 }

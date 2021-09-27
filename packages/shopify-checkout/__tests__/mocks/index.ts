@@ -1,5 +1,6 @@
 import {
   CartItem,
+  ShopifyCheckoutUserError,
   ShopifyError,
   ShopifyResponse
 } from '~/checkout-client.types';
@@ -45,6 +46,12 @@ export const cartItems: CartItem[] = [
     variantId: '334455'
   }
 ];
+
+export const newCartItems = cartItems.slice(0, 2).map((lineItem) => ({
+  ...lineItem,
+  quantity: lineItem.quantity * 2,
+  customAttributes: [{ key: 'care_instructions', value: 'hand wash; drip dry' }]
+}));
 
 interface Checkouts {
   findCheckout: ShopifyResponse<queries.GetCheckoutData>;
@@ -108,6 +115,12 @@ export const checkouts: Checkouts = {
   }
 };
 
+const checkoutDoesNotExistError: ShopifyCheckoutUserError = {
+  code: 'INVALID',
+  field: ['checkoutId'],
+  message: 'Checkout does not exist'
+};
+
 export const shopifyErrors = {
   checkoutIdNotValid(id: string): ShopifyError {
     return {
@@ -119,7 +132,7 @@ export const shopifyErrors = {
         }
       ],
       extensions: {
-        value: 'not-a-valid-id',
+        value: id,
         problems: [
           {
             path: [],
@@ -130,17 +143,78 @@ export const shopifyErrors = {
       }
     };
   },
-  checkoutAttributesUpdateCheckoutDoesNotExist: {
-    data: {
-      checkoutAttributesUpdateV2: {
-        checkout: null,
-        checkoutUserErrors: [
+  invalidVariantId(id: string): ShopifyError {
+    return {
+      message:
+        'Variable $input of type CheckoutCreateInput! was provided invalid value for lineItems.0.variantId (Invalid global id `' +
+        id +
+        '`)',
+      locations: [
+        {
+          line: 1,
+          column: 26
+        }
+      ],
+      extensions: {
+        value: {
+          lineItems: [
+            {
+              variantId: id,
+              quantity: 1
+            }
+          ]
+        },
+        problems: [
           {
-            code: 'INVALID',
-            field: ['checkoutId'],
-            message: 'Checkout does not exist'
+            path: ['lineItems', 0, 'variantId'],
+            explanation: 'Invalid global id `' + id + '`',
+            message: 'Invalid global id `' + id + '`'
           }
         ]
+      }
+    };
+  },
+  typeError: {
+    message:
+      'Variable $input of type CheckoutCreateInput! was provided invalid value for lineItems.0.quantity (Could not coerce value "1" to Int)',
+    locations: [
+      {
+        line: 1,
+        column: 26
+      }
+    ],
+    extensions: {
+      value: {
+        lineItems: [
+          {
+            variantId: "let's-pretend-this-is-a-valid-variant-id",
+            quantity: '1'
+          }
+        ]
+      },
+      problems: [
+        {
+          path: ['lineItems', 0, 'quantity'],
+          explanation: 'Could not coerce value "1" to Int'
+        }
+      ]
+    }
+  },
+  notFound: {
+    checkoutAttributesUpdate: {
+      data: {
+        checkoutAttributesUpdateV2: {
+          checkout: null,
+          checkoutUserErrors: [checkoutDoesNotExistError]
+        }
+      }
+    },
+    checkoutLineItemsReplace: {
+      data: {
+        checkoutLineItemsReplace: {
+          checkout: null,
+          userErrors: [checkoutDoesNotExistError]
+        }
       }
     }
   }
