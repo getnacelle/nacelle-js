@@ -38,4 +38,4 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          test-command: 'npm run test:ci'
+          test-command: 'npm run test:ci -- --testLocationInResults --json --coverage --outputFile="jest.results.json"'
