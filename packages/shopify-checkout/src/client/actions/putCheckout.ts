@@ -6,14 +6,14 @@ import {
 import { isVerifiedCheckoutId } from '~/utils';
 import {
   Attribute,
-  CartItem,
+  CheckoutItem,
   GqlClient,
   ShopifyCheckout
 } from '~/checkout-client.types';
 
 export interface PutCheckoutParams {
   gqlClient: GqlClient;
-  lineItems?: CartItem[];
+  lineItems?: CheckoutItem[];
   checkoutId?: string;
   customAttributes?: Attribute[];
   note?: string;
@@ -33,7 +33,13 @@ export default async function putCheckout({
   const shouldUpdateAttributes = customAttributes?.length || note;
 
   try {
-    if (checkoutId && isVerifiedCheckoutId(checkoutId)) {
+    if (checkoutId) {
+      if (!isVerifiedCheckoutId(checkoutId)) {
+        throw new Error(
+          `Invalid checkout ID. Expected a Base64-encoded Shopify Global ID. Received: ${checkoutId}`
+        );
+      }
+
       const checkoutUpdatePromises: Promise<ShopifyCheckout | void>[] = [];
 
       // Update line items

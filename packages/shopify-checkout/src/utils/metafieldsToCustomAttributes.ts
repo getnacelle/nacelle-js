@@ -13,19 +13,19 @@ export interface ReconcileCustomAttributesParams {
 export default function metafieldsToCustomAttributes({
   metafields
 }: ReconcileCustomAttributesParams): Attribute[] {
-  let customAttributes: Attribute[] = [];
-
-  if (metafields?.length) {
-    customAttributes = metafields?.reduce((fields, input) => {
-      const { key, value } = input;
-
-      if (key && value) {
-        fields.push({ key, value });
-      }
-
-      return fields;
-    }, [] as Attribute[]);
+  if (!Array.isArray(metafields) || !metafields?.length) {
+    return [];
   }
+
+  const customAttributes: Attribute[] = metafields?.reduce((fields, input) => {
+    const { key, value } = input;
+
+    if (key && value) {
+      fields.push({ key, value });
+    }
+
+    return fields;
+  }, [] as Attribute[]);
 
   return customAttributes;
 }

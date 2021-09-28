@@ -2,7 +2,7 @@
 import fetchClient from 'cross-fetch';
 import { mocked } from 'ts-jest/utils';
 import { putCheckout } from '~/client/actions';
-import { createGqlClient } from '~/utils';
+import { cartItemsToCheckoutItems, createGqlClient } from '~/utils';
 import * as mutations from '~/graphql/mutations';
 import { Attribute } from '~/checkout-client.types';
 import { mockJsonResponse } from '__tests__/utils';
@@ -36,9 +36,10 @@ describe('putCheckout', () => {
     }
 
     await expect(
-      putCheckout({ gqlClient, lineItems: cartItems }).then(
-        (checkout) => checkout
-      )
+      putCheckout({
+        gqlClient,
+        lineItems: cartItemsToCheckoutItems({ cartItems })
+      }).then((checkout) => checkout)
     ).resolves.toMatchObject(
       checkouts.checkoutCreate.data.checkoutCreate.checkout
     );
@@ -50,7 +51,7 @@ describe('putCheckout', () => {
       body: JSON.stringify({
         query: mutations.checkoutCreate,
         variables: {
-          input: { lineItems: cartItems }
+          input: { lineItems: cartItemsToCheckoutItems({ cartItems }) }
         }
       })
     });
@@ -74,7 +75,7 @@ describe('putCheckout', () => {
     await expect(
       putCheckout({
         gqlClient,
-        lineItems: cartItems,
+        lineItems: cartItemsToCheckoutItems({ cartItems }),
         customAttributes,
         note
       }).then((checkout) => checkout)
@@ -91,7 +92,7 @@ describe('putCheckout', () => {
         variables: {
           input: {
             customAttributes,
-            lineItems: cartItems,
+            lineItems: cartItemsToCheckoutItems({ cartItems }),
             note
           }
         }
@@ -209,7 +210,9 @@ describe('putCheckout', () => {
 
     await putCheckout({
       gqlClient,
-      lineItems: [{ variantId: invalidVariantId, quantity: 1 }]
+      lineItems: [
+        { customAttributes: [], variantId: invalidVariantId, quantity: 1 }
+      ]
     }).catch((e) => expect(String(e).includes(problemExplanation)).toBe(true));
   });
 
@@ -226,9 +229,12 @@ describe('putCheckout', () => {
     // TypeScript won't let us actually do this in the `putCheckout` call,
     // but given the mock implementation, we can pretend that we've passed
     // a line item quantity as a string ("2") instead of a number (2).
+
     await putCheckout({
       gqlClient,
-      lineItems: [{ ...cartItems[0] }]
+      lineItems: cartItemsToCheckoutItems({
+        cartItems: [{ ...cartItems[0] }]
+      })
     }).catch((e) =>
       expect(String(e).includes('Could not coerce value')).toBe(true)
     );

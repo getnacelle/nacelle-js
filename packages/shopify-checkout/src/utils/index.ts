@@ -6,6 +6,7 @@
 // EXPORT UTILS
 // @index('./*.ts', (f, _) => `export { default as ${_.camelCase(f.name)} } from '${f.path}';`)
 export { default as buildCheckout } from './buildCheckout';
+export { default as cartItemsToCheckoutItems } from './cartItemsToCheckoutItems';
 export { default as createGqlClient } from './createGqlClient';
 export { default as gql } from './gql';
 export { default as handleShopifyError } from './handleShopifyError';

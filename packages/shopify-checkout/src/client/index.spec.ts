@@ -2,9 +2,20 @@
 import createShopifyCheckoutClient from '~/client';
 import fetchClient from 'cross-fetch';
 import { mocked } from 'ts-jest/utils';
+import { cartItemsToCheckoutItems } from '~/utils';
+import { fetchClientError } from '~/utils/createGqlClient';
 import * as queries from '~/graphql/queries';
+import * as mutations from '~/graphql/mutations';
 import { mockJsonResponse } from '__tests__/utils';
-import { clientSettings, checkoutId, webUrl } from '__tests__/mocks';
+import {
+  cartItems,
+  checkouts,
+  clientSettings,
+  checkoutId,
+  graphqlEndpoint,
+  headers,
+  webUrl
+} from '__tests__/mocks';
 
 jest.mock('cross-fetch');
 
@@ -18,6 +29,14 @@ describe('createShopifyCheckoutClient', () => {
     expect(checkoutClient).toBeInstanceOf(Object);
     expect(checkoutClient.get).toBeInstanceOf(Function);
     expect(checkoutClient.process).toBeInstanceOf(Function);
+  });
+
+  it("throws an error if client functions are called when `typeof window === 'undefined'` and an isomorphic fetch client hasn't been supplied", async () => {
+    const checkoutClient = createShopifyCheckoutClient(clientSettings);
+    expect.assertions(1);
+    await checkoutClient
+      .get({ checkoutId: '998877' })
+      .catch((e) => expect(String(e).includes(fetchClientError)).toBe(true));
   });
 
   it('makes requests to the expected graphql endpoint when given a `myshopifyDomain` and `storefrontApiVersion`', async () => {
@@ -90,5 +109,50 @@ describe('createShopifyCheckoutClient', () => {
       webUrl: customEndointCheckoutUrl
     });
     expect(fetchClient).toHaveBeenCalledTimes(1);
+  });
+
+  it('converts checkout-level and line item `metafields` to `customAttributes`', async () => {
+    const checkoutClient = createShopifyCheckoutClient({
+      ...clientSettings,
+      fetchClient
+    });
+    const checkoutAttributes = [
+      {
+        key: 'handling_instructions',
+        value: 'Caution! Dinosaur eggs - handle with extreme care.'
+      }
+    ];
+
+    mocked(fetchClient).mockImplementationOnce(
+      (): Promise<any> =>
+        mockJsonResponse<mutations.CheckoutCreateData>(checkouts.checkoutCreate)
+    );
+
+    await expect(
+      checkoutClient
+        .process({
+          cartItems,
+          metafields: checkoutAttributes
+        })
+        .then((checkout) => checkout)
+    ).resolves.toMatchObject({
+      completed: false,
+      id: checkoutId,
+      webUrl
+    });
+    expect(fetchClient).toHaveBeenCalledTimes(1);
+    expect(fetchClient).toHaveBeenCalledWith(graphqlEndpoint, {
+      method: 'POST',
+      headers,
+      body: JSON.stringify({
+        query: mutations.checkoutCreate,
+        variables: {
+          input: {
+            customAttributes: checkoutAttributes,
+            lineItems: cartItemsToCheckoutItems({ cartItems })
+          }
+        }
+      })
+    });
   });
 });

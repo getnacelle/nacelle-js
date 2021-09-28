@@ -20,6 +20,11 @@ function sanitizeShopifyDomain(domain: string): string {
   return domain;
 }
 
+export const fetchClientError =
+  '[@nacelle/shopify-checkout] in order to create a checkout server-side, ' +
+  'you must provide a fetch API-compatible `fetchClient` capable of running ' +
+  'on both the client & server. Examples include `isomorphic-unfetch` and `cross-fetch`.';
+
 type CreateGqlClientParams = Pick<
   CreateClientParams,
   | 'customEndpoint'
@@ -59,11 +64,7 @@ export default function createGqlClient({
       if (typeof window !== 'undefined') {
         fetcher = window.fetch;
       } else {
-        throw new Error(
-          '[@nacelle/shopify-checkout] in order to create a checkout server-side, ' +
-            'you must provide a fetch API-compatible `fetchClient` capable of running ' +
-            'on both the client & server. Examples include `isomorphic-unfetch` and `cross-fetch`.'
-        );
+        throw new Error(fetchClientError);
       }
     }
 
@@ -75,13 +76,7 @@ export default function createGqlClient({
         'X-Shopify-Storefront-Access-Token': storefrontCheckoutToken
       },
       body: JSON.stringify({ query, variables })
-    })
-      .then((res: Response) => res.json())
-      .catch((err: string) => {
-        throw new Error(
-          `Could not complete Shopify Storefront API request:\n${err}`
-        );
-      });
+    }).then((res: Response) => res.json());
   };
 
   return gqlClient;

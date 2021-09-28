@@ -21,10 +21,13 @@ export type ShopifyCheckoutResponseProperties = Pick<
 export interface CartItem {
   quantity: number;
   variantId: string;
-  customAttributes?: Attribute[];
   metafields?: Attribute[];
   [key: string]: unknown;
 }
+
+export type CheckoutItem = Pick<CartItem, 'quantity' | 'variantId'> & {
+  customAttributes: Attribute[];
+};
 
 export interface ShopifyCheckoutUserError {
   code: string;

@@ -3,12 +3,16 @@ import {
   CheckoutLineItemsReplaceData
 } from '~/graphql/mutations';
 import { buildCheckout, handleShopifyError } from '~/utils';
-import { CartItem, ShopifyCheckout, GqlClient } from '~/checkout-client.types';
+import {
+  CheckoutItem,
+  ShopifyCheckout,
+  GqlClient
+} from '~/checkout-client.types';
 
 export interface CheckoutLineItemsReplaceParams {
   gqlClient: GqlClient;
   checkoutId: string;
-  lineItems: CartItem[];
+  lineItems: CheckoutItem[];
 }
 
 export type CheckoutLineItemsReplaceVariables = Pick<

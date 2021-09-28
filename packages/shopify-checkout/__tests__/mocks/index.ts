@@ -39,7 +39,13 @@ export const cartItems: CartItem[] = [
   },
   {
     quantity: 4,
-    variantId: '223344'
+    variantId: '223344',
+    metafields: [
+      {
+        key: 'output_power',
+        value: '1.21 gigawatts'
+      }
+    ]
   },
   {
     quantity: 7,
