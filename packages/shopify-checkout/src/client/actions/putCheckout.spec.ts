@@ -193,6 +193,43 @@ describe('putCheckout', () => {
   });
 
   // Test Error Handling
+
+  it('throws an error if there are problems with the request', async () => {
+    const networkErrorMessage = 'Network error!';
+    mocked(fetchClient).mockImplementation(
+      (): Promise<any> => Promise.reject(networkErrorMessage)
+    );
+
+    // we'll test `checkoutCreate`, `checkoutLineItemsReplace`, and `checkoutAttributesUpdate`
+    expect.assertions(3);
+
+    // [1/3] `checkoutAttributesUpdate`
+    await expect(
+      putCheckout({
+        gqlClient,
+        lineItems: cartItemsToCheckoutItems({ cartItems })
+      })
+    ).rejects.toThrow(networkErrorMessage);
+
+    // [2/3] `checkoutAttributesUpdate`
+    await expect(
+      putCheckout({
+        gqlClient,
+        checkoutId,
+        note: 'Happy Birthday!'
+      })
+    ).rejects.toThrow(networkErrorMessage);
+
+    // [3/3] `checkoutLineItemsReplace`
+    await expect(
+      putCheckout({
+        gqlClient,
+        checkoutId,
+        lineItems: newCartItems
+      })
+    ).rejects.toThrow(networkErrorMessage);
+  });
+
   it('throws an error if an invalid `variantId` is provided', async () => {
     expect.assertions(1);
 
@@ -238,6 +275,29 @@ describe('putCheckout', () => {
     }).catch((e) =>
       expect(String(e).includes('Could not coerce value')).toBe(true)
     );
+  });
+
+  it('throws an error if an invalid `checkoutId` is provided', async () => {
+    // we'll test both `checkoutLineItemsReplace` and `checkoutAttributesUpdate`
+    expect.assertions(2);
+
+    // [1/2] `checkoutAttributesUpdate`
+    await expect(
+      putCheckout({
+        gqlClient,
+        checkoutId: '998877',
+        note: 'Happy Birthday!'
+      })
+    ).rejects.toThrow();
+
+    // [2/2] `checkoutLineItemsReplace`
+    await expect(
+      putCheckout({
+        gqlClient,
+        checkoutId: '998877',
+        lineItems: newCartItems
+      })
+    ).rejects.toThrow();
   });
 
   it("throws an error if the checkout can't be found when a `checkoutId` is provided", async () => {

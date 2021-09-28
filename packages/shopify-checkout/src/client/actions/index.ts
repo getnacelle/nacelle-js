@@ -4,7 +4,7 @@
 //  then search for & select 'Generate Index'
 
 // EXPORT CLIENT ACTIONS
-// @index('./*.ts', (f, _) => `export { default as ${_.camelCase(f.name)} } from '${f.path}';`)
+// @index('./!(*.spec).ts', (f, _) => `export { default as ${_.camelCase(f.name)} } from '${f.path}';`)
 export { default as checkoutAttributesUpdate } from './checkoutAttributesUpdate';
 export { default as checkoutCreate } from './checkoutCreate';
 export { default as checkoutLineItemsReplace } from './checkoutLineItemsReplace';

@@ -31,6 +31,8 @@ export default async function createCheckout({
     >({
       query,
       variables
+    }).catch((err) => {
+      throw new Error(err);
     });
 
     if (errors) {

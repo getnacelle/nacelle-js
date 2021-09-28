@@ -3,7 +3,10 @@ import createShopifyCheckoutClient from '~/client';
 import fetchClient from 'cross-fetch';
 import { mocked } from 'ts-jest/utils';
 import { cartItemsToCheckoutItems } from '~/utils';
-import { fetchClientError } from '~/utils/createGqlClient';
+import {
+  fetchClientError,
+  missingParametersErrorMessage
+} from '~/utils/createGqlClient';
 import * as queries from '~/graphql/queries';
 import * as mutations from '~/graphql/mutations';
 import { mockJsonResponse } from '__tests__/utils';
@@ -37,6 +40,19 @@ describe('createShopifyCheckoutClient', () => {
     await checkoutClient
       .get({ checkoutId: '998877' })
       .catch((e) => expect(String(e).includes(fetchClientError)).toBe(true));
+  });
+
+  it('throws an error if neither (a) both a `myshopifyDomain` and `storefrontApiVersion`, nor (b) a `customEndpoint` are provided', async () => {
+    const { storefrontCheckoutToken } = clientSettings;
+    const checkoutClient = createShopifyCheckoutClient({
+      storefrontCheckoutToken
+    });
+
+    await checkoutClient
+      .get({ checkoutId: '998877' })
+      .catch((e) =>
+        expect(String(e).includes(missingParametersErrorMessage)).toBe(true)
+      );
   });
 
   it('makes requests to the expected graphql endpoint when given a `myshopifyDomain` and `storefrontApiVersion`', async () => {
