@@ -16,9 +16,9 @@
   "files": [
     "lib"
   ],
-  "main": "dist/nacelle-vue.umd.js",
-  "unpkg": "dist/nacelle-vue.iife.js",
-  "jsdelivr": "dist/nacelle-vue.iife.js",
+  "main": "./dist/nacelle-vue.umd.js",
+  "unpkg": "./dist/nacelle-vue.iife.js",
+  "jsdelivr": "./dist/nacelle-vue.iife.js",
   "module": "./dist/nacelle-vue.es.js",
   "exports": {
     ".": {

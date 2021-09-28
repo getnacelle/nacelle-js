@@ -5,15 +5,16 @@
   "keywords": [
     "nacelle",
     "shopify",
+    "checkout",
     "headless",
     "ecommerce"
   ],
   "author": "Nacelle Inc.",
   "homepage": "https://github.com/getnacelle/nacelle-js/tree/main/packages/shopify-checkout#readme",
   "license": "Apache-2.0",
-  "main": "dist/nacelle-shopify-checkout.umd.js",
-  "unpkg": "dist/nacelle-shopify-checkout.iife.js",
-  "jsdelivr": "dist/nacelle-shopify-checkout.iife.js",
+  "main": "./dist/nacelle-shopify-checkout.umd.js",
+  "unpkg": "./dist/nacelle-shopify-checkout.iife.js",
+  "jsdelivr": "./dist/nacelle-shopify-checkout.iife.js",
   "module": "./dist/nacelle-shopify-checkout.es.js",
   "exports": {
     ".": {
@@ -39,9 +40,8 @@
     "lint": "eslint .",
     "precommit": "lint-staged",
     "serve": "vite preview",
-    "test": "jest",
-    "test:ci": "jest --silent --runInBand --collectCoverage",
-    "test:watch": "jest --watch"
+    "test": "jest --watch",
+    "test:ci": "jest --silent --runInBand --collectCoverage"
   },
   "bugs": {
     "url": "https://github.com/getnacelle/nacelle-js/issues"
