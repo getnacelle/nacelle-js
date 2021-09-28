@@ -19,7 +19,7 @@ jobs:
 
     defaults:
       run:
-        working-directory: ./packages/shopify-checkout
+        working-directory: packages/shopify-checkout
 
     steps:
       - name: Checkout 🛎
@@ -37,6 +37,6 @@ jobs:
         uses: artiomtr/jest-coverage-report-action@v2.0-rc.1
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          working-directory: ./packages/shopify-checkout
+          working-directory: packages/shopify-checkout
           test-script: npm run test:ci -- --coverageReporters="text" --coverageReporters="text-summary" --json outputFile="report.json"
           threshold: 80
