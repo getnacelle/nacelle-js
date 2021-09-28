@@ -1,3 +1,37 @@
+import fetch from 'isomorphic-unfetch';
+
+function getHandles() {
+  return fetch('https://hailfrequency.com/v3/graphql', {
+    method: 'POST',
+    headers: {
+      'x-nacelle-space-token': process.env.NACELLE_GRAPHQL_TOKEN,
+      'x-nacelle-space-id': process.env.NACELLE_SPACE_ID
+    },
+    body: JSON.stringify({
+      query: `
+        {
+          products: getProducts {
+            items {
+              handle
+            }
+          }
+          collections: getCollections {
+            items {
+              handle
+            }
+          }
+        }
+      `
+    })
+  });
+}
+
+function buildRoutes(items, path) {
+  return items.map((item) => {
+    return `${path}${item.handle}`;
+  });
+}
+
 export default {
   // Target: https://go.nuxtjs.dev/config-target
   ssr: true,
@@ -55,6 +89,23 @@ export default {
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [],
 
+  generate: {
+    crawler: false,
+    concurrency: 25,
+    interval: 2000,
+    fallback: true,
+    routes() {
+      return getHandles()
+        .then((res) => res.json())
+        .then(({ data }) => {
+          return [
+            ...buildRoutes(data.products.items, '/products/'),
+            ...buildRoutes(data.collections.items, '/collections/')
+          ];
+        });
+    }
+  },
+
   // PWA module configuration: https://go.nuxtjs.dev/pwa
   pwa: {
     manifest: {
@@ -70,10 +121,5 @@ export default {
       productionTip: false,
       devtools: true
     }
-  },
-
-  generate: {
-    interval: 2000,
-    fallback: true
   }
 };
