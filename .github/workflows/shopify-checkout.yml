@@ -35,6 +35,8 @@ jobs:
 
       - name: Run tests 🧪
         run: jest --json --outputFile=result.json --testLocationInResults
+
+      - name: Annotate with test coverage 📊
         uses: tanmen/jest-reporter@v1
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
