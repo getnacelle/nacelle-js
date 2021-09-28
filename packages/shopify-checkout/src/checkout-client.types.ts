@@ -1,3 +1,5 @@
+import { Metafield } from '@nacelle/types';
+
 export interface Attribute {
   key: string;
   value: string;
@@ -21,7 +23,7 @@ export type ShopifyCheckoutResponseProperties = Pick<
 export interface CartItem {
   quantity: number;
   variantId: string;
-  metafields?: Attribute[];
+  metafields?: Metafield[];
   [key: string]: unknown;
 }
 
