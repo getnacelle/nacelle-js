@@ -38,5 +38,5 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           working-directory: ./packages/shopify-checkout
-          test-script: npm run test:ci -- --reporters="text" --reporters="text-summary" outputFile="report.json"
+          test-script: npm run test:ci -- --coverageReporters="text" --coverageReporters="text-summary" outputFile="report.json"
           threshold: 80
