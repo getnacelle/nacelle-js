@@ -34,9 +34,7 @@ jobs:
         run: npm i
 
       - name: Run tests 🧪
-        run: npm run test:ci -- --json --outputFile=result.json --testLocationInResults
-
-      - name: Annotate with test coverage 📊
-        uses: tanmen/jest-reporter@v1
+        uses: ziishaned/jest-reporter-action@0.1.1
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
+          test-command: 'npm run test:ci'
