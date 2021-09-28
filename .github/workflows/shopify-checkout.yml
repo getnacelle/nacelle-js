@@ -34,7 +34,7 @@ jobs:
         run: npm i
 
       - name: Run tests 🧪
-        run: jest --json --outputFile=result.json --testLocationInResults
+        run: npm run test:ci -- --json --outputFile=result.json --testLocationInResults
 
       - name: Annotate with test coverage 📊
         uses: tanmen/jest-reporter@v1
