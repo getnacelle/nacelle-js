@@ -5,7 +5,7 @@ on:
     branches:
       - main
     paths:
-      - 'packages/shopify-checkout'
+      - 'packages/shopify-checkout/**.{js,ts}'
 
 jobs:
   shopify-checkout:
