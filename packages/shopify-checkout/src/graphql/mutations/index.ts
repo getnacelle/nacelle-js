@@ -68,6 +68,7 @@ export const checkoutAttributesUpdate = gql`
     checkoutAttributesUpdateV2(checkoutId: $checkoutId, input: $input) {
       checkout {
         id
+        webUrl
       }
       checkoutUserErrors {
         code

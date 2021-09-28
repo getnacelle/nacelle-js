@@ -76,9 +76,7 @@ export const checkouts: Checkouts = {
       node: {
         id: checkoutId,
         webUrl,
-        completedAt: null,
-        customAttributes: [],
-        note: null
+        completedAt: null
       }
     }
   },

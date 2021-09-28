@@ -4,14 +4,10 @@ export interface Attribute {
   key: string;
   value: string;
 }
-export interface BuildCheckoutParams {
-  id: string;
-  webUrl?: string;
-  customAttributes?: Attribute[];
-  note?: string;
-}
 
-export interface ShopifyCheckout extends BuildCheckoutParams {
+export interface ShopifyCheckout {
+  id: string;
+  webUrl: string;
   completed: boolean;
 }
 
@@ -19,6 +15,11 @@ export type ShopifyCheckoutResponseProperties = Pick<
   ShopifyCheckout,
   'id' | 'webUrl'
 >;
+
+export type BuildCheckoutParams = ShopifyCheckoutResponseProperties & {
+  customAttributes?: Attribute[];
+  note?: string;
+};
 
 export interface CartItem {
   quantity: number;

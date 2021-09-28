@@ -67,9 +67,7 @@ describe('createShopifyCheckoutClient', () => {
             node: {
               id: checkoutId,
               webUrl,
-              completedAt: null,
-              note: null,
-              customAttributes: []
+              completedAt: null
             }
           }
         })
@@ -80,7 +78,6 @@ describe('createShopifyCheckoutClient', () => {
     ).resolves.toMatchObject({
       completed: false,
       id: checkoutId,
-      customAttributes: [],
       webUrl
     });
     expect(fetchClient).toHaveBeenCalledTimes(1);
@@ -108,9 +105,7 @@ describe('createShopifyCheckoutClient', () => {
             node: {
               id: checkoutId,
               webUrl: customEndointCheckoutUrl,
-              completedAt: null,
-              customAttributes: [],
-              note: null
+              completedAt: null
             }
           }
         })
@@ -121,7 +116,6 @@ describe('createShopifyCheckoutClient', () => {
     ).resolves.toMatchObject({
       completed: false,
       id: checkoutId,
-      customAttributes: [],
       webUrl: customEndointCheckoutUrl
     });
     expect(fetchClient).toHaveBeenCalledTimes(1);

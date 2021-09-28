@@ -42,19 +42,11 @@ export default async function findCheckout({
     return;
   }
 
-  const {
-    id: checkoutId,
-    webUrl,
-    completedAt,
-    note,
-    customAttributes
-  } = data.node;
+  const { id: checkoutId, webUrl, completedAt } = data.node;
 
   return {
     completed: Boolean(completedAt),
     id: checkoutId || '',
-    customAttributes: customAttributes || [],
-    note: note || '',
     webUrl: webUrl || ''
   };
 }
