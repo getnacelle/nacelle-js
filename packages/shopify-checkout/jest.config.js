@@ -1,5 +1,6 @@
 /** @type {import('ts-jest/dist/types').InitialOptionsTsJest} */
 module.exports = {
+  coverageReporters: ['text', 'text-summary'],
   moduleNameMapper: {
     '^~/(.*)$': '<rootDir>/src/$1',
     '^__tests__/(.*)$': '<rootDir>/__tests__/$1'

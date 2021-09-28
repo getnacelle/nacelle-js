@@ -6,4 +6,3 @@ dist-ssr
 
 # test outputs
 coverage
-jest.results.json
