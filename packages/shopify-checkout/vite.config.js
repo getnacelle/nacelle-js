@@ -1,9 +1,9 @@
 import path from 'path';
-import { defineConfig, UserConfigExport } from 'vite';
+import { defineConfig } from 'vite';
 import transformTaggedTemplate from 'rollup-plugin-transform-tagged-template';
 
 // https://vitejs.dev/config/
-export const config: UserConfigExport = {
+export const config = {
   plugins: [
     transformTaggedTemplate({
       // collapse whitespace in GraphQL tag template literals (gql``)
@@ -22,7 +22,7 @@ export const config: UserConfigExport = {
     lib: {
       entry: path.resolve(__dirname, 'src/client/index.ts'),
       name: 'NacelleShopifyCheckout',
-      fileName: (format): string => `nacelle-shopify-checkout.${format}.js`,
+      fileName: (format) => `nacelle-shopify-checkout.${format}.js`,
       formats: ['es', 'umd', 'iife']
     },
     rollupOptions: {
