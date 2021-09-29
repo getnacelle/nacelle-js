@@ -47,6 +47,6 @@ export default async function findCheckout({
   return {
     completed: Boolean(completedAt),
     id: checkoutId || '',
-    webUrl: webUrl || ''
+    url: webUrl || ''
   };
 }

@@ -78,7 +78,7 @@ describe('createShopifyCheckoutClient', () => {
     ).resolves.toMatchObject({
       completed: false,
       id: checkoutId,
-      webUrl
+      url: webUrl
     });
     expect(fetchClient).toHaveBeenCalledTimes(1);
   });
@@ -116,7 +116,7 @@ describe('createShopifyCheckoutClient', () => {
     ).resolves.toMatchObject({
       completed: false,
       id: checkoutId,
-      webUrl: customEndointCheckoutUrl
+      url: customEndointCheckoutUrl
     });
     expect(fetchClient).toHaveBeenCalledTimes(1);
   });
@@ -148,7 +148,7 @@ describe('createShopifyCheckoutClient', () => {
     ).resolves.toMatchObject({
       completed: false,
       id: checkoutId,
-      webUrl
+      url: webUrl
     });
     expect(fetchClient).toHaveBeenCalledTimes(1);
     expect(fetchClient).toHaveBeenCalledWith(graphqlEndpoint, {

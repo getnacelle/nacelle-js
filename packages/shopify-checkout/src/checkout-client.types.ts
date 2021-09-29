@@ -7,14 +7,13 @@ export interface Attribute {
 
 export interface ShopifyCheckout {
   id: string;
-  webUrl: string;
+  url: string;
   completed: boolean;
 }
 
-export type ShopifyCheckoutResponseProperties = Pick<
-  ShopifyCheckout,
-  'id' | 'webUrl'
->;
+export type ShopifyCheckoutResponseProperties = Pick<ShopifyCheckout, 'id'> & {
+  webUrl: string;
+};
 
 export type BuildCheckoutParams = ShopifyCheckoutResponseProperties & {
   customAttributes?: Attribute[];

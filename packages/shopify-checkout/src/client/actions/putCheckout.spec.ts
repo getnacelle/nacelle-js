@@ -2,7 +2,11 @@
 import fetchClient from 'cross-fetch';
 import { mocked } from 'ts-jest/utils';
 import { putCheckout } from '~/client/actions';
-import { cartItemsToCheckoutItems, createGqlClient } from '~/utils';
+import {
+  buildCheckout,
+  cartItemsToCheckoutItems,
+  createGqlClient
+} from '~/utils';
 import * as mutations from '~/graphql/mutations';
 import { Attribute } from '~/checkout-client.types';
 import { mockJsonResponse } from '__tests__/utils';
@@ -41,7 +45,7 @@ describe('putCheckout', () => {
         lineItems: cartItemsToCheckoutItems({ cartItems })
       }).then((checkout) => checkout)
     ).resolves.toMatchObject(
-      checkouts.checkoutCreate.data.checkoutCreate.checkout
+      buildCheckout(checkouts.checkoutCreate.data.checkoutCreate.checkout)
     );
 
     expect(fetchClient).toHaveBeenCalledTimes(1);
@@ -80,7 +84,7 @@ describe('putCheckout', () => {
         note
       }).then((checkout) => checkout)
     ).resolves.toMatchObject(
-      checkouts.checkoutCreate.data.checkoutCreate.checkout
+      buildCheckout(checkouts.checkoutCreate.data.checkoutCreate.checkout)
     );
 
     expect(fetchClient).toHaveBeenCalledTimes(1);
@@ -131,7 +135,7 @@ describe('putCheckout', () => {
         note
       }).then((checkout) => checkout)
     ).resolves.toMatchObject(
-      checkoutUpdate.data.checkoutAttributesUpdateV2.checkout
+      buildCheckout(checkoutUpdate.data.checkoutAttributesUpdateV2.checkout)
     );
 
     expect(fetchClient).toHaveBeenCalledTimes(1);
@@ -175,7 +179,9 @@ describe('putCheckout', () => {
         lineItems: newCartItems
       }).then((checkout) => checkout)
     ).resolves.toMatchObject(
-      checkoutLineItemsReplace.data.checkoutLineItemsReplace.checkout
+      buildCheckout(
+        checkoutLineItemsReplace.data.checkoutLineItemsReplace.checkout
+      )
     );
 
     expect(fetchClient).toHaveBeenCalledTimes(1);

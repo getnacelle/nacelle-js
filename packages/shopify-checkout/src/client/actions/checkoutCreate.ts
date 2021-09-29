@@ -35,7 +35,9 @@ export default async function createCheckout({
       throw new Error(err);
     });
 
-    if (errors) {
+    const errs = errors || data?.checkoutCreate.checkoutUserErrors;
+
+    if (errs?.length) {
       handleShopifyError(errors, { caller: 'checkoutCreate' });
     }
 

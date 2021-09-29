@@ -6,7 +6,7 @@ export default function buildCheckout({
 }: BuildCheckoutParams): ShopifyCheckout {
   return {
     id,
-    webUrl,
+    url: webUrl,
     completed: false
   };
 }
