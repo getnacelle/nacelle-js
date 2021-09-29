@@ -24,12 +24,16 @@ export type CheckoutCreateVariables = {
 
 export default async function createCheckout({
   gqlClient,
-  customAttributes,
   lineItems,
-  note
+  customAttributes,
+  note,
+  queueToken
 }: CreateCheckoutParams): Promise<ShopifyCheckout | void> {
   const query = checkoutCreateMutation;
-  const variables = { input: { customAttributes, lineItems, note } };
+  const variables = {
+    input: { customAttributes, lineItems, note },
+    queueToken
+  };
 
   try {
     const { data, errors } = await gqlClient<
