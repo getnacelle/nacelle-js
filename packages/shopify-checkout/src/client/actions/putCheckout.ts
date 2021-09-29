@@ -4,25 +4,21 @@ import {
   checkoutCreate
 } from '~/client/actions';
 import { isVerifiedCheckoutId } from '~/utils';
-import {
-  Attribute,
-  CheckoutItem,
-  GqlClient,
-  ShopifyCheckout
-} from '~/checkout-client.types';
+import { ShopifyCheckout } from '~/checkout-client.types';
+import { CreateCheckoutParams } from '~/client/actions/checkoutCreate';
+import { CheckoutAttributesUpdateParams } from '~/client/actions/checkoutAttributesUpdate';
+import { CheckoutLineItemsReplaceParams } from '~/client/actions/checkoutLineItemsReplace';
 
-export interface PutCheckoutParams {
-  gqlClient: GqlClient;
-  lineItems?: CheckoutItem[];
-  checkoutId?: string;
-  customAttributes?: Attribute[];
-  note?: string;
-  queueToken?: string;
-}
+type CheckoutActionIntersection = CreateCheckoutParams &
+  CheckoutAttributesUpdateParams &
+  CheckoutLineItemsReplaceParams;
+
+export type PutCheckoutParams = Partial<CheckoutActionIntersection> &
+  Pick<CheckoutActionIntersection, 'gqlClient'>;
 
 export default async function putCheckout({
   gqlClient,
-  checkoutId,
+  id,
   lineItems,
   customAttributes,
   note,
@@ -33,10 +29,10 @@ export default async function putCheckout({
   const shouldUpdateAttributes = customAttributes?.length || note;
 
   try {
-    if (checkoutId) {
-      if (!isVerifiedCheckoutId(checkoutId)) {
+    if (id) {
+      if (!isVerifiedCheckoutId(id)) {
         throw new Error(
-          `Invalid checkout ID. Expected a Base64-encoded Shopify Global ID. Received: ${checkoutId}`
+          `Invalid checkout ID. Expected a Base64-encoded Shopify Global ID. Received: ${id}`
         );
       }
 
@@ -47,7 +43,7 @@ export default async function putCheckout({
         checkoutUpdatePromises.push(
           checkoutLineItemsReplace({
             gqlClient,
-            checkoutId,
+            id,
             lineItems
           })
         );
@@ -58,7 +54,7 @@ export default async function putCheckout({
         checkoutUpdatePromises.push(
           checkoutAttributesUpdate({
             gqlClient,
-            checkoutId,
+            id,
             customAttributes,
             note
           })
@@ -88,7 +84,7 @@ export default async function putCheckout({
     }
 
     // Create new checkout if checkout does not exist
-    if (typeof checkout === 'undefined') {
+    if (typeof checkout === 'undefined' && typeof lineItems !== 'undefined') {
       checkout = await checkoutCreate({
         gqlClient,
         customAttributes,

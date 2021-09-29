@@ -38,7 +38,7 @@ describe('createShopifyCheckoutClient', () => {
     const checkoutClient = createShopifyCheckoutClient(clientSettings);
     expect.assertions(1);
     await checkoutClient
-      .get({ checkoutId: '998877' })
+      .get({ id: '998877' })
       .catch((e) => expect(String(e).includes(fetchClientError)).toBe(true));
   });
 
@@ -49,7 +49,7 @@ describe('createShopifyCheckoutClient', () => {
     });
 
     await checkoutClient
-      .get({ checkoutId: '998877' })
+      .get({ id: '998877' })
       .catch((e) =>
         expect(String(e).includes(missingParametersErrorMessage)).toBe(true)
       );
@@ -74,7 +74,7 @@ describe('createShopifyCheckoutClient', () => {
     );
 
     await expect(
-      checkoutClient.get({ checkoutId: '998877' }).then((checkout) => checkout)
+      checkoutClient.get({ id: '998877' }).then((checkout) => checkout)
     ).resolves.toMatchObject({
       completed: false,
       id: checkoutId,
@@ -112,7 +112,7 @@ describe('createShopifyCheckoutClient', () => {
     );
 
     await expect(
-      checkoutClient.get({ checkoutId: '998877' }).then((checkout) => checkout)
+      checkoutClient.get({ id: '998877' }).then((checkout) => checkout)
     ).resolves.toMatchObject({
       completed: false,
       id: checkoutId,

@@ -130,7 +130,7 @@ describe('putCheckout', () => {
     await expect(
       putCheckout({
         gqlClient,
-        checkoutId,
+        id: checkoutId,
         customAttributes,
         note
       }).then((checkout) => checkout)
@@ -175,7 +175,7 @@ describe('putCheckout', () => {
     await expect(
       putCheckout({
         gqlClient,
-        checkoutId,
+        id: checkoutId,
         lineItems: newCartItems
       }).then((checkout) => checkout)
     ).resolves.toMatchObject(
@@ -221,7 +221,7 @@ describe('putCheckout', () => {
     await expect(
       putCheckout({
         gqlClient,
-        checkoutId,
+        id: checkoutId,
         note: 'Happy Birthday!'
       })
     ).rejects.toThrow(networkErrorMessage);
@@ -230,7 +230,7 @@ describe('putCheckout', () => {
     await expect(
       putCheckout({
         gqlClient,
-        checkoutId,
+        id: checkoutId,
         lineItems: newCartItems
       })
     ).rejects.toThrow(networkErrorMessage);
@@ -291,7 +291,7 @@ describe('putCheckout', () => {
     await expect(
       putCheckout({
         gqlClient,
-        checkoutId: '998877',
+        id: '998877',
         note: 'Happy Birthday!'
       })
     ).rejects.toThrow();
@@ -300,13 +300,13 @@ describe('putCheckout', () => {
     await expect(
       putCheckout({
         gqlClient,
-        checkoutId: '998877',
+        id: '998877',
         lineItems: newCartItems
       })
     ).rejects.toThrow();
   });
 
-  it("throws an error if the checkout can't be found when a `checkoutId` is provided", async () => {
+  it("throws an error if the checkout can't be found when a `id` is provided", async () => {
     // we'll test both `checkoutLineItemsReplace` and `checkoutAttributesUpdate`
     expect.assertions(2);
     const doesNotExistMessage = '"message": "Checkout does not exist"';
@@ -322,7 +322,7 @@ describe('putCheckout', () => {
     await expect(
       putCheckout({
         gqlClient,
-        checkoutId,
+        id: checkoutId,
         note: 'Happy Birthday!'
       }).catch((e) =>
         expect(String(e).includes(doesNotExistMessage)).toBe(true)
@@ -340,7 +340,7 @@ describe('putCheckout', () => {
     await expect(
       putCheckout({
         gqlClient,
-        checkoutId,
+        id: checkoutId,
         lineItems: newCartItems
       }).catch((e) =>
         expect(String(e).includes(doesNotExistMessage)).toBe(true)
@@ -348,7 +348,7 @@ describe('putCheckout', () => {
     );
   });
 
-  it('throws an error if an invalid `checkoutId` is provided', async () => {
+  it('throws an error if an invalid `id` is provided', async () => {
     // we'll test both `checkoutLineItemsReplace` and `checkoutAttributesUpdate`
     expect.assertions(2);
 
@@ -367,9 +367,11 @@ describe('putCheckout', () => {
         })
     );
 
-    await putCheckout({ gqlClient, checkoutId, note: 'Happy Birthday!' }).catch(
-      (e) => expect(String(e).includes(problemMessage)).toBe(true)
-    );
+    await putCheckout({
+      gqlClient,
+      id: checkoutId,
+      note: 'Happy Birthday!'
+    }).catch((e) => expect(String(e).includes(problemMessage)).toBe(true));
 
     // [2/2] `checkoutLineItemsReplace`
     mocked(fetchClient).mockImplementationOnce(
@@ -379,8 +381,10 @@ describe('putCheckout', () => {
         })
     );
 
-    await putCheckout({ gqlClient, checkoutId, lineItems: newCartItems }).catch(
-      (e) => expect(String(e).includes(problemMessage)).toBe(true)
-    );
+    await putCheckout({
+      gqlClient,
+      id: checkoutId,
+      lineItems: newCartItems
+    }).catch((e) => expect(String(e).includes(problemMessage)).toBe(true));
   });
 });

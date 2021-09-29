@@ -3,13 +3,20 @@ import {
   checkoutCreate as checkoutCreateMutation,
   CheckoutCreateData
 } from '~/graphql/mutations';
-import { ShopifyCheckout } from '~/checkout-client.types';
-import { PutCheckoutParams } from '~/client/actions/putCheckout';
+import {
+  Attribute,
+  CheckoutItem,
+  GqlClient,
+  ShopifyCheckout
+} from '~/checkout-client.types';
 
-export type CreateCheckoutParams = Pick<
-  PutCheckoutParams,
-  'lineItems' | 'gqlClient' | 'customAttributes' | 'note' | 'queueToken'
->;
+export interface CreateCheckoutParams {
+  gqlClient: GqlClient;
+  lineItems: CheckoutItem[];
+  customAttributes?: Attribute[];
+  note?: string;
+  queueToken?: string;
+}
 
 export type CheckoutCreateVariables = {
   input: Pick<CreateCheckoutParams, 'customAttributes' | 'lineItems' | 'note'>;

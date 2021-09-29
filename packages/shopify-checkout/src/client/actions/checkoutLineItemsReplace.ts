@@ -11,22 +11,22 @@ import {
 
 export interface CheckoutLineItemsReplaceParams {
   gqlClient: GqlClient;
-  checkoutId: string;
+  id: string;
   lineItems: CheckoutItem[];
 }
 
 export type CheckoutLineItemsReplaceVariables = Pick<
   CheckoutLineItemsReplaceParams,
-  'checkoutId' | 'lineItems'
->;
+  'lineItems'
+> & { checkoutId: CheckoutLineItemsReplaceParams['id'] };
 
 export default async function checkoutLineItemsReplace({
   gqlClient,
   lineItems,
-  checkoutId
+  id
 }: CheckoutLineItemsReplaceParams): Promise<ShopifyCheckout | void> {
   const query = checkoutLineItemsReplaceMutation;
-  const variables = { checkoutId, lineItems };
+  const variables = { checkoutId: id, lineItems };
   const { data, errors } = await gqlClient<
     CheckoutLineItemsReplaceVariables,
     CheckoutLineItemsReplaceData

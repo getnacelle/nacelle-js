@@ -1,5 +1,7 @@
 import { Metafield } from '@nacelle/types';
 import { findCheckout, putCheckout } from '~/client/actions';
+import { FindCheckoutParams } from '~/client/actions/findCheckout';
+import { PutCheckoutParams } from '~/client/actions/putCheckout';
 import {
   cartItemsToCheckoutItems,
   createGqlClient,
@@ -15,21 +17,16 @@ export interface CreateClientParams {
   fetchClient?: typeof fetch;
 }
 
-export interface GetCheckoutParams {
-  checkoutId: string;
-}
+export type GetCheckoutParams = Pick<FindCheckoutParams, 'id'>;
 
 export type GetCheckout = (
   params: GetCheckoutParams
 ) => Promise<ShopifyCheckout | void>;
 
-export interface ProcessCheckoutParams {
-  cartItems: CartItem[];
-  checkoutId?: string;
-  metafields?: Metafield[];
-  note?: string;
-  queueToken?: string;
-}
+export type ProcessCheckoutParams = Pick<
+  PutCheckoutParams,
+  'id' | 'note' | 'queueToken'
+> & { cartItems?: CartItem[]; metafields?: Metafield[] };
 
 export type ProcessCheckout = (
   params: ProcessCheckoutParams
@@ -64,9 +61,9 @@ export default function createShopifyCheckoutClient({
    * Retrieves a previously-created Shopify checkout.
    */
   async function getCheckout({
-    checkoutId
+    id
   }: GetCheckoutParams): Promise<ShopifyCheckout | void> {
-    return await findCheckout({ gqlClient, id: checkoutId });
+    return await findCheckout({ gqlClient, id });
   }
 
   /**
@@ -75,16 +72,24 @@ export default function createShopifyCheckoutClient({
    */
   async function processCheckout({
     cartItems,
-    checkoutId,
+    id,
     metafields,
     note,
     queueToken
   }: ProcessCheckoutParams): Promise<ShopifyCheckout | void> {
+    const lineItems = cartItems?.length
+      ? cartItemsToCheckoutItems({ cartItems })
+      : undefined;
+
+    const customAttributes = metafields?.length
+      ? metafieldsToCustomAttributes({ metafields })
+      : undefined;
+
     return await putCheckout({
       gqlClient,
-      lineItems: cartItemsToCheckoutItems({ cartItems }),
-      checkoutId,
-      customAttributes: metafieldsToCustomAttributes({ metafields }),
+      lineItems,
+      id,
+      customAttributes,
       note,
       queueToken
     });

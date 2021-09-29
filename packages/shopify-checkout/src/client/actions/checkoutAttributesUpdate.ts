@@ -7,27 +7,25 @@ import { ShopifyCheckout, Attribute, GqlClient } from '~/checkout-client.types';
 
 export interface CheckoutAttributesUpdateParams {
   gqlClient: GqlClient;
-  checkoutId: string;
+  id: string;
   customAttributes?: Attribute[];
   note?: string;
 }
 
-export type CheckoutUpdateVariables = Pick<
-  CheckoutAttributesUpdateParams,
-  'checkoutId'
-> & {
+export type CheckoutUpdateVariables = {
+  checkoutId: CheckoutAttributesUpdateParams['id'];
   input: Pick<CheckoutAttributesUpdateParams, 'customAttributes' | 'note'>;
 };
 
 export default async function checkoutAttributesUpdate({
   gqlClient,
-  checkoutId,
+  id,
   customAttributes,
   note
 }: CheckoutAttributesUpdateParams): Promise<ShopifyCheckout | void> {
   const query = checkoutAttributesUpdateMutation;
   const variables = {
-    checkoutId,
+    checkoutId: id,
     input: {
       customAttributes,
       note

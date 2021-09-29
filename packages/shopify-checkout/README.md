@@ -82,19 +82,19 @@ When working with the checkout client, there are some common types that it will 
 
 The checkout client exposes two methods, `get` and `process`.
 
-#### `get({ checkoutId })`
+#### `get({ id })`
 
 _Retrieves an existing Shopify checkout._
 
-**Accepts**: params - an object containing the `checkoutId` (`string`) of interest.
+**Accepts**: params - an object containing the `id` (`string`) of interest.
 
 **Returns**: a [`ShopifyCheckout`](#common-types).
 
 ##### Example
 
 ```js
-const checkoutId = 'Z2lkOi8vc2hvcGlmeS9DaGVja291dC85OTg4Nzc/a2V5PTEyMzEyMw==';
-const checkout = await checkoutClient.get({ checkoutId });
+const id = 'Z2lkOi8vc2hvcGlmeS9DaGVja291dC85OTg4Nzc/a2V5PTEyMzEyMw==';
+const checkout = await checkoutClient.get({ id });
 ```
 
 #### `process(params)`
@@ -133,7 +133,7 @@ const checkout = await checkoutClient.process({
 
 | Parameter    | [Type](#common-types) | Required?          | Description                                                                        |
 | ------------ | --------------------- | ------------------ | ---------------------------------------------------------------------------------- |
-| `checkoutId` | `string`              | ✅                 | An existing Shopify checkout's [global ID][shopify-scalars].                       |
+| `id`         | `string`              | ✅                 | An existing Shopify checkout's [global ID][shopify-scalars].                       |
 | `cartItems`  | `CartItem[]`          | (only if updating) | An array of line items.                                                            |
 | `metafields` | `Metafield[]`         | (only if updating) | Corresponds to a [Shopify Checkout][shopify-checkout-object]'s `customAttributes`. |
 | `note`       | `string`              | (only if updating) | The [Shopify Checkout][shopify-checkout-object]'s `note`.                          |
