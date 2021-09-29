@@ -104,6 +104,43 @@ describe('putCheckout', () => {
     });
   });
 
+  it('creates a new checkout with the correct `queueToken`', async () => {
+    mocked(fetchClient).mockImplementationOnce(
+      (): Promise<any> =>
+        mockJsonResponse<mutations.CheckoutCreateData>(checkouts.checkoutCreate)
+    );
+
+    if (!checkouts.checkoutCreate.data?.checkoutCreate.checkout) {
+      fail('mock checkoutCreate data is falsey');
+    }
+    const queueToken = 'front-of-the-line-please';
+
+    await expect(
+      putCheckout({
+        gqlClient,
+        lineItems: cartItemsToCheckoutItems({ cartItems }),
+        queueToken
+      }).then((checkout) => checkout)
+    ).resolves.toMatchObject(
+      buildCheckout(checkouts.checkoutCreate.data.checkoutCreate.checkout)
+    );
+
+    expect(fetchClient).toHaveBeenCalledTimes(1);
+    expect(fetchClient).toHaveBeenCalledWith(graphqlEndpoint, {
+      method: 'POST',
+      headers,
+      body: JSON.stringify({
+        query: mutations.checkoutCreate,
+        variables: {
+          input: {
+            lineItems: cartItemsToCheckoutItems({ cartItems })
+          },
+          queueToken
+        }
+      })
+    });
+  });
+
   it('updates an existing checkout with new properties', async () => {
     const customAttributes: Attribute[] = [
       { key: 'includeGlitterInBox', value: 'definitely' }
@@ -283,7 +320,7 @@ describe('putCheckout', () => {
     );
   });
 
-  it('throws an error if an invalid `checkoutId` is provided', async () => {
+  it('throws an error if an invalid `id` is provided', async () => {
     // we'll test both `checkoutLineItemsReplace` and `checkoutAttributesUpdate`
     expect.assertions(2);
 
