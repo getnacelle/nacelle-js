@@ -48,11 +48,11 @@ const checkoutClient = createShopifyCheckoutClient({
 
 When working with the checkout client, there are some common types that it will help to be familiar with:
 
-| Type              | Description                                                                                                                                                                                                          |
-| ----------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `Metafield`       | A `Metafield` is an object that contains two properties: a `key` and a `value`, which both have `string` values.                                                                                                     |
-| `CartItem`        | A `CartItem` is an object with two required properties: `variantId` (a [Shopify global ID][shopify-scalars]) and a `quantity` (number). A `CartItem` may contain the optional property `metafields` (`Metafield[]`). |
-| `ShopifyCheckout` | A `ShopifyCheckout` is an object that contains two properties: an `id` (`string`) and a `webUrl`, which both have `string` values. The `webUrl` is the address of the Shopify checkout.                              |
+| Type              | Description                                                                                                                                                                                                            |
+| ----------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `Metafield`       | A `Metafield` is an object that contains two properties: a `key` and a `value`, which both have `string` values.                                                                                                       |
+| `CartItem`        | A `CartItem` is an object with two required properties: `variantId` (a [Shopify global ID][shopify-scalars]) and a `quantity` (number). A `CartItem` may contain the optional property `metafields` (`Metafield[]`).   |
+| `ShopifyCheckout` | A `ShopifyCheckout` is an object that contains three properties: an `id` (`string`) and a `webUrl`, which both have `string` values, and `completed` (`boolean`). The `webUrl` is the address of the Shopify checkout. |
 
 #### Examples of Common Types:
 
