@@ -143,7 +143,7 @@ const checkout = await checkoutClient.process({
 ```js
 // Update an existing checkout's line items, `customAttributes`, and `note`
 const checkout = await checkoutClient.process({
-  checkoutId: 'Z2lkOi8vc2hvcGlmeS9DaGVja291dC85OTg4Nzc/a2V5PTEyMzEyMw==',
+  id: 'Z2lkOi8vc2hvcGlmeS9DaGVja291dC85OTg4Nzc/a2V5PTEyMzEyMw==',
   cartItems: [
     {
       variantId: 'Z2lkOi8vc2hvcGlmeS9Qcm9kdWN0VmFyaWFudC8xMjM0NQ==',
