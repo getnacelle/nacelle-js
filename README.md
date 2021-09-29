@@ -30,7 +30,7 @@ From the monorepo root:
 npm run create -- <package-name> packages/
 ```
 
-This runs Lerna's [`create`](https://github.com/lerna/lerna/tree/main/commands/create#readme) script to create a new packge in the `packages/` directory. Follow the prompts to create the new package.
+This runs Lerna's [`create`](https://github.com/lerna/lerna/tree/main/commands/create#readme) script to create a new package in the `packages/` directory. Follow the prompts to create the new package.
 
 Alternatively, you can:
 

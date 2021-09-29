@@ -225,9 +225,8 @@ export default {
           .reduce((output, item) => {
             if (!item.facets) {
               console.warn(
-                `No facets have been generated for this item: ${
-                  item.handle || item
-                }`
+                `No facets have been generated for this item: ${item.handle ||
+                  item}`
               );
             } else {
               item.facets

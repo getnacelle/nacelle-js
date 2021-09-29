@@ -1,0 +1,19 @@
+name: labels
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  labels:
+    if: "!contains(github.event.head_commit.message, '[skip ci]')"
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Add labels to show which projects are affected by package changes 🏷
+        uses: TinkurLab/monorepo-pr-labeler-action@3.1.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BASE_DIRS: 'packages|examples|starters'
