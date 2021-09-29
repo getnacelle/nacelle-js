@@ -55,11 +55,12 @@ describe('createShopifyCheckoutClient', () => {
       );
   });
 
-  it('makes requests to the expected graphql endpoint when given a `myshopifyDomain` and `storefrontApiVersion`', async () => {
+  it('makes the expected request when given a `myshopifyDomain` and `storefrontApiVersion`', async () => {
     const checkoutClient = createShopifyCheckoutClient({
       ...clientSettings,
       fetchClient
     });
+
     mocked(fetchClient).mockImplementationOnce(
       (): Promise<any> =>
         mockJsonResponse<queries.GetCheckoutData>({
@@ -83,7 +84,7 @@ describe('createShopifyCheckoutClient', () => {
     expect(fetchClient).toHaveBeenCalledTimes(1);
   });
 
-  it('makes requests to the expected graphql endpoint when given a `customEndpoint`', async () => {
+  it('makes the expected request when given a `customEndpoint`', async () => {
     const settings = {
       storefrontCheckoutToken: clientSettings.storefrontCheckoutToken,
       customEndpoint:
@@ -160,6 +161,87 @@ describe('createShopifyCheckoutClient', () => {
           input: {
             customAttributes: checkoutAttributes,
             lineItems: cartItemsToCheckoutItems({ cartItems })
+          }
+        }
+      })
+    });
+  });
+
+  it('makes the expected request when the `process` method is called with `lineItems` and without `metafields` & `note`', async () => {
+    const checkoutClient = createShopifyCheckoutClient({
+      ...clientSettings,
+      fetchClient
+    });
+
+    // providing `cartItems` without `metafields` or `note` should only run `checkoutLineItemsReplace`
+    const checkoutLineItemsReplace = checkouts.checkoutLineItemsReplace({
+      checkoutId,
+      lineItems: cartItemsToCheckoutItems({ cartItems })
+    });
+
+    mocked(fetchClient).mockImplementationOnce(
+      (): Promise<any> =>
+        mockJsonResponse<mutations.CheckoutLineItemsReplaceData>(
+          checkoutLineItemsReplace
+        )
+    );
+    await checkoutClient.process({ id: checkoutId, cartItems });
+
+    expect(fetchClient).toHaveBeenCalledTimes(1);
+    expect(fetchClient).toHaveBeenCalledWith(graphqlEndpoint, {
+      method: 'POST',
+      headers,
+      body: JSON.stringify({
+        query: mutations.checkoutLineItemsReplace,
+        variables: {
+          checkoutId,
+          lineItems: cartItemsToCheckoutItems({ cartItems })
+        }
+      })
+    });
+  });
+
+  it('makes the expected request when the `process` method is called with `metafields` & `note` and without `lineItems`', async () => {
+    const checkoutClient = createShopifyCheckoutClient({
+      ...clientSettings,
+      fetchClient
+    });
+
+    // providing `metafields` or `note` without `cartItems` should only run `checkoutAttributesUpdate`
+    const checkoutAttributes = [
+      {
+        key: 'handling_instructions',
+        value: 'Caution! Dinosaur eggs - handle with extreme care.'
+      }
+    ];
+    const note = 'Many thanks!';
+    const checkoutUpdate = checkouts.checkoutUpdate({
+      checkoutId,
+      input: { customAttributes: checkoutAttributes, note }
+    });
+
+    mocked(fetchClient).mockImplementationOnce(
+      (): Promise<any> =>
+        mockJsonResponse<mutations.CheckoutAttributesUpdateData>(checkoutUpdate)
+    );
+
+    await checkoutClient.process({
+      id: checkoutId,
+      metafields: checkoutAttributes,
+      note
+    });
+
+    expect(fetchClient).toHaveBeenCalledTimes(1);
+    expect(fetchClient).toHaveBeenCalledWith(graphqlEndpoint, {
+      method: 'POST',
+      headers,
+      body: JSON.stringify({
+        query: mutations.checkoutAttributesUpdate,
+        variables: {
+          checkoutId,
+          input: {
+            customAttributes: checkoutAttributes,
+            note
           }
         }
       })

@@ -83,6 +83,18 @@ describe('findCheckout', () => {
   });
 
   // Test Error Handling
+  it('throws an error if there are problems with the request', async () => {
+    const networkErrorMessage = 'Network error!';
+    mocked(fetchClient).mockImplementation(
+      (): Promise<any> => Promise.reject(networkErrorMessage)
+    );
+
+    expect.assertions(1);
+    await expect(findCheckout({ gqlClient, id: checkoutId })).rejects.toThrow(
+      networkErrorMessage
+    );
+  });
+
   it("throws an error if the checkout can't be found", async () => {
     mocked(fetchClient).mockImplementationOnce(
       (): Promise<any> =>

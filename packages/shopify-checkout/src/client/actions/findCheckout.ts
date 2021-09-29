@@ -31,7 +31,6 @@ export default async function findCheckout({
 
   if (errors) {
     handleShopifyError(errors, { caller: 'findCheckout' });
-    return;
   }
 
   if (!data?.node) {
@@ -39,14 +38,13 @@ export default async function findCheckout({
       caller: 'findCheckout',
       message: 'Checkout response has no data'
     });
-    return;
+  } else {
+    const { id, webUrl, completedAt } = data.node;
+
+    return {
+      completed: Boolean(completedAt),
+      id: id || '',
+      url: webUrl || ''
+    };
   }
-
-  const { id: checkoutId, webUrl, completedAt } = data.node;
-
-  return {
-    completed: Boolean(completedAt),
-    id: checkoutId || '',
-    url: webUrl || ''
-  };
 }

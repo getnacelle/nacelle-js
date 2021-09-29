@@ -17,12 +17,8 @@ export default function metafieldsToCustomAttributes({
     return [];
   }
 
-  const customAttributes: Attribute[] = metafields?.reduce((fields, input) => {
-    const { key, value } = input;
-
-    if (key && value) {
-      fields.push({ key, value });
-    }
+  const customAttributes: Attribute[] = metafields?.reduce((fields, m) => {
+    fields.push({ key: m.key, value: m.value });
 
     return fields;
   }, [] as Attribute[]);
