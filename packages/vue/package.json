@@ -14,7 +14,7 @@
     "test": "__tests__"
   },
   "files": [
-    "lib"
+    "dist"
   ],
   "main": "./dist/nacelle-vue.umd.js",
   "unpkg": "./dist/nacelle-vue.iife.js",
