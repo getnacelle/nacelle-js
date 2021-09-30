@@ -1,6 +1,6 @@
 {
   "name": "nuxt-starter",
-  "version": "0.0.3-alpha.0",
+  "version": "0.0.3",
   "private": true,
   "scripts": {
     "dev": "nuxt",
@@ -9,7 +9,7 @@
     "precommit": "lint-staged"
   },
   "dependencies": {
-    "@nacelle/vue": "^0.0.4",
+    "@nacelle/vue": "^0.0.5",
     "@nuxtjs/composition-api": "^0.29.0",
     "core-js": "^3.17.3",
     "isomorphic-unfetch": "^3.1.0",
