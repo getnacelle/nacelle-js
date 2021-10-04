@@ -1,16 +1,19 @@
 import {
   checkoutLineItemsReplace as checkoutLineItemsReplaceMutation,
   CheckoutLineItemsReplaceData
-} from '~/graphql/mutations';
-import { buildCheckout, handleShopifyError } from '~/utils';
+} from '../../graphql/mutations';
+import { buildCheckout, handleShopifyError } from '../../utils';
 import {
   CheckoutItem,
   ShopifyCheckout,
   GqlClient
-} from '~/checkout-client.types';
+} from '../../checkout-client.types';
 
 export interface CheckoutLineItemsReplaceParams {
   gqlClient: GqlClient;
+  /**
+   * a Shopify checkout ID.
+   */
   id: string;
   lineItems: CheckoutItem[];
 }
@@ -30,10 +33,7 @@ export default async function checkoutLineItemsReplace({
   const { data, errors } = await gqlClient<
     CheckoutLineItemsReplaceVariables,
     CheckoutLineItemsReplaceData
-  >({
-    query,
-    variables
-  }).catch((err) => {
+  >({ query, variables }).catch((err) => {
     throw new Error(err);
   });
 

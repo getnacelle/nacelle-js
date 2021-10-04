@@ -3,11 +3,11 @@ import {
   ShopifyCheckoutUserError,
   ShopifyError,
   ShopifyResponse
-} from '~/checkout-client.types';
-import * as mutations from '~/graphql/mutations';
-import * as queries from '~/graphql/queries';
-import { CheckoutUpdateVariables } from '~/client/actions/checkoutAttributesUpdate';
-import { CheckoutLineItemsReplaceVariables } from '~/client/actions/checkoutLineItemsReplace';
+} from '../../src/checkout-client.types';
+import * as mutations from '../../src/graphql/mutations';
+import * as queries from '../../src/graphql/queries';
+import { CheckoutUpdateVariables } from '../../src/client/actions/checkoutAttributesUpdate';
+import { CheckoutLineItemsReplaceVariables } from '../../src/client/actions/checkoutLineItemsReplace';
 
 export const clientSettings = {
   storefrontCheckoutToken: '1122334455',

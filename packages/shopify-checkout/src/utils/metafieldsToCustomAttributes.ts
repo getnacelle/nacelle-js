@@ -1,5 +1,4 @@
-import { Metafield } from '@nacelle/types';
-import { Attribute } from '~/checkout-client.types';
+import { Attribute, Metafield } from '../checkout-client.types';
 
 export interface ReconcileCustomAttributesParams {
   metafields?: Metafield[];

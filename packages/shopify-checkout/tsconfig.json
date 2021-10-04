@@ -1,22 +1,21 @@
 {
   "compilerOptions": {
-    "baseUrl": "./",
-    "paths": {
-      "~/*": ["./src/*"]
-    },
+    "rootDir": ".",
     "target": "ESNext",
-    "isolatedModules": true,
-    "module": "ESNext",
     "lib": ["ESNext", "DOM"],
-    "moduleResolution": "Node",
     "strict": true,
-    "sourceMap": true,
+    "moduleResolution": "Node",
+    "isolatedModules": true,
+    "useDefineForClassFields": true,
+    "declaration": true,
+    "declarationDir": "dist",
+    "emitDeclarationOnly": true,
     "resolveJsonModule": true,
     "esModuleInterop": true,
-    "noEmit": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noImplicitReturns": true
   },
-  "include": ["./src", "./__tests__"]
+  "include": ["src"],
+  "exclude": ["node_modules", "dist", "src/**/*.spec.ts", "__tests__"]
 }

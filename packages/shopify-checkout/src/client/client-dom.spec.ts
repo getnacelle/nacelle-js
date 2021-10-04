@@ -1,15 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import createShopifyCheckoutClient from '~/client';
+import createShopifyCheckoutClient from './index';
 import fetchClient from 'cross-fetch';
 import { mocked } from 'ts-jest/utils';
-import { cartItemsToCheckoutItems } from '~/utils';
-import {
-  fetchClientError,
-  missingParametersErrorMessage
-} from '~/utils/createGqlClient';
-import * as queries from '~/graphql/queries';
-import * as mutations from '~/graphql/mutations';
-import { mockJsonResponse } from '__tests__/utils';
+import { cartItemsToCheckoutItems } from '../utils';
+import { missingParametersErrorMessage } from '../utils/createGqlClient';
+import * as queries from '../graphql/queries';
+import * as mutations from '../graphql/mutations';
+import { mockJsonResponse } from '../../__tests__/utils';
 import {
   cartItems,
   checkouts,
@@ -18,7 +15,7 @@ import {
   graphqlEndpoint,
   headers,
   webUrl
-} from '__tests__/mocks';
+} from '../../__tests__/mocks';
 
 jest.mock('cross-fetch');
 
@@ -34,12 +31,24 @@ describe('createShopifyCheckoutClient', () => {
     expect(checkoutClient.process).toBeInstanceOf(Function);
   });
 
-  it("throws an error if client functions are called when `typeof window === 'undefined'` and an isomorphic fetch client hasn't been supplied", async () => {
+  it("uses `window.fetch` when `typeof window !== 'undefined'` and an isomorphic fetch client hasn't been supplied", async () => {
+    const windowFetch = jest.fn(
+      (): Promise<any> =>
+        mockJsonResponse<queries.GetCheckoutData>(checkouts.findCheckout)
+    );
+    window.fetch = windowFetch;
+
     const checkoutClient = createShopifyCheckoutClient(clientSettings);
-    expect.assertions(1);
-    await checkoutClient
-      .get({ id: '998877' })
-      .catch((e) => expect(String(e).includes(fetchClientError)).toBe(true));
+    await checkoutClient.get({ id: '998877' });
+
+    expect(windowFetch).toHaveBeenCalledWith(graphqlEndpoint, {
+      method: 'POST',
+      headers,
+      body: JSON.stringify({
+        query: queries.getCheckout,
+        variables: { id: '998877' }
+      })
+    });
   });
 
   it('throws an error if neither (a) both a `myshopifyDomain` and `storefrontApiVersion`, nor (b) a `customEndpoint` are provided', async () => {
@@ -48,6 +57,7 @@ describe('createShopifyCheckoutClient', () => {
       storefrontCheckoutToken
     });
 
+    expect.assertions(1);
     await checkoutClient
       .get({ id: '998877' })
       .catch((e) =>

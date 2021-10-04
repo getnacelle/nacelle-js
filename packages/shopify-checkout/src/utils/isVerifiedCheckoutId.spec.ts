@@ -1,5 +1,5 @@
-import { isVerifiedCheckoutId } from '~/utils';
-import { checkoutId } from '__tests__/mocks';
+import { isVerifiedCheckoutId } from '../utils';
+import { checkoutId } from '../../__tests__/mocks';
 
 describe('handleShopifyError', () => {
   it('returns `true` when provided a valid Shopify checkout ID', async () => {
