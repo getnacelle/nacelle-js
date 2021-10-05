@@ -1,6 +1,6 @@
 {
   "name": "@nacelle/shopify-checkout",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "A minimal Shopify checkout client for headless storefronts",
   "keywords": [
     "nacelle",
@@ -13,21 +13,23 @@
   "homepage": "https://github.com/getnacelle/nacelle-js/tree/main/packages/shopify-checkout#readme",
   "license": "Apache-2.0",
   "main": "./dist/nacelle-shopify-checkout.umd.js",
+  "module": "./dist/nacelle-shopify-checkout.es.js",
   "unpkg": "./dist/nacelle-shopify-checkout.iife.js",
   "jsdelivr": "./dist/nacelle-shopify-checkout.iife.js",
-  "module": "./dist/nacelle-shopify-checkout.es.js",
   "exports": {
     ".": {
       "import": "./dist/nacelle-shopify-checkout.es.js",
       "require": "./dist/nacelle-shopify-checkout.umd.js"
     }
   },
+  "types": "./dist/types/client/index.d.ts",
   "sideEffects": false,
   "directories": {
     "src": "src",
     "test": "__tests__"
   },
   "files": [
+    "src",
     "dist"
   ],
   "repository": {
@@ -35,11 +37,10 @@
     "url": "git+https://github.com/getnacelle/nacelle-js.git"
   },
   "scripts": {
-    "build": "tsc && vite build",
+    "build": "vite build && tsc && mv dist/src dist/types",
     "analyze": "vite build --config analyze.config.js",
     "lint": "eslint .",
     "precommit": "lint-staged",
-    "serve": "vite preview",
     "test": "jest --watch",
     "test:ci": "jest --silent --runInBand --collectCoverage"
   },
@@ -48,7 +49,6 @@
   },
   "devDependencies": {
     "@babel/preset-typescript": "^7.15.0",
-    "@nacelle/types": "^5.0.2",
     "@types/jest": "^27.0.1",
     "cross-fetch": "^3.1.4",
     "jest": "^27.0.1",
@@ -56,7 +56,7 @@
     "rollup-plugin-visualizer": "^5.5.2",
     "ts-jest": "^27.0.5",
     "typescript": "4.4.2",
-    "vite": "^2.5.4"
+    "vite": "^2.6.2"
   },
   "publishConfig": {
     "access": "public"

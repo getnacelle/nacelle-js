@@ -1,8 +1,8 @@
-import { gql } from '~/utils';
+import { gql } from '../../utils';
 import {
   ShopifyCheckoutUserError,
   ShopifyCheckoutResponseProperties
-} from '~/checkout-client.types';
+} from '../../checkout-client.types';
 
 export interface CheckoutCreateData {
   checkoutCreate: {

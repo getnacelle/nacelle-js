@@ -1,5 +1,5 @@
-import { CartItem, CheckoutItem } from '~/checkout-client.types';
-import { metafieldsToCustomAttributes } from '~/utils';
+import { CartItem, CheckoutItem } from '../checkout-client.types';
+import { metafieldsToCustomAttributes } from '../utils';
 
 export interface CartItemsToCheckoutItemsParams {
   cartItems: CartItem[];

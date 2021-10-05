@@ -1,13 +1,12 @@
-import { Metafield } from '@nacelle/types';
-import { findCheckout, putCheckout } from '~/client/actions';
-import { FindCheckoutParams } from '~/client/actions/findCheckout';
-import { PutCheckoutParams } from '~/client/actions/putCheckout';
+import { findCheckout, putCheckout } from '../client/actions';
+import { FindCheckoutParams } from '../client/actions/findCheckout';
+import { PutCheckoutParams } from '../client/actions/putCheckout';
 import {
   cartItemsToCheckoutItems,
   createGqlClient,
   metafieldsToCustomAttributes
-} from '~/utils';
-import { CartItem, ShopifyCheckout } from '~/checkout-client.types';
+} from '../utils';
+import { CartItem, Metafield, ShopifyCheckout } from '../checkout-client.types';
 
 export interface CreateClientParams {
   storefrontCheckoutToken: string;
@@ -33,7 +32,14 @@ export type ProcessCheckout = (
 ) => Promise<void | ShopifyCheckout>;
 
 export interface CheckoutClient {
+  /**
+   * Retrieve a previously-created Shopify checkout.
+   */
   get: GetCheckout;
+  /**
+   * Creates a Shopify checkout, or updates an existing Shopify checkout
+   * if a valid `checkoutId` is provided.
+   */
   process: ProcessCheckout;
 }
 
@@ -66,10 +72,6 @@ export default function createShopifyCheckoutClient({
     return await findCheckout({ gqlClient, id });
   }
 
-  /**
-   * Creates a Shopify checkout, or updates an existing Shopify checkout
-   * if a valid `checkoutId` is provided.
-   */
   async function processCheckout({
     cartItems,
     id,

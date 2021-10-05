@@ -1,4 +1,4 @@
-import { ShopifyError } from '~/checkout-client.types';
+import { ShopifyError } from '../../src/checkout-client.types';
 type MockJsonResponseParams<D> = {
   data?: D;
   errors?: ShopifyError[];

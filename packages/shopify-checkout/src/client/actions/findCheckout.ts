@@ -1,12 +1,15 @@
 import {
   getCheckout as getCheckoutQuery,
   GetCheckoutData
-} from '~/graphql/queries';
-import { handleShopifyError } from '~/utils';
-import { ShopifyCheckout, GqlClient } from '~/checkout-client.types';
+} from '../../graphql/queries';
+import { handleShopifyError } from '../../utils';
+import { ShopifyCheckout, GqlClient } from '../../checkout-client.types';
 
 export interface FindCheckoutParams {
   gqlClient: GqlClient;
+  /**
+   * a Shopify checkout ID.
+   */
   id: string;
 }
 
@@ -22,10 +25,7 @@ export default async function findCheckout({
   const { data, errors } = await gqlClient<
     FindCheckoutVariables,
     GetCheckoutData
-  >({
-    query,
-    variables
-  }).catch((err) => {
+  >({ query, variables }).catch((err) => {
     throw new Error(err);
   });
 
