@@ -11,11 +11,10 @@ export const config = {
     }
   },
   build: {
-    target: 'esnext',
     lib: {
       entry: path.resolve(__dirname, 'src/index.js'),
       name: 'NacelleVue',
-      fileName: format => `nacelle-vue.${format}.js`,
+      fileName: (format) => `nacelle-vue.${format}.js`,
       formats: ['es', 'umd', 'iife']
     },
     rollupOptions: {
@@ -31,7 +30,8 @@ export const config = {
           '@nacelle/client-js-sdk': 'NacelleClient'
         }
       }
-    }
+    },
+    target: 'es2015'
   }
 };
 
