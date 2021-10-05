@@ -1,7 +1,7 @@
 import {
   ShopifyCheckoutUserError,
   ShopifyError
-} from '~/checkout-client.types';
+} from '../checkout-client.types';
 
 export interface VerboseErrorParams {
   caller?: string;

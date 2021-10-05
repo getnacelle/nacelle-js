@@ -6,3 +6,6 @@ dist-ssr
 
 # test outputs
 coverage
+
+# bundle analysis
+stats.html

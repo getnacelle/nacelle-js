@@ -1,15 +1,15 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import fetchClient from 'cross-fetch';
 import { mocked } from 'ts-jest/utils';
-import { putCheckout } from '~/client/actions';
+import { putCheckout } from '../../client/actions';
 import {
   buildCheckout,
   cartItemsToCheckoutItems,
   createGqlClient
-} from '~/utils';
-import * as mutations from '~/graphql/mutations';
-import { Attribute } from '~/checkout-client.types';
-import { mockJsonResponse } from '__tests__/utils';
+} from '../../utils';
+import * as mutations from '../../graphql/mutations';
+import { Attribute } from '../../checkout-client.types';
+import { mockJsonResponse } from '../../../__tests__/utils';
 import {
   cartItems,
   clientSettings,
@@ -19,7 +19,7 @@ import {
   headers,
   newCartItems,
   shopifyErrors
-} from '__tests__/mocks';
+} from '../../../__tests__/mocks';
 
 jest.mock('cross-fetch');
 const gqlClient = createGqlClient({ ...clientSettings, fetchClient });

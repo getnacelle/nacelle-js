@@ -1,12 +1,19 @@
-import { buildCheckout, handleShopifyError } from '~/utils';
+import { buildCheckout, handleShopifyError } from '../../utils';
 import {
   checkoutAttributesUpdate as checkoutAttributesUpdateMutation,
   CheckoutAttributesUpdateData
-} from '~/graphql/mutations';
-import { ShopifyCheckout, Attribute, GqlClient } from '~/checkout-client.types';
+} from '../../graphql/mutations';
+import {
+  ShopifyCheckout,
+  Attribute,
+  GqlClient
+} from '../../checkout-client.types';
 
 export interface CheckoutAttributesUpdateParams {
   gqlClient: GqlClient;
+  /**
+   * a Shopify checkout ID.
+   */
   id: string;
   customAttributes?: Attribute[];
   note?: string;
@@ -35,10 +42,7 @@ export default async function checkoutAttributesUpdate({
   const { data, errors } = await gqlClient<
     CheckoutUpdateVariables,
     CheckoutAttributesUpdateData
-  >({
-    query,
-    variables
-  }).catch((err) => {
+  >({ query, variables }).catch((err) => {
     throw new Error(err);
   });
 

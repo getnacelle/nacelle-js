@@ -1,8 +1,10 @@
-import { Metafield } from '@nacelle/types';
-
 export interface Attribute {
   key: string;
   value: string;
+}
+
+export interface Metafield extends Attribute {
+  [key: string]: string;
 }
 
 export interface ShopifyCheckout {

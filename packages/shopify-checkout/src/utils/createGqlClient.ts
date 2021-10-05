@@ -1,5 +1,5 @@
-import { GqlClient } from '~/checkout-client.types';
-import { CreateClientParams } from '~/client';
+import { GqlClient } from '../checkout-client.types';
+import { CreateClientParams } from '../client';
 
 /**
  * Sanitize `(brand).myshopify.com` domains.

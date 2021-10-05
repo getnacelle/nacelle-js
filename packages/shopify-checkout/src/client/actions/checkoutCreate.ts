@@ -1,14 +1,14 @@
-import { buildCheckout, handleShopifyError } from '~/utils';
+import { buildCheckout, handleShopifyError } from '../../utils';
 import {
   checkoutCreate as checkoutCreateMutation,
   CheckoutCreateData
-} from '~/graphql/mutations';
+} from '../../graphql/mutations';
 import {
   Attribute,
   CheckoutItem,
   GqlClient,
   ShopifyCheckout
-} from '~/checkout-client.types';
+} from '../../checkout-client.types';
 
 export interface CreateCheckoutParams {
   gqlClient: GqlClient;

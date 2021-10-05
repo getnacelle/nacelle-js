@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import fetchClient from 'cross-fetch';
 import { mocked } from 'ts-jest/utils';
-import { findCheckout } from '~/client/actions';
-import { createGqlClient } from '~/utils';
-import * as queries from '~/graphql/queries';
-import { mockJsonResponse } from '__tests__/utils';
+import { findCheckout } from '../../client/actions';
+import { createGqlClient } from '../../utils';
+import * as queries from '../../graphql/queries';
+import { mockJsonResponse } from '../../../__tests__/utils';
 import {
   clientSettings,
   checkoutId,
@@ -13,7 +13,7 @@ import {
   graphqlEndpoint,
   headers,
   shopifyErrors
-} from '__tests__/mocks';
+} from '../../../__tests__/mocks';
 
 jest.mock('cross-fetch');
 const gqlClient = createGqlClient({ ...clientSettings, fetchClient });

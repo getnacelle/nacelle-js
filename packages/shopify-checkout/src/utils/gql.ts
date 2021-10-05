@@ -8,7 +8,7 @@ interface StringCompatible {
  * Tagged template literal to enable syntax highlighting for inline GraphQL queries
  *
  * @example
- * import { gql } from '~/utils';
+ * import { gql } from '/path/to/utils';
  *
  * gql`
  *   query {

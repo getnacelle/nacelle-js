@@ -1,5 +1,5 @@
-import { shopifyErrors } from '__tests__/mocks';
-import { handleShopifyError } from '~/utils';
+import { shopifyErrors } from '../../__tests__/mocks';
+import { handleShopifyError } from '../utils';
 
 const checkoutIdNotValid = shopifyErrors.checkoutIdNotValid('not-a-valid-id');
 

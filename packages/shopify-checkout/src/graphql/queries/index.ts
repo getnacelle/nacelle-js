@@ -1,5 +1,5 @@
-import { gql } from '~/utils';
-import { GqlStringField } from '~/checkout-client.types';
+import { gql } from '../../utils';
+import { GqlStringField } from '../../checkout-client.types';
 
 export interface CheckoutNode {
   id: GqlStringField;

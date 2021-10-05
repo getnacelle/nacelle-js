@@ -1,4 +1,4 @@
-import { BuildCheckoutParams, ShopifyCheckout } from '~/checkout-client.types';
+import { BuildCheckoutParams, ShopifyCheckout } from '../checkout-client.types';
 
 export default function buildCheckout({
   id,

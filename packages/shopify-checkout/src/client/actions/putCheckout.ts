@@ -2,12 +2,12 @@ import {
   checkoutAttributesUpdate,
   checkoutLineItemsReplace,
   checkoutCreate
-} from '~/client/actions';
-import { isVerifiedCheckoutId } from '~/utils';
-import { ShopifyCheckout } from '~/checkout-client.types';
-import { CreateCheckoutParams } from '~/client/actions/checkoutCreate';
-import { CheckoutAttributesUpdateParams } from '~/client/actions/checkoutAttributesUpdate';
-import { CheckoutLineItemsReplaceParams } from '~/client/actions/checkoutLineItemsReplace';
+} from '../../client/actions';
+import { isVerifiedCheckoutId } from '../../utils';
+import { ShopifyCheckout } from '../../checkout-client.types';
+import { CreateCheckoutParams } from '../../client/actions/checkoutCreate';
+import { CheckoutAttributesUpdateParams } from '../../client/actions/checkoutAttributesUpdate';
+import { CheckoutLineItemsReplaceParams } from '../../client/actions/checkoutLineItemsReplace';
 
 type CheckoutActionIntersection = CreateCheckoutParams &
   CheckoutAttributesUpdateParams &
