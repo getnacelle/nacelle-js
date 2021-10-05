@@ -28,22 +28,52 @@
     <p>
       <button type="button" @click="clearCart">Clear Cart</button>
     </p>
+    <p>
+      <button type="button" @click="processCheckout">
+        Proceed to Checkout
+      </button>
+    </p>
   </div>
 </template>
 
 <script>
+import { useContext } from '@nuxtjs/composition-api';
 import { useCartProvider } from '@nacelle/vue';
+import createShopifyCheckoutClient from '@nacelle/shopify-checkout';
 
 export default {
   setup() {
-    const { cart, removeItem, incrementItem, decrementItem, clearCart } =
-      useCartProvider();
-    return {
+    const {
       cart,
       removeItem,
       incrementItem,
       decrementItem,
       clearCart
+    } = useCartProvider();
+    const { $config } = useContext();
+    const checkoutClient = createShopifyCheckoutClient($config.shopify);
+
+    if (process.client) {
+      // clear cart if checkout has been completed
+      const checkoutId = window.localStorage.getItem('checkoutId');
+
+      if (checkoutId) {
+        checkoutClient.get({ id: checkoutId }).then((checkoutData) => {
+          if (checkoutData?.completed) {
+            window.localStorage.setItem('checkoutId', '');
+            clearCart();
+          }
+        });
+      }
+    }
+
+    return {
+      cart,
+      removeItem,
+      incrementItem,
+      decrementItem,
+      clearCart,
+      checkoutClient
     };
   },
   computed: {
@@ -60,6 +90,24 @@ export default {
         style: 'currency',
         currency: 'USD'
       }).format(price);
+    },
+    async processCheckout() {
+      // format cart items into the shape that's expected by the checkout client
+      const cartItems = this.cart.lineItems.map((cartItem) => ({
+        quantity: cartItem.quantity,
+        variantId: cartItem.variant.id,
+        metafields: [
+          ...cartItem.product.metafields,
+          ...cartItem.variant.metafields
+        ]
+      }));
+
+      const checkoutData = await this.checkoutClient.process({ cartItems });
+      window.localStorage.setItem('checkoutId', checkoutData.id);
+
+      if (checkoutData.url) {
+        window.location.href = checkoutData.url;
+      }
     }
   }
 };
