@@ -15,7 +15,7 @@ export const config = {
       treeshake: 'smallest'
     },
     sourcemap: true,
-    target: 'esnext'
+    target: 'es2015'
   },
   plugins: [
     transformTaggedTemplate({
