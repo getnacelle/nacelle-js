@@ -34,7 +34,8 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/getnacelle/nacelle-js.git"
+    "url": "git+https://github.com/getnacelle/nacelle-js.git",
+    "directory": "packages/shopify-checkout"
   },
   "scripts": {
     "build": "vite build && tsc && mv dist/src dist/types",
