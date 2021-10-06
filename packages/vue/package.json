@@ -29,7 +29,8 @@
   "sideEffects": false,
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/getnacelle/nacelle-js.git"
+    "url": "git+https://github.com/getnacelle/nacelle-js.git",
+    "directory": "packages/vue"
   },
   "bugs": {
     "url": "https://github.com/getnacelle/nacelle-js/issues"
