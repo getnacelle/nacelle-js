@@ -53,6 +53,14 @@ export default {
      * @returns {void}
      */
     const addItem = (payload) => {
+      if (!payload.variant || !payload.variant.id) {
+        console.warn(
+          "[nacelle] CartProvider's `addItem` method requires the parameter to have a `variant` object with an `id` property."
+        );
+        return;
+      }
+      payload.quantity = payload.quantity || 1;
+
       const index = cart.lineItems.findIndex((item) => {
         if (item.variant.id === payload.variant.id) {
           return (
@@ -80,6 +88,10 @@ export default {
      */
     const removeItem = (payload) => {
       const index = cart.lineItems.findIndex((item) => item.id === payload);
+      if (index === -1) {
+        console.warn("[nacelle] Couldn't remove item. Item not found.");
+        return;
+      }
       cart.lineItems.splice(index, 1);
       cacheCart();
     };
@@ -92,6 +104,10 @@ export default {
     const updateItem = (payload) => {
       // find matching item in cart
       const index = cart.lineItems.findIndex((item) => item.id === payload.id);
+      if (index === -1) {
+        console.warn("[nacelle] Couldn't update item. Item not found.");
+        return;
+      }
       // loop through keys in the payload to update
       Object.keys(cart.lineItems[index]).forEach((key) => {
         const value = payload[key];
@@ -109,9 +125,11 @@ export default {
      */
     const incrementItem = (payload) => {
       const index = cart.lineItems.findIndex((item) => item.id === payload);
-      if (index !== -1) {
-        cart.lineItems[index].quantity++;
+      if (index === -1) {
+        console.warn("[nacelle] Couldn't increment item. Item not found.");
+        return;
       }
+      cart.lineItems[index].quantity++;
       cacheCart();
     };
 
@@ -122,7 +140,11 @@ export default {
      */
     const decrementItem = (payload) => {
       const index = cart.lineItems.findIndex((item) => item.id === payload);
-      if (index !== -1 && cart.lineItems[index].quantity >= 1) {
+      if (index === -1) {
+        console.warn("[nacelle] Couldn't decrement item. Item not found.");
+        return;
+      }
+      if (cart.lineItems[index].quantity >= 1) {
         cart.lineItems[index].quantity--;
         if (cart.lineItems[index].quantity === 0) {
           cart.lineItems.splice(index, 1);
