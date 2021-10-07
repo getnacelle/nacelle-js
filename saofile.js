@@ -1,4 +1,5 @@
 module.exports = {
+  templateDir: 'starters/nuxt',
   prompts: [
     {
       name: 'framework',
@@ -11,20 +12,21 @@ module.exports = {
   ],
   actions() {
     const actions = [];
-    if (this.answers.framework === 'next') {
-      actions.push({
-        type: 'add',
-        files: '**',
-        templateDir: 'starters/nuxt'
-      });
-    }
-    if (this.answers.framework === 'next') {
-      actions.push({
-        type: 'add',
-        files: '**',
-        templateDir: 'packages'
-      });
-    }
+
+    console.log('RESULTS', this.results);
+
+    actions.push({
+      type: 'add',
+      files: '**'
+    });
+    actions.push({
+      type: 'move',
+      patterns: {
+        gitignore: '.gitignore'
+      }
+    });
+
+    return actions;
   },
 
   async completed() {
