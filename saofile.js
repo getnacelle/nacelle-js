@@ -9,27 +9,23 @@ module.exports = {
       ]
     }
   ],
-  templateDir() {
+  actions() {
+    const actions = [];
     if (this.answer.framework === 'next') {
-      return 'starters/nuxt';
+      actions.push({
+        type: 'add',
+        files: '**',
+        templateDir: 'starters/nuxt'
+      });
     }
     if (this.answer.framework === 'next') {
-      return 'packages';
+      actions.push({
+        type: 'add',
+        files: '**',
+        templateDir: 'packages'
+      });
     }
   },
-  actions: [
-    {
-      type: 'add',
-      // Copy and transform all files in `starters/nuxt` folder into output directory
-      files: '**'
-    },
-    {
-      type: 'move',
-      patterns: {
-        gitignore: '.gitignore'
-      }
-    }
-  ],
 
   async completed() {
     console.log('completed');
