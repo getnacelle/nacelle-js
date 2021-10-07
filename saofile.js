@@ -3,11 +3,13 @@ module.exports = {
   prompts: [
     {
       name: 'framework',
-      message: 'What framework would you like to scaffhold?',
+      message: 'What framework woul you like to use:',
       choices: [
         { name: 'Next.js', value: 'next' },
         { name: 'Nuxt.js', value: 'nuxt' }
-      ]
+      ],
+      type: 'list',
+      default: 'nuxt'
     }
   ],
   actions() {
