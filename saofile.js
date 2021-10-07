@@ -11,14 +11,14 @@ module.exports = {
   ],
   actions() {
     const actions = [];
-    if (this.answer.framework === 'next') {
+    if (this.answers.framework === 'next') {
       actions.push({
         type: 'add',
         files: '**',
         templateDir: 'starters/nuxt'
       });
     }
-    if (this.answer.framework === 'next') {
+    if (this.answers.framework === 'next') {
       actions.push({
         type: 'add',
         files: '**',
