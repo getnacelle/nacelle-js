@@ -15,6 +15,6 @@ module.exports = {
   ],
 
   async completed() {
-    console.log('completed');
+    console.log('');
   }
 };
