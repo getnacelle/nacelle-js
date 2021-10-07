@@ -1,5 +1,4 @@
 module.exports = {
-  templateDir: 'starters/nuxt',
   prompts: [
     {
       name: 'framework',
@@ -19,7 +18,8 @@ module.exports = {
 
     actions.push({
       type: 'add',
-      files: '**'
+      files: '**',
+      templateDir: 'starters/nuxt'
     });
     actions.push({
       type: 'move',
