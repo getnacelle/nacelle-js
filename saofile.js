@@ -15,7 +15,7 @@ module.exports = {
   actions() {
     const actions = [];
 
-    console.log('RESULTS', this);
+    console.log('RESULTS', this._answers);
 
     actions.push({
       type: 'add',
