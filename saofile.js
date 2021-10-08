@@ -12,9 +12,5 @@ module.exports = {
         gitignore: '.gitignore'
       }
     }
-  ],
-
-  async completed() {
-    console.log('completed');
-  }
+  ]
 };
