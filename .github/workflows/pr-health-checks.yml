@@ -1,0 +1,17 @@
+name: pull-request-health-checks
+
+on:
+  pull_request:
+    types: [opened, reopened, ready_for_review]
+
+jobs:
+  pull-request-health-checks:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 🩺 Perform Pull Request Health Checks
+        uses: Namchee/conventional-pr@v0.5.0
+        with:
+          access_token: ${{ secrets.GITHUB_TOKEN }}
+          allowed_types: 'feat,fix,chore,docs,style,refactor,perf,test'
+          link_issue: false
+          check_draft: true
