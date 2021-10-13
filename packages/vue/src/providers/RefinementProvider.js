@@ -297,7 +297,7 @@ export default {
               const index = activeFilter.values.findIndex(
                 (index) => index === value
               );
-              if (index >= -1) {
+              if (index >= 0) {
                 activeFilter.values.splice(index, 1);
               } else {
                 activeFilter.values = [...activeFilter.values, value];
