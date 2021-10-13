@@ -2,7 +2,7 @@ name: pull-request-health-checks
 
 on:
   pull_request:
-    types: [opened, reopened, ready_for_review]
+    types: [opened, edited, reopened, synchronize, ready_for_review]
 
 jobs:
   pull-request-health-checks:
