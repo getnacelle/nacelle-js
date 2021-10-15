@@ -2,6 +2,8 @@
 
 ## Build Setup
 
+> The minimum node version requirement for this project is **>=14.13**
+
 ```bash
 # install dependencies
 $ npm install
