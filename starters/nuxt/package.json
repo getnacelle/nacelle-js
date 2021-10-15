@@ -8,6 +8,10 @@
     "serve": "serve dist -p 4000",
     "precommit": "lint-staged"
   },
+  "engines": {
+    "node": ">=14 <18",
+    "npm": ">=7"
+  },
   "dependencies": {
     "@nacelle/shopify-checkout": "^0.0.6",
     "@nacelle/vue": "^0.0.10",
