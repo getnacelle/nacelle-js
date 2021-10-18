@@ -44,7 +44,7 @@
     "test:watch": "jest --watch"
   },
   "dependencies": {
-    "@nacelle/client-js-sdk": "^3.4.4",
+    "@nacelle/client-js-sdk": "^3.5.0",
     "@vue/composition-api": "^1.1.5",
     "idb-keyval": "^6.0.2",
     "vue": "^2.6.14"
