@@ -76,8 +76,8 @@ The following details are required so our maintainers can quickly identify and r
 
 - **Inlucde any additional resources** such as screenshots, gifs or videos showcasing the bug.
 
-## Suggesting Enhancements
+### Suggesting Enhancements
 
-## Submitting Pull Requests
+### Submitting Pull Requests
 
-## Additional Resources
+### Additional Resources
