@@ -6,7 +6,6 @@ on:
       - opened
       - reopened
       - edited
-      - synchronize
 
 jobs:
   pull-request-health-checks:
