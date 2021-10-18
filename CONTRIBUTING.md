@@ -2,7 +2,7 @@
 
 👍🚀 Welcome to Nacelle-js! And thanks for taking the time to contribute to the project. 🚀👍
 
-Before contributing to the repository we ask that you review the following guidelines. If you feel the process can be improved, feel free to to propose the changes in a pull request.
+Before contributing we ask that you review the following guidelines. If you think the process can be improved, feel free to to propose the changes in a pull request.
 
 #### Table Of Contents
 
@@ -16,7 +16,11 @@ Before contributing to the repository we ask that you review the following guide
 
 [Making Contributions](#making-contributions)
 
-[Additional Notes](#additional-notes)
+- [Reporting Bugs](#reporting-bugs)
+- [Suggesting Enhancements](#suggesting-enhancements)
+- [Submitting Pull Requests](#submitting-pull-requests)
+
+[Additional Resources](#additional-resources)
 
 ## Code Of Conduct
 
@@ -70,10 +74,10 @@ The following details are required so our maintainers can quickly identify and r
 
 - **Describe the expected behavior** you think should occur.
 
-- **Inlucde any additional resources** such as screenshots, gifs, or videos showcasing the bug
+- **Inlucde any additional resources** such as screenshots, gifs or videos showcasing the bug.
 
-#### Suggesting Enhancements
+## Suggesting Enhancements
 
-#### First Contributions
+## Submitting Pull Requests
 
-#### Pull Requests
+## Additional Resources
