@@ -31,11 +31,11 @@ Before contributing we ask that you review the following guidelines. If you thin
 
 ## Code Of Conduct
 
-This project and everyone participating in it is governed by the [Nacelle Code of Conduct](CODE_OF_CONDUCT.md). All participants are expected to abide by this code. Please report unacceptable behavior to [dev@getnacelle.com](mailto:dev@getnacelle.com).
+This project and everyone participating in it is governed by the [Nacelle Code of Conduct](CODE_OF_CONDUCT.md). All participants are expected to abide by this code. Please report unacceptable behavior to [support@getnacelle.com](mailto:support@getnacelle.com).
 
 ## Getting Started
 
-Nacelle-js is set of tools designed to empower developers to build unique, performant & scalable storefronts. The repository is broken the following parts.
+Nacelle-js is a set of tools designed to empower developers to build unique, performant & scalable storefronts. The repository is broken the following parts.
 
 ### Packages
 
@@ -117,7 +117,7 @@ We enforce conventional pull request titles to ensure all pull requests are easi
 
 #### Making Your First Contribution
 
-Unsure of how to start contributing to Nacelle-js? We recommend you begin by checking for issues tagged with `bugfix`, `'docs` or `beginner`. These issues can provide a great introduction into our processes and codebase.
+Unsure of how to start contributing to Nacelle-js? We recommend you begin by checking for issues tagged with `bugfix`, `docs` or `beginner`. These issues can provide a great introduction into our processes and codebase.
 
 #### Before Submitting A Pull Request
 
@@ -161,7 +161,7 @@ Revert branch '<branch name>'
 - **fix** PR that fixes a bug
 - **refactor** PR that rewrites/restructures code
 - **perf** PR that improves performance
-- **style** PR that does not affect functionality or meaning (white-sapce, formatting, missing semi-colons, etc)
+- **style** PR that does not affect functionality or meaning (white-space, formatting, missing semi-colons, etc)
 - **test** PR that adds missing tests or adjusts current tests
 - **docs** PR that affects documentation only
 - **build** PR that affects build tools, pipelines, dependencies, versions...
@@ -179,8 +179,7 @@ The `scope` provides additional contextual information.
 
 The `subject` contains a succinct description of the change.
 
-[ Is a mandatory part of the format
-
+- Is a mandatory part of the format
 - Use the imperative, present tense: "change" not "changed" nor "changes"
 - Don't capitalize the first letter
 - No dot (.) at the end
@@ -193,7 +192,7 @@ The `body` should include the motivation for the change and contrast this with p
 - Use the imperative, present tense: "change" not "changed" nor "changes"
 - This is the place to mention issue identifiers and their relations
 
-##### Examples
+##### Footer
 
 The `footer` should contain any information about Breaking Changes and is also the place to reference Issues that this commit refers to.
 
@@ -204,7 +203,7 @@ The `footer` should contain any information about Breaking Changes and is also t
 ###### Examples
 
 - ```
-  feat(cart apple pay): add the apply pay button to cart
+  feat(cart apple pay): add the apple pay button to cart
   ```
 - ```
   feat: swap out checkout service for module
