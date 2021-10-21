@@ -14,9 +14,8 @@ jobs:
       - name: 🩺 Perform Pull Request Health Checks
         uses: aslafy-z/conventional-pr-title-action@master
         with:
-          success-state: Title follows the specification.
-          failure-state: Title does not follow the specification.
-          context-name: conventional-pr-title
-          preset: conventional-changelog-angular@latest
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          access_token: ${{ secrets.GITHUB_TOKEN }}
+          allowed_types: 'feat,fix,build,chore,docs,style,refactor,perf,test'
+          link_issue: false
+          check_draft: true
+          close: false
