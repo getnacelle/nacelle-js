@@ -20,8 +20,7 @@ const InjectedWithSpaceData = () => {
       'nacelleSdk',
       'getMetafieldsObj',
       'getMetafield',
-      'getLinks',
-      'updateSdk'
+      'getLinks'
     ],
     render: (h) => h('div')
   };
