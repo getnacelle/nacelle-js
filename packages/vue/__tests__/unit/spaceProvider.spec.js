@@ -74,11 +74,4 @@ describe('Space Provider', () => {
       mainMenu.links
     );
   });
-
-  it('calls updater function', () => {
-    jest.spyOn(injectedSpaceComponent.vm, 'updateSdk');
-    expect(typeof injectedSpaceComponent.vm.updateSdk).toEqual('function');
-    injectedSpaceComponent.vm.updateSdk({ updater: (sdk) => sdk });
-    expect(injectedSpaceComponent.vm.updateSdk).toHaveBeenCalledTimes(1);
-  });
 });
