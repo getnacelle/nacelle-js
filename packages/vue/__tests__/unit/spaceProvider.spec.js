@@ -48,7 +48,9 @@ describe('Space Provider', () => {
     linklists
   };
 
-  const spaceProvider = mount(SpaceProviderContainer({ props: { space } }));
+  const spaceProvider = mount(
+    SpaceProviderContainer({ props: { space, sdk: { data: 'data' } } })
+  );
   const injectedSpaceComponent = spaceProvider.findComponent({
     name: 'InjectedWithSpaceData'
   });
@@ -72,5 +74,9 @@ describe('Space Provider', () => {
     expect(injectedSpaceComponent.vm.getLinks('main-menu')).toEqual(
       mainMenu.links
     );
+  });
+
+  it('recieves sdk prop', () => {
+    expect(injectedSpaceComponent.vm.nacelleSdk).toEqual({ data: 'data' });
   });
 });
