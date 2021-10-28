@@ -76,7 +76,7 @@ describe('Space Provider', () => {
     );
   });
 
-  it('recieves sdk prop', () => {
+  it('receives sdk prop', () => {
     expect(injectedSpaceComponent.vm.nacelleSdk).toEqual({ data: 'data' });
   });
 });
