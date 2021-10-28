@@ -12,9 +12,9 @@ export default {
       type: Object,
       default: () => ({})
     },
-    locale: {
-      type: String,
-      default: ''
+    sdk: {
+      type: Object,
+      required: false
     }
   },
   setup(props, context) {
@@ -25,7 +25,7 @@ export default {
     const linklists = ref(props.space?.linklists || []);
 
     const config = props.config;
-    const nacelleSdk = useSdk({ config });
+    const nacelleSdk = props.sdk || useSdk({ config });
 
     /**
      * Finds menu by handle in linklists array
