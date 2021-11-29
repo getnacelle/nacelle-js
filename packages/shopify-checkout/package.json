@@ -1,6 +1,6 @@
 {
   "name": "@nacelle/shopify-checkout",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "A minimal Shopify checkout client for headless storefronts",
   "keywords": [
     "nacelle",
