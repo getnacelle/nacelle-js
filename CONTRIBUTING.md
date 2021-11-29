@@ -1,15 +1,17 @@
 # Contributing To Nacelle-js
 
-👍🚀 Welcome to Nacelle-js! And thanks for taking the time to contribute to the project. 🚀👍
+Welcome to `nacelle-js`! And thanks for taking the time to contribute to the project.
 
 Before contributing we ask that you review the following guidelines. If you think the process can be improved, feel free to propose the changes in a pull request.
 
-#### Table Of Contents
+## Table Of Contents
 
 [Code of Conduct](#code-of-conduct)
 
 [Getting Started](#getting-started)
 
+- [Setting up your development environment](#setting-up-your-development-environment)
+- [Installing new dependencies](#installing-dependencies-in-packages-examples-and-starters)
 - [Packages](#packages)
 - [Starters](#starters)
 - [Examples](#examples)
@@ -22,12 +24,11 @@ Before contributing we ask that you review the following guidelines. If you thin
 
 [Styleguides](#styleguides)
 
-- [Pull Request Titles](#pull-request-titles)
+- [Pull Request Titles Styleguide](#pull-request-titles-styleguide)
+- [Commits Styleguide](#commits-styleguide)
 - [Javascript Styleguide](#javascript-styleguide)
 - [Specs Styleguide](#specs-styleguide)
 - [Documentation Styleguide](#documentation-styleguide)
-
-[Additional Resources](#additional-resources)
 
 ## Code Of Conduct
 
@@ -35,19 +36,85 @@ This project and everyone participating in it is governed by the [Nacelle Code o
 
 ## Getting Started
 
-Nacelle-js is a set of tools designed to empower developers to build unique, performant & scalable storefronts. The repository is broken the following parts.
+### Setting up your development environment
+
+This project uses [Lerna](https://lerna.js.org) to coordinate dependencies throughout the monorepo. Lerna allows us to make changes to a package and see the effects of those changes in other packages and example projects, without the need to manually manage package symlinks via `npm link`.
+
+When you clone this repository for the first time, run:
+
+```
+npm i && npm run bootstrap && npm run prepare
+```
+
+This will install Lerna, and will run Lerna's [`bootstrap`](https://github.com/lerna/lerna/blob/main/commands/bootstrap/README.md) command, which installs dependencies across `packages/` and `examples/` and creates symlinks between them. The `prepare` script initializes [Husky](https://typicode.github.io/husky), which supports linting of staged changes.
+
+### Installing new dependencies
+
+When you run `npm i <some-new-package>` in a `packages/`, `examples/`, or `starters/` project, you must run `npm run bootstrap` from the monorepo root again to restore symlinks.
+
+Any `devDependencies` that are installed in `packages/`, `examples/`, or `starters/` will be "hoisted" by Lerna into the monorepo root's `devDependencies`. This helps to reduce inconsistencies across projects and reduces disk space usage by using the root-level symlinked package across all `packages/` and `examples/` that use it.
 
 ### Packages
 
 The `packages/` directory contains all of the project's installable npm packages. These packages should be modular and exclude all non-critical dependencies.
 
+### Creating a new package
+
+From the monorepo root:
+
+```
+npm run create -- <package-name> packages/
+```
+
+This runs Lerna's [`create`](https://github.com/lerna/lerna/tree/main/commands/create#readme) script to create a new package in the `packages/` directory. Follow the prompts to create the new package.
+
+Alternatively, you can:
+
+1. `cd packages/`
+2. create a new directory and `cd <new-directory>/`
+3. run `npm init`
+4. `cd ../../` back to the monorepo root
+5. run `npm run bootstrap`
+
+After creating `packages/<package-name>`, add the following script to its `package.json`:
+
+```
+"precommit": "lint-staged",
+```
+
 ### Starters
 
 The `starters/` directory contains all of the project's framework-specific starters. These starters should be minimal and should not impose any unnecessary coding conventions.
 
+### Creating a new starter project
+
+1. `cd starters/`
+2. either run a project creation tool that scaffolds a new project, or manually create & `npm init` a project from scratch
+3. `cd ../../` back to the monorepo root
+4. run `npm run bootstrap`
+
+After creating `starters/<project-name>`, add the following script to its `package.json`:
+
+```
+"precommit": "lint-staged",
+```
+
 ### Examples
 
 The `examples/` directory contains all of the project's example implementations such as integrating 3rd party apps. These examples should contain the least amount of code required to function.
+
+### Creating a new example project
+
+1. `cd examples/`
+2. either run a project creation tool that scaffolds a new project, or manually create & `npm init` a project from scratch
+3. `cd ../../` back to the monorepo root
+4. run `npm run bootstrap`
+
+After creating `examples/<project-name>`, add the following script to its `package.json`:
+
+```
+"precommit": "lint-staged",
+```
 
 ## Making Contributions
 
@@ -127,11 +194,33 @@ Before opening a pull request you should review all of our [styleguides](#styleg
 
 To make the process as easy as possible we've created a Pull Request Template that will be added to your PR when you create it. Be sure to fill out all the required fields with as much detail and context as possible.
 
-### Styleguides
+## Styleguides
 
-#### Pull Request Titles
+### Pull Request Titles Styleguide
 
-All pull request titles must follow the conventional commit patterns.
+All pull request titles must follow Conventional Commit patterns [described below](#conventional-commits).
+
+#### Examples
+
+```
+feat(packages/vue): add useQuery composable
+```
+
+```
+fix(examples/svelte-kit): display date in correct format
+```
+
+```
+ci: add "Thank you for contributing!" comment to PRs
+```
+
+### Commits Styleguide
+
+All commits must follow Conventional Commit patterns described below. Commits must also be squashed into a single commit.
+
+#### Conventional Commits
+
+All commits must follow the [Conventional Commit](https://www.conventionalcommits.org) patterns. This helps make code changes easier to track and interpret.
 
 ##### Default
 
@@ -157,15 +246,16 @@ Revert branch '<branch name>'
 
 ##### Types
 
-- **feat** PR that adds a new feature
-- **fix** PR that fixes a bug
-- **refactor** PR that rewrites/restructures code
-- **perf** PR that improves performance
-- **style** PR that does not affect functionality or meaning (white-space, formatting, missing semi-colons, etc)
-- **test** PR that adds missing tests or adjusts current tests
-- **docs** PR that affects documentation only
-- **build** PR that affects build tools, pipelines, dependencies, versions...
-- **chore** PR that makes miscellaneous adjustments e.g. modifiying `.gitignore`
+- **`feat`** - change that adds a new feature
+- **`fix`** - change that fixes a bug
+- **`refactor`** - change that rewrites/restructures code
+- **`perf`** - change that improves performance
+- **`style`** - change that does not affect functionality or meaning (white-space, formatting, missing semi-colons, etc)
+- **`test`** - change that adds missing tests or adjusts current tests
+- **`docs`** - change that affects documentation only
+- **`build`** - change that affects build tools, pipelines, dependencies, versions...
+- **`ci`** - change affects CI/CD, such as GitHub Actions
+- **`chore`** - change that makes miscellaneous adjustments, such as updating a project's `.gitignore`
 
 ##### Scopes
 
@@ -228,7 +318,17 @@ The `footer` should contain any information about Breaking Changes and is also t
   style: remove empty line
   ```
 
-#### Javascript Styleguide
+#### Squashing Commits
+
+It's common to make many commits during the development process; it's also common for commits to have less-than-helpful commit messages. Before making a Pull Request, please squash commits on your feature branch into a single Conventional Commit.
+
+Commits can be squashed with a variety of techniques:
+
+- [With `git` and a text editor](https://egghead.io/lessons/javascript-how-to-squash-multiple-git-commits)
+- [With VSCode + gitlens](https://www.youtube.com/watch?v=P5p71fguFNI)
+- [With GitHub Desktop](https://docs.github.com/en/desktop/contributing-and-collaborating-using-github-desktop/managing-commits/squashing-commits)
+
+### Javascript Styleguide
 
 All JavaScript code is linted with [Prettier](https://prettier.io/).
 
@@ -258,7 +358,7 @@ All JavaScript code is linted with [Prettier](https://prettier.io/).
 
 #### Specs Styleguide
 
-- Include thoughtfully-worded, well-structured [Jest](https://github.com/facebook/jest/) specs in the appropriate directory's `./spec` folder.
+- Include thoughtfully-worded, well-structured [Jest](https://github.com/facebook/jest/) specs.
 - Treat `describe` as a noun or situation.
 - Treat `it` as a statement about state or how an operation changes state.
 
@@ -269,5 +369,3 @@ All JavaScript code is linted with [Prettier](https://prettier.io/).
   - Reference classes with `{ClassName}`
   - Reference instance methods with `{ClassName::methodName}`
   - Reference class methods with `{ClassName.methodName}`
-
-## Additional Resources
