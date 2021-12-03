@@ -2,6 +2,8 @@
 
 Providers and composables for your Vue.js + Nacelle-powered eCommerce storefront.
 
+[![npm version](https://img.shields.io/npm/v/@nacelle/vue?style=for-the-badge)](https://npmjs.org/package/@nacelle/vue)
+
 ## Features
 
 - Supports Vue 2.x projects

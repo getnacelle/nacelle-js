@@ -2,6 +2,8 @@
 
 A minimal Shopify checkout client for headless storefronts.
 
+[![npm version](https://img.shields.io/npm/v/@nacelle/shopify-checkout?style=for-the-badge)](https://npmjs.org/package/@nacelle/shopify-checkout)
+
 ## Overview
 
 `@nacelle/shopify-checkout` adds Shopify checkout functionality to headless commerce projects. While it's tailored to support the needs of [Nacelle](https://www.nacelle.com)-powered storefronts, it's possible for any headless Shopify storefront to use this package by following [the API described below](#usage).
