@@ -11,7 +11,7 @@ export default {
       type: Object,
       default: () => ({
         relevanceThreshold: 0.5,
-        keys: ['title']
+        keys: ['content.title']
       })
     }
   },
