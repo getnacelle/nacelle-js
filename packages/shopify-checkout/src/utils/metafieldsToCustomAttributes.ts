@@ -17,7 +17,9 @@ export default function metafieldsToCustomAttributes({
   }
 
   const customAttributes: Attribute[] = metafields?.reduce((fields, m) => {
-    fields.push({ key: m.key, value: m.value });
+    if (m.value !== null && m.value !== undefined) {
+      fields.push({ key: m.key, value: m.value });
+    }
 
     return fields;
   }, [] as Attribute[]);

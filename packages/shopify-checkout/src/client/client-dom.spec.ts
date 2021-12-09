@@ -141,6 +141,14 @@ describe('createShopifyCheckoutClient', () => {
       {
         key: 'handling_instructions',
         value: 'Caution! Dinosaur eggs - handle with extreme care.'
+      },
+      {
+        key: 'null_value',
+        value: null
+      },
+      {
+        key: 'undefined_value',
+        value: undefined
       }
     ];
 
@@ -169,7 +177,12 @@ describe('createShopifyCheckoutClient', () => {
         query: mutations.checkoutCreate,
         variables: {
           input: {
-            customAttributes: checkoutAttributes,
+            customAttributes: [
+              {
+                key: 'handling_instructions',
+                value: 'Caution! Dinosaur eggs - handle with extreme care.'
+              }
+            ],
             lineItems: cartItemsToCheckoutItems({ cartItems })
           }
         }

@@ -1,10 +1,10 @@
 export interface Attribute {
   key: string;
-  value: string;
+  value?: string | null;
 }
 
 export interface Metafield extends Attribute {
-  [key: string]: string;
+  [key: string]: string | null | undefined;
 }
 
 export interface ShopifyCheckout {
