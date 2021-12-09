@@ -15,11 +15,11 @@ const InjectedComponent = {
     'setSelectedOptions',
     'setSelectedVariant'
   ],
-  render: h => h('div')
+  render: (h) => h('div')
 };
 
 const ProductProviderContainer = ({ props } = {}) => ({
-  render: h =>
+  render: (h) =>
     h(SpaceProvider, {}, [
       h(ProductProvider, { props }, [h(InjectedComponent)])
     ])
@@ -50,8 +50,8 @@ describe('Product Provider', () => {
     const injectedProductComponent = productProvider.findComponent({
       name: 'InjectedWithProduct'
     });
-    expect(injectedProductComponent.vm.product.value.handle).toEqual(
-      productData.handle
+    expect(injectedProductComponent.vm.product.value.content.handle).toEqual(
+      productData.content.handle
     );
   });
 
@@ -61,15 +61,15 @@ describe('Product Provider', () => {
     }));
     const productProvider = await mount(
       ProductProviderContainer({
-        props: { productHandle: productData.handle }
+        props: { productHandle: productData.content.handle }
       })
     );
     const injectedProductComponent = productProvider.findComponent({
       name: 'InjectedWithProduct'
     });
-    await new Promise(resolve => setTimeout(() => resolve(true)));
-    expect(injectedProductComponent.vm.product.value.handle).toEqual(
-      productData.handle
+    await new Promise((resolve) => setTimeout(() => resolve(true)));
+    expect(injectedProductComponent.vm.product.value.content.handle).toEqual(
+      productData.content.handle
     );
   });
 
@@ -81,8 +81,8 @@ describe('Product Provider', () => {
     jest.spyOn(injectedProductComponent.vm, 'setProduct');
     injectedProductComponent.vm.setProduct({ product: productData });
     expect(injectedProductComponent.vm.setProduct).toHaveBeenCalledTimes(1);
-    expect(injectedProductComponent.vm.product.value.handle).toEqual(
-      productData.handle
+    expect(injectedProductComponent.vm.product.value.content.handle).toEqual(
+      productData.content.handle
     );
   });
 
@@ -96,11 +96,11 @@ describe('Product Provider', () => {
     });
     jest.spyOn(injectedProductComponent.vm, 'setProduct');
     await injectedProductComponent.vm.setProduct({
-      handle: productData.handle
+      handle: productData.content.handle
     });
     expect(injectedProductComponent.vm.setProduct).toHaveBeenCalledTimes(1);
-    expect(injectedProductComponent.vm.product.value.handle).toEqual(
-      productData.handle
+    expect(injectedProductComponent.vm.product.value.content.handle).toEqual(
+      productData.content.handle
     );
   });
 
@@ -121,8 +121,8 @@ describe('Product Provider', () => {
     expect(injectedProductComponent.vm.product.value.selectedOptions).toEqual(
       productData.variants[0].selectedOptions
     );
-    expect(injectedProductComponent.vm.product.value.handle).toEqual(
-      productData.handle
+    expect(injectedProductComponent.vm.product.value.content.handle).toEqual(
+      productData.content.handle
     );
   });
 
@@ -141,8 +141,8 @@ describe('Product Provider', () => {
       injectedProductComponent.vm.setSelectedVariant
     ).toHaveBeenCalledTimes(1);
     expect(
-      injectedProductComponent.vm.product.value.selectedVariant.handle
-    ).toEqual(productData.variants[0].handle);
+      injectedProductComponent.vm.product.value.selectedVariant.productHandle
+    ).toEqual(productData.variants[0].productHandle);
   });
 
   it('it calls setSelectedVariant with variant id', () => {
@@ -154,13 +154,13 @@ describe('Product Provider', () => {
     });
     jest.spyOn(injectedProductComponent.vm, 'setSelectedVariant');
     injectedProductComponent.vm.setSelectedVariant({
-      id: productData.variants[0].id
+      sourceEntryId: productData.variants[0].sourceEntryId
     });
     expect(
       injectedProductComponent.vm.setSelectedVariant
     ).toHaveBeenCalledTimes(1);
     expect(
-      injectedProductComponent.vm.product.value.selectedVariant.handle
-    ).toEqual(productData.variants[0].handle);
+      injectedProductComponent.vm.product.value.selectedVariant.productHandle
+    ).toEqual(productData.variants[0].productHandle);
   });
 });

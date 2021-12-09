@@ -99,18 +99,18 @@ export default {
      * @param {Object} variant Variant object selected
      * @param {String} id Variant id selected
      */
-    const setSelectedVariant = ({ variant, id }) => {
-      if (!variant && !id) {
+    const setSelectedVariant = ({ variant, sourceEntryId }) => {
+      if (!variant && !sourceEntryId) {
         console.warn(
-          "[nacelle] ProductProvider's `setSelectedVariant` method requires a `variant` or `id` parameter."
+          "[nacelle] ProductProvider's `setSelectedVariant` method requires a `variant` or `sourceEntryId` parameter."
         );
         return;
       }
       let selectedVariant = null;
       if (variant) selectedVariant = variant;
-      else if (id) {
+      else if (sourceEntryId) {
         selectedVariant = productProvided.value.variants?.find((variant) => {
-          return variant.id === id;
+          return variant.sourceEntryId === sourceEntryId;
         });
       }
       if (selectedVariant) {
