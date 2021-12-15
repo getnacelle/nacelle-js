@@ -1,4 +1,6 @@
 import { h, ref, provide, onMounted } from '@vue/composition-api';
+import SearchWorker from '../workers/search?worker';
+import FetchCatalogWorker from '../workers/fetchCatalog?worker';
 
 export default {
   name: 'SearchProvider',
@@ -21,42 +23,6 @@ export default {
     const searchWorker = ref(null);
     const results = ref([]);
 
-    // Worker blobs
-    function workerFetchCatalog(origin) {
-      onmessage = async function () {
-        const response = await fetch(`${origin}/data/search.json`);
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        const data = await response.json();
-        postMessage(data);
-      };
-    }
-
-    function workerSearch() {
-      /* eslint-disable no-undef */
-      self.importScripts(
-        'https://cdn.jsdelivr.net/npm/fuse.js/dist/fuse.min.js'
-      );
-      onmessage = function receiver(e) {
-        const { searchData, options, value } = e.data;
-        const results = new Fuse(searchData, options)
-          .search(String(value))
-          .filter((result) => typeof result.item !== 'undefined')
-          .map((result) => result.item);
-
-        postMessage(results);
-      };
-    }
-
-    function fnToBlobUrl(fn) {
-      const blobDataObj = `(${fn})();`;
-      const blob = new Blob([blobDataObj.replace('"use strict";', '')]);
-      return URL.createObjectURL(blob, {
-        type: 'application/javascript; charset=utf-8'
-      });
-    }
-
     // Initial setup for `searchData`
     // Case 1: use passed prop array
     // Case 2: use passed prop function
@@ -72,9 +38,8 @@ export default {
         .catch((err) => console.error(err));
     } else {
       onMounted(() => {
-        const blobURL = fnToBlobUrl(workerFetchCatalog(window.location.origin));
-        const worker = new Worker(blobURL);
-        worker.postMessage(null);
+        const worker = new FetchCatalogWorker();
+        worker.postMessage({ origin: window.location.origin });
         worker.onmessage = (e) => {
           try {
             const data = Object.values(e.data).flat();
@@ -109,8 +74,7 @@ export default {
         return { message: 'Search Data is loading' };
       }
       if (!searchWorker.value) {
-        const blobURL = fnToBlobUrl(workerSearch);
-        searchWorker.value = new Worker(blobURL);
+        searchWorker.value = new SearchWorker();
       }
       searchWorker.value.postMessage({
         searchData: searchData.value,
