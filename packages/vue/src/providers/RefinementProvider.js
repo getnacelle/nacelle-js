@@ -242,12 +242,13 @@ export default {
 
     /**
      * Set Sorting
-     * @param {string} 'price-asc', 'price-desc'
+     * @param {'price-asc'|'price-desc'} newSortBy
      * @returns {null}
      */
-    const setSortBy = (payload) => {
-      if (['price-asc', 'price-desc'].includes(payload)) {
-        sortBy.value = payload;
+    const setSortBy = (newSortBy) => {
+      const supportedSortBys = ['price-asc', 'price-desc'];
+      if (supportedSortBys.includes(newSortBy)) {
+        sortBy.value = newSortBy;
       } else {
         sortBy.value = null;
       }
