@@ -53,54 +53,6 @@ export default [
       options: [
         {
           name: 'size',
-          values: ['small', 'large']
-        },
-        {
-          name: 'color',
-          values: ['green', 'purple']
-        }
-      ]
-    },
-    facets: [
-      { name: 'color', value: 'green' },
-      { name: 'color', value: 'purple' },
-      { name: 'size', value: 'small' },
-      { name: 'size', value: 'large' }
-    ],
-    handle: 'shirt2',
-    nacelleEntryId: 'shirt-2',
-    priceRange: { currencyCode: 'USD', max: 25, min: 25 },
-    minPrice: 25,
-    tags: [],
-    variants: [
-      {
-        nacelleEntryId: 'shirt2-v-1',
-        content: {
-          name: 'green-shirt',
-          selectedOptions: [
-            { name: 'color', value: 'green' },
-            { name: 'size', value: 'large' }
-          ]
-        }
-      },
-      {
-        nacelleEntryId: 'shirt2-v-2',
-        content: {
-          name: 'purple-shirt',
-          selectedOptions: [
-            { name: 'color', value: 'purple' },
-            { name: 'size', value: 'small' }
-          ]
-        }
-      }
-    ]
-  },
-  {
-    content: {
-      metafields: null,
-      options: [
-        {
-          name: 'size',
           values: ['small', 'medium']
         },
         {
@@ -137,6 +89,54 @@ export default [
           name: 'red-shirt',
           selectedOptions: [
             { name: 'color', value: 'red' },
+            { name: 'size', value: 'small' }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    content: {
+      metafields: null,
+      options: [
+        {
+          name: 'size',
+          values: ['small', 'large']
+        },
+        {
+          name: 'color',
+          values: ['green', 'purple']
+        }
+      ]
+    },
+    facets: [
+      { name: 'color', value: 'green' },
+      { name: 'color', value: 'purple' },
+      { name: 'size', value: 'small' },
+      { name: 'size', value: 'large' }
+    ],
+    handle: 'shirt2',
+    nacelleEntryId: 'shirt-2',
+    priceRange: { currencyCode: 'USD', max: 25, min: 25 },
+    minPrice: 25,
+    tags: [],
+    variants: [
+      {
+        nacelleEntryId: 'shirt2-v-1',
+        content: {
+          name: 'green-shirt',
+          selectedOptions: [
+            { name: 'color', value: 'green' },
+            { name: 'size', value: 'large' }
+          ]
+        }
+      },
+      {
+        nacelleEntryId: 'shirt2-v-2',
+        content: {
+          name: 'purple-shirt',
+          selectedOptions: [
+            { name: 'color', value: 'purple' },
             { name: 'size', value: 'small' }
           ]
         }

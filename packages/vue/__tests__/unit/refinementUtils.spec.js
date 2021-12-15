@@ -1,6 +1,12 @@
 import productsArray from 'mocks/products';
 import { filterProducts, sortProducts } from '../../src/utils/refinement';
 
+const productsByDescendingPrice = [
+  productsArray[0],
+  productsArray[2],
+  productsArray[1]
+];
+
 describe('filterProducts', () => {
   it('Filters by property', () => {
     expect(
@@ -8,14 +14,14 @@ describe('filterProducts', () => {
         inputData: productsArray,
         activeFilters: [{ property: 'color', values: ['blue'] }]
       })
-    ).toStrictEqual([productsArray[0], productsArray[2]]);
+    ).toStrictEqual([productsArray[0], productsArray[1]]);
 
     expect(
       filterProducts({
         inputData: productsArray,
         activeFilters: [{ property: 'color', values: ['green'] }]
       })
-    ).toStrictEqual([productsArray[1]]);
+    ).toStrictEqual([productsArray[2]]);
 
     expect(
       filterProducts({
@@ -30,6 +36,26 @@ describe('filterProducts', () => {
 });
 
 describe('sortProducts', () => {
+  it("Doesn't filter by price if no `activePriceRange` is given", () => {
+    expect(
+      sortProducts({
+        inputData: productsArray,
+        activePriceRange: null,
+        sortBy: 'price-desc'
+      })
+    ).toStrictEqual(productsByDescendingPrice);
+  });
+
+  it('Short-circuits if an upsupported `sortBy` is given', () => {
+    expect(
+      sortProducts({
+        inputData: productsArray,
+        activePriceRange: null,
+        sortBy: 'flavor-asc'
+      })
+    ).toStrictEqual(productsArray);
+  });
+
   it('Sorts all products by price', () => {
     expect(
       sortProducts({
@@ -37,7 +63,7 @@ describe('sortProducts', () => {
         activePriceRange: { label: '< $100', range: [0, 100] },
         sortBy: 'price-desc'
       })
-    ).toStrictEqual(productsArray);
+    ).toStrictEqual(productsByDescendingPrice);
 
     expect(
       sortProducts({
@@ -45,10 +71,26 @@ describe('sortProducts', () => {
         activePriceRange: { label: '< $100', range: [0, 100] },
         sortBy: 'price-asc'
       })
-    ).toStrictEqual([...productsArray].reverse());
+    ).toStrictEqual([...productsByDescendingPrice].reverse());
   });
 
   it('Sorts products within a price threshold, by price', () => {
+    expect(
+      sortProducts({
+        inputData: productsArray,
+        activePriceRange: { label: '< $100', range: [5, 100] },
+        sortBy: 'price-desc'
+      })
+    ).toStrictEqual(productsByDescendingPrice);
+
+    expect(
+      sortProducts({
+        inputData: productsArray,
+        activePriceRange: { label: '< $100', range: [5, 0] },
+        sortBy: 'price-desc'
+      })
+    ).toStrictEqual(productsByDescendingPrice);
+
     expect(
       sortProducts({
         inputData: productsArray,
@@ -63,7 +105,7 @@ describe('sortProducts', () => {
         activePriceRange: { label: '< $50', range: [0, 50] },
         sortBy: 'price-desc'
       })
-    ).toStrictEqual([productsArray[1], productsArray[2]]);
+    ).toStrictEqual([productsArray[2], productsArray[1]]);
 
     expect(
       sortProducts({
@@ -71,6 +113,6 @@ describe('sortProducts', () => {
         activePriceRange: { label: '< $50', range: [0, 50] },
         sortBy: 'price-asc'
       })
-    ).toStrictEqual([productsArray[2], productsArray[1]]);
+    ).toStrictEqual([productsArray[1], productsArray[2]]);
   });
 });
