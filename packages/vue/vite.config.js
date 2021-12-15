@@ -13,9 +13,9 @@ export const config = {
   build: {
     lib: {
       entry: path.resolve(__dirname, 'src/index.js'),
-      name: 'NacelleVue',
       fileName: (format) => `nacelle-vue.${format}.js`,
-      formats: ['es', 'umd', 'iife']
+      formats: ['es', 'umd', 'iife'],
+      name: 'NacelleVue'
     },
     rollupOptions: {
       // make sure to externalize deps that shouldn't be bundled
