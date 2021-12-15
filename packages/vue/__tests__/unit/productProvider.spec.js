@@ -26,7 +26,7 @@ const ProductProviderContainer = ({ props } = {}) => ({
 });
 
 describe('Product Provider', () => {
-  it('provides `product`, `isFetching`, `setProduct  and `setSelectedVariant` to children', () => {
+  it('provides `product`, `isFetching`, `setProduct`  and `setSelectedVariant` to children', () => {
     const productProvider = mount(ProductProviderContainer());
     const injectedProductComponent = productProvider.findComponent({
       name: 'InjectedWithProduct'

@@ -1,8 +1,7 @@
 import { h, provide, ref, watch } from '@vue/composition-api';
 import useSpaceProvider from '~/composables/useSpaceProvider';
 import useSdk from '~/composables/useSdk';
-import getProductOptions from '~/utils/products/getProductOptions';
-import getSelectedVariant from '~/utils/products/getSelectedVariant';
+import { getProductOptions, getSelectedVariant } from '~/utils/products';
 
 export default {
   name: 'ProductProvider',

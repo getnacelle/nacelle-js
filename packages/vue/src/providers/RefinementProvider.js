@@ -6,6 +6,7 @@ import {
   provide,
   onUnmounted
 } from '@vue/composition-api';
+import { filterProducts, sortProducts } from '../utils/refinement';
 
 export default {
   name: 'FilterProvider',
@@ -41,91 +42,26 @@ export default {
     /**
      Worker blobs
      */
-    function filterWorkerBlob() {
+    function filterWorkerFn() {
       onmessage = function (e) {
-        const inputData = e.data.inputData;
-        const activeFilters = e.data.activeFilters;
-        if (inputData && activeFilters) {
-          const output = inputData.filter((item) => {
-            const filterChecks = activeFilters.map((filter) => {
-              if (
-                filter.values.some((filterCheck) => {
-                  const value = item.facets.find((facet) => {
-                    return facet.value === filterCheck;
-                  });
-                  if (value) {
-                    return true;
-                  }
-                  return false;
-                })
-              ) {
-                return true;
-              }
-              return false;
-            });
-
-            const itemShouldPass = filterChecks.every((filterCheck) => {
-              return filterCheck === true;
-            });
-            return itemShouldPass;
-          });
-          postMessage(output);
-        } else {
-          postMessage(inputData);
-        }
+        window.postMessage(
+          filterProducts({
+            inputData: e.data.inputData,
+            activeFilters: e.data.activeFilters
+          })
+        );
       };
     }
 
-    function sortWorkerBlob() {
+    function sortWorkerFn() {
       onmessage = function (e) {
-        const { filteredData, activePriceRange, sortBy } = e.data;
-        const output = filteredData.filter(({ minPrice }) => {
-          if (activePriceRange) {
-            const min = activePriceRange.range[0];
-            const max = activePriceRange.range[1];
-            if (min === 0) {
-              return minPrice < max;
-            } else if (max === 0) {
-              return minPrice > min;
-            } else {
-              return minPrice > min && parseFloat(minPrice) < max;
-            }
-          } else {
-            return true;
-          }
-        });
-        switch (sortBy) {
-          case 'price-desc':
-            postMessage(
-              output.sort((a, b) => {
-                if (a.priceRange.min < b.priceRange.min) {
-                  return 1;
-                }
-                if (a.priceRange.min > b.priceRange.min) {
-                  return -1;
-                }
-
-                return 0;
-              })
-            );
-            break;
-          case 'price-asc':
-            postMessage(
-              output.sort((a, b) => {
-                if (a.priceRange.min < b.priceRange.min) {
-                  return -1;
-                }
-                if (a.priceRange.min > b.priceRange.min) {
-                  return 1;
-                }
-
-                return 0;
-              })
-            );
-            break;
-          default:
-            postMessage(output);
-        }
+        window.postMessage(
+          sortProducts({
+            filteredData: e.data.filteredData,
+            activePriceRange: e.data.activePriceRange,
+            sortBy: e.data.sortBy
+          })
+        );
       };
     }
 
@@ -144,9 +80,9 @@ export default {
       const { tags, variants, productType, ...rest } = product;
 
       // Get product filter facets from variant data
-      const variantOptions = variants.map((variant) => {
-        return variant.selectedOptions;
-      });
+      const variantOptions = variants.map(
+        (variant) => variant.content.selectedOptions
+      );
 
       const variantFacets = variantOptions
         .reduce((acc, item) => {
@@ -156,9 +92,10 @@ export default {
 
       const facets = Array.from(new Set(variantFacets))
         .map((option) => JSON.parse(option))
-        .map((option) => {
-          return { name: option.name.toLowerCase(), value: option.value };
-        });
+        .map((option) => ({
+          name: option.name.toLowerCase(),
+          value: option.value
+        }));
 
       // Get product filter facets from tags. Tags should be formatted "filter_property-name_value"
       const rootFacets = tags.filter((tag) => tag.includes('filter'));
@@ -188,7 +125,7 @@ export default {
      Uses `sortBy` & `activePriceRange` to sort data
      */
     const sortInputData = () => {
-      const blobURL = fnToBlobUrl(sortWorkerBlob);
+      const blobURL = fnToBlobUrl(sortWorkerFn);
       sortWorker.value = sortWorker.value || new Worker(blobURL);
       sortWorker.value.postMessage({
         filteredData: filteredData.value,
@@ -204,7 +141,7 @@ export default {
      Uses `activeFilters` to filter data
      */
     const sortFilteredData = () => {
-      const blobURL = fnToBlobUrl(filterWorkerBlob);
+      const blobURL = fnToBlobUrl(filterWorkerFn);
       filterWorker.value = filterWorker.value || new Worker(blobURL);
       filterWorker.value.postMessage({
         activeFilters: activeFilters.value,
@@ -232,9 +169,10 @@ export default {
               item.facets
                 .filter((facet) => facet.name.toLowerCase() !== 'title')
                 .forEach((facet) => {
-                  const index = output.findIndex((arrayItem) => {
-                    return facet.name === arrayItem.property;
-                  });
+                  const index = output.findIndex(
+                    (arrayItem) => facet.name === arrayItem.property
+                  );
+
                   if (index === -1) {
                     output.push({
                       property: facet.name,
@@ -245,21 +183,23 @@ export default {
                   }
                 });
             }
+
             return output;
           }, [])
+          .map((facet) => ({
+            property: facet.property,
+            values: Array.from(new Set(facet.values))
+          }))
+          .filter((facet) =>
+            props.propertyFilters.find(
+              (filter) => filter.field === facet.property
+            )
+          )
           .map((facet) => {
-            const values = Array.from(new Set(facet.values));
-            return { property: facet.property, values };
-          })
-          .filter((facet) => {
-            return props.propertyFilters.find((filter) => {
-              return filter.field === facet.property;
-            });
-          })
-          .map((facet) => {
-            const index = props.propertyFilters.findIndex((filter) => {
-              return filter.field === facet.property;
-            });
+            const index = props.propertyFilters.findIndex(
+              (filter) => filter.field === facet.property
+            );
+
             return {
               property: {
                 field: facet.property,
@@ -304,6 +244,7 @@ export default {
                 activeFilter.values = [...activeFilter.values, value];
               }
             }
+
             return activeFilter;
           })
           .filter((activeFilter) => activeFilter.values.length);
@@ -356,7 +297,7 @@ export default {
     watch(
       inputData,
       (value) => {
-        if (process.browser) {
+        if (typeof window !== 'undefined') {
           setupFilters();
           if (activeFilters.value && activeFilters.value.length) {
             sortFilteredData();

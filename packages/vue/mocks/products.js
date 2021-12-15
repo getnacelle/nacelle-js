@@ -1,79 +1,145 @@
 export default [
   {
-    facets: [{ name: 'color', value: 'blue' }],
+    content: {
+      metafields: null,
+      options: [
+        {
+          name: 'size',
+          values: ['small', 'large']
+        },
+        {
+          name: 'color',
+          values: ['blue', 'red']
+        }
+      ]
+    },
+    facets: [
+      { name: 'color', value: 'blue' },
+      { name: 'color', value: 'red' },
+      { name: 'size', value: 'small' },
+      { name: 'size', value: 'large' }
+    ],
     handle: 'shirt',
-    id: 'shirt-1',
-    options: [{ name: 'color', values: ['blue', 'red'] }],
+    nacelleEntryId: 'shirt-1',
     priceRange: { currencyCode: 'USD', max: 65, min: 65 },
     minPrice: 65,
+    tags: [],
     variants: [
       {
-        id: 'shirt-v-1',
-        name: 'blue-shirt',
-        selectedOptions: [
-          { name: 'color', value: 'blue' },
-          { name: 'size', value: 'large' }
-        ]
+        nacelleEntryId: 'shirt-v-1',
+        content: {
+          name: 'blue-shirt',
+          selectedOptions: [
+            { name: 'color', value: 'blue' },
+            { name: 'size', value: 'large' }
+          ]
+        }
       },
       {
-        id: 'shirt-v-2',
-        name: 'red-shirt',
-        selectedOptions: [
-          { name: 'color', value: 'red' },
-          { name: 'size', value: 'small' }
-        ]
+        nacelleEntryId: 'shirt-v-2',
+        content: {
+          name: 'red-shirt',
+          selectedOptions: [
+            { name: 'color', value: 'red' },
+            { name: 'size', value: 'small' }
+          ]
+        }
       }
     ]
   },
   {
-    facets: [{ name: 'color', value: 'green' }],
+    content: {
+      metafields: null,
+      options: [
+        {
+          name: 'size',
+          values: ['small', 'large']
+        },
+        {
+          name: 'color',
+          values: ['green', 'purple']
+        }
+      ]
+    },
+    facets: [
+      { name: 'color', value: 'green' },
+      { name: 'color', value: 'purple' },
+      { name: 'size', value: 'small' },
+      { name: 'size', value: 'large' }
+    ],
     handle: 'shirt2',
-    id: 'shirt-2',
-    options: [{ name: 'color', values: ['green', 'purple'] }],
+    nacelleEntryId: 'shirt-2',
     priceRange: { currencyCode: 'USD', max: 25, min: 25 },
     minPrice: 25,
+    tags: [],
     variants: [
       {
-        id: 'shirt2-v-1',
-        name: 'green-shirt',
-        selectedOptions: [
-          { name: 'color', value: 'green' },
-          { name: 'size', value: 'large' }
-        ]
+        nacelleEntryId: 'shirt2-v-1',
+        content: {
+          name: 'green-shirt',
+          selectedOptions: [
+            { name: 'color', value: 'green' },
+            { name: 'size', value: 'large' }
+          ]
+        }
       },
       {
-        id: 'shirt2-v-2',
-        name: 'purple-shirt',
-        selectedOptions: [
-          { name: 'color', value: 'purple' },
-          { name: 'size', value: 'small' }
-        ]
+        nacelleEntryId: 'shirt2-v-2',
+        content: {
+          name: 'purple-shirt',
+          selectedOptions: [
+            { name: 'color', value: 'purple' },
+            { name: 'size', value: 'small' }
+          ]
+        }
       }
     ]
   },
   {
-    facets: [{ name: 'color', value: 'blue' }],
+    content: {
+      metafields: null,
+      options: [
+        {
+          name: 'size',
+          values: ['small', 'medium']
+        },
+        {
+          name: 'color',
+          values: ['blue', 'red']
+        }
+      ]
+    },
+    facets: [
+      { name: 'color', value: 'blue' },
+      { name: 'color', value: 'red' },
+      { name: 'size', value: 'small' },
+      { name: 'size', value: 'medium' }
+    ],
     handle: 'shirt3',
-    id: 'shirt-3',
-    options: [{ name: 'color', values: ['blue', 'red'] }],
+    nacelleEntryId: 'shirt-3',
     priceRange: { currencyCode: 'USD', max: 10, min: 10 },
     minPrice: 10,
+    tags: [],
     variants: [
       {
-        id: 'shirt3-v-1',
-        name: 'blue-shirt',
-        selectedOptions: [
-          { name: 'color', value: 'blue' },
-          { name: 'size', value: 'large' }
-        ]
+        nacelleEntryId: 'shirt3-v-1',
+        content: {
+          name: 'blue-shirt',
+          selectedOptions: [
+            { name: 'color', value: 'blue' },
+            { name: 'size', value: 'medium' }
+          ]
+        }
       },
       {
-        id: 'shirt-v-2',
-        name: 'red-shirt',
-        selectedOptions: [
-          { name: 'color', value: 'red' },
-          { name: 'size', value: 'small' }
-        ]
+        nacelleEntryId: 'shirt3-v-2',
+        content: {
+          name: 'red-shirt',
+          selectedOptions: [
+            { name: 'color', value: 'red' },
+            { name: 'size', value: 'small' }
+          ]
+        }
       }
     ]
   }
