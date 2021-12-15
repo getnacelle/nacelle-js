@@ -6,7 +6,8 @@ import {
   provide,
   onUnmounted
 } from '@vue/composition-api';
-import { filterProducts, sortProducts } from '../utils/refinement';
+import SortWorker from '../workers/sortProducts?worker';
+import FilterWorker from '../workers/filterProducts?worker';
 
 export default {
   name: 'FilterProvider',
@@ -38,40 +39,6 @@ export default {
     const inputData = computed(() =>
       props.inputData.map((item) => transformProductData(item))
     );
-
-    /**
-     Worker blobs
-     */
-    function filterWorkerFn() {
-      onmessage = function (e) {
-        window.postMessage(
-          filterProducts({
-            inputData: e.data.inputData,
-            activeFilters: e.data.activeFilters
-          })
-        );
-      };
-    }
-
-    function sortWorkerFn() {
-      onmessage = function (e) {
-        window.postMessage(
-          sortProducts({
-            filteredData: e.data.filteredData,
-            activePriceRange: e.data.activePriceRange,
-            sortBy: e.data.sortBy
-          })
-        );
-      };
-    }
-
-    function fnToBlobUrl(fn) {
-      const blobDataObj = `(${fn})();`;
-      const blob = new Blob([blobDataObj.replace('"use strict";', '')]);
-      return URL.createObjectURL(blob, {
-        type: 'application/javascript; charset=utf-8'
-      });
-    }
 
     /**
      * Transform Product Data
@@ -125,8 +92,9 @@ export default {
      Uses `sortBy` & `activePriceRange` to sort data
      */
     const sortInputData = () => {
-      const blobURL = fnToBlobUrl(sortWorkerFn);
-      sortWorker.value = sortWorker.value || new Worker(blobURL);
+      if (!sortWorker.value) {
+        sortWorker.value = new SortWorker();
+      }
       sortWorker.value.postMessage({
         filteredData: filteredData.value,
         activePriceRange: activePriceRange.value,
@@ -140,9 +108,10 @@ export default {
     /**
      Uses `activeFilters` to filter data
      */
-    const sortFilteredData = () => {
-      const blobURL = fnToBlobUrl(filterWorkerFn);
-      filterWorker.value = filterWorker.value || new Worker(blobURL);
+    const filterData = () => {
+      if (!filterWorker.value) {
+        filterWorker.value = new FilterWorker();
+      }
       filterWorker.value.postMessage({
         activeFilters: activeFilters.value,
         inputData: inputData.value
@@ -218,7 +187,7 @@ export default {
       activeFilters.value = [];
       activePriceRange.value = null;
       sortBy.value = null;
-      sortFilteredData();
+      filterData();
     };
 
     /**
@@ -254,7 +223,7 @@ export default {
           { property, values: [value] }
         ];
       }
-      sortFilteredData();
+      filterData();
     };
 
     /**
@@ -268,7 +237,7 @@ export default {
       } else {
         activePriceRange.value = null;
       }
-      sortFilteredData();
+      filterData();
     };
 
     /**
@@ -282,7 +251,7 @@ export default {
       } else {
         sortBy.value = null;
       }
-      sortFilteredData();
+      filterData();
     };
 
     onUnmounted(() => {
@@ -300,7 +269,7 @@ export default {
         if (typeof window !== 'undefined') {
           setupFilters();
           if (activeFilters.value && activeFilters.value.length) {
-            sortFilteredData();
+            filterData();
           }
           if (activePriceRange.value || sortBy.value) {
             sortInputData();
