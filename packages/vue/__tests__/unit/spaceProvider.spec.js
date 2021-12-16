@@ -18,7 +18,9 @@ const InjectedWithSpaceData = () => {
       'metafields',
       'linklists',
       'nacelleSdk',
+      'getMetatag',
       'getMetafieldsObj',
+      'getMetafieldsByNamespace',
       'getMetafield',
       'getLinks'
     ],
@@ -48,20 +50,25 @@ describe('Space Provider', () => {
     linklists
   };
 
-  const spaceProvider = mount(
-    SpaceProviderContainer({ props: { space, sdk: { data: 'data' } } })
-  );
-  const injectedSpaceComponent = spaceProvider.findComponent({
-    name: 'InjectedWithSpaceData'
-  });
-
   it('gets metafield object', () => {
+    const spaceProvider = mount(
+      SpaceProviderContainer({ props: { space, sdk: { data: 'data' } } })
+    );
+    const injectedSpaceComponent = spaceProvider.findComponent({
+      name: 'InjectedWithSpaceData'
+    });
     expect(injectedSpaceComponent.vm.getMetafieldsObj()).toEqual({
       metatag: { 'og:image': 'https://demo.getnacelle.com/starship_logo.png' }
     });
   });
 
   it('gets metafield', () => {
+    const spaceProvider = mount(
+      SpaceProviderContainer({ props: { space, sdk: { data: 'data' } } })
+    );
+    const injectedSpaceComponent = spaceProvider.findComponent({
+      name: 'InjectedWithSpaceData'
+    });
     expect(
       injectedSpaceComponent.vm.getMetafield({
         namespace: 'metatag',
@@ -70,13 +77,95 @@ describe('Space Provider', () => {
     ).toEqual('https://demo.getnacelle.com/starship_logo.png');
   });
 
-  it('gets menu by handle', () => {
+  it('gets metatag', () => {
+    const spaceProvider = mount(
+      SpaceProviderContainer({ props: { space, sdk: { data: 'data' } } })
+    );
+    const injectedSpaceComponent = spaceProvider.findComponent({
+      name: 'InjectedWithSpaceData'
+    });
+    expect(injectedSpaceComponent.vm.getMetatag('og:image')).toEqual({
+      namespace: 'metatag',
+      key: 'og:image',
+      value: 'https://demo.getnacelle.com/starship_logo.png'
+    });
+  });
+
+  it('gets metafields by namespace', () => {
+    const spaceProvider = mount(
+      SpaceProviderContainer({ props: { space, sdk: { data: 'data' } } })
+    );
+    const injectedSpaceComponent = spaceProvider.findComponent({
+      name: 'InjectedWithSpaceData'
+    });
+    expect(
+      injectedSpaceComponent.vm.getMetafieldsByNamespace('metatag')
+    ).toEqual({
+      'og:image': 'https://demo.getnacelle.com/starship_logo.png'
+    });
+  });
+
+  it('gets links by handle', () => {
+    const spaceProvider = mount(
+      SpaceProviderContainer({ props: { space, sdk: { data: 'data' } } })
+    );
+    const injectedSpaceComponent = spaceProvider.findComponent({
+      name: 'InjectedWithSpaceData'
+    });
     expect(injectedSpaceComponent.vm.getLinks('main-menu')).toEqual(
       mainMenu.links
     );
   });
 
   it('receives sdk prop', () => {
+    const spaceProvider = mount(
+      SpaceProviderContainer({ props: { space, sdk: { data: 'data' } } })
+    );
+    const injectedSpaceComponent = spaceProvider.findComponent({
+      name: 'InjectedWithSpaceData'
+    });
     expect(injectedSpaceComponent.vm.nacelleSdk).toEqual({ data: 'data' });
+  });
+
+  it('calls getLinks when none exist', () => {
+    const spaceProvider = mount(SpaceProviderContainer({ props: {} }));
+    const injectedSpaceComponent = spaceProvider.findComponent({
+      name: 'InjectedWithSpaceData'
+    });
+    expect(injectedSpaceComponent.vm.getLinks('main-menu')).toEqual([]);
+  });
+
+  it('calls getMetafield when none exist', () => {
+    const spaceProvider = mount(SpaceProviderContainer({ props: {} }));
+    const injectedSpaceComponent = spaceProvider.findComponent({
+      name: 'InjectedWithSpaceData'
+    });
+    expect(injectedSpaceComponent.vm.getMetafield('main-menu')).toEqual(null);
+  });
+
+  it('calls getMetatag when none exist', () => {
+    const spaceProvider = mount(SpaceProviderContainer({ props: {} }));
+    const injectedSpaceComponent = spaceProvider.findComponent({
+      name: 'InjectedWithSpaceData'
+    });
+    expect(injectedSpaceComponent.vm.getMetatag('tag')).toEqual(null);
+  });
+
+  it('calls getMetafieldsObj when none exist', () => {
+    const spaceProvider = mount(SpaceProviderContainer({ props: {} }));
+    const injectedSpaceComponent = spaceProvider.findComponent({
+      name: 'InjectedWithSpaceData'
+    });
+    expect(injectedSpaceComponent.vm.getMetafieldsObj()).toEqual(null);
+  });
+
+  it('calls getMetafieldsByNamespace when none exist', () => {
+    const spaceProvider = mount(SpaceProviderContainer({ props: {} }));
+    const injectedSpaceComponent = spaceProvider.findComponent({
+      name: 'InjectedWithSpaceData'
+    });
+    expect(injectedSpaceComponent.vm.getMetafieldsByNamespace('test')).toEqual(
+      null
+    );
   });
 });
