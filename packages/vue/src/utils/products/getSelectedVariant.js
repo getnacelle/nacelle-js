@@ -12,7 +12,7 @@ export default ({ product, options }) => {
     } else {
       return product.variants.find((variant) => {
         return options.every((option) => {
-          return variant.selectedOptions.some(
+          return variant.content?.selectedOptions.some(
             (variantOption) =>
               JSON.stringify(variantOption) === JSON.stringify(option)
           );
