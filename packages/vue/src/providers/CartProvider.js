@@ -144,11 +144,10 @@ export default {
         console.warn("[nacelle] Couldn't decrement item. Item not found.");
         return;
       }
-      if (cart.lineItems[index].quantity >= 1) {
+      if (cart.lineItems[index].quantity <= 1) {
+        cart.lineItems.splice(index, 1);
+      } else {
         cart.lineItems[index].quantity--;
-        if (cart.lineItems[index].quantity === 0) {
-          cart.lineItems.splice(index, 1);
-        }
       }
       cacheCart();
     };
