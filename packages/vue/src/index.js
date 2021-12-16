@@ -6,7 +6,6 @@
 // EXPORT COMPOSABLES
 // @index('./composables/*.js', (f, _) => `export { default as ${_.camelCase(f.name)} } from '${f.path}';`)
 export { default as useCartProvider } from './composables/useCartProvider';
-export { default as useCollectionProvider } from './composables/useCollectionProvider';
 export { default as useEventProvider } from './composables/useEventProvider';
 export { default as useProductProvider } from './composables/useProductProvider';
 export { default as useRefinementProvider } from './composables/useRefinementProvider';
@@ -18,7 +17,6 @@ export { default as useSpaceProvider } from './composables/useSpaceProvider';
 // EXPORT PROVIDERS
 // @index('./providers/*.js', (f, _) => `export { default as ${_.pascalCase(f.name)} } from '${f.path}';`)
 export { default as CartProvider } from './providers/CartProvider';
-export { default as CollectionProvider } from './providers/CollectionProvider';
 export { default as EventProvider } from './providers/EventProvider';
 export { default as ProductProvider } from './providers/ProductProvider';
 export { default as RefinementProvider } from './providers/RefinementProvider';
