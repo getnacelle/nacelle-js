@@ -1,5 +1,5 @@
 import { h, provide, ref, watch } from '@vue/composition-api';
-import getSelectedVariant from '~/utils/products/getSelectedVariant';
+import { getSelectedVariant } from '~/utils/products';
 
 export default {
   name: 'ProductProvider',
