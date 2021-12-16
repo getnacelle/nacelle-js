@@ -54,6 +54,20 @@ describe('Product Provider', () => {
     );
   });
 
+  it('it calls setProduct without product params', () => {
+    const productProvider = mount(ProductProviderContainer());
+    const injectedProductComponent = productProvider.findComponent({
+      name: 'InjectedWithProduct'
+    });
+    jest.spyOn(injectedProductComponent.vm, 'setProduct');
+    console.warn = jest.fn();
+    injectedProductComponent.vm.setProduct({});
+    expect(injectedProductComponent.vm.setProduct).toHaveBeenCalledTimes(1);
+    expect(console.warn).toHaveBeenCalledWith(
+      "[nacelle] ProductProvider's `setProduct` method requires a `product` parameter."
+    );
+  });
+
   it('it calls setSelectedOptions with options array', () => {
     const productProvider = mount(
       ProductProviderContainer({ props: { product: productData } })
@@ -65,19 +79,32 @@ describe('Product Provider', () => {
     injectedProductComponent.vm.setSelectedOptions({
       options: productData.variants[0].content.selectedOptions
     });
-    console.log('hey', productData.variants[0].content.selectedOptions);
     expect(
       injectedProductComponent.vm.setSelectedOptions
     ).toHaveBeenCalledTimes(1);
     expect(injectedProductComponent.vm.product.value.selectedOptions).toEqual(
       productData.variants[0].content.selectedOptions
     );
-    expect(injectedProductComponent.vm.product.value.content.handle).toEqual(
-      productData.content.handle
+  });
+
+  it('it calls setSelectedOptions without params', () => {
+    const productProvider = mount(
+      ProductProviderContainer({ props: { product: productData } })
+    );
+    const injectedProductComponent = productProvider.findComponent({
+      name: 'InjectedWithProduct'
+    });
+    jest.spyOn(injectedProductComponent.vm, 'setSelectedOptions');
+    injectedProductComponent.vm.setSelectedOptions({});
+    expect(
+      injectedProductComponent.vm.setSelectedOptions
+    ).toHaveBeenCalledTimes(1);
+    expect(injectedProductComponent.vm.product.value.selectedOptions).toEqual(
+      null
     );
   });
 
-  it('it calls setSelectedVariant with variant object', () => {
+  it('it calls setSelectedVariant with a variant object', () => {
     const productProvider = mount(
       ProductProviderContainer({ props: { product: productData } })
     );
@@ -96,7 +123,7 @@ describe('Product Provider', () => {
     ).toEqual(productData.variants[0].productHandle);
   });
 
-  it('it calls setSelectedVariant with variant id', () => {
+  it('it calls setSelectedVariant with a variant sourceEntryId', () => {
     const productProvider = mount(
       ProductProviderContainer({ props: { product: productData } })
     );
@@ -113,5 +140,22 @@ describe('Product Provider', () => {
     expect(
       injectedProductComponent.vm.product.value.selectedVariant.productHandle
     ).toEqual(productData.variants[0].productHandle);
+  });
+
+  it('it calls setSelectedVariant without params', () => {
+    const productProvider = mount(
+      ProductProviderContainer({ props: { product: productData } })
+    );
+    const injectedProductComponent = productProvider.findComponent({
+      name: 'InjectedWithProduct'
+    });
+    jest.spyOn(injectedProductComponent.vm, 'setSelectedVariant');
+    injectedProductComponent.vm.setSelectedVariant({ variant: null });
+    expect(
+      injectedProductComponent.vm.setSelectedVariant
+    ).toHaveBeenCalledTimes(1);
+    expect(injectedProductComponent.vm.product.value.selectedVariant).toEqual(
+      null
+    );
   });
 });

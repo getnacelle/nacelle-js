@@ -39,19 +39,15 @@ export default {
      * @returns {Array}
      */
     const setSelectedOptions = ({ options }) => {
-      if (!options) {
-        console.warn(
-          "[nacelle] ProductProvider's `setSelectedOptions` method requires a `options` parameter."
-        );
-        return;
-      }
       productProvided.value = {
         ...productProvided.value,
-        selectedOptions: options,
-        selectedVariant: getSelectedVariant({
-          product: productProvided.value,
-          options
-        })
+        selectedOptions: options || null,
+        selectedVariant: options
+          ? getSelectedVariant({
+              product: productProvided.value,
+              options
+            })
+          : null
       };
     };
 
@@ -61,12 +57,6 @@ export default {
      * @param {String} id Variant id selected
      */
     const setSelectedVariant = ({ variant, sourceEntryId }) => {
-      if (!variant && !sourceEntryId) {
-        console.warn(
-          "[nacelle] ProductProvider's `setSelectedVariant` method requires a `variant` or `sourceEntryId` parameter."
-        );
-        return;
-      }
       let selectedVariant = null;
       if (variant) selectedVariant = variant;
       else if (sourceEntryId) {
@@ -76,17 +66,23 @@ export default {
       }
       productProvided.value = {
         ...productProvided.value,
-        selectedOptions: selectedVariant.selectedOptions,
+        selectedOptions: selectedVariant
+          ? selectedVariant.selectedOptions
+          : null,
         selectedVariant
       };
     };
 
     /**
-     Initialize provider with product props
+     Initialize/update provider with product prop
      */
-    if (props.product) {
-      setProduct({ product: props.product });
-    }
+    watch(
+      product,
+      (value) => {
+        setProduct({ product: value });
+      },
+      { immediate: true }
+    );
 
     /**
      Emit product to parent for v-model use
@@ -98,13 +94,6 @@ export default {
       },
       { immediate: true }
     );
-
-    /**
-     Update provider with product or productHandle props
-     */
-    watch(product, (value) => {
-      setProduct({ product: value });
-    });
 
     /**
      Provide values
