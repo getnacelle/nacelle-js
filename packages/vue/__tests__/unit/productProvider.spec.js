@@ -1,39 +1,25 @@
 import { mount } from '@vue/test-utils';
-import nacelleSdk from '@nacelle/client-js-sdk';
-import SpaceProvider from '~/providers/SpaceProvider';
 import ProductProvider from '~/providers/ProductProvider';
 import productData from 'mocks/product';
 
-jest.mock('@nacelle/client-js-sdk');
-
 const InjectedComponent = {
   name: 'InjectedWithProduct',
-  inject: [
-    'product',
-    'isFetching',
-    'setProduct',
-    'setSelectedOptions',
-    'setSelectedVariant'
-  ],
+  inject: ['product', 'setProduct', 'setSelectedOptions', 'setSelectedVariant'],
   render: (h) => h('div')
 };
 
 const ProductProviderContainer = ({ props } = {}) => ({
-  render: (h) =>
-    h(SpaceProvider, {}, [
-      h(ProductProvider, { props }, [h(InjectedComponent)])
-    ])
+  render: (h) => h(ProductProvider, { props }, [h(InjectedComponent)])
 });
 
 describe('Product Provider', () => {
-  it('provides `product`, `isFetching`, `setProduct  and `setSelectedVariant` to children', () => {
+  it('provides `product`, `setProduct  and `setSelectedVariant` to children', () => {
     const productProvider = mount(ProductProviderContainer());
     const injectedProductComponent = productProvider.findComponent({
       name: 'InjectedWithProduct'
     });
 
     expect(injectedProductComponent.vm.product.value).toBe(null);
-    expect(injectedProductComponent.vm.isFetching.value).toBe(false);
     expect(typeof injectedProductComponent.vm.setProduct).toEqual('function');
     expect(typeof injectedProductComponent.vm.setSelectedOptions).toEqual(
       'function'
@@ -55,24 +41,6 @@ describe('Product Provider', () => {
     );
   });
 
-  it('initializes provider with productHandle prop', async () => {
-    nacelleSdk.mockImplementation(() => ({
-      data: { product: () => Promise.resolve(productData) }
-    }));
-    const productProvider = await mount(
-      ProductProviderContainer({
-        props: { productHandle: productData.content.handle }
-      })
-    );
-    const injectedProductComponent = productProvider.findComponent({
-      name: 'InjectedWithProduct'
-    });
-    await new Promise((resolve) => setTimeout(() => resolve(true)));
-    expect(injectedProductComponent.vm.product.value.content.handle).toEqual(
-      productData.content.handle
-    );
-  });
-
   it('it calls setProduct with a product object', () => {
     const productProvider = mount(ProductProviderContainer());
     const injectedProductComponent = productProvider.findComponent({
@@ -80,24 +48,6 @@ describe('Product Provider', () => {
     });
     jest.spyOn(injectedProductComponent.vm, 'setProduct');
     injectedProductComponent.vm.setProduct({ product: productData });
-    expect(injectedProductComponent.vm.setProduct).toHaveBeenCalledTimes(1);
-    expect(injectedProductComponent.vm.product.value.content.handle).toEqual(
-      productData.content.handle
-    );
-  });
-
-  it('it calls setProduct with a product handle', async () => {
-    nacelleSdk.mockImplementation(() => ({
-      data: { product: () => Promise.resolve(productData) }
-    }));
-    const productProvider = mount(ProductProviderContainer());
-    const injectedProductComponent = productProvider.findComponent({
-      name: 'InjectedWithProduct'
-    });
-    jest.spyOn(injectedProductComponent.vm, 'setProduct');
-    await injectedProductComponent.vm.setProduct({
-      handle: productData.content.handle
-    });
     expect(injectedProductComponent.vm.setProduct).toHaveBeenCalledTimes(1);
     expect(injectedProductComponent.vm.product.value.content.handle).toEqual(
       productData.content.handle
@@ -113,13 +63,14 @@ describe('Product Provider', () => {
     });
     jest.spyOn(injectedProductComponent.vm, 'setSelectedOptions');
     injectedProductComponent.vm.setSelectedOptions({
-      options: productData.variants[0].selectedOptions
+      options: productData.variants[0].content.selectedOptions
     });
+    console.log('hey', productData.variants[0].content.selectedOptions);
     expect(
       injectedProductComponent.vm.setSelectedOptions
     ).toHaveBeenCalledTimes(1);
     expect(injectedProductComponent.vm.product.value.selectedOptions).toEqual(
-      productData.variants[0].selectedOptions
+      productData.variants[0].content.selectedOptions
     );
     expect(injectedProductComponent.vm.product.value.content.handle).toEqual(
       productData.content.handle

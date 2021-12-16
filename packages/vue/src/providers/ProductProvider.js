@@ -1,74 +1,35 @@
 import { h, provide, ref, watch } from '@vue/composition-api';
-import useSpaceProvider from '~/composables/useSpaceProvider';
-import useSdk from '~/composables/useSdk';
-import getProductOptions from '~/utils/products/getProductOptions';
 import getSelectedVariant from '~/utils/products/getSelectedVariant';
 
 export default {
   name: 'ProductProvider',
   props: {
-    config: {
-      type: Object,
-      default: () => ({})
-    },
     product: {
       type: Object,
-      default: () => ({})
-    },
-    productHandle: {
-      type: String,
-      default: ''
+      required: true
     }
   },
   setup(props, context) {
     const product = ref(props.product);
-    const productHandle = ref(props.productHandle);
     const productProvided = ref(null);
-    let isFetching = ref(false);
-
-    const config = props.config;
-
-    /**
-     Use sdk from injection or config prop
-     */
-    let { nacelleSdk } = useSpaceProvider();
-    if (Object.keys(config).length) {
-      nacelleSdk = useSdk({ config });
-    }
 
     /**
      * Set product provider should track
-     * @param {Object} config
      * @param {Object} product Product object to track
-     * @param {String} handle Product handle to track
      * @returns {void}
      */
-    const setProduct = async ({ product, handle }) => {
-      try {
-        if (!product && !handle) {
-          console.warn(
-            "[nacelle] ProductProvider's `setProduct` method requires a `product` or `handle` parameter."
-          );
-          return;
-        }
-        isFetching = true;
-        let productObject = {};
-        if (product && Object.keys(product).length) productObject = product;
-        else if (handle) {
-          productObject = await nacelleSdk.data.product({ handle });
-        }
-        if (productObject && Object.keys(productObject).length) {
-          productProvided.value = {
-            selectedOptions: null,
-            selectedVariant: null,
-            options: getProductOptions({ product: productObject }),
-            ...productObject
-          };
-        }
-        isFetching = false;
-      } catch (err) {
-        console.warn(`Error: ${err}`);
-        isFetching = false;
+    const setProduct = async ({ product }) => {
+      if (!product) {
+        console.warn(
+          "[nacelle] ProductProvider's `setProduct` method requires a `product` parameter."
+        );
+        return;
+      } else {
+        productProvided.value = {
+          selectedOptions: null,
+          selectedVariant: null,
+          ...product
+        };
       }
     };
 
@@ -78,7 +39,7 @@ export default {
      * @returns {Array}
      */
     const setSelectedOptions = ({ options }) => {
-      if (Array.isArray(options) && !options.length) {
+      if (!options) {
         console.warn(
           "[nacelle] ProductProvider's `setSelectedOptions` method requires a `options` parameter."
         );
@@ -113,22 +74,18 @@ export default {
           return variant.sourceEntryId === sourceEntryId;
         });
       }
-      if (selectedVariant) {
-        productProvided.value = {
-          ...productProvided.value,
-          selectedOptions: selectedVariant.selectedOptions,
-          selectedVariant
-        };
-      }
+      productProvided.value = {
+        ...productProvided.value,
+        selectedOptions: selectedVariant.selectedOptions,
+        selectedVariant
+      };
     };
 
     /**
-     Initialize provider with product or productHandle props
+     Initialize provider with product props
      */
-    if (props.product && Object.keys(props.product).length) {
+    if (props.product) {
       setProduct({ product: props.product });
-    } else if (props.productHandle) {
-      setProduct({ handle: props.productHandle });
     }
 
     /**
@@ -148,15 +105,11 @@ export default {
     watch(product, (value) => {
       setProduct({ product: value });
     });
-    watch(productHandle, (value) => {
-      setProduct({ handle: value });
-    });
 
     /**
      Provide values
     */
     provide('product', productProvided);
-    provide('isFetching', isFetching);
     provide('setProduct', setProduct);
     provide('setSelectedOptions', setSelectedOptions);
     provide('setSelectedVariant', setSelectedVariant);

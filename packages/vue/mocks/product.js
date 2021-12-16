@@ -17,8 +17,7 @@ export default {
       altText: 'Aurora High Tops',
       id: null,
       mimeType: null,
-      src:
-        'https://cdn.shopify.com/s/files/1/0344/4362/4583/products/black-hightop-LED-shoes.jpg?v=1587622579',
+      src: 'https://cdn.shopify.com/s/files/1/0344/4362/4583/products/black-hightop-LED-shoes.jpg?v=1587622579',
       thumbnailSrc:
         'https://cdn.shopify.com/s/files/1/0344/4362/4583/products/black-hightop-LED-shoes.jpg?v=1587622579&width=100',
       type: 'IMAGE'
@@ -28,8 +27,7 @@ export default {
         altText: 'Aurora High Tops',
         id: null,
         mimeType: null,
-        src:
-          'https://cdn.shopify.com/s/files/1/0344/4362/4583/products/black-hightop-LED-shoes.jpg?v=1587622579',
+        src: 'https://cdn.shopify.com/s/files/1/0344/4362/4583/products/black-hightop-LED-shoes.jpg?v=1587622579',
         thumbnailSrc:
           'https://cdn.shopify.com/s/files/1/0344/4362/4583/products/black-hightop-LED-shoes.jpg?v=1587622579&width=100',
         type: 'IMAGE'
@@ -38,8 +36,7 @@ export default {
         altText: null,
         id: null,
         mimeType: null,
-        src:
-          'https://cdn.shopify.com/s/files/1/0344/4362/4583/products/photo-1578116922645-3976907a7671.jpg?v=1603301445',
+        src: 'https://cdn.shopify.com/s/files/1/0344/4362/4583/products/photo-1578116922645-3976907a7671.jpg?v=1603301445',
         thumbnailSrc:
           'https://cdn.shopify.com/s/files/1/0344/4362/4583/products/photo-1578116922645-3976907a7671.jpg?v=1603301445&width=100',
         type: 'IMAGE'
@@ -48,8 +45,7 @@ export default {
         altText: null,
         id: null,
         mimeType: null,
-        src:
-          'https://cdn.shopify.com/videos/c/vp/5fa35f129ce3480fa015f96e9b7e632b/5fa35f129ce3480fa015f96e9b7e632b.SD-480p-1.5Mbps.mp4',
+        src: 'https://cdn.shopify.com/videos/c/vp/5fa35f129ce3480fa015f96e9b7e632b/5fa35f129ce3480fa015f96e9b7e632b.SD-480p-1.5Mbps.mp4',
         thumbnailSrc:
           'https://cdn.shopify.com/s/files/1/0344/4362/4583/products/5fa35f129ce3480fa015f96e9b7e632b.thumbnail.0000000.jpg?v=1597266642&width=100',
         type: 'VIDEO'
@@ -114,8 +110,7 @@ export default {
           altText: 'Aurora High Tops',
           id: null,
           mimeType: null,
-          src:
-            'https://cdn.shopify.com/s/files/1/0344/4362/4583/products/black-hightop-LED-shoes.jpg?v=1587622579',
+          src: 'https://cdn.shopify.com/s/files/1/0344/4362/4583/products/black-hightop-LED-shoes.jpg?v=1587622579',
           thumbnailSrc:
             'https://cdn.shopify.com/s/files/1/0344/4362/4583/products/black-hightop-LED-shoes.jpg?v=1587622579&width=100',
           type: 'IMAGE'
@@ -174,8 +169,7 @@ export default {
           altText: 'Aurora High Tops',
           id: null,
           mimeType: null,
-          src:
-            'https://cdn.shopify.com/s/files/1/0344/4362/4583/products/black-hightop-LED-shoes.jpg?v=1587622579',
+          src: 'https://cdn.shopify.com/s/files/1/0344/4362/4583/products/black-hightop-LED-shoes.jpg?v=1587622579',
           thumbnailSrc:
             'https://cdn.shopify.com/s/files/1/0344/4362/4583/products/black-hightop-LED-shoes.jpg?v=1587622579&width=100',
           type: 'IMAGE'
@@ -234,8 +228,7 @@ export default {
           altText: 'Aurora High Tops',
           id: null,
           mimeType: null,
-          src:
-            'https://cdn.shopify.com/s/files/1/0344/4362/4583/products/black-hightop-LED-shoes.jpg?v=1587622579',
+          src: 'https://cdn.shopify.com/s/files/1/0344/4362/4583/products/black-hightop-LED-shoes.jpg?v=1587622579',
           thumbnailSrc:
             'https://cdn.shopify.com/s/files/1/0344/4362/4583/products/black-hightop-LED-shoes.jpg?v=1587622579&width=100',
           type: 'IMAGE'
@@ -294,8 +287,7 @@ export default {
           altText: 'Aurora High Tops',
           id: null,
           mimeType: null,
-          src:
-            'https://cdn.shopify.com/s/files/1/0344/4362/4583/products/black-hightop-LED-shoes.jpg?v=1587622579',
+          src: 'https://cdn.shopify.com/s/files/1/0344/4362/4583/products/black-hightop-LED-shoes.jpg?v=1587622579',
           thumbnailSrc:
             'https://cdn.shopify.com/s/files/1/0344/4362/4583/products/black-hightop-LED-shoes.jpg?v=1587622579&width=100',
           type: 'IMAGE'
@@ -354,8 +346,7 @@ export default {
           altText: 'Aurora High Tops',
           id: null,
           mimeType: null,
-          src:
-            'https://cdn.shopify.com/s/files/1/0344/4362/4583/products/black-hightop-LED-shoes.jpg?v=1587622579',
+          src: 'https://cdn.shopify.com/s/files/1/0344/4362/4583/products/black-hightop-LED-shoes.jpg?v=1587622579',
           thumbnailSrc:
             'https://cdn.shopify.com/s/files/1/0344/4362/4583/products/black-hightop-LED-shoes.jpg?v=1587622579&width=100',
           type: 'IMAGE'
@@ -414,8 +405,7 @@ export default {
           altText: 'Aurora High Tops',
           id: null,
           mimeType: null,
-          src:
-            'https://cdn.shopify.com/s/files/1/0344/4362/4583/products/black-hightop-LED-shoes.jpg?v=1587622579',
+          src: 'https://cdn.shopify.com/s/files/1/0344/4362/4583/products/black-hightop-LED-shoes.jpg?v=1587622579',
           thumbnailSrc:
             'https://cdn.shopify.com/s/files/1/0344/4362/4583/products/black-hightop-LED-shoes.jpg?v=1587622579&width=100',
           type: 'IMAGE'
