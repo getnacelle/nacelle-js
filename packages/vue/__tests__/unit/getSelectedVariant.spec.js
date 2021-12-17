@@ -1,4 +1,4 @@
-import { getSelectedVariant } from '../../src';
+import { getSelectedVariant } from '../../src/utils/products';
 import productData from 'mocks/product';
 
 describe('getSelectedVariant util', () => {

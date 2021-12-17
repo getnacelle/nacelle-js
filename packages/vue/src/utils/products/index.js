@@ -5,6 +5,5 @@
 
 // EXPORT PRODUCTS UTILS
 // @index('./*.js', (f, _) => `export { default as ${_.camelCase(f.name)} } from '${f.path}';`)
-export { default as getProductOptions } from './getProductOptions';
 export { default as getSelectedVariant } from './getSelectedVariant';
 // @endindex

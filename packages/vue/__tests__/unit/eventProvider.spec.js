@@ -145,4 +145,30 @@ describe('Event Bus', () => {
       })
     );
   });
+
+  it('calls `onEvent` without type', async () => {
+    const eventProvider = mount(EventProviderContainer({}));
+    const injectedEventsComponent = eventProvider.findComponent({
+      name: 'InjectedWithEvents'
+    });
+    jest.spyOn(injectedEventsComponent.vm, 'onEvent');
+    console.warn = jest.fn();
+    injectedEventsComponent.vm.onEvent({ type: null });
+    expect(console.warn).toHaveBeenCalledWith(
+      "[nacelle] events passed to the EventProvider's `onEvent` method must have a `type`."
+    );
+  });
+
+  it('calls `onEvent` without callback', async () => {
+    const eventProvider = mount(EventProviderContainer({}));
+    const injectedEventsComponent = eventProvider.findComponent({
+      name: 'InjectedWithEvents'
+    });
+    jest.spyOn(injectedEventsComponent.vm, 'onEvent');
+    console.warn = jest.fn();
+    injectedEventsComponent.vm.onEvent({ type: 'type', callback: null });
+    expect(console.warn).toHaveBeenCalledWith(
+      "[nacelle] events passed to the EventProvider's `onEvent` method must have a valid `callback` function."
+    );
+  });
 });
