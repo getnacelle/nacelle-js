@@ -17,7 +17,13 @@ export default function metafieldsToCustomAttributes({
   }
 
   const customAttributes: Attribute[] = metafields?.reduce((fields, m) => {
-    fields.push({ key: m.key, value: m.value });
+    if (typeof m.value === 'string') {
+      fields.push({ key: m.key, value: m.value });
+    } else {
+      console.warn(
+        `Omitting custom attribute "${m.key}" because it has a non-string value.`
+      );
+    }
 
     return fields;
   }, [] as Attribute[]);
