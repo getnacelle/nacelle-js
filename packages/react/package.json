@@ -1,0 +1,66 @@
+{
+  "name": "@nacelle/react",
+  "version": "0.0.0",
+  "description": "React components and composables for your Nacelle-powered storefront",
+  "keywords": [
+    "nacelle",
+    "react",
+    "ecommerce"
+  ],
+  "homepage": "https://github.com/getnacelle/nacelle-js/tree/main/packages/react#readme",
+  "license": "Apache-2.0",
+  "directories": {
+    "src": "src",
+    "test": "__tests__"
+  },
+  "files": [
+    "dist"
+  ],
+  "main": "./dist/nacelle-react.umd.js",
+  "unpkg": "./dist/nacelle-react.iife.js",
+  "jsdelivr": "./dist/nacelle-react.iife.js",
+  "module": "./dist/nacelle-react.es.js",
+  "exports": {
+    ".": {
+      "import": "./dist/nacelle-react.es.js",
+      "require": "./dist/nacelle-react.umd.js"
+    }
+  },
+  "sideEffects": false,
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/getnacelle/nacelle-js.git",
+    "directory": "packages/react"
+  },
+  "bugs": {
+    "url": "https://github.com/getnacelle/nacelle-js/issues"
+  },
+  "scripts": {
+    "build": "vite build",
+    "analyze": "vite build --config analyze.config.js",
+    "precommit": "lint-staged",
+    "test": "jest",
+    "test:ci": "jest --silent --runInBand --collectCoverage",
+    "test:watch": "jest --watch"
+  },
+  "dependencies": {
+    "@nacelle/client-js-sdk": "^3.5.0",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2"
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "^5.16.1",
+    "@testing-library/react": "^12.1.2",
+    "@types/jest": "^27.0.3",
+    "@types/react": "^17.0.37",
+    "@types/react-dom": "^17.0.11",
+    "@vitejs/plugin-react": "^1.1.3",
+    "jest": "^27.4.5",
+    "ts-jest": "^27.1.2",
+    "typescript": "^4.5.4",
+    "vite": "^2.6.14"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
