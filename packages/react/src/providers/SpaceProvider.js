@@ -2,7 +2,7 @@ import React, { createContext } from 'react';
 // relative ~ in vite.config not working
 import useSdk from '../composables/useSdk';
 
-const SpaceContext = createContext(null);
+export const SpaceContext = createContext(null);
 
 export default ({ children, ...props }) => {
   const id = props.space?.id || '';
