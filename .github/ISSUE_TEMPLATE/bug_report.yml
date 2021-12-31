@@ -28,7 +28,7 @@ body:
       description: Have you checked the [Issues](https://github.com/getnacelle/nacelle-js/issues?q=is%3Aissue+label%3Abug) tab to see if this bug has already been reported?
       options:
         - "I haven't checked the existing Issues, but I'll do that now."
-        - "Yes, I've checked the existing Issues."
+        - "Yes - I've checked the existing Issues, and I'm reporting a new issue."
     validations:
       required: true
   - type: textarea
