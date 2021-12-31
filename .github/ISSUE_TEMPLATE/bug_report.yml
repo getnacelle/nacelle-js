@@ -18,7 +18,7 @@ body:
     id: project-version
     attributes:
       label: Project Version
-      description: Which version of project is this bug report for?
+      description: Which version of the project is this bug report for?
     validations:
       required: true
   - type: dropdown
