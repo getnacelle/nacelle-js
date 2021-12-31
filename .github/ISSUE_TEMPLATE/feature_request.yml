@@ -22,8 +22,8 @@ body:
       label: Is this a new enhancement?
       description: Have you checked the [Issues](https://github.com/getnacelle/nacelle-js/issues?q=is%3Aissue+label%3Aenhancement) tab to see if this enhancement has already been suggested?
       options:
-        - 'Yes!'
-        - "No, but I'll do that now."
+        - "I haven't checked the existing Issues, but I'll do that now."
+        - "Yes, I've checked the existing Issues."
     validations:
       required: true
   - type: textarea
