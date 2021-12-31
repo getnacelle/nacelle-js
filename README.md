@@ -30,6 +30,4 @@ npx @nacelle/create your-project-name
 
 ## How to Contribute
 
-- [Submit a Pull Request](./CONTRIBUTING.md)
-- [Report bugs](./BUG_REPORT.md)
-- [Suggest an enhancement](./SUGGEST_ENHANCEMENT.md)
+Please see our [Contribution Guidelines](./CONTRIBUTING.md) for more information about submitting bug reports, feature requests, and code contributions.

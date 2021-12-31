@@ -1,0 +1,89 @@
+name: Bug Report
+description: File a bug report
+title: '[Bug]: '
+labels: ['bug', 'triage']
+body:
+  - type: dropdown
+    id: project
+    attributes:
+      label: Project
+      description: Which project is this bug report for?
+      options:
+        - 'packages/shopify-checkout'
+        - 'packages/vue'
+        - 'starters/nuxt'
+    validations:
+      required: true
+  - type: input
+    id: project-version
+    attributes:
+      label: Project Version
+      description: Which version of project is this bug report for?
+    validations:
+      required: true
+  - type: dropdown
+    id: checked-issues
+    attributes:
+      label: Is this a new issue?
+      description: Have you checked the [Issues](https://github.com/getnacelle/nacelle-js/issues?q=is%3Aissue+label%3Abug) tab to see if this bug has already been reported?
+      options:
+        - 'Yes!'
+        - "No, but I'll do that now."
+    validations:
+      required: true
+  - type: textarea
+    id: expected-behavior
+    attributes:
+      label: What was the expected behavior?
+      placeholder: Describe what the expected outcome was.
+    validations:
+      required: true
+  - type: textarea
+    id: actual-behavior
+    attributes:
+      label: What happened?
+      placeholder: Tell us what you see!
+    validations:
+      required: true
+  - type: input
+    id: link-to-reproduction
+    attributes:
+      label: Link to Reproduction
+      description: Please provide a link to a [minimal reproduction](https://stackoverflow.com/help/minimal-reproducible-example) of the bug, such as a [Code Sandbox](https://codesandbox.io) or [StackBlitz](https://stackblitz.com) project.
+    validations:
+      required: true
+  - type: input
+    id: node-version
+    attributes:
+      label: Node.js Version
+      description: Which Node.js version are you using?
+    validations:
+      required: true
+  - type: dropdown
+    id: operating-system
+    attributes:
+      label: Operating System
+      description: Which operating system did you experience the bug with?
+      options:
+        - 'Node.js'
+        - 'Chrome'
+        - 'Safari'
+        - 'Firefox'
+        - 'Microsoft Edge'
+      multiple: true
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Relevant log output
+      description: Please copy and paste any relevant log output. This will be automatically formatted into code, so no need for backticks.
+      render: shell
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: Code of Conduct
+      description: By submitting this issue, you agree to follow our [Code of Conduct](https://github.com/getnacelle/nacelle-js/blob/main/CODE_OF_CONDUCT.md)
+      options:
+        - label: I agree to follow this project's Code of Conduct
+          required: true
