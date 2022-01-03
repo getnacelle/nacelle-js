@@ -126,7 +126,7 @@ We use [Github Issues](https://guides.github.com/features/issues/) to track all 
 
 #### Before Submitting A Bug Report
 
-- **Reproduce the bug**. To help rule out outside factors, you should create an isolated [minimal reproduction](https://stackoverflow.com/help/minimal-reproducible-example) that demonstrates the bug. We recommend tools like [Code Sandbox](https://codesandbox.io) and [StackBlitz](https://stackblitz.com) for minimal creating a minimal reproduction.
+- **Reproduce the bug**. To help rule out outside factors, you should create an isolated [minimal reproduction](https://stackoverflow.com/help/minimal-reproducible-example) that demonstrates the bug. We recommend tools like [Code Sandbox](https://codesandbox.io) and [StackBlitz](https://stackblitz.com) for creating a minimal reproduction.
 
 - **Check the discussions**. Once you've confirmed that you can reproduce the bug, you should check the [discussion board](https://github.com/getnacelle/nacelle-js/discussions) to see if there are any other recommended resolutions.
 
