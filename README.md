@@ -30,6 +30,9 @@ npx @nacelle/create your-project-name
 
 ## How to Contribute
 
-- [Submit a Pull Request](./CONTRIBUTING.md)
-- [Report bugs](./BUG_REPORT.md)
-- [Suggest an enhancement](./SUGGEST_ENHANCEMENT.md)
+Please see our [Contribution Guidelines](./CONTRIBUTING.md) for more information about submitting [bug reports](./CONTRIBUTING.md#reporting-bugs), [suggesting enhancements](./CONTRIBUTING.md#suggesting-enhancements), and [pull requests](./CONTRIBUTING.md#submitting-pull-requests).
+
+### Quick Links
+
+- [Report a Bug](https://github.com/getnacelle/nacelle-js/issues/new?labels=bug%2Ctriage&template=bug_report.yml&title=%5BBug%5D%3A+)
+- [Suggest an Enhancement](https://github.com/getnacelle/nacelle-js/issues/new?labels=enhancement%2Ctriage&template=feature_request.yml&title=%5BEnhancement%5D%3A+)

@@ -120,63 +120,37 @@ After creating `examples/<project-name>`, add the following script to its `packa
 
 Nacelle-js contributions are key to the success of the project. There are a number of ways you can contribute.
 
-### Reporting Bugs
+### Reporting bugs
 
-We use [Github Issues](https://guides.github.com/features/issues/) to track all reported bugs. Before submitting a bug we ask that you review our pre-bug [checklist](#before-submitting-a-bug).
+We use [Github Issues](https://guides.github.com/features/issues/) to track all reported bugs. Before submitting a bug we ask that you review the following pre-bug checklist:
 
 #### Before Submitting A Bug Report
 
-- **Reproduce the bug**. To eliminate any outside factors you should create an isolated code sandbox confirming the bug. The sandbox should include the minimal amount of code to reproduce the bug.
+- **Reproduce the bug**. To help rule out outside factors, you should create an isolated [minimal reproduction](https://stackoverflow.com/help/minimal-reproducible-example) that demonstrates the bug. We recommend tools like [Code Sandbox](https://codesandbox.io) and [StackBlitz](https://stackblitz.com) for creating a minimal reproduction.
 
 - **Check the discussions**. Once you've confirmed that you can reproduce the bug, you should check the [discussion board](https://github.com/getnacelle/nacelle-js/discussions) to see if there are any other recommended resolutions.
 
-- **Perform a search**. Once you've checked that a solution does not exists in the discussion board, you should check to make sure the bug has not been filed already. To do so perform a [cursory search](https://github.com/search?q=+is%3Aissue+user%3AgetNacelle) on all existing issues.
+- **Perform a search**. Once you've checked that a solution does not exists in the discussion board, you should check to make sure the bug has not been filed already. To do so perform a [cursory search](https://github.com/getnacelle/nacelle-js/issues?q=is%3Aissue+label%3Abug) on all existing issues with `bug` labels.
 
-#### How To Submit A Good Bug Report
+#### Report the Bug with GitHub Issues
 
-When you've determined that the bug should be reported, fill out the [Bug Report Template](BUG_REPORT.md).
-
-The following details are required so our maintainers can quickly identify and reproduce the bug.
-
-- **Use a clear and descriptive title** for the issue to identify the problem.
-
-- **Describe the exact steps which reproduce the problem** in as many details as possible.
-
-- **Provide a reproduction of bug** in an minimal & isolated code sandbox.
-
-- **Describe the actual behavior** that prompted you to report the bug.
-
-- **Describe the expected behavior** you think should occur.
-
-- **Include any additional resources** such as screenshots, gifs or videos showcasing the bug.
+After working through the pre-bug report checklist, please create a new [Bug Report-type GitHub Issue](https://github.com/getnacelle/nacelle-js/issues/new?labels=bug%2Ctriage&template=bug_report.yml&title=%5BBug%5D%3A+).
 
 ### Suggesting Enhancements
 
-We use [Github Issues](https://guides.github.com/features/issues/) to track all suggested enhancements. Before submitting an enhancement we ask that you review our pre-enhancement [checklist](#before-submitting-an-enhacnement).
+We use [Github Issues](https://guides.github.com/features/issues/) to track all suggested enhancements. Before submitting an enhancement we ask that you review the following pre-enhancement checklist:
 
 #### Before Submitting An Enhancement
 
-- **Check for related enhancement**. To ensure your suggested enhancement is not covered by another package, you should check all related packages first.
+- **Check for related enhancement**. To ensure your suggested enhancement is not covered by another nacelle-js project, you should check all related nacelle-js projects first.
 
-- **Check the discussions**. Once you've confirmed that your suggested enhancement is not covered by another package, you should check the [discussion board](https://github.com/getnacelle/nacelle-js/discussions) to see if there are any discussions pertaining to the enhancement.
+- **Check the discussions**. Once you've confirmed that your suggested enhancement is not covered by another nacelle-js project, you should check the [discussion board](https://github.com/getnacelle/nacelle-js/discussions) to see if there are any discussions pertaining to the enhancement.
 
-- **Perform a search**. Once you've checked that a enhancement does not exist in the discussion board or an existing package, you should should check to make sure the enhancement has not been proposed already. To do perform a [cursory search](https://github.com/search?q=+is%3Aissue+user%3AgetNacelle) on all existing issues.
+- **Perform a search**. Once you've checked that a enhancement does not exist in the discussion board or an existing nacelle-js project, you should should check to make sure the enhancement has not been proposed already. To do perform a [cursory search](https://github.com/getnacelle/nacelle-js/issues?q=is%3Aissue+label%3Aenhancement) on all existing issues with `enhancement` labels.
 
-#### How To Submit A Good Enhancement
+#### Submit the Enhancement with GitHub Issues
 
-When you've determined that the enhancement should be reported, fill out the [Suggest Enhancement Template](SUGGEST_ENHANCEMENT.md).
-
-The following details are required so our maintainers can quickly understand the enhancement.
-
-- **Use a clear and descriptive title** for the issue to identify the suggestion.
-
-- **Describe the exact steps which should be taken** in as many details as possible.
-
-- **Provide a demonstration of enhancement** in an minimal & isolated code sandbox.
-
-- **Describe the expected behavior** you think should occur.
-
-- **Include any additional resources** such as screenshots, gifs or videos showcasing the bug.
+When you've determined that the enhancement should be reported, please create a new [Enhancement-type GitHub Issue](https://github.com/getnacelle/nacelle-js/issues/new?labels=enhancement%2Ctriage&template=feature_request.yml&title=%5BEnhancement%5D%3A+).
 
 ### Submitting Pull Requests
 
