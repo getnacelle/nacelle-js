@@ -85,11 +85,7 @@ export default {
   },
 
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
-  buildModules: [
-    '@nuxt/image',
-    '@nuxtjs/composition-api/module',
-    '@nuxtjs/pwa'
-  ],
+  buildModules: ['@nuxt/image', '@nuxtjs/pwa'],
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [],
