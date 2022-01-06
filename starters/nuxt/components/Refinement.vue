@@ -54,7 +54,6 @@
 <script>
 import { useRefinementProvider, ProductProvider } from '@nacelle/vue';
 import Product from '~/components/Product';
-
 export default {
   components: { ProductProvider, Product },
   setup() {

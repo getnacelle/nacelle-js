@@ -6,28 +6,27 @@
   >
     <product />
   </product-provider>
-  <div v-else-if="fetchState.pending">Loading...</div>
-  <div v-else-if="fetchState.error">Error</div>
 </template>
 
 <script>
-import { inject, ref, useContext, useFetch } from '@nuxtjs/composition-api';
-import { ProductProvider } from '@nacelle/vue';
+import { ProductProvider, useSpaceProvider } from '@nacelle/vue';
 import Product from '~/components/Product';
 
 export default {
   components: { ProductProvider, Product },
   setup() {
-    const product = ref({});
-    const { route } = useContext();
-    const nacelleSdk = inject('nacelleSdk');
-
-    const handle = route.value.params.handle;
-    const { fetchState } = useFetch(async () => {
-      product.value = await nacelleSdk.data.product({ handle });
+    const { nacelleSdk } = useSpaceProvider();
+    return {
+      nacelleSdk
+    };
+  },
+  data: () => ({
+    product: null
+  }),
+  async fetch() {
+    this.product = await this.nacelleSdk.data.product({
+      handle: this.$route.params.handle
     });
-
-    return { fetchState, product };
   }
 };
 </script>

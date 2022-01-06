@@ -18,28 +18,32 @@
 </template>
 
 <script>
-import { onMounted, ref, useRoute, useRouter } from '@nuxtjs/composition-api';
 import { useSearchProvider, RefinementProvider } from '@nacelle/vue';
 import Refinement from '~/components/Refinement';
+
 export default {
   components: { RefinementProvider, Refinement },
   setup() {
-    const query = ref('');
-    const route = useRoute();
-    const router = useRouter();
     const { search, results } = useSearchProvider();
-    const refinedData = ref([]);
-    onMounted(() => {
-      if (route.value.query.q) {
-        query.value = route.value.query.q;
-        search({ query: query.value });
-      }
-    });
-    const submitSearch = () => {
-      router.push({ path: `/search?q=${query.value}` });
-      search({ query: query.value });
+    return {
+      search,
+      results
     };
-    return { query, submitSearch, results, refinedData };
+  },
+  data: () => ({
+    query: ''
+  }),
+  mounted() {
+    if (this.$route.query.q) {
+      this.query = this.$route.query.q;
+      this.search({ query: this.query });
+    }
+  },
+  methods: {
+    submitSearch() {
+      this.$router.push({ path: `/search?q=${this.query}` });
+      this.search({ query: this.query });
+    }
   }
 };
 </script>

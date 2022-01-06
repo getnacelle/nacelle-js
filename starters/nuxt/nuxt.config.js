@@ -56,7 +56,7 @@ export default {
   css: [],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: [{ src: '~/plugins/globalSetup.js' }],
+  plugins: [{ src: '~/plugins/composition.js' }],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,

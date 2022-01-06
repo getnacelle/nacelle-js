@@ -21,21 +21,18 @@
 </template>
 
 <script>
-import { computed } from '@nuxtjs/composition-api';
+import { computed } from '@vue/composition-api';
 import { ProductProvider, useCollectionProvider } from '@nacelle/vue';
 import Product from '~/components/Product';
-
 export default {
   components: { ProductProvider, Product },
   setup() {
     const { collection, isFetching, loadProducts } = useCollectionProvider();
-
     const loaded = computed(() => {
       const total = collection?.value?.productLists[0]?.handles?.length || 0;
       const current = collection?.value?.products?.length;
       return current >= total;
     });
-
     return {
       collection,
       isFetching,
@@ -45,7 +42,6 @@ export default {
   }
 };
 </script>
-
 <style lang="scss" scoped>
 .collection {
   display: grid;

@@ -57,35 +57,33 @@
 </template>
 
 <script>
-import { computed, ref } from '@nuxtjs/composition-api';
+import { computed, ref } from '@vue/composition-api';
 import { useCartProvider, useProductProvider } from '@nacelle/vue';
-
 export default {
   setup() {
     const { addItem } = useCartProvider();
-    const { product, setSelectedOptions, setSelectedVariant } =
-      useProductProvider();
+    const {
+      product,
+      setSelectedOptions,
+      setSelectedVariant
+    } = useProductProvider();
     const quantity = ref(1);
-
     const defaultVariant = product?.value?.variants[0];
     if (defaultVariant) {
       setSelectedVariant({ variant: defaultVariant });
     }
-
     const options = computed(() => {
       const optionsExist = product?.value?.options?.find(
         (option) => option.values.length > 1
       );
       return optionsExist ? product?.value.options : null;
     });
-
     const buttonText = computed(() => {
       if (product?.value?.selectedVariant?.availableForSale) {
         return 'Add To Cart';
       }
       return 'Sold Out';
     });
-
     const handleOptionChange = ($event, option) => {
       const newOption = { name: option.name, value: $event.target.value };
       const selectedOptions = product?.value?.selectedOptions
@@ -98,7 +96,6 @@ export default {
       else selectedOptions.push(newOption);
       setSelectedOptions({ options: selectedOptions });
     };
-
     const handleAddItem = () => {
       if (product?.value?.selectedVariant) {
         addItem({
@@ -108,7 +105,6 @@ export default {
         });
       }
     };
-
     return {
       product,
       options,
@@ -120,7 +116,6 @@ export default {
   }
 };
 </script>
-
 <style lang="scss" scoped>
 .product {
   width: 100%;

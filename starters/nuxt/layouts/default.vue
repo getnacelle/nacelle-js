@@ -14,14 +14,24 @@
 </template>
 
 <script>
-import { inject } from '@nuxtjs/composition-api';
+import NacelleClient from '@nacelle/client-js-sdk';
 import { SpaceProvider, EventProvider, CartProvider } from '@nacelle/vue';
 
 export default {
   components: { SpaceProvider, EventProvider, CartProvider },
-  setup() {
-    const initialSpace = inject('initialSpace');
-    return { initialSpace };
+  data: () => ({
+    initialSpace: null
+  }),
+  async fetch() {
+    const client = new NacelleClient({
+      id: this.$config.nacelle?.id,
+      token: this.$config.nacelle?.token,
+      nacelleEndpoint: this.$config.nacelle?.nacelleEndpoint,
+      locale: this.$config.nacelle?.locale,
+      useStatic: false
+    });
+
+    this.initialSpace = await client.data.space();
   }
 };
 </script>

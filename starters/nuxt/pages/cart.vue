@@ -37,7 +37,6 @@
 </template>
 
 <script>
-import { useContext } from '@nuxtjs/composition-api';
 import { useCartProvider } from '@nacelle/vue';
 import createShopifyCheckoutClient from '@nacelle/shopify-checkout';
 
@@ -50,38 +49,36 @@ export default {
       decrementItem,
       clearCart
     } = useCartProvider();
-    const { $config } = useContext();
-    const checkoutClient = createShopifyCheckoutClient($config.shopify);
-
-    if (process.client) {
-      // clear cart if checkout has been completed
-      const checkoutId = window.localStorage.getItem('checkoutId');
-
-      if (checkoutId) {
-        checkoutClient.get({ id: checkoutId }).then((checkoutData) => {
-          if (checkoutData?.completed) {
-            window.localStorage.setItem('checkoutId', '');
-            clearCart();
-          }
-        });
-      }
-    }
-
     return {
       cart,
       removeItem,
       incrementItem,
       decrementItem,
-      clearCart,
-      checkoutClient
+      clearCart
     };
   },
+  data: () => ({
+    checkoutClient: null
+  }),
   computed: {
     subtotal() {
       const value = this.cart.lineItems.reduce((sum, item) => {
         return sum + item.quantity * item.variant.price;
       }, 0);
       return this.formatPrice(value);
+    }
+  },
+  mounted() {
+    this.checkoutClient = createShopifyCheckoutClient(this.$config.shopify);
+    // clear cart if checkout has been completed
+    const checkoutId = window.localStorage.getItem('checkoutId');
+    if (checkoutId) {
+      this.checkoutClient.get({ id: checkoutId }).then((checkoutData) => {
+        if (checkoutData?.completed) {
+          window.localStorage.setItem('checkoutId', '');
+          this.clearCart();
+        }
+      });
     }
   },
   methods: {
@@ -101,10 +98,8 @@ export default {
           ...cartItem.variant.metafields
         ]
       }));
-
       const checkoutData = await this.checkoutClient.process({ cartItems });
       window.localStorage.setItem('checkoutId', checkoutData.id);
-
       if (checkoutData.url) {
         window.location.href = checkoutData.url;
       }
@@ -112,7 +107,6 @@ export default {
   }
 };
 </script>
-
 <style lang="scss" scoped>
 .cart {
   padding: 0;
