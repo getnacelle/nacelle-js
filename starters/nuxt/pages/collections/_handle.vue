@@ -6,23 +6,22 @@
   >
     <collection />
   </collection-provider>
-  <div v-else-if="fetchState.pending">Loading...</div>
-  <div v-else-if="fetchState.error">Error</div>
 </template>
 
 <script>
-import { inject, ref, useContext, useFetch } from '@nuxtjs/composition-api';
+import { inject, useContext, useAsync } from '@nuxtjs/composition-api';
 import { CollectionProvider } from '@nacelle/vue';
 import Collection from '~/components/Collection';
 export default {
   components: { CollectionProvider, Collection },
   setup() {
-    const collection = ref({});
     const { route } = useContext();
     const nacelleSdk = inject('nacelleSdk');
+
     const handle = route.value.params.handle;
-    const { fetchState } = useFetch(async () => {
-      const data = await Promise.all([
+
+    const collection = useAsync(async () => {
+      const [collection, products] = await Promise.all([
         nacelleSdk.data.collection({ handle }),
         nacelleSdk.data.collectionPage({
           handle,
@@ -30,11 +29,12 @@ export default {
           itemsPerPage: 12
         })
       ]);
-      if (data) {
-        collection.value = { ...data[0], products: data[1] };
+      if (collection) {
+        return { ...collection, products };
       }
     });
-    return { fetchState, collection };
+
+    return { collection };
   }
 };
 </script>

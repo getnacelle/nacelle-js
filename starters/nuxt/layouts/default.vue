@@ -1,8 +1,8 @@
 <template>
   <space-provider
+    v-if="initialSpace"
     :config="$config.nacelle"
     :space="initialSpace"
-    :locale="$config.nacelle.locale"
     class="app"
   >
     <event-provider>
@@ -14,13 +14,21 @@
 </template>
 
 <script>
-import { inject } from '@nuxtjs/composition-api';
+import NacelleClient from '@nacelle/client-js-sdk';
+import { useContext, useAsync } from '@nuxtjs/composition-api';
 import { SpaceProvider, EventProvider, CartProvider } from '@nacelle/vue';
 
 export default {
   components: { SpaceProvider, EventProvider, CartProvider },
   setup() {
-    const initialSpace = inject('initialSpace');
+    const { $config } = useContext();
+    const nacelleClient = new NacelleClient({
+      ...$config.nacelle,
+      useStatic: false
+    });
+
+    const initialSpace = useAsync(() => nacelleClient.data.space());
+
     return { initialSpace };
   }
 };
