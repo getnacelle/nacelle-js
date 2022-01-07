@@ -1,8 +1,8 @@
 <template>
   <space-provider
-    v-if="initialSpace"
+    v-if="nacelleSpace"
     :config="$config.nacelle"
-    :space="initialSpace"
+    :space="nacelleSpace"
     class="app"
   >
     <event-provider>
@@ -27,9 +27,9 @@ export default {
       useStatic: false
     });
 
-    const initialSpace = useAsync(() => nacelleClient.data.space());
+    const nacelleSpace = useAsync(() => nacelleClient.data.space());
 
-    return { initialSpace };
+    return { nacelleSpace };
   }
 };
 </script>
