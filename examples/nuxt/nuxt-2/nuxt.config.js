@@ -26,23 +26,48 @@ export default {
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
 
+  // Nuxt image component: https://image.nuxtjs.org/
+  image: {
+    domains: [
+      'https://cdn.shopify.com',
+      'https://cdn.accentuate.io',
+      'https://images.ctfassets.net'
+    ]
+  },
+
+  publicRuntimeConfig: {
+    nacelle: {
+      storefrontEndpoint: process.env.NACELLE_STOREFRONT_ENDPOINT,
+      token: process.env.NACELLE_STOREFRONT_TOKEN,
+      locale: process.env.NACELLE_STOREFRONT_LOCALE
+    }
+  },
+
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
   buildModules: [
     // https://go.nuxtjs.dev/eslint
-    '@nuxtjs/eslint-module'
+    '@nuxtjs/eslint-module',
+    '@nuxt/image',
+    '@nuxtjs/pwa'
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [],
 
+  // PWA module configuration: https://go.nuxtjs.dev/pwa
+  pwa: {
+    manifest: {
+      lang: 'en'
+    }
+  },
+
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {},
 
-  publicRuntimeConfig: {
-    nacelle: {
-      endpoint: process.env.NACELLE_STOREFRONT_ENDPOINT,
-      token: process.env.NACELLE_STOREFRONT_TOKEN,
-      locale: process.env.NACELLE_STOREFRONT_LOCALE
+  vue: {
+    config: {
+      productionTip: false,
+      devtools: true
     }
   }
 };
