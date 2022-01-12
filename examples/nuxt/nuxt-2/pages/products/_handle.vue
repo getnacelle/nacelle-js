@@ -5,7 +5,6 @@
         :src="product.content.featuredMedia.src"
         class="product__image"
       />
-      URL: {{ product.content.featuredMedia }}
     </div>
     <div class="product__main">
       <h1 v-if="product.content.title" class="product__title">
@@ -18,7 +17,7 @@
         <div class="product__price">${{ selectedVariant.price }}</div>
       </div>
       <div
-        v-for="(option, oIndex) in product.content.options"
+        v-for="(option, oIndex) in options"
         :key="oIndex"
         class="product__option"
       >
@@ -78,7 +77,7 @@ export default {
   }),
   computed: {
     options() {
-      const optionsExist = this.product?.content?.options.find((option) => {
+      const optionsExist = this.product?.content?.options?.find((option) => {
         return option.values.length > 1;
       });
       return optionsExist ? this.product?.content?.options : null;
