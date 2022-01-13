@@ -1,9 +1,10 @@
-export const getCartVariant = (variant) => {
-  if (variant) {
+export const getCartVariant = (product, variant) => {
+  if (product && variant) {
+    const productTitle = product.content.title;
     const {
       availableForSale,
       compareAtPrice,
-      nacelleEntryId,
+      sourceEntryId,
       price,
       sku,
       productHandle
@@ -12,13 +13,14 @@ export const getCartVariant = (variant) => {
     return {
       availableForSale,
       compareAtPrice,
-      nacelleEntryId,
+      id: sourceEntryId,
       price,
       sku,
       productHandle,
       featuredMedia,
       selectedOptions,
-      title
+      title,
+      productTitle
     };
   }
 };

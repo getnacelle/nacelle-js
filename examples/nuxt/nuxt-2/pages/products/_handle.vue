@@ -97,7 +97,7 @@ export default {
   methods: {
     ...mapMutations('cart', ['addItem']),
     handleAddItem() {
-      const variant = getCartVariant(this.selectedVariant);
+      const variant = getCartVariant(this.product, this.selectedVariant);
       if (variant) {
         this.addItem({
           variant,

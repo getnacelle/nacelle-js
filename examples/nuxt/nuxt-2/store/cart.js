@@ -34,7 +34,7 @@ export const mutations = {
       return false;
     });
     if (index === -1) {
-      payload.id = `${payload.variant.nacelleEntryId}::${uuid()}`;
+      payload.id = `${payload.variant.id}::${uuid()}`;
       state.lineItems.push(payload);
     } else {
       state.lineItems.splice(index, 1, {
@@ -66,7 +66,7 @@ export const mutations = {
     if (index > -1) {
       state.lineItems.splice(index, 1, {
         ...state.lineItems[index],
-        quantity: state.lineItems[index].quantity - 1
+        quantity: state.lineItems[index].quantity + 1
       });
     }
     set('cart', state.lineItems);

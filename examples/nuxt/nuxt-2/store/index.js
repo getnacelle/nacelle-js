@@ -1,5 +1,6 @@
 export const actions = {
-  nuxtClientInit({ dispatch }) {
-    dispatch('cart/initCart', false, { root: true });
+  async nuxtClientInit({ dispatch }) {
+    await dispatch('checkout/initCheckout', false, { root: true });
+    await dispatch('cart/initCart', false, { root: true });
   }
 };
