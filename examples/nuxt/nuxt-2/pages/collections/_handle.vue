@@ -1,5 +1,14 @@
 <template>
-  <div v-if="collection" class="collection">Collection Page</div>
+  <div v-if="collection" class="collection">
+    <div v-if="products.length > 0" class="collection__list">
+      <product-card
+        v-for="product in products"
+        :key="product.nacelleEntryId"
+        :product="product"
+        class="collection__item"
+      />
+    </div>
+  </div>
 </template>
 
 <script>
@@ -13,7 +22,7 @@ export default {
       client.productCollections({ handles: [params.handle] }),
       client.productCollectionEntries({
         handle: params.handle,
-        maxReturnedEntries: 15
+        maxReturnedEntries: 12
       })
     ]);
     return {
@@ -31,17 +40,13 @@ export default {
 <style lang="scss" scoped>
 .collection {
   width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 40px;
-  @media only screen and (min-width: 768px) {
-    flex-direction: row;
-  }
 }
 .collection__list {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(20em, 1fr));
   gap: 30px 0;
+}
+.collection__item {
+  padding: 0 20px;
 }
 </style>

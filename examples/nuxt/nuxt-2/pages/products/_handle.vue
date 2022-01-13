@@ -59,7 +59,9 @@
 </template>
 
 <script>
+import { mapState, mapMutations } from 'vuex';
 import { Storefront } from '@nacelle/storefront-sdk';
+import { getCartVariant } from '~/utils/getCartVariant';
 
 export default {
   name: 'ProductPage',
@@ -76,6 +78,7 @@ export default {
     quantity: 1
   }),
   computed: {
+    ...mapState(['cart']),
     options() {
       const optionsExist = this.product?.content?.options?.find((option) => {
         return option.values.length > 1;
@@ -92,8 +95,15 @@ export default {
     this.selectedVariant = this.product?.variants[0];
   },
   methods: {
+    ...mapMutations('cart', ['addItem']),
     handleAddItem() {
-      console.log('add the item');
+      const variant = getCartVariant(this.selectedVariant);
+      if (variant) {
+        this.addItem({
+          variant,
+          quantity: parseInt(this.quantity)
+        });
+      }
     }
   }
 };
