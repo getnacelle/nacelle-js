@@ -1,13 +1,22 @@
 <template>
   <div v-if="catalog" class="search">
     <input v-model="query" class="search__input" />
-    <button class="search__submit">Search</button>
-    <p class="search__count">{{ catalog.length }} result(s)</p>
+    <button class="search__submit" @click="handleSearch">Search</button>
+    <p class="search__count">{{ results.length }} result(s)</p>
+    <div v-if="results.length" class="search__list">
+      <product-card
+        v-for="result in results"
+        :key="result.nacelleEntryId"
+        :product="result"
+        class="search__item"
+      />
+    </div>
   </div>
 </template>
 
 <script>
 import { Storefront } from '@nacelle/storefront-sdk';
+import Fuse from 'fuse.js';
 
 export default {
   name: 'SearchPage',
@@ -20,7 +29,12 @@ export default {
   },
   data: () => ({
     catalog: null,
-    query: ''
+    results: [],
+    query: '',
+    options: {
+      threshold: 0.5,
+      keys: ['content.title']
+    }
   }),
   mounted() {
     const query = this.$route.query.q;
@@ -31,13 +45,30 @@ export default {
   },
   methods: {
     searchCatalog(query) {
-      // return catalog
+      this.results = new Fuse(this.catalog, this.options)
+        .search(query)
+        .filter((result) => typeof result.item !== 'undefined')
+        .map((result) => result.item);
     },
+    refineResults() {},
     handleSearch() {
-      this.catalog = this.searchCatalog(this.query);
       this.$router.push({ path: `/search?q=${this.query}` });
       this.searchCatalog(this.query);
     }
   }
 };
 </script>
+
+<style lang="scss" scoped>
+.search {
+  width: 100%;
+}
+.search__list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(20em, 1fr));
+  gap: 30px 0;
+}
+.search__item {
+  padding: 0 20px;
+}
+</style>
