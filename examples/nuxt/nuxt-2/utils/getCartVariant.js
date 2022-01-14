@@ -1,4 +1,4 @@
-export const getCartVariant = (product, variant) => {
+export const getCartVariant = ({ product, variant }) => {
   if (product && variant) {
     const productTitle = product.content.title;
     const {
