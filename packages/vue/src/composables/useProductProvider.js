@@ -1,4 +1,4 @@
-import { inject } from '@vue/composition-api';
+import { inject } from 'vue-demi';
 
 export default function useProductProvider() {
   return {

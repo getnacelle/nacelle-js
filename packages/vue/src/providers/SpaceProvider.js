@@ -1,4 +1,4 @@
-import { h, ref, provide } from '@vue/composition-api';
+import { h, ref, provide } from 'vue-demi';
 import useSdk from '~/composables/useSdk';
 
 export default {

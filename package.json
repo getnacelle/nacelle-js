@@ -4,7 +4,7 @@
   "description": "Nacelle-powered, JavaScript-fueled packages and example projects to elevate your composable commerce experience",
   "scripts": {
     "prepare": "husky install",
-    "bootstrap": "lerna bootstrap --hoist --strict",
+    "bootstrap": "lerna bootstrap --hoist --strict --nohoist=vue",
     "clean": "lerna clean",
     "create": "lerna create",
     "changed": "lerna changed",

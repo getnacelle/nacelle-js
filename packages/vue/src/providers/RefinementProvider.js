@@ -1,11 +1,4 @@
-import {
-  h,
-  ref,
-  watch,
-  computed,
-  provide,
-  onUnmounted
-} from '@vue/composition-api';
+import { h, ref, watch, computed, provide, onUnmounted } from 'vue-demi';
 import SortWorker from '../workers/sortProducts?worker';
 import FilterWorker from '../workers/filterProducts?worker';
 

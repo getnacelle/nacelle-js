@@ -12,6 +12,7 @@
     "@nacelle/shopify-checkout": "^0.0.7",
     "@nacelle/vue": "^0.0.13",
     "@nuxtjs/composition-api": "^0.29.0",
+    "@vue/composition-api": "^1.4.4",
     "core-js": "^3.17.3",
     "isomorphic-unfetch": "^3.1.0",
     "nuxt": "^2.15.7"

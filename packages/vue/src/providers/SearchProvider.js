@@ -1,4 +1,4 @@
-import { h, ref, provide, onMounted } from '@vue/composition-api';
+import { h, ref, provide, onMounted } from 'vue-demi';
 import SearchWorker from '../workers/search?worker';
 import FetchCatalogWorker from '../workers/fetchCatalog?worker';
 

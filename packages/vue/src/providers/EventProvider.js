@@ -1,11 +1,4 @@
-import {
-  computed,
-  h,
-  provide,
-  readonly,
-  ref,
-  watch
-} from '@vue/composition-api';
+import { computed, h, provide, readonly, ref, watch } from 'vue-demi';
 
 export default {
   name: 'EventProvider',

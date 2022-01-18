@@ -1,4 +1,4 @@
-import { h, provide, ref, watch } from '@vue/composition-api';
+import { h, provide, ref, watch } from 'vue-demi';
 import { getSelectedVariant } from '~/utils/products';
 
 export default {
