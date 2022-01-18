@@ -21,13 +21,29 @@
       >
         <option value="">All</option>
         <option
-          v-for="price in options.prices"
+          v-for="price in settings.prices"
           :key="price.value"
           :value="price.value"
         >
           {{ price.label }}
         </option>
       </select>
+      <div v-if="settings.tags.size" class="search__refine-filters">
+        <h3 class="search__refine-heading">Tags</h3>
+        <div class="search__refine-buttons">
+          <button
+            v-for="tag in settings.tags"
+            :key="tag"
+            :class="[
+              'search__refine-button',
+              tags.includes(tag) && 'search__refine-button--active'
+            ]"
+            @click="handleTags(tag)"
+          >
+            {{ tag }}
+          </button>
+        </div>
+      </div>
     </div>
     <div v-if="results.length" class="search__list">
       <product-card
@@ -60,8 +76,8 @@ export default {
     query: '',
     sort: '',
     prices: '',
-    filters: [],
-    options: {
+    tags: [],
+    settings: {
       search: {
         threshold: 0.5,
         keys: ['content.title']
@@ -80,7 +96,8 @@ export default {
         { value: '0, 50', label: '< $50' },
         { value: '50, 100', label: '< $50 - $100' },
         { value: '100, 0', label: '> $100' }
-      ]
+      ],
+      tags: []
     }
   }),
   mounted() {
@@ -96,21 +113,31 @@ export default {
       if (this.query) {
         items = searchCatalog({
           items,
-          options: this.options.search,
+          settings: this.settings.search,
           value: this.query
         });
+        this.updateTags(items);
       }
       if (this.sort) {
         items = sortCatalog({ items, value: this.sort });
       }
-      if (this.prices || this.filters.length) {
+      if (this.prices || this.tags.length) {
         items = refineCatalog({
           items,
           prices: this.prices,
-          filters: this.filters.length && this.filters
+          tags: this.tags.length && this.tags
         });
       }
       this.results = items;
+    },
+    updateTags(catalog) {
+      const tags = new Set(
+        catalog.flatMap((item) => item.tags.filter((tag) => tag))
+      );
+      this.tags = this.tags.filter((tag) => {
+        return tags.has(tag);
+      });
+      this.settings.tags = tags;
     },
     handleSearch() {
       this.$router.push({ path: `/search?q=${this.query}` });
@@ -124,8 +151,15 @@ export default {
       this.prices = val;
       this.updateResults();
     },
+    handleTags(val) {
+      const index = this.tags.findIndex((tag) => tag === val);
+      if (index > -1) this.tags.splice(index, 1);
+      else this.tags.push(val);
+      this.updateResults();
+    },
     handleClear() {
-      this.filters = [];
+      this.tags = [];
+      this.updateResults();
     }
   }
 };
@@ -140,6 +174,17 @@ export default {
   grid-template-columns: repeat(auto-fit, minmax(20em, 1fr));
   gap: 30px 0;
   margin-top: 50px;
+}
+.search__refine-heading {
+  width: 100%;
+}
+.search__refine-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.search__refine-button--active {
+  background-color: white;
 }
 .search__item {
   padding: 0 20px;
