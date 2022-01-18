@@ -48,6 +48,7 @@
 
 <script>
 import { mapMutations } from 'vuex';
+import { getSelectedVariant } from '~/utils/getSelectedVariant';
 import { getCartVariant } from '~/utils/getCartVariant';
 
 export default {
@@ -59,7 +60,8 @@ export default {
     }
   },
   data: () => ({
-    selectedVariant: null
+    selectedVariant: null,
+    selectedOptions: null
   }),
   computed: {
     options() {
@@ -75,10 +77,25 @@ export default {
     }
   },
   created() {
-    this.selectedVariant = this.product?.variants[0];
+    this.selectedVariant = { ...this.product.variants[0] };
+    this.selectedOptions = [...this.selectedVariant.content.selectedOptions];
   },
   methods: {
     ...mapMutations('cart', ['addItem']),
+    handleOptionChange($event, option) {
+      const newOption = { name: option.name, value: $event.target.value };
+      const optionIndex = this.selectedOptions.findIndex((selectedOption) => {
+        return selectedOption.name === newOption.name;
+      });
+      if (optionIndex > -1)
+        this.selectedOptions.splice(optionIndex, 1, newOption);
+      else this.selectedOptions.push(newOption);
+      const variant = getSelectedVariant({
+        product: this.product,
+        options: this.selectedOptions
+      });
+      this.selectedVariant = variant ? { ...variant } : null;
+    },
     handleAddItem() {
       const variant = getCartVariant({
         product: this.product,

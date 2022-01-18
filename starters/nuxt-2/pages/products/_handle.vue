@@ -22,7 +22,10 @@
         class="product__option"
       >
         <label class="product__label">{{ option.name }}</label>
-        <select class="product__select">
+        <select
+          class="product__select"
+          @change="($event) => handleOptionChange($event, option)"
+        >
           <option
             v-for="(value, vIndex) in option.values"
             :key="vIndex"
@@ -60,6 +63,7 @@
 
 <script>
 import { mapState, mapMutations } from 'vuex';
+import { getSelectedVariant } from '~/utils/getSelectedVariant';
 import { getCartVariant } from '~/utils/getCartVariant';
 
 export default {
@@ -73,6 +77,7 @@ export default {
   data: () => ({
     product: null,
     selectedVariant: null,
+    selectedOptions: [],
     quantity: 1
   }),
   computed: {
@@ -90,10 +95,25 @@ export default {
     }
   },
   created() {
-    this.selectedVariant = this.product?.variants[0];
+    this.selectedVariant = { ...this.product.variants[0] };
+    this.selectedOptions = [...this.selectedVariant.content.selectedOptions];
   },
   methods: {
     ...mapMutations('cart', ['addItem']),
+    handleOptionChange($event, option) {
+      const newOption = { name: option.name, value: $event.target.value };
+      const optionIndex = this.selectedOptions.findIndex((selectedOption) => {
+        return selectedOption.name === newOption.name;
+      });
+      if (optionIndex > -1)
+        this.selectedOptions.splice(optionIndex, 1, newOption);
+      else this.selectedOptions.push(newOption);
+      const variant = getSelectedVariant({
+        product: this.product,
+        options: this.selectedOptions
+      });
+      this.selectedVariant = variant ? { ...variant } : null;
+    },
     handleAddItem() {
       const variant = getCartVariant({
         product: this.product,
@@ -102,7 +122,7 @@ export default {
       if (variant) {
         this.addItem({
           variant,
-          quantity: parseInt(this.quantity)
+          quantity: 1
         });
       }
     }
