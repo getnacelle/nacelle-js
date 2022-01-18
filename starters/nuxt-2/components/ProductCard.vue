@@ -1,11 +1,16 @@
 <template>
   <div v-if="product" class="product-card">
-    <div v-if="product.content.featuredMedia" class="product-card__media">
+    <nuxt-link
+      :to="`/products/${product.content.handle}`"
+      class="product-card__media"
+    >
       <nuxt-img
+        v-if="product.content.featuredMedia"
         :src="product.content.featuredMedia.src"
         class="product-card__image"
       />
-    </div>
+      <div v-else>No Image</div>
+    </nuxt-link>
     <div class="product-card__main">
       <h3 v-if="product.content.title" class="product-card__title">
         {{ product.content.title }}
@@ -25,7 +30,10 @@
         class="product-card__option"
       >
         <label class="product-card__label">{{ option.name }}</label>
-        <select class="product-card__select">
+        <select
+          class="product-card__select"
+          @change="($event) => handleOptionChange($event, option)"
+        >
           <option
             v-for="(value, vIndex) in option.values"
             :key="vIndex"
@@ -71,9 +79,11 @@ export default {
       return optionsExist ? this.product?.content?.options : null;
     },
     buttonText() {
-      return this.selectedVariant?.availableForSale
-        ? 'Add To cart'
-        : 'Sold Out';
+      return this.selectedVariant
+        ? this.selectedVariant.availableForSale
+          ? 'Add To cart'
+          : 'Sold Out'
+        : 'Select Option';
     }
   },
   created() {

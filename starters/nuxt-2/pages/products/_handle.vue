@@ -52,7 +52,7 @@
       </div>
       <button
         class="product__button"
-        :disabled="!selectedVariant.availableForSale"
+        :disabled="!selectedVariant || selectedVariant.availableForSale"
         @click="handleAddItem"
       >
         {{ buttonText }}
@@ -89,9 +89,11 @@ export default {
       return optionsExist ? this.product?.content?.options : null;
     },
     buttonText() {
-      return this.selectedVariant?.availableForSale
-        ? 'Add To cart'
-        : 'Sold Out';
+      return this.selectedVariant
+        ? this.selectedVariant.availableForSale
+          ? 'Add To cart'
+          : 'Sold Out'
+        : 'Select Option';
     }
   },
   created() {

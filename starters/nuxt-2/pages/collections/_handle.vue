@@ -8,6 +8,9 @@
         class="collection__item"
       />
     </div>
+    <button v-if="canFetch" class="collection__action" @click="handleFetch">
+      Load More
+    </button>
   </div>
 </template>
 
@@ -15,22 +18,34 @@
 export default {
   name: 'CollectionPage',
   async asyncData({ app, params }) {
-    const [collections, products] = await Promise.all([
-      app.$nacelle.productCollections({ handles: [params.handle] }),
-      app.$nacelle.productCollectionEntries({
-        handle: params.handle,
-        maxReturnedEntries: 12
-      })
-    ]);
+    const collections = await app.$nacelle.productCollections({
+      handles: [params.handle]
+    });
     return {
       collection: collections[0],
-      products
+      products: collections[0]?.products.slice(0, 12)
     };
   },
   data: () => ({
     collection: null,
     products: null
-  })
+  }),
+  computed: {
+    canFetch() {
+      return this.collection?.products.length > this.products?.length;
+    }
+  },
+  methods: {
+    handleFetch() {
+      this.products = [
+        ...this.products,
+        ...this.collection.products.slice(
+          this.products.length,
+          this.products.length + 12
+        )
+      ];
+    }
+  }
 };
 </script>
 
@@ -45,5 +60,9 @@ export default {
 }
 .collection__item {
   padding: 0 20px;
+}
+.collection__action {
+  display: block;
+  margin: 30px auto 0;
 }
 </style>
