@@ -1,16 +1,20 @@
 <template>
   <div v-if="collection" class="collection">
-    <div v-if="products.length > 0" class="collection__list">
-      <product-card
-        v-for="product in products"
-        :key="product.nacelleEntryId"
-        :product="product"
-        class="collection__item"
-      />
+    <h1 class="collection__heading">{{ collection.content.title }}</h1>
+    <div v-if="products.length > 0" class="collection__main">
+      <div class="collection__list">
+        <product-card
+          v-for="product in products"
+          :key="product.nacelleEntryId"
+          :product="product"
+          class="collection__item"
+        />
+      </div>
+      <button v-if="canFetch" class="collection__action" @click="handleFetch">
+        Load More
+      </button>
     </div>
-    <button v-if="canFetch" class="collection__action" @click="handleFetch">
-      Load More
-    </button>
+    <div v-else class="collection__empty">No Products Found</div>
   </div>
 </template>
 
