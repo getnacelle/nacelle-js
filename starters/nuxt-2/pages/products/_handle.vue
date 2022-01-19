@@ -67,49 +67,6 @@ import { mapMutations } from 'vuex';
 import { getSelectedVariant } from '~/utils/getSelectedVariant';
 import { getCartVariant } from '~/utils/getCartVariant';
 
-const PAGE_QUERY = `
-  query ProductPage($handle: String!){
-    products(filter: { handles: [$handle] }){
-      nacelleEntryId
-      sourceEntryId
-      content{
-        handle
-        title
-        description
-        options{
-          name
-          values
-        }
-        featuredMedia{
-          src
-          thumbnailSrc
-          altText
-        }
-			}
-      variants{
-        nacelleEntryId
-        sourceEntryId
-        sku
-        availableForSale
-        price
-        compareAtPrice
-        content{
-          title
-          selectedOptions{
-            name
-            value
-          }
-          featuredMedia{
-            src
-            thumbnailSrc
-            altText
-          }
-        }
-      }
-    }
-  }
-`;
-
 export default {
   name: 'ProductPage',
   async asyncData({ app, params }) {
@@ -176,6 +133,49 @@ export default {
     }
   }
 };
+
+const PAGE_QUERY = `
+  query ProductPage($handle: String!){
+    products(filter: { handles: [$handle] }){
+      nacelleEntryId
+      sourceEntryId
+      content{
+        handle
+        title
+        description
+        options{
+          name
+          values
+        }
+        featuredMedia{
+          src
+          thumbnailSrc
+          altText
+        }
+			}
+      variants{
+        nacelleEntryId
+        sourceEntryId
+        sku
+        availableForSale
+        price
+        compareAtPrice
+        content{
+          title
+          selectedOptions{
+            name
+            value
+          }
+          featuredMedia{
+            src
+            thumbnailSrc
+            altText
+          }
+        }
+      }
+    }
+  }
+`;
 </script>
 
 <style lang="scss" scoped>

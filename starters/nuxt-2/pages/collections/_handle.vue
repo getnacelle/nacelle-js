@@ -1,7 +1,7 @@
 <template>
   <div v-if="collection" class="collection">
     <h1 class="collection__heading">{{ collection.content.title }}</h1>
-    <div v-if="products.length > 0" class="collection__main">
+    <!-- <div v-if="products.length > 0" class="collection__main">
       <div class="collection__list">
         <product-card
           v-for="product in products"
@@ -14,7 +14,7 @@
         Load More
       </button>
     </div>
-    <div v-else class="collection__empty">No Products Found</div>
+    <div v-else class="collection__empty">No Products Found</div> -->
   </div>
 </template>
 
@@ -22,35 +22,87 @@
 export default {
   name: 'CollectionPage',
   async asyncData({ app, params }) {
-    const collections = await app.$nacelle.productCollections({
-      handles: [params.handle]
+    const { productCollections } = await app.$nacelle.query({
+      query: PAGE_QUERY,
+      variables: { handle: params.handle }
     });
     return {
-      collection: collections[0],
-      products: collections[0]?.products.slice(0, 12)
+      collection: productCollections[0]
     };
   },
   data: () => ({
-    collection: null,
-    products: null
-  }),
-  computed: {
-    canFetch() {
-      return this.collection?.products.length > this.products?.length;
+    collection: null
+  })
+  // computed: {
+  //   canFetch() {
+  //     return this.collection?.products.length > this.products?.length;
+  //   }
+  // },
+  // methods: {
+  //   handleFetch() {
+  //     this.products = [
+  //       ...this.products,
+  //       ...this.collection.products.slice(
+  //         this.products.length,
+  //         this.products.length + 12
+  //       )
+  //     ];
+  //   }
+  // }
+};
+
+const PRODUCT_FRAGMENT = `
+  nacelleEntryId
+  sourceEntryId
+  content{
+    handle
+    title
+    options{
+      name
+      values
     }
-  },
-  methods: {
-    handleFetch() {
-      this.products = [
-        ...this.products,
-        ...this.collection.products.slice(
-          this.products.length,
-          this.products.length + 12
-        )
-      ];
+    featuredMedia{
+      src
+      thumbnailSrc
+      altText
     }
   }
-};
+  variants{
+    nacelleEntryId
+    sourceEntryId
+    sku
+    availableForSale
+    price
+    compareAtPrice
+    content{
+      title
+      selectedOptions{
+        name
+        value
+      }
+      featuredMedia{
+        src
+        thumbnailSrc
+        altText
+      }
+    }
+  }
+`;
+
+const PAGE_QUERY = `
+  query CollectionPage($handle: String!){
+    productCollections(filter: { handles: [$handle] }){
+      nacelleEntryId
+      sourceEntryId
+      content{
+        title
+      }
+      products(first: 13){
+        ${PRODUCT_FRAGMENT}
+      }
+    }
+  }
+`;
 </script>
 
 <style lang="scss" scoped>
