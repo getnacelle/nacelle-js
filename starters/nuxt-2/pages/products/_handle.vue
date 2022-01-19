@@ -3,6 +3,7 @@
     <div v-if="product.content.featuredMedia" class="product__media">
       <nuxt-img
         :src="product.content.featuredMedia.src"
+        :alt="product.content.featuredMedia.altText"
         class="product__image"
       />
     </div>
@@ -52,7 +53,7 @@
       </div>
       <button
         class="product__button"
-        :disabled="!selectedVariant || selectedVariant.availableForSale"
+        :disabled="!selectedVariant || !selectedVariant.availableForSale"
         @click="handleAddItem"
       >
         {{ buttonText }}
@@ -62,14 +63,60 @@
 </template>
 
 <script>
-import { mapState, mapMutations } from 'vuex';
+import { mapMutations } from 'vuex';
 import { getSelectedVariant } from '~/utils/getSelectedVariant';
 import { getCartVariant } from '~/utils/getCartVariant';
+
+const PAGE_QUERY = `
+  query ProductPage($handle: String!){
+    products(filter: { handles: [$handle] }){
+      nacelleEntryId
+      sourceEntryId
+      content{
+        handle
+        title
+        description
+        options{
+          name
+          values
+        }
+        featuredMedia{
+          src
+          thumbnailSrc
+          altText
+        }
+			}
+      variants{
+        nacelleEntryId
+        sourceEntryId
+        sku
+        availableForSale
+        price
+        compareAtPrice
+        content{
+          title
+          selectedOptions{
+            name
+            value
+          }
+          featuredMedia{
+            src
+            thumbnailSrc
+            altText
+          }
+        }
+      }
+    }
+  }
+`;
 
 export default {
   name: 'ProductPage',
   async asyncData({ app, params }) {
-    const products = await app.$nacelle.products({ handles: [params.handle] });
+    const { products } = await app.$nacelle.query({
+      query: PAGE_QUERY,
+      variables: { handle: params.handle }
+    });
     return {
       product: products[0]
     };
@@ -81,7 +128,6 @@ export default {
     quantity: 1
   }),
   computed: {
-    ...mapState(['cart']),
     options() {
       const optionsExist = this.product?.content?.options?.find((option) => {
         return option.values.length > 1;

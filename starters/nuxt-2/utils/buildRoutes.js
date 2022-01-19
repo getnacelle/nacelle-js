@@ -6,8 +6,7 @@ export const buildRoutes = async () => {
     token: process.env.NACELLE_STOREFRONT_TOKEN,
     locale: process.env.NACELLE_STOREFRONT_LOCALE
   });
-  const response = await client.query({
-    query: `
+  const QUERY = `
     {
       products {
         content {
@@ -20,8 +19,9 @@ export const buildRoutes = async () => {
         }
       }
     }
-    `
-  });
+  `;
+
+  const response = await client.query({ query: QUERY });
   return [
     ...response?.products?.map(
       (product) => `/products/${product.content.handle}`
