@@ -63,8 +63,6 @@ export default {
 
   generate: {
     crawler: false,
-    concurrency: 25,
-    interval: 2000,
     fallback: true,
     routes: () => buildRoutes()
   },
