@@ -1,20 +1,25 @@
 <template>
   <div v-if="collection" class="collection">
     <h1 class="collection__heading">{{ collection.content.title }}</h1>
-    <!-- <div v-if="products.length > 0" class="collection__main">
+    <div v-if="activeProducts.length > 0" class="collection__main">
       <div class="collection__list">
         <product-card
-          v-for="product in products"
+          v-for="product in activeProducts"
           :key="product.nacelleEntryId"
           :product="product"
           class="collection__item"
         />
       </div>
-      <button v-if="canFetch" class="collection__action" @click="handleFetch">
+      <button
+        v-if="canFetch"
+        :disabled="isFetching"
+        class="collection__action"
+        @click="handleFetch"
+      >
         Load More
       </button>
     </div>
-    <div v-else class="collection__empty">No Products Found</div> -->
+    <div v-else class="collection__empty">Empty Collection</div>
   </div>
 </template>
 
@@ -26,29 +31,44 @@ export default {
       query: PAGE_QUERY,
       variables: { handle: params.handle }
     });
-    return {
-      collection: productCollections[0]
-    };
+    if (productCollections[0]) {
+      const { products, ...rest } = productCollections[0];
+      return {
+        collection: rest,
+        products,
+        canFetch: products?.length > 12
+      };
+    }
   },
   data: () => ({
-    collection: null
-  })
-  // computed: {
-  //   canFetch() {
-  //     return this.collection?.products.length > this.products?.length;
-  //   }
-  // },
-  // methods: {
-  //   handleFetch() {
-  //     this.products = [
-  //       ...this.products,
-  //       ...this.collection.products.slice(
-  //         this.products.length,
-  //         this.products.length + 12
-  //       )
-  //     ];
-  //   }
-  // }
+    collection: null,
+    products: null,
+    canFetch: false,
+    isFetching: false
+  }),
+  computed: {
+    activeProducts() {
+      return this.canFetch
+        ? this.products?.slice(0, this.products.length - 1)
+        : this.products;
+    }
+  },
+  methods: {
+    async handleFetch() {
+      this.isFetching = true;
+      const after = this.products[this.products?.length - 1].nacelleEntryId;
+      const { productCollections } = await this.$nacelle.query({
+        query: PRODUCTS_QUERY,
+        variables: { handle: this.$route.params.handle, after }
+      });
+      const products = productCollections[0]?.products;
+      if (products) {
+        this.canFetch = products.length === 12;
+        this.products = [...this.products, ...products];
+      }
+      this.isFetching = false;
+    }
+  }
 };
 
 const PRODUCT_FRAGMENT = `
@@ -98,6 +118,16 @@ const PAGE_QUERY = `
         title
       }
       products(first: 13){
+        ${PRODUCT_FRAGMENT}
+      }
+    }
+  }
+`;
+
+const PRODUCTS_QUERY = `
+  query CollectionProducts($handle: String!, $after: String!){
+    productCollections(filter: { handles: [$handle] }){
+      products(first: 12, after: $after){
         ${PRODUCT_FRAGMENT}
       }
     }
