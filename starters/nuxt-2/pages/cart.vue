@@ -51,7 +51,7 @@
         Proceed To Checkout
       </button>
     </div>
-    <h3 v-show="!cartCount" class="cart__empty">Empty Cart</h3>
+    <h2 v-show="!cartCount" class="cart__empty">Empty Cart</h2>
   </div>
 </template>
 

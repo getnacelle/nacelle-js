@@ -7,14 +7,15 @@
       <nuxt-img
         v-if="product.content.featuredMedia"
         :src="product.content.featuredMedia.src"
+        :alt="product.content.featuredMedia.altText"
         class="product-card__image"
       />
       <div v-else>No Image</div>
     </nuxt-link>
     <div class="product-card__main">
-      <h3 v-if="product.content.title" class="product-card__title">
+      <h2 v-if="product.content.title" class="product-card__title">
         {{ product.content.title }}
-      </h3>
+      </h2>
       <div class="product-card__prices">
         <div
           v-if="selectedVariant.compareAtPrice"
@@ -29,8 +30,13 @@
         :key="oIndex"
         class="product-card__option"
       >
-        <label class="product-card__label">{{ option.name }}</label>
+        <label
+          :for="`select-${oIndex}-${uniqueId}`"
+          class="product-card__label"
+          >{{ option.name }}</label
+        >
         <select
+          :id="`select-${oIndex}-${uniqueId}`"
           class="product-card__select"
           @change="($event) => handleOptionChange($event, option)"
         >
@@ -56,6 +62,7 @@
 
 <script>
 import { mapMutations } from 'vuex';
+import { v4 as uuid } from 'uuid';
 import { getSelectedVariant } from '~/utils/getSelectedVariant';
 import { getCartVariant } from '~/utils/getCartVariant';
 
@@ -69,7 +76,8 @@ export default {
   },
   data: () => ({
     selectedVariant: null,
-    selectedOptions: null
+    selectedOptions: null,
+    uniqueId: uuid()
   }),
   computed: {
     options() {

@@ -22,8 +22,11 @@
         :key="oIndex"
         class="product__option"
       >
-        <label class="product__label">{{ option.name }}</label>
+        <label :for="`select-${uniqueId}`" class="product__label">{{
+          option.name
+        }}</label>
         <select
+          :id="`select-${uniqueId}`"
           class="product__select"
           @change="($event) => handleOptionChange($event, option)"
         >
@@ -64,6 +67,7 @@
 
 <script>
 import { mapMutations } from 'vuex';
+import { v4 as uuid } from 'uuid';
 import { getSelectedVariant } from '~/utils/getSelectedVariant';
 import { getCartVariant } from '~/utils/getCartVariant';
 
@@ -82,7 +86,8 @@ export default {
     product: null,
     selectedVariant: null,
     selectedOptions: [],
-    quantity: 1
+    quantity: 1,
+    uniqueId: uuid()
   }),
   computed: {
     options() {
