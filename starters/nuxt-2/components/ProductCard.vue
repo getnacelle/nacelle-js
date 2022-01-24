@@ -26,17 +26,15 @@
         <div class="product-card__price">${{ selectedVariant.price }}</div>
       </div>
       <div
-        v-for="(option, oIndex) in options"
-        :key="oIndex"
+        v-for="option in options"
+        :key="option.name"
         class="product-card__option"
       >
-        <label
-          :for="`select-${oIndex}-${uniqueId}`"
-          class="product-card__label"
-          >{{ option.name }}</label
-        >
+        <label :for="`select-${uniqueId}`" class="product-card__label">{{
+          option.name
+        }}</label>
         <select
-          :id="`select-${oIndex}-${uniqueId}`"
+          :id="`select-${uniqueId}`"
           class="product-card__select"
           @change="($event) => handleOptionChange($event, option)"
         >

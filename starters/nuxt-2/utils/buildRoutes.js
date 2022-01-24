@@ -23,10 +23,10 @@ export const buildRoutes = async () => {
 
   const response = await client.query({ query: QUERY });
   return [
-    ...response?.products?.map(
+    ...response?.products.map(
       (product) => `/products/${product.content.handle}`
     ),
-    ...response?.productCollections?.map(
+    ...response?.productCollections.map(
       (productCollection) => `/collections/${productCollection.content.handle}`
     )
   ];

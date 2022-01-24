@@ -15,7 +15,9 @@ export const actions = {
           commit('cart/clearCart', false, { root: true });
         }
       }
-    } catch {}
+    } catch (err) {
+      console.error(err);
+    }
   },
   async processCheckout({ rootState }) {
     try {
@@ -29,6 +31,8 @@ export const actions = {
       if (checkoutData.url) {
         window.location.href = checkoutData.url;
       }
-    } catch {}
+    } catch (err) {
+      console.error(err);
+    }
   }
 };

@@ -17,11 +17,7 @@
         </div>
         <div class="product__price">${{ selectedVariant.price }}</div>
       </div>
-      <div
-        v-for="(option, oIndex) in options"
-        :key="oIndex"
-        class="product__option"
-      >
+      <div v-for="option in options" :key="option.name" class="product__option">
         <label :for="`select-${uniqueId}`" class="product__label">{{
           option.name
         }}</label>
