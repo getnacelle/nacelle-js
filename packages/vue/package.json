@@ -46,7 +46,7 @@
   "dependencies": {
     "@nacelle/client-js-sdk": "^3.5.0",
     "@vue/composition-api": "^1.1.5",
-    "idb-keyval": "^6.0.2",
+    "idb-keyval": "^6.1.0",
     "vue": "^2.6.14"
   },
   "devDependencies": {
@@ -60,8 +60,8 @@
     "@vue/vue2-jest": "^27.0.0-alpha.2",
     "babel-core": "^7.0.0-bridge.0",
     "babel-jest": "^27.0.1",
-    "core-js": "^3.17.3",
-    "fuse.js": "^6.4.6",
+    "core-js": "^3.19.3",
+    "fuse.js": "^6.5.3",
     "jest": "^27.0.1",
     "regenerator-runtime": "^0.11.1",
     "rollup-plugin-visualizer": "^5.5.2",
