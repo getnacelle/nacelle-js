@@ -58,23 +58,20 @@ function Cart() {
                 className={styles.item}
                 key={`${lineItem.variant.id}-${index}`}
               >
-                <div>
+                <div className={styles.image}>
                   <Image
                     src={lineItem.variant.featuredMedia.src}
                     alt={lineItem.variant.featuredMedia.altText}
                     width={200}
                     height={200}
-                    className={styles.itemImage}
                   />
                 </div>
                 <div>
-                  <h2 className={styles.itemTitle}>
+                  <h2 className={styles.title}>
                     {lineItem.variant.productTitle}
                   </h2>
-                  <p className={styles.itemSubtitle}>
-                    {lineItem.variant.title}
-                  </p>
-                  <p className={styles.itemPrice}>${lineItem.variant.price}</p>
+                  <p className={styles.subtitle}>{lineItem.variant.title}</p>
+                  <p className={styles.price}>${lineItem.variant.price}</p>
                   <p>
                     <strong>Quantity:</strong> {lineItem.quantity}
                   </p>
