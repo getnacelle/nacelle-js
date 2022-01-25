@@ -3,6 +3,14 @@ import createShopifyCheckoutClient from '@nacelle/shopify-checkout';
 import Layout from 'components/Layout';
 import '../styles/globals.css';
 
+// Utilizes `CartProvider` and `CheckoutProvider` from
+// `@nacelle/react-hooks` in order to manage cart and checkout data.
+// (https://github.com/getnacelle/nacelle-react/tree/main/packages/react-hooks)
+
+// A Shopify Checkout client is created from `@nacelle/shopify-checkout`
+// and passed to the `CheckoutProvider`.
+// (https://github.com/getnacelle/nacelle-js/tree/main/packages/shopify-checkout)
+
 function NextStarter({ Component, pageProps }) {
   const checkoutClient = createShopifyCheckoutClient({
     myshopifyDomain: process.env.NEXT_PUBLIC_MYSHOPIFY_DOMAIN,

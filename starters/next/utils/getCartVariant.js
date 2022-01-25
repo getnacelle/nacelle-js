@@ -1,3 +1,7 @@
+// Using the provided `product` and `variant`, this creates an object
+// with the necessary data for the cart page. More importantly, `id`
+// is used with the Shopify Checkout client.
+
 export const getCartVariant = ({ product, variant }) => {
   if (product && variant) {
     const {

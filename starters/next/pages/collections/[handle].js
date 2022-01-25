@@ -15,6 +15,9 @@ function Collection(props) {
     ? products?.slice(0, products.length - 1)
     : products;
 
+  // Performs a GraphQL query to Nacelle to get paginated products
+  // from a collection, using the last `nacelleEntryId` as a cursor.
+  // (https://nacelle.com/docs/querying-data/storefront-sdk)
   const handleFetch = async () => {
     setIsFetching(true);
     const after = products[products?.length - 1].nacelleEntryId;
@@ -58,6 +61,8 @@ function Collection(props) {
 export default Collection;
 
 export async function getStaticPaths() {
+  // Performs a GraphQL query to Nacelle to get product collection handles.
+  // (https://nacelle.com/docs/querying-data/storefront-sdk)
   const results = await nacelleClient.query({
     query: HANDLES_QUERY
   });
@@ -72,6 +77,9 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps({ params }) {
+  // Performs a GraphQL query to Nacelle to get product collection data,
+  // using the handle of the current page.
+  // (https://nacelle.com/docs/querying-data/storefront-sdk)
   const { productCollections } = await nacelleClient.query({
     query: PAGE_QUERY,
     variables: { handle: params.handle }
@@ -93,6 +101,8 @@ export async function getStaticProps({ params }) {
   };
 }
 
+// GraphQL fragment of necessary product data.
+// (https://nacelle.com/docs/querying-data/storefront-api)
 const PRODUCT_FRAGMENT = `
   nacelleEntryId
   sourceEntryId
@@ -131,6 +141,9 @@ const PRODUCT_FRAGMENT = `
   }
 `;
 
+// GraphQL query for the handles of product collections.
+// Used in `getStaticPaths`.
+// (https://nacelle.com/docs/querying-data/storefront-api)
 const HANDLES_QUERY = `
   {
     productCollections {
@@ -141,6 +154,9 @@ const HANDLES_QUERY = `
   }
 `;
 
+// GraphQL query for product collection content and initial products.
+// Used in `getStaticProps`.
+// (https://nacelle.com/docs/querying-data/storefront-api)
 const PAGE_QUERY = `
   query CollectionPage($handle: String!){
     productCollections(filter: { handles: [$handle] }){
@@ -156,6 +172,9 @@ const PAGE_QUERY = `
   }
 `;
 
+// GraphQL query for paginated products within a collection.
+// Used in `handleFetch`.
+// (https://nacelle.com/docs/querying-data/storefront-api)
 const PRODUCTS_QUERY = `
   query CollectionProducts($handle: String!, $after: String!){
     productCollections(filter: { handles: [$handle] }){
