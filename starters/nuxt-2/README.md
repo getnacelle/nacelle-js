@@ -66,6 +66,6 @@ Finally, here's where you can find the Nacelle packages used in this project:
 To learn more about Nuxt.js, take a look at the following resources:
 
 - [Nuxt.js Documentation](https://nuxtjs.org/docs) - learn about Nuxt.js features and API.
-- [Learn Nuxt.js](https://nuxtjs.org/tutorials) - a setup of helpful Nuxt.js tutorials.
+- [Learn Nuxt.js](https://nuxtjs.org/tutorials) - a set of helpful Nuxt.js tutorials.
 
 You can check out [the Nuxt.js GitHub repository](https://github.com/nuxt/nuxt.js)
