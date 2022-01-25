@@ -36,10 +36,7 @@ $ npm run generate
 ### `plugins`
 
 - `nacelle-sdk.js` - Initializes the Nacelle Storefront SDK and injects it as a global plugin `$nacelle`
-
-Plugin for injecting a global instance of the Nacelle Storefront SDK.
-
-`nuxt-client-init.js` - Registers `nuxtClientInit` Vuex action that runs once on the client when the app starts.
+- `nuxt-client-init.js` - Registers `nuxtClientInit` Vuex action that runs once on the client when the app starts.
 
 ### `store`
 
