@@ -19,56 +19,56 @@ $ npm run start
 $ npm run generate
 ```
 
-## Project Setup
+## Project Directory
 
 ### `components`
 
-`ProductCard.vue`
-
-Component for displaying a product with variant selectors and an add to cart button.
+- `ProductCard.vue` - Displays a product with variant selectors and an add to cart button.
 
 ### `pages`
 
-Static pages: `404.vue`, `cart.vue`, `index.vue`.
-
-Dynamic pages: `/collections/_handle.vue`, `/products/_handle.vue`.
+- `404.vue` - A simple 404 page
+- `cart.vue` - A shopping cart page powered by Vuex
+- `index.vue` - A simple homepage to get you started
+- `collections/_handle.vue` - A dynamic collections page, with data being queried using the Nacelle Storefront SDK.
+- `products/_handle.vue` - A dynamic products page, with data being queried using the Nacelle Storefront SDK.
 
 ### `plugins`
 
-nacelle-sdk.js
+- `nacelle-sdk.js` - Initializes the Nacelle Storefront SDK and injects it as a global plugin `$nacelle`
 
 Plugin for injecting a global instance of the Nacelle Storefront SDK.
 
-`nuxt-client-init.js`
-
-Plugin for registering a `nuxtClientInit` Vuex action run once on the client when the app starts.
+`nuxt-client-init.js` - Registers `nuxtClientInit` Vuex action that runs once on the client when the app starts.
 
 ### `store`
 
-`cart.js`
-
-Vuex module containing all cart-related functionality.
-
-`checkout.js`
-
-Vuex module containing all checkout-related functionality.
-
-`index.js`
-
-Vuex module containing all global functionality - `nuxtServerInit`, `nuxtClientInit`
+- `cart.js` - Vuex module containing all cart-related functionality.
+- `checkout.js` - Vuex module containing all checkout-related functionality.
+- `index.js` - Vuex module containing global actions - `nuxtClientInit`
 
 ### `utils`
 
-`buildRoutes.js`
+- `buildRoutes.js` - Build an array of dynamic `/collection/_handle.vue` and `/products/_handle.vue` routes to generate.
+- `getCartVariant.js` - Formats a variant for use in the cart.
+- `getSelectedVariant.js` - Finds the selected variant based on an array of selected options.
 
-Build an array of dynamic routes to generate.  By default, it generates all `/collections/` and `/products/` routes.
+### Nacelle
 
-`getCartVariant.js`
+To learn more about Nacelle, check out our [Documentation](https://nacelle.com/docs).
 
-Formats a variant for use in the cart.  Required parameters: `product`, `variant`.
+For more information on querying data from Nacelle, check out our documentation on Nacelle's [Storefront SDK](https://nacelle.com/docs/querying-data/storefront-sdk) and [Storefront API](https://nacelle.com/docs/querying-data/storefront-api).
 
-`getSelectedVariant.js`
+Finally, here's where you can find the Nacelle packages used in this project:
 
-Finds the selected variant based on an array of selected options.  Required parameters: `product`, `options`.
+- [`@nacelle/storefront-sdk`](https://www.npmjs.com/package/@nacelle/storefront-sdk) - Nacelle Storefront SDK, providing methods to query data from your Nacelle space.
+- [`@nacelle/shopify-checkout`](https://github.com/getnacelle/nacelle-js/tree/main/packages/shopify-checkout) - Helpful utilities for handling Shopify checkouts.
 
-More information about the usage of this directory in [the documentation](https://nuxtjs.org/docs/2.x/directory-structure/store).
+### Nuxt.js
+
+To learn more about Nuxt.js, take a look at the following resources:
+
+- [Nuxt.js Documentation](https://nuxtjs.org/docs) - learn about Nuxt.js features and API.
+- [Learn Nuxt.js](https://nuxtjs.org/tutorials) - a setup of helpful Nuxt.js tutorials.
+
+You can check out [the Nuxt.js GitHub repository](https://github.com/nuxt/nuxt.js)
