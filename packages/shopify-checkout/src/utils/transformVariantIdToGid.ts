@@ -41,7 +41,6 @@ function decodeBase64Id(variantId: string): string {
     if (typeof window === undefined) {
       // if the decoded & re-encoded string is the same as the original, decode it. This is b/c Buffer.from won't error on invalid chars
       if (Buffer.from(variantId, 'base64').toString('base64') === variantId) {
-        console.log('here');
         return Buffer.from(variantId, 'base64').toString();
       } else {
         // if it's not valid base64, just return it
