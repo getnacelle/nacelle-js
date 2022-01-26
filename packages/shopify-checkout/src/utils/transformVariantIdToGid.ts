@@ -35,7 +35,7 @@ function isNumeric(variantId: string) {
 function decodeBase64Id(variantId: string): string {
   try {
     // if window undefined, we're in node
-    if (typeof window === undefined) {
+    if (typeof window === 'undefined') {
       // if the decoded & re-encoded string is the same as the original, decode it. This is b/c Buffer.from won't error on invalid chars
       if (Buffer.from(variantId, 'base64').toString('base64') === variantId) {
         return Buffer.from(variantId, 'base64').toString();
