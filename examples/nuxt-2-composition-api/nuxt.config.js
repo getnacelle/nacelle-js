@@ -80,7 +80,7 @@ export default {
     shopify: {
       storefrontCheckoutToken: process.env.SHOPIFY_STOREFRONT_CHECKOUT_TOKEN,
       myshopifyDomain: process.env.MYSHOPIFY_DOMAIN,
-      storefrontApiVersion: process.env.STOREFRONT_API_VERSION
+      storefrontApiVersion: process.env.SHOPIFY_STOREFRONT_API_VERSION
     }
   },
 
