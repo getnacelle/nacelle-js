@@ -27,7 +27,7 @@ function Cart() {
     // Maps the cart line items into a new array with Shopify
     // required properties: `variantId` and `quantity`.
     const cartItems = cart.map((lineItem) => ({
-      variantId: `gid://shopify/ProductVariant/${lineItem.variant.id}`,
+      variantId: lineItem.variant.id,
       quantity: lineItem.quantity
     }));
 

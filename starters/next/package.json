@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "@nacelle/react-hooks": "^6.1.0",
-    "@nacelle/shopify-checkout": "^0.0.7",
+    "@nacelle/shopify-checkout": "^0.0.8",
     "@nacelle/storefront-sdk": "^1.0.3",
     "next": "12.0.7",
     "react": "17.0.2",
