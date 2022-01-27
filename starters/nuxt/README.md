@@ -1,4 +1,6 @@
-# nuxt-starter
+# Nacelle Nuxt 2 Starter
+
+Nacelle-powered Nuxt Starter project designed to get you up and running quickly.
 
 ## Build Setup
 
@@ -17,52 +19,53 @@ $ npm run start
 $ npm run generate
 ```
 
-For detailed explanation on how things work, check out the [documentation](https://nuxtjs.org).
-
-## Special Directories
-
-You can create the following extra directories, some of which have special behaviors. Only `pages` is required; you can delete them if you don't want to use their functionality.
-
-### `assets`
-
-The assets directory contains your uncompiled assets such as Stylus or Sass files, images, or fonts.
-
-More information about the usage of this directory in [the documentation](https://nuxtjs.org/docs/2.x/directory-structure/assets).
+## Project Directory
 
 ### `components`
 
-The components directory contains your Vue.js components. Components make up the different parts of your page and can be reused and imported into your pages, layouts and even other components.
-
-More information about the usage of this directory in [the documentation](https://nuxtjs.org/docs/2.x/directory-structure/components).
-
-### `layouts`
-
-Layouts are a great help when you want to change the look and feel of your Nuxt app, whether you want to include a sidebar or have distinct layouts for mobile and desktop.
-
-More information about the usage of this directory in [the documentation](https://nuxtjs.org/docs/2.x/directory-structure/layouts).
+- `ProductCard.vue` - Displays a product with variant selectors and an add to cart button.
 
 ### `pages`
 
-This directory contains your application views and routes. Nuxt will read all the `*.vue` files inside this directory and setup Vue Router automatically.
-
-More information about the usage of this directory in [the documentation](https://nuxtjs.org/docs/2.x/get-started/routing).
+- `404.vue` - A simple 404 page
+- `cart.vue` - A shopping cart page powered by Vuex
+- `index.vue` - A simple homepage to get you started
+- `collections/_handle.vue` - A dynamic collections page, with data being queried using the Nacelle Storefront SDK.
+- `products/_handle.vue` - A dynamic products page, with data being queried using the Nacelle Storefront SDK.
 
 ### `plugins`
 
-The plugins directory contains JavaScript plugins that you want to run before instantiating the root Vue.js Application. This is the place to add Vue plugins and to inject functions or constants. Every time you need to use `Vue.use()`, you should create a file in `plugins/` and add its path to plugins in `nuxt.config.js`.
-
-More information about the usage of this directory in [the documentation](https://nuxtjs.org/docs/2.x/directory-structure/plugins).
-
-### `static`
-
-This directory contains your static files. Each file inside this directory is mapped to `/`.
-
-Example: `/static/robots.txt` is mapped as `/robots.txt`.
-
-More information about the usage of this directory in [the documentation](https://nuxtjs.org/docs/2.x/directory-structure/static).
+- `nacelle-sdk.js` - Initializes the Nacelle Storefront SDK and injects it as a global plugin `$nacelle`
+- `nuxt-client-init.js` - Registers `nuxtClientInit` Vuex action that runs once on the client when the app starts.
 
 ### `store`
 
-This directory contains your Vuex store files. Creating a file in this directory automatically activates Vuex.
+- `cart.js` - Vuex module containing all cart-related functionality.
+- `checkout.js` - Vuex module containing all checkout-related functionality.
+- `index.js` - Vuex module containing global actions - `nuxtClientInit`
 
-More information about the usage of this directory in [the documentation](https://nuxtjs.org/docs/2.x/directory-structure/store).
+### `utils`
+
+- `buildRoutes.js` - Build an array of dynamic `/collection/_handle.vue` and `/products/_handle.vue` routes to generate.
+- `getCartVariant.js` - Formats a variant for use in the cart.
+- `getSelectedVariant.js` - Finds the selected variant based on an array of selected options.
+
+### Nacelle
+
+To learn more about Nacelle, check out our [Documentation](https://nacelle.com/docs).
+
+For more information on querying data from Nacelle, check out our documentation on Nacelle's [Storefront SDK](https://nacelle.com/docs/querying-data/storefront-sdk) and [Storefront API](https://nacelle.com/docs/querying-data/storefront-api).
+
+Finally, here's where you can find the Nacelle packages used in this project:
+
+- [`@nacelle/storefront-sdk`](https://www.npmjs.com/package/@nacelle/storefront-sdk) - Nacelle Storefront SDK, providing methods to query data from your Nacelle space.
+- [`@nacelle/shopify-checkout`](https://github.com/getnacelle/nacelle-js/tree/main/packages/shopify-checkout) - Helpful utilities for handling Shopify checkouts.
+
+### Nuxt.js
+
+To learn more about Nuxt.js, take a look at the following resources:
+
+- [Nuxt.js Documentation](https://nuxtjs.org/docs) - learn about Nuxt.js features and API.
+- [Learn Nuxt.js](https://nuxtjs.org/tutorials) - a set of helpful Nuxt.js tutorials.
+
+You can check out [the Nuxt.js GitHub repository](https://github.com/nuxt/nuxt.js)
