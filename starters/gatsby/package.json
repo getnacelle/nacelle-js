@@ -11,6 +11,7 @@
   },
   "license": "UNLICENSED",
   "dependencies": {
+    "@nacelle/gatsby-source-nacelle": "^8.0.0",
     "@nacelle/react-hooks": "^7.0.0",
     "@nacelle/shopify-checkout": "^0.0.8",
     "@nacelle/storefront-sdk": "^1.0.3",
