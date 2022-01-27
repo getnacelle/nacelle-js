@@ -104,7 +104,9 @@ function Product({ product }) {
               </div>
             ))}
           {product.content.description && (
-            <p>{stripHtml(product.content.description)}</p>
+            <div
+              dangerouslySetInnerHTML={{ __html: product.content.description }}
+            />
           )}
           <div>
             <label htmlFor={`quantity-${product.nacelleEntryId}`}>
@@ -125,10 +127,6 @@ function Product({ product }) {
       </div>
     )
   );
-}
-
-function stripHtml(str) {
-  return str && str.replace(/(<([^>]+)>)/gi, '');
 }
 
 export default Product;

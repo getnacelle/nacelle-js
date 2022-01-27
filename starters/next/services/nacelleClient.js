@@ -1,4 +1,4 @@
-import { Storefront } from '@nacelle/storefront-sdk';
+import Storefront from '@nacelle/storefront-sdk';
 
 // Initializes a Storefront client from `@nacelle/storefront-sdk`
 // using credentials provided from the Nacelle Dashboard.
