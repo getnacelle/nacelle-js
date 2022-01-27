@@ -1,0 +1,14 @@
+.activeLink {
+  color: #555555;
+  text-decoration: underline;
+}
+
+.list {
+  display: flex;
+  justify-content: center;
+  list-style: none;
+}
+
+.listItem {
+  padding: 0 0.34em;
+}
