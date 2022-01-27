@@ -11,3 +11,6 @@ public
 
 # log files
 lerna-debug.log
+
+# cache files
+.cache
