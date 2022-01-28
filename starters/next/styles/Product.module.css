@@ -1,0 +1,39 @@
+.product {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 40px;
+}
+@media only screen and (min-width: 768px) {
+  .product {
+    flex-direction: row;
+  }
+}
+.media,
+.main {
+  width: 100%;
+  overflow: hidden;
+}
+@media only screen and (min-width: 768px) {
+  .media,
+  .main {
+    width: 50%;
+  }
+}
+.image {
+  width: 100%;
+}
+.main {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+}
+.prices {
+  display: flex;
+  gap: 10px;
+}
+.compare {
+  text-decoration: line-through;
+}
