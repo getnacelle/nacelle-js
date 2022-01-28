@@ -9,7 +9,6 @@
     "serve": "gatsby serve",
     "clean": "gatsby clean"
   },
-  "license": "UNLICENSED",
   "dependencies": {
     "@nacelle/gatsby-source-nacelle": "^8.0.0",
     "@nacelle/react-hooks": "^7.0.0",
