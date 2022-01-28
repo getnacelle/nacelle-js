@@ -1,0 +1,30 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 20px;
+}
+.media,
+.main {
+  width: 100%;
+  overflow: hidden;
+}
+.image {
+  width: 100%;
+}
+.main {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+}
+.title {
+  margin: 0;
+}
+.prices {
+  display: flex;
+  gap: 10px;
+}
+.compare {
+  text-decoration: line-through;
+}
