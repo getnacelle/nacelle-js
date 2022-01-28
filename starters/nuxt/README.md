@@ -2,6 +2,12 @@
 
 ## Build Setup
 
+First, pull down a fresh copy of the Nuxt Starter:
+
+```
+npx degit https://github.com/getnacelle/nacelle-js/starters/nuxt
+```
+
 ```bash
 # install dependencies
 $ npm install
