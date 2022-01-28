@@ -4,7 +4,7 @@
   "description": "Nacelle-powered, JavaScript-fueled packages and example projects to elevate your composable commerce experience",
   "scripts": {
     "prepare": "husky install",
-    "bootstrap": "lerna bootstrap --hoist --strict",
+    "bootstrap": "lerna bootstrap",
     "clean": "lerna clean",
     "create": "lerna create",
     "changed": "lerna changed",
@@ -51,6 +51,7 @@
     "eslint-plugin-react": "^7.25.1",
     "eslint-plugin-react-hooks": "^4.2.0",
     "eslint-plugin-vue": "^8.2.0",
+    "graphql": "^15.0.0",
     "husky": "^7.0.0",
     "jest": "^27.0.1",
     "lerna": "^4.0.0",
