@@ -4,6 +4,16 @@ This is a [Next.js](https://nextjs.org/) Starter project enhanced with [`@nacell
 
 ## Getting Started
 
+## Getting Started
+
+First, pull down a fresh copy of the Next.js Starter:
+
+```
+npx degit https://github.com/getnacelle/nacelle-js/starters/next
+```
+
+Next, install dependencies and run the project.
+
 ```bash
 # install dependencies
 $ npm install

@@ -2,7 +2,15 @@
 
 Nacelle-powered Nuxt Starter project designed to get you up and running quickly.
 
-## Build Setup
+## Getting Started
+
+First, pull down a fresh copy of the Nuxt 2 Starter:
+
+```
+npx degit https://github.com/getnacelle/nacelle-js/starters/nuxt-2
+```
+
+Next, install dependencies and run the project.
 
 ```bash
 # install dependencies

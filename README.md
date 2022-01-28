@@ -22,10 +22,10 @@ npx degit https://github.com/getnacelle/nacelle-js/examples/<example-project-nam
 
 ### Starters
 
-[**Starters**](https://github.com/getnacelle/nacelle-js/tree/main/starters) provide scaffolding for new eCommerce projects. You can create a new project with `@nacelle/create`:
+[**Starters**](https://github.com/getnacelle/nacelle-js/tree/main/starters) provide scaffolding for new eCommerce projects. To scaffold a frontend example project, we recommend using [`degit`](https://www.npmjs.com/package/degit):
 
 ```
-npx @nacelle/create your-project-name
+npx degit https://github.com/getnacelle/nacelle-js/starters/<example-project-name>
 ```
 
 ## How to Contribute
