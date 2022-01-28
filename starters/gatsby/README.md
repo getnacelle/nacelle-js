@@ -38,7 +38,7 @@ $ npm run build
 
 ### `src/pages`
 
-- `products/{NacelleProduct.content__handle}.js` - A dynamic products page, with data being queried using `@nacelle/gatsby-source-nacelle`.
+- `products/{NacelleProduct.content__handle}.js` - A dynamic products page that leveragies Gatsby's [File System Route API](https://www.gatsbyjs.com/docs/reference/routing/file-system-route-api).
 - `cart.js` - A cart page using both `useCart` and `useCheckout` hooks from `@nacelle/react-hooks`.
 - `index.js` - A simple homepage to get you started.
 
