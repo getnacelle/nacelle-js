@@ -1,6 +1,6 @@
-import React from "react";
-import { Link } from "gatsby";
-import * as styles from "./PageNavigator.module.css";
+import React from 'react';
+import { Link } from 'gatsby';
+import * as styles from './PageNavigator.module.css';
 
 export default function PageNavigator({ numPages, basePath }) {
   const pageNumbers = Array.from({ length: numPages }, (_x, i) => i + 1);
@@ -8,7 +8,7 @@ export default function PageNavigator({ numPages, basePath }) {
   return (
     <nav>
       <ul className={styles.list}>
-        Page{" "}
+        Page{' '}
         {pageNumbers.map((pageNumber) => (
           <li key={pageNumber} className={styles.listItem}>
             <Link

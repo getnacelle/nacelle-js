@@ -1,10 +1,10 @@
-import React, { useState } from "react";
-import { Link } from "gatsby";
-import { GatsbyImage, getImage } from "gatsby-plugin-image";
-import { useCart } from "@nacelle/react-hooks";
-import { getSelectedVariant } from "../../utils/getSelectedVariant";
-import { getCartVariant } from "../../utils/getCartVariant";
-import * as styles from "./ProductCard.module.css";
+import React, { useState } from 'react';
+import { Link } from 'gatsby';
+import { GatsbyImage, getImage } from 'gatsby-plugin-image';
+import { useCart } from '@nacelle/react-hooks';
+import { getSelectedVariant } from '../../utils/getSelectedVariant';
+import { getCartVariant } from '../../utils/getCartVariant';
+import * as styles from './ProductCard.module.css';
 
 export default function ProductCard({ product }) {
   const [, { addToCart }] = useCart();
@@ -20,9 +20,9 @@ export default function ProductCard({ product }) {
 
   const buttonText = selectedVariant
     ? selectedVariant.availableForSale
-      ? "Add To Cart"
-      : "Sold Out"
-    : "Select Option";
+      ? 'Add To Cart'
+      : 'Sold Out'
+    : 'Select Option';
 
   const handleOptionChange = (event, option) => {
     const newOption = { name: option.name, value: event.target.value };
@@ -39,7 +39,7 @@ export default function ProductCard({ product }) {
     }
     const variant = getSelectedVariant({
       product,
-      options: newSelectedOptions,
+      options: newSelectedOptions
     });
     setSelectedVariant(variant ? { ...variant } : null);
   };
@@ -50,11 +50,11 @@ export default function ProductCard({ product }) {
   const handleAddItem = () => {
     const variant = getCartVariant({
       product,
-      variant: selectedVariant,
+      variant: selectedVariant
     });
     addToCart({
       variant,
-      quantity: 1,
+      quantity: 1
     });
   };
 

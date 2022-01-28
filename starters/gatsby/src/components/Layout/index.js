@@ -1,5 +1,5 @@
-import React, { useEffect } from "react";
-import { useCart, useCheckout } from "@nacelle/react-hooks";
+import React, { useEffect } from 'react';
+import { useCart, useCheckout } from '@nacelle/react-hooks';
 
 // This component utilizes `useCart` and `useCheckout` hooks from
 // `@nacelle/react-hooks` to clear cart and checkout data if the

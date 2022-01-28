@@ -21,19 +21,23 @@
     width: 50%;
   }
 }
+
 .image {
   width: 100%;
 }
+
 .main {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   gap: 10px;
 }
+
 .prices {
   display: flex;
   gap: 10px;
 }
+
 .compare {
   text-decoration: line-through;
 }

@@ -1,6 +1,6 @@
-import React from "react";
-import { useCart, useCheckout } from "@nacelle/react-hooks";
-import * as styles from "../styles/Cart.module.css";
+import React from 'react';
+import { useCart, useCheckout } from '@nacelle/react-hooks';
+import * as styles from '../styles/Cart.module.css';
 
 function Cart() {
   // A `cart` object, containing the line items of the cart,
@@ -10,7 +10,7 @@ function Cart() {
   // (https://github.com/getnacelle/nacelle-react/tree/main/packages/react-hooks)
   const [
     { cart },
-    { incrementItem, decrementItem, removeFromCart, clearCart },
+    { incrementItem, decrementItem, removeFromCart, clearCart }
   ] = useCart();
 
   // The `processCheckout` method, which allows for cart data
@@ -28,7 +28,7 @@ function Cart() {
     // required properties: `variantId` and `quantity`.
     const cartItems = cart.map((lineItem) => ({
       variantId: lineItem.variant.id,
-      quantity: lineItem.quantity,
+      quantity: lineItem.quantity
     }));
 
     // `processCheckout` utilizes the Shopify Checkout client to create

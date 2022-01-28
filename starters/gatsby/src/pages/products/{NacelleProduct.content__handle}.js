@@ -1,11 +1,10 @@
-import React from "react";
-import { graphql } from "gatsby";
-import { useState } from "react";
-import { GatsbyImage, getImage } from "gatsby-plugin-image";
-import { useCart } from "@nacelle/react-hooks";
-import { getSelectedVariant } from "../../utils/getSelectedVariant";
-import { getCartVariant } from "../../utils/getCartVariant";
-import * as styles from "../../styles/Product.module.css";
+import React, { useState } from 'react';
+import { graphql } from 'gatsby';
+import { GatsbyImage, getImage } from 'gatsby-plugin-image';
+import { useCart } from '@nacelle/react-hooks';
+import { getSelectedVariant } from '../../utils/getSelectedVariant';
+import { getCartVariant } from '../../utils/getCartVariant';
+import * as styles from '../../styles/Product.module.css';
 
 export default function Product({ data }) {
   const product = data.nacelleProduct;
@@ -23,9 +22,9 @@ export default function Product({ data }) {
 
   const buttonText = selectedVariant
     ? selectedVariant.availableForSale
-      ? "Add To Cart"
-      : "Sold Out"
-    : "Select Option";
+      ? 'Add To Cart'
+      : 'Sold Out'
+    : 'Select Option';
 
   const handleOptionChange = (event, option) => {
     const newOption = { name: option.name, value: event.target.value };
@@ -42,7 +41,7 @@ export default function Product({ data }) {
     }
     const variant = getSelectedVariant({
       product,
-      options: newSelectedOptions,
+      options: newSelectedOptions
     });
     setSelectedVariant(variant ? { ...variant } : null);
   };
@@ -57,11 +56,11 @@ export default function Product({ data }) {
   const handleAddItem = () => {
     const variant = getCartVariant({
       product,
-      variant: selectedVariant,
+      variant: selectedVariant
     });
     addToCart({
       variant,
-      quantity,
+      quantity
     });
   };
 
@@ -130,7 +129,7 @@ export default function Product({ data }) {
 }
 
 function stripHtml(str) {
-  return str && str.replace(/(<([^>]+)>)/gi, "");
+  return str && str.replace(/(<([^>]+)>)/gi, '');
 }
 
 export const query = graphql`

@@ -1,6 +1,6 @@
-import React from "react";
-import { GatsbyImage } from "gatsby-plugin-image";
-import * as styles from "../styles/Home.module.css";
+import React from 'react';
+import { GatsbyImage } from 'gatsby-plugin-image';
+import * as styles from '../styles/Home.module.css';
 
 export default function Home() {
   return (
@@ -19,7 +19,7 @@ export default function Home() {
         started.
       </p>
       <p>
-        To learn more,{" "}
+        To learn more,{' '}
         <a href="https://nacelle.com/docs">visit the Nacelle documentation.</a>
       </p>
     </div>

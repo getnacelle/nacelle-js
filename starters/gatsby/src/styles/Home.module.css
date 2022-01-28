@@ -7,12 +7,15 @@
   justify-content: center;
   text-align: center;
 }
+
 .logo {
   max-width: 320px;
 }
+
 .logo img {
   max-width: 100%;
 }
+
 .inlineCode {
   background: lightgrey;
   border-radius: 4px;

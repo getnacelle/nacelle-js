@@ -1,8 +1,8 @@
-import React from "react";
-import { graphql } from "gatsby";
-import ProductCard from "../components/ProductCard";
-import PageNavigator from "../components/PageNavigator";
-import * as styles from "../styles/Collection.module.css";
+import React from 'react';
+import { graphql } from 'gatsby';
+import ProductCard from '../components/ProductCard';
+import PageNavigator from '../components/PageNavigator';
+import * as styles from '../styles/Collection.module.css';
 
 export default function Collection({ data, pageContext }) {
   const collection = data.nacelleProductCollection;
