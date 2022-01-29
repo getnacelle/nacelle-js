@@ -1,15 +1,15 @@
 import React from 'react';
-import { GatsbyImage } from 'gatsby-plugin-image';
+import { StaticImage } from 'gatsby-plugin-image';
 import * as styles from '../styles/Home.module.css';
 
 export default function Home() {
   return (
     <div className={styles.home}>
       <div className={styles.logo}>
-        <GatsbyImage
-          src="/nacelle-logo.svg"
+        <StaticImage
+          src="../../images/nacelle-logo.svg"
           width="500"
-          height="400"
+          placeholder="blurred"
           alt="Nacelle Logo"
         />
       </div>
