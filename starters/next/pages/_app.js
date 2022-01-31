@@ -3,7 +3,10 @@ import createShopifyCheckoutClient from '@nacelle/shopify-checkout';
 import Layout from 'components/Layout';
 import '../styles/globals.css';
 
-// Utilizes `CartProvider` and `CheckoutProvider` from
+// The `AppContainer` overrides Next's default `App` component.
+// (https://nextjs.org/docs/advanced-features/custom-app)
+
+// The `AppContainer` utilizes `CartProvider` and `CheckoutProvider` from
 // `@nacelle/react-hooks` in order to manage cart and checkout data.
 // (https://github.com/getnacelle/nacelle-react/tree/main/packages/react-hooks)
 
@@ -11,7 +14,7 @@ import '../styles/globals.css';
 // and passed to the `CheckoutProvider`.
 // (https://github.com/getnacelle/nacelle-js/tree/main/packages/shopify-checkout)
 
-function NextStarter({ Component, pageProps }) {
+function AppContainer({ Component, pageProps }) {
   const checkoutClient = createShopifyCheckoutClient({
     myshopifyDomain: process.env.NEXT_PUBLIC_MYSHOPIFY_DOMAIN,
     storefrontCheckoutToken:
@@ -30,4 +33,4 @@ function NextStarter({ Component, pageProps }) {
   );
 }
 
-export default NextStarter;
+export default AppContainer;
