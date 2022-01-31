@@ -78,3 +78,32 @@ export const checkoutAttributesUpdate = gql`
     }
   }
 `;
+
+export const checkoutDiscountCodeApplyV2 = gql`
+  mutation checkoutDiscountCodeApplyV2(
+    $checkoutId: ID!
+    $discountCode: String!
+  ) {
+    checkoutDiscountCodeApplyV2(
+      checkoutId: $checkoutId
+      discountCode: $discountCode
+    ) {
+      checkout {
+        id
+        webUrl
+      }
+      checkoutUserErrors {
+        code
+        field
+        message
+      }
+    }
+  }
+`;
+
+export interface CheckoutDiscountCodeApplyV2Data {
+  checkoutDiscountCodeApplyV2: {
+    checkout: ShopifyCheckoutResponseProperties | null;
+    checkoutUserErrors: ShopifyCheckoutUserError[];
+  };
+}
