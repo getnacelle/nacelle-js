@@ -7,7 +7,7 @@ Nacelle-powered Nuxt Example project using the [@nuxtjs/composition-api](https:/
 First, pull down a fresh copy of the Nuxt Example Project:
 
 ```
-npx degit https://github.com/getnacelle/nacelle-js/exampes/nuxt-2-composition-api
+npx degit https://github.com/getnacelle/nacelle-js/examples/nuxt-2-composition-api
 ```
 
 ```bash

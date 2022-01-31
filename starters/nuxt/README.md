@@ -9,7 +9,7 @@ Please note that this starter supports Nacelle's [v2 backend](https://dashboard.
 First, pull down a fresh copy of the Nuxt 2 Starter:
 
 ```
-npx degit https://github.com/getnacelle/nacelle-js/starters/nuxt-2
+npx degit https://github.com/getnacelle/nacelle-js/starters/nuxt
 ```
 
 Next, install dependencies and run the project.
