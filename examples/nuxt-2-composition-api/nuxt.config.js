@@ -78,8 +78,8 @@ export default {
       locale: process.env.NACELLE_LOCALE || 'en-us'
     },
     shopify: {
-      storefrontCheckoutToken: process.env.SHOPIFY_STOREFRONT_CHECKOUT_TOKEN,
       myshopifyDomain: process.env.MYSHOPIFY_DOMAIN,
+      storefrontCheckoutToken: process.env.SHOPIFY_STOREFRONT_CHECKOUT_TOKEN,
       storefrontApiVersion: process.env.SHOPIFY_STOREFRONT_API_VERSION
     }
   },

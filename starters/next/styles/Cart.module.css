@@ -1,0 +1,14 @@
+.item {
+  display: flex;
+  margin-bottom: 10px;
+}
+.image {
+  margin-right: 10px;
+}
+.title {
+  margin: 0 0 10px;
+}
+.subtitle,
+.price {
+  margin: 5px 0;
+}
