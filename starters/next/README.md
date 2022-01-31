@@ -2,7 +2,17 @@
 
 This is a [Next.js](https://nextjs.org/) Starter project enhanced with [`@nacelle/storefront-sdk`](https://www.npmjs.com/package/@nacelle/storefront-sdk) and [`@nacelle/react-hooks`](https://github.com/getnacelle/nacelle-react/tree/main/packages/react-hooks).
 
+Please note that this starter supports Nacelle's [v2 backend](https://dashboard.nacelle.com) only.
+
 ## Getting Started
+
+First, pull down a fresh copy of the Next.js Starter:
+
+```
+npx degit https://github.com/getnacelle/nacelle-js/starters/next
+```
+
+Next, install dependencies and run the project.
 
 ```bash
 # install dependencies

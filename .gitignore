@@ -4,9 +4,13 @@ node_modules
 # build outputs
 dist
 build
+public
 
 # environment variables
 .env
 
 # log files
 lerna-debug.log
+
+# cache files
+.cache

@@ -2,14 +2,19 @@
   "packages": ["packages/*", "starters/*", "examples/*"],
   "version": "independent",
   "npmClient": "npm",
-  "publish": {
-    "allowBranch": "main",
-    "ignoreChanges": [
-      "*.md",
-      ".gitignore",
-      "**/**/**.test.*",
-      "**/.storybook/**"
-    ],
-    "message": "chore(release): publish"
+  "command": {
+    "version": {
+      "allowBranch": "main",
+      "message": "chore(release): %s"
+    },
+    "publish": {
+      "allowBranch": "main",
+      "ignoreChanges": [
+        "*.md",
+        ".gitignore",
+        "**/**/**.test.*",
+        "**/.storybook/**"
+      ]
+    }
   }
 }

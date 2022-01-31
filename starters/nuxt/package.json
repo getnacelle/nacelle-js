@@ -5,8 +5,7 @@
   "scripts": {
     "dev": "nuxt",
     "generate": "nuxt generate",
-    "serve": "serve dist -p 4000",
-    "precommit": "lint-staged"
+    "serve": "serve dist -p 4000"
   },
   "dependencies": {
     "@nacelle/shopify-checkout": "^0.0.8",
