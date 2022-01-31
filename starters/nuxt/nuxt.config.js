@@ -1,45 +1,12 @@
-import fetch from 'isomorphic-unfetch';
-
-function getHandles() {
-  return fetch('https://hailfrequency.com/v3/graphql', {
-    method: 'POST',
-    headers: {
-      'x-nacelle-space-token': process.env.NACELLE_GRAPHQL_TOKEN,
-      'x-nacelle-space-id': process.env.NACELLE_SPACE_ID
-    },
-    body: JSON.stringify({
-      query: `
-        {
-          products: getProducts {
-            items {
-              handle
-            }
-          }
-          collections: getCollections {
-            items {
-              handle
-            }
-          }
-        }
-      `
-    })
-  });
-}
-
-function buildRoutes(items, path) {
-  return items.map((item) => {
-    return `${path}${item.handle}`;
-  });
-}
+import { buildRoutes } from './utils/buildRoutes';
 
 export default {
   // Target: https://go.nuxtjs.dev/config-target
-  ssr: true,
   target: 'static',
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    title: 'nuxt-starter',
+    title: 'nuxt-2',
     htmlAttrs: {
       lang: 'en'
     },
@@ -56,7 +23,7 @@ export default {
   css: [],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: [{ src: '~/plugins/globalSetup.js' }],
+  plugins: ['~/plugins/nacelle-sdk.js', '~/plugins/nuxt-client-init.client.js'],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
@@ -72,10 +39,9 @@ export default {
 
   publicRuntimeConfig: {
     nacelle: {
-      id: process.env.NACELLE_SPACE_ID,
-      token: process.env.NACELLE_GRAPHQL_TOKEN,
-      nacelleEndpoint: process.env.NACELLE_ENDPOINT,
-      locale: process.env.NACELLE_LOCALE || 'en-us'
+      storefrontEndpoint: process.env.NACELLE_STOREFRONT_ENDPOINT,
+      token: process.env.NACELLE_STOREFRONT_TOKEN,
+      locale: process.env.NACELLE_STOREFRONT_LOCALE
     },
     shopify: {
       myshopifyDomain: process.env.MYSHOPIFY_DOMAIN,
@@ -86,8 +52,9 @@ export default {
 
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
   buildModules: [
+    // https://go.nuxtjs.dev/eslint
+    '@nuxtjs/eslint-module',
     '@nuxt/image',
-    '@nuxtjs/composition-api/module',
     '@nuxtjs/pwa'
   ],
 
@@ -96,19 +63,8 @@ export default {
 
   generate: {
     crawler: false,
-    concurrency: 25,
-    interval: 2000,
     fallback: true,
-    routes() {
-      return getHandles()
-        .then((res) => res.json())
-        .then(({ data }) => {
-          return [
-            ...buildRoutes(data.products.items, '/products/'),
-            ...buildRoutes(data.collections.items, '/collections/')
-          ];
-        });
-    }
+    routes: () => buildRoutes()
   },
 
   // PWA module configuration: https://go.nuxtjs.dev/pwa
