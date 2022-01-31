@@ -2,7 +2,7 @@
 
 This is a [Next.js](https://nextjs.org/) Starter project enhanced with [`@nacelle/storefront-sdk`](https://www.npmjs.com/package/@nacelle/storefront-sdk) and [`@nacelle/react-hooks`](https://github.com/getnacelle/nacelle-react/tree/main/packages/react-hooks).
 
-## Getting Started
+Please note that this starter supports Nacelle's [v2 backend](https://dashboard.nacelle.com) only.
 
 ## Getting Started
 

@@ -1,6 +1,8 @@
 # Nacelle Nuxt 2 Starter
 
-Nacelle-powered Nuxt Starter project designed to get you up and running quickly.
+Nacelle-powered Nuxt Starter project designed to get you up and running quickly. This project uses [Nuxt 2](https://nuxtjs.org) (with Vue 2 Options API).
+
+Please note that this starter supports Nacelle's [v2 backend](https://dashboard.nacelle.com) only.
 
 ## Getting Started
 

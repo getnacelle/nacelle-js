@@ -2,6 +2,8 @@
 
 This is a [Gatsby](https://www.gatsbyjs.com) Starter project enhanced with [`@nacelle/gatsby-source-nacelle`](https://www.npmjs.com/package/@nacelle/gatsby-source-nacelle), [`@nacelle/storefront-sdk`](https://www.npmjs.com/package/@nacelle/storefront-sdk), and [`@nacelle/react-hooks`](https://www.npmjs.com/package/@nacelle/react-hooks).
 
+Please note that this starter supports Nacelle's [v2 backend](https://dashboard.nacelle.com) only.
+
 ## Getting Started
 
 First, pull down a fresh copy of the Gatsby Starter:
