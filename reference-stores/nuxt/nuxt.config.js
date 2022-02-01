@@ -6,7 +6,7 @@ export default {
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    title: 'nuxt-2',
+    title: 'nuxt-reference-store',
     htmlAttrs: {
       lang: 'en'
     },
