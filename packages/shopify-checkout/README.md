@@ -158,6 +158,38 @@ const checkout = await checkoutClient.process({
 });
 ```
 
+##### Applying a discount to checkout
+
+| Parameter      | [Type](#common-types) | Required? | Description                                                  |
+| -------------- | --------------------- | --------- | ------------------------------------------------------------ |
+| `id`           | `string`              | ✅        | An existing Shopify checkout's [global ID][shopify-scalars]. |
+| `discountCode` | `string`              | ✅        | A discount code                                              |
+
+##### Example
+
+```js
+// Apply a discount code to checkout
+const checkout = await checkoutClient.discount({
+  id: 'Z2lkOi8vc2hvcGlmeS9DaGVja291dC85OTg4Nzc/a2V5PTEyMzEyMw==',
+  discountCode: 'BFCM'
+});
+```
+
+##### Removing a discount from checkout
+
+| Parameter | [Type](#common-types) | Required? | Description                                                  |
+| --------- | --------------------- | --------- | ------------------------------------------------------------ |
+| `id`      | `string`              | ✅        | An existing Shopify checkout's [global ID][shopify-scalars]. |
+
+##### Example
+
+```js
+// Remove discount code from checkout
+const checkout = await checkoutClient.discountRemove({
+  id: 'Z2lkOi8vc2hvcGlmeS9DaGVja291dC85OTg4Nzc/a2V5PTEyMzEyMw=='
+});
+```
+
 ### Advanced Usage
 
 #### Using a custom `fetchClient`

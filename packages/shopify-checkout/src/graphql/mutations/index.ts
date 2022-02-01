@@ -107,3 +107,26 @@ export interface CheckoutDiscountCodeApplyV2Data {
     checkoutUserErrors: ShopifyCheckoutUserError[];
   };
 }
+
+export const checkoutDiscountCodeRemove = gql`
+  mutation checkoutDiscountCodeRemove($checkoutId: ID!) {
+    checkoutDiscountCodeRemove(checkoutId: $checkoutId) {
+      checkout {
+        id
+        webUrl
+      }
+      checkoutUserErrors {
+        code
+        field
+        message
+      }
+    }
+  }
+`;
+
+export interface CheckoutDiscountCodeRemoveData {
+  checkoutDiscountCodeRemove: {
+    checkout: ShopifyCheckoutResponseProperties | null;
+    checkoutUserErrors: ShopifyCheckoutUserError[];
+  };
+}

@@ -1,7 +1,13 @@
-import { findCheckout, putCheckout, applyDiscount } from '../client/actions';
+import {
+  findCheckout,
+  putCheckout,
+  applyDiscount,
+  removeDiscount
+} from '../client/actions';
 import { FindCheckoutParams } from '../client/actions/findCheckout';
 import { PutCheckoutParams } from '../client/actions/putCheckout';
 import { ApplyDiscountParams } from '../client/actions/applyDiscount';
+import { RemoveDiscountParams } from '../client/actions/removeDiscount';
 import {
   cartItemsToCheckoutItems,
   createGqlClient,
@@ -36,6 +42,10 @@ export type ApplyDiscount = (
   params: ApplyDiscountParams
 ) => Promise<void | ShopifyCheckout>;
 
+export type RemoveDiscount = (
+  params: RemoveDiscountParams
+) => Promise<void | ShopifyCheckout>;
+
 export interface CheckoutClient {
   /**
    * Retrieve a previously-created Shopify checkout.
@@ -50,6 +60,10 @@ export interface CheckoutClient {
    * Applies and validate discount code
    */
   discount: ApplyDiscount;
+  /**
+   * Applies and validate discount code
+   */
+  discountRemove: RemoveDiscount;
 }
 
 /**
@@ -114,9 +128,17 @@ export default function createShopifyCheckoutClient({
     return await applyDiscount({ gqlClient, id, discountCode, queueToken });
   }
 
+  async function discountRemove({
+    id,
+    queueToken
+  }: RemoveDiscountParams): Promise<ShopifyCheckout | void> {
+    return await removeDiscount({ gqlClient, id, queueToken });
+  }
+
   return {
     get: getCheckout,
     process: processCheckout,
-    discount
+    discount,
+    discountRemove
   };
 }
