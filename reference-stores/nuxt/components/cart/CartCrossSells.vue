@@ -10,7 +10,14 @@
         class="py-6 flex"
       >
         <div
-          class="flex-shrink-0 w-24 h-24 border border-gray-200 rounded-md overflow-hidden"
+          class="
+            flex-shrink-0
+            w-24
+            h-24
+            border border-gray-200
+            rounded-md
+            overflow-hidden
+          "
         >
           <nuxt-img
             :src="crossSell.content.featuredMedia.src"
@@ -38,7 +45,22 @@
             <div class="flex w-full">
               <button
                 type="button"
-                class="relative flex bg-gray-100 border border-transparent rounded-md py-2 px-8 items-center justify-center text-sm font-medium text-gray-900 hover:bg-gray-200 w-full"
+                class="
+                  relative
+                  flex
+                  bg-gray-100
+                  border border-transparent
+                  rounded-md
+                  py-2
+                  px-8
+                  items-center
+                  justify-center
+                  text-sm
+                  font-medium
+                  text-gray-900
+                  hover:bg-gray-200
+                  w-full
+                "
                 :disabled="checkoutProcessing"
                 @click="handleAdd(crossSell)"
               >
