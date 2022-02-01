@@ -1,0 +1,45 @@
+{
+  "name": "nuxt-2-reference-store",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "nuxt",
+    "build": "nuxt build",
+    "start": "nuxt start",
+    "generate": "nuxt generate"
+  },
+  "dependencies": {
+    "@nacelle/shopify-checkout": "^0.0.8",
+    "@nacelle/storefront-sdk": "^1.0.3",
+    "@tailwindcss/aspect-ratio": "^0.4.0",
+    "@tailwindcss/forms": "^0.4.0",
+    "@tailwindcss/typography": "^0.5.0",
+    "core-js": "^3.19.3",
+    "fuse.js": "^6.5.3",
+    "idb-keyval": "^6.1.0",
+    "lru-cache": "^6.0.0",
+    "nuxt": "^2.15.8",
+    "pascal-case": "^3.1.2",
+    "uuid": "^8.3.2",
+    "vue": "^2.6.14",
+    "vue-server-renderer": "^2.6.14",
+    "vue-template-compiler": "^2.6.14",
+    "webpack": "^4.46.0"
+  },
+  "devDependencies": {
+    "@babel/eslint-parser": "^7.16.3",
+    "@nuxt/image": "^0.6.0",
+    "@nuxtjs/eslint-config": "^8.0.0",
+    "@nuxtjs/eslint-module": "^3.0.2",
+    "@nuxtjs/pwa": "^3.3.5",
+    "@nuxtjs/svg": "^0.3.0",
+    "@nuxtjs/tailwindcss": "^4.2.1",
+    "eslint": "^8.4.1",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-nuxt": "^3.1.0",
+    "eslint-plugin-vue": "^8.2.0",
+    "raw-loader": "^4.0.2",
+    "sass": "^1.49.0",
+    "sass-loader": "10.1.1"
+  }
+}
