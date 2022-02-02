@@ -58,6 +58,5 @@
     "*{json, md}": [
       "prettier --write"
     ]
-  },
-  "gitHead": "3153c14f529fa9f691e7cd2e6c44cee74d1a78db"
+  }
 }
