@@ -9,7 +9,8 @@ import {
   clientSettings,
   checkoutId,
   checkouts,
-  discountCode
+  discountCode,
+  shopifyErrors
 } from '../../../__tests__/mocks';
 
 jest.mock('cross-fetch');
@@ -19,6 +20,7 @@ describe('discount', () => {
   afterEach(() => {
     jest.clearAllMocks();
   });
+
   it('applyDiscount mutation', async () => {
     mocked(fetchClient).mockImplementationOnce(
       (): Promise<any> =>
@@ -41,6 +43,7 @@ describe('discount', () => {
       )
     );
   });
+
   it('removeDiscount mutation', async () => {
     mocked(fetchClient).mockImplementationOnce(
       (): Promise<any> =>
@@ -59,6 +62,94 @@ describe('discount', () => {
     ).resolves.toMatchObject(
       buildCheckout(
         checkouts.removeDiscount.data.checkoutDiscountCodeRemove.checkout
+      )
+    );
+  });
+
+  it('throws an error if there are problems with the request', async () => {
+    const networkErrorMessage = 'Network error!';
+    mocked(fetchClient).mockImplementation(
+      (): Promise<any> => Promise.reject(networkErrorMessage)
+    );
+
+    // we'll test both `applyDiscount` and `removeDiscount`
+    expect.assertions(2);
+
+    // [1/2] `applyDiscount`
+    await expect(applyDiscount({ gqlClient, id: checkoutId })).rejects.toThrow(
+      networkErrorMessage
+    );
+
+    // [2/2] `removeDiscount`
+    await expect(removeDiscount({ gqlClient, id: checkoutId })).rejects.toThrow(
+      networkErrorMessage
+    );
+  });
+
+  it('throws an error if an invalid `id` is provided', async () => {
+    const networkErrorMessage = 'Network error!';
+    mocked(fetchClient).mockImplementation(
+      (): Promise<any> => Promise.reject(networkErrorMessage)
+    );
+
+    // we'll test both `applyDiscount` and `removeDiscount`
+    expect.assertions(2);
+
+    // [1/2] `applyDiscount`
+    await expect(
+      applyDiscount({
+        gqlClient,
+        id: '998877',
+        discountCode
+      })
+    ).rejects.toThrow();
+
+    // [2/2] `removeDiscount`
+    await expect(
+      removeDiscount({
+        gqlClient,
+        id: '998877'
+      })
+    ).rejects.toThrow();
+  });
+
+  it("throws an error if the checkout can't be found when a `id` is provided", async () => {
+    // we'll test both `applyDiscount` and `checkoutAttributesUpdate`
+    expect.assertions(2);
+    const doesNotExistMessage = '"message": "Checkout does not exist"';
+
+    // [1/2] `applyDiscount`
+    mocked(fetchClient).mockImplementationOnce(
+      (): Promise<any> =>
+        mockJsonResponse<mutations.CheckoutDiscountCodeApplyV2Data>(
+          shopifyErrors.notFound.checkoutDiscountCodeApplyV2
+        )
+    );
+
+    await expect(
+      applyDiscount({
+        gqlClient,
+        id: checkoutId,
+        discountCode
+      }).catch((e) =>
+        expect(String(e).includes(doesNotExistMessage)).toBe(true)
+      )
+    );
+
+    // // [2/2] `removeDiscount`
+    mocked(fetchClient).mockImplementationOnce(
+      (): Promise<any> =>
+        mockJsonResponse<mutations.CheckoutDiscountCodeRemoveData>(
+          shopifyErrors.notFound.checkoutDiscountCodeRemove
+        )
+    );
+
+    await expect(
+      removeDiscount({
+        gqlClient,
+        id: checkoutId
+      }).catch((e) =>
+        expect(String(e).includes(doesNotExistMessage)).toBe(true)
       )
     );
   });

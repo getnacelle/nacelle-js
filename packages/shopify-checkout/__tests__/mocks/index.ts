@@ -246,6 +246,22 @@ export const shopifyErrors = {
           userErrors: [checkoutDoesNotExistError]
         }
       }
+    },
+    checkoutDiscountCodeApplyV2: {
+      data: {
+        checkoutDiscountCodeApplyV2: {
+          checkout: null,
+          checkoutUserErrors: [checkoutDoesNotExistError]
+        }
+      }
+    },
+    checkoutDiscountCodeRemove: {
+      data: {
+        checkoutDiscountCodeRemove: {
+          checkout: null,
+          checkoutUserErrors: [checkoutDoesNotExistError]
+        }
+      }
     }
   }
 };

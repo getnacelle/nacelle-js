@@ -38,33 +38,30 @@ export default async function applyDiscount({
   };
 
   try {
-    if (id) {
-      if (!isVerifiedCheckoutId(id)) {
-        throw new Error(
-          `Invalid checkout ID. Expected a Base64-encoded Shopify Global ID. Received: ${id}`
-        );
-      }
+    if (!isVerifiedCheckoutId(id)) {
+      throw new Error(
+        `Invalid checkout ID. Expected a Base64-encoded Shopify Global ID. Received: ${id}`
+      );
+    }
 
-      const { data, errors } = await gqlClient<
-        ApplyDiscountVariables,
-        CheckoutDiscountCodeApplyV2Data
-      >({
-        query,
-        variables
-      }).catch((err) => {
-        throw new Error(err);
-      });
+    const { data, errors } = await gqlClient<
+      ApplyDiscountVariables,
+      CheckoutDiscountCodeApplyV2Data
+    >({
+      query,
+      variables
+    }).catch((err) => {
+      throw new Error(err);
+    });
 
-      const errs =
-        errors || data?.checkoutDiscountCodeApplyV2.checkoutUserErrors;
+    const errs = errors || data?.checkoutDiscountCodeApplyV2.checkoutUserErrors;
 
-      if (errs?.length) {
-        handleShopifyError(errors, { caller: 'checkoutDiscountCodeApplyV2' });
-      }
+    if (errs?.length) {
+      handleShopifyError(errors, { caller: 'checkoutDiscountCodeApplyV2' });
+    }
 
-      if (data?.checkoutDiscountCodeApplyV2.checkout) {
-        return buildCheckout(data.checkoutDiscountCodeApplyV2.checkout);
-      }
+    if (data?.checkoutDiscountCodeApplyV2.checkout) {
+      return buildCheckout(data.checkoutDiscountCodeApplyV2.checkout);
     }
   } catch (error) {
     throw new Error(String(error));

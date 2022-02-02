@@ -33,33 +33,30 @@ export default async function removeDiscount({
     queueToken
   };
   try {
-    if (id) {
-      if (!isVerifiedCheckoutId(id)) {
-        throw new Error(
-          `Invalid checkout ID. Expected a Base64-encoded Shopify Global ID. Received: ${id}`
-        );
-      }
+    if (!isVerifiedCheckoutId(id)) {
+      throw new Error(
+        `Invalid checkout ID. Expected a Base64-encoded Shopify Global ID. Received: ${id}`
+      );
+    }
 
-      const { data, errors } = await gqlClient<
-        RemoveDiscountVariables,
-        CheckoutDiscountCodeRemoveData
-      >({
-        query,
-        variables
-      }).catch((err) => {
-        throw new Error(err);
-      });
+    const { data, errors } = await gqlClient<
+      RemoveDiscountVariables,
+      CheckoutDiscountCodeRemoveData
+    >({
+      query,
+      variables
+    }).catch((err) => {
+      throw new Error(err);
+    });
 
-      const errs =
-        errors || data?.checkoutDiscountCodeRemove.checkoutUserErrors;
+    const errs = errors || data?.checkoutDiscountCodeRemove.checkoutUserErrors;
 
-      if (errs?.length) {
-        handleShopifyError(errors, { caller: 'checkoutDiscountCodeRemove' });
-      }
+    if (errs?.length) {
+      handleShopifyError(errors, { caller: 'checkoutDiscountCodeRemove' });
+    }
 
-      if (data?.checkoutDiscountCodeRemove.checkout) {
-        return buildCheckout(data.checkoutDiscountCodeRemove.checkout);
-      }
+    if (data?.checkoutDiscountCodeRemove.checkout) {
+      return buildCheckout(data.checkoutDiscountCodeRemove.checkout);
     }
   } catch (error) {
     throw new Error(String(error));
