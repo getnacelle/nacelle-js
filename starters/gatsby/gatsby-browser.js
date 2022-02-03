@@ -17,7 +17,7 @@ export const wrapPageElement = ({ element, props }) => (
 export const wrapRootElement = ({ element }) => (
   <CartProvider>
     <CheckoutProvider checkoutClient={checkoutClient}>
-      <Layout>{element}</Layout>
+      {element}
     </CheckoutProvider>
   </CartProvider>
 );
