@@ -32,8 +32,6 @@ export default async function applyDiscount({
   const query = checkoutDiscountCodeApplyV2;
   const variables = {
     input: { checkoutId: id, discountCode },
-    checkoutId: id,
-    discountCode,
     queueToken
   };
 

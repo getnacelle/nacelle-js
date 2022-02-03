@@ -29,7 +29,6 @@ export default async function removeDiscount({
   const query = checkoutDiscountCodeRemove;
   const variables = {
     input: { checkoutId: id },
-    checkoutId: id,
     queueToken
   };
   try {
