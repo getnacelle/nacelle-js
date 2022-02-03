@@ -37,6 +37,11 @@ export default {
     ...mapGetters('cart', ['cartItems'])
   },
   watch: {
+    $route: {
+      handler() {
+        this.setCartVisibility(false);
+      }
+    },
     cartItems: {
       handler() {
         if (!this.cartVisible) {

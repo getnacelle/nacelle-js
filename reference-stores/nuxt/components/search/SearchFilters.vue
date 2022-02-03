@@ -21,7 +21,14 @@
                 :id="`${filter.type}-${filter.name}-${value}`"
                 :value="value"
                 type="checkbox"
-                class="h-4 w-4 border-gray-300 rounded text-indigo-600 focus:ring-indigo-500"
+                class="
+                  h-4
+                  w-4
+                  border-gray-300
+                  rounded
+                  text-indigo-600
+                  focus:ring-indigo-500
+                "
                 :checked="
                   isFilterActive({
                     type: filter.type,
@@ -77,17 +84,17 @@ export default {
       this.activeFilters = [];
     },
     handleProductTypeClick(productType) {
-      // const productTypes = this.activeFilters.productTypes;
-      // const activeIndex = productTypes.findIndex(
-      //   (activeFilter) => activeFilter === productType
-      // );
-      // if (activeIndex > -1) {
-      //   this.activeFilters.productTypes = [
-      //     ...productTypes.slice(0, activeIndex)
-      //   ];
-      // } else {
-      //   this.activeFilters.productTypes = [...productTypes, productType];
-      // }
+      const productTypes = this.activeFilters.productTypes;
+      const activeIndex = productTypes.findIndex(
+        (activeFilter) => activeFilter === productType
+      );
+      if (activeIndex > -1) {
+        this.activeFilters.productTypes = [
+          ...productTypes.slice(0, activeIndex)
+        ];
+      } else {
+        this.activeFilters.productTypes = [...productTypes, productType];
+      }
     },
     isFilterActive(filter) {
       return this.activeFilters.find(
