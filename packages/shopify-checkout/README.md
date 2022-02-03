@@ -169,7 +169,7 @@ const checkout = await checkoutClient.process({
 
 ```js
 // Apply a discount code to checkout
-const checkout = await checkoutClient.discount({
+const checkout = await checkoutClient.discountApply({
   id: 'Z2lkOi8vc2hvcGlmeS9DaGVja291dC85OTg4Nzc/a2V5PTEyMzEyMw==',
   discountCode: 'BFCM'
 });
