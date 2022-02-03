@@ -24,6 +24,8 @@ export interface CreateClientParams {
 }
 
 export type GetCheckoutParams = Pick<FindCheckoutParams, 'id'>;
+export type DiscountApplyParams = Omit<ApplyDiscountParams, 'gqlClient'>;
+export type DiscountRemoveParams = Omit<RemoveDiscountParams, 'gqlClient'>;
 
 export type GetCheckout = (
   params: GetCheckoutParams
@@ -39,11 +41,11 @@ export type ProcessCheckout = (
 ) => Promise<void | ShopifyCheckout>;
 
 export type ApplyDiscount = (
-  params: ApplyDiscountParams
+  params: DiscountApplyParams
 ) => Promise<void | ShopifyCheckout>;
 
 export type RemoveDiscount = (
-  params: RemoveDiscountParams
+  params: DiscountRemoveParams
 ) => Promise<void | ShopifyCheckout>;
 
 export interface CheckoutClient {
@@ -59,7 +61,7 @@ export interface CheckoutClient {
   /**
    * Applies and validate discount code
    */
-  discount: ApplyDiscount;
+  discountApply: ApplyDiscount;
   /**
    * Applies and validate discount code
    */
@@ -120,25 +122,25 @@ export default function createShopifyCheckoutClient({
     });
   }
 
-  async function discount({
+  async function discountApply({
     id,
     discountCode,
     queueToken
-  }: ApplyDiscountParams): Promise<ShopifyCheckout | void> {
+  }: DiscountApplyParams): Promise<ShopifyCheckout | void> {
     return await applyDiscount({ gqlClient, id, discountCode, queueToken });
   }
 
   async function discountRemove({
     id,
     queueToken
-  }: RemoveDiscountParams): Promise<ShopifyCheckout | void> {
+  }: DiscountRemoveParams): Promise<ShopifyCheckout | void> {
     return await removeDiscount({ gqlClient, id, queueToken });
   }
 
   return {
     get: getCheckout,
     process: processCheckout,
-    discount,
+    discountApply,
     discountRemove
   };
 }

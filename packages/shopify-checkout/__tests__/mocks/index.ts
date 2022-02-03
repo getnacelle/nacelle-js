@@ -145,7 +145,7 @@ export const checkouts: Checkouts = {
   }
 };
 
-const checkoutDoesNotExistError: ShopifyCheckoutUserError = {
+export const checkoutDoesNotExistError: ShopifyCheckoutUserError = {
   code: 'INVALID',
   field: ['checkoutId'],
   message: 'Checkout does not exist'

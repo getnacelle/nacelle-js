@@ -10,7 +10,8 @@ import {
   checkoutId,
   checkouts,
   discountCode,
-  shopifyErrors
+  shopifyErrors,
+  checkoutDoesNotExistError
 } from '../../../__tests__/mocks';
 
 jest.mock('cross-fetch');
@@ -113,10 +114,9 @@ describe('discount', () => {
     ).rejects.toThrow();
   });
 
-  it("throws an error if the checkout can't be found when a `id` is provided", async () => {
+  it("throws an error if the checkout can't be found when a `id` is provided", () => {
     // we'll test both `applyDiscount` and `checkoutAttributesUpdate`
     expect.assertions(2);
-    const doesNotExistMessage = '"message": "Checkout does not exist"';
 
     // [1/2] `applyDiscount`
     mocked(fetchClient).mockImplementationOnce(
@@ -126,17 +126,15 @@ describe('discount', () => {
         )
     );
 
-    await expect(
-      applyDiscount({
-        gqlClient,
-        id: checkoutId,
-        discountCode
-      }).catch((e) =>
-        expect(String(e).includes(doesNotExistMessage)).toBe(true)
-      )
+    applyDiscount({
+      gqlClient,
+      id: checkoutId,
+      discountCode
+    }).catch((e) =>
+      expect(String(e).includes(checkoutDoesNotExistError.message)).toBe(true)
     );
 
-    // // [2/2] `removeDiscount`
+    // [2/2] `removeDiscount`
     mocked(fetchClient).mockImplementationOnce(
       (): Promise<any> =>
         mockJsonResponse<mutations.CheckoutDiscountCodeRemoveData>(
@@ -144,13 +142,11 @@ describe('discount', () => {
         )
     );
 
-    await expect(
-      removeDiscount({
-        gqlClient,
-        id: checkoutId
-      }).catch((e) =>
-        expect(String(e).includes(doesNotExistMessage)).toBe(true)
-      )
+    removeDiscount({
+      gqlClient,
+      id: checkoutId
+    }).catch((e) =>
+      expect(String(e).includes(checkoutDoesNotExistError.message)).toBe(true)
     );
   });
 });

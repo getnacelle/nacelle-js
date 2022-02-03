@@ -57,7 +57,7 @@ export default async function applyDiscount({
     const errs = errors || data?.checkoutDiscountCodeApplyV2.checkoutUserErrors;
 
     if (errs?.length) {
-      handleShopifyError(errors, { caller: 'checkoutDiscountCodeApplyV2' });
+      handleShopifyError(errs, { caller: 'checkoutDiscountCodeApplyV2' });
     }
 
     if (data?.checkoutDiscountCodeApplyV2.checkout) {

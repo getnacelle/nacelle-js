@@ -52,7 +52,7 @@ export default async function removeDiscount({
     const errs = errors || data?.checkoutDiscountCodeRemove.checkoutUserErrors;
 
     if (errs?.length) {
-      handleShopifyError(errors, { caller: 'checkoutDiscountCodeRemove' });
+      handleShopifyError(errs, { caller: 'checkoutDiscountCodeRemove' });
     }
 
     if (data?.checkoutDiscountCodeRemove.checkout) {
