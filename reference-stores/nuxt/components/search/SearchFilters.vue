@@ -36,8 +36,8 @@
                     value
                   })
                 "
+                @change="handleFilter(filter)"
               />
-              <!-- @change="handleProductTypeClick(productType)" -->
               <label
                 :for="`${filter.type}-${filter.name}-${value}`"
                 class="ml-3 text-sm text-gray-600"
@@ -54,7 +54,6 @@
 
 <script>
 import { getCatalogFilters } from '~/utils/getCatalogFilters';
-// import { filterCatalog } from '~/utils/filterCatalog';
 
 export default {
   name: 'SearchFilters',
@@ -65,7 +64,6 @@ export default {
     }
   },
   data: () => ({
-    filteredResults: [],
     availableFilters: [],
     activeFilters: []
   }),
@@ -80,22 +78,25 @@ export default {
   methods: {
     handleCatalog() {
       this.availableFilters = getCatalogFilters({ catalog: this.catalog });
-      // see which ones need to be removed
       this.activeFilters = [];
     },
-    handleProductTypeClick(productType) {
-      const productTypes = this.activeFilters.productTypes;
-      const activeIndex = productTypes.findIndex(
-        (activeFilter) => activeFilter === productType
-      );
-      if (activeIndex > -1) {
-        this.activeFilters.productTypes = [
-          ...productTypes.slice(0, activeIndex)
-        ];
-      } else {
-        this.activeFilters.productTypes = [...productTypes, productType];
-      }
+    handleFilter(filter) {
+      console.log('f', filter);
     },
+    // handleProductTypeClick(productType) {
+    //   const productTypes = this.activeFilters.productTypes;
+    //   const activeIndex = productTypes.findIndex(
+    //     (activeFilter) => activeFilter === productType
+    //   );
+    //   if (activeIndex > -1) {
+    //     this.activeFilters.productTypes = [
+    //       ...productTypes.slice(0, activeIndex)
+    //     ];
+    //   } else {
+    //     console.log('p', productType, productTypes);
+    //     this.activeFilters.productTypes = [...productTypes, productType];
+    //   }
+    // },
     isFilterActive(filter) {
       return this.activeFilters.find(
         ({ type, name, values }) =>

@@ -2,7 +2,14 @@
   <div class="bg-white">
     <div class="max-w-7xl mx-auto py-16 px-4 sm:py-24 sm:px-6 lg:px-8">
       <div
-        class="border-b border-gray-200 pb-10 flex flex-wrap items-center gap-4 md:gap-8"
+        class="
+          border-b border-gray-200
+          pb-10
+          flex flex-wrap
+          items-center
+          gap-4
+          md:gap-8
+        "
       >
         <h1 class="text-4xl font-extrabold tracking-tight text-gray-900">
           Search
@@ -11,7 +18,15 @@
           <label for="search-page" class="sr-only">Search</label>
           <div class="relative">
             <div
-              class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
+              class="
+                absolute
+                inset-y-0
+                left-0
+                pl-3
+                flex
+                items-center
+                pointer-events-none
+              "
             >
               <svg
                 class="h-5 w-5 text-gray-400"
@@ -30,7 +45,24 @@
             <input
               v-model="query"
               name="search-page"
-              class="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              class="
+                block
+                w-full
+                pl-10
+                pr-3
+                py-2
+                border border-gray-300
+                rounded-md
+                leading-5
+                bg-white
+                placeholder-gray-500
+                focus:outline-none
+                focus:placeholder-gray-400
+                focus:ring-1
+                focus:ring-indigo-500
+                focus:border-indigo-500
+                sm:text-sm
+              "
               placeholder="Search"
               type="search"
             />
@@ -68,6 +100,11 @@ export default {
     return buildMeta({ route: this.$route });
   },
   watch: {
+    '$route.query.q': {
+      handler(value) {
+        this.query = value;
+      }
+    },
     query: {
       handler(value) {
         this.$router.push({ path: `/search?q=${value}` });

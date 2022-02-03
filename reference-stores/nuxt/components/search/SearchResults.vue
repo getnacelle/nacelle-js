@@ -8,7 +8,13 @@
         <search-filters :catalog="searchResults" />
         <div class="mt-6 lg:mt-0 lg:col-span-2 xl:col-span-3">
           <div
-            class="grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-3 sm:gap-x-6 lg:grid-cols-4 xl:gap-x-8"
+            class="
+              grid grid-cols-2
+              gap-x-4 gap-y-8
+              sm:grid-cols-3 sm:gap-x-6
+              lg:grid-cols-4
+              xl:gap-x-8
+            "
           >
             <product-card
               v-for="result in searchResults"

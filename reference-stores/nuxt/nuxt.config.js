@@ -30,7 +30,7 @@ export default {
 
   // Nuxt image component: https://image.nuxtjs.org/
   image: {
-    domains: ['https://cdn.shopify.com', 'cdn.sanity.io']
+    domains: ['https://cdn.shopify.com', 'https://cdn.sanity.io']
   },
 
   publicRuntimeConfig: {
