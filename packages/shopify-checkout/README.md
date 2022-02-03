@@ -223,5 +223,5 @@ const checkoutClient = createShopifyCheckoutClient({
 
 <!-- LINKS -->
 
-[shopify-checkout-object]: https://shopify.dev/api/storefront/reference/checkouts/checkout#fields-2021-10
-[shopify-scalars]: https://shopify.dev/api/storefront/reference/scalar
+[shopify-checkout-object]: https://shopify.dev/api/storefront/2022-01/objects/checkout#fields
+[shopify-scalars]: https://shopify.dev/api/storefront/2022-01/scalars/ID
