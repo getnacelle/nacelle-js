@@ -6,6 +6,7 @@ export const PRODUCT_PAGE_QUERY = `
       nacelleEntryId
       sourceEntryId
       content{
+        handle
         title
         description
         options{
