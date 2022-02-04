@@ -29,6 +29,8 @@
                   text-indigo-600
                   focus:ring-indigo-500
                 "
+                :checked="activeFilter({ ...filter, value })"
+                @click="handleClick({ ...filter, value })"
               />
               <label
                 :for="`${filter.type}-${filter.name}-${value}`"
@@ -40,6 +42,32 @@
           </div>
         </fieldset>
       </div>
+      <button
+        v-if="activeFilters.length"
+        class="
+          inline-flex
+          items-center
+          px-3
+          py-2
+          border border-gray-300
+          shadow-sm
+          text-sm
+          leading-4
+          font-medium
+          rounded-md
+          text-gray-700
+          bg-white
+          hover:bg-gray-50
+          focus:outline-none
+          focus:ring-2
+          focus:ring-offset-2
+          focus:ring-indigo-500
+          mt-10
+        "
+        @click="handleClear"
+      >
+        Clear Filters
+      </button>
     </form>
   </div>
 </template>
@@ -55,6 +83,31 @@ export default {
     activeFilters: {
       type: Array,
       required: true
+    }
+  },
+  data: () => ({
+    filterModel: []
+  }),
+  methods: {
+    activeFilter(filter) {
+      return this.activeFilters.find(
+        ({ type, name, value }) =>
+          type === filter.type && name === filter.name && value === filter.value
+      );
+    },
+    handleClick(filter) {
+      const filters = [...this.activeFilters];
+      const { values, ...rest } = filter;
+      const activeIndex = filters.findIndex(
+        ({ type, name, value }) =>
+          type === rest.type && name === rest.name && rest.value === value
+      );
+      if (activeIndex < 0) filters.push(rest);
+      else filters.splice(activeIndex, 1);
+      this.$emit('change', filters);
+    },
+    handleClear() {
+      this.$emit('change', []);
     }
   }
 };

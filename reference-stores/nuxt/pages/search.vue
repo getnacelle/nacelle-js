@@ -75,6 +75,7 @@
           <search-filters
             :active-filters="activeFilters"
             :available-filters="availableFilters"
+            @change="handleFilterChange"
           />
           <search-results :results="results" />
         </div>
@@ -86,6 +87,9 @@
 <script>
 import { SEARCH_PAGE_QUERY } from '~/queries/searchPage';
 import { buildMeta } from '~/utils/buildMeta';
+import { searchProducts } from '~/utils/searchProducts';
+import { getProductFilters } from '~/utils/getProductFilters';
+import { filterProducts } from '~/utils/filterProducts';
 
 import SearchFilters from '~/components/search/SearchFilters.vue';
 import SearchResults from '~/components/search/SearchResults.vue';
@@ -106,7 +110,8 @@ export default {
   },
   data: () => ({
     query: '',
-    results: '',
+    searchResults: [],
+    results: [],
     activeFilters: [],
     availableFilters: []
   }),
@@ -129,11 +134,48 @@ export default {
     query: {
       handler(value) {
         this.$router.push({ path: `/search?q=${value}` });
+        this.handleSearch();
+      }
+    },
+    activeFilters: {
+      handler() {
+        this.handleFilter();
       }
     }
   },
   created() {
     this.query = this.$route.query.q || '';
+  },
+  methods: {
+    handleSearch() {
+      this.searchResults = searchProducts({
+        products: this.products,
+        query: this.query
+      });
+      this.updateFilters();
+    },
+    handleFilter() {
+      this.results = filterProducts({
+        products: this.searchResults,
+        filters: this.activeFilters
+      });
+    },
+    updateFilters() {
+      this.availableFilters = getProductFilters({
+        products: this.searchResults
+      });
+      this.activeFilters = this.activeFilters.filter((activeFilter) => {
+        return this.availableFilters.find(
+          (availableFilter) =>
+            activeFilter.type === availableFilter.type &&
+            activeFilter.name === availableFilter.name &&
+            availableFilter.values.includes(activeFilter.value)
+        );
+      });
+    },
+    handleFilterChange(value) {
+      this.activeFilters = [...value];
+    }
   }
 };
 </script>

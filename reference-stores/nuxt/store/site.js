@@ -9,7 +9,7 @@ export const state = () => ({
     newsletter: null,
     footer: null
   },
-  catalog: []
+  products: []
 });
 
 export const getters = {
@@ -24,8 +24,8 @@ export const getters = {
   siteComponents(state) {
     return state.components;
   },
-  siteCatalog(state) {
-    return state.catalog;
+  siteProducts(state) {
+    return state.products;
   }
 };
 
@@ -41,8 +41,8 @@ export const mutations = {
       footer: payload.footer[0]
     };
   },
-  setCatalog(state, payload) {
-    state.catalog = [...payload];
+  setProducts(state, payload) {
+    state.products = [...payload];
   }
 };
 
@@ -52,9 +52,9 @@ export const actions = {
       key: 'site',
       fetcher: () => this.$nacelle.query({ query: SITE_QUERY })
     });
-    const { space, catalog, ...rest } = data;
+    const { space, products, ...rest } = data;
     commit('setSpace', space);
     commit('setComponents', rest);
-    commit('setCatalog', catalog);
+    commit('setProducts', products);
   }
 };

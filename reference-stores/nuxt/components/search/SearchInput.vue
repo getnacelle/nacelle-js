@@ -72,7 +72,7 @@
 <script>
 import { mapGetters } from 'vuex';
 import SearchAutocomplete from '../search/SearchAutocomplete.vue';
-import { searchCatalog } from '~/utils/searchCatalog';
+import { searchProducts } from '~/utils/searchProducts';
 
 export default {
   name: 'HeaderSearch',
@@ -85,18 +85,18 @@ export default {
     isFocused: false
   }),
   computed: {
-    ...mapGetters('site', ['siteCatalog'])
+    ...mapGetters('site', ['siteProducts'])
   },
   created() {
-    this.results = [...this.siteCatalog];
+    this.results = [...this.siteProducts];
   },
   methods: {
     handleFocus(value) {
       this.isFocused = value;
     },
     handleKeyup() {
-      this.results = searchCatalog({
-        catalog: [...this.siteCatalog],
+      this.results = searchProducts({
+        products: [...this.siteProducts],
         query: this.query
       });
     },

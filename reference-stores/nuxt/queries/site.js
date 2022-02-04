@@ -23,7 +23,7 @@ export const SITE_QUERY = `
     cart: content(filter: { type: "componentCart",  handles: ["component-cart"] }){
       ${CONTENT_QUERY_FRAGMENT}
     }
-    catalog: products{
+    products: products{
       nacelleEntryId
       content{
         handle

@@ -11,7 +11,7 @@
       "
     >
       <product-card
-        v-for="result in searchResults"
+        v-for="result in results"
         :key="result.nacelleEntryId"
         :product="result"
       />

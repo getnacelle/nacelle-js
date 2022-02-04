@@ -1,7 +1,7 @@
-export const getCatalogFilters = ({ catalog }) => {
-  return catalog
-    .reduce((acc, item) => {
-      const filterValue = item.productType;
+export const getProductFilters = ({ products }) => {
+  return products
+    .reduce((acc, product) => {
+      const filterValue = product.productType;
       let filterIndex = acc.findIndex((filterItem) => {
         return filterItem.type === 'productType';
       });
@@ -16,7 +16,7 @@ export const getCatalogFilters = ({ catalog }) => {
           acc[filterIndex].values.push(filterValue);
         }
       }
-      item.content.options.forEach((option) => {
+      product.content.options.forEach((option) => {
         if (option.name !== 'Title') {
           filterIndex = acc.findIndex(
             (filterItem) =>
