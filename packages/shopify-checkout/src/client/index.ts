@@ -1,6 +1,13 @@
-import { findCheckout, putCheckout } from '../client/actions';
+import {
+  findCheckout,
+  putCheckout,
+  applyDiscount,
+  removeDiscount
+} from '../client/actions';
 import { FindCheckoutParams } from '../client/actions/findCheckout';
 import { PutCheckoutParams } from '../client/actions/putCheckout';
+import { ApplyDiscountParams } from '../client/actions/applyDiscount';
+import { RemoveDiscountParams } from '../client/actions/removeDiscount';
 import {
   cartItemsToCheckoutItems,
   createGqlClient,
@@ -17,6 +24,8 @@ export interface CreateClientParams {
 }
 
 export type GetCheckoutParams = Pick<FindCheckoutParams, 'id'>;
+export type DiscountApplyParams = Omit<ApplyDiscountParams, 'gqlClient'>;
+export type DiscountRemoveParams = Omit<RemoveDiscountParams, 'gqlClient'>;
 
 export type GetCheckout = (
   params: GetCheckoutParams
@@ -31,6 +40,14 @@ export type ProcessCheckout = (
   params: ProcessCheckoutParams
 ) => Promise<void | ShopifyCheckout>;
 
+export type ApplyDiscount = (
+  params: DiscountApplyParams
+) => Promise<void | ShopifyCheckout>;
+
+export type RemoveDiscount = (
+  params: DiscountRemoveParams
+) => Promise<void | ShopifyCheckout>;
+
 export interface CheckoutClient {
   /**
    * Retrieve a previously-created Shopify checkout.
@@ -41,6 +58,14 @@ export interface CheckoutClient {
    * if a valid `checkoutId` is provided.
    */
   process: ProcessCheckout;
+  /**
+   * Applies and validate discount code
+   */
+  discountApply: ApplyDiscount;
+  /**
+   * Applies and validate discount code
+   */
+  discountRemove: RemoveDiscount;
 }
 
 /**
@@ -97,8 +122,25 @@ export default function createShopifyCheckoutClient({
     });
   }
 
+  async function discountApply({
+    id,
+    discountCode,
+    queueToken
+  }: DiscountApplyParams): Promise<ShopifyCheckout | void> {
+    return await applyDiscount({ gqlClient, id, discountCode, queueToken });
+  }
+
+  async function discountRemove({
+    id,
+    queueToken
+  }: DiscountRemoveParams): Promise<ShopifyCheckout | void> {
+    return await removeDiscount({ gqlClient, id, queueToken });
+  }
+
   return {
     get: getCheckout,
-    process: processCheckout
+    process: processCheckout,
+    discountApply,
+    discountRemove
   };
 }

@@ -26,6 +26,8 @@ export const webUrl =
   'https://nacelle-swag-store.myshopify.com/112233/checkouts/' +
   checkoutUuidWithKey;
 
+export const discountCode = 'BFCM2020';
+
 export const headers = {
   Accept: 'application/json',
   'Content-Type': 'application/json',
@@ -62,6 +64,8 @@ export const newCartItems = cartItems.slice(0, 2).map((lineItem) => ({
 interface Checkouts {
   findCheckout: ShopifyResponse<queries.GetCheckoutData>;
   checkoutCreate: ShopifyResponse<mutations.CheckoutCreateData>;
+  applyDiscount: ShopifyResponse<mutations.CheckoutDiscountCodeApplyV2Data>;
+  removeDiscount: ShopifyResponse<mutations.CheckoutDiscountCodeRemoveData>;
   checkoutUpdate(
     params: CheckoutUpdateVariables
   ): ShopifyResponse<mutations.CheckoutAttributesUpdateData>;
@@ -83,6 +87,28 @@ export const checkouts: Checkouts = {
   checkoutCreate: {
     data: {
       checkoutCreate: {
+        checkout: {
+          id: checkoutId,
+          webUrl
+        },
+        checkoutUserErrors: []
+      }
+    }
+  },
+  applyDiscount: {
+    data: {
+      checkoutDiscountCodeApplyV2: {
+        checkout: {
+          id: checkoutId,
+          webUrl
+        },
+        checkoutUserErrors: []
+      }
+    }
+  },
+  removeDiscount: {
+    data: {
+      checkoutDiscountCodeRemove: {
         checkout: {
           id: checkoutId,
           webUrl
@@ -119,7 +145,7 @@ export const checkouts: Checkouts = {
   }
 };
 
-const checkoutDoesNotExistError: ShopifyCheckoutUserError = {
+export const checkoutDoesNotExistError: ShopifyCheckoutUserError = {
   code: 'INVALID',
   field: ['checkoutId'],
   message: 'Checkout does not exist'
@@ -218,6 +244,22 @@ export const shopifyErrors = {
         checkoutLineItemsReplace: {
           checkout: null,
           userErrors: [checkoutDoesNotExistError]
+        }
+      }
+    },
+    checkoutDiscountCodeApplyV2: {
+      data: {
+        checkoutDiscountCodeApplyV2: {
+          checkout: null,
+          checkoutUserErrors: [checkoutDoesNotExistError]
+        }
+      }
+    },
+    checkoutDiscountCodeRemove: {
+      data: {
+        checkoutDiscountCodeRemove: {
+          checkout: null,
+          checkoutUserErrors: [checkoutDoesNotExistError]
         }
       }
     }

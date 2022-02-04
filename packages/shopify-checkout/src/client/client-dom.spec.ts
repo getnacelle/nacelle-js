@@ -29,6 +29,8 @@ describe('createShopifyCheckoutClient', () => {
     expect(checkoutClient).toBeInstanceOf(Object);
     expect(checkoutClient.get).toBeInstanceOf(Function);
     expect(checkoutClient.process).toBeInstanceOf(Function);
+    expect(checkoutClient.discountApply).toBeInstanceOf(Function);
+    expect(checkoutClient.discountRemove).toBeInstanceOf(Function);
   });
 
   it("uses `window.fetch` when `typeof window !== 'undefined'` and an isomorphic fetch client hasn't been supplied", async () => {
@@ -252,6 +254,82 @@ describe('createShopifyCheckoutClient', () => {
           input: {
             customAttributes: checkoutAttributes,
             note
+          }
+        }
+      })
+    });
+  });
+
+  it('makes the expected request when applying a discount code', async () => {
+    const checkoutClient = createShopifyCheckoutClient({
+      ...clientSettings,
+      fetchClient
+    });
+
+    mocked(fetchClient).mockImplementationOnce(
+      (): Promise<any> =>
+        mockJsonResponse<mutations.CheckoutDiscountCodeApplyV2Data>(
+          checkouts.applyDiscount
+        )
+    );
+
+    await expect(
+      checkoutClient.discountApply({
+        id: checkoutId,
+        discountCode: 'BFCM2020'
+      })
+    ).resolves.toMatchObject({
+      completed: false,
+      id: checkoutId,
+      url: webUrl
+    });
+    expect(fetchClient).toHaveBeenCalledTimes(1);
+    expect(fetchClient).toHaveBeenCalledWith(graphqlEndpoint, {
+      method: 'POST',
+      headers,
+      body: JSON.stringify({
+        query: mutations.checkoutDiscountCodeApplyV2,
+        variables: {
+          input: {
+            checkoutId,
+            discountCode: 'BFCM2020'
+          }
+        }
+      })
+    });
+  });
+
+  it('makes the expected request when removing a discount code', async () => {
+    const checkoutClient = createShopifyCheckoutClient({
+      ...clientSettings,
+      fetchClient
+    });
+
+    mocked(fetchClient).mockImplementationOnce(
+      (): Promise<any> =>
+        mockJsonResponse<mutations.CheckoutDiscountCodeRemoveData>(
+          checkouts.removeDiscount
+        )
+    );
+
+    await expect(
+      checkoutClient.discountRemove({
+        id: checkoutId
+      })
+    ).resolves.toMatchObject({
+      completed: false,
+      id: checkoutId,
+      url: webUrl
+    });
+    expect(fetchClient).toHaveBeenCalledTimes(1);
+    expect(fetchClient).toHaveBeenCalledWith(graphqlEndpoint, {
+      method: 'POST',
+      headers,
+      body: JSON.stringify({
+        query: mutations.checkoutDiscountCodeRemove,
+        variables: {
+          input: {
+            checkoutId
           }
         }
       })
