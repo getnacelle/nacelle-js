@@ -69,7 +69,16 @@
           </div>
         </div>
       </div>
-      <search-results :catalog="products" :query="query" />
+      <div v-if="query" class="py-6">
+        <p class="text-lg leading-6">{{ resultsText }}</p>
+        <div class="pt-12 lg:grid lg:grid-cols-3 lg:gap-x-8 xl:grid-cols-4">
+          <search-filters
+            :active-filters="activeFilters"
+            :available-filters="availableFilters"
+          />
+          <search-results :results="results" />
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -78,11 +87,13 @@
 import { SEARCH_PAGE_QUERY } from '~/queries/searchPage';
 import { buildMeta } from '~/utils/buildMeta';
 
+import SearchFilters from '~/components/search/SearchFilters.vue';
 import SearchResults from '~/components/search/SearchResults.vue';
 
 export default {
   name: 'SearchPage',
   components: {
+    SearchFilters,
     SearchResults
   },
   async asyncData({ app }) {
@@ -94,10 +105,20 @@ export default {
     };
   },
   data: () => ({
-    query: ''
+    query: '',
+    results: '',
+    activeFilters: [],
+    availableFilters: []
   }),
   head() {
     return buildMeta({ route: this.$route });
+  },
+  computed: {
+    resultsText() {
+      return this.results.length
+        ? `${this.results.length} results(s) found`
+        : 'No results found...';
+    }
   },
   watch: {
     '$route.query.q': {
