@@ -1,5 +1,5 @@
 {
-  "packages": ["packages/*", "starters/*", "examples/*"],
+  "packages": ["packages/*", "starters/*", "examples/*", "reference-stores/*"],
   "version": "independent",
   "npmClient": "npm",
   "command": {
