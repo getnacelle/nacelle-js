@@ -9,7 +9,6 @@
         :key="crossSell.nacelleEntryId"
         class="py-6 flex"
       >
-        id: {{ crossSell.nacelleEntryId }}
         <div
           class="
             flex-shrink-0
