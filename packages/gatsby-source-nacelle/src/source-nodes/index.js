@@ -109,6 +109,7 @@ module.exports = async function ({
       }
     }
   } catch (err) {
+    console.log('err', err);
     throw new Error(
       `Problem sourcing Nacelle ${dataType} nodes: ${err.message}`
     );

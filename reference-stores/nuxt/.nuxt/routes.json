@@ -1,0 +1,44 @@
+[
+  {
+    "name": "404",
+    "path": "/404",
+    "component": "/Users/alexasche/Desktop/nacelle-js/reference-stores/nuxt/pages/404.vue",
+    "chunkName": "pages/404",
+    "_name": "_2960643d"
+  },
+  {
+    "name": "search",
+    "path": "/search",
+    "component": "/Users/alexasche/Desktop/nacelle-js/reference-stores/nuxt/pages/search.vue",
+    "chunkName": "pages/search",
+    "_name": "_06f0ccb3"
+  },
+  {
+    "name": "collections-handle",
+    "path": "/collections/:handle?",
+    "component": "/Users/alexasche/Desktop/nacelle-js/reference-stores/nuxt/pages/collections/_handle.vue",
+    "chunkName": "pages/collections/_handle",
+    "_name": "_c2be915c"
+  },
+  {
+    "name": "pages-handle",
+    "path": "/pages/:handle?",
+    "component": "/Users/alexasche/Desktop/nacelle-js/reference-stores/nuxt/pages/pages/_handle.vue",
+    "chunkName": "pages/pages/_handle",
+    "_name": "_56b748c1"
+  },
+  {
+    "name": "products-handle",
+    "path": "/products/:handle?",
+    "component": "/Users/alexasche/Desktop/nacelle-js/reference-stores/nuxt/pages/products/_handle.vue",
+    "chunkName": "pages/products/_handle",
+    "_name": "_77476ee7"
+  },
+  {
+    "name": "index",
+    "path": "/",
+    "component": "/Users/alexasche/Desktop/nacelle-js/reference-stores/nuxt/pages/index.vue",
+    "chunkName": "pages/index",
+    "_name": "_768dff97"
+  }
+]
