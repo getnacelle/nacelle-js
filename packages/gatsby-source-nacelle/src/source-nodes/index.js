@@ -32,6 +32,7 @@ module.exports = async function ({
     // the user can opt into using Gatsby Image by installing `gatsby-source-filesystem`
     require('gatsby-source-filesystem');
     useGatsbyImage = true;
+    console.log('we have gatsby-source-filesystem');
   } catch (err) {
     // do nothing because useGatsbyImage is already false
   }
