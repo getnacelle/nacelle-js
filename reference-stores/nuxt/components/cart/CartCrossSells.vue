@@ -20,8 +20,9 @@
           "
         >
           <nuxt-img
-            :src="crossSell.content.featuredMedia.src"
-            :alt="crossSell.content.featuredMedia.altText"
+            v-if="crossSell.image"
+            :src="crossSell.image.src"
+            :alt="crossSell.image.altText"
             class="w-full h-full object-center object-cover"
           />
         </div>
@@ -94,13 +95,6 @@ export default {
   data: () => ({
     products: []
   }),
-  async fetch() {
-    const { products } = await this.$nacelle.query({
-      query: PRODUCTS_QUERY,
-      variables: { handles: this.content.products }
-    });
-    this.products = products;
-  },
   computed: {
     ...mapGetters('cart', ['cartItems']),
     ...mapGetters('checkout', ['checkoutProcessing']),
@@ -116,10 +110,18 @@ export default {
         })
         .map((product) => ({
           ...product,
+          image: product.content.featuredMedia,
           price: formatPrice({ price: product.variants[0].price })
         }))
         .slice(0, 3);
     }
+  },
+  async created() {
+    const { products } = await this.$nacelle.query({
+      query: PRODUCTS_QUERY,
+      variables: { handles: this.content.products }
+    });
+    this.products = products;
   },
   methods: {
     ...mapMutations('cart', ['addItem']),

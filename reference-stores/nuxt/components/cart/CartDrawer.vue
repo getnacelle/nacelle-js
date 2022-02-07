@@ -75,6 +75,7 @@ import { mapGetters, mapMutations } from 'vuex';
 import CartItem from './CartItem.vue';
 import CartCrossSells from './CartCrossSells.vue';
 import CartTotal from './CartTotal.vue';
+import { PRODUCTS_QUERY } from '~/queries/product';
 
 export default {
   name: 'CartDrawer',
@@ -88,6 +89,13 @@ export default {
       type: Object,
       required: true
     }
+  },
+  async fetch() {
+    const { products } = await this.$nacelle.query({
+      query: PRODUCTS_QUERY,
+      variables: { handles: this.content.products }
+    });
+    this.products = products;
   },
   computed: {
     ...mapGetters('cart', ['cartItems']),
