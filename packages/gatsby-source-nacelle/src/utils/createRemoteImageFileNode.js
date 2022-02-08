@@ -43,7 +43,7 @@ async function createFileNode(
   { isImage = () => true, imageProperties = ['src', 'thumbnailSrc'] }
 ) {
   try {
-    const { createRemoteFileNode } = require('gatsby-source-filesystem');
+    const { createRemoteFileNode } = require.main.require('gatsby-source-filesystem');
     const nodeMediaEntry = getNodeMedia(node, nodeMedia);
 
     if (nodeMediaEntry) {
