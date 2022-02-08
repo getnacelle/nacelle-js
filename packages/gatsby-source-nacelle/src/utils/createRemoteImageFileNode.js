@@ -1,5 +1,6 @@
 const get = require('lodash.get');
 const set = require('lodash.set');
+const main = require('require-main-filename')()
 
 function getNodeMedia(node, nodeMedia) {
   // given an object and a property (or array of properties to
@@ -43,7 +44,7 @@ async function createFileNode(
   { isImage = () => true, imageProperties = ['src', 'thumbnailSrc'] }
 ) {
   try {
-    const { createRemoteFileNode } = require.main.require('gatsby-source-filesystem');
+    const { createRemoteFileNode } = main('gatsby-source-filesystem');
     const nodeMediaEntry = getNodeMedia(node, nodeMedia);
 
     if (nodeMediaEntry) {

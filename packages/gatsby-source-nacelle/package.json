@@ -23,7 +23,8 @@
   "dependencies": {
     "@nacelle/storefront-sdk": "^1.0.3",
     "lodash.get": "^4.4.2",
-    "lodash.set": "^4.3.2"
+    "lodash.set": "^4.3.2",
+    "require-main-filename": "^2.0.0"
   },
   "peerDependencies": {
     "gatsby": "^4.0.0",

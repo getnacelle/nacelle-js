@@ -4,6 +4,8 @@ const {
   hasBeenIndexedSinceLastBuild,
   createRemoteImageFileNode
 } = require('../utils');
+
+const main = require('require-main-filename')()
 /**
  * Creates Gatsby nodes from Nacelle data
  * @param {Object} config - configuration object
@@ -30,7 +32,7 @@ module.exports = async function ({
   let useGatsbyImage = false;
   try {
     // the user can opt into using Gatsby Image by installing `gatsby-source-filesystem`
-    require.main.require('gatsby-source-filesystem');
+    main('gatsby-source-filesystem');
     useGatsbyImage = true;
   } catch (err) {
     // do nothing because useGatsbyImage is already false
