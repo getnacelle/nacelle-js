@@ -50,6 +50,7 @@
     "eslint-plugin-react": "^7.25.1",
     "eslint-plugin-react-hooks": "^4.2.0",
     "eslint-plugin-vue": "^8.2.0",
+    "gatsby-source-filesystem": "^4.7.0",
     "graphql": "^15.0.0",
     "husky": "^7.0.0",
     "jest": "^27.0.1",
