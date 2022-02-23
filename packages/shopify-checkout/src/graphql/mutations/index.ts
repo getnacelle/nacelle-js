@@ -19,12 +19,12 @@ export const checkoutCreate = gql`
         ...Checkout_checkout
       }
       checkoutUserErrors {
-        ...CheckoutUserError_checkoutUserErrors
+        ...CheckoutUserError_checkoutUserError
       }
     }
   }
   ${fragments.CHECKOUT}
-  ${fragments.USER_ERRORS}
+  ${fragments.USER_ERROR}
 `;
 
 export interface CheckoutLineItemsReplaceData {
@@ -44,12 +44,12 @@ export const checkoutLineItemsReplace = gql`
         ...Checkout_checkout
       }
       userErrors {
-        ...CheckoutUserError_checkoutUserErrors
+        ...CheckoutUserError_checkoutUserError
       }
     }
   }
   ${fragments.CHECKOUT}
-  ${fragments.USER_ERRORS}
+  ${fragments.USER_ERROR}
 `;
 
 export interface CheckoutAttributesUpdateData {
@@ -69,12 +69,12 @@ export const checkoutAttributesUpdate = gql`
         ...Checkout_checkout
       }
       checkoutUserErrors {
-        ...CheckoutUserError_checkoutUserErrors
+        ...CheckoutUserError_checkoutUserError
       }
     }
   }
   ${fragments.CHECKOUT}
-  ${fragments.USER_ERRORS}
+  ${fragments.USER_ERROR}
 `;
 
 export const checkoutDiscountCodeApplyV2 = gql`
@@ -90,12 +90,12 @@ export const checkoutDiscountCodeApplyV2 = gql`
         ...Checkout_checkout
       }
       checkoutUserErrors {
-        ...CheckoutUserError_checkoutUserErrors
+        ...CheckoutUserError_checkoutUserError
       }
     }
   }
   ${fragments.CHECKOUT}
-  ${fragments.USER_ERRORS}
+  ${fragments.USER_ERROR}
 `;
 
 export interface CheckoutDiscountCodeApplyV2Data {
@@ -112,12 +112,12 @@ export const checkoutDiscountCodeRemove = gql`
         ...Checkout_checkout
       }
       checkoutUserErrors {
-        ...CheckoutUserError_checkoutUserErrors
+        ...CheckoutUserError_checkoutUserError
       }
     }
   }
   ${fragments.CHECKOUT}
-  ${fragments.USER_ERRORS}
+  ${fragments.USER_ERROR}
 `;
 
 export interface CheckoutDiscountCodeRemoveData {

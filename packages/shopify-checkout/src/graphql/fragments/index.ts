@@ -68,8 +68,8 @@ const checkout = gql`
   ${discountApplication}
 `;
 
-const userErrors = gql`
-  fragment CheckoutUserError_checkoutUserErrors on CheckoutUserError {
+const userError = gql`
+  fragment CheckoutUserError_checkoutUserError on CheckoutUserError {
     code
     field
     message
@@ -78,5 +78,5 @@ const userErrors = gql`
 
 export default {
   CHECKOUT: checkout,
-  USER_ERRORS: userErrors
+  USER_ERROR: userError
 };
