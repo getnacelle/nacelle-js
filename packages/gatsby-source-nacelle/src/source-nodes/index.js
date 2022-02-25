@@ -36,8 +36,6 @@ module.exports = async function ({
     // do nothing because useGatsbyImage is already false
   }
 
-  console.log('useGatsbyImage', useGatsbyImage);
-
   try {
     console.info(`[gatsby-source-nacelle] fetching ${dataType}`);
 
