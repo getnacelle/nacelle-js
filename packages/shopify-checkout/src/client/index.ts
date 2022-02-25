@@ -75,7 +75,6 @@ export interface CheckoutClient {
 export default function createShopifyCheckoutClient({
   storefrontCheckoutToken,
   myshopifyDomain,
-  storefrontApiVersion,
   customEndpoint,
   fetchClient
 }: CreateClientParams): CheckoutClient {
@@ -83,7 +82,6 @@ export default function createShopifyCheckoutClient({
     customEndpoint,
     fetchClient,
     myshopifyDomain,
-    storefrontApiVersion,
     storefrontCheckoutToken
   });
 
