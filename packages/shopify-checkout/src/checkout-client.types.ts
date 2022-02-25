@@ -41,9 +41,9 @@ export type CheckoutDiscountApplication = {
 };
 
 export type ShopifyCheckout = {
-  id: string;
-  url: string;
-  completed: boolean;
+  id: string | null;
+  url: string | null;
+  completed: boolean | null;
   lines: Array<CheckoutLine>;
   discounts: Array<CheckoutDiscountApplication>;
 };
@@ -73,9 +73,9 @@ export type ShopifyCheckoutResponseUserError = {
 export interface ShopifyCheckoutResponseProperties {
   id: string;
   webUrl: string;
+  completedAt: string | null;
   lineItems: ShopifyCheckoutResponseLineConnection;
   discountApplications: ShopifyCheckoutResponseDiscountConnection;
-  userErrors: Array<ShopifyCheckoutResponseUserError>;
 }
 
 export type BuildCheckoutParams = ShopifyCheckoutResponseProperties & {
