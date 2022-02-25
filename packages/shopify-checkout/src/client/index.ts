@@ -17,7 +17,6 @@ import { CartItem, Metafield, ShopifyCheckout } from '../checkout-client.types';
 
 export interface CreateClientParams {
   storefrontCheckoutToken: string;
-  storefrontApiVersion?: string;
   myshopifyDomain?: string;
   customEndpoint?: string;
   fetchClient?: typeof fetch;
