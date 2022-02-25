@@ -3,6 +3,7 @@ import {
   ShopifyCheckoutUserError,
   ShopifyCheckoutResponseProperties
 } from '../../checkout-client.types';
+import fragments from '../fragments';
 
 export interface CheckoutCreateData {
   checkoutCreate: {
@@ -15,16 +16,15 @@ export const checkoutCreate = gql`
   mutation checkoutCreate($input: CheckoutCreateInput!) {
     checkoutCreate(input: $input) {
       checkout {
-        id
-        webUrl
+        ...Checkout_checkout
       }
       checkoutUserErrors {
-        code
-        field
-        message
+        ...CheckoutUserError_checkoutUserError
       }
     }
   }
+  ${fragments.CHECKOUT}
+  ${fragments.USER_ERROR}
 `;
 
 export interface CheckoutLineItemsReplaceData {
@@ -41,16 +41,15 @@ export const checkoutLineItemsReplace = gql`
   ) {
     checkoutLineItemsReplace(lineItems: $lineItems, checkoutId: $checkoutId) {
       checkout {
-        id
-        webUrl
+        ...Checkout_checkout
       }
       userErrors {
-        code
-        field
-        message
+        ...CheckoutUserError_checkoutUserError
       }
     }
   }
+  ${fragments.CHECKOUT}
+  ${fragments.USER_ERROR}
 `;
 
 export interface CheckoutAttributesUpdateData {
@@ -67,16 +66,15 @@ export const checkoutAttributesUpdate = gql`
   ) {
     checkoutAttributesUpdateV2(checkoutId: $checkoutId, input: $input) {
       checkout {
-        id
-        webUrl
+        ...Checkout_checkout
       }
       checkoutUserErrors {
-        code
-        field
-        message
+        ...CheckoutUserError_checkoutUserError
       }
     }
   }
+  ${fragments.CHECKOUT}
+  ${fragments.USER_ERROR}
 `;
 
 export const checkoutDiscountCodeApplyV2 = gql`
@@ -89,16 +87,15 @@ export const checkoutDiscountCodeApplyV2 = gql`
       discountCode: $discountCode
     ) {
       checkout {
-        id
-        webUrl
+        ...Checkout_checkout
       }
       checkoutUserErrors {
-        code
-        field
-        message
+        ...CheckoutUserError_checkoutUserError
       }
     }
   }
+  ${fragments.CHECKOUT}
+  ${fragments.USER_ERROR}
 `;
 
 export interface CheckoutDiscountCodeApplyV2Data {
@@ -112,16 +109,15 @@ export const checkoutDiscountCodeRemove = gql`
   mutation checkoutDiscountCodeRemove($checkoutId: ID!) {
     checkoutDiscountCodeRemove(checkoutId: $checkoutId) {
       checkout {
-        id
-        webUrl
+        ...Checkout_checkout
       }
       checkoutUserErrors {
-        code
-        field
-        message
+        ...CheckoutUserError_checkoutUserError
       }
     }
   }
+  ${fragments.CHECKOUT}
+  ${fragments.USER_ERROR}
 `;
 
 export interface CheckoutDiscountCodeRemoveData {

@@ -1,5 +1,6 @@
 import { gql } from '../../utils';
 import { GqlStringField } from '../../checkout-client.types';
+import fragments from '../fragments';
 
 export interface CheckoutNode {
   id: GqlStringField;
@@ -15,10 +16,9 @@ export const getCheckout = gql`
   query getCheckout($id: ID!) {
     node(id: $id) {
       ... on Checkout {
-        id
-        webUrl
-        completedAt
+        ...Checkout_checkout
       }
     }
   }
+  ${fragments.CHECKOUT}
 `;
