@@ -7,15 +7,79 @@ export interface Metafield extends Attribute {
   [key: string]: string;
 }
 
-export interface ShopifyCheckout {
-  id: string;
-  url: string;
-  completed: boolean;
-}
-
-export type ShopifyCheckoutResponseProperties = Pick<ShopifyCheckout, 'id'> & {
-  webUrl: string;
+export type DiscountAllocation = {
+  allocatedAmount: {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    amount: any;
+    currencyCode: string;
+  };
 };
+
+export type CheckoutLine = {
+  customAttributes: Array<Attribute>;
+  discountAllocations: Array<DiscountAllocation>;
+  id: string;
+  quantity: number;
+  title: string;
+  unitPrice: {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    amount: any;
+    currencyCode: string;
+  };
+  variant: {
+    id: string;
+  };
+};
+
+export type CheckoutDiscountApplication = {
+  allocationMethod: string;
+  targetSelection: string;
+  targetType: string;
+  value: {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    amount: any;
+    currencyCode: string;
+    percentage: number;
+  };
+};
+
+export type ShopifyCheckout = {
+  id: string | null;
+  url: string | null;
+  completed: boolean | null;
+  lines: Array<CheckoutLine>;
+  discounts: Array<CheckoutDiscountApplication>;
+};
+
+export type ShopifyCheckoutResponseLineConnection = {
+  edges: Array<ShopifyCheckoutResponseLineEdge>;
+};
+
+export type ShopifyCheckoutResponseLineEdge = {
+  node: CheckoutLine;
+};
+
+export type ShopifyCheckoutResponseDiscountConnection = {
+  edges: Array<ShopifyCheckoutResponseDiscountEdge>;
+};
+
+export type ShopifyCheckoutResponseDiscountEdge = {
+  node: CheckoutDiscountApplication;
+};
+
+export type ShopifyCheckoutResponseUserError = {
+  code?: string;
+  field?: string;
+  message: string;
+};
+
+export interface ShopifyCheckoutResponseProperties {
+  id: string;
+  webUrl: string;
+  completedAt: string | null;
+  lineItems: ShopifyCheckoutResponseLineConnection;
+  discountApplications: ShopifyCheckoutResponseDiscountConnection;
+}
 
 export type BuildCheckoutParams = ShopifyCheckoutResponseProperties & {
   customAttributes?: Attribute[];

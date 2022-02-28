@@ -33,7 +33,9 @@ describe('findCheckout', () => {
       findCheckout({ gqlClient, id: checkoutId }).then((checkout) => checkout)
     ).resolves.toMatchObject({
       id: checkoutId,
-      url: webUrl
+      url: webUrl,
+      lines: [],
+      discounts: []
     });
 
     expect(fetchClient).toHaveBeenCalledTimes(1);

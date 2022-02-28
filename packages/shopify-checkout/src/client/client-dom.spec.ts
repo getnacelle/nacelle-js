@@ -80,7 +80,9 @@ describe('createShopifyCheckoutClient', () => {
             node: {
               id: checkoutId,
               webUrl,
-              completedAt: null
+              completedAt: null,
+              lineItems: { edges: [] },
+              discountApplications: { edges: [] }
             }
           }
         })
@@ -91,7 +93,9 @@ describe('createShopifyCheckoutClient', () => {
     ).resolves.toMatchObject({
       completed: false,
       id: checkoutId,
-      url: webUrl
+      url: webUrl,
+      lines: [],
+      discounts: []
     });
     expect(fetchClient).toHaveBeenCalledTimes(1);
   });
@@ -118,7 +122,9 @@ describe('createShopifyCheckoutClient', () => {
             node: {
               id: checkoutId,
               webUrl: customEndointCheckoutUrl,
-              completedAt: null
+              completedAt: null,
+              lineItems: { edges: [] },
+              discountApplications: { edges: [] }
             }
           }
         })
@@ -129,7 +135,9 @@ describe('createShopifyCheckoutClient', () => {
     ).resolves.toMatchObject({
       completed: false,
       id: checkoutId,
-      url: customEndointCheckoutUrl
+      url: customEndointCheckoutUrl,
+      lines: [],
+      discounts: []
     });
     expect(fetchClient).toHaveBeenCalledTimes(1);
   });
@@ -161,7 +169,9 @@ describe('createShopifyCheckoutClient', () => {
     ).resolves.toMatchObject({
       completed: false,
       id: checkoutId,
-      url: webUrl
+      url: webUrl,
+      lines: [],
+      discounts: []
     });
     expect(fetchClient).toHaveBeenCalledTimes(1);
     expect(fetchClient).toHaveBeenCalledWith(graphqlEndpoint, {
@@ -281,7 +291,9 @@ describe('createShopifyCheckoutClient', () => {
     ).resolves.toMatchObject({
       completed: false,
       id: checkoutId,
-      url: webUrl
+      url: webUrl,
+      lines: [],
+      discounts: []
     });
     expect(fetchClient).toHaveBeenCalledTimes(1);
     expect(fetchClient).toHaveBeenCalledWith(graphqlEndpoint, {
@@ -319,7 +331,9 @@ describe('createShopifyCheckoutClient', () => {
     ).resolves.toMatchObject({
       completed: false,
       id: checkoutId,
-      url: webUrl
+      url: webUrl,
+      lines: [],
+      discounts: []
     });
     expect(fetchClient).toHaveBeenCalledTimes(1);
     expect(fetchClient).toHaveBeenCalledWith(graphqlEndpoint, {

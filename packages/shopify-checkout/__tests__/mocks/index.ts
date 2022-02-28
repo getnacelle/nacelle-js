@@ -2,7 +2,8 @@ import {
   CartItem,
   ShopifyCheckoutUserError,
   ShopifyError,
-  ShopifyResponse
+  ShopifyResponse,
+  ShopifyCheckoutResponseProperties
 } from '../../src/checkout-client.types';
 import * as mutations from '../../src/graphql/mutations';
 import * as queries from '../../src/graphql/queries';
@@ -11,11 +12,10 @@ import { CheckoutLineItemsReplaceVariables } from '../../src/client/actions/chec
 
 export const clientSettings = {
   storefrontCheckoutToken: '1122334455',
-  myshopifyDomain: 'nacelle-swag-store',
-  storefrontApiVersion: '2021-07'
+  myshopifyDomain: 'nacelle-swag-store'
 };
 
-export const graphqlEndpoint = `https://${clientSettings.myshopifyDomain}.myshopify.com/api/${clientSettings.storefrontApiVersion}/graphql`;
+export const graphqlEndpoint = `https://${clientSettings.myshopifyDomain}.myshopify.com/api/2022-01/graphql`;
 
 const checkoutUuidWithKey = '998877?key=123123';
 export const checkoutId = Buffer.from(
@@ -74,13 +74,19 @@ interface Checkouts {
   ): ShopifyResponse<mutations.CheckoutLineItemsReplaceData>;
 }
 
+export const emptyCheckout: ShopifyCheckoutResponseProperties = {
+  id: checkoutId,
+  webUrl,
+  completedAt: null,
+  lineItems: { edges: [] },
+  discountApplications: { edges: [] }
+};
+
 export const checkouts: Checkouts = {
   findCheckout: {
     data: {
       node: {
-        id: checkoutId,
-        webUrl,
-        completedAt: null
+        ...emptyCheckout
       }
     }
   },
@@ -88,8 +94,7 @@ export const checkouts: Checkouts = {
     data: {
       checkoutCreate: {
         checkout: {
-          id: checkoutId,
-          webUrl
+          ...emptyCheckout
         },
         checkoutUserErrors: []
       }
@@ -99,8 +104,7 @@ export const checkouts: Checkouts = {
     data: {
       checkoutDiscountCodeApplyV2: {
         checkout: {
-          id: checkoutId,
-          webUrl
+          ...emptyCheckout
         },
         checkoutUserErrors: []
       }
@@ -110,8 +114,7 @@ export const checkouts: Checkouts = {
     data: {
       checkoutDiscountCodeRemove: {
         checkout: {
-          id: checkoutId,
-          webUrl
+          ...emptyCheckout
         },
         checkoutUserErrors: []
       }
@@ -122,8 +125,8 @@ export const checkouts: Checkouts = {
       data: {
         checkoutAttributesUpdateV2: {
           checkout: {
-            id: params.checkoutId,
-            webUrl
+            ...emptyCheckout,
+            id: params.checkoutId
           },
           checkoutUserErrors: []
         }
@@ -135,8 +138,8 @@ export const checkouts: Checkouts = {
       data: {
         checkoutLineItemsReplace: {
           checkout: {
-            id: params.checkoutId,
-            webUrl
+            ...emptyCheckout,
+            id: params.checkoutId
           },
           userErrors: []
         }

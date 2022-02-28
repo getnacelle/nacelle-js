@@ -2,7 +2,7 @@ import {
   getCheckout as getCheckoutQuery,
   GetCheckoutData
 } from '../../graphql/queries';
-import { handleShopifyError } from '../../utils';
+import { buildCheckout, handleShopifyError } from '../../utils';
 import { ShopifyCheckout, GqlClient } from '../../checkout-client.types';
 
 export interface FindCheckoutParams {
@@ -39,12 +39,6 @@ export default async function findCheckout({
       message: 'Checkout response has no data'
     });
   } else {
-    const { id, webUrl, completedAt } = data.node;
-
-    return {
-      completed: Boolean(completedAt),
-      id: id || '',
-      url: webUrl || ''
-    };
+    return buildCheckout(data.node);
   }
 }

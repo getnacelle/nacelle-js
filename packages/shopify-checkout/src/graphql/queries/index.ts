@@ -1,24 +1,17 @@
 import { gql } from '../../utils';
-import { GqlStringField } from '../../checkout-client.types';
-
-export interface CheckoutNode {
-  id: GqlStringField;
-  webUrl: GqlStringField;
-  completedAt: GqlStringField;
-}
-
+import { ShopifyCheckoutResponseProperties } from '../../checkout-client.types';
+import fragments from '../fragments';
 export interface GetCheckoutData {
-  node: CheckoutNode | null;
+  node: ShopifyCheckoutResponseProperties | null;
 }
 
 export const getCheckout = gql`
   query getCheckout($id: ID!) {
     node(id: $id) {
       ... on Checkout {
-        id
-        webUrl
-        completedAt
+        ...Checkout_checkout
       }
     }
   }
+  ${fragments.CHECKOUT}
 `;
