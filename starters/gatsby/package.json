@@ -1,6 +1,6 @@
 {
   "name": "gatsby-starter",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "private": "true",
   "scripts": {
     "develop": "gatsby develop",
@@ -10,9 +10,9 @@
     "clean": "gatsby clean"
   },
   "dependencies": {
-    "@nacelle/gatsby-source-nacelle": "^8.0.0",
+    "@nacelle/gatsby-source-nacelle": "^8.0.1",
     "@nacelle/react-hooks": "^7.0.0",
-    "@nacelle/shopify-checkout": "^0.0.8",
+    "@nacelle/shopify-checkout": "^0.0.9",
     "@nacelle/storefront-sdk": "^1.0.3",
     "gatsby": "^4.6.0",
     "gatsby-plugin-image": "^2.6.0",
