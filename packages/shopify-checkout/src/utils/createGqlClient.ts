@@ -26,13 +26,13 @@ type CreateGqlClientParams = Pick<
   | 'customEndpoint'
   | 'fetchClient'
   | 'myshopifyDomain'
-  | 'storefrontApiVersion'
   | 'storefrontCheckoutToken'
 >;
 
 export const missingParametersErrorMessage =
-  '[@nacelle/shopify-checkout]: missing required parameters. ' +
-  'Either use both `myshopifyDomain` and `storefrontApiVersion`, or provide a `customEndpoint`.';
+  '[@nacelle/shopify-checkout]: missing required parameters. You must provide a `myshopifyDomain` or a `customEndpoint`.';
+export const missingAccessTokenMessage =
+  '[@nacelle/shopify-checkout]: missing required parameter `storefrontCheckoutToken`.';
 
 /**
  * Create a GraphQL client using `window.fetch` or the provided `fetchClient`
@@ -41,18 +41,21 @@ export default function createGqlClient({
   customEndpoint,
   fetchClient,
   myshopifyDomain,
-  storefrontApiVersion,
   storefrontCheckoutToken
 }: CreateGqlClientParams): GqlClient {
   const gqlClient: GqlClient = ({ query, variables }) => {
-    let endpoint = customEndpoint;
+    let endpoint = customEndpoint || '';
+
+    if (!storefrontCheckoutToken) {
+      throw new Error(missingAccessTokenMessage);
+    }
 
     if (!endpoint) {
-      if (!myshopifyDomain || !storefrontApiVersion) {
+      if (!myshopifyDomain) {
         throw new Error(missingParametersErrorMessage);
       }
       const domain = sanitizeShopifyDomain(myshopifyDomain || '');
-      endpoint = `https://${domain}.myshopify.com/api/${storefrontApiVersion}/graphql`;
+      endpoint = `https://${domain}.myshopify.com/api/2022-01/graphql`;
     }
 
     let fetcher = fetchClient;

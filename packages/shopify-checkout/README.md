@@ -30,7 +30,6 @@ To get started, you'll need:
 - a Shopify Storefront API token with [`unauthenticated_read_checkouts` & `unauthenticated_write_checkouts` access scopes](https://shopify.dev/api/usage/access-scopes#unauthenticated-access-scopes)
 - your `myshopify` domain / Shop ID
   - example: for `gamma-nova-jewelry.myshopify.com`, the domain / Shop ID is `gamma-nova-jewelry`
-- the [version](https://shopify.dev/api/release-notes) of the Shopify Storefront API that you'd like to use (suggested: `2021-04` or newer)
 
 ### Initializing the client
 
@@ -41,8 +40,7 @@ import createShopifyCheckoutClient from '@nacelle/shopify-checkout';
 
 const checkoutClient = createShopifyCheckoutClient({
   storefrontCheckoutToken: '<your-storefront-api-token>',
-  myshopifyDomain: '<your-shop-id>',
-  storefrontApiVersion: '<storefront-api-version-of-choice>'
+  myshopifyDomain: '<your-shop-id>'
 });
 ```
 
@@ -50,11 +48,11 @@ const checkoutClient = createShopifyCheckoutClient({
 
 When working with the checkout client, there are some common types that it will help to be familiar with:
 
-| Type              | Description                                                                                                                                                                                                            |
-| ----------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `Metafield`       | A `Metafield` is an object that contains two properties: a `key` and a `value`, which both have `string` values.                                                                                                       |
-| `CartItem`        | A `CartItem` is an object with two required properties: `variantId` (a [Shopify global ID][shopify-scalars]) and a `quantity` (`number`). A `CartItem` may contain the optional property `metafields` (`Metafield[]`). |
-| `ShopifyCheckout` | A `ShopifyCheckout` is an object that contains three properties: an `id` (`string`) and a `url`, which both have `string` values, and `completed` (`boolean`). The `url` is the address of the Shopify checkout.       |
+| Type              | Description                                                                                                                                                                                                                                                                                              |
+| ----------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `Metafield`       | A `Metafield` is an object that contains two properties: a `key` and a `value`, which both have `string` values.                                                                                                                                                                                         |
+| `CartItem`        | A `CartItem` is an object with two required properties: `variantId` (a [Shopify global ID][shopify-scalars]) and a `quantity` (`number`). A `CartItem` may contain the optional property `metafields` (`Metafield[]`).                                                                                   |
+| `ShopifyCheckout` | A `ShopifyCheckout` is an object that contains the following properties: `id` (`string`), `url` (`string`) the address of the Shopify checkout, `completed` (`boolean`), `lines` (`array`) the line items in the checkout, `discountApplications` (`array`) the discounts being applied to the checkout. |
 
 #### Examples of Common Types:
 
@@ -203,7 +201,6 @@ import isoFetch from 'isomorphic-unfetch';
 const checkoutClient = createShopifyCheckoutClient({
   storefrontCheckoutToken: '<your-storefront-api-token>',
   myshopifyDomain: '<your-shop-id>',
-  storefrontApiVersion: '<storefront-api-version-of-choice>',
   fetchClient: isoFetch
 });
 ```
