@@ -2,6 +2,8 @@ name: shopify-checkout
 
 on:
   pull_request:
+    branches:
+      - main
     paths:
       - 'packages/shopify-checkout/**'
 

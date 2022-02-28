@@ -9,6 +9,7 @@ export interface Metafield extends Attribute {
 
 export type DiscountAllocation = {
   allocatedAmount: {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     amount: any;
     currencyCode: string;
   };
@@ -21,6 +22,7 @@ export type CheckoutLine = {
   quantity: number;
   title: string;
   unitPrice: {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     amount: any;
     currencyCode: string;
   };
@@ -34,6 +36,7 @@ export type CheckoutDiscountApplication = {
   targetSelection: string;
   targetType: string;
   value: {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     amount: any;
     currencyCode: string;
     percentage: number;
