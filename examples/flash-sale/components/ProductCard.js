@@ -3,7 +3,6 @@ import styles from './ProductCard.module.css';
 
 function ProductCard({ product }) {
   const selectedVariant = product.variants[0];
-  selectedVariant.compareAtPrice = 500;
 
   return (
     product && (

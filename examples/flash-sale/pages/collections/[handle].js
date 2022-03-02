@@ -118,32 +118,19 @@ export async function getStaticProps({ params }) {
     };
   }
 
-  // This code would find the flash sale that is assigned the current collection
-  // and the end date has not yet passed.
-  // const flashSale = flashSales.find(flashSale => {
-  //   if (params.handle !== flashSale.fields.collectionHandle || !flashSale.fields.endDate) {
-  //     return false;
-  //   }
-  //   const now = Date.now();
-  //   const endDate = new Date(flashSale.fields.endDate)
-  //   if (now > endDate) return false;
-  //   return true;
-  // }) || false;
-
-  // For the sake of this demo always showing a flash sale, the values are
-  // simulated here.
-  let flashSale = false;
-  if (params.handle === 'clothing') {
-    const date = new Date();
-    date.setDate(date.getDate() + 1);
-    date.setHours(0, 0, 0, 0);
-    flashSale = {
-      fields: {
-        collectionHandle: 'clothing',
-        endDate: date.getTime()
+  const flashSale =
+    flashSales.find((flashSale) => {
+      if (
+        params.handle !== flashSale.fields.collectionHandle ||
+        !flashSale.fields.endDate
+      ) {
+        return false;
       }
-    };
-  }
+      const now = Date.now();
+      const endDate = new Date(flashSale.fields.endDate);
+      if (now > endDate) return false;
+      return true;
+    }) || false;
 
   const { products, ...rest } = productCollections[0];
   return {
