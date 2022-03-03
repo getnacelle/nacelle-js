@@ -3,8 +3,7 @@ import { Storefront } from '@nacelle/storefront-sdk';
 export const buildRoutes = async () => {
   const client = new Storefront({
     storefrontEndpoint: process.env.NACELLE_STOREFRONT_ENDPOINT,
-    token: process.env.NACELLE_STOREFRONT_TOKEN,
-    locale: process.env.NACELLE_STOREFRONT_LOCALE
+    token: process.env.NACELLE_STOREFRONT_TOKEN
   });
   const QUERY = `
     {
