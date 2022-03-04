@@ -83,14 +83,51 @@ exports.sourceNodes = async (gatsbyApi, pluginOptions) => {
   });
 };
 
-exports.createSchemaCustomization = ({ actions }) => {
+exports.createSchemaCustomization = async (
+  { actions, schema },
+  pluginOptions
+) => {
   // create custom type definitions to maintain data shape
   // in both preview and production settings
-  actions.createTypes(typeDefs);
+  const { nacelleClient } = pluginOptions;
+  // fetch all of the content data & get one of each content types
+  const contentData = await nacelleClient.content().then((c) => {
+    const touchedTypes = [];
+    return c.filter((e) => {
+      if (!touchedTypes.includes(e.type)) {
+        touchedTypes.push(e.type);
+        return true;
+      } else {
+        return false;
+      }
+    });
+  });
+  // define the ContentTypes for the schema
+  const contentTypes = contentData.map((content) => {
+    return schema.buildObjectType({
+      name: `NacelleContent${content.type}`,
+      interfaces: ['Node', 'NacelleContent'],
+      fields: {
+        id: 'ID!',
+        collections: '[NacelleContentCollection!]',
+        createdAt: 'Int',
+        handle: 'String',
+        locale: 'String',
+        nacelleEntryId: 'ID!',
+        published: 'Boolean',
+        sourceEntryId: 'ID!',
+        title: 'String',
+        type: 'String',
+        updatedAt: 'Int'
+      }
+    });
+  });
+  const mergedTypeDefs = [typeDefs, ...contentTypes];
+  actions.createTypes(mergedTypeDefs);
 };
 
-exports.createResolvers = ({ createResolvers }) => {
-  createResolvers({
+exports.createResolvers = async ({ createResolvers, intermediateSchema }) => {
+  const resolvers = {
     NacelleProductCollection: {
       products: {
         type: ['NacelleProduct'],
@@ -144,10 +181,15 @@ exports.createResolvers = ({ createResolvers }) => {
           return entries;
         }
       }
-    },
-    NacelleContent: {
+    }
+  };
+  // get all of the types that implement the NacelleContent Interface so we can create resolvers for it
+  const nacelleContentImplementors =
+    intermediateSchema._implementationsMap.NacelleContent.objects;
+  nacelleContentImplementors.forEach((contentType) => {
+    resolvers[contentType] = {
       collections: {
-        type: ['NacelleContentCollection'],
+        type: ['NacelleContentCollection!'],
         resolve: async (source, args, context) => {
           const { entries } = await context.nodeModel.findAll({
             query: {
@@ -162,8 +204,9 @@ exports.createResolvers = ({ createResolvers }) => {
           return entries;
         }
       }
-    }
+    };
   });
+  createResolvers(resolvers);
 };
 
 exports.onPostBootstrap = async function ({ cache }) {

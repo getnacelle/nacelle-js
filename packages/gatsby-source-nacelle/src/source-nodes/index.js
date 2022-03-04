@@ -56,12 +56,18 @@ module.exports = async function ({
             hasBeenIndexedSinceLastBuild(entry, lastFetched) ||
             cacheIsInvalid(lastFetched, pluginOptions)
           ) {
+            // for content entries, need to add the content type
+            // so that we can extend/infer types to to the nodes
+            let nodeType = `Nacelle${dataType}`;
+            if (dataType === 'Content') {
+              nodeType = `NacelleContent${entry.type}`;
+            }
             const nodeMeta = {
               id: `Nacelle${dataType}-${entry[uniqueIdProperty]}`,
               parent: null,
               children: [],
               internal: {
-                type: `Nacelle${dataType}`,
+                type: nodeType,
                 contentDigest: createContentDigest(entry)
               }
             };

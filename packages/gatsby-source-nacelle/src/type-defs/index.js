@@ -16,10 +16,10 @@ type CollectionContent @dontInfer {
 }
 
 "Represents master pieces of content like a page, article, employee, press-release, etc."
-type NacelleContent implements Node @dontInfer {
+interface NacelleContent implements Node {
+  id: ID!
   collections: [NacelleContentCollection!]
   createdAt: Int
-  remoteFields: JSON
   handle: String
   indexedAt: Int
   locale: String
