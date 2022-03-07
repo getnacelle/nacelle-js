@@ -1,5 +1,6 @@
 const sourceNodes = require('./src/source-nodes');
 const typeDefs = require('./src/type-defs');
+const { capitalize } = require('./src/utils');
 
 exports.pluginOptionsSchema = ({ Joi }) => {
   return Joi.object({
@@ -105,7 +106,7 @@ exports.createSchemaCustomization = async (
   // define the ContentTypes for the schema
   const contentTypes = contentData.map((content) => {
     return schema.buildObjectType({
-      name: `NacelleContent${content.type}`,
+      name: `NacelleContentRemote${capitalize(content.type)}`,
       interfaces: ['Node', 'NacelleContent'],
       fields: {
         id: 'ID!',

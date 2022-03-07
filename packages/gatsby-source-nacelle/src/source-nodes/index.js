@@ -1,8 +1,9 @@
 const {
-  replaceKey,
   cacheIsInvalid,
+  capitalize,
+  createRemoteImageFileNode,
   hasBeenIndexedSinceLastBuild,
-  createRemoteImageFileNode
+  replaceKey
 } = require('../utils');
 /**
  * Creates Gatsby nodes from Nacelle data
@@ -60,7 +61,7 @@ module.exports = async function ({
             // so that we can extend/infer types to to the nodes
             let nodeType = `Nacelle${dataType}`;
             if (dataType === 'Content') {
-              nodeType = `NacelleContent${entry.type}`;
+              nodeType = `NacelleContentRemote${capitalize(entry.type)}`;
             }
             const nodeMeta = {
               id: `Nacelle${dataType}-${entry[uniqueIdProperty]}`,
