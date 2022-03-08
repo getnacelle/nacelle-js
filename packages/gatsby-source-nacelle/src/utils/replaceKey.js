@@ -6,15 +6,29 @@
  * @param {string} keyMappings[].newKey - the property to replace with
  * @returns {Object} New object with updated properties
  */
-module.exports = function (obj, keyMappings) {
+function replaceKey(obj, keyMappings) {
   const o = { ...obj };
   try {
     for (const { oldKey, newKey } of keyMappings) {
       delete Object.assign(o, { [newKey]: o[oldKey] })[oldKey];
     }
 
+    for (const [key, value] of Object.entries(o)) {
+      if (value && Array.isArray(value)) {
+        value.forEach((item, index) => {
+          if (item && typeof item === 'object') {
+            o[key][index] = replaceKey(o[key][index], keyMappings);
+          }
+        });
+      } else if (value && typeof value === 'object') {
+        o[key] = replaceKey(o[key], keyMappings);
+      }
+    }
+
     return o;
   } catch (err) {
     throw new Error(err);
   }
-};
+}
+
+module.exports = replaceKey;
