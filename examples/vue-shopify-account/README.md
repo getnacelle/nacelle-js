@@ -43,7 +43,7 @@ To use Multipass and the address form for account pages this project relies on t
 
 Both of these packages are _large_ and can add a lot to your client bundle, so using them only in serverless functions keeps the client a little more lightweight. But if you want another reason, it also keeps your Multipass secret outside of client code.
 
-This project includes a folders for serverless functions:
+This project includes a folder for serverless functions:
 
 - Vercel in [api/\*](./api)
 
@@ -53,15 +53,15 @@ When testing your serverless functions locally make sure to use the platform's C
 
 All the functions to interact with the API live in the `/components/AccountProvider.vue` file and the graphql queries are in the `/gql/index.js`.
 
-We are using [the composition API](https://vuejs.org/guide/extras/composition-api-faq.html) for the state management but this can be integrated into any state management system.
+We are using [the composition API](https://vuejs.org/guide/extras/composition-api-faq.html) for state management but this can be integrated into any state management system.
 
 ### Multipass Login
 
-In the `/component/AccountProvider.vue` file there is a `multipassLogin` method, this will log in the user in Shopify. The best use for this function is to login the user before checkout, carrying over their information to the checkout page.
+In the `/component/AccountProvider.vue` file there is a `multipassLogin` method, which logs the user into their Shopify account. The best use for this function is to log in the user before checkout, so their information is passed to the checkout page.
 
 ## Using Nuxt?
 
-If you implementing this system into a nuxt project we recommend making use of [middleware](https://nuxtjs.org/docs/directory-structure/middleware/) to protect authenticated routes:
+If you are implementing this system into a nuxt project we recommend using [middleware](https://nuxtjs.org/docs/directory-structure/middleware/) to protect authenticated routes:
 
 Here is an example of what it might look like:
 
@@ -69,11 +69,11 @@ Here is an example of what it might look like:
 
 ```js
 export default function (ctx) {
-  const { store, redirect, app } = ctx
+  const { store, redirect, app } = ctx;
   // If the user is not authenticated
-  const customerAccessToken = app.$cookies.get('customerAccessToken')
+  const customerAccessToken = app.$cookies.get('customerAccessToken');
   if (customerAccessToken === undefined || customerAccessToken === false) {
-    return redirect('/account/login')
+    return redirect('/account/login');
   }
 }
 ```
@@ -83,15 +83,15 @@ export default function (ctx) {
 ```js
 export default function ({ store, redirect, app }) {
   // If the user is authenticated redirect to account
-  const customerAccessToken = app.$cookies.get('customerAccessToken')
+  const customerAccessToken = app.$cookies.get('customerAccessToken');
 
   if (customerAccessToken) {
-    return redirect('/account')
+    return redirect('/account');
   }
 }
 ```
 
-These example assume the adition of the `cookie-universal-nuxt` [package](https://www.npmjs.com/package/cookie-universal-nuxt).
+These examples assume the addition of `cookie-universal-nuxt` [package](https://www.npmjs.com/package/cookie-universal-nuxt).
 
 ## Shopify Email Notifications
 
