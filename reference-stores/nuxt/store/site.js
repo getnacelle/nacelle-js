@@ -17,7 +17,7 @@ export const getters = {
     return state.space;
   },
   siteMetatags(state) {
-    return state.space.properties.find(
+    return state.space?.properties?.find(
       (property) => property.namespace === 'metatag'
     )?.items;
   },

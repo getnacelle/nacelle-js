@@ -23,7 +23,7 @@ export default {
     SiteSection
   },
   async asyncData({ app, params }) {
-    const { products, pages } = await app.$nacelle.query({
+    const { products, pages } = await app.$nacelleOld.query({
       query: PRODUCT_PAGE_QUERY,
       variables: { handle: params.handle }
     });

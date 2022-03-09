@@ -18,7 +18,7 @@ export default {
   name: 'ContentPage',
   components: { SiteSection },
   async asyncData({ app, params }) {
-    const { pages } = await app.$nacelle.query({
+    const { pages } = await app.$nacelleOld.query({
       query: CONTENT_PAGE_QUERY,
       variables: { handle: `page-${params.handle}` }
     });

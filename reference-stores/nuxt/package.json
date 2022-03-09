@@ -9,6 +9,7 @@
     "generate": "nuxt generate"
   },
   "dependencies": {
+    "@contentful/rich-text-html-renderer": "^15.11.1",
     "@nacelle/shopify-checkout": "^0.0.9",
     "@nacelle/storefront-sdk": "^1.0.3",
     "@tailwindcss/aspect-ratio": "^0.4.0",

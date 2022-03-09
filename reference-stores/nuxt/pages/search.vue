@@ -101,7 +101,7 @@ export default {
     SearchResults
   },
   async asyncData({ app }) {
-    const { products } = await app.$nacelle.query({
+    const { products } = await app.$nacelleOld.query({
       query: SEARCH_PAGE_QUERY
     });
     return {

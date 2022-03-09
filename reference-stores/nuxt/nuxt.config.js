@@ -23,7 +23,11 @@ export default {
   css: ['@/assets/css/main.css'],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: ['~/plugins/nacelle-sdk.js', '~/plugins/nuxt-client-init.client.js'],
+  plugins: [
+    '~/plugins/nacelle-sdk.js',
+    '~/plugins/contentful.js',
+    '~/plugins/nuxt-client-init.client.js'
+  ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: false,
@@ -38,6 +42,11 @@ export default {
       storefrontEndpoint: process.env.NACELLE_STOREFRONT_ENDPOINT,
       token: process.env.NACELLE_STOREFRONT_TOKEN,
       locale: process.env.NACELLE_STOREFRONT_LOCALE
+    },
+    nacelleOld: {
+      storefrontEndpoint: process.env.NACELLE_OLD_STOREFRONT_ENDPOINT,
+      token: process.env.NACELLE_OLD_STOREFRONT_TOKEN,
+      locale: process.env.NACELLE_OLD_STOREFRONT_LOCALE
     },
     shopify: {
       storefrontCheckoutToken: process.env.SHOPIFY_STOREFRONT_CHECKOUT_TOKEN,

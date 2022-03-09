@@ -8,7 +8,14 @@
       </div>
       <div v-if="activeProducts.length > 0" class="pt-12 text-center">
         <div
-          class="grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-3 sm:gap-x-6 lg:grid-cols-4 xl:gap-x-8 text-left"
+          class="
+            grid grid-cols-2
+            gap-x-4 gap-y-8
+            sm:grid-cols-3 sm:gap-x-6
+            lg:grid-cols-4
+            xl:gap-x-8
+            text-left
+          "
         >
           <product-card
             v-for="product in activeProducts"
@@ -20,7 +27,20 @@
           v-if="canFetch"
           type="button"
           :disabled="isFetching"
-          class="inline-flex px-4 py-2 mt-8 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 hover:cursor-pointer"
+          class="
+            inline-flex
+            px-4
+            py-2
+            mt-8
+            border border-transparent
+            text-base
+            font-medium
+            rounded-md
+            shadow-sm
+            text-white
+            bg-indigo-600
+            hover:bg-indigo-700 hover:cursor-pointer
+          "
           @click="handleFetch"
         >
           Load More
