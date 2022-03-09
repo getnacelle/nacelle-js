@@ -1,11 +1,16 @@
 <template>
   <div
     v-if="content"
-    class="mt-8 border-t border-gray-200 pt-8 md:flex md:items-center md:justify-between"
+    class="
+      mt-8
+      border-t border-gray-200
+      pt-8
+      md:flex md:items-center md:justify-between
+    "
   >
-    <div class="flex space-x-6 md:order-2">
+    <div v-if="social" class="flex space-x-6 md:order-2">
       <a
-        v-for="(account, index) in content.social"
+        v-for="(account, index) in social"
         :key="index"
         :href="account.url"
         class="text-gray-500 hover:text-gray-900"
@@ -35,6 +40,19 @@ export default {
     content: {
       type: Object,
       required: true
+    }
+  },
+  computed: {
+    social() {
+      return (
+        this.content &&
+        ['facebook', 'twitter', 'github']
+          .filter((account) => this.content[`${account}Url`])
+          .map((account) => ({
+            name: account,
+            url: this.content[`${account}Url`]
+          }))
+      );
     }
   }
 };
