@@ -1,31 +1,31 @@
 <script>
-import { ref, inject, onMounted } from 'vue'
+import { ref, inject, onMounted } from 'vue';
 
 export default {
   name: 'Details',
   setup() {
-    const customer = inject('customer')
-    const updateCustomer = inject('updateCustomer')
+    const customer = inject('customer');
+    const updateCustomer = inject('updateCustomer');
 
-    const firstName = ref(customer.value?.firstName || '')
-    const lastName = ref(customer.value?.lastName || '')
-    const displayName = ref(customer.value?.displayName || '')
-    const email = ref(customer.value?.email || '')
-    const phone = ref(customer.value?.phone || '')
-    const password = ref(customer.value?.password || '')
-    const acceptsMarketing = ref(customer.value?.acceptsMarketing || false)
+    const firstName = ref(customer.value?.firstName || '');
+    const lastName = ref(customer.value?.lastName || '');
+    const displayName = ref(customer.value?.displayName || '');
+    const email = ref(customer.value?.email || '');
+    const phone = ref(customer.value?.phone || '');
+    const password = ref(customer.value?.password || '');
+    const acceptsMarketing = ref(customer.value?.acceptsMarketing || false);
 
     onMounted(async () => {
       if (customer.value) {
-        firstName.value = customer.value?.firstName
-        lastName.value = customer.value?.lastName
-        displayName.value = customer.value?.displayName
-        email.value = customer.value?.email
-        phone.value = customer.value?.phone
-        password.value = customer.value?.password
-        acceptsMarketing.value = customer.value?.acceptsMarketing
+        firstName.value = customer.value?.firstName;
+        lastName.value = customer.value?.lastName;
+        displayName.value = customer.value?.displayName;
+        email.value = customer.value?.email;
+        phone.value = customer.value?.phone;
+        password.value = customer.value?.password;
+        acceptsMarketing.value = customer.value?.acceptsMarketing;
       }
-    })
+    });
 
     const submitForm = async () => {
       await updateCustomer({
@@ -35,12 +35,12 @@ export default {
           email: email.value,
           phone: phone.value,
           password: password.value,
-          acceptsMarketing: acceptsMarketing.value,
-        },
-      })
+          acceptsMarketing: acceptsMarketing.value
+        }
+      });
 
-      window.location.href = '/'
-    }
+      window.location.href = '/';
+    };
 
     return {
       firstName,
@@ -51,15 +51,14 @@ export default {
       password,
       acceptsMarketing,
       submitForm,
-      customer,
-    }
-  },
-}
+      customer
+    };
+  }
+};
 </script>
 
 <template>
   <div class="page account-index page-account">
-    <pre>{{ JSON.stringify(customer) }}</pre>
     <div class="account-box-wide">
       <div class="account-body">
         <div class="account-body-interior type-f">
