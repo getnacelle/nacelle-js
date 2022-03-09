@@ -1,34 +1,34 @@
 export const transformEdges = (object, field) => {
   if (field == null) {
     return object.edges.map((edge) => {
-      return edge.node
-    })
+      return edge.node;
+    });
   } else {
     return object.edges.map((edge) => {
-      return edge.node[field]
-    })
+      return edge.node[field];
+    });
   }
-}
+};
 
 export const transformOrder = (order) => {
-  const { discountApplications, lineItems, ...rest } = order
+  const { discountApplications, lineItems, ...rest } = order;
   const transformedOrder = {
     discountApplications: discountApplications
       ? transformEdges(discountApplications)
       : [],
     lineItems: lineItems ? transformEdges(lineItems) : [],
-    ...rest,
-  }
+    ...rest
+  };
 
-  return transformedOrder
-}
+  return transformedOrder;
+};
 
 export const transformOrders = (orders) => {
-  const edges = transformEdges(orders)
-  const transformedOrders = edges.map(transformOrder)
+  const edges = transformEdges(orders);
+  const transformedOrders = edges.map(transformOrder);
 
-  return transformedOrders
-}
+  return transformedOrders;
+};
 
 export const CUSTOMER_ACCESS_TOKEN_CREATE = `mutation customerAccessTokenCreate($input: CustomerAccessTokenCreateInput!) {
   customerAccessTokenCreate(input: $input) {
@@ -41,21 +41,7 @@ export const CUSTOMER_ACCESS_TOKEN_CREATE = `mutation customerAccessTokenCreate(
       expiresAt
     }
   }
-}`
-
-export const CUSTOMER_ACCESS_TOKEN_CREATE_WITH_MULTIPASS = `mutation customerAccessTokenCreateWithMultipass($multipassToken: String!) {
-  customerAccessTokenCreateWithMultipass(multipassToken: $multipassToken) {
-    customerAccessToken {
-      accessToken
-      expiresAt
-    }
-    customerUserErrors {
-      code
-      field
-      message
-    }
-  }
-}`
+}`;
 
 export const CUSTOMER_ACCESS_TOKEN_RENEW = `mutation customerAccessTokenRenew($customerAccessToken: String!) {
   customerAccessTokenRenew(customerAccessToken: $customerAccessToken) {
@@ -68,7 +54,7 @@ export const CUSTOMER_ACCESS_TOKEN_RENEW = `mutation customerAccessTokenRenew($c
       message
     }
   }
-}`
+}`;
 
 export const CUSTOMER_ACCESS_TOKEN_DELETE = `mutation customerAccessTokenDelete($customerAccessToken: String!) {
   customerAccessTokenDelete(customerAccessToken: $customerAccessToken) {
@@ -79,7 +65,7 @@ export const CUSTOMER_ACCESS_TOKEN_DELETE = `mutation customerAccessTokenDelete(
       message
     }
   }
-}`
+}`;
 
 export const GET_CUSTOMER = `query getCustomer($customerAccessToken: String!) {
   customer(customerAccessToken: $customerAccessToken) {
@@ -94,7 +80,7 @@ export const GET_CUSTOMER = `query getCustomer($customerAccessToken: String!) {
     phone
     tags
   }
-}`
+}`;
 
 export const CUSTOMER_UPDATE = `mutation customerUpdate($customerAccessToken: String!, $customer: CustomerUpdateInput!) {
   customerUpdate(customerAccessToken: $customerAccessToken, customer: $customer) {
@@ -120,7 +106,7 @@ export const CUSTOMER_UPDATE = `mutation customerUpdate($customerAccessToken: St
       message
     }
   }
-}`
+}`;
 
 export const GET_CUSTOMER_ORDERS = `query getCustomer($customerAccessToken: String!) {
   customer(customerAccessToken: $customerAccessToken) {
@@ -308,7 +294,7 @@ export const GET_CUSTOMER_ORDERS = `query getCustomer($customerAccessToken: Stri
       }
     }
   }
-}`
+}`;
 
 export const GET_CUSTOMER_ADDRESSES = `query getCustomer($customerAccessToken: String!) {
   customer(customerAccessToken: $customerAccessToken) {
@@ -357,7 +343,7 @@ export const GET_CUSTOMER_ADDRESSES = `query getCustomer($customerAccessToken: S
       zip
     }
   }
-}`
+}`;
 
 export const CUSTOMER_ADDRESS_CREATE = `mutation customerAddressCreate($customerAccessToken: String!, $address: MailingAddressInput!) {
   customerAddressCreate(customerAccessToken: $customerAccessToken, address: $address) {
@@ -387,7 +373,7 @@ export const CUSTOMER_ADDRESS_CREATE = `mutation customerAddressCreate($customer
       message
     }
   }
-}`
+}`;
 
 export const CUSTOMER_ADDRESS_UPDATE = `mutation customerAddressUpdate($customerAccessToken: String!, $id: ID!, $address: MailingAddressInput!) {
   customerAddressUpdate(customerAccessToken: $customerAccessToken, id: $id, address: $address) {
@@ -417,7 +403,7 @@ export const CUSTOMER_ADDRESS_UPDATE = `mutation customerAddressUpdate($customer
       message
     }
   }
-}`
+}`;
 
 export const CUSTOMER_ADDRESS_DELETE = `mutation customerAddressDelete($id: ID!, $customerAccessToken: String!) {
   customerAddressDelete(id: $id, customerAccessToken: $customerAccessToken) {
@@ -428,7 +414,7 @@ export const CUSTOMER_ADDRESS_DELETE = `mutation customerAddressDelete($id: ID!,
     }
     deletedCustomerAddressId
   }
-}`
+}`;
 
 export const CUSTOMER_DEFAULT_ADDRESS_UPDATE = `mutation customerDefaultAddressUpdate($customerAccessToken: String!, $addressId: ID!) {
   customerDefaultAddressUpdate(customerAccessToken: $customerAccessToken, addressId: $addressId) {
@@ -441,7 +427,7 @@ export const CUSTOMER_DEFAULT_ADDRESS_UPDATE = `mutation customerDefaultAddressU
       message
     }
   }
-}`
+}`;
 
 export const CUSTOMER_CREATE = `mutation customerCreate($input: CustomerCreateInput!) {
   customerCreate(input: $input) {
@@ -454,7 +440,7 @@ export const CUSTOMER_CREATE = `mutation customerCreate($input: CustomerCreateIn
       message
     }
   }
-}`
+}`;
 
 export const CUSTOMER_ACTIVATE = `mutation customerActivateByUrl($activationUrl: URL!, $password: String!) {
   customerActivateByUrl(activationUrl: $activationUrl, password: $password) {
@@ -472,7 +458,7 @@ export const CUSTOMER_ACTIVATE = `mutation customerActivateByUrl($activationUrl:
     }
   }
 }
-`
+`;
 
 export const CUSTOMER_RECOVER = `mutation customerRecover($email: String!) {
   customerRecover(email: $email) {
@@ -482,7 +468,7 @@ export const CUSTOMER_RECOVER = `mutation customerRecover($email: String!) {
       message
     }
   }
-}`
+}`;
 
 export const CUSTOMER_RESET = `mutation customerReset($id: ID!, $input: CustomerResetInput!) {
   customerReset(id: $id, input: $input) {
@@ -500,7 +486,7 @@ export const CUSTOMER_RESET = `mutation customerReset($id: ID!, $input: Customer
       message
     }
   }
-}`
+}`;
 
 // Queries related to reindexing
 
@@ -511,7 +497,7 @@ export const CLEAR_CONTENT_INDEX = `
       deletedIds
     }
   }
-`
+`;
 
 export const CLEAR_PRODUCT_INDEX = `
   mutation ClearProductIndex($input: ClearProductIndexInput) {
@@ -520,7 +506,7 @@ export const CLEAR_PRODUCT_INDEX = `
       deletedIds
     }
   }
-`
+`;
 
 export const CLEAR_COLLECTION_INDEX = `
   mutation ClearCollectionIndex($input: ClearCollectionIndexInput) {
@@ -529,4 +515,4 @@ export const CLEAR_COLLECTION_INDEX = `
       deletedIds
     }
   }
-`
+`;

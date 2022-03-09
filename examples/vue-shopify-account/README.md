@@ -1,6 +1,6 @@
 # Accounts example
 
-Utilizing Shopify Storefront API and Multipass
+Utilizing Shopify Storefront API.
 
 ---
 
@@ -8,14 +8,12 @@ Utilizing Shopify Storefront API and Multipass
 
 We want a simple solution to handling customer accounts that doesn't involve maintaining code in Shopify's Theme. This example should give us all of the basic account functionality that we need.
 
-If you want to have a better understanding of the queries and mutations that we are utlizing, check out the [Shopify API documentation](https://shopify.dev/api).
+If you want to have a better understanding of the queries and mutations that we are utlizing, check out the [Shopify API documentation](https://shopify.dev/api) and [Manage customer accounts with the Storefront API](https://shopify.dev/api/examples/customer-accounts) example.
 
 ## Prerequisites
 
-- Must be on the [Shopify Plus](https://www.shopify.com/plus/enterprise-ecommerce) plan and have [Multipass](https://help.shopify.com/en/api/reference/plus/multipass) enabled.
-- You'll need your store's:
-  - Storefront API token
-  - Multipass secret
+- Must be on the [Shopify Plus](https://www.shopify.com/plus/enterprise-ecommerce) plan.
+- You'll need your store's Storefront API token.
 
 ## Setup
 
@@ -25,7 +23,6 @@ If you want to have a better understanding of the queries and mutations that we 
 VITE_MYSHOPIFY_DOMAIN=""
 VITE_SHOPIFY_TOKEN=""
 VITE_SHOPIFY_ADMIN_PASSWORD=""
-VITE_SHOPIFY_MULTIPASS_SECRET=""
 ```
 
 this specific project uses vite for frontend tooling, in your own project if you aren't using vite, the `VITE_` prefix is unnecessary.
@@ -36,12 +33,9 @@ this specific project uses vite for frontend tooling, in your own project if you
 
 ## Serverless Functions
 
-To use Multipass and the address form for account pages this project relies on two packages:
+To use the address form for account pages this project relies on [countrycitystatejson](https://github.com/khkwan0/countryCityStateJson)
 
-- [multipassify](https://github.com/beaucoo/multipassify)
-- [countrycitystatejson](https://github.com/khkwan0/countryCityStateJson)
-
-Both of these packages are _large_ and can add a lot to your client bundle, so using them only in serverless functions keeps the client a little more lightweight. But if you want another reason, it also keeps your Multipass secret outside of client code.
+Both of these packages are _large_ and can add a lot to your client bundle, so using them only in serverless functions keeps the client a little more lightweight. But if you want another reason, it also keeps your admin API token outside of client code.
 
 This project includes a folder for serverless functions:
 
@@ -54,10 +48,6 @@ When testing your serverless functions locally make sure to use the platform's C
 All the functions to interact with the API live in the `/components/AccountProvider.vue` file and the graphql queries are in the `/gql/index.js`.
 
 We are using [the composition API](https://vuejs.org/guide/extras/composition-api-faq.html) for state management but this can be integrated into any state management system.
-
-### Multipass Login
-
-In the `/component/AccountProvider.vue` file there is a `multipassLogin` method, which logs the user into their Shopify account. The best use for this function is to log in the user before checkout, so their information is passed to the checkout page.
 
 ## Using Nuxt?
 
