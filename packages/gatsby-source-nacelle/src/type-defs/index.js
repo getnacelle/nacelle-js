@@ -3,7 +3,7 @@ type CollectionContent @dontInfer {
   collectionEntryId: ID!
   createdAt: Int
   description: String
-  fields: JSON
+  remoteFields: JSON
   handle: String
   indexedAt: Int
   locale: String
@@ -133,7 +133,7 @@ type ProductContent @dontInfer {
   createdAt: Int
   description: String
   featuredMedia: Media
-  fields: JSON
+  remoteFields: JSON
   handle: String
   indexedAt: Int
   locale: String
@@ -204,7 +204,7 @@ type VariantContent @dontInfer {
   createdAt: Int
   description: String
   featuredMedia: Media
-  fields: JSON
+  remoteFields: JSON
   indexedAt: Int
   locale: String
   media: [Media!]
