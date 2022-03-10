@@ -34,8 +34,19 @@ function Collection(props) {
     }
   };
   if (flashSale?.fields?.endDate) {
-    const now = Date.now();
-    const endDate = new Date(flashSale.fields.endDate);
+    const now = new Date();
+    let endDate = new Date(flashSale.fields.endDate);
+
+    // The following code ensure that a timer is always present
+    // for demo purposes. It would typically not be included in
+    // production code.
+    if (now > endDate) {
+      endDate = new Date();
+      endDate.setDate(now.getDate() + 1);
+      endDate.setHours(0, 0, 0, 0);
+    }
+    // End of demo code.
+
     if (now < endDate) {
       flashSaleText = <Countdown date={endDate} renderer={flashSaleRenderer} />;
     }
@@ -126,9 +137,15 @@ export async function getStaticProps({ params }) {
       ) {
         return false;
       }
-      const now = Date.now();
-      const endDate = new Date(flashSale.fields.endDate);
-      if (now > endDate) return false;
+      // Typically an expired flash sale would be filtered out.
+      // But for the purpose of this demo, and to ensure that
+      // the timer is always available, expired flash sales
+      // are returned, and the date will be updated to be the
+      // next day. Uncomment the code below to filter out
+      // expired flash sales.
+      // const now = new Date();
+      // let endDate = new Date(flashSale.fields.endDate);
+      // if (now > endDate) return false;
       return true;
     }) || false;
 
