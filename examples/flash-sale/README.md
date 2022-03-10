@@ -2,6 +2,8 @@
 
 A flash sale is a discount or promotion that is only available for a limited time. In this example, the flash sale is represented by a countdown timer on the collection page. The details around product pricing discounts will happen in the PIM, while content and messaging can be set up in the CMS.
 
+This example uses the Nacelle Next.js Starter. While the code is written for React and Next.js, the concepts can be applied to any Javascript project. To learn more about this starter and others like it, check out https://github.com/getnacelle/nacelle-js for more information.
+
 ## Modeling Content
 
 The following fields are a good starting point when setting up flash sale content in the CMS:
@@ -44,7 +46,7 @@ const flashSale = flashSales.find((flashSale) => {
 
 ## Displaying the Flash Sale Countdown
 
-In this example, [`react-countdown`](https://www.npmjs.com/package/react-countdown) is used to create a countdown timer. This timer counts down to the flash sale's specified end date. This can be seen in `pages/collections/[handle].js`.
+In this example, [`react-countdown`](https://www.npmjs.com/package/react-countdown) is used to create a countdown timer. This timer counts down to the flash sale's specified end date. This can be seen in `pages/collections/[handle].js`. For Vue, an alternative to consider is [`vue-countdown`](https://www.npmjs.com/package/@chenfengyuan/vue-countdown).
 
 ```js
 let flashSaleText = false;
@@ -72,7 +74,3 @@ if (flashSale?.fields?.endDate) {
   }
 }
 ```
-
-## Additional Information
-
-This example uses the Nacelle Next.js Starter. To learn more about this starter and others like it, check out https://github.com/getnacelle/nacelle-js for more information.
