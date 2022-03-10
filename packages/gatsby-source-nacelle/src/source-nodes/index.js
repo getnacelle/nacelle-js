@@ -3,7 +3,8 @@ const {
   capitalize,
   createRemoteImageFileNode,
   hasBeenIndexedSinceLastBuild,
-  replaceKey
+  replaceKey,
+  findNestedImages
 } = require('../utils');
 /**
  * Creates Gatsby nodes from Nacelle data
@@ -76,6 +77,23 @@ module.exports = async function ({
             const node = Object.assign({}, entry, nodeMeta);
             if (useGatsbyImage) {
               await fetchRemoteImageNodes(dataType, node, gatsbyApi);
+              // if it's a content node, get the images on the remoteFields
+              if (dataType === 'Content') {
+                let images = findNestedImages(node.remoteFields, [
+                  'remoteFields'
+                ]).filter((val) => val);
+                // create remote image file nodes for each field
+                await Promise.all(
+                  images.map((image) => {
+                    // get the key for the image address & remove it from the path so it can be used in createRemoteImageFileNode as the imageProperty
+                    const imageKey = image.path.pop();
+                    createRemoteImageFileNode(node, [image.path], gatsbyApi, {
+                      isImage: () => true,
+                      imageProperties: [imageKey]
+                    });
+                  })
+                );
+              }
             }
             createNode(node);
 
