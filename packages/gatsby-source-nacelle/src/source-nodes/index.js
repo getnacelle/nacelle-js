@@ -89,7 +89,8 @@ module.exports = async function ({
                     const imageKey = image.path.pop();
                     createRemoteImageFileNode(node, [image.path], gatsbyApi, {
                       isImage: () => true,
-                      imageProperties: [imageKey]
+                      imageProperties: [imageKey],
+                      newField: 'remoteImage___NODE'
                     });
                   })
                 );
