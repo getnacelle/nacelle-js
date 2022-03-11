@@ -1,7 +1,14 @@
 <template>
   <li class="py-6 flex">
     <div
-      class="flex-shrink-0 w-24 h-24 border border-gray-200 rounded-md overflow-hidden"
+      class="
+        flex-shrink-0
+        w-24
+        h-24
+        border border-gray-200
+        rounded-md
+        overflow-hidden
+      "
     >
       <nuxt-img
         :src="item.featuredMedia.src"
@@ -35,7 +42,9 @@
         </p>
       </div>
       <div class="flex-1 flex items-end justify-between text-sm">
-        <p class="text-gray-500">{{ content.quantity }} {{ item.quantity }}</p>
+        <p class="text-gray-500">
+          {{ content.itemQuantity }} {{ item.quantity }}
+        </p>
 
         <div class="flex">
           <button
@@ -44,7 +53,7 @@
             class="font-medium text-indigo-600 hover:text-indigo-500"
             @click="handleRemove"
           >
-            {{ content.remove }}
+            {{ content.itemRemove }}
           </button>
         </div>
       </div>

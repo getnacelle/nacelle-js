@@ -12,7 +12,7 @@
                 id="slide-over-title"
                 class="text-lg font-medium text-gray-900"
               >
-                {{ content.fields.drawer.heading }}
+                {{ content.fields.heading }}
               </h2>
               <div class="ml-3 h-7 flex items-center">
                 <button
@@ -48,21 +48,18 @@
                       v-for="item in cartItems"
                       :key="item.id"
                       :item="item"
-                      :content="content.fields.item"
+                      :content="itemContent"
                     />
                   </ul>
                 </div>
                 <p v-show="!cartItems.length" class="text-gray-400 text-center">
-                  {{ content.fields.drawer.empty }}
+                  {{ content.fields.empty }}
                 </p>
-                <cart-cross-sells :content="content.fields.crosssells" />
+                <!-- <cart-cross-sells :content="content.fields.crosssells" /> -->
               </div>
             </div>
           </div>
-          <cart-total
-            v-show="cartItems.length"
-            :content="content.fields.total"
-          />
+          <cart-total v-show="cartItems.length" :content="totalContent" />
         </div>
       </div>
     </transition>
@@ -73,15 +70,15 @@
 import { mapGetters, mapMutations } from 'vuex';
 
 import CartItem from './CartItem.vue';
-import CartCrossSells from './CartCrossSells.vue';
+// import CartCrossSells from './CartCrossSells.vue';
 import CartTotal from './CartTotal.vue';
-import { PRODUCTS_QUERY } from '~/queries/product';
+// import { PRODUCTS_QUERY } from '~/queries/product';
 
 export default {
   name: 'CartDrawer',
   components: {
     CartItem,
-    CartCrossSells,
+    // CartCrossSells,
     CartTotal
   },
   props: {
@@ -91,15 +88,27 @@ export default {
     }
   },
   async fetch() {
-    const { products } = await this.$nacelle.query({
-      query: PRODUCTS_QUERY,
-      variables: { handles: this.content.products }
-    });
-    this.products = products;
+    // const { products } = await this.$nacelle.query({
+    //   query: PRODUCTS_QUERY,
+    //   variables: { handles: this.content.products }
+    // });
+    // this.products = products;
   },
   computed: {
     ...mapGetters('cart', ['cartItems']),
-    ...mapGetters('ui', ['cartVisible'])
+    ...mapGetters('ui', ['cartVisible']),
+    itemContent() {
+      const { itemQuantity, itemRemove } = this.content?.fields;
+      return { itemQuantity, itemRemove };
+    },
+    totalContent() {
+      const { subtotalLabel, subtotalText, checkoutText, continueText } =
+        this.content?.fields;
+      return { subtotalLabel, subtotalText, checkoutText, continueText };
+    }
+  },
+  mounted() {
+    this.setCartVisibility(true);
   },
   methods: {
     ...mapMutations('ui', ['setCartVisibility'])
