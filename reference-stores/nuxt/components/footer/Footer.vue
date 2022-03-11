@@ -6,20 +6,20 @@
   >
     <h2 class="sr-only">Footer</h2>
     <div class="max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:py-6 lg:px-8">
-      <!-- <footer-primary :content="content.fields.primary" /> -->
+      <footer-primary :content="primary" />
       <footer-secondary :content="secondary" />
     </div>
   </footer>
 </template>
 
 <script>
-// import FooterPrimary from './FooterPrimary.vue';
+import FooterPrimary from './FooterPrimary.vue';
 import FooterSecondary from './FooterSecondary.vue';
 
 export default {
   name: 'SiteFooter',
   components: {
-    // FooterPrimary,
+    FooterPrimary,
     FooterSecondary
   },
   props: {

@@ -1,8 +1,8 @@
 <template>
   <div class="layout-default">
-    <!-- <site-header :content="siteComponents.header" />
-    <site-nav :content="siteComponents.header" />
-    <site-cart :content="siteComponents.cart" /> -->
+    <!-- <site-header :content="siteComponents.header" /> -->
+    <!-- <site-nav :content="siteComponents.header" /> -->
+    <!-- <site-cart :content="siteComponents.cart" /> -->
     <nuxt class="layout-default__nuxt" />
     <site-newsletter :content="siteComponents.newsletter" />
     <site-footer :content="siteComponents.footer" />
