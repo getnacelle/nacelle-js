@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { nacelleClient } from 'services';
 import ProductCard from 'components/ProductCard';
@@ -11,6 +11,11 @@ function Collection(props) {
   const [products, setProducts] = useState(props.products);
   const [canFetch, setCanFetch] = useState(props.canFetch);
   const [isFetching, setIsFetching] = useState(false);
+  const [showCountdown, setShowCountdown] = useState();
+
+  useEffect(() => {
+    setShowCountdown(true);
+  }, []);
 
   const activeProducts = canFetch
     ? products?.slice(0, products.length - 1)
@@ -22,11 +27,11 @@ function Collection(props) {
       daysInHours: true
     });
     const { hours, minutes, seconds, completed } = formattedDate;
-    if (completed) {
+    if (completed || !showCountdown) {
       return <></>;
     } else {
       return (
-        <p suppressHydrationWarning>
+        <p>
           <strong>Sale Ends</strong> {zeroPad(hours)}:{zeroPad(minutes)}:
           {zeroPad(seconds)}
         </p>
