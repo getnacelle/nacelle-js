@@ -2,10 +2,11 @@ import App from 'next/app';
 import Layout from 'components/Layout/Layout';
 import { nacelleClient } from 'services';
 import { SITE_QUERY } from 'queries/site';
+import 'assets/css/main.css';
 
-const MyApp = ({ Component, pageProps }) => {
+const MyApp = ({ Component, pageProps, components }) => {
   return (
-    <Layout>
+    <Layout components={components}>
       <Component {...pageProps} />
     </Layout>
   )
