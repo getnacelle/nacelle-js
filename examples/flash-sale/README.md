@@ -4,6 +4,8 @@ A flash sale is a discount or promotion that is only available for a limited tim
 
 This example uses the Nacelle Next.js Starter. While the code is written for React and Next.js, the concepts can be applied to any Javascript project. To learn more about this starter and others like it, check out https://github.com/getnacelle/nacelle-js for more information.
 
+To see a working example, check it out on [CodeSandbox](https://codesandbox.io/s/flash-sale-example-3yvkf0).
+
 ## Modeling Content
 
 The following fields are a good starting point when setting up flash sale content in the CMS:
