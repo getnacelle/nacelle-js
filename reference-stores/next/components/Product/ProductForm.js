@@ -1,5 +1,6 @@
 import { useProduct } from 'hooks/useProduct'
 import { formatPrice } from 'utils/formatPrice'
+import ProductExpandable from './ProductExpandable'
 
 const ProductForm = ({ content }) => {
   const { 
@@ -15,6 +16,8 @@ const ProductForm = ({ content }) => {
 
   const price = formatPrice({ price: selectedVariant.price });
   const compareAtPrice = formatPrice({ price: selectedVariant.compareAtPrice });
+
+  const features = content?.fields?.features;
 
   const handleOptionChange = (e, option) => {
     let options = [...selectedOptions];
@@ -127,6 +130,13 @@ const ProductForm = ({ content }) => {
           </button>
         </div>
       </form>
+      <section aria-labelledby="details-heading" className="mt-12">
+        <h2 id="details-heading" className="sr-only">Additional details</h2>
+
+        <div className="border-t divide-y divide-gray-200">
+          {features && <ProductExpandable features={features} />}
+        </div>
+      </section>
     </div>
   )
 }
