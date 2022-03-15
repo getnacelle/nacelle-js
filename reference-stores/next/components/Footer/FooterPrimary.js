@@ -11,7 +11,7 @@ const FooterPrimary = ({ content }) => {
             >
               {menu.fields.text}
             </h3>
-            <ul role="list" class="mt-4 space-y-4">
+            <ul role="list" className="mt-4 space-y-4">
               {menu.fields?.links?.map((link, index1) => (
                 <li key={index1}>
                   <Link
