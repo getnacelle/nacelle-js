@@ -1,6 +1,6 @@
 {
   "name": "nuxt-starter",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "private": true,
   "scripts": {
     "dev": "nuxt",
@@ -12,7 +12,7 @@
     "lintfix": "npm run lint:js -- --fix"
   },
   "dependencies": {
-    "@nacelle/shopify-checkout": "^0.0.9",
+    "@nacelle/shopify-checkout": "^0.0.10",
     "@nacelle/storefront-sdk": "^1.0.3",
     "core-js": "^3.19.3",
     "fuse.js": "^6.5.3",

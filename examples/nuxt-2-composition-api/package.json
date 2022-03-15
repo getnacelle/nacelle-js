@@ -1,6 +1,6 @@
 {
   "name": "nuxt-2-composition-api",
-  "version": "0.0.14",
+  "version": "0.0.15",
   "private": true,
   "scripts": {
     "dev": "nuxt",
@@ -8,7 +8,7 @@
     "serve": "serve dist -p 4000"
   },
   "dependencies": {
-    "@nacelle/shopify-checkout": "^0.0.9",
+    "@nacelle/shopify-checkout": "^0.0.10",
     "@nacelle/vue": "^0.0.15",
     "@nuxtjs/composition-api": "^0.29.0",
     "core-js": "^3.19.3",
