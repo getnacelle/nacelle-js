@@ -18,20 +18,19 @@
         @click="isExpanded = !isExpanded"
       >
         <span
-          :class="`${
-            isExpanded ? 'text-indigo-600' : 'text-gray-900'
-          } text-sm font-medium`"
+          :class="`text-sm font-medium${
+            isExpanded ? ' text-indigo-600' : ' text-gray-900'
+          }`"
         >
           Features
         </span>
         <!-- eslint-disable vue/no-v-html -->
         <span
-          class="ml-6 h-6 w-6 flex items-center"
-          :class="
+          :class="`ml-6 h-6 w-6 flex items-center${
             isExpanded
-              ? 'text-indigo-400 group-hover:text-indigo-50'
-              : 'text-gray-400 group-hover:text-gray-500'
-          "
+              ? ' text-indigo-400 group-hover:text-indigo-50'
+              : ' text-gray-400 group-hover:text-gray-500'
+          }`"
           v-html="isExpanded ? minusIcon : plusIcon"
         />
         <!-- eslint-enable vue/no-v-html -->

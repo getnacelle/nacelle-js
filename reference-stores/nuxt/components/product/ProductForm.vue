@@ -100,7 +100,6 @@
       <h2 id="details-heading" class="sr-only">Additional details</h2>
 
       <div class="border-t divide-y divide-gray-200">
-        <!-- <product-expandable v-if="features" :features="features" /> -->
         <product-expandable v-if="features" :features="features" />
       </div>
     </section>
