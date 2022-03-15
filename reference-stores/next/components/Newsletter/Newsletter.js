@@ -43,10 +43,10 @@ const Newsletter = ({ content }) => {
           )}
           {!success && (
             <form className="sm:flex" onSubmit={handleSubmit}>
-              <label for="email-address" className="sr-only">{content.input}</label>
+              <label htmlFor="email-address" className="sr-only">{content.input}</label>
               <input
                 type="email"
-                autocomplete="email"
+                autoComplete="email"
                 required
                 className="
                   w-full
