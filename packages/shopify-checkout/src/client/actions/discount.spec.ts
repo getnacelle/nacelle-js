@@ -7,7 +7,7 @@ import * as mutations from '../../graphql/mutations';
 import { mockJsonResponse } from '../../../__tests__/utils';
 import {
   clientSettings,
-  checkoutId,
+  checkoutIds,
   checkouts,
   discountCode,
   shopifyErrors,
@@ -35,7 +35,7 @@ describe('discount', () => {
     await expect(
       applyDiscount({
         gqlClient,
-        id: checkoutId,
+        id: checkoutIds.beginsWithLetter,
         discountCode
       }).then((checkout) => checkout)
     ).resolves.toMatchObject(
@@ -58,7 +58,7 @@ describe('discount', () => {
     await expect(
       removeDiscount({
         gqlClient,
-        id: checkoutId
+        id: checkoutIds.beginsWithLetter
       }).then((checkout) => checkout)
     ).resolves.toMatchObject(
       buildCheckout(
@@ -77,14 +77,14 @@ describe('discount', () => {
     expect.assertions(2);
 
     // [1/2] `applyDiscount`
-    await expect(applyDiscount({ gqlClient, id: checkoutId })).rejects.toThrow(
-      networkErrorMessage
-    );
+    await expect(
+      applyDiscount({ gqlClient, id: checkoutIds.beginsWithLetter })
+    ).rejects.toThrow(networkErrorMessage);
 
     // [2/2] `removeDiscount`
-    await expect(removeDiscount({ gqlClient, id: checkoutId })).rejects.toThrow(
-      networkErrorMessage
-    );
+    await expect(
+      removeDiscount({ gqlClient, id: checkoutIds.beginsWithLetter })
+    ).rejects.toThrow(networkErrorMessage);
   });
 
   it('throws an error if an invalid `id` is provided', async () => {
@@ -128,7 +128,7 @@ describe('discount', () => {
 
     applyDiscount({
       gqlClient,
-      id: checkoutId,
+      id: checkoutIds.beginsWithLetter,
       discountCode
     }).catch((e) =>
       expect(String(e).includes(checkoutDoesNotExistError.message)).toBe(true)
@@ -144,7 +144,7 @@ describe('discount', () => {
 
     removeDiscount({
       gqlClient,
-      id: checkoutId
+      id: checkoutIds.beginsWithLetter
     }).catch((e) =>
       expect(String(e).includes(checkoutDoesNotExistError.message)).toBe(true)
     );

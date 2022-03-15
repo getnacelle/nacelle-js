@@ -17,14 +17,22 @@ export const clientSettings = {
 
 export const graphqlEndpoint = `https://${clientSettings.myshopifyDomain}.myshopify.com/api/2022-01/graphql`;
 
-const checkoutUuidWithKey = '998877?key=123123';
-export const checkoutId = Buffer.from(
-  'gid://shopify/Checkout/' + checkoutUuidWithKey
-).toString('base64');
+const checkoutUuids = {
+  beginsWithLetter: 'a9b8c7?key=123123',
+  beginsWithNumber: '998877?key=123123'
+};
+export const checkoutIds = {
+  beginsWithLetter: Buffer.from(
+    'gid://shopify/Checkout/' + checkoutUuids.beginsWithLetter
+  ).toString('base64'),
+  beginsWithNumber: Buffer.from(
+    'gid://shopify/Checkout/' + checkoutUuids.beginsWithNumber
+  ).toString('base64')
+};
 
 export const webUrl =
   'https://nacelle-swag-store.myshopify.com/112233/checkouts/' +
-  checkoutUuidWithKey;
+  checkoutUuids.beginsWithLetter;
 
 export const discountCode = 'BFCM2020';
 
@@ -75,7 +83,7 @@ interface Checkouts {
 }
 
 export const emptyCheckout: ShopifyCheckoutResponseProperties = {
-  id: checkoutId,
+  id: checkoutIds.beginsWithLetter,
   webUrl,
   completedAt: null,
   lineItems: { edges: [] },
