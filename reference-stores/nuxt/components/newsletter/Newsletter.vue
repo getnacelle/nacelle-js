@@ -18,7 +18,7 @@
           {{ content.fields.heading }}
         </h2>
         <!-- eslint-disable vue/no-v-html -->
-        <p
+        <div
           v-if="content.fields.text"
           class="mt-3 max-w-3xl text-lg leading-6 text-gray-300"
           v-html="$contentful.richText(content.fields.text)"
@@ -41,10 +41,7 @@
           "
         >
           <!-- eslint-disable vue/no-v-html -->
-          <span
-            class="text-green-500 mr-4 h-6 w-6"
-            v-html="require(`~/assets/svgs/success.svg?raw`)"
-          />
+          <span class="text-green-500 mr-4 h-6 w-6" v-html="successIcon" />
           <!-- eslint-enable vue/no-v-html -->
           {{ content.fields.successText }}
         </div>
@@ -104,6 +101,8 @@
 </template>
 
 <script>
+import successIcon from '~/assets/svgs/success';
+
 export default {
   name: 'SiteNewsletter',
   props: {
@@ -116,7 +115,8 @@ export default {
     formModel: {
       email: ''
     },
-    success: false
+    success: false,
+    successIcon
   }),
   watch: {
     $route: {

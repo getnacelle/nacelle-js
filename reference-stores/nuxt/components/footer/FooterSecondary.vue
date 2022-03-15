@@ -17,10 +17,7 @@
       >
         <span class="sr-only">{{ account.name }}</span>
         <!-- eslint-disable vue/no-v-html -->
-        <span
-          class="h-6 w-6"
-          v-html="require(`~/assets/svgs/${account.name}.svg?raw`)"
-        />
+        <span class="h-6 w-6" v-html="account.icon" />
         <!-- eslint-enable vue/no-v-html -->
       </a>
     </div>
@@ -34,6 +31,10 @@
 </template>
 
 <script>
+import facebookIcon from '~/assets/svgs/facebook';
+import twitterIcon from '~/assets/svgs/twitter';
+import githubIcon from '~/assets/svgs/github';
+
 export default {
   name: 'FooterSecondary',
   props: {
@@ -43,6 +44,13 @@ export default {
     }
   },
   computed: {
+    icons() {
+      return {
+        facebook: facebookIcon,
+        twitter: twitterIcon,
+        github: githubIcon
+      };
+    },
     social() {
       return (
         this.content &&
@@ -50,7 +58,8 @@ export default {
           .filter((account) => this.content[`${account}Url`])
           .map((account) => ({
             name: account,
-            url: this.content[`${account}Url`]
+            url: this.content[`${account}Url`],
+            icon: this.icons[account]
           }))
       );
     }
