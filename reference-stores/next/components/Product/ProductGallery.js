@@ -1,10 +1,12 @@
 import Image from 'next/image';
 import { useState } from 'react'
+import { useProduct } from 'hooks/useProduct'
 
-const ProductGallery = ({ product }) => {
+const ProductGallery = () => {
+  const { product } = useProduct()
   const [activeImageIndex, setActiveImageIndex] = useState(0)
 
-  const images = product?.content.media.filter(
+  const images = product?.content?.media?.filter(
     (media) => media.type === 'IMAGE'
   );
 
@@ -81,7 +83,7 @@ const ProductGallery = ({ product }) => {
             key={image.src}
             aria-labelledby={`tabs-1-panel-${index}`}
             role="tabpanel"
-            tabindex="0"
+            tabIndex="0"
             className={index !== activeImageIndex ? 'hidden' : ''}
           >
             <Image

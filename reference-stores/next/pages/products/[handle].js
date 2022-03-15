@@ -1,5 +1,6 @@
 import { nacelleClient } from 'services';
 import { PRODUCT_ROUTES_QUERY, PRODUCT_PAGE_QUERY } from 'queries/productPage'
+import { ProductProvider } from 'context/Product'
 import ProductDetails from 'components/Product/ProductDetails'
 
 const ProductHandle = ({ product, page }) => {
@@ -9,9 +10,9 @@ const ProductHandle = ({ product, page }) => {
   const content = { fields: rest }
 
   return (
-    <div>
-      <ProductDetails product={product} content={content} />
-    </div>
+    <ProductProvider product={product}>
+      <ProductDetails content={content} />
+    </ProductProvider>
   )
 }
 
