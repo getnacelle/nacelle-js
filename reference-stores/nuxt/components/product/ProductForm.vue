@@ -10,7 +10,7 @@
         <span v-if="price" :class="compareAtPrice && 'text-red-600'">
           {{ price }}
         </span>
-        <span v-if="compareAtPrice" class="line-through">
+        <span v-if="compareAtPrice" class="ml-2 line-through">
           {{ compareAtPrice }}
         </span>
       </p>
@@ -100,6 +100,7 @@
       <h2 id="details-heading" class="sr-only">Additional details</h2>
 
       <div class="border-t divide-y divide-gray-200">
+        <!-- <product-expandable v-if="features" :features="features" /> -->
         <product-expandable v-if="features" :features="features" />
       </div>
     </section>
@@ -115,7 +116,7 @@ import { getSelectedVariant } from '~/utils/getSelectedVariant';
 import { getCartVariant } from '~/utils/getCartVariant';
 
 export default {
-  name: 'ProductBuyBox',
+  name: 'ProductForm',
   components: {
     ProductExpandable
   },
