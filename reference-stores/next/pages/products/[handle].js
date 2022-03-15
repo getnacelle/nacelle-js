@@ -1,9 +1,17 @@
 import { nacelleClient } from 'services';
 import { PRODUCT_ROUTES_QUERY, PRODUCT_PAGE_QUERY } from 'queries/productPage'
+import ProductDetails from 'components/Product/ProductDetails'
 
-const ProductHandle = ({ product, content }) => {
+const ProductHandle = ({ product, page }) => {
+
+  const fields = page?.fields || {};
+  const { sections, ...rest } = fields
+  const content = { fields: rest }
+
   return (
-    <div>Product Page</div>
+    <div>
+      <ProductDetails product={product} content={content} />
+    </div>
   )
 }
 
