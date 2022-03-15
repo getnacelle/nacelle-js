@@ -11,7 +11,7 @@ import {
   cartItems,
   checkouts,
   clientSettings,
-  checkoutId,
+  checkoutIds,
   graphqlEndpoint,
   headers,
   webUrl
@@ -78,7 +78,7 @@ describe('createShopifyCheckoutClient', () => {
         mockJsonResponse<queries.GetCheckoutData>({
           data: {
             node: {
-              id: checkoutId,
+              id: checkoutIds.beginsWithLetter,
               webUrl,
               completedAt: null,
               lineItems: { edges: [] },
@@ -92,7 +92,7 @@ describe('createShopifyCheckoutClient', () => {
       checkoutClient.get({ id: '998877' }).then((checkout) => checkout)
     ).resolves.toMatchObject({
       completed: false,
-      id: checkoutId,
+      id: checkoutIds.beginsWithLetter,
       url: webUrl,
       lines: [],
       discounts: []
@@ -120,7 +120,7 @@ describe('createShopifyCheckoutClient', () => {
         mockJsonResponse<queries.GetCheckoutData>({
           data: {
             node: {
-              id: checkoutId,
+              id: checkoutIds.beginsWithLetter,
               webUrl: customEndointCheckoutUrl,
               completedAt: null,
               lineItems: { edges: [] },
@@ -134,7 +134,7 @@ describe('createShopifyCheckoutClient', () => {
       checkoutClient.get({ id: '998877' }).then((checkout) => checkout)
     ).resolves.toMatchObject({
       completed: false,
-      id: checkoutId,
+      id: checkoutIds.beginsWithLetter,
       url: customEndointCheckoutUrl,
       lines: [],
       discounts: []
@@ -168,7 +168,7 @@ describe('createShopifyCheckoutClient', () => {
         .then((checkout) => checkout)
     ).resolves.toMatchObject({
       completed: false,
-      id: checkoutId,
+      id: checkoutIds.beginsWithLetter,
       url: webUrl,
       lines: [],
       discounts: []
@@ -197,7 +197,7 @@ describe('createShopifyCheckoutClient', () => {
 
     // providing `cartItems` without `metafields` or `note` should only run `checkoutLineItemsReplace`
     const checkoutLineItemsReplace = checkouts.checkoutLineItemsReplace({
-      checkoutId,
+      checkoutId: checkoutIds.beginsWithLetter,
       lineItems: cartItemsToCheckoutItems({ cartItems })
     });
 
@@ -207,7 +207,10 @@ describe('createShopifyCheckoutClient', () => {
           checkoutLineItemsReplace
         )
     );
-    await checkoutClient.process({ id: checkoutId, cartItems });
+    await checkoutClient.process({
+      id: checkoutIds.beginsWithLetter,
+      cartItems
+    });
 
     expect(fetchClient).toHaveBeenCalledTimes(1);
     expect(fetchClient).toHaveBeenCalledWith(graphqlEndpoint, {
@@ -216,7 +219,7 @@ describe('createShopifyCheckoutClient', () => {
       body: JSON.stringify({
         query: mutations.checkoutLineItemsReplace,
         variables: {
-          checkoutId,
+          checkoutId: checkoutIds.beginsWithLetter,
           lineItems: cartItemsToCheckoutItems({ cartItems })
         }
       })
@@ -238,7 +241,7 @@ describe('createShopifyCheckoutClient', () => {
     ];
     const note = 'Many thanks!';
     const checkoutUpdate = checkouts.checkoutUpdate({
-      checkoutId,
+      checkoutId: checkoutIds.beginsWithLetter,
       input: { customAttributes: checkoutAttributes, note }
     });
 
@@ -248,7 +251,7 @@ describe('createShopifyCheckoutClient', () => {
     );
 
     await checkoutClient.process({
-      id: checkoutId,
+      id: checkoutIds.beginsWithLetter,
       metafields: checkoutAttributes,
       note
     });
@@ -260,7 +263,7 @@ describe('createShopifyCheckoutClient', () => {
       body: JSON.stringify({
         query: mutations.checkoutAttributesUpdate,
         variables: {
-          checkoutId,
+          checkoutId: checkoutIds.beginsWithLetter,
           input: {
             customAttributes: checkoutAttributes,
             note
@@ -285,12 +288,12 @@ describe('createShopifyCheckoutClient', () => {
 
     await expect(
       checkoutClient.discountApply({
-        id: checkoutId,
+        id: checkoutIds.beginsWithLetter,
         discountCode: 'BFCM2020'
       })
     ).resolves.toMatchObject({
       completed: false,
-      id: checkoutId,
+      id: checkoutIds.beginsWithLetter,
       url: webUrl,
       lines: [],
       discounts: []
@@ -303,7 +306,7 @@ describe('createShopifyCheckoutClient', () => {
         query: mutations.checkoutDiscountCodeApplyV2,
         variables: {
           input: {
-            checkoutId,
+            checkoutId: checkoutIds.beginsWithLetter,
             discountCode: 'BFCM2020'
           }
         }
@@ -326,11 +329,11 @@ describe('createShopifyCheckoutClient', () => {
 
     await expect(
       checkoutClient.discountRemove({
-        id: checkoutId
+        id: checkoutIds.beginsWithLetter
       })
     ).resolves.toMatchObject({
       completed: false,
-      id: checkoutId,
+      id: checkoutIds.beginsWithLetter,
       url: webUrl,
       lines: [],
       discounts: []
@@ -343,7 +346,7 @@ describe('createShopifyCheckoutClient', () => {
         query: mutations.checkoutDiscountCodeRemove,
         variables: {
           input: {
-            checkoutId
+            checkoutId: checkoutIds.beginsWithLetter
           }
         }
       })
