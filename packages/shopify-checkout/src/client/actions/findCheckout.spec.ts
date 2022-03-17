@@ -2,12 +2,13 @@
 import fetchClient from 'cross-fetch';
 import { mocked } from 'ts-jest/utils';
 import { findCheckout } from '../../client/actions';
+import { ShopifyCheckout } from '../../checkout-client.types';
 import { createGqlClient } from '../../utils';
 import * as queries from '../../graphql/queries';
 import { mockJsonResponse } from '../../../__tests__/utils';
 import {
   clientSettings,
-  checkoutId,
+  checkoutIds,
   checkouts,
   webUrl,
   graphqlEndpoint,
@@ -30,9 +31,11 @@ describe('findCheckout', () => {
     );
 
     await expect(
-      findCheckout({ gqlClient, id: checkoutId }).then((checkout) => checkout)
+      findCheckout({ gqlClient, id: checkoutIds.beginsWithLetter }).then(
+        (checkout) => checkout
+      )
     ).resolves.toMatchObject({
-      id: checkoutId,
+      id: checkoutIds.beginsWithLetter,
       url: webUrl,
       lines: [],
       discounts: []
@@ -44,7 +47,7 @@ describe('findCheckout', () => {
       headers,
       body: JSON.stringify({
         query: queries.getCheckout,
-        variables: { id: checkoutId }
+        variables: { id: checkoutIds.beginsWithLetter }
       })
     });
   });
@@ -61,8 +64,8 @@ describe('findCheckout', () => {
     );
 
     await expect(
-      findCheckout({ gqlClient, id: checkoutId }).then(
-        (checkout) => checkout?.completed
+      findCheckout({ gqlClient, id: checkoutIds.beginsWithLetter }).then(
+        (checkout) => (checkout as ShopifyCheckout)?.completed
       )
     ).resolves.toBe(false);
   });
@@ -78,8 +81,8 @@ describe('findCheckout', () => {
         mockJsonResponse<queries.GetCheckoutData>(checkoutResponse)
     );
     await expect(
-      findCheckout({ gqlClient, id: checkoutId }).then(
-        (checkout) => checkout?.completed
+      findCheckout({ gqlClient, id: checkoutIds.beginsWithLetter }).then(
+        (checkout) => (checkout as ShopifyCheckout)?.completed
       )
     ).resolves.toBe(true);
   });
@@ -92,9 +95,9 @@ describe('findCheckout', () => {
     );
 
     expect.assertions(1);
-    await expect(findCheckout({ gqlClient, id: checkoutId })).rejects.toThrow(
-      networkErrorMessage
-    );
+    await expect(
+      findCheckout({ gqlClient, id: checkoutIds.beginsWithLetter })
+    ).rejects.toThrow(networkErrorMessage);
   });
 
   it("throws an error if the checkout can't be found", async () => {
@@ -108,10 +111,11 @@ describe('findCheckout', () => {
     );
 
     expect.assertions(1);
-    await findCheckout({ gqlClient, id: checkoutId }).catch((e) =>
-      expect(
-        String(e).includes('[findCheckout] Checkout response has no data')
-      ).toBe(true)
+    await findCheckout({ gqlClient, id: checkoutIds.beginsWithLetter }).catch(
+      (e) =>
+        expect(
+          String(e).includes('[findCheckout] Checkout response has no data')
+        ).toBe(true)
     );
   });
 
@@ -130,8 +134,8 @@ describe('findCheckout', () => {
     );
 
     expect.assertions(1);
-    await findCheckout({ gqlClient, id: checkoutId }).catch((e) =>
-      expect(String(e).includes(problemMessage)).toBe(true)
+    await findCheckout({ gqlClient, id: checkoutIds.beginsWithLetter }).catch(
+      (e) => expect(String(e).includes(problemMessage)).toBe(true)
     );
   });
 });
