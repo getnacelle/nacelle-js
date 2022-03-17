@@ -2,7 +2,17 @@
   <transition v-if="content" name="fade">
     <div
       v-show="active"
-      class="absolute top-full inset-x-0 border-t border-gray-200 text-sm text-gray-500 z-10 transition ease-out duration-200"
+      class="
+        absolute
+        top-full
+        inset-x-0
+        border-t border-gray-200
+        text-sm text-gray-500
+        z-10
+        transition
+        ease-out
+        duration-200
+      "
     >
       <div
         class="absolute inset-0 top-1/2 bg-white shadow"
@@ -20,7 +30,13 @@
               >
                 <div
                   v-if="callout.image"
-                  class="aspect-w-1 aspect-h-1 rounded-lg bg-gray-100 overflow-hidden group-hover:opacity-75"
+                  class="
+                    aspect-w-1 aspect-h-1
+                    rounded-lg
+                    bg-gray-100
+                    overflow-hidden
+                    group-hover:opacity-75
+                  "
                 >
                   <nuxt-picture
                     class="picture"

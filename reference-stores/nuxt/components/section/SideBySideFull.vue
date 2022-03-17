@@ -17,7 +17,14 @@
       </div>
     </div>
     <div
-      class="relative pt-12 pb-16 px-4 sm:pt-16 sm:px-6 lg:px-8 lg:max-w-7xl lg:mx-auto lg:grid lg:grid-cols-2"
+      class="
+        relative
+        pt-12
+        pb-16
+        px-4
+        sm:pt-16 sm:px-6
+        lg:px-8 lg:max-w-7xl lg:mx-auto lg:grid lg:grid-cols-2
+      "
     >
       <div
         :class="
@@ -35,13 +42,27 @@
         >
           <h2
             v-if="content.subheading"
-            class="leading-6 text-indigo-600 font-semibold tracking-wide uppercase"
+            class="
+              leading-6
+              text-indigo-600
+              font-semibold
+              tracking-wide
+              uppercase
+            "
           >
             {{ content.subheading }}
           </h2>
           <h3
             v-if="content.heading"
-            class="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl"
+            class="
+              mt-2
+              text-3xl
+              leading-8
+              font-extrabold
+              tracking-tight
+              text-gray-900
+              sm:text-4xl
+            "
           >
             {{ content.heading }}
           </h3>
@@ -51,7 +72,19 @@
           <div v-if="content.link" class="mt-6">
             <nuxt-link
               :to="content.link.url"
-              class="inline-flex px-4 py-2 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700"
+              class="
+                inline-flex
+                px-4
+                py-2
+                border border-transparent
+                text-base
+                font-medium
+                rounded-md
+                shadow-sm
+                text-white
+                bg-indigo-600
+                hover:bg-indigo-700
+              "
               >{{ content.link.text }}</nuxt-link
             >
           </div>

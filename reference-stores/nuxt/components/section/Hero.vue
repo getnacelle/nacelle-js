@@ -20,7 +20,18 @@
       ></div>
 
       <div
-        class="relative max-w-3xl mx-auto py-32 px-6 flex flex-col items-center text-center sm:py-48 lg:px-0"
+        class="
+          relative
+          max-w-3xl
+          mx-auto
+          py-32
+          px-6
+          flex flex-col
+          items-center
+          text-center
+          sm:py-48
+          lg:px-0
+        "
       >
         <h1
           v-if="content.heading"
@@ -34,7 +45,19 @@
         <nuxt-link
           v-if="content.link"
           :to="content.link.url"
-          class="mt-8 inline-block bg-white border border-transparent rounded-md py-3 px-8 text-base font-medium text-gray-900 hover:bg-gray-100"
+          class="
+            mt-8
+            inline-block
+            bg-white
+            border border-transparent
+            rounded-md
+            py-3
+            px-8
+            text-base
+            font-medium
+            text-gray-900
+            hover:bg-gray-100
+          "
           >{{ content.link.text }}</nuxt-link
         >
       </div>

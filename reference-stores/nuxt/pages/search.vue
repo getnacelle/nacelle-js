@@ -28,19 +28,9 @@
                 pointer-events-none
               "
             >
-              <svg
-                class="h-5 w-5 text-gray-400"
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-                aria-hidden="true"
-              >
-                <path
-                  fill-rule="evenodd"
-                  d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
-                  clip-rule="evenodd"
-                />
-              </svg>
+              <!-- eslint-disable vue/no-v-html -->
+              <span class="h-5 w-5 text-gray-400" v-html="searchIcon" />
+              <!-- eslint-enable vue/no-v-html -->
             </div>
             <input
               v-model="query"
@@ -70,7 +60,7 @@
         </div>
       </div>
       <div v-if="query" class="py-6">
-        <p class="text-lg leading-6">{{ resultsText }}</p>
+        <search-count :results="results" />
         <div class="pt-12 lg:grid lg:grid-cols-3 lg:gap-x-8 xl:grid-cols-4">
           <search-filters
             :active-filters="activeFilters"
@@ -90,13 +80,16 @@ import { buildMeta } from '~/utils/buildMeta';
 import { searchProducts } from '~/utils/searchProducts';
 import { getProductFilters } from '~/utils/getProductFilters';
 import { filterProducts } from '~/utils/filterProducts';
+import searchIcon from '~/assets/svgs/search';
 
+import SearchCount from '~/components/search/SearchCount.vue';
 import SearchFilters from '~/components/search/SearchFilters.vue';
 import SearchResults from '~/components/search/SearchResults.vue';
 
 export default {
   name: 'SearchPage',
   components: {
+    SearchCount,
     SearchFilters,
     SearchResults
   },
@@ -113,17 +106,11 @@ export default {
     searchResults: [],
     results: [],
     activeFilters: [],
-    availableFilters: []
+    availableFilters: [],
+    searchIcon
   }),
   head() {
     return buildMeta({ route: this.$route });
-  },
-  computed: {
-    resultsText() {
-      return this.results.length
-        ? `${this.results.length} results(s) found`
-        : 'No results found...';
-    }
   },
   watch: {
     '$route.query.q': {
