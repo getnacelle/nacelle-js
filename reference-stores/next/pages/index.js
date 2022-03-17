@@ -1,7 +1,7 @@
 import { nacelleClient } from 'services';
 import { CONTENT_PAGE_QUERY } from 'queries/contentPage'
 
-const ContentHandle = ({ page }) => {
+const Home = ({ page }) => {
 
   const fields = page?.fields || {};
   const { sections, ...rest } = fields
@@ -26,4 +26,4 @@ export async function getStaticProps() {
   };
 }
 
-export default ContentHandle
+export default Home
