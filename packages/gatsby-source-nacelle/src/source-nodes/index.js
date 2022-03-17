@@ -81,18 +81,66 @@ module.exports = async function ({
               if (dataType === 'Content') {
                 let images = findNestedImages(node.remoteFields, [
                   'remoteFields'
-                ]).filter((val) => val);
+                ])?.filter((val) => val);
                 // create remote image file nodes for each field
                 await Promise.all(
-                  images.map((image) => {
-                    // get the key for the image address & remove it from the path so it can be used in createRemoteImageFileNode as the imageProperty
-                    const imageKey = image.path.pop();
-                    createRemoteImageFileNode(node, [image.path], gatsbyApi, {
-                      isImage: () => true,
-                      imageProperties: [imageKey],
-                      newField: 'remoteImage___NODE'
-                    });
+                  fetchRemoteImageNodesForContent(node, images, gatsbyApi)
+                );
+              } else if (dataType === 'Product' && node.content?.remoteFields) {
+                // get any images in product content that aren't in media/featuredMedia
+                const productContentImages = findNestedImages(
+                  node.content.remoteFields,
+                  ['content', 'remoteFields']
+                )?.filter((val) => val);
+                const variantContentImages = node.variants
+                  ?.map((variant, index) => {
+                    if (!variant.content) {
+                      return;
+                    }
+                    return findNestedImages(variant.content.remoteFields, [
+                      'variants',
+                      index,
+                      'content',
+                      'remoteFields'
+                    ])?.filter((val) => val);
                   })
+                  .flat();
+                await Promise.all([
+                  ...fetchRemoteImageNodesForContent(
+                    node,
+                    productContentImages,
+                    gatsbyApi
+                  ),
+                  ...fetchRemoteImageNodesForContent(
+                    node,
+                    variantContentImages,
+                    gatsbyApi
+                  )
+                ]);
+              } else if (dataType === 'ProductCollection') {
+                // else get any images from product collections that aren't remote fields
+                const collectionContentImages = findNestedImages(
+                  node?.content?.remoteFields,
+                  ['content', 'remoteFields']
+                )?.filter((val) => val);
+                await Promise.all(
+                  fetchRemoteImageNodesForContent(
+                    node,
+                    collectionContentImages,
+                    gatsbyApi
+                  )
+                );
+              } else if (dataType === 'ContentCollection') {
+                const collectionContentImages = findNestedImages(
+                  node?.content?.remoteFields,
+                  ['content', 'remoteFields']
+                )?.filter((val) => val);
+                await Promise.all(
+                  fetchRemoteImageNodesForContent(
+                    node,
+                    collectionContentImages,
+                    gatsbyApi
+                  )
                 );
               }
             }
@@ -166,4 +214,16 @@ async function fetchRemoteImageNodes(dataType, node, gatsbyApi) {
       { isImage }
     );
   }
+}
+
+function fetchRemoteImageNodesForContent(node, images, gatsbyApi) {
+  return images.map((image) => {
+    // get the key for the image address & remove it from the path so it can be used in createRemoteImageFileNode as the imageProperty
+    const imageKey = image.path.pop();
+    return createRemoteImageFileNode(node, [image.path], gatsbyApi, {
+      isImage: () => true,
+      imageProperties: [imageKey],
+      newField: 'remoteImage___NODE'
+    });
+  });
 }

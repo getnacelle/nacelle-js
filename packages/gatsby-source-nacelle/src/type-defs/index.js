@@ -1,9 +1,8 @@
 module.exports = `
-type CollectionContent @dontInfer {
+type CollectionContent {
   collectionEntryId: ID!
   createdAt: Int
   description: String
-  fields: JSON
   handle: String
   indexedAt: Int
   locale: String
@@ -32,7 +31,7 @@ interface NacelleContent implements Node {
 }
 
 "Represents a collection of content: articles for a blog, employees for an About Us page, press releases for a News page, etc."
-type NacelleContentCollection implements Node @dontInfer {
+type NacelleContentCollection implements Node {
   content: CollectionContent
   createdAt: Int
   entries: [NacelleContent!]
@@ -99,7 +98,7 @@ type PriceRule @dontInfer {
 }
 
 "A product represents an individual item for sale. Products are often physical, but they don't have to be. For example, a digital download (such as a movie, music or ebook file) also qualifies as a product, as do services (such as equipment rental, work for hire, customization of another product or an extended warranty)."
-type NacelleProduct implements Node @dontInfer {
+type NacelleProduct implements Node {
   availableForSale: Boolean
   collections: [NacelleProductCollection!]
   content: ProductContent
@@ -116,7 +115,7 @@ type NacelleProduct implements Node @dontInfer {
 }
 
 "Represents a collection of products."
-type NacelleProductCollection implements Node @dontInfer {
+type NacelleProductCollection implements Node {
   content: CollectionContent
   createdAt: Int
   indexedAt: Int
@@ -129,11 +128,10 @@ type NacelleProductCollection implements Node @dontInfer {
 }
 
 "A piece of product content represents the localized version of data points, with more flexibility."
-type ProductContent @dontInfer {
+type ProductContent {
   createdAt: Int
   description: String
   featuredMedia: Media
-  fields: JSON
   handle: String
   indexedAt: Int
   locale: String
@@ -178,7 +176,7 @@ type SpacePropertyNamespace @dontInfer {
 }
 
 "A product variant represents a different version of a product, such as differing sizes or differing colors."
-type Variant @dontInfer {
+type Variant {
   availableForSale: Boolean
   compareAtPrice: String
   content: VariantContent
@@ -200,11 +198,10 @@ type Variant @dontInfer {
 }
 
 "A piece of variant content represents the localized version of data points, with more flexibility."
-type VariantContent @dontInfer {
+type VariantContent {
   createdAt: Int
   description: String
   featuredMedia: Media
-  fields: JSON
   indexedAt: Int
   locale: String
   media: [Media!]
