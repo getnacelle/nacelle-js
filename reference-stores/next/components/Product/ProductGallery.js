@@ -57,7 +57,6 @@ const ProductGallery = () => {
                 <Image
                   src={image.src}
                   alt={image.altText}
-                  className="thumbnail"
                   quality={80}
                   layout="fill"
                   objectFit="cover"
