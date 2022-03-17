@@ -20,9 +20,9 @@ function findImages(contentObject = {}, path = []) {
       if (contentString.startsWith('//')) {
         contentString = `https:${contentString}`;
       }
-      new URL(contentString);
+      let contentUrl = new URL(contentString);
       // if the url has a file extension that maps to a valid image, assume it's an image
-      if (contentString.match(/\.(apng|avif|gif|jpeg|jpg|png|webp)$/gi)) {
+      if (contentUrl.pathname.match(/\.(apng|avif|gif|jpeg|jpg|png|webp)$/gi)) {
         return { path, imageUrl: contentString };
       }
     } catch (error) {
