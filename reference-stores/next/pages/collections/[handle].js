@@ -1,6 +1,6 @@
-import { Fragment } from 'react'
 import { nacelleClient } from 'services';
 import { COLLECTION_ROUTES_QUERY, COLLECTION_PAGE_QUERY } from 'queries/collectionPage'
+import CollectionGrid from 'components/Collection/CollectionGrid'
 
 const CollectionHandle = ({ collection, page }) => {
 
@@ -8,10 +8,10 @@ const CollectionHandle = ({ collection, page }) => {
   const { sections, ...rest } = fields
   const content = { fields: rest }
 
-  return (
-    <Fragment>
-      <div>{collection.content.title}</div>
-    </Fragment>
+  return collection && (
+    <div>
+      <CollectionGrid collection={collection} />
+    </div>
   )
 }
 

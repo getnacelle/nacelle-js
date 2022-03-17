@@ -17,6 +17,7 @@ export const COLLECTION_PAGE_QUERY = `
       nacelleEntryId
       sourceEntryId
       content{
+        handle
         title
       }
       products(first: 13){
