@@ -8,7 +8,7 @@ const ContentHandle = ({ page }) => {
   const content = { fields: rest }
 
   return (
-    <div>
+    <div class="bg-white">
       HEY YOU
     </div>
   )

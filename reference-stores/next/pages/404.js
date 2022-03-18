@@ -2,6 +2,6 @@ import { nacelleClient } from 'services';
 
 export default function Error() {
   return (
-   <div>Error</div>
+    <div class="bg-white">>Error</div>
   )
 }

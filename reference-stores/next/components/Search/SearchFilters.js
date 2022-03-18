@@ -1,7 +1,11 @@
+import { useState } from 'react'
 import { useSearch } from 'hooks/useSearch'
 import plusIcon from 'assets/svgs/plus'
+import SearchFiltersDrawer from './SearchFiltersDrawer'
 
 const SearchFilters = () => {
+  const [showFilterDrawer, setShowFilterDrawer] = useState()
+
   const { 
     activeFilters,
     availableFilters,
@@ -19,9 +23,14 @@ const SearchFilters = () => {
   return (
     <div>
       <h2 className="sr-only">Filters</h2>
+      <SearchFiltersDrawer
+        show={showFilterDrawer}
+        setShow={setShowFilterDrawer}
+      />
       <button
         type="button"
         className="inline-flex items-center lg:hidden"
+        onClick={() => setShowFilterDrawer(true)}
       >
         <span className="text-sm font-medium text-gray-700">Filters</span>
         <span
@@ -72,6 +81,33 @@ const SearchFilters = () => {
             </fieldset>
           </div>
         ))}
+        {activeFilters.length > 0 && (
+          <button
+            className="
+              inline-flex
+              items-center
+              px-3
+              py-2
+              border border-gray-300
+              shadow-sm
+              text-sm
+              leading-4
+              font-medium
+              rounded-md
+              text-gray-700
+              bg-white
+              hover:bg-gray-50
+              focus:outline-none
+              focus:ring-2
+              focus:ring-offset-2
+              focus:ring-indigo-500
+              mt-10
+            "
+            onClick={() => setFilters([])}
+          >
+            Clear Filters
+          </button>
+        )}
       </form>
     </div>
   )

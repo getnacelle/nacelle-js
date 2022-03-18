@@ -1,4 +1,3 @@
-import { createContext, useState } from 'react'
-import { getSelectedVariant } from 'utils/getSelectedVariant'
+import { createContext } from 'react'
 
-export const ProductContext = createContext({})
+export const CartContext = createContext({})

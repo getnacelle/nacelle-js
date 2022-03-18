@@ -5,9 +5,11 @@ import SearchForm from 'components/Search/SearchForm'
 
 const Search = ({ products }) => {
   return (
-    <SearchProvider catalog={products}>
-      <SearchForm />
-    </SearchProvider>
+    <div class="bg-white">
+      <SearchProvider catalog={products}>
+        <SearchForm />
+      </SearchProvider>
+    </div>
   )
 }
 

@@ -50,6 +50,15 @@ export const SearchProvider = ({ children, catalog, query }) => {
     setResults(filterResults)
   }
 
+  const handleSetFilters = ({ filters }) => {
+    setActiveFilters(filters)
+    const filterResults = filterProducts({
+      products: searchResults,
+      filters
+    })
+    setResults(filterResults)
+  }
+
   const getActiveFilters = ({ active, available }) => {
     return active.filter((activeFilter) => {
       return available.find(
@@ -70,7 +79,7 @@ export const SearchProvider = ({ children, catalog, query }) => {
       activeFilters,
       availableFilters,
       toggleFilter: handleToggleFilter,
-      setFilters: setActiveFilters
+      setFilters: handleSetFilters
     }}>
       {children}
     </SearchContext.Provider>

@@ -86,15 +86,17 @@ const SearchForm = () => {
           </div>
         </div>
       </div>
-      {query && (
-        <div className="py-6">
-          <p className="text-lg leading-6">{resultsText}</p>
+      {query.trim() !== '' && (
+        <div>
+          <div className="py-6">
+            <p className="text-lg leading-6">{resultsText}</p>
+          </div>
+          <div className="pt-12 lg:grid lg:grid-cols-3 lg:gap-x-8 xl:grid-cols-4">
+            <SearchFilters />
+            <SearchResults />
+          </div>
         </div>
       )}
-        <div className="pt-12 lg:grid lg:grid-cols-3 lg:gap-x-8 xl:grid-cols-4">
-          <SearchFilters />
-          <SearchResults />
-        </div>
     </div>
   )
 }

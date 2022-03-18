@@ -9,7 +9,7 @@ const CollectionHandle = ({ collection, page }) => {
   const content = { fields: rest }
 
   return collection && (
-    <div>
+    <div class="bg-white">
       <CollectionGrid collection={collection} />
     </div>
   )
