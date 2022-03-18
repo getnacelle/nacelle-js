@@ -21,9 +21,9 @@
           <!-- eslint-enable vue/no-v-html -->
         </div>
         <input
-          :id="`search-${_uid}`"
+          id="search-header"
           v-model="query"
-          :name="`search-${_uid}`"
+          name="search-header"
           class="
             block
             w-full
