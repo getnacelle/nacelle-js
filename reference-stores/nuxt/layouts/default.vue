@@ -1,6 +1,6 @@
 <template>
   <div class="layout-default">
-    <!-- <site-header :content="siteComponents.header" /> -->
+    <site-header :content="siteComponents.header" />
     <!-- <site-nav :content="siteComponents.header" /> -->
     <site-cart :content="siteComponents.cart" />
     <nuxt class="layout-default__nuxt" />
@@ -13,7 +13,7 @@
 import { mapGetters } from 'vuex';
 import { buildMeta } from '~/utils/buildMeta';
 
-// import SiteHeader from '~/components/header/Header.vue';
+import SiteHeader from '~/components/header/Header.vue';
 // import SiteNav from '~/components/nav/Nav.vue';
 import SiteCart from '~/components/cart/Cart.vue';
 import SiteNewsletter from '~/components/newsletter/Newsletter.vue';
@@ -22,7 +22,7 @@ import SiteFooter from '~/components/footer/Footer.vue';
 export default {
   name: 'DefaultLayout',
   components: {
-    // SiteHeader,
+    SiteHeader,
     // SiteNav,
     SiteCart,
     SiteNewsletter,

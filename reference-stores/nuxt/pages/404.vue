@@ -1,5 +1,5 @@
 <template>
-  <div class="errorPage">
+  <div class="bg-white">
     <hero-banner :content="content" />
   </div>
 </template>

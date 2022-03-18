@@ -1,5 +1,5 @@
 <template>
-  <div class="contentPage">
+  <div class="bg-white">
     <site-section
       v-for="section in sections"
       :key="section._key"

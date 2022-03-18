@@ -3,6 +3,7 @@
     <div
       class="
         w-screen
+        bg-white
         max-w-md
         transition-transform
         translate-x-full
@@ -56,7 +57,7 @@
                 </ul>
               </div>
               <p v-show="!cartItems.length" class="text-gray-400 text-center">
-                {{ content.fields.empty }}
+                {{ content.fields.emptyText }}
               </p>
               <!-- <cart-cross-sells :content="content.fields.crosssells" /> -->
             </div>
@@ -108,9 +109,6 @@ export default {
         this.content?.fields;
       return { subtotalLabel, subtotalText, checkoutText, continueText };
     }
-  },
-  mounted() {
-    this.setCartVisibility(true);
   },
   methods: {
     ...mapMutations('ui', ['setCartVisibility'])

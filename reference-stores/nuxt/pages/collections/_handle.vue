@@ -1,5 +1,5 @@
 <template>
-  <div v-if="collection" class="collectionPage">
+  <div v-if="collection" class="bg-white">
     <collection-grid :collection="collection" />
     <site-section
       v-for="section in sections"
