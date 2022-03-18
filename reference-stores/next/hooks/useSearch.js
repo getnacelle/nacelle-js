@@ -8,6 +8,7 @@ export const useSearch = () => {
     results,
     activeFilters,
     availableFilters,
+    toggleFilter,
     setFilters
   } = useContext(SearchContext)
 
@@ -17,6 +18,7 @@ export const useSearch = () => {
     results,
     activeFilters,
     availableFilters,
+    toggleFilter,
     setFilters
   }
 }

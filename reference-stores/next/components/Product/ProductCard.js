@@ -50,13 +50,15 @@ const ProductCard = () => {
             href={`/products/${product.content.handle}`}
             className="text-base text-gray-500 hover:text-gray-900"
           >
-            <Image
-              src={product.content.featuredMedia.src}
-              alt={product.content.featuredMedia.altText}
-              quality={80}
-              layout="fill"
-              objectFit="cover"
-            />
+            <span>
+              <Image
+                src={product.content.featuredMedia.src}
+                alt={product.content.featuredMedia.altText}
+                quality={80}
+                layout="fill"
+                objectFit="cover"
+              />
+            </span>
           </Link>
         </div>
       </div>
@@ -111,7 +113,7 @@ const ProductCard = () => {
               w-full
               mt-3
             "
-            onClick="handleAddItem"
+            onClick={handleAddItem}
           >
             {selectedVariant.availableForSale 
               ? <div>Add to Cart</div>

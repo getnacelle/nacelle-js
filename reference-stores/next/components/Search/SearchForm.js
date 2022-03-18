@@ -1,12 +1,29 @@
+import { useRouter } from 'next/router'
+import { useState, useEffect } from 'react'
 import { useSearch } from 'hooks/useSearch'
-import searchIcon from 'assets/svgs/search';
+import searchIcon from 'assets/svgs/search'
+import SearchResults from './SearchResults'
+import SearchFilters from './SearchFilters'
 
 const SearchForm = () => {
+  const router = useRouter()
+  const [resultsText, setResultsText] = useState()
   const { 
     query,
     setQuery,
     results
   } = useSearch()
+
+  useEffect(() => {
+    setQuery({ query: router.query.q || '' })
+  }, [router.query.q])
+
+  useEffect(() => {
+    setResultsText(results.length
+      ? `${results.length} results(s) found`
+      : 'No results found...'
+    )
+  }, [results.length])
 
   return (
     <div className="max-w-7xl mx-auto py-16 px-4 sm:py-24 sm:px-6 lg:px-8">
@@ -69,17 +86,15 @@ const SearchForm = () => {
           </div>
         </div>
       </div>
-      {/* <div v-if="query" class="py-6"> */}
-        {/* <p class="text-lg leading-6">{{ resultsText }}</p> */}
-        {/* <div class="pt-12 lg:grid lg:grid-cols-3 lg:gap-x-8 xl:grid-cols-4"> */}
-          {/* <search-filters
-            :active-filters="activeFilters"
-            :available-filters="availableFilters"
-            @change="handleFilterChange"
-          />
-          <search-results :results="results" /> */}
-        {/* </div> */}
-      {/* </div> */}
+      {query && (
+        <div className="py-6">
+          <p className="text-lg leading-6">{resultsText}</p>
+        </div>
+      )}
+        <div className="pt-12 lg:grid lg:grid-cols-3 lg:gap-x-8 xl:grid-cols-4">
+          <SearchFilters />
+          <SearchResults />
+        </div>
     </div>
   )
 }

@@ -1,14 +1,11 @@
 import { nacelleClient } from 'services';
-import { useRouter } from 'next/router'
 import { SEARCH_PAGE_QUERY } from 'queries/searchPage';
 import { SearchProvider } from 'context/Search'
 import SearchForm from 'components/Search/SearchForm'
 
 const Search = ({ products }) => {
-  const router = useRouter()
-
   return (
-    <SearchProvider catalog={products} query={router.query.q}>
+    <SearchProvider catalog={products}>
       <SearchForm />
     </SearchProvider>
   )
