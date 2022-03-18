@@ -12,19 +12,12 @@
       @click="showFilterDrawer = true"
     >
       <span class="text-sm font-medium text-gray-700">Filters</span>
-      <svg
+      <!-- eslint-disable vue/no-v-html -->
+      <span
         class="flex-shrink-0 ml-1 h-5 w-5 text-gray-400"
-        xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 20 20"
-        fill="currentColor"
-        aria-hidden="true"
-      >
-        <path
-          fill-rule="evenodd"
-          d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
-          clip-rule="evenodd"
-        />
-      </svg>
+        v-html="plusIcon"
+      />
+      <!-- eslint-enable vue/no-v-html -->
     </button>
     <form class="hidden lg:block divide-y divide-gray-200 space-y-10">
       <div
@@ -99,6 +92,7 @@
 
 <script>
 import SearchFiltersDrawer from './SearchFiltersDrawer.vue';
+import plusIcon from '~/assets/svgs/plus';
 
 export default {
   name: 'SearchFilters',
@@ -114,7 +108,8 @@ export default {
     }
   },
   data: () => ({
-    showFilterDrawer: false
+    showFilterDrawer: false,
+    plusIcon
   }),
   methods: {
     activeFilter(filter) {
