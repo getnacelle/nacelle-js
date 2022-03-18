@@ -10,7 +10,7 @@ const ProductHandle = ({ product, page }) => {
   const content = { fields: rest }
 
   return (
-    <div class="bg-white">
+    <div className="bg-white">
       <ProductProvider product={product}>
         <ProductDetails content={content} />
       </ProductProvider>

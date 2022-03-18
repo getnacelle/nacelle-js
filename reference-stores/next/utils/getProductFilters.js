@@ -16,7 +16,7 @@ export const getProductFilters = ({ products }) => {
           acc[filterIndex].values.push(filterValue);
         }
       }
-      product.content.options.forEach((option) => {
+      product.content?.options?.forEach((option) => {
         if (option.name !== 'Title') {
           filterIndex = acc.findIndex(
             (filterItem) =>

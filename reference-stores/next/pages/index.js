@@ -8,7 +8,7 @@ const Home = ({ page }) => {
   const content = { fields: rest }
 
   return (
-    <div class="bg-white">
+    <div className="bg-white">
       HEY YOU
     </div>
   )

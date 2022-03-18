@@ -1,14 +1,19 @@
 import App from 'next/app';
+import { SearchProvider } from 'context/Search'
 import Layout from 'components/Layout/Layout';
 import { nacelleClient } from 'services';
+
 import { SITE_QUERY } from 'queries/site';
 import 'assets/css/main.css';
 
-const MyApp = ({ Component, pageProps, components }) => {
+const MyApp = ({ Component, pageProps, products, components }) => {
   return (
-    <Layout components={components}>
-      <Component {...pageProps} />
-    </Layout>
+    // Todo: add in Cart Provider
+    <SearchProvider catalog={products}>
+      <Layout components={components}>
+        <Component {...pageProps} />
+      </Layout>
+    </SearchProvider>
   )
 }
 
