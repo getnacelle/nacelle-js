@@ -217,6 +217,10 @@ async function fetchRemoteImageNodes(dataType, node, gatsbyApi) {
 }
 
 function fetchRemoteImageNodesForContent(node, images, gatsbyApi) {
+  if (!images) {
+    return [];
+  }
+
   return images.map((image) => {
     // get the key for the image address & remove it from the path so it can be used in createRemoteImageFileNode as the imageProperty
     const imageKey = image.path.pop();
