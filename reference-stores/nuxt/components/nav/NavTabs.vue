@@ -9,7 +9,15 @@
         <button
           v-for="(tab, index) in tabs"
           :key="`tab-${index}`"
-          class="flex-1 whitespace-nowrap py-4 px-1 border-b-2 text-base font-medium"
+          class="
+            flex-1
+            whitespace-nowrap
+            py-4
+            px-1
+            border-b-2
+            text-base
+            font-medium
+          "
           :class="
             activeIndex === index
               ? 'text-indigo-600 border-indigo-600'
@@ -41,7 +49,13 @@
           class="group relative text-sm"
         >
           <div
-            class="aspect-w-1 aspect-h-1 rounded-lg bg-gray-100 overflow-hidden group-hover:opacity-75"
+            class="
+              aspect-w-1 aspect-h-1
+              rounded-lg
+              bg-gray-100
+              overflow-hidden
+              group-hover:opacity-75
+            "
           >
             <nuxt-img
               :src="callout.image.file.asset.url"
@@ -105,7 +119,7 @@ export default {
   computed: {
     tabs() {
       return this.content?.navigation?.filter((navigationItem) => {
-        return navigationItem._type === 'mega';
+        return navigationItem.type === 'partNavigationMega';
       });
     }
   },

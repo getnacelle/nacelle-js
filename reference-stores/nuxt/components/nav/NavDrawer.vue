@@ -2,12 +2,33 @@
   <transition name="slide">
     <div
       v-show="navVisible"
-      class="relative max-w-xs w-full bg-white shadow-xl pb-12 flex flex-col overflow-y-auto transition ease-in-out duration-300 transform"
+      class="
+        relative
+        max-w-xs
+        w-full
+        bg-white
+        shadow-xl
+        pb-12
+        flex flex-col
+        overflow-y-auto
+        transition
+        ease-in-out
+        duration-300
+        transform
+      "
     >
       <div class="px-4 pt-5 pb-2 flex">
         <button
           type="button"
-          class="-m-2 p-2 rounded-md inline-flex items-center justify-center text-gray-400"
+          class="
+            -m-2
+            p-2
+            rounded-md
+            inline-flex
+            items-center
+            justify-center
+            text-gray-400
+          "
           @click="setNavVisibility(false)"
         >
           <span class="sr-only">Close menu</span>
@@ -28,9 +49,9 @@
           </svg>
         </button>
       </div>
-      <search-input />
-      <nav-tabs :content="content" />
-      <nav-menu :content="content" />
+      <search-input :content="searchContent" />
+      <nav-tabs :content="primaryContent" />
+      <nav-menu :content="primaryContent" />
     </div>
   </transition>
 </template>
@@ -56,7 +77,19 @@ export default {
     }
   },
   computed: {
-    ...mapGetters('ui', ['navVisible'])
+    ...mapGetters('ui', ['navVisible']),
+    primaryContent() {
+      return {
+        navigation: this.content?.navigation
+      };
+    },
+    searchContent() {
+      return {
+        placeholder: this.content?.searchPlaceholder,
+        heading: this.content?.searchHeading,
+        all: this.content?.searchAll
+      };
+    }
   },
   methods: {
     ...mapMutations('ui', ['setNavVisibility'])
