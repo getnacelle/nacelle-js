@@ -1,5 +1,6 @@
 <template>
   <div
+    v-if="content"
     class="flex-1 flex items-center justify-center px-2 lg:ml-6 lg:justify-end"
   >
     <div class="max-w-lg w-full lg:max-w-xs">
@@ -42,7 +43,7 @@
             focus:border-indigo-500
             sm:text-sm
           "
-          placeholder="Search"
+          :placeholder="content.placeholder"
           type="search"
           @keyup="handleKeyup"
           @keyup.enter="handleEnter"
@@ -53,6 +54,7 @@
           v-if="query && isFocused"
           :results="results"
           :query="query"
+          :content="content"
         />
       </div>
     </div>
@@ -69,6 +71,12 @@ export default {
   name: 'HeaderSearch',
   components: {
     SearchAutocomplete
+  },
+  props: {
+    content: {
+      type: Object,
+      required: true
+    }
   },
   data: () => ({
     query: '',

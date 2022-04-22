@@ -3,14 +3,14 @@
     <div class="lg:absolute lg:inset-0">
       <div
         :class="`lg:absolute lg:inset-y-0 lg:w-1/2 ${
-          content.layout === 'image-left' ? 'lg:left-0' : 'lg:right-0'
+          content.fields.imageSide === 'Left' ? 'lg:left-0' : 'lg:right-0'
         }`"
       >
         <nuxt-picture
-          v-if="content.image"
+          v-if="content.fields.image"
           class="picture"
-          :src="content.image.file.asset.url"
-          :alt="content.image.alt"
+          :src="content.fields.image.fields.file.url"
+          :alt="content.fields.imageAlt"
           sizes="sm:100vw lg:100vw xl:50vw"
           quality="80"
         />
@@ -28,20 +28,20 @@
     >
       <div
         :class="
-          content.layout === 'image-left'
+          content.fields.imageSide === 'Left'
             ? 'lg:col-start-2 lg:pl-8'
             : 'lg:col-start-1 lg:pr-8'
         "
       >
         <div
           :class="`text-base max-w-prose mx-auto lg:max-w-lg ${
-            content.layout === 'image-left'
+            content.fields.imageSide === 'Left'
               ? 'lg:ml-auto lg:mr-0'
               : 'lg:mr-auto lg:ml-0'
           }`"
         >
           <h2
-            v-if="content.subheading"
+            v-if="content.fields.subheading"
             class="
               leading-6
               text-indigo-600
@@ -50,10 +50,10 @@
               uppercase
             "
           >
-            {{ content.subheading }}
+            {{ content.fields.subheading }}
           </h2>
           <h3
-            v-if="content.heading"
+            v-if="content.fields.heading"
             class="
               mt-2
               text-3xl
@@ -64,14 +64,18 @@
               sm:text-4xl
             "
           >
-            {{ content.heading }}
+            {{ content.fields.heading }}
           </h3>
-          <p v-if="content.text" class="mt-4 text-lg text-gray-500">
-            {{ content.text }}
-          </p>
-          <div v-if="content.link" class="mt-6">
+          <!-- eslint-disable vue/no-v-html -->
+          <div
+            v-if="content.fields.text"
+            class="mt-4 text-lg text-gray-500"
+            v-html="$contentful.richText(content.fields.text)"
+          />
+          <!-- eslint-enable vue/no-v-html -->
+          <div v-if="content.fields.linkUrl" class="mt-6">
             <nuxt-link
-              :to="content.link.url"
+              :to="content.fields.linkUrl"
               class="
                 inline-flex
                 px-4
@@ -85,7 +89,7 @@
                 bg-indigo-600
                 hover:bg-indigo-700
               "
-              >{{ content.link.text }}</nuxt-link
+              >{{ content.fields.linkText }}</nuxt-link
             >
           </div>
         </div>

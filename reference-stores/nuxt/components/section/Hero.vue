@@ -1,15 +1,14 @@
 <template>
   <section v-if="content" class="bg-white">
-    HEY NOW
     <div class="relative bg-gray-900">
       <div
-        v-if="content.image"
+        v-if="content.fields.image"
         aria-hidden="true"
         class="absolute inset-0 overflow-hidden"
       >
         <nuxt-picture
-          :src="content.image.file.asset.url"
-          :alt="content.image.alt"
+          :src="content.fields.image.fields.file.url"
+          :alt="content.fields.imageAlt"
           sizes="sm:100vw lg:100vw xl:100vw"
           quality="80"
           class="picture"
@@ -35,17 +34,21 @@
         "
       >
         <h1
-          v-if="content.heading"
+          v-if="content.fields.heading"
           class="text-4xl font-extrabold tracking-tight text-white lg:text-6xl"
         >
-          {{ content.heading }}
+          {{ content.fields.heading }}
         </h1>
-        <p v-if="content.text" class="mt-4 text-xl text-white">
-          {{ content.text }}
-        </p>
+        <!-- eslint-disable vue/no-v-html -->
+        <div
+          v-if="content.fields.text"
+          class="mt-4 text-xl text-white"
+          v-html="$contentful.richText(content.fields.text)"
+        />
+        <!-- eslint-enable vue/no-v-html -->
         <nuxt-link
-          v-if="content.link"
-          :to="content.link.url"
+          v-if="content.fields.linkUrl"
+          :to="content.fields.linkUrl"
           class="
             mt-8
             inline-block
@@ -59,7 +62,7 @@
             text-gray-900
             hover:bg-gray-100
           "
-          >{{ content.link.text }}</nuxt-link
+          >{{ content.fields.linkText }}</nuxt-link
         >
       </div>
     </div>
