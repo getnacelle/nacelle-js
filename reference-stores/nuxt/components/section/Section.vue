@@ -23,7 +23,10 @@ export default {
   }),
   computed: {
     section() {
-      return pascalCase(this.content?._type).replace('Section', '');
+      return (
+        this.content?.type &&
+        pascalCase(this.content?.type).replace('Section', '')
+      );
     }
   },
   created() {

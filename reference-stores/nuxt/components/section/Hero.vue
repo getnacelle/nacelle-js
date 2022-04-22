@@ -1,5 +1,6 @@
 <template>
   <section v-if="content" class="bg-white">
+    HEY NOW
     <div class="relative bg-gray-900">
       <div
         v-if="content.image"

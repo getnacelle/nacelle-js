@@ -18,7 +18,7 @@
         <!-- eslint-disable vue/no-v-html -->
         <span class="text-green-500 mr-4 h-6 w-6" v-html="successIcon" />
         <!-- eslint-enable vue/no-v-html -->
-        {{ content.success }}
+        {{ content.fields.successText }}
       </div>
       <form
         v-if="!success"
@@ -26,7 +26,7 @@
         @submit.prevent="handleSubmit"
       >
         <div>
-          <label for="full-name" class="sr-only">{{ content.name }}</label>
+          <label for="full-name" class="sr-only">Name</label>
           <input
             id="full-name"
             v-model="formModel.name"
@@ -45,11 +45,11 @@
               border border-gray-300
               rounded-md
             "
-            :placeholder="`${content.name}*`"
+            :placeholder="content.fields.namePlaceholder"
           />
         </div>
         <div>
-          <label for="email" class="sr-only">{{ content.email }}</label>
+          <label for="email" class="sr-only">Email</label>
           <input
             id="email"
             v-model="formModel.email"
@@ -68,11 +68,11 @@
               border border-gray-300
               rounded-md
             "
-            :placeholder="`${content.email}*`"
+            :placeholder="content.fields.emailPlaceholder"
           />
         </div>
         <div>
-          <label for="phone" class="sr-only">{{ content.phone }}</label>
+          <label for="phone" class="sr-only">Phone</label>
           <input
             id="phone"
             v-model="formModel.phone"
@@ -91,11 +91,11 @@
               border border-gray-300
               rounded-md
             "
-            :placeholder="`${content.phone}*`"
+            :placeholder="content.fields.phonePlaceholder"
           />
         </div>
         <div>
-          <label for="message" class="sr-only">{{ content.message }}</label>
+          <label for="message" class="sr-only">Message</label>
           <textarea
             id="message"
             v-model="formModel.message"
@@ -113,7 +113,7 @@
               border border-gray-300
               rounded-md
             "
-            :placeholder="`${content.message}*`"
+            :placeholder="content.fields.messagePlaceholder"
           ></textarea>
         </div>
         <div>
@@ -138,7 +138,7 @@
               focus:ring-indigo-500
             "
           >
-            {{ content.button }}
+            {{ content.fields.buttonText }}
           </button>
         </div>
       </form>

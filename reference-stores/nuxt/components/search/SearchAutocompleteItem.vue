@@ -5,7 +5,14 @@
     class="py-6 flex"
   >
     <div
-      class="flex-shrink-0 w-24 h-24 border border-gray-200 rounded-md overflow-hidden"
+      class="
+        flex-shrink-0
+        w-24
+        h-24
+        border border-gray-200
+        rounded-md
+        overflow-hidden
+      "
     >
       <nuxt-img
         :src="item.content.featuredMedia.src"

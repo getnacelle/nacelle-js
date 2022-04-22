@@ -1,8 +1,8 @@
 <template>
   <div class="bg-white">
     <site-section
-      v-for="section in sections"
-      :key="section._key"
+      v-for="(section, index) in sections"
+      :key="`${section.type}-${index}`"
       :content="section"
     />
   </div>
@@ -18,7 +18,7 @@ export default {
   name: 'ContentPage',
   components: { SiteSection },
   async asyncData({ app, params }) {
-    const { pages } = await app.$nacelleOld.query({
+    const { pages } = await app.$nacelle.query({
       query: CONTENT_PAGE_QUERY,
       variables: { handle: `page-${params.handle}` }
     });
