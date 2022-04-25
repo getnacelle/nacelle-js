@@ -7,9 +7,9 @@ const Section = ({ content }) => {
     content?.type && pascalCase(content?.type).replace('Section', '');
 
   try {
-    Component = require(`'components/section/${section}`).default;
+    Component = require(`components/Section/${section}`).default;
   } catch {
-    Component = require(`components/section/Placeholder`).default;
+    Component = require(`components/Section/Placeholder`).default;
   }
 
   return content && <Component content={content} section={section} />;

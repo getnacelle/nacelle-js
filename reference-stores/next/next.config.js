@@ -5,9 +5,6 @@ module.exports = withPWA({
     dest: 'public'
   },
   images: {
-    domains: [
-      'cdn.shopify.com',
-      'cdn.contentful.com'
-    ]
+    domains: ['cdn.shopify.com', 'images.ctfassets.net']
   }
 });

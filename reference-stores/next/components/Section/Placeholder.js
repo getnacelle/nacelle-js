@@ -3,9 +3,9 @@ import emptyIcon from 'assets/svgs/empty';
 const Section = ({ section }) => {
   return (
     section && (
-      <div className="relative block bg-white px-4 py-16">
+      <section className="relative block bg-white px-4 py-16">
         <div
-          class="
+          className="
           bg-red-50
           max-w-3xl
           mx-auto
@@ -47,7 +47,7 @@ const Section = ({ section }) => {
             not found. To get started create this component in your CMS.
           </p>
         </div>
-      </div>
+      </section>
     )
   );
 };
