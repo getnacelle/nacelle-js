@@ -1,10 +1,10 @@
-import Link from 'next/link'
+import Link from 'next/link';
 
 const HeaderLogo = () => {
   return (
     <div className="absolute flex lg:relative">
       <Link href="/">
-        <span>
+        <a>
           <span className="sr-only">Workflow</span>
           <img
             className="h-8 w-8"
@@ -13,10 +13,10 @@ const HeaderLogo = () => {
             height="32"
             width="32"
           />
-        </span>
+        </a>
       </Link>
     </div>
-  )
-}
+  );
+};
 
-export default HeaderLogo
+export default HeaderLogo;

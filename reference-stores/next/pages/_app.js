@@ -1,5 +1,6 @@
 import App from 'next/app';
-import { SearchProvider } from 'context/Search'
+import { SearchProvider } from 'context/Search';
+import { UiProvider } from 'context/Ui';
 import Layout from 'components/Layout/Layout';
 import { nacelleClient } from 'services';
 
@@ -10,19 +11,21 @@ const MyApp = ({ Component, pageProps, products, components }) => {
   return (
     // Todo: add in Cart Provider
     <SearchProvider catalog={products}>
-      <Layout components={components}>
-        <Component {...pageProps} />
-      </Layout>
+      <UiProvider>
+        <Layout components={components}>
+          <Component {...pageProps} />
+        </Layout>
+      </UiProvider>
     </SearchProvider>
-  )
-}
+  );
+};
 
 MyApp.getInitialProps = async (appContext) => {
-  const data = await nacelleClient.query({ query: SITE_QUERY })
+  const data = await nacelleClient.query({ query: SITE_QUERY });
   const { space, products, ...rest } = data;
   const appProps = await App.getInitialProps(appContext);
 
   return { ...appProps, space, products, components: rest };
 };
 
-export default MyApp
+export default MyApp;

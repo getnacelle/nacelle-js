@@ -1,18 +1,19 @@
 import { nacelleClient } from 'services';
-import { CONTENT_PAGE_QUERY } from 'queries/contentPage'
+import { CONTENT_PAGE_QUERY } from 'queries/contentPage';
+import Section from 'components/Section/Section';
 
 const Home = ({ page }) => {
-
   const fields = page?.fields || {};
-  const { sections, ...rest } = fields
-  const content = { fields: rest }
+  const { sections } = fields;
 
   return (
     <div className="bg-white">
-      HEY YOU
+      {sections.map((section, index) => (
+        <Section key={index} content={section} />
+      ))}
     </div>
-  )
-}
+  );
+};
 
 export async function getStaticProps() {
   const { pages } = await nacelleClient.query({
@@ -26,4 +27,4 @@ export async function getStaticProps() {
   };
 }
 
-export default Home
+export default Home;

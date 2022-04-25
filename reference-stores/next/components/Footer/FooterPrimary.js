@@ -1,4 +1,4 @@
-import Link from 'next/link'
+import Link from 'next/link';
 
 const FooterPrimary = ({ content }) => {
   return (
@@ -6,19 +6,16 @@ const FooterPrimary = ({ content }) => {
       {content?.navigation?.map((menu, index) => (
         <div key={index} className="mt-10">
           <div>
-            <h3
-              className="text-sm font-semibold text-gray-500 tracking-wider uppercase"
-            >
+            <h3 className="text-sm font-semibold text-gray-500 tracking-wider uppercase">
               {menu.fields.text}
             </h3>
             <ul role="list" className="mt-4 space-y-4">
               {menu.fields?.links?.map((link, index1) => (
                 <li key={index1}>
-                  <Link
-                    href={link.fields.url}
-                    className="text-base text-gray-500 hover:text-gray-900"
-                  >
-                    {link.fields.text}
+                  <Link href={link.fields.url}>
+                    <a className="text-base text-gray-500 hover:text-gray-900">
+                      {link.fields.text}
+                    </a>
                   </Link>
                 </li>
               ))}
@@ -27,7 +24,7 @@ const FooterPrimary = ({ content }) => {
         </div>
       ))}
     </div>
-  )
-}
+  );
+};
 
-export default FooterPrimary
+export default FooterPrimary;

@@ -1,27 +1,48 @@
-import HeaderMenu from './HeaderMenu'
-import HeaderLogo from './HeaderLogo'
-import SearchInput from 'components/Search/SearchInput'
-import HeaderCart from './HeaderCart'
+import HeaderPromo from './HeaderPromo';
+import HeaderMenu from './HeaderMenu';
+import HeaderLogo from './HeaderLogo';
+import SearchInput from 'components/Search/SearchInput';
+import HeaderCart from './HeaderCart';
 
 const Header = ({ content }) => {
-  return !content && (
-    <header className="relative bg-white border-b border-gray-200">
-      <nav aria-label="Top" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="h-16 flex items-center justify-around">
-          <HeaderMenu />
-          <HeaderLogo />
-          <div className="ml-auto flex items-center">
+  const promoContent = {
+    text: content?.fields?.promoText
+  };
+
+  const primaryContent = {
+    navigation: content?.fields?.navigation
+  };
+
+  const searchContent = {
+    placeholder: content?.fields?.searchPlaceholder,
+    heading: content?.fields?.searchHeading,
+    all: content?.fields?.searchAll
+  };
+
+  return (
+    content && (
+      <header className="relative bg-white border-b border-gray-200">
+        <HeaderPromo content={promoContent} />
+        <nav
+          aria-label="Top"
+          className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"
+        >
+          <div className="h-16 flex items-center justify-around">
+            <HeaderMenu />
+            <HeaderLogo />
             <div className="ml-auto flex items-center">
-              <div className="hidden lg:block">
-                <SearchInput />
-               </div>
-              <HeaderCart />
+              <div className="ml-auto flex items-center">
+                <div className="hidden lg:block">
+                  <SearchInput content={searchContent} />
+                </div>
+                <HeaderCart />
+              </div>
             </div>
           </div>
-        </div>
-      </nav>
-    </header>
-  )
-}
+        </nav>
+      </header>
+    )
+  );
+};
 
-export default Header
+export default Header;

@@ -1,5 +1,5 @@
-import { useContext } from 'react'
-import { SearchContext } from 'context/Search'
+import { useContext } from 'react';
+import { SearchContext } from 'context/Search';
 
 export const useSearch = () => {
   const {
@@ -10,7 +10,7 @@ export const useSearch = () => {
     availableFilters,
     toggleFilter,
     setFilters
-  } = useContext(SearchContext)
+  } = useContext(SearchContext);
 
   return {
     query,
@@ -20,5 +20,5 @@ export const useSearch = () => {
     availableFilters,
     toggleFilter,
     setFilters
-  }
-}
+  };
+};
