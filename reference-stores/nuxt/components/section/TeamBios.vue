@@ -10,11 +10,23 @@
         </h2>
         <ul
           role="list"
-          class="space-y-12 lg:grid lg:grid-cols-2 lg:items-start lg:gap-x-8 lg:gap-y-12 lg:space-y-0"
+          class="
+            space-y-12
+            lg:grid
+            lg:grid-cols-2
+            lg:items-start
+            lg:gap-x-8
+            lg:gap-y-12
+            lg:space-y-0
+          "
         >
           <li v-for="(member, index) in content.members" :key="index">
             <div
-              class="space-y-4 sm:grid sm:grid-cols-3 sm:gap-6 sm:space-y-0 lg:gap-8"
+              class="
+                space-y-4
+                sm:grid sm:grid-cols-3 sm:gap-6 sm:space-y-0
+                lg:gap-8
+              "
             >
               <div
                 v-if="member.image"
@@ -22,8 +34,8 @@
               >
                 <nuxt-img
                   class="object-cover shadow-lg rounded-lg"
-                  :src="member.image.file.asset.url"
-                  :alt="member.image.alt"
+                  :src="$contentful.imageUrl(member.image)"
+                  :alt="member.imageAlt"
                   :width="500"
                 />
               </div>

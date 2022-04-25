@@ -9,7 +9,7 @@
         <nuxt-picture
           v-if="content.fields.image"
           class="picture"
-          :src="content.fields.image.fields.file.url"
+          :src="$contentful.imageUrl(content.fields.image)"
           :alt="content.fields.imageAlt"
           sizes="sm:100vw lg:100vw xl:50vw"
           quality="80"

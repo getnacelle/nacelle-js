@@ -7,7 +7,7 @@
         class="absolute inset-0 overflow-hidden"
       >
         <nuxt-picture
-          :src="content.fields.image.fields.file.url"
+          :src="$contentful.imageUrl(content.fields.image)"
           :alt="content.fields.imageAlt"
           sizes="sm:100vw lg:100vw xl:100vw"
           quality="80"
