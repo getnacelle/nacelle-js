@@ -36,7 +36,7 @@
         "
       >
         <product-card
-          v-for="product in products"
+          v-for="product in content.fields.products"
           :key="product.id"
           :product="product"
         />
@@ -63,7 +63,6 @@
 </template>
 
 <script>
-import { PRODUCTS_QUERY } from '~/queries/product';
 import ProductCard from '~/components/product/ProductCard.vue';
 
 export default {
@@ -75,27 +74,6 @@ export default {
     content: {
       type: Object,
       required: true
-    }
-  },
-  data: () => ({
-    products: []
-  }),
-  async fetch() {
-    if (this.productHandles) {
-      const { products } = await this.$nacelle.query({
-        query: PRODUCTS_QUERY,
-        variables: {
-          handles: this.productHandles
-        }
-      });
-      this.products = products;
-    }
-  },
-  computed: {
-    productHandles() {
-      return this.content?.fields?.products?.map(
-        (product) => product.fields.handle?.split('::')[0]
-      );
     }
   }
 };

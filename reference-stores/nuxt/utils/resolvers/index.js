@@ -1,0 +1,1 @@
+export { resolvePageData } from './resolvePageData';
