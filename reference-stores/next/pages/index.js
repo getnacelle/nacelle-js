@@ -8,7 +8,7 @@ const Home = ({ page }) => {
 
   return (
     <div className="bg-white">
-      {sections.map((section, index) => (
+      {sections?.map((section, index) => (
         <Section key={index} content={section} />
       ))}
     </div>

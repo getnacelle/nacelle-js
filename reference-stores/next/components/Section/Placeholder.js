@@ -1,6 +1,6 @@
 import emptyIcon from 'assets/svgs/empty';
 
-const Section = ({ section }) => {
+const Placeholder = ({ section }) => {
   return (
     section && (
       <section className="relative block bg-white px-4 py-16">
@@ -52,4 +52,4 @@ const Section = ({ section }) => {
   );
 };
 
-export default Section;
+export default Placeholder;

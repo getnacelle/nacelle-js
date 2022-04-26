@@ -1,18 +1,19 @@
 import { nacelleClient } from 'services';
-import { CONTENT_ROUTES_QUERY, CONTENT_PAGE_QUERY } from 'queries/contentPage'
+import { CONTENT_ROUTES_QUERY, CONTENT_PAGE_QUERY } from 'queries/contentPage';
+import Section from 'components/Section/Section';
 
 const ContentHandle = ({ page }) => {
-
   const fields = page?.fields || {};
-  const { sections, ...rest } = fields
-  const content = { fields: rest }
+  const { sections } = fields;
 
   return (
     <div className="bg-white">
-      HEY YOU
+      {sections?.map((section, index) => (
+        <Section key={index} content={section} />
+      ))}
     </div>
-  )
-}
+  );
+};
 
 export async function getStaticPaths() {
   const { pages } = await nacelleClient.query({
@@ -28,13 +29,12 @@ export async function getStaticPaths() {
     paths,
     fallback: 'blocking'
   };
-
 }
 
-export async function getStaticProps({ params: { handle } }) {
+export async function getStaticProps({ params }) {
   const { pages } = await nacelleClient.query({
     query: CONTENT_PAGE_QUERY,
-    variables: { handle }
+    variables: { handle: `page-${params.handle}` }
   });
   return {
     props: {
@@ -43,4 +43,4 @@ export async function getStaticProps({ params: { handle } }) {
   };
 }
 
-export default ContentHandle
+export default ContentHandle;
