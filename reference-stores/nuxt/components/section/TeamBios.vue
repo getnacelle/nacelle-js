@@ -3,10 +3,10 @@
     <div class="mx-auto py-24 px-4 max-w-7xl sm:px-6 lg:px-8 lg:py-32">
       <div class="space-y-12">
         <h2
-          v-if="content.heading"
+          v-if="content.fields.heading"
           class="text-3xl font-extrabold tracking-tight sm:text-4xl"
         >
-          {{ content.heading }}
+          {{ content.fields.heading }}
         </h2>
         <ul
           role="list"
@@ -20,7 +20,7 @@
             lg:space-y-0
           "
         >
-          <li v-for="(member, index) in content.members" :key="index">
+          <li v-for="(member, index) in content.fields.members" :key="index">
             <div
               class="
                 space-y-4
@@ -29,12 +29,12 @@
               "
             >
               <div
-                v-if="member.image"
+                v-if="member.fields.image"
                 class="h-0 aspect-w-3 aspect-h-2 sm:aspect-w-3 sm:aspect-h-4"
               >
                 <nuxt-img
                   class="object-cover shadow-lg rounded-lg"
-                  :src="$contentful.imageUrl(member.image)"
+                  :src="$contentful.imageUrl(member.fields.image)"
                   :alt="member.imageAlt"
                   :width="500"
                 />
@@ -42,15 +42,19 @@
               <div class="sm:col-span-2">
                 <div class="space-y-4">
                   <div class="text-lg leading-6 font-medium space-y-1">
-                    <h3 v-if="member.name">{{ member.name }}</h3>
-                    <p v-if="member.role" class="text-indigo-600">
-                      {{ member.role }}
+                    <h3 v-if="member.fields.name">{{ member.fields.name }}</h3>
+                    <p v-if="member.fields.role" class="text-indigo-600">
+                      {{ member.fields.role }}
                     </p>
                   </div>
                   <div class="text-lg">
-                    <p v-if="member.text" class="text-gray-500">
-                      {{ member.text }}
-                    </p>
+                    <!-- eslint-disable vue/no-v-html -->
+                    <div 
+                      v-if="member.fields.text" 
+                      class="text-gray-500"
+                      v-html="$contentful.richText(member.fields.text)"
+                    />
+                    <!-- eslint-enable vue/no-v-html -->
                   </div>
                 </div>
               </div>

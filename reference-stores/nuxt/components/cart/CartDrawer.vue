@@ -59,11 +59,17 @@
               <p v-show="!cartItems.length" class="text-gray-400 text-center">
                 {{ content.fields.emptyText }}
               </p>
-              <!-- <cart-cross-sells :content="content.fields.crosssells" /> -->
+              <cart-cross-sells 
+                v-if="crossSellContent"
+                :content="crossSellContent" 
+              />
             </div>
           </div>
         </div>
-        <cart-total v-show="cartItems.length" :content="totalContent" />
+        <cart-total 
+          v-show="cartItems.length" 
+          :content="totalContent" 
+        />
       </div>
     </div>
   </div>
@@ -73,15 +79,14 @@
 import { mapGetters, mapMutations } from 'vuex';
 
 import CartItem from './CartItem.vue';
-// import CartCrossSells from './CartCrossSells.vue';
+import CartCrossSells from './CartCrossSells.vue';
 import CartTotal from './CartTotal.vue';
-// import { PRODUCTS_QUERY } from '~/queries/product';
 
 export default {
   name: 'CartDrawer',
   components: {
     CartItem,
-    // CartCrossSells,
+    CartCrossSells,
     CartTotal
   },
   props: {
@@ -90,19 +95,16 @@ export default {
       required: true
     }
   },
-  async fetch() {
-    // const { products } = await this.$nacelle.query({
-    //   query: PRODUCTS_QUERY,
-    //   variables: { handles: this.content.products }
-    // });
-    // this.products = products;
-  },
   computed: {
     ...mapGetters('cart', ['cartItems']),
     ...mapGetters('ui', ['cartVisible']),
     itemContent() {
       const { itemQuantity, itemRemove } = this.content?.fields;
       return { itemQuantity, itemRemove };
+    },
+    crossSellContent() {
+      const { crosssellHeading, crosssellItems, crosssellAdd } = this.content?.fields
+      return { heading: crosssellHeading, items: crosssellItems, add: crosssellAdd }
     },
     totalContent() {
       const { subtotalLabel, subtotalText, checkoutText, continueText } =

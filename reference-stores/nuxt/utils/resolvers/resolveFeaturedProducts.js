@@ -5,17 +5,21 @@ export const resolveFeaturedProducts = async({ client, section }) => {
     const productHandles = section?.fields?.products?.map(
       (product) => product.fields.handle?.split('::')[0]
     );
-    const { products } = await client.query({
-      query: PRODUCTS_QUERY,
-      variables: {
-        handles: productHandles
-      }
-    })
+    let productList = [];
+    if(Array.isArray(productHandles) && productHandles.length) {
+      const { products } = await client.query({
+        query: PRODUCTS_QUERY,
+        variables: {
+          handles: productHandles
+        }
+      })
+      productList = products
+    }
     return {
       ...section,
       fields: {
         ...section?.fields,
-        products
+        products: productList
       }
     }
   }

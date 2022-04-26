@@ -1,4 +1,5 @@
 import { cachedFetch } from '~/utils/cachedFetch';
+import { resolveSiteData } from '~/utils/resolvers';
 import { SITE_QUERY } from '~/queries/site';
 
 export const state = () => ({
@@ -51,6 +52,7 @@ export const actions = {
     const { data } = await cachedFetch({
       key: 'site',
       fetcher: () => this.$nacelle.query({ query: SITE_QUERY })
+        .then(site => resolveSiteData({ client: this.$nacelle, site }))
     });
     const { space, products, ...rest } = data;
     commit('setSpace', space);

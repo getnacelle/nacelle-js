@@ -12,9 +12,13 @@
             >
               {{ content.fields.heading }}
             </h2>
-            <p v-if="content.text" class="mt-4 text-gray-500">
-              {{ content.text }}
-            </p>
+            <!-- eslint-disable vue/no-v-html -->
+            <div 
+              v-if="content.fields.text" 
+              class="mt-4 text-gray-500"
+              v-html="$contentful.richText(content.fields.text)"
+            />
+            <!-- eslint-enable vue/no-v-html -->
           </div>
           <div
             v-if="content.fields.image"
