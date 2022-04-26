@@ -1,0 +1,41 @@
+service: aws-node-express-api-project
+frameworkVersion: '3'
+plugins:
+  # - serverless-plugin-datadog
+  - serverless-plugin-typescript
+  - serverless-offline
+
+provider:
+  name: aws
+  runtime: nodejs14.x
+
+useDotenv: true
+
+functions:
+  api:
+    handler: handler.handler
+    events:
+      - httpApi: '*'
+    environment:
+      ALGOLIA_INDEX: ${env:ALGOLIA_INDEX}
+      ALGOLIA_API_KEY: ${env:ALGOLIA_API_KEY}
+      STOREFRONT_API_ENDPOINT: ${env:STOREFRONT_API_ENDPOINT}
+      STOREFRONT_API_TOKEN: ${env:STOREFRONT_API_TOKEN}
+# custom:
+#   datadog:
+#     flushMetricsToLogs: true
+#     apiKey: "{Datadog_API_Key}"
+#     apiKMSKey: "{Encrypted_Datadog_API_Key}"
+#     monitorsApiKey: "{Datadog_API_Key}"
+#     monitorsAppKey: "{Datadog_Application_Key}"
+#     addLayers: true
+#     logLevel: "info"
+#     enableXrayTracing: false
+#     enableDDTracing: true
+#     enableAPIGatewayLogs: true
+#     forwarderArn: arn:aws:lambda:us-east-1:000000000000:function:datadog-forwarder
+#     enableTags: true
+#     injectLogContext: true
+#     exclude:
+#       - dd-excluded-function
+# info https://docs.datadoghq.com/serverless/installation/nodejs/?tab=serverlessframework
