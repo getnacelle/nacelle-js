@@ -129,7 +129,11 @@ async function fetchRemoteImageNodes(dataType, node, gatsbyApi) {
     nodeMediaEntry &&
     nodeMediaEntry.type &&
     nodeMediaEntry.type.toLowerCase().startsWith('image');
-  if (dataType === 'Product') {
+  if (
+    dataType === 'Product' ||
+    dataType === 'ProductCollection' ||
+    dataType === 'ContentCollection'
+  ) {
     await createRemoteImageFileNode(
       node,
       [
