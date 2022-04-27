@@ -34,7 +34,7 @@
             aria-expanded="false"
             @click="setActiveIndex(index)"
           >
-            {{ navigationItem.text }}
+            {{ navigationItem.fields.text }}
           </button>
           <nuxt-link
             v-else-if="navigationItem.type === 'partNavigationLink'"
@@ -60,22 +60,22 @@
             {{ navigationItem.fields.text }}
           </nuxt-link>
         </div>
-        <!-- <header-mega
-          v-if="navigationItem._type === 'mega'"
+        <header-mega
+          v-if="navigationItem.type === 'partNavigationMega'"
           :content="navigationItem"
           :active="activeIndex === index"
-        /> -->
+        />
       </div>
     </div>
   </div>
 </template>
 
 <script>
-// import HeaderMega from './HeaderMega.vue';
+import HeaderMega from './HeaderMega.vue';
 
 export default {
   name: 'HeaderPrimary',
-  // components: { HeaderMega },
+  components: { HeaderMega },
   props: {
     content: {
       type: Object,

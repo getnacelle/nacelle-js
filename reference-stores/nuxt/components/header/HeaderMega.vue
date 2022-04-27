@@ -23,13 +23,13 @@
           <div class="grid grid-cols-2 gap-y-10 gap-x-8 py-16">
             <div class="col-start-2 grid grid-cols-2 gap-x-8">
               <nuxt-link
-                v-for="(callout, index1) in content.callouts"
+                v-for="(callout, index1) in callouts"
                 :key="index1"
-                :to="callout.url"
+                :to="callout.fields.linkUrl"
                 class="group relative text-base sm:text-sm"
               >
                 <div
-                  v-if="callout.image"
+                  v-if="callout.fields.image"
                   class="
                     aspect-w-1 aspect-h-1
                     rounded-lg
@@ -40,36 +40,48 @@
                 >
                   <nuxt-picture
                     class="picture"
-                    :src="callout.image.file.asset.url"
-                    :alt="callout.image.altText"
+                    :src="$contentful.imageUrl(callout.fields.image)"
+                    :alt="callout.fields.imageAlt"
                     quality="80"
                     sizes="lg:136px xl:25vw"
                   />
                 </div>
-                <div class="mt-6 block font-medium text-gray-900">
+                <div
+                  v-if="callout.fields.heading"
+                  class="mt-6 block font-medium text-gray-900"
+                >
                   <span class="absolute z-10 inset-0" aria-hidden="true"></span>
-                  {{ callout.text }}
+                  {{ callout.fields.heading }}
                 </div>
-                <p aria-hidden="true" class="mt-1">Shop now</p>
+                <p
+                  v-if="callout.fields.linkText"
+                  aria-hidden="true"
+                  class="mt-1"
+                >
+                  {{ callout.fields.linkText }}
+                </p>
               </nuxt-link>
             </div>
             <div class="row-start-1 grid grid-cols-3 gap-y-10 gap-x-8 text-sm">
-              <div v-for="(menu, index) in content.menus" :key="index">
-                <p class="font-medium text-gray-900">
-                  {{ menu.text }}
+              <div v-for="(menu, index) in menus" :key="index">
+                <p v-if="menu.fields.text" class="font-medium text-gray-900">
+                  {{ menu.fields.text }}
                 </p>
                 <ul
                   role="list"
-                  :aria-labelledby="`${menu.text}-heading`"
+                  :aria-labelledby="`${menu.fields.text}-heading`"
                   class="mt-6 space-y-6 sm:mt-4 sm:space-y-4"
                 >
                   <li
-                    v-for="(link, index1) in menu.links"
+                    v-for="(link, index1) in menu.fields.links"
                     :key="index1"
                     class="flex"
                   >
-                    <nuxt-link :to="link.url" class="hover:text-gray-800">
-                      {{ link.text }}
+                    <nuxt-link
+                      :to="link.fields.url"
+                      class="hover:text-gray-800"
+                    >
+                      {{ link.fields.text }}
                     </nuxt-link>
                   </li>
                 </ul>
@@ -93,6 +105,30 @@ export default {
     active: {
       type: Boolean,
       default: false
+    }
+  },
+  computed: {
+    callouts() {
+      const callouts = [];
+      const fields = this.content?.fields;
+      if (fields?.navigationCallout1) {
+        callouts.push(fields?.navigationCallout1);
+      }
+      if (fields?.navigationCallout2) {
+        callouts.push(fields?.navigationCallout2);
+      }
+      return callouts;
+    },
+    menus() {
+      const menus = [];
+      const fields = this.content?.fields;
+      if (fields?.navigationGroup1) {
+        menus.push(fields?.navigationGroup1);
+      }
+      if (fields?.navigationGroup2) {
+        menus.push(fields?.navigationGroup2);
+      }
+      return menus;
     }
   }
 };

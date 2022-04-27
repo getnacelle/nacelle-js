@@ -28,7 +28,7 @@
           type="button"
           @click="handleClick(index)"
         >
-          {{ tab.text }}
+          {{ tab.fields.text }}
         </button>
       </div>
     </div>
@@ -45,10 +45,11 @@
         <nuxt-link
           v-for="(callout, index1) in tab.callouts"
           :key="index1"
-          :to="callout.url"
+          :to="callout.fields.linkUrl"
           class="group relative text-sm"
         >
           <div
+            v-if="callout.fields.image"
             class="
               aspect-w-1 aspect-h-1
               rounded-lg
@@ -58,16 +59,21 @@
             "
           >
             <nuxt-img
-              :src="callout.image.file.asset.url"
-              :alt="callout.image.altText"
+              :src="$contentful.imageUrl(callout.fields.image)"
+              :alt="callout.fields.imageAlt"
               class="object-center object-cover"
             />
           </div>
-          <div class="mt-6 block font-medium text-gray-900">
+          <div
+            v-if="callout.fields.heading"
+            class="mt-6 block font-medium text-gray-900"
+          >
             <span class="absolute z-10 inset-0" aria-hidden="true"></span>
-            {{ callout.text }}
+            {{ callout.fields.heading }}
           </div>
-          <p aria-hidden="true" class="mt-1">Shop now</p>
+          <p v-if="callout.fields.linkText" aria-hidden="true" class="mt-1">
+            {{ callout.fields.linkText }}
+          </p>
         </nuxt-link>
       </div>
     </div>
@@ -81,21 +87,24 @@
       :tabindex="index"
     >
       <div v-for="(menu, index1) in tab.menus" :key="index1">
-        <p class="font-medium text-gray-900">
-          {{ menu.text }}
+        <p v-if="menu.fields.text" class="font-medium text-gray-900">
+          {{ menu.fields.text }}
         </p>
         <ul
           role="list"
-          :aria-labelledby="`${menu.text}-heading-mobile`"
+          :aria-labelledby="`${menu.fields.text}-heading-mobile`"
           class="mt-6 flex flex-col space-y-6"
         >
           <li
-            v-for="(link, index2) in menu.links"
+            v-for="(link, index2) in menu.fields.links"
             :key="index2"
             class="flow-root"
           >
-            <nuxt-link :to="link.url" class="-m-2 p-2 block text-gray-500">
-              {{ link.text }}
+            <nuxt-link
+              :to="link.fields.url"
+              class="-m-2 p-2 block text-gray-500"
+            >
+              {{ link.fields.text }}
             </nuxt-link>
           </li>
         </ul>
@@ -118,9 +127,32 @@ export default {
   }),
   computed: {
     tabs() {
-      return this.content?.navigation?.filter((navigationItem) => {
-        return navigationItem.type === 'partNavigationMega';
-      });
+      return this.content?.navigation
+        ?.filter((navigationItem) => {
+          return navigationItem.type === 'partNavigationMega';
+        })
+        .map((navigationItem) => {
+          const callouts = [];
+          const fields = navigationItem?.fields;
+          if (fields?.navigationCallout1) {
+            callouts.push(fields?.navigationCallout1);
+          }
+          if (fields?.navigationCallout2) {
+            callouts.push(fields?.navigationCallout2);
+          }
+          const menus = [];
+          if (fields?.navigationGroup1) {
+            menus.push(fields?.navigationGroup1);
+          }
+          if (fields?.navigationGroup2) {
+            menus.push(fields?.navigationGroup2);
+          }
+          return {
+            ...navigationItem,
+            callouts,
+            menus
+          };
+        });
     }
   },
   methods: {
