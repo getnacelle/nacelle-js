@@ -25,7 +25,10 @@ export default {
   async asyncData({ app, params }) {
     const { collections, pages } = await app.$nacelle.query({
       query: COLLECTION_PAGE_QUERY,
-      variables: { handle: params.handle }
+      variables: {
+        handle: params.handle,
+        pageHandle: `page-${params.handle}`
+      }
     });
     return {
       collection: collections[0],

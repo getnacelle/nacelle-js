@@ -23,7 +23,6 @@
           }}<span aria-hidden="true"> &rarr;</span></nuxt-link
         >
       </div>
-
       <div
         class="
           mt-6
@@ -41,10 +40,8 @@
           :product="product"
         />
       </div>
-
-      <div class="mt-6 sm:hidden">
+      <div v-if="content.link" class="mt-6 sm:hidden">
         <nuxt-link
-          v-if="content.link"
           :to="content.link.url"
           class="
             block
