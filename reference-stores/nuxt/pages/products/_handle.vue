@@ -12,6 +12,7 @@
 <script>
 import { PRODUCT_PAGE_QUERY } from '~/queries/productPage';
 import { buildMeta } from '~/utils/buildMeta';
+import { resolvePageData } from '~/utils/resolvers';
 
 import ProductDetails from '~/components/product/ProductDetails.vue';
 import SiteSection from '~/components/section/Section.vue';
@@ -30,9 +31,14 @@ export default {
         pageHandle: `page-${params.handle}`
       }
     });
+    const { page } = await resolvePageData({
+      client: app.$nacelle,
+      page: pages[0]
+    });
+
     return {
       product: products[0],
-      page: pages[0]
+      page
     };
   },
   head() {

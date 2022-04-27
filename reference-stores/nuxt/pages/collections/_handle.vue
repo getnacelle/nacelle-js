@@ -12,6 +12,7 @@
 <script>
 import { COLLECTION_PAGE_QUERY } from '~/queries/collectionPage';
 import { buildMeta } from '~/utils/buildMeta';
+import { resolvePageData } from '~/utils/resolvers';
 
 import CollectionGrid from '~/components/collection/CollectionGrid.vue';
 import SiteSection from '~/components/section/Section.vue';
@@ -30,9 +31,14 @@ export default {
         pageHandle: `page-${params.handle}`
       }
     });
+    const { page } = await resolvePageData({
+      client: app.$nacelle,
+      page: pages[0]
+    });
+
     return {
       collection: collections[0],
-      page: pages[0]
+      page
     };
   },
   head() {
