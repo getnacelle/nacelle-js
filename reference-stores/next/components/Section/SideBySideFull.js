@@ -42,7 +42,7 @@ const SideBySideFull = ({ content }) => {
             }
           >
             <div
-              class={`text-base max-w-prose mx-auto lg:max-w-lg ${
+              className={`text-base max-w-prose mx-auto lg:max-w-lg ${
                 content.fields.imageSide === 'Left'
                   ? 'lg:ml-auto lg:mr-0'
                   : 'lg:mr-auto lg:ml-0'
