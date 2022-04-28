@@ -1,7 +1,7 @@
 <template>
   <transition name="fade-up">
     <div
-      v-if="query && results"
+      v-if="show"
       class="
         absolute
         md:right-0 md:w-96 md:top-10
@@ -74,6 +74,10 @@ export default {
     SearchAutocompleteItem
   },
   props: {
+    show: {
+      type: Boolean,
+      default: false
+    },
     query: {
       type: String,
       default: ''
@@ -96,12 +100,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.fade-up-enter-active,
-.fade-up-leave-active {
+.fade-up-enter-active {
   transition: opacity 0.3s, transform 0.3s;
 }
-
-.fade-up-enter, .fade-up-leave-to /* .fade-leave-active below version 2.1.8 */ {
+.fade-up-enter,
+.fade-up-leave-to {
   opacity: 0;
   transform: translateY(20px);
 }

@@ -51,7 +51,7 @@
           @blur="handleFocus(false)"
         />
         <search-autocomplete
-          v-if="query && isFocused"
+          :show="isFocussed && query.trim() !== ''"
           :results="results"
           :query="query"
           :content="content"
@@ -81,7 +81,7 @@ export default {
   data: () => ({
     query: '',
     results: [],
-    isFocused: false,
+    isFocussed: false,
     searchIcon
   }),
   computed: {
@@ -92,7 +92,7 @@ export default {
   },
   methods: {
     handleFocus(value) {
-      this.isFocused = value;
+      this.isFocussed = value;
     },
     handleKeyup() {
       this.results = searchProducts({
