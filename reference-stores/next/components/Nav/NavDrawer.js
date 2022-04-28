@@ -1,6 +1,7 @@
 import { CSSTransition } from 'react-transition-group';
 import { useUi } from 'hooks/useUi';
 import closeIcon from 'assets/svgs/close';
+import NavTabs from './NavTabs';
 import NavMenu from './NavMenu';
 
 const NavDrawer = ({ content }) => {
@@ -33,6 +34,7 @@ const NavDrawer = ({ content }) => {
               />
             </button>
           </div>
+          <NavTabs content={primaryContent} />
           <NavMenu content={primaryContent} />
           <style jsx>{`
             .slide-enter-active,
