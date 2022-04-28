@@ -37,7 +37,7 @@
       v-show="activeIndex === index"
       :key="`callout-${index}`"
       class="pt-10 pb-8 px-4 space-y-10"
-      :aria-labelledby="`tabs-${index}-tab-${index}`"
+      :aria-labelledby="`tab-menu-${index}`"
       role="tabpanel"
       :tabindex="index"
     >
