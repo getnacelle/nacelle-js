@@ -92,7 +92,9 @@ export default {
   },
   methods: {
     handleFocus(value) {
-      this.isFocussed = value;
+      setTimeout(() => {
+        this.isFocussed = value;
+      }, 100);
     },
     handleKeyup() {
       this.results = searchProducts({
