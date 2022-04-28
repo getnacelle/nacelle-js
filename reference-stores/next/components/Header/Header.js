@@ -17,7 +17,8 @@ const Header = ({ content }) => {
   const searchContent = {
     placeholder: content?.fields?.searchPlaceholder,
     heading: content?.fields?.searchHeading,
-    all: content?.fields?.searchAll
+    all: content?.fields?.searchAll,
+    empty: content?.fields?.searchEmpty
   };
 
   return (

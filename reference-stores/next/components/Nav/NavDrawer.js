@@ -1,6 +1,7 @@
 import { CSSTransition } from 'react-transition-group';
 import { useUi } from 'hooks/useUi';
 import closeIcon from 'assets/svgs/close';
+import SearchInput from 'components/Search/SearchInput';
 import NavTabs from './NavTabs';
 import NavMenu from './NavMenu';
 
@@ -14,7 +15,8 @@ const NavDrawer = ({ content }) => {
   const searchContent = {
     placeholder: content?.searchPlaceholder,
     heading: content?.searchHeading,
-    all: content?.searchAll
+    all: content?.searchAll,
+    empty: content?.searchEmpty
   };
 
   return (
@@ -34,6 +36,7 @@ const NavDrawer = ({ content }) => {
               />
             </button>
           </div>
+          <SearchInput content={searchContent} />
           <NavTabs content={primaryContent} />
           <NavMenu content={primaryContent} />
           <style jsx>{`

@@ -5,7 +5,7 @@ import SearchAutocomplete from './SearchAutocomplete';
 import searchIcon from 'assets/svgs/search';
 
 const SearchInput = ({ content }) => {
-  const [isFocussed, setIsFocussed] = useState();
+  const [isFocussed, setIsFocussed] = useState(false);
   const router = useRouter();
 
   const { query, setQuery } = useSearch();
