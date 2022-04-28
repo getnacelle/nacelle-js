@@ -1,0 +1,20 @@
+.home {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  font-family: Arial, Helvetica, sans-serif;
+  height: 100vh;
+  justify-content: center;
+  text-align: center;
+}
+.logo {
+  max-width: 320px;
+}
+.logo img {
+  max-width: 100%;
+}
+.inlineCode {
+  background: lightgrey;
+  border-radius: 4px;
+  padding: 0.25rem;
+}
