@@ -15,11 +15,11 @@ export default {
   },
   data: () => ({
     content: {
-      heading: '404',
-      text: 'Uh oh!  The page you are looking for does not exist.',
-      button: {
-        url: '/',
-        text: 'Back to Homepage'
+      fields: {
+        heading: '404',
+        text: 'Uh oh!  The page you are looking for does not exist.',
+        linkText: 'Back to Homepage',
+        linkUrl: '/'
       }
     }
   }),

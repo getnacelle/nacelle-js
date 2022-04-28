@@ -40,9 +40,9 @@
           :product="product"
         />
       </div>
-      <div v-if="content.link" class="mt-6 sm:hidden">
+      <div v-if="content.fields.linkUrl" class="mt-6 sm:hidden">
         <nuxt-link
-          :to="content.link.url"
+          :to="content.fields.linkUrl"
           class="
             block
             text-sm
@@ -51,7 +51,7 @@
             hover:text-indigo-500
           "
         >
-          {{ content.link.text }}
+          {{ content.fields.linkText }}
           <span aria-hidden="true"> &rarr;</span></nuxt-link
         >
       </div>

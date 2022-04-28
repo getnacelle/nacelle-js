@@ -41,8 +41,8 @@
       />
       <!-- eslint-enable vue/no-v-html -->
       <nuxt-link
-        v-if="content.fields.button"
-        :to="content.fields.button.url"
+        v-if="content.fields.linkUrl"
+        :to="content.fields.linkUrl"
         class="
           mt-8
           inline-block
@@ -58,7 +58,7 @@
           hover:bg-indigo-700
         "
       >
-        {{ content.button.text }}
+        {{ content.fields.linkText }}
       </nuxt-link>
     </div>
   </section>

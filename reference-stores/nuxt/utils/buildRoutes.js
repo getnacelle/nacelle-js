@@ -1,10 +1,10 @@
 import { Storefront } from '@nacelle/storefront-sdk';
 
 export const buildRoutes = async () => {
-  const clientOld = new Storefront({
-    storefrontEndpoint: process.env.NACELLE_OLD_STOREFRONT_ENDPOINT,
-    token: process.env.NACELLE_OLD_STOREFRONT_TOKEN,
-    locale: process.env.NACELLE_OLD_STOREFRONT_LOCALE
+  const client = new Storefront({
+    storefrontEndpoint: process.env.NACELLE_STOREFRONT_ENDPOINT,
+    token: process.env.NACELLE_STOREFRONT_TOKEN,
+    locale: process.env.NACELLE_STOREFRONT_LOCALE
   });
   const QUERY = `
   {
@@ -22,11 +22,9 @@ export const buildRoutes = async () => {
       handle
     }
   }`;
-
-  const { products, collections, pages } = await clientOld.query({
+  const { products, collections, pages } = await client.query({
     query: QUERY
   });
-
   return [
     ...products.map((product) => `/products/${product.content.handle}`),
     ...collections.map(

@@ -43,11 +43,6 @@ export default {
       token: process.env.NACELLE_STOREFRONT_TOKEN,
       locale: process.env.NACELLE_STOREFRONT_LOCALE
     },
-    nacelleOld: {
-      storefrontEndpoint: process.env.NACELLE_OLD_STOREFRONT_ENDPOINT,
-      token: process.env.NACELLE_OLD_STOREFRONT_TOKEN,
-      locale: process.env.NACELLE_OLD_STOREFRONT_LOCALE
-    },
     shopify: {
       storefrontCheckoutToken: process.env.SHOPIFY_STOREFRONT_CHECKOUT_TOKEN,
       myshopifyDomain: process.env.MYSHOPIFY_DOMAIN,
