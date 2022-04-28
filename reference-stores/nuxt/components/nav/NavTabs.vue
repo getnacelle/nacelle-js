@@ -23,7 +23,7 @@
               ? 'text-indigo-600 border-indigo-600'
               : 'text-gray-900 border-transparent'
           "
-          :aria-controls="`tabs-${index}-panel-${index}`"
+          :aria-controls="`tabs-${index}-panel`"
           role="tab"
           type="button"
           @click="handleClick(index)"
@@ -82,7 +82,7 @@
       v-show="activeIndex === index"
       :key="`menu-${index}`"
       class="pt-10 pb-8 px-4 space-y-10"
-      :aria-labelledby="`tabs-${index}-tab-${index}`"
+      :aria-labelledby="`menu-${index}`"
       role="tabpanel"
       :tabindex="index"
     >
@@ -92,7 +92,7 @@
         </p>
         <ul
           role="list"
-          :aria-labelledby="`${menu.fields.text}-heading-mobile`"
+          :aria-labelledby="`menu-${index}-heading-mobile`"
           class="mt-6 flex flex-col space-y-6"
         >
           <li
