@@ -55,7 +55,8 @@ export default {
       return {
         placeholder: this.content?.fields?.searchPlaceholder,
         heading: this.content?.fields?.searchHeading,
-        all: this.content?.fields?.searchAll
+        all: this.content?.fields?.searchAll,
+        empty: this.content?.fields?.searchEmpty
       };
     }
   }

@@ -87,7 +87,8 @@ export default {
       return {
         placeholder: this.content?.searchPlaceholder,
         heading: this.content?.searchHeading,
-        all: this.content?.searchAll
+        all: this.content?.searchAll,
+        empty: this.content?.searchEmpty
       };
     }
   },
