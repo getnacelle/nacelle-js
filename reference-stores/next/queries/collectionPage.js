@@ -9,10 +9,10 @@ export const COLLECTION_ROUTES_QUERY = `
     }
   }
 }
-`
+`;
 
 export const COLLECTION_PAGE_QUERY = `
-  query CollectionPage($handle: String!){
+  query CollectionPage($handle: String!, $pageHandle: String!){
     collections: productCollections(filter: { handles: [$handle] }){
       nacelleEntryId
       sourceEntryId
@@ -24,7 +24,7 @@ export const COLLECTION_PAGE_QUERY = `
         ${PRODUCT_QUERY_FRAGMENT}
       }
     }
-    pages: content(filter: { type: "collectionContent", handles: [$handle] }){
+    pages: content(filter: { type: "pageCollection", handles: [$pageHandle] }){
       ${CONTENT_QUERY_FRAGMENT}
     }
   }

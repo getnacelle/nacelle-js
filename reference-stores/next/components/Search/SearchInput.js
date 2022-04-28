@@ -21,6 +21,12 @@ const SearchInput = ({ content }) => {
     setQuery({ query: e.target.value });
   };
 
+  const handleFocus = (value) => {
+    setTimeout(() => {
+      setIsFocussed(value);
+    }, 100);
+  };
+
   return (
     content && (
       <div className="flex-1 flex items-center justify-center px-2 lg:ml-6 lg:justify-end">
@@ -71,8 +77,8 @@ const SearchInput = ({ content }) => {
               type="search"
               onChange={handleOnChange}
               onKeyUp={handleKeyUp}
-              onFocus={() => setIsFocussed(true)}
-              onBlur={() => setIsFocussed(false)}
+              onFocus={() => handleFocus(true)}
+              onBlur={() => handleFocus(false)}
             />
             <SearchAutocomplete
               show={isFocussed && query.trim() !== ''}

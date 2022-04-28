@@ -1,7 +1,7 @@
 import { nacelleClient } from 'services';
 import { SEARCH_PAGE_QUERY } from 'queries/searchPage';
-import { SearchProvider } from 'context/Search'
-import SearchForm from 'components/Search/SearchForm'
+import { SearchProvider } from 'context/Search';
+import SearchForm from 'components/Search/SearchForm';
 
 const Search = ({ products }) => {
   return (
@@ -10,8 +10,8 @@ const Search = ({ products }) => {
         <SearchForm />
       </SearchProvider>
     </div>
-  )
-}
+  );
+};
 
 export async function getStaticProps() {
   const { products } = await nacelleClient.query({

@@ -25,7 +25,12 @@ const HeaderMega = ({ content, active }) => {
   return (
     content && (
       <CSSTransition in={active} timeout={0} classNames="fade">
-        <div className="absolute top-full inset-x-0 border-t border-gray-200 text-sm text-gray-500 z-10 transition ease-out duration-200 opacity-0">
+        <div
+          className={`
+          absolute top-full inset-x-0 border-t border-gray-200 text-sm text-gray-500 z-10 transition ease-out duration-200
+          ${!active && ' hidden'}
+        `}
+        >
           <div
             className="absolute inset-0 top-1/2 bg-white shadow"
             aria-hidden="true"

@@ -79,7 +79,7 @@ const NavTabs = ({ content }) => {
               ${activeIndex !== index && ' hidden'}
             `}
             aria-labelledby={`tab-menu-${index}`}
-            tabindex={index}
+            tabIndex={index}
           >
             <div className="grid grid-cols-2 gap-x-4">
               {tab.callouts.map((callout, index1) => (

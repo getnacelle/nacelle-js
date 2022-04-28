@@ -1,13 +1,13 @@
 import { nacelleClient } from 'services';
-import { PRODUCT_ROUTES_QUERY, PRODUCT_PAGE_QUERY } from 'queries/productPage'
-import { ProductProvider } from 'context/Product'
-import ProductDetails from 'components/Product/ProductDetails'
+import { PRODUCT_ROUTES_QUERY, PRODUCT_PAGE_QUERY } from 'queries/productPage';
+import { resolvePageData } from 'utils/resolvers';
+import { ProductProvider } from 'context/Product';
+import ProductDetails from 'components/Product/ProductDetails';
 
 const ProductHandle = ({ product, page }) => {
-
   const fields = page?.fields || {};
-  const { sections, ...rest } = fields
-  const content = { fields: rest }
+  const { sections, ...rest } = fields;
+  const content = { fields: rest };
 
   return (
     <div className="bg-white">
@@ -15,8 +15,8 @@ const ProductHandle = ({ product, page }) => {
         <ProductDetails content={content} />
       </ProductProvider>
     </div>
-  )
-}
+  );
+};
 
 export async function getStaticPaths() {
   const { products } = await nacelleClient.query({
@@ -31,20 +31,26 @@ export async function getStaticPaths() {
     paths,
     fallback: 'blocking'
   };
-
 }
 
 export async function getStaticProps({ params: { handle } }) {
   const { products, pages } = await nacelleClient.query({
     query: PRODUCT_PAGE_QUERY,
-    variables: { handle }
+    variables: {
+      handle: handle,
+      pageHandle: `page-${handle}`
+    }
+  });
+  const { page } = await resolvePageData({
+    client: nacelleClient,
+    page: pages[0]
   });
   return {
     props: {
       product: products[0] || null,
-      page: pages[0] || null
+      page: page || null
     }
   };
 }
 
-export default ProductHandle
+export default ProductHandle;

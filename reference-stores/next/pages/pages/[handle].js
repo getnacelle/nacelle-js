@@ -1,5 +1,6 @@
 import { nacelleClient } from 'services';
 import { CONTENT_ROUTES_QUERY, CONTENT_PAGE_QUERY } from 'queries/contentPage';
+import { resolvePageData } from 'utils/resolvers';
 import Section from 'components/Section/Section';
 
 const ContentHandle = ({ page }) => {
@@ -36,9 +37,13 @@ export async function getStaticProps({ params }) {
     query: CONTENT_PAGE_QUERY,
     variables: { handle: `page-${params.handle}` }
   });
+  const { page } = await resolvePageData({
+    client: nacelleClient,
+    page: pages[0]
+  });
   return {
     props: {
-      page: pages[0] || null
+      page: page || null
     }
   };
 }

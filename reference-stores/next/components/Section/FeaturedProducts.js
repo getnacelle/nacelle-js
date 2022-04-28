@@ -1,4 +1,6 @@
 import Link from 'next/link';
+import { ProductProvider } from 'context/Product';
+import ProductCard from 'components/Product/ProductCard';
 
 const FeaturedProducts = ({ content }) => {
   return (
@@ -31,11 +33,11 @@ const FeaturedProducts = ({ content }) => {
               xl:grid-cols-4 xl:gap-x-8
             "
           >
-            {/* {activeProducts.map((product) => (
+            {content.fields.products.map((product) => (
               <ProductProvider product={product} key={product.nacelleEntryId}>
                 <ProductCard />
               </ProductProvider>
-            ))} */}
+            ))}
           </div>
           <div className="mt-6 sm:hidden">
             {content.fields.linkUrl && (
