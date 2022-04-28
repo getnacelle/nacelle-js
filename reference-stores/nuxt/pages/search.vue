@@ -15,7 +15,7 @@ export default {
     SearchForm
   },
   async asyncData({ app }) {
-    const { products } = await app.$nacelleOld.query({
+    const { products } = await app.$nacelle.query({
       query: SEARCH_PAGE_QUERY
     });
     return {
