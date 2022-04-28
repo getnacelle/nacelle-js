@@ -36,7 +36,7 @@
       >
         <product-card
           v-for="product in content.fields.products"
-          :key="product.id"
+          :key="product.nacelleEntryId"
           :product="product"
         />
       </div>
