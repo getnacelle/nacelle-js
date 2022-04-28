@@ -81,7 +81,7 @@ const NavTabs = ({ content }) => {
             aria-labelledby={`tab-menu-${index}`}
             tabindex={index}
           >
-            <div class="grid grid-cols-2 gap-x-4">
+            <div className="grid grid-cols-2 gap-x-4">
               {tab.callouts.map((callout, index1) => (
                 <Link key={index1} href={callout.fields.linkUrl}>
                   <a className="group relative text-sm">
@@ -107,7 +107,7 @@ const NavTabs = ({ content }) => {
                     {callout.fields.heading && (
                       <div className="mt-6 block font-medium text-gray-900">
                         <span
-                          class="absolute z-10 inset-0"
+                          className="absolute z-10 inset-0"
                           aria-hidden="true"
                         ></span>
                         {callout.fields.heading}
