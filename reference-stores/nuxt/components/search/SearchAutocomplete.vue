@@ -3,6 +3,7 @@
     <div
       v-if="show"
       class="
+        w-full
         absolute
         md:right-0 md:w-96 md:top-10
         z-50
