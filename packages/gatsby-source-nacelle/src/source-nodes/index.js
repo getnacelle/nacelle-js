@@ -4,9 +4,10 @@ const {
   createRemoteImageFileNode,
   hasBeenIndexedSinceLastBuild,
   replaceKey,
-  findNestedImages
+  findNestedImages,
+  linkNestedContentReferences
 } = require('../utils');
-const findNestedReferences = require('../utils/linkNestedContentReferences');
+
 /**
  * Creates Gatsby nodes from Nacelle data
  * @param {Object} config - configuration object
@@ -83,11 +84,11 @@ module.exports = async function ({
                 let images = findNestedImages(node.remoteFields, [
                   'remoteFields'
                 ])?.filter((val) => val);
-                await findNestedReferences(node.remoteFields, node),
-                  // create remote image file nodes for each field
-                  await Promise.all(
-                    fetchRemoteImageNodesForContent(node, images, gatsbyApi)
-                  );
+                await linkNestedContentReferences(node.remoteFields, node);
+                // create remote image file nodes for each field
+                await Promise.all(
+                  fetchRemoteImageNodesForContent(node, images, gatsbyApi)
+                );
               } else if (dataType === 'Product' && node.content?.remoteFields) {
                 // get any images in product content that aren't in media/featuredMedia
                 const productContentImages = findNestedImages(
