@@ -120,7 +120,9 @@ exports.createSchemaCustomization = async (
         title: 'String',
         type: 'String',
         updatedAt: 'Int',
-        indexedAt: 'Int'
+        indexedAt: 'Int',
+        tags: '[String!]',
+        sourceId: 'ID!'
       }
     });
   });
