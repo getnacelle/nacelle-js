@@ -3,13 +3,15 @@ type CollectionContent {
   collectionEntryId: ID!
   createdAt: Int
   description: String
+  featuredMedia: Media
   handle: String
   indexedAt: Int
   locale: String
-  metafields: [Metafield!]
+  metafields: [Metafield!]!
   nacelleEntryId: ID!
   published: Boolean
   sourceEntryId: ID!
+  sourceId: ID!
   title: String
   updatedAt: Int
 }
@@ -25,6 +27,8 @@ interface NacelleContent implements Node {
   nacelleEntryId: ID!
   published: Boolean
   sourceEntryId: ID!
+  sourceId: ID!
+  tags: [String!]
   title: String
   type: String
   updatedAt: Int
@@ -34,12 +38,13 @@ interface NacelleContent implements Node {
 type NacelleContentCollection implements Node {
   content: CollectionContent
   createdAt: Int
-  entries: [NacelleContent!]
+  entries: [NacelleContent!]!
   indexedAt: Int
-  metafields: [Metafield!]
+  metafields: [Metafield!]!
   nacelleEntryId: ID!
   sourceEntryId: ID!
-  tags: [String!]
+  sourceId: ID!
+  tags: [String!]!
   updatedAt: Int
 }
 
@@ -63,8 +68,9 @@ type Metafield @dontInfer {
 }
 
 type NacelleNavigationGroup implements Node @dontInfer {
-  groupId: String
+  groupId: String!
   items: [NavigationGroupItem!]
+  properties: [NavigationPropertyItem!]
   title: String
   updatedAt: String
   updatedBy: String
@@ -72,13 +78,24 @@ type NacelleNavigationGroup implements Node @dontInfer {
 
 type NavigationGroupItem @dontInfer {
   items: [NavigationGroupItem!]
+  media: [NavigationMediaItem!]
+  properties: [NavigationPropertyItem!]
   title: String!
   url: String!
 }
 
+type NavigationMediaItem @dontInfer {
+  url: String
+}
+
+type NavigationPropertyItem @dontInfer {
+  key: String!
+  value: String!
+}
+
 "A price break definition."
 type PriceBreak @dontInfer {
-  metafields: [Metafield!]
+  metafields: [Metafield!]!
   price: String
   quantityMax: Int
   quantityMin: Int
@@ -86,11 +103,11 @@ type PriceBreak @dontInfer {
 
 "A price rule definition."
 type PriceRule @dontInfer {
-  availableTo: [String!]
+  availableTo: [String!]!
   comparedAtPrice: String
   handle: String!
   id: ID
-  metafields: [Metafield!]
+  metafields: [Metafield!]!
   price: String!
   priceBreaks: [PriceBreak!]!
   priceCurrency: String!
@@ -104,13 +121,14 @@ type NacelleProduct implements Node {
   content: ProductContent
   createdAt: Int
   indexedAt: Int
-  metafields: [Metafield!]
+  metafields: [Metafield!]!
   nacelleEntryId: ID!
   productType: String
   sourceEntryId: ID!
-  tags: [String!]
+  sourceId: ID!
+  tags: [String!]!
   updatedAt: Int
-  variants: [Variant!]
+  variants: [Variant!]!
   vendor: String
 }
 
@@ -119,11 +137,12 @@ type NacelleProductCollection implements Node {
   content: CollectionContent
   createdAt: Int
   indexedAt: Int
-  metafields: [Metafield!]
+  metafields: [Metafield!]!
   nacelleEntryId: ID!
-  products: [NacelleProduct!]
+  products: [NacelleProduct!]!
   sourceEntryId: ID!
-  tags: [String!]
+  sourceId: ID!
+  tags: [String!]!
   updatedAt: Int
 }
 
@@ -135,13 +154,15 @@ type ProductContent {
   handle: String
   indexedAt: Int
   locale: String
-  media: [Media!]
-  metafields: [Metafield!]
+  media: [Media!]!
+  metafields: [Metafield!]!
   nacelleEntryId: ID!
-  options: [ProductOption!]
+  options: [ProductOption!]!
   productEntryId: ID
   published: Boolean
+  seo: SEO
   sourceEntryId: ID!
+  sourceId: ID!
   title: String
   updatedAt: Int
 }
@@ -149,7 +170,13 @@ type ProductContent {
 "Product property names like Size, Color, and Material that the customers can select. Variants are selected based on permutations of these options."
 type ProductOption @dontInfer {
   name: String!
-  values: [String!]
+  values: [String!]!
+}
+
+"A field used to provide SEO data for web crawlers"
+type SEO @dontInfer {
+  description: String!
+  title: String!
 }
 
 "Properties used by customers to select a product variant. Products can have multiple options, like different sizes or colors."
@@ -182,16 +209,17 @@ type Variant {
   content: VariantContent
   createdAt: Int
   indexedAt: Int
-  metafields: [Metafield!]
-  nacelleEntryId: ID
+  metafields: [Metafield!]!
+  nacelleEntryId: ID!
   price: String
   priceCurrency: String
-  priceRules: [PriceRule!]
+  priceRules: [PriceRule!]!
   productEntryId: ID
   productHandle: String
   quantityAvailable: Int
   sku: String
   sourceEntryId: ID!
+  sourceId: ID!
   updatedAt: Int
   weight: Float
   weightUnit: String
@@ -204,14 +232,15 @@ type VariantContent {
   featuredMedia: Media
   indexedAt: Int
   locale: String
-  media: [Media!]
-  metafields: [Metafield!]
+  media: [Media!]!
+  metafields: [Metafield!]!
   nacelleEntryId: ID!
   productEntryId: ID
   productHandle: String
   published: Boolean
-  selectedOptions: [SelectedOption!]
-  sourceEntryId: ID
+  selectedOptions: [SelectedOption!]!
+  sourceEntryId: ID!
+  sourceId: ID!
   swatchSrc: String
   title: String
   updatedAt: Int

@@ -13,7 +13,7 @@
     "@nacelle/gatsby-source-nacelle": "^8.0.2",
     "@nacelle/react-hooks": "^7.0.0",
     "@nacelle/shopify-checkout": "^0.0.10",
-    "@nacelle/storefront-sdk": "^1.0.3",
+    "@nacelle/storefront-sdk": "^1.1.2",
     "gatsby": "^4.6.0",
     "gatsby-plugin-image": "^2.6.0",
     "gatsby-plugin-sharp": "^4.6.0",
