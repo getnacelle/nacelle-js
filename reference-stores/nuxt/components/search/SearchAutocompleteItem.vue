@@ -27,7 +27,7 @@
           <h3>
             {{ item.content.title }}
           </h3>
-          <p class="ml-4">
+          <p class="flex flex-wrap justify-end ml-4">
             <span v-if="price" :class="compareAtPrice && 'text-red-600'">
               {{ price }}
             </span>
