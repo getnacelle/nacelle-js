@@ -32,21 +32,9 @@
           @click="setNavVisibility(false)"
         >
           <span class="sr-only">Close menu</span>
-          <svg
-            class="h-6 w-6"
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            aria-hidden="true"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M6 18L18 6M6 6l12 12"
-            />
-          </svg>
+          <!-- eslint-disable vue/no-v-html -->
+          <span class="h-6 w-6 flex" v-html="closeIcon" />
+          <!-- eslint-enable vue/no-v-html -->
         </button>
       </div>
       <search-input :content="searchContent" />
@@ -62,6 +50,7 @@ import { mapGetters, mapMutations } from 'vuex';
 import NavTabs from './NavTabs.vue';
 import NavMenu from './NavMenu.vue';
 import SearchInput from '~/components/search/SearchInput.vue';
+import closeIcon from '~/assets/svgs/close';
 
 export default {
   name: 'NavDrawer',
@@ -76,6 +65,7 @@ export default {
       required: true
     }
   },
+  data: () => ({ closeIcon }),
   computed: {
     ...mapGetters('ui', ['navVisible']),
     primaryContent() {
