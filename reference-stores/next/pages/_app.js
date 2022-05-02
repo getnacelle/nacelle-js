@@ -1,5 +1,6 @@
 import App from 'next/app';
 import Head from 'components/Head/Head';
+import { CartProvider } from 'context/Cart';
 import { SearchProvider } from 'context/Search';
 import { UiProvider } from 'context/Ui';
 import Layout from 'components/Layout/Layout';
@@ -13,13 +14,15 @@ const MyApp = ({ Component, pageProps, products, components }) => {
     // Todo: add in Cart Provider
     <>
       <Head />
-      <SearchProvider catalog={products}>
-        <UiProvider>
-          <Layout components={components}>
-            <Component {...pageProps} />
-          </Layout>
-        </UiProvider>
-      </SearchProvider>
+      <CartProvider>
+        <SearchProvider catalog={products}>
+          <UiProvider>
+            <Layout components={components}>
+              <Component {...pageProps} />
+            </Layout>
+          </UiProvider>
+        </SearchProvider>
+      </CartProvider>
     </>
   );
 };

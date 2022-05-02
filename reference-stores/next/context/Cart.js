@@ -5,11 +5,12 @@ import { v4 as uuid } from 'uuid';
 export const CartContext = createContext({});
 
 export const CartProvider = ({ children, cacheKey = 'cart' }) => {
+  const [cartVisible, setCartVisible] = useState(false);
   const [cartItems, setCartItems] = useState([]);
   const router = useRouter();
 
   useEffect(() => {
-    setCartItems([]);
+    setCartVisible(false);
   }, [router.asPath]);
 
   const addItem = (payload) => {
@@ -117,6 +118,8 @@ export const CartProvider = ({ children, cacheKey = 'cart' }) => {
   return (
     <CartContext.Provider
       value={{
+        cartVisible,
+        setCartVisible,
         cartItems,
         addItem,
         removeItem,

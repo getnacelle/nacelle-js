@@ -5,17 +5,21 @@ export const UiContext = createContext({});
 
 export const UiProvider = ({ children }) => {
   const [navVisible, setNavVisible] = useState(false);
+  const [cartVisible, setCartVisible] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
     setNavVisible(false);
+    setCartVisible(false);
   }, [router.asPath]);
 
   return (
     <UiContext.Provider
       value={{
         navVisible,
-        setNavVisible
+        cartVisible,
+        setNavVisible,
+        setCartVisible
       }}
     >
       {children}

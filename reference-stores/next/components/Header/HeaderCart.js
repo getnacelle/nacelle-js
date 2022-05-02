@@ -1,6 +1,9 @@
+import { useCart } from 'hooks/useCart';
 import cartIcon from 'assets/svgs/cart';
 
 const HeaderCart = () => {
+  const { cartVisible, setCartVisible } = useCart();
+
   return (
     <button
       type="button"
@@ -16,7 +19,7 @@ const HeaderCart = () => {
         flex
         items-center
       "
-      // @click="setCartVisibility(!cartVisible)"
+      onClick={() => setCartVisible(!cartVisible)}
     >
       <span
         className="flex-shrink-0 h-6 w-6 text-gray-400"
