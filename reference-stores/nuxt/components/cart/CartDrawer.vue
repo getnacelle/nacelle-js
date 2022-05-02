@@ -4,8 +4,9 @@
       v-show="cartVisible"
       class="
         fixed
-        y-0
+        top-0
         right-0
+        bottom-0
         w-screen
         bg-white
         max-w-md
