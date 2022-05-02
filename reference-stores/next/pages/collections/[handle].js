@@ -4,15 +4,19 @@ import {
   COLLECTION_PAGE_QUERY
 } from 'queries/collectionPage';
 import CollectionGrid from 'components/Collection/CollectionGrid';
+import Section from 'components/Section/Section';
 
 const CollectionHandle = ({ collection, page }) => {
   const fields = page?.fields || {};
-  const { sections, ...rest } = fields;
+  const { sections } = fields;
 
   return (
     collection && (
       <div className="bg-white">
         <CollectionGrid collection={collection} />
+        {sections?.map((section, index) => (
+          <Section key={index} content={section} />
+        ))}
       </div>
     )
   );

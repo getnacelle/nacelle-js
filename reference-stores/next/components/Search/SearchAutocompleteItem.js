@@ -27,7 +27,7 @@ const SearchAutocompleteItem = ({ item }) => {
             <div>
               <div className="flex justify-between text-base font-medium text-gray-900">
                 <h3>{item.content.title}</h3>
-                <p className="ml-4">
+                <p className="flex flex-wrap justify-end ml-4">
                   {price && (
                     <span
                       className={compareAtPrice ? 'text-red-600' : undefined}

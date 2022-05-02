@@ -3,6 +3,7 @@ import { PRODUCT_ROUTES_QUERY, PRODUCT_PAGE_QUERY } from 'queries/productPage';
 import { resolvePageData } from 'utils/resolvers';
 import { ProductProvider } from 'context/Product';
 import ProductDetails from 'components/Product/ProductDetails';
+import Section from 'components/Section/Section';
 
 const ProductHandle = ({ product, page }) => {
   const fields = page?.fields || {};
@@ -10,11 +11,16 @@ const ProductHandle = ({ product, page }) => {
   const content = { fields: rest };
 
   return (
-    <div className="bg-white">
-      <ProductProvider product={product}>
-        <ProductDetails content={content} />
-      </ProductProvider>
-    </div>
+    product && (
+      <div className="bg-white">
+        <ProductProvider product={product}>
+          <ProductDetails content={content} />
+        </ProductProvider>
+        {sections?.map((section, index) => (
+          <Section key={index} content={section} />
+        ))}
+      </div>
+    )
   );
 };
 

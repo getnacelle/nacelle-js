@@ -8,11 +8,13 @@ const ContentHandle = ({ page }) => {
   const { sections } = fields;
 
   return (
-    <div className="bg-white">
-      {sections?.map((section, index) => (
-        <Section key={index} content={section} />
-      ))}
-    </div>
+    page && (
+      <div className="bg-white">
+        {sections?.map((section, index) => (
+          <Section key={index} content={section} />
+        ))}
+      </div>
+    )
   );
 };
 

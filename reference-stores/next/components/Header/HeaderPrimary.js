@@ -1,9 +1,11 @@
 import { useState, useEffect } from 'react';
+import { useRouter } from 'next/router';
 import Link from 'next/link';
 import HeaderMega from './HeaderMega';
 
 const HeaderPrimary = ({ content }) => {
   const [activeIndex, setActiveIndex] = useState(null);
+  const router = useRouter();
 
   const handleSetActiveIndex = (value) => {
     if (activeIndex === value) setActiveIndex(null);
@@ -20,6 +22,10 @@ const HeaderPrimary = ({ content }) => {
       document.body.removeEventListener('click', handleBodyClick);
     };
   }, []);
+
+  useEffect(() => {
+    setActiveIndex(null);
+  }, [router.asPath]);
 
   return (
     content && (
