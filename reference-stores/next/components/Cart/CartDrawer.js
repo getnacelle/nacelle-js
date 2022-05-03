@@ -2,6 +2,7 @@ import { CSSTransition } from 'react-transition-group';
 import { useCart } from 'hooks/useCart';
 import CartItem from './CartItem';
 import CartCrossSells from './CartCrossSells';
+import CartTotal from './CartTotal';
 import closeIcon from 'assets/svgs/close';
 
 const CartDrawer = ({ content }) => {
@@ -18,6 +19,13 @@ const CartDrawer = ({ content }) => {
     heading: fields?.crosssellHeading,
     items: fields?.crosssellItems,
     add: fields?.crosssellAdd
+  };
+
+  const totalContent = {
+    subtotalLabel: fields?.subtotalLabel,
+    subtotalText: fields?.subtotalText,
+    checkoutText: fields?.checkoutText,
+    continueText: fields?.continueText
   };
 
   return (
@@ -73,6 +81,7 @@ const CartDrawer = ({ content }) => {
                 </div>
               </div>
             </div>
+            <CartTotal content={totalContent} />
           </div>
           <style jsx>{`
             .slide-enter-active,

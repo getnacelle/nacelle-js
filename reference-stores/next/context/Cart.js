@@ -1,4 +1,4 @@
-import { createContext, useState, useEffect } from 'react';
+import { createContext, useState, useMemo, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { v4 as uuid } from 'uuid';
 
@@ -7,6 +7,14 @@ export const CartContext = createContext({});
 export const CartProvider = ({ children, cacheKey = 'cart' }) => {
   const [cartVisible, setCartVisible] = useState(false);
   const [cartItems, setCartItems] = useState([]);
+
+  const cartCount = useMemo(() =>
+    cartItems.reduce((acc, item) => acc + item.quantity, 0)
+  );
+  const cartSubtotal = useMemo(() =>
+    cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0)
+  );
+
   const router = useRouter();
 
   useEffect(() => {
@@ -121,6 +129,8 @@ export const CartProvider = ({ children, cacheKey = 'cart' }) => {
         cartVisible,
         setCartVisible,
         cartItems,
+        cartCount,
+        cartSubtotal,
         addItem,
         removeItem,
         updateItem,
