@@ -30,6 +30,9 @@ export default {
   },
   head() {
     return buildMeta({});
+  },
+  computed: {
+    ...mapGetters('site', ['siteComponents'])
   }
 };
 </script>
