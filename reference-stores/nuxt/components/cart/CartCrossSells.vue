@@ -1,6 +1,6 @@
 <template>
   <div v-if="content && hasCrossSells" class="mt-12">
-    <h2 class="text-lg font-medium text-gray-900">
+    <h2 v-if="content.heading" class="text-lg font-medium text-gray-900">
       {{ content.heading }}
     </h2>
     <ul>
@@ -95,7 +95,8 @@ export default {
     ...mapGetters('cart', ['cartItems']),
     ...mapGetters('checkout', ['checkoutProcessing']),
     crossSellItems() {
-      return this.content?.items?.filter((item) => {
+      return this.content?.items
+        ?.filter((item) => {
           return (
             item.availableForSale &&
             !this.cartItems.some((cartItem) => {
@@ -111,7 +112,7 @@ export default {
         .slice(0, 3);
     },
     hasCrossSells() {
-      return this.crossSellItems?.length
+      return this.crossSellItems?.length;
     }
   },
   methods: {

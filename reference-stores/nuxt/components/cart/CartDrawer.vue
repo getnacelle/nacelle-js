@@ -18,7 +18,11 @@
       <div class="h-full flex flex-col bg-white shadow-xl overflow-y-scroll">
         <div class="flex-1 py-6 overflow-y-auto px-4 sm:px-6">
           <div class="flex items-start justify-between">
-            <h2 id="slide-over-title" class="text-lg font-medium text-gray-900">
+            <h2
+              v-if="content.fields.heading"
+              id="slide-over-title"
+              class="text-lg font-medium text-gray-900"
+            >
               {{ content.fields.heading }}
             </h2>
             <div class="ml-3 h-7 flex items-center">
