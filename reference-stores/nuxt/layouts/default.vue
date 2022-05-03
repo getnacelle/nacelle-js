@@ -29,7 +29,7 @@ export default {
     SiteFooter
   },
   head() {
-    return buildMeta();
+    return buildMeta({});
   }
 };
 </script>
