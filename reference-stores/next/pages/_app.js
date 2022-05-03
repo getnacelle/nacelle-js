@@ -13,7 +13,7 @@ import 'assets/css/main.css';
 const MyApp = ({ Component, pageProps, products, components }) => {
   return (
     <>
-      <Head />
+      <Head {...pageProps} />
       <CartProvider>
         <SearchProvider catalog={products}>
           <UiProvider>

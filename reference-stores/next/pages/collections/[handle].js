@@ -3,6 +3,7 @@ import {
   COLLECTION_ROUTES_QUERY,
   COLLECTION_PAGE_QUERY
 } from 'queries/collectionPage';
+import { resolvePageData } from 'utils/resolvers';
 import CollectionGrid from 'components/Collection/CollectionGrid';
 import Section from 'components/Section/Section';
 
