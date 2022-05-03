@@ -1,6 +1,7 @@
 import { CSSTransition } from 'react-transition-group';
 import { useCart } from 'hooks/useCart';
 import CartItem from './CartItem';
+import CartCrossSells from './CartCrossSells';
 import closeIcon from 'assets/svgs/close';
 
 const CartDrawer = ({ content }) => {
@@ -11,6 +12,12 @@ const CartDrawer = ({ content }) => {
   const itemContent = {
     itemQuantity: fields?.itemQuantity,
     itemRemove: fields?.itemRemove
+  };
+
+  const crossSellContent = {
+    heading: fields?.crosssellHeading,
+    items: fields?.crosssellItems,
+    add: fields?.crosssellAdd
   };
 
   return (
@@ -46,19 +53,22 @@ const CartDrawer = ({ content }) => {
                 <div className="flow-root">
                   {cartItems.length > 0 && (
                     <ul role="list" className="-my-6 divide-y divide-gray-200">
-                      {cartItems.map((item) => {
+                      {cartItems.map((item) => (
                         <CartItem
                           key={item.id}
                           item={item}
                           content={itemContent}
-                        />;
-                      })}
+                        />
+                      ))}
                     </ul>
                   )}
                   {!cartItems.length && content.fields.emptyText && (
                     <p className="text-gray-400 text-center">
                       {content.fields.emptyText}
                     </p>
+                  )}
+                  {crossSellContent && (
+                    <CartCrossSells content={crossSellContent} />
                   )}
                 </div>
               </div>

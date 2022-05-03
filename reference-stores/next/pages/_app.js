@@ -5,6 +5,7 @@ import { SearchProvider } from 'context/Search';
 import { UiProvider } from 'context/Ui';
 import Layout from 'components/Layout/Layout';
 import { nacelleClient } from 'services';
+import { resolveSiteData } from 'utils/resolvers';
 
 import { SITE_QUERY } from 'queries/site';
 import 'assets/css/main.css';
@@ -28,7 +29,9 @@ const MyApp = ({ Component, pageProps, products, components }) => {
 };
 
 MyApp.getInitialProps = async (appContext) => {
-  const data = await nacelleClient.query({ query: SITE_QUERY });
+  const data = await nacelleClient.query({ query: SITE_QUERY }).then((site) => {
+    return resolveSiteData({ client: nacelleClient, site });
+  });
   const { space, products, ...rest } = data;
   const appProps = await App.getInitialProps(appContext);
 

@@ -46,7 +46,7 @@ export const CartProvider = ({ children, cacheKey = 'cart' }) => {
     const index = cartItems.findIndex((item) => item.id === payload);
     if (index > -1) {
       setCartItems(
-        cartItems.filter((_, index) => {
+        cartItems.filter((_, itemIndex) => {
           return index !== itemIndex;
         })
       );
