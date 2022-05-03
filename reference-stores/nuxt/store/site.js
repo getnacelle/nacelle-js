@@ -17,11 +17,6 @@ export const getters = {
   siteSpace(state) {
     return state.space;
   },
-  siteMetatags(state) {
-    return state.space?.properties?.find(
-      (property) => property.namespace === 'metatag'
-    )?.items;
-  },
   siteComponents(state) {
     return state.components;
   },
@@ -51,8 +46,10 @@ export const actions = {
   async initSite({ commit }) {
     const { data } = await cachedFetch({
       key: 'site',
-      fetcher: () => this.$nacelle.query({ query: SITE_QUERY })
-        .then(site => resolveSiteData({ client: this.$nacelle, site }))
+      fetcher: () =>
+        this.$nacelle
+          .query({ query: SITE_QUERY })
+          .then((site) => resolveSiteData({ client: this.$nacelle, site }))
     });
     const { space, products, ...rest } = data;
     commit('setSpace', space);
