@@ -5,7 +5,7 @@ import { formatPrice } from 'utils/formatPrice';
 import { getCartVariant } from 'utils/getCartVariant';
 
 const CartCrossSells = ({ content }) => {
-  const { cartItems, addItem } = useCart();
+  const { cartItems, checkoutProcessing, addItem } = useCart();
 
   const crossSellItems = content?.items
     ?.filter((item) => {
@@ -76,7 +76,7 @@ const CartCrossSells = ({ content }) => {
                       className="
                         relative flex bg-gray-100 border border-transparent rounded-md py-2 px-8 items-center justify-center text-sm font-medium text-gray-900 hover:bg-gray-200 w-full
                       "
-                      // :disabled="checkoutProcessing"
+                      disabled={checkoutProcessing}
                       onClick={() => handleAdd(crossSell)}
                     >
                       {content.add}

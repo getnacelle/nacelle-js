@@ -12,7 +12,6 @@ import 'assets/css/main.css';
 
 const MyApp = ({ Component, pageProps, products, components }) => {
   return (
-    // Todo: add in Cart Provider
     <>
       <Head />
       <CartProvider>

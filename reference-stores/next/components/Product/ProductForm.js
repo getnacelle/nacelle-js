@@ -8,7 +8,7 @@ const ProductForm = ({ content }) => {
   const { product, selectedOptions, setSelectedOptions, selectedVariant } =
     useProduct();
 
-  const { addItem } = useCart();
+  const { checkoutProcessing, addItem } = useCart();
 
   const options =
     product?.content?.options?.find((option) => {
@@ -103,7 +103,7 @@ const ProductForm = ({ content }) => {
           <div className="mt-10 flex">
             <button
               type="button"
-              disabled={!selectedVariant.availableForSale}
+              disabled={!selectedVariant.availableForSale || checkoutProcessing}
               className="
               max-w-xs
               flex-1

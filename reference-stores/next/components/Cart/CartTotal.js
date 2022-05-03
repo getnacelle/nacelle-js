@@ -2,8 +2,13 @@ import { useCart } from 'hooks/useCart';
 import { formatPrice } from 'utils/formatPrice';
 
 const CartTotal = ({ content }) => {
-  const { setCartVisible, cartCount, cartSubtotal, checkoutProcessing } =
-    useCart();
+  const {
+    setCartVisible,
+    cartCount,
+    cartSubtotal,
+    checkoutProcessing,
+    processCheckout
+  } = useCart();
 
   const total = formatPrice({ price: cartSubtotal });
   const checkoutButtonText = checkoutProcessing
@@ -16,7 +21,7 @@ const CartTotal = ({ content }) => {
       <div className="border-t border-gray-200 py-6 px-4 sm:px-6">
         <div className="flex justify-between text-base font-medium text-gray-900">
           {content.subtotalLabel && <p>{content.subtotalLabel}</p>}
-          <p className={!total && 'hidden'}>{total}</p>
+          <p className={!total ? 'hidden' : undefined}>{total}</p>
         </div>
         {content.subtotalText && (
           <p className="mt-0.5 text-sm text-gray-500">{content.subtotalText}</p>
@@ -24,9 +29,8 @@ const CartTotal = ({ content }) => {
         <div className="mt-6">
           <button
             disabled={checkoutProcessing}
-            className="w-full flex justify-center items-center px-6 py-3 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700 transition duration-300 ease-in-out
-          "
-            // @click="processCheckout"
+            className="w-full flex justify-center items-center px-6 py-3 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700 transition duration-300 ease-in-out"
+            onClick={processCheckout}
           >
             {checkoutButtonText}
           </button>

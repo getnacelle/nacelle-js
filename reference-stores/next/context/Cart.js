@@ -1,21 +1,38 @@
 import { createContext, useState, useMemo, useEffect } from 'react';
 import { useRouter } from 'next/router';
+import { get, set } from 'idb-keyval';
 import { v4 as uuid } from 'uuid';
+import checkoutClient from 'services/shopifyCheckout';
 
 export const CartContext = createContext({});
 
 export const CartProvider = ({ children, cacheKey = 'cart' }) => {
+  const [cartReady, setCartReady] = useState(false);
   const [cartVisible, setCartVisible] = useState(false);
   const [cartItems, setCartItems] = useState([]);
+  const [checkoutProcessing, setCheckoutProcessing] = useState(false);
 
-  const cartCount = useMemo(() =>
-    cartItems.reduce((acc, item) => acc + item.quantity, 0)
+  const cartCount = useMemo(
+    () => cartItems.reduce((acc, item) => acc + item.quantity, 0),
+    [cartItems]
   );
-  const cartSubtotal = useMemo(() =>
-    cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0)
+  const cartSubtotal = useMemo(
+    () => cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0),
+    [cartItems]
   );
 
   const router = useRouter();
+
+  useEffect(() => {
+    initCart();
+  }, []);
+
+  useEffect(() => {
+    if (cartReady) {
+      set(cacheKey, cartItems);
+      setCartVisible(true);
+    }
+  }, [cartItems]);
 
   useEffect(() => {
     setCartVisible(false);
@@ -47,7 +64,6 @@ export const CartProvider = ({ children, cacheKey = 'cart' }) => {
         })
       );
     }
-    // set('cart', state.lineItems);
   };
 
   const removeItem = (payload) => {
@@ -123,12 +139,57 @@ export const CartProvider = ({ children, cacheKey = 'cart' }) => {
     setCartItems([]);
   };
 
+  const processCheckout = async () => {
+    try {
+      setCheckoutProcessing(true);
+      const items = cartItems.map((lineItem) => ({
+        quantity: lineItem.quantity,
+        variantId: lineItem.variantId
+      }));
+      const checkoutData = await checkoutClient.process({ cartItems: items });
+      // await set('checkoutId', checkoutData.id);
+      if (checkoutData.url) {
+        window.location.href = checkoutData.url;
+      }
+    } catch (err) {
+      setCheckoutProcessing(false);
+      console.error(err);
+    }
+  };
+
+  const initCart = async () => {
+    await initCheckout();
+    const cachedCart = await get(cacheKey);
+    if (cachedCart) setCartItems(cachedCart);
+    setCartReady(true);
+  };
+
+  const initCheckout = async () => {
+    try {
+      const checkoutId = await get('checkoutId');
+      if (checkoutId) {
+        const checkout = await checkoutClient.get({
+          id: checkoutId
+        });
+        if (checkout?.completed) {
+          console.log('in here');
+          await del('checkoutId');
+          await del(cacheKey);
+        }
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   return (
     <CartContext.Provider
       value={{
+        cartReady,
         cartVisible,
         setCartVisible,
         cartItems,
+        checkoutProcessing,
         cartCount,
         cartSubtotal,
         addItem,
@@ -136,7 +197,8 @@ export const CartProvider = ({ children, cacheKey = 'cart' }) => {
         updateItem,
         incrementItem,
         decrementItem,
-        clearCart
+        clearCart,
+        processCheckout
       }}
     >
       {children}

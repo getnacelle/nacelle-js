@@ -1,16 +1,24 @@
+import dynamic from 'next/dynamic';
 import { pascalCase } from 'pascal-case';
 
 const Section = ({ content }) => {
-  let Component = null;
+  const sectionComponents = {
+    ContactForm: dynamic(() => import('./ContactForm')),
+    CtaStrip: dynamic(() => import('./CtaStrip')),
+    FeaturedProducts: dynamic(() => import('./FeaturedProducts')),
+    Hero: dynamic(() => import('./Hero')),
+    HeroBanner: dynamic(() => import('./HeroBanner')),
+    PromoStrip: dynamic(() => import('./PromoStrip')),
+    Placeholder: dynamic(() => import('./Placeholder')),
+    SideBySide: dynamic(() => import('./SideBySide')),
+    SideBySideFull: dynamic(() => import('./SideBySideFull')),
+    TeamBios: dynamic(() => import('./TeamBios'))
+  };
 
   const section =
     content?.type && pascalCase(content?.type).replace('Section', '');
 
-  try {
-    Component = require(`components/Section/${section}`).default;
-  } catch {
-    Component = require(`components/Section/Placeholder`).default;
-  }
+  const Component = sectionComponents[section] || sectionComponents.Placeholder;
 
   return content && <Component content={content} section={section} />;
 };
