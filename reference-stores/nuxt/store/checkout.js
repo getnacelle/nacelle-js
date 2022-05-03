@@ -23,7 +23,7 @@ export const actions = {
       const checkoutClient = createShopifyCheckoutClient(this.$config.shopify);
       const checkoutId = await get('checkoutId');
       if (checkoutId) {
-        const checkout = checkoutClient.get({
+        const checkout = await checkoutClient.get({
           id: checkoutId
         });
         if (checkout?.completed) {
