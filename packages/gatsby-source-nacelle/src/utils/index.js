@@ -7,3 +7,4 @@ exports.paginateQuery = require('./paginateQuery');
 exports.paginateEntries = require('./paginateEntries');
 exports.replaceKey = require('./replaceKey');
 exports.findNestedImages = require('./findNestedImages');
+exports.linkNestedContentReferences = require('./linkNestedContentReferences');

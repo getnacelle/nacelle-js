@@ -23,14 +23,6 @@ Follow these steps to add `gatsby-source-nacelle` to your Gatsby site:
 
 First make sure you're site is using Gatsby v4. Then follow the below instructions to start using the plugin.
 
-#### With Yarn
-
-```shell
-yarn add @nacelle/gatsby-source-nacelle @nacelle/storefront-sdk
-```
-
-#### With NPM
-
 ```shell
 npm i @nacelle/gatsby-source-nacelle @nacelle/storefront-sdk
 ```
@@ -63,6 +55,16 @@ module.exports = {
 ```
 
 You'll note that we use `.env` variables to set Nacelle credentials. You can learn more about using environment variables with Gatsby in the [Gatsby docs](https://www.gatsbyjs.org/docs/environment-variables/)
+
+## Data Fetching
+
+### Content Data Queries and Types
+
+As of `@nacelle/gatsby-source-nacelle` version `9.0.0`, GraphQL types are generated for each of your content models. This enables Gatsby’s GraphQL schema to fully type your content, which allows you to craft granular content queries. To prevent naming collisions, all of the content types are prefixed by `NacelleContentRemote`. For example, `heroBanner`-type content will have the type `NacelleContentRemoteHeroBanner`.
+
+### Fetching Arrays of Data Containing Multiple Content Types
+
+When crafting content models for your eCommerce project, it’s common for some content models to have fields that contain arrays of references to other content. For example, a `page`-type content model might contain a `sections` array that contains arrangeable references to content types like `heroBanner`, `testimonial`, and `sideBySide`. In this scenario, where sections contains multiple types of content, we must use [inline GraphQL fragments](https://graphql.org/learn/queries/#inline-fragments) to query the sections data. For more detail, please see [nacelle.com/docs/building-your-store/using-gatsby](https://nacelle.com/docs/building-your-store/using-gatsby)
 
 ## Additional Features
 

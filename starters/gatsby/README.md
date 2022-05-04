@@ -23,6 +23,10 @@ $ npm run develop
 $ npm run build
 ```
 
+## Data Fetching
+
+To learn about data fetching patterns with [`@nacelle/gatsby-source-nacelle`](https://www.npmjs.com/package/@nacelle/gatsby-source-nacelle), please see [nacelle.com/docs/building-your-store/using-gatsby](https://nacelle.com/docs/building-your-store/using-gatsby).
+
 ## Project Directory
 
 ### `gatsby-*.js`
