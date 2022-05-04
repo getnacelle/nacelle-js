@@ -1,6 +1,10 @@
 const sourceNodes = require('./src/source-nodes');
 const typeDefs = require('./src/type-defs');
-const { capitalize } = require('./src/utils');
+const {
+  allProductCollectionsEntriesQuery,
+  allProductCollectionsQuery
+} = require('./src/queries');
+const { paginateEntries, paginateQuery, capitalize } = require('./src/utils');
 
 exports.pluginOptionsSchema = ({ Joi }) => {
   return Joi.object({
@@ -30,7 +34,22 @@ exports.sourceNodes = async (gatsbyApi, pluginOptions) => {
     client.spaceProperties(),
     client.navigation(),
     client.products(),
-    client.productCollections(),
+    client
+      .query({
+        query: allProductCollectionsQuery
+      })
+      .then((response) => {
+        return paginateQuery(
+          client,
+          allProductCollectionsQuery,
+          response.allProductCollections
+        );
+      })
+      .then((response) => {
+        return Promise.all(
+          paginateEntries(client, allProductCollectionsEntriesQuery, response)
+        );
+      }),
     client.content(),
     client.contentCollections()
   ]).catch((err) => {
@@ -62,7 +81,12 @@ exports.sourceNodes = async (gatsbyApi, pluginOptions) => {
     sourceNodes({
       gatsbyApi,
       pluginOptions,
-      data: productCollectionData,
+      data: productCollectionData.map((collection) => ({
+        ...collection,
+        products: collection.productConnection.edges.map(
+          (product) => product.node
+        )
+      })),
       dataType: 'ProductCollection'
     }),
     sourceNodes({
