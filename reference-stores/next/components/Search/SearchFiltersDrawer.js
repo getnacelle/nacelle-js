@@ -1,14 +1,4 @@
-import { useSearch } from 'hooks/useSearch'
-
 const SearchFiltersDrawer = ({ show, setShow }) => {
-
-  const { 
-    activeFilters,
-    availableFilters,
-    toggleFilter,
-    setFilters
-  } = useSearch()
-  
   return (
     <div className={`relative flex ${show ? 'z-40' : '-z-10'}`}>
       <div
@@ -19,12 +9,10 @@ const SearchFiltersDrawer = ({ show, setShow }) => {
           transition-opacity
           ease-in-out
           duration-500
-          ${show ? 'opacity-1' : 'opacity-0'}`
-        }
+          ${show ? 'opacity-1' : 'opacity-0'}`}
         aria-hidden="true"
         onClick={() => setShow(false)}
-      >
-      </div>
+      ></div>
       <div
         className="
           fixed
@@ -99,7 +87,7 @@ const SearchFiltersDrawer = ({ show, setShow }) => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default SearchFiltersDrawer
+export default SearchFiltersDrawer;
