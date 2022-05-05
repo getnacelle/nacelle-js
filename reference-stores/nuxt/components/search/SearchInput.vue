@@ -47,7 +47,7 @@
           @keyup="handleKeyup"
           @keyup.enter="handleEnter"
           @focus="handleFocus(true)"
-          @blur="handleFocus(false)"
+          @click.stop
         />
         <search-autocomplete
           :show="isFocussed && query.trim() !== ''"
@@ -91,11 +91,15 @@ export default {
   created() {
     this.results = [...this.siteProducts];
   },
+  mounted() {
+    document.body.addEventListener('click', this.handleClick);
+  },
   methods: {
+    handleClick() {
+      this.isFocussed = false;
+    },
     handleFocus(value) {
-      setTimeout(() => {
-        this.isFocussed = value;
-      }, 100);
+      this.isFocussed = value;
     },
     handleKeyup() {
       this.results = searchProducts({
