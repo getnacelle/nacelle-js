@@ -16,4 +16,5 @@ $ npm run build
 $ npm run start
 
 For detailed explanation on how things work, check out the [Nacelle documentation](https://docs.getnacelle.com/nacellejs/next-starter.html#installation), and the
-[Nuxt documentation](https://nuxtjs.org).
+[Next.js documentation](https://nextjs.org).
+```
