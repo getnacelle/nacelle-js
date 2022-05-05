@@ -57,7 +57,7 @@
         </div>
       </div>
     </div>
-    <!-- <div v-if="query.trim() !== ''" class="py-6">
+    <div v-if="true" class="py-6">
       <p class="text-lg leading-6">{{ resultsText }}</p>
       <div class="pt-12 lg:grid lg:grid-cols-3 lg:gap-x-8 xl:grid-cols-4">
         <search-filters
@@ -67,7 +67,7 @@
         />
         <search-results :results="results" />
       </div>
-    </div> -->
+    </div>
   </div>
 </template>
 
