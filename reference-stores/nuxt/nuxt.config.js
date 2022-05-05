@@ -65,8 +65,8 @@ export default {
 
   generate: {
     crawler: false,
-    fallback: true
-    // routes: () => buildRoutes()
+    fallback: true,
+    routes: () => buildRoutes()
   },
 
   // PWA module configuration: https://go.nuxtjs.dev/pwa
