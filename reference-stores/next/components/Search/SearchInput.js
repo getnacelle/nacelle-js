@@ -3,12 +3,15 @@ import { useRouter } from 'next/router';
 import { useSearch } from 'hooks/useSearch';
 import SearchAutocomplete from './SearchAutocomplete';
 import searchIcon from 'assets/svgs/search';
+import { v4 as uuid } from 'uuid';
 
 const SearchInput = ({ content }) => {
   const [isFocussed, setIsFocussed] = useState(false);
   const router = useRouter();
 
   const { query, setQuery } = useSearch();
+
+  const uniqueId = uuid();
 
   const handleKeyUp = (e) => {
     if (e.key === 'Enter' || e.keyCode === 13) {
@@ -52,7 +55,7 @@ const SearchInput = ({ content }) => {
               />
             </div>
             <input
-              id="search-header"
+              id={`search-header-${uniqueId}`}
               value={query}
               name="search-header"
               className="
