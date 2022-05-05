@@ -1,4 +1,4 @@
-// import { buildRoutes } from './utils/buildRoutes';
+import { buildRoutes } from './utils/buildRoutes';
 
 export default {
   // Target: https://go.nuxtjs.dev/config-target
@@ -65,8 +65,8 @@ export default {
 
   generate: {
     crawler: false,
-    fallback: true
-    // routes: () => buildRoutes()
+    fallback: true,
+    routes: () => buildRoutes()
   },
 
   // PWA module configuration: https://go.nuxtjs.dev/pwa
