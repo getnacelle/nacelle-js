@@ -1,6 +1,6 @@
 <template>
   <div class="bg-white">
-    <search-form :catalog="products" />
+    <search-form v-if="products" :catalog="products" />
   </div>
 </template>
 
