@@ -11,12 +11,15 @@
       "
     >
       <nuxt-link :to="`/products/${product.content.handle}`">
+        <span class="sr-only">{{ product.content.title }}</span>
         <nuxt-picture
           :src="product.content.featuredMedia.src"
           :alt="product.content.featuredMedia.altText"
           quality="80"
           sizes="sm:100vw lg:50vw xl:25vw"
-          :img-attrs="{ class: 'w-full h-full object-center object-cover' }"
+          :img-attrs="{
+            class: 'w-full h-full object-center object-cover hover:opacity-75'
+          }"
         />
       </nuxt-link>
     </div>

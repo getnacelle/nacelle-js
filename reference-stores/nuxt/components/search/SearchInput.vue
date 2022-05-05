@@ -21,7 +21,7 @@
           <span class="h-5 w-5 text-gray-400" v-html="searchIcon" />
         </div>
         <input
-          id="search-header"
+          :id="`search-header-${uuid()}`"
           v-model="query"
           name="search-header"
           class="
@@ -62,6 +62,7 @@
 
 <script>
 import { mapGetters } from 'vuex';
+import { v4 as uuid } from 'uuid';
 import SearchAutocomplete from '../search/SearchAutocomplete.vue';
 import { searchProducts } from '~/utils/searchProducts';
 import searchIcon from '~/assets/svgs/search';
@@ -81,7 +82,8 @@ export default {
     query: '',
     results: [],
     isFocussed: false,
-    searchIcon
+    searchIcon,
+    uuid
   }),
   computed: {
     ...mapGetters('site', ['siteProducts'])
