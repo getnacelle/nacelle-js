@@ -32,11 +32,13 @@
                 v-if="member.fields.image"
                 class="h-0 aspect-w-3 aspect-h-2 sm:aspect-w-3 sm:aspect-h-4"
               >
-                <nuxt-img
-                  class="object-cover shadow-lg rounded-lg"
+                <nuxt-picture
+                  class="shadow-lg rounded-lg overflow-hidden"
                   :src="$contentful.imageUrl(member.fields.image)"
-                  :alt="member.imageAlt"
-                  :width="500"
+                  :alt="member.fields.imageAlt"
+                  quality="80"
+                  width="500"
+                  :img-attrs="{ class: 'object-center object-cover h-full' }"
                 />
               </div>
               <div class="sm:col-span-2">
@@ -49,8 +51,8 @@
                   </div>
                   <div class="text-lg">
                     <!-- eslint-disable vue/no-v-html -->
-                    <div 
-                      v-if="member.fields.text" 
+                    <div
+                      v-if="member.fields.text"
                       class="text-gray-500"
                       v-html="$contentful.richText(member.fields.text)"
                     />

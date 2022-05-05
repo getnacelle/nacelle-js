@@ -15,9 +15,8 @@
           lg:px-7
         "
       >
-        <!-- eslint-disable vue/no-v-html -->
+        <!-- eslint-disable-next-line vue/no-v-html -->
         <span class="text-green-500 mr-4 h-6 w-6" v-html="successIcon" />
-        <!-- eslint-enable vue/no-v-html -->
         {{ content.fields.successText }}
       </div>
       <form

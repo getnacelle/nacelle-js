@@ -13,8 +13,8 @@
               {{ content.fields.heading }}
             </h2>
             <!-- eslint-disable vue/no-v-html -->
-            <div 
-              v-if="content.fields.text" 
+            <div
+              v-if="content.fields.text"
               class="mt-4 text-gray-500"
               v-html="$contentful.richText(content.fields.text)"
             />
@@ -24,11 +24,12 @@
             v-if="content.fields.image"
             class="aspect-w-3 aspect-h-2 bg-gray-100 rounded-lg overflow-hidden"
           >
-            <nuxt-img
+            <nuxt-picture
               :src="$contentful.imageUrl(content.fields.image)"
               :alt="content.fields.imageAlt"
-              :width="600"
-              class="object-center object-cover"
+              quality="80"
+              width="600"
+              :img-attrs="{ class: 'object-center object-cover' }"
             />
           </div>
         </div>

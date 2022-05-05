@@ -11,13 +11,12 @@
       "
     >
       <nuxt-link :to="`/products/${product.content.handle}`">
-        <nuxt-img
-          class="w-full h-full object-cover"
+        <nuxt-picture
           :src="product.content.featuredMedia.src"
           :alt="product.content.featuredMedia.altText"
-          sizes="sm:100vw lg:50vw xl:25vw"
           quality="80"
-          fit="cover"
+          sizes="sm:100vw lg:50vw xl:25vw"
+          :img-attrs="{ class: 'w-full h-full object-center object-cover' }"
         />
       </nuxt-link>
     </div>

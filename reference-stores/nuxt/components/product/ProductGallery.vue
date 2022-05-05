@@ -38,13 +38,12 @@
             {{ image.altText }}
           </span>
           <span class="absolute inset-0 rounded-md overflow-hidden">
-            <nuxt-img
+            <nuxt-picture
               :src="image.src"
               :alt="image.altText"
-              fit="cover"
               quality="80"
-              sizes="xl:128px"
-              class="w-full h-full object-center object-cover sm:rounded-lg"
+              sizes="xl:300px"
+              :img-attrs="{ class: 'w-full h-full object-center object-cover' }"
             />
           </span>
           <span
@@ -69,12 +68,12 @@
         tabindex="0"
         :class="index !== activeImageIndex ? 'hidden' : ''"
       >
-        <nuxt-img
+        <nuxt-picture
           :src="image.src"
           :alt="image.altText"
-          sizes="md:100vw lg:624px xl:592px"
           quality="80"
-          class="w-full h-full object-center object-cover sm:rounded-lg"
+          sizes="md:100vw lg:1000px xl:800px"
+          :img-attrs="{ class: 'w-full h-full object-center object-cover' }"
         />
       </div>
     </div>

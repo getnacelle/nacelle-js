@@ -66,9 +66,8 @@
             @click="handleClose"
           >
             <span class="sr-only">Close menu</span>
-            <!-- eslint-disable vue/no-v-html -->
+            <!-- eslint-disable-next-line vue/no-v-html -->
             <span class="h-6 w-6" v-html="closeIcon" />
-            <!-- eslint-enable vue/no-v-html -->
           </button>
         </div>
         <form class="mt-4">

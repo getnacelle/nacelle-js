@@ -14,10 +14,12 @@
         overflow-hidden
       "
     >
-      <nuxt-img
+      <nuxt-picture
         :src="item.content.featuredMedia.src"
         :alt="item.content.featuredMedia.altText"
-        class="w-full h-full object-center object-cover"
+        quality="80"
+        width="300"
+        :img-attrs="{ class: 'w-full h-full object-center object-cover' }"
       />
     </div>
 

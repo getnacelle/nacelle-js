@@ -58,10 +58,11 @@
               group-hover:opacity-75
             "
           >
-            <nuxt-img
+            <nuxt-picture
               :src="$contentful.imageUrl(callout.fields.image)"
               :alt="callout.fields.imageAlt"
-              class="object-center object-cover"
+              quality="80"
+              :img-attrs="{ class: 'w-full h-full object-center object-cover' }"
             />
           </div>
           <div

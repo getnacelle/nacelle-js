@@ -10,10 +10,11 @@
         overflow-hidden
       "
     >
-      <nuxt-img
+      <nuxt-picture
         :src="item.featuredMedia.src"
         :alt="item.featuredMedia.altText"
-        class="w-full h-full object-center object-cover"
+        quality="80"
+        :img-attrs="{ class: 'w-full h-full object-center object-cover' }"
       />
     </div>
 

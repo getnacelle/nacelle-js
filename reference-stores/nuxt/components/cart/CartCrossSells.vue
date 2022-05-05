@@ -19,11 +19,12 @@
             overflow-hidden
           "
         >
-          <nuxt-img
+          <nuxt-picture
             v-if="crossSell.image"
             :src="crossSell.image.src"
             :alt="crossSell.image.altText"
-            class="w-full h-full object-center object-cover"
+            quality="80"
+            :img-attrs="{ class: 'w-full h-full object-center object-cover' }"
           />
         </div>
 

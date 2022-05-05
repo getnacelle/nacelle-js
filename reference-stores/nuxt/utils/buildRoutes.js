@@ -25,6 +25,7 @@ export const buildRoutes = async () => {
   const { products, collections, pages } = await client.query({
     query: QUERY
   });
+
   return [
     ...products.map((product) => `/products/${product.content.handle}`),
     ...collections.map(
