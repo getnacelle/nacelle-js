@@ -1,19 +1,19 @@
 import { useState, useEffect } from 'react';
-import { useRouter } from 'next/router'
-import { contentfulUtils } from 'services'
+import { useRouter } from 'next/router';
+import { contentfulUtils } from 'services';
 import successIcon from 'assets/svgs/success';
 
 const Newsletter = ({ content }) => {
   const [emailValue, setEmailValue] = useState('');
-  const [success, setSuccess] = useState(false)
-  const router = useRouter()
+  const [success, setSuccess] = useState(false);
+  const router = useRouter();
 
   const handleSubmit = (e) => {
-    e.preventDefault()
-    setSuccess(true)
-  }
+    e.preventDefault();
+    setSuccess(true);
+  };
 
-  useEffect(() => setSuccess(false), [router.asPath])
+  useEffect(() => setSuccess(false), [router.asPath]);
 
   return (
     <div className="bg-gray-800">
@@ -27,7 +27,9 @@ const Newsletter = ({ content }) => {
           {content?.fields?.text && (
             <div
               className="mt-3 max-w-3xl text-lg leading-6 text-gray-300"
-              dangerouslySetInnerHTML={{__html: contentfulUtils.richText(content.fields.text)}}
+              dangerouslySetInnerHTML={{
+                __html: contentfulUtils.richText(content.fields.text)
+              }}
             />
           )}
         </div>
@@ -37,13 +39,18 @@ const Newsletter = ({ content }) => {
               v-if="success"
               className="flex bg-green-50 mx-auto py-4 px-4 border border-2 border-green-300 rounded-lg sm:px-5 lg:px-6"
             >
-              <span className="text-green-500 mr-4 h-6 w-6" dangerouslySetInnerHTML={{__html: successIcon}} />
+              <span
+                className="text-green-500 mr-4 h-6 w-6"
+                dangerouslySetInnerHTML={{ __html: successIcon }}
+              />
               {content.fields?.successText}
             </div>
           )}
           {!success && (
             <form className="sm:flex" onSubmit={handleSubmit}>
-              <label htmlFor="email-address" className="sr-only">{content.input}</label>
+              <label htmlFor="email-address" className="sr-only">
+                {content.input}
+              </label>
               <input
                 type="email"
                 autoComplete="email"
@@ -64,12 +71,12 @@ const Newsletter = ({ content }) => {
                 "
                 placeholder={content.fields.emailPlaceholder}
                 value={emailValue}
-                onChange={e => setEmailValue(e.target.value)}
+                onChange={(e) => setEmailValue(e.target.value)}
               />
               <div className="mt-3 rounded-md shadow sm:mt-0 sm:ml-3 sm:flex-shrink-0">
-              <button
-                type="submit"
-                className="
+                <button
+                  type="submit"
+                  className="
                   w-full
                   flex
                   items-center
@@ -89,16 +96,16 @@ const Newsletter = ({ content }) => {
                   focus:ring-offset-gray-800
                   focus:ring-indigo-500
                 "
-              >
-                {content.fields.buttonText}
-              </button>
+                >
+                  {content.fields.buttonText}
+                </button>
               </div>
             </form>
           )}
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Newsletter
+export default Newsletter;

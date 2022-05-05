@@ -1,5 +1,5 @@
-import { useContext } from 'react'
-import { ProductContext } from 'context/Product'
+import { useContext } from 'react';
+import { ProductContext } from 'context/Product';
 
 export const useProduct = () => {
   const {
@@ -8,7 +8,7 @@ export const useProduct = () => {
     setSelectedOptions,
     selectedVariant,
     setSelectedVariant
-  } = useContext(ProductContext)
+  } = useContext(ProductContext);
 
   return {
     product,
@@ -16,5 +16,5 @@ export const useProduct = () => {
     setSelectedOptions,
     selectedVariant,
     setSelectedVariant
-  }
-}
+  };
+};
