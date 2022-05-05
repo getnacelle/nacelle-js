@@ -18,7 +18,7 @@
               class="mt-4 text-gray-500"
               v-html="$contentful.richText(content.fields.text)"
             />
-            <!-- eslint-enable vue/no-v-html -->
+            <!-- eslint-enabled vue/no-v-html -->
           </div>
           <div
             v-if="content.fields.image"
