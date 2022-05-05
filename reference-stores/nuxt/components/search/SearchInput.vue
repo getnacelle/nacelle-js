@@ -94,6 +94,9 @@ export default {
   mounted() {
     document.body.addEventListener('click', this.handleClick);
   },
+  beforeDestroy() {
+    document.body.removeEventListener('click', this.handleClick);
+  },
   methods: {
     handleClick() {
       this.isFocussed = false;
