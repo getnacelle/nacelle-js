@@ -46,13 +46,14 @@
                   rounded
                   text-indigo-600
                   focus:ring-indigo-500
+                  cursor-pointer
                 "
                 :checked="activeFilter({ ...filter, value })"
                 @click="handleClick({ ...filter, value })"
               />
               <label
                 :for="`${filter.type}-${filter.name}-${value}`"
-                class="ml-3 text-sm text-gray-600"
+                class="pl-3 text-sm text-gray-600 cursor-pointer"
               >
                 {{ value }}
               </label>

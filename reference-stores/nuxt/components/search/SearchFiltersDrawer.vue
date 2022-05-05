@@ -73,7 +73,7 @@
         </div>
         <form class="mt-4">
           <div
-            v-for="filter in availableFilters"
+            v-for="(filter, index) in availableFilters"
             :key="`${filter.type}-${filter.name}`"
             class="border-t border-gray-200 pt-4 pb-4"
           >
@@ -92,6 +92,7 @@
                 "
                 :aria-controls="`${filter.type}-${filter.name}`"
                 aria-expanded="false"
+                @click="handleClick(index)"
               >
                 <span class="text-sm font-medium text-gray-900">
                   {{ filter.name }}
@@ -105,6 +106,38 @@
                   <!-- eslint-enable vue/no-v-html -->
                 </span>
               </button>
+              <div :class="!expandedFilters.includes(index) && 'hidden'">
+                <div
+                  v-for="value in filter.values"
+                  :key="value"
+                  class="pt-2 px-2 space-y-3"
+                >
+                  <div class="flex items-center">
+                    <input
+                      :id="`${filter.type}-${filter.name}-${value}`"
+                      :value="value"
+                      type="checkbox"
+                      class="
+                        h-4
+                        w-4
+                        border-gray-300
+                        rounded
+                        text-indigo-600
+                        focus:ring-indigo-500
+                        cursor-pointer
+                      "
+                      :checked="$parent.activeFilter({ ...filter, value })"
+                      @click="$parent.handleClick({ ...filter, value })"
+                    />
+                    <label
+                      :for="`${filter.type}-${filter.name}-${value}`"
+                      class="grow pl-3 text-sm text-gray-600 cursor-pointer"
+                    >
+                      {{ value }}
+                    </label>
+                  </div>
+                </div>
+              </div>
             </fieldset>
           </div>
           <button
@@ -162,11 +195,20 @@ export default {
   },
   data: () => ({
     closeIcon,
-    chevronIcon
+    chevronIcon,
+    expandedFilters: []
   }),
   methods: {
+    handleClick(index) {
+      const itemIndex = this.expandedFilters.findIndex((expandedIndex) => {
+        return index === expandedIndex;
+      });
+      if (itemIndex > -1) this.expandedFilters.splice(itemIndex, 1);
+      else this.expandedFilters.push(index);
+    },
     handleClose() {
       this.$parent.showFilterDrawer = false;
+      this.expandedFilters = [];
     }
   }
 };
