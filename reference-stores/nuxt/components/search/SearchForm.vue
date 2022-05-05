@@ -31,7 +31,6 @@
             <span class="h-5 w-5 text-gray-400" v-html="searchIcon" />
           </div>
           <input
-            v-model="query"
             name="search-page"
             class="
               block
