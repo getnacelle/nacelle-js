@@ -125,7 +125,9 @@ export default {
   },
   created() {
     this.selectedVariant = { ...this.product.variants[0] };
-    this.selectedOptions = [...this.selectedVariant.content.selectedOptions];
+    this.selectedOptions = [
+      ...(this.selectedVariant?.content?.selectedOptions ?? [])
+    ];
   },
   methods: {
     ...mapMutations('cart', ['addItem']),
