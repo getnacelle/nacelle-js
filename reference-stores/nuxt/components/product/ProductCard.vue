@@ -10,7 +10,10 @@
         xl:aspect-w-7 xl:aspect-h-8
       "
     >
-      <nuxt-link :to="`/products/${product.content.handle}`">
+      <nuxt-link
+        :to="`/products/${product.content.handle}`"
+        class="hover:opacity-75 focus:opacity-75"
+      >
         <span class="sr-only">{{ product.content.title }}</span>
         <nuxt-picture
           :src="product.content.featuredMedia.src"
@@ -18,7 +21,7 @@
           quality="80"
           sizes="sm:100vw lg:50vw xl:25vw"
           :img-attrs="{
-            class: 'w-full h-full object-center object-cover hover:opacity-75'
+            class: 'w-full h-full object-center object-cover'
           }"
         />
       </nuxt-link>

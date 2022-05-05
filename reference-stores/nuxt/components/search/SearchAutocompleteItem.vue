@@ -2,7 +2,7 @@
   <nuxt-link
     v-if="item"
     :to="`/products/${item.content.handle}`"
-    class="py-6 flex hover:opacity-75"
+    class="py-6 flex hover:opacity-75 focus:opacity-75"
   >
     <div
       class="
