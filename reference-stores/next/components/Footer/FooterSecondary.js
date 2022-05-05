@@ -1,28 +1,26 @@
-import facebookIcon from 'assets/svgs/facebook'
-import twitterIcon from 'assets/svgs/twitter'
-import githubIcon from 'assets/svgs/github'
+import facebookIcon from 'assets/svgs/facebook';
+import twitterIcon from 'assets/svgs/twitter';
+import githubIcon from 'assets/svgs/github';
 
 const FooterSecondary = ({ content }) => {
-
   const icons = {
     facebook: facebookIcon,
     twitter: twitterIcon,
     github: githubIcon
-  }
+  };
 
-  const social = content && ['facebook', 'twitter', 'github']
-    .filter((account) => content[`${account}Url`])
-    .map((account) => ({
-      name: account,
-      url: content[`${account}Url`],
-      icon: icons[account]
-    }))
-
+  const social =
+    content &&
+    ['facebook', 'twitter', 'github']
+      .filter((account) => content[`${account}Url`])
+      .map((account) => ({
+        name: account,
+        url: content[`${account}Url`],
+        icon: icons[account]
+      }));
 
   return (
-    <div
-      className="mt-8 border-t border-gray-200 pt-8 md:flex md:items-center md:justify-between"
-    >
+    <div className="mt-8 border-t border-gray-200 pt-8 md:flex md:items-center md:justify-between">
       {social && (
         <div className="flex space-x-6 md:order-2">
           {social.map((account, index) => (
@@ -34,7 +32,7 @@ const FooterSecondary = ({ content }) => {
               <span className="sr-only">{account.name}</span>
               <span
                 className="h-6 w-6"
-                dangerouslySetInnerHTML={{__html: account.icon}}
+                dangerouslySetInnerHTML={{ __html: account.icon }}
               />
             </a>
           ))}
@@ -46,7 +44,7 @@ const FooterSecondary = ({ content }) => {
         </p>
       )}
     </div>
-  )
-}
+  );
+};
 
-export default FooterSecondary
+export default FooterSecondary;

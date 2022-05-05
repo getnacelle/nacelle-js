@@ -1,6 +1,6 @@
 import { CSSTransition } from 'react-transition-group';
 import Link from 'next/link';
-import Image from 'next/Image';
+import Image from 'next/image';
 import { contentfulUtils } from 'services';
 
 const HeaderMega = ({ content, active }) => {

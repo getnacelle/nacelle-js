@@ -1,29 +1,26 @@
-import { useRouter } from 'next/router'
-import { useState, useEffect } from 'react'
-import { useSearch } from 'hooks/useSearch'
-import searchIcon from 'assets/svgs/search'
-import SearchResults from './SearchResults'
-import SearchFilters from './SearchFilters'
+import { useRouter } from 'next/router';
+import { useState, useEffect } from 'react';
+import { useSearch } from 'hooks/useSearch';
+import searchIcon from 'assets/svgs/search';
+import SearchResults from './SearchResults';
+import SearchFilters from './SearchFilters';
 
 const SearchForm = () => {
-  const router = useRouter()
-  const [resultsText, setResultsText] = useState()
-  const { 
-    query,
-    setQuery,
-    results
-  } = useSearch()
+  const router = useRouter();
+  const [resultsText, setResultsText] = useState();
+  const { query, setQuery, results } = useSearch();
 
   useEffect(() => {
-    setQuery({ query: router.query.q || '' })
-  }, [router.query.q])
+    setQuery({ query: router.query.q || '' });
+  }, [router.query.q, setQuery]);
 
   useEffect(() => {
-    setResultsText(results.length
-      ? `${results.length} results(s) found`
-      : 'No results found...'
-    )
-  }, [results.length])
+    setResultsText(
+      results.length
+        ? `${results.length} results(s) found`
+        : 'No results found...'
+    );
+  }, [results.length]);
 
   return (
     <div className="max-w-7xl mx-auto py-16 px-4 sm:py-24 sm:px-6 lg:px-8">
@@ -41,7 +38,9 @@ const SearchForm = () => {
           Search
         </h1>
         <div className="w-full md:w-auto">
-          <label htmlFor="search-page" className="sr-only">Search</label>
+          <label htmlFor="search-page" className="sr-only">
+            Search
+          </label>
           <div className="relative">
             <div
               className="
@@ -54,8 +53,9 @@ const SearchForm = () => {
                 pointer-events-none
               "
             >
-              <span className="h-5 w-5 text-gray-400" 
-                dangerouslySetInnerHTML={{__html: searchIcon}}
+              <span
+                className="h-5 w-5 text-gray-400"
+                dangerouslySetInnerHTML={{ __html: searchIcon }}
               />
             </div>
             <input
@@ -98,7 +98,7 @@ const SearchForm = () => {
         </div>
       )}
     </div>
-  )
-}
+  );
+};
 
 export default SearchForm;

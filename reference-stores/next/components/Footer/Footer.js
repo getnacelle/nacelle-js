@@ -1,13 +1,13 @@
-import FooterPrimary from './FooterPrimary'
-import FooterSecondary from './FooterSecondary'
+import FooterPrimary from './FooterPrimary';
+import FooterSecondary from './FooterSecondary';
 
 const Footer = ({ content }) => {
-  const { navigationGroups, ...rest } = content.fields
-  const primaryContent = { navigation: navigationGroups }
-  const secondaryContent = rest
+  const { navigationGroups, ...rest } = content.fields;
+  const primaryContent = { navigation: navigationGroups };
+  const secondaryContent = rest;
 
   return (
-    <footer 
+    <footer
       className="bg-white border-t border-gray-200"
       aria-labelledby="footer-heading"
     >
@@ -17,7 +17,7 @@ const Footer = ({ content }) => {
         <FooterSecondary content={secondaryContent} />
       </div>
     </footer>
-  )
-}
+  );
+};
 
-export default Footer
+export default Footer;

@@ -1,12 +1,10 @@
-import { useSearch } from 'hooks/useSearch'
-import { ProductProvider } from 'context/Product'
-import ProductCard from 'components/Product/ProductCard'
+import { useSearch } from 'hooks/useSearch';
+import { ProductProvider } from 'context/Product';
+import ProductCard from 'components/Product/ProductCard';
 
 const SearchResults = () => {
-  const { 
-    results
-  } = useSearch()
-  
+  const { results } = useSearch();
+
   return (
     <div className="pt-12 lg:mt-0 lg:col-span-2 xl:col-span-3">
       {results?.length > 0 && (
@@ -19,7 +17,7 @@ const SearchResults = () => {
             xl:gap-x-8
           "
         >
-          {results.map(product => (
+          {results.map((product) => (
             <ProductProvider product={product} key={product.nacelleEntryId}>
               <ProductCard />
             </ProductProvider>
@@ -27,7 +25,7 @@ const SearchResults = () => {
         </div>
       )}
     </div>
-  )
-}
+  );
+};
 
-export default SearchResults
+export default SearchResults;
