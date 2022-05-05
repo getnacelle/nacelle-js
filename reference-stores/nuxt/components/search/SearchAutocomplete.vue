@@ -5,7 +5,8 @@
       class="
         w-full
         absolute
-        md:right-0 md:w-96 md:top-10
+        top-11
+        lg:right-0 lg:w-96 lg:top-10
         z-50
         bg-white
         overflow-hidden
@@ -13,7 +14,7 @@
         rounded-lg
       "
     >
-      <div class="px-4 py-5 sm:p-6">
+      <div class="px-2 py-5 lg:px-4">
         <h2
           v-if="content.heading"
           class="
