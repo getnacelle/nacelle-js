@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { useSearch } from 'hooks/useSearch';
 import SearchAutocomplete from './SearchAutocomplete';
@@ -13,6 +13,13 @@ const SearchInput = ({ content }) => {
 
   const uniqueId = uuid();
 
+  useEffect(() => {
+    document.body.addEventListener('click', handleClick);
+    return () => {
+      document.body.removeEventListener('click', handleClick);
+    };
+  }, []);
+
   const handleKeyUp = (e) => {
     if (e.key === 'Enter' || e.keyCode === 13) {
       router.push(`/search?q=${e.target.value}`);
@@ -25,9 +32,11 @@ const SearchInput = ({ content }) => {
   };
 
   const handleFocus = (value) => {
-    setTimeout(() => {
-      setIsFocussed(value);
-    }, 100);
+    setIsFocussed(value);
+  };
+
+  const handleClick = () => {
+    setIsFocussed(false);
   };
 
   return (
@@ -81,7 +90,7 @@ const SearchInput = ({ content }) => {
               onChange={handleOnChange}
               onKeyUp={handleKeyUp}
               onFocus={() => handleFocus(true)}
-              onBlur={() => handleFocus(false)}
+              onClick={(e) => e.stopPropagation()}
             />
             <SearchAutocomplete
               show={isFocussed && query.trim() !== ''}

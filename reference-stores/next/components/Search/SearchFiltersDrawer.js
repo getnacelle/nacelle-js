@@ -1,9 +1,4 @@
-import { useSearch } from 'hooks/useSearch';
-
 const SearchFiltersDrawer = ({ show, setShow }) => {
-  const { activeFilters, availableFilters, toggleFilter, setFilters } =
-    useSearch();
-
   return (
     <div className={`relative flex ${show ? 'z-40' : '-z-10'}`}>
       <div

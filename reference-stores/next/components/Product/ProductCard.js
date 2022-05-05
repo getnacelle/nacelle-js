@@ -54,7 +54,7 @@ const ProductCard = () => {
         <div className="w-full aspect-w-1 aspect-h-1 bg-gray-200 rounded-lg overflow-hidden xl:aspect-w-7 xl:aspect-h-8">
           <div className="lg:grid lg:grid-cols-2 lg:gap-x-8 lg:items-start">
             <Link href={`/products/${product.content.handle}`}>
-              <a className="text-base text-gray-500 hover:text-gray-900 hover:opacity-75">
+              <a className="text-base text-gray-500 hover:text-gray-900 hover:opacity-75 focus:opacity-75">
                 <span className="sr-only">{product.content.title}</span>
                 <Image
                   src={product.content.featuredMedia.src}

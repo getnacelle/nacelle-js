@@ -11,7 +11,7 @@ const SearchAutocompleteItem = ({ item }) => {
   return (
     item && (
       <Link href={`/products/${item.content.handle}`}>
-        <a className="py-6 flex hover:opacity-75">
+        <a className="py-6 flex hover:opacity-75 focus:opacity-75">
           <div className="flex-shrink-0 w-24 h-24 border border-gray-200 rounded-md overflow-hidden">
             <div className="relative w-full h-full">
               <Image
@@ -36,7 +36,7 @@ const SearchAutocompleteItem = ({ item }) => {
                     </span>
                   )}
                   {compareAtPrice && (
-                    <span class="ml-2 line-through">{compareAtPrice}</span>
+                    <span className="ml-2 line-through">{compareAtPrice}</span>
                   )}
                 </p>
               </div>

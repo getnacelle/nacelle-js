@@ -6,7 +6,7 @@ export const CONTENT_ROUTES_QUERY = `
     handle
   }
 }
-`
+`;
 
 export const CONTENT_PAGE_QUERY = `
   query ContentPage($handle: String!){

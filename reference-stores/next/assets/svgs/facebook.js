@@ -12,4 +12,4 @@ export default `
     clip-rule="evenodd"
   />
 </svg>
-`
+`;
