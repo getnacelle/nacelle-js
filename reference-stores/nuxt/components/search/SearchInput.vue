@@ -21,7 +21,7 @@
           <span class="h-5 w-5 text-gray-400" v-html="searchIcon" />
         </div>
         <input
-          :id="`search-header-${uuid}`"
+          :id="`search-header-${uniqueId}`"
           v-model="query"
           name="search-header"
           class="
@@ -83,7 +83,7 @@ export default {
     results: [],
     isFocussed: false,
     searchIcon,
-    uuid: uuid()
+    uniqueId: uuid()
   }),
   computed: {
     ...mapGetters('site', ['siteProducts'])
