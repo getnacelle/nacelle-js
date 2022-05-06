@@ -4,7 +4,7 @@
     @mouseenter="handleHover(true)"
     @mouseleave="handleHover(false)"
     @focus="handleHover(true)"
-    @blue="handleHover(false)"
+    @blur="handleHover(false)"
   >
     <div
       class="
