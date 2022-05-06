@@ -50,13 +50,11 @@
                     </p>
                   </div>
                   <div class="text-lg">
-                    <!-- eslint-disable vue/no-v-html -->
                     <div
                       v-if="member.fields.text"
                       class="text-gray-500"
                       v-html="$contentful.richText(member.fields.text)"
                     />
-                    <!-- eslint-enable vue/no-v-html -->
                   </div>
                 </div>
               </div>

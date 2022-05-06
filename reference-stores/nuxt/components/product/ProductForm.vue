@@ -18,13 +18,10 @@
 
     <div v-if="product.content.description" class="mt-6">
       <h3 class="sr-only">Description</h3>
-
-      <!-- eslint-disable vue/no-v-html -->
       <div
         class="text-base text-gray-700 space-y-6"
         v-html="product.content.description"
       ></div>
-      <!-- eslint-enable vue/no-v-html -->
     </div>
 
     <form class="mt-6">

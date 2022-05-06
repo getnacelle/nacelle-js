@@ -15,7 +15,6 @@
     "
     @click="setCartVisibility(!cartVisible)"
   >
-    <!-- eslint-disable-next-line vue/no-v-html -->
     <span class="flex-shrink-0 h-6 w-6 text-gray-400" v-html="cartIcon" />
     <span class="ml-2 text-sm font-medium text-gray-700">{{ cartCount }}</span>
     <span class="sr-only">items in cart, view bag</span>

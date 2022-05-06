@@ -11,12 +11,10 @@
         text-center
       "
     >
-      <!-- eslint-disable vue/no-v-html -->
       <span
         class="flex mx-auto text-red-500 mb-4 h-12 w-12"
         v-html="emptyIcon"
       />
-      <!-- eslint-enable vue/no-v-html -->
       <h1
         class="
           text-1xl

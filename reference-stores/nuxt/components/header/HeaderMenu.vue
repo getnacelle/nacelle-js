@@ -5,7 +5,6 @@
     @click="setNavVisibility(!navVisible)"
   >
     <span class="sr-only">Open menu</span>
-    <!-- eslint-disable-next-line vue/no-v-html -->
     <span class="flex h-6 w-6 text-gray-400" v-html="menuIcon" />
   </button>
 </template>

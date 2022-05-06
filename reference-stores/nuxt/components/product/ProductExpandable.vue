@@ -24,7 +24,6 @@
         >
           Features
         </span>
-        <!-- eslint-disable vue/no-v-html -->
         <span
           :class="`ml-6 h-6 w-6 flex items-center${
             isExpanded

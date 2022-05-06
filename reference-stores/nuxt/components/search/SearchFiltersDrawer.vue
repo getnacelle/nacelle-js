@@ -66,7 +66,6 @@
             @click="handleClose"
           >
             <span class="sr-only">Close menu</span>
-            <!-- eslint-disable-next-line vue/no-v-html -->
             <span class="h-6 w-6" v-html="closeIcon" />
           </button>
         </div>
@@ -97,12 +96,10 @@
                   {{ filter.name }}
                 </span>
                 <span class="ml-6 h-7 flex items-center">
-                  <!-- eslint-disable vue/no-v-html -->
                   <span
                     class="rotate-0 h-5 w-5 transform"
                     v-html="chevronIcon"
                   />
-                  <!-- eslint-enable vue/no-v-html -->
                 </span>
               </button>
               <div :class="!expandedFilters.includes(index) && 'hidden'">

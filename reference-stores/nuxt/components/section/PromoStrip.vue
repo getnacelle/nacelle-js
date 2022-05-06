@@ -25,13 +25,11 @@
       >
         {{ content.fields.heading }}
       </h2>
-      <!-- eslint-disable vue/no-v-html -->
       <div
         v-if="content.fields.text"
         class="mt-3 text-xl text-white"
         v-html="$contentful.richText(content.fields.text)"
       />
-      <!-- eslint-enable vue/no-v-html -->
     </div>
   </section>
 </template>

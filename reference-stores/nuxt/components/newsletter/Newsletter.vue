@@ -17,13 +17,11 @@
         >
           {{ content.fields.heading }}
         </h2>
-        <!-- eslint-disable vue/no-v-html -->
         <div
           v-if="content.fields.text"
           class="mt-3 max-w-3xl text-lg leading-6 text-gray-300"
           v-html="$contentful.richText(content.fields.text)"
         />
-        <!-- eslint-enable vue/no-v-html -->
       </div>
       <div class="mt-8 lg:mt-0 lg:ml-8">
         <div
@@ -34,15 +32,13 @@
             mx-auto
             py-4
             px-4
-            border border-2 border-green-300
+            border-2 border-green-300
             rounded-lg
             sm:px-5
             lg:px-6
           "
         >
-          <!-- eslint-disable vue/no-v-html -->
           <span class="text-green-500 mr-4 h-6 w-6" v-html="successIcon" />
-          <!-- eslint-enable vue/no-v-html -->
           {{ content.fields.successText }}
         </div>
         <form v-if="!success" class="sm:flex" @submit.prevent="handleSubmit">

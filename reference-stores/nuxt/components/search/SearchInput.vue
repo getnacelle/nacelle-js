@@ -17,7 +17,6 @@
             pointer-events-none
           "
         >
-          <!-- eslint-disable-next-line vue/no-v-html -->
           <span class="h-5 w-5 text-gray-400" v-html="searchIcon" />
         </div>
         <input

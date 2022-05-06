@@ -44,13 +44,11 @@
         >
           {{ content.fields.heading }}
         </h2>
-        <!-- eslint-disable vue/no-v-html -->
         <div
           v-if="content.fields.text"
           class="mt-4 max-w-xl mx-auto text-xl text-gray-600"
           v-html="$contentful.richText(content.fields.text)"
         />
-        <!-- eslint-enable vue/no-v-html -->
         <nuxt-link
           v-if="content.fields.linkUrl"
           :to="content.fields.linkUrl"

@@ -16,7 +16,6 @@
         class="text-gray-500 hover:text-gray-900"
       >
         <span class="sr-only">{{ account.name }}</span>
-        <!-- eslint-disable-next-line vue/no-v-html -->
         <span class="h-6 w-6" v-html="account.icon" />
       </a>
     </div>

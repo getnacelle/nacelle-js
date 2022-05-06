@@ -25,7 +25,6 @@
       >
         {{ content.fields.heading }}
       </h1>
-      <!-- eslint-disable vue/no-v-html -->
       <div
         v-if="content.fields.text"
         class="
@@ -39,14 +38,12 @@
         "
         v-html="$contentful.richText(content.fields.text)"
       />
-      <!-- eslint-enable vue/no-v-html -->
       <nuxt-link
         v-if="content.fields.linkUrl"
         :to="content.fields.linkUrl"
         class="
           mt-8
           inline-block
-          bg-white
           border border-transparent
           rounded-md
           py-3

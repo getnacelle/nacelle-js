@@ -12,12 +12,10 @@
       @click="showFilterDrawer = true"
     >
       <span class="text-sm font-medium text-gray-700">Filters</span>
-      <!-- eslint-disable vue/no-v-html -->
       <span
         class="flex-shrink-0 ml-1 h-5 w-5 text-gray-400"
         v-html="plusIcon"
       />
-      <!-- eslint-enable vue/no-v-html -->
     </button>
     <form class="hidden lg:block divide-y divide-gray-200 space-y-10">
       <div

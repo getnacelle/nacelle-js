@@ -32,7 +32,6 @@
                 @click="setCartVisibility(false)"
               >
                 <span class="sr-only">Close panel</span>
-                <!-- eslint-disable-next-line vue/no-v-html -->
                 <span class="h-6 w-6 flex" v-html="closeIcon" />
               </button>
             </div>
