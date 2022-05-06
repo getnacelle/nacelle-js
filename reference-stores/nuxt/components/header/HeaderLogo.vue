@@ -2,19 +2,16 @@
   <div class="absolute flex lg:relative">
     <nuxt-link to="/">
       <span class="sr-only">Workflow</span>
-      <img
-        class="h-8 w-8"
-        src="https://tailwindui.com/img/logos/workflow-mark.svg?color=indigo&shade=600"
-        alt=""
-        height="32"
-        width="32"
-      />
+      <span class="flex h-8 w-8" v-html="logoIcon" />
     </nuxt-link>
   </div>
 </template>
 
 <script>
+import logoIcon from '~/assets/svgs/logo';
+
 export default {
-  name: 'HeaderLogo'
+  name: 'HeaderLogo',
+  data: () => ({ logoIcon })
 };
 </script>
