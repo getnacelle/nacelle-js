@@ -24,7 +24,7 @@ export const getters = {
 export const mutations = {
   setLineItems(state, payload) {
     state.lineItems = payload;
-    set('cart', state.lineItems);
+    set(state.cacheKey, state.lineItems);
   },
   addItem(state, payload) {
     const index = state.lineItems.findIndex((lineItem) => {
@@ -45,14 +45,14 @@ export const mutations = {
         quantity: state.lineItems[index].quantity + payload.quantity
       });
     }
-    set('cart', state.lineItems);
+    set(state.cacheKey, state.lineItems);
   },
   removeItem(state, payload) {
     const index = state.lineItems.findIndex((item) => item.id === payload);
     if (index > -1) {
       state.lineItems.splice(index, 1);
     }
-    set('cart', state.lineItems);
+    set(state.cacheKey, state.lineItems);
   },
   updateItem(state, payload) {
     const index = state.lineItems.findIndex((item) => item.id === payload.id);
@@ -62,7 +62,7 @@ export const mutations = {
         ...payload
       });
     }
-    set('cart', state.lineItems);
+    set(state.cacheKey, state.lineItems);
   },
   incrementItem(state, payload) {
     const index = state.lineItems.findIndex((item) => item.id === payload);
@@ -72,7 +72,7 @@ export const mutations = {
         quantity: state.lineItems[index].quantity + 1
       });
     }
-    set('cart', state.lineItems);
+    set(state.cacheKey, state.lineItems);
   },
   decrementItem(state, payload) {
     const index = state.lineItems.findIndex((item) => item.id === payload);
@@ -86,11 +86,11 @@ export const mutations = {
         });
       }
     }
-    set('cart', state.lineItems);
+    set(state.cacheKey, state.lineItems);
   },
   clearCart(state) {
     state.lineItems = [];
-    set('cart', state.lineItems);
+    set(state.cacheKey, state.lineItems);
   }
 };
 

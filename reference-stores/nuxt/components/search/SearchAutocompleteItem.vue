@@ -2,15 +2,24 @@
   <nuxt-link
     v-if="item"
     :to="`/products/${item.content.handle}`"
-    class="py-6 flex"
+    class="py-6 flex hover:opacity-75 focus:opacity-75"
   >
     <div
-      class="flex-shrink-0 w-24 h-24 border border-gray-200 rounded-md overflow-hidden"
+      class="
+        flex-shrink-0
+        w-24
+        h-24
+        border border-gray-200
+        rounded-md
+        overflow-hidden
+      "
     >
-      <nuxt-img
+      <nuxt-picture
         :src="item.content.featuredMedia.src"
         :alt="item.content.featuredMedia.altText"
-        class="w-full h-full object-center object-cover"
+        quality="80"
+        width="300"
+        :img-attrs="{ class: 'w-full h-full object-center object-cover' }"
       />
     </div>
 
@@ -20,7 +29,7 @@
           <h3>
             {{ item.content.title }}
           </h3>
-          <p class="ml-4">
+          <p class="flex flex-wrap justify-end ml-4">
             <span v-if="price" :class="compareAtPrice && 'text-red-600'">
               {{ price }}
             </span>

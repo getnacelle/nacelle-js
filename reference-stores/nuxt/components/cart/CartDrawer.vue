@@ -1,72 +1,68 @@
 <template>
-  <div class="fixed inset-y-0 right-0 pl-10 max-w-full flex">
-    <transition name="slide">
-      <div
-        v-show="cartVisible"
-        class="w-screen max-w-md transform transition ease-in-out duration-500"
-      >
-        <div class="h-full flex flex-col bg-white shadow-xl overflow-y-scroll">
-          <div class="flex-1 py-6 overflow-y-auto px-4 sm:px-6">
-            <div class="flex items-start justify-between">
-              <h2
-                id="slide-over-title"
-                class="text-lg font-medium text-gray-900"
+  <transition name="slide">
+    <div
+      v-show="cartVisible"
+      class="
+        fixed
+        top-0
+        right-0
+        bottom-0
+        w-screen
+        bg-white
+        max-w-md
+        transition-transform
+        ease-in-out
+        duration-500
+      "
+    >
+      <div class="h-full flex flex-col bg-white shadow-xl overflow-y-scroll">
+        <div class="flex-1 py-6 overflow-y-auto px-4 sm:px-6">
+          <div class="flex items-start justify-between">
+            <h2
+              v-if="content.fields.heading"
+              id="slide-over-title"
+              class="text-lg font-medium text-gray-900"
+            >
+              {{ content.fields.heading }}
+            </h2>
+            <div class="ml-3 h-7 flex items-center">
+              <button
+                type="button"
+                class="-m-2 p-2 text-gray-400 hover:text-gray-500"
+                @click="setCartVisibility(false)"
               >
-                {{ content.fields.drawer.heading }}
-              </h2>
-              <div class="ml-3 h-7 flex items-center">
-                <button
-                  type="button"
-                  class="-m-2 p-2 text-gray-400 hover:text-gray-500"
-                  @click="setCartVisibility(false)"
-                >
-                  <span class="sr-only">Close panel</span>
-                  <svg
-                    class="h-6 w-6"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    aria-hidden="true"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M6 18L18 6M6 6l12 12"
-                    />
-                  </svg>
-                </button>
-              </div>
-            </div>
-
-            <div class="mt-8">
-              <div class="flow-root">
-                <div v-show="cartItems.length">
-                  <ul role="list" class="-my-6 divide-y divide-gray-200">
-                    <cart-item
-                      v-for="item in cartItems"
-                      :key="item.id"
-                      :item="item"
-                      :content="content.fields.item"
-                    />
-                  </ul>
-                </div>
-                <p v-show="!cartItems.length" class="text-gray-400 text-center">
-                  {{ content.fields.drawer.empty }}
-                </p>
-                <cart-cross-sells :content="content.fields.crosssells" />
-              </div>
+                <span class="sr-only">Close panel</span>
+                <span class="h-6 w-6 flex" v-html="closeIcon" />
+              </button>
             </div>
           </div>
-          <cart-total
-            v-show="cartItems.length"
-            :content="content.fields.total"
-          />
+
+          <div class="mt-8">
+            <div class="flow-root">
+              <div v-show="cartItems.length">
+                <ul role="list" class="-my-6 divide-y divide-gray-200">
+                  <cart-item
+                    v-for="item in cartItems"
+                    :key="item.id"
+                    :item="item"
+                    :content="itemContent"
+                  />
+                </ul>
+              </div>
+              <p v-show="!cartItems.length" class="text-gray-400 text-center">
+                {{ content.fields.emptyText }}
+              </p>
+              <cart-cross-sells
+                v-if="crossSellContent"
+                :content="crossSellContent"
+              />
+            </div>
+          </div>
         </div>
+        <cart-total v-show="cartItems.length" :content="totalContent" />
       </div>
-    </transition>
-  </div>
+    </div>
+  </transition>
 </template>
 
 <script>
@@ -75,7 +71,7 @@ import { mapGetters, mapMutations } from 'vuex';
 import CartItem from './CartItem.vue';
 import CartCrossSells from './CartCrossSells.vue';
 import CartTotal from './CartTotal.vue';
-import { PRODUCTS_QUERY } from '~/queries/product';
+import closeIcon from '~/assets/svgs/close';
 
 export default {
   name: 'CartDrawer',
@@ -90,16 +86,28 @@ export default {
       required: true
     }
   },
-  async fetch() {
-    const { products } = await this.$nacelle.query({
-      query: PRODUCTS_QUERY,
-      variables: { handles: this.content.products }
-    });
-    this.products = products;
-  },
+  data: () => ({ closeIcon }),
   computed: {
     ...mapGetters('cart', ['cartItems']),
-    ...mapGetters('ui', ['cartVisible'])
+    ...mapGetters('ui', ['cartVisible']),
+    itemContent() {
+      const { itemQuantity, itemRemove } = this.content?.fields;
+      return { itemQuantity, itemRemove };
+    },
+    crossSellContent() {
+      const { crosssellHeading, crosssellItems, crosssellAdd } =
+        this.content?.fields;
+      return {
+        heading: crosssellHeading,
+        items: crosssellItems,
+        add: crosssellAdd
+      };
+    },
+    totalContent() {
+      const { subtotalLabel, subtotalText, checkoutText, continueText } =
+        this.content?.fields;
+      return { subtotalLabel, subtotalText, checkoutText, continueText };
+    }
   },
   methods: {
     ...mapMutations('ui', ['setCartVisibility'])

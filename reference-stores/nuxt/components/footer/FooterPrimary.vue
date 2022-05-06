@@ -5,15 +5,15 @@
         <h3
           class="text-sm font-semibold text-gray-500 tracking-wider uppercase"
         >
-          {{ menu.text }}
+          {{ menu.fields.text }}
         </h3>
         <ul role="list" class="mt-4 space-y-4">
-          <li v-for="(link, index1) in menu.links" :key="index1">
+          <li v-for="(link, index1) in menu.fields.links" :key="index1">
             <nuxt-link
-              :to="link.url"
+              :to="link.fields.url"
               class="text-base text-gray-500 hover:text-gray-900"
             >
-              {{ link.text }}
+              {{ link.fields.text }}
             </nuxt-link>
           </li>
         </ul>

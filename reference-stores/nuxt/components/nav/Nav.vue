@@ -6,8 +6,8 @@
       role="dialog"
       aria-modal="true"
     >
-      <nav-overlay :content="content.fields.primary" />
-      <nav-drawer :content="content.fields.primary" />
+      <nav-overlay />
+      <nav-drawer :content="content.fields" />
     </div>
   </div>
 </template>

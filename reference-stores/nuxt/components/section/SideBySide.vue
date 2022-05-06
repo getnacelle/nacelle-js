@@ -1,5 +1,5 @@
 <template>
-  <section class="bg-white">
+  <section v-if="content" class="bg-white">
     <div class="max-w-7xl mx-auto py-24 sm:px-2 sm:py-32 lg:px-4">
       <div class="max-w-2xl mx-auto px-4 lg:max-w-none">
         <div
@@ -7,24 +7,27 @@
         >
           <div>
             <h2
-              v-if="content.heading"
+              v-if="content.fields.heading"
               class="text-4xl font-extrabold tracking-tight text-gray-900"
             >
-              {{ content.heading }}
+              {{ content.fields.heading }}
             </h2>
-            <p v-if="content.text" class="mt-4 text-gray-500">
-              {{ content.text }}
-            </p>
+            <div
+              v-if="content.fields.text"
+              class="mt-4 text-gray-500"
+              v-html="$contentful.richText(content.fields.text)"
+            />
           </div>
           <div
-            v-if="content.image"
+            v-if="content.fields.image"
             class="aspect-w-3 aspect-h-2 bg-gray-100 rounded-lg overflow-hidden"
           >
-            <nuxt-img
-              :src="content.image.file.asset.url"
-              :alt="content.image.alt"
-              :width="600"
-              class="object-center object-cover"
+            <nuxt-picture
+              :src="$contentful.imageUrl(content.fields.image)"
+              :alt="content.fields.imageAlt"
+              quality="80"
+              width="600"
+              :img-attrs="{ class: 'object-center object-cover' }"
             />
           </div>
         </div>

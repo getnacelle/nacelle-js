@@ -1,15 +1,11 @@
-export const buildMeta = ({ metatags, product, collection, route }) => {
+export const buildMeta = ({ meta, product, collection, route }) => {
   let title = 'Nuxt Reference Store';
   let description = 'A Nacelle-powered storefront built with Nuxt.js';
 
-  if (metatags) {
-    const metaTitle = metatags?.find(
-      (metatag) => metatag.key === 'title'
-    )?.value;
+  if (meta) {
+    const metaTitle = meta.fields?.seoTitle;
     if (metaTitle) title = metaTitle;
-    const metaDescription = metatags?.find(
-      (metatag) => metatag.key === 'description'
-    )?.value;
+    const metaDescription = meta.fields?.seoDescription;
     if (metaDescription) description = metaDescription;
   } else if (product) {
     const productTitle = product.content.title;

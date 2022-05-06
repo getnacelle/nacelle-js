@@ -23,14 +23,18 @@ export default {
   css: ['@/assets/css/main.css'],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: ['~/plugins/nacelle-sdk.js', '~/plugins/nuxt-client-init.client.js'],
+  plugins: [
+    '~/plugins/nacelle-sdk.js',
+    '~/plugins/contentful.js',
+    '~/plugins/nuxt-client-init.client.js'
+  ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: false,
 
   // Nuxt image component: https://image.nuxtjs.org/
   image: {
-    domains: ['https://cdn.shopify.com', 'https://cdn.sanity.io']
+    domains: ['cdn.shopify.com', 'images.ctfassets.net']
   },
 
   publicRuntimeConfig: {

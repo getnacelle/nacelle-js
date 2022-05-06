@@ -1,5 +1,5 @@
 <template>
-  <div class="homePage">
+  <div class="bg-white">
     <site-section
       v-for="section in sections"
       :key="section._key"
@@ -11,7 +11,7 @@
 <script>
 import { CONTENT_PAGE_QUERY } from '~/queries/contentPage';
 import { buildMeta } from '~/utils/buildMeta';
-
+import { resolvePageData } from '~/utils/resolvers';
 import SiteSection from '~/components/section/Section.vue';
 
 export default {
@@ -21,9 +21,10 @@ export default {
     const { pages } = await app.$nacelle.query({
       query: CONTENT_PAGE_QUERY,
       variables: { handle: 'page-homepage' }
-    });
+    })
+    const { page } = await resolvePageData({ client: app.$nacelle, page: pages[0] })
     return {
-      page: pages[0]
+      page
     };
   },
   head() {

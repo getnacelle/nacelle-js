@@ -1,11 +1,11 @@
 <template>
-  <div v-if="content" v-show="crossSells.length" class="mt-12">
-    <h2 class="text-lg font-medium text-gray-900">
+  <div v-if="content && hasCrossSells" class="mt-12">
+    <h2 v-if="content.heading" class="text-lg font-medium text-gray-900">
       {{ content.heading }}
     </h2>
     <ul>
       <li
-        v-for="crossSell in crossSells"
+        v-for="crossSell in crossSellItems"
         :key="crossSell.nacelleEntryId"
         class="py-6 flex"
       >
@@ -19,11 +19,12 @@
             overflow-hidden
           "
         >
-          <nuxt-img
+          <nuxt-picture
             v-if="crossSell.image"
             :src="crossSell.image.src"
             :alt="crossSell.image.altText"
-            class="w-full h-full object-center object-cover"
+            quality="80"
+            :img-attrs="{ class: 'w-full h-full object-center object-cover' }"
           />
         </div>
 
@@ -79,7 +80,6 @@
 <script>
 import { mapGetters, mapMutations } from 'vuex';
 
-import { PRODUCTS_QUERY } from '~/queries/product';
 import { formatPrice } from '~/utils/formatPrice';
 import { getCartVariant } from '~/utils/getCartVariant';
 
@@ -92,36 +92,29 @@ export default {
       required: true
     }
   },
-  data: () => ({
-    products: []
-  }),
   computed: {
     ...mapGetters('cart', ['cartItems']),
     ...mapGetters('checkout', ['checkoutProcessing']),
-    crossSells() {
-      return this.products
-        .filter((product) => {
+    crossSellItems() {
+      return this.content?.items
+        ?.filter((item) => {
           return (
-            product.availableForSale &&
+            item.availableForSale &&
             !this.cartItems.some((cartItem) => {
-              return cartItem.productHandle === product.content.handle;
+              return cartItem.productHandle === item.content.handle;
             })
           );
         })
-        .map((product) => ({
-          ...product,
-          image: product.content.featuredMedia,
-          price: formatPrice({ price: product.variants[0].price })
+        .map((item) => ({
+          ...item,
+          image: item.content.featuredMedia,
+          price: formatPrice({ price: item.variants[0].price })
         }))
         .slice(0, 3);
+    },
+    hasCrossSells() {
+      return this.crossSellItems?.length;
     }
-  },
-  async created() {
-    const { products } = await this.$nacelle.query({
-      query: PRODUCTS_QUERY,
-      variables: { handles: this.content.products }
-    });
-    this.products = products;
   },
   methods: {
     ...mapMutations('cart', ['addItem']),

@@ -1,6 +1,7 @@
 <template>
   <div
-    class="flex-1 flex items-center justify-center px-2 lg:ml-6 lg:justify-end"
+    v-if="content"
+    class="flex items-center justify-center px-2 lg:ml-6 lg:justify-end"
   >
     <div class="max-w-lg w-full lg:max-w-xs">
       <label for="search" class="sr-only">Search</label>
@@ -16,24 +17,12 @@
             pointer-events-none
           "
         >
-          <svg
-            class="h-5 w-5 text-gray-400"
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 20 20"
-            fill="currentColor"
-            aria-hidden="true"
-          >
-            <path
-              fill-rule="evenodd"
-              d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
-              clip-rule="evenodd"
-            />
-          </svg>
+          <span class="h-5 w-5 text-gray-400" v-html="searchIcon" />
         </div>
         <input
-          :id="`search-${_uid}`"
+          :id="`search-header-${uniqueId}`"
           v-model="query"
-          :name="`search-${_uid}`"
+          name="search-header"
           class="
             block
             w-full
@@ -52,17 +41,18 @@
             focus:border-indigo-500
             sm:text-sm
           "
-          placeholder="Search"
+          :placeholder="content.placeholder"
           type="search"
           @keyup="handleKeyup"
           @keyup.enter="handleEnter"
           @focus="handleFocus(true)"
-          @blur="handleFocus(false)"
+          @click.stop
         />
         <search-autocomplete
-          v-if="query && isFocused"
+          :show="isFocussed && query.trim() !== ''"
           :results="results"
           :query="query"
+          :content="content"
         />
       </div>
     </div>
@@ -71,18 +61,28 @@
 
 <script>
 import { mapGetters } from 'vuex';
+import { v4 as uuid } from 'uuid';
 import SearchAutocomplete from '../search/SearchAutocomplete.vue';
 import { searchProducts } from '~/utils/searchProducts';
+import searchIcon from '~/assets/svgs/search';
 
 export default {
   name: 'HeaderSearch',
   components: {
     SearchAutocomplete
   },
+  props: {
+    content: {
+      type: Object,
+      required: true
+    }
+  },
   data: () => ({
     query: '',
     results: [],
-    isFocused: false
+    isFocussed: false,
+    searchIcon,
+    uniqueId: uuid()
   }),
   computed: {
     ...mapGetters('site', ['siteProducts'])
@@ -90,9 +90,18 @@ export default {
   created() {
     this.results = [...this.siteProducts];
   },
+  mounted() {
+    document.body.addEventListener('click', this.handleClick);
+  },
+  beforeDestroy() {
+    document.body.removeEventListener('click', this.handleClick);
+  },
   methods: {
+    handleClick() {
+      this.isFocussed = false;
+    },
     handleFocus(value) {
-      this.isFocused = value;
+      this.isFocussed = value;
     },
     handleKeyup() {
       this.results = searchProducts({

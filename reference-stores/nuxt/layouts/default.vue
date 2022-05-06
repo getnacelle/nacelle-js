@@ -29,10 +29,10 @@ export default {
     SiteFooter
   },
   head() {
-    return buildMeta({ metatags: this.siteMetatags });
+    return buildMeta({});
   },
   computed: {
-    ...mapGetters('site', ['siteMetatags', 'siteComponents'])
+    ...mapGetters('site', ['siteComponents'])
   }
 };
 </script>

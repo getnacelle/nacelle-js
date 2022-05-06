@@ -1,6 +1,6 @@
 <template>
   <div v-if="product" class="productPage">
-    <product-buy-box :product="product" :content="content" />
+    <product-details :product="product" :content="content" />
     <site-section
       v-for="section in sections"
       :key="section._key"
@@ -12,24 +12,33 @@
 <script>
 import { PRODUCT_PAGE_QUERY } from '~/queries/productPage';
 import { buildMeta } from '~/utils/buildMeta';
+import { resolvePageData } from '~/utils/resolvers';
 
-import ProductBuyBox from '~/components/product/ProductBuyBox.vue';
+import ProductDetails from '~/components/product/ProductDetails.vue';
 import SiteSection from '~/components/section/Section.vue';
 
 export default {
   name: 'ProductPage',
   components: {
-    ProductBuyBox,
+    ProductDetails,
     SiteSection
   },
   async asyncData({ app, params }) {
     const { products, pages } = await app.$nacelle.query({
       query: PRODUCT_PAGE_QUERY,
-      variables: { handle: params.handle }
+      variables: {
+        handle: params.handle,
+        pageHandle: `page-${params.handle}`
+      }
     });
+    const { page } = await resolvePageData({
+      client: app.$nacelle,
+      page: pages[0]
+    });
+
     return {
       product: products[0],
-      page: pages[0]
+      page
     };
   },
   head() {

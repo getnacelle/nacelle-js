@@ -12,24 +12,56 @@
       >
         <div class="relative flex">
           <button
-            v-if="navigationItem._type === 'mega'"
+            v-if="navigationItem.type === 'partNavigationMega'"
             type="button"
-            class="border-transparent text-gray-700 hover:text-gray-800 relative z-10 flex items-center transition-colors ease-out duration-200 text-sm font-medium border-b-2 -mb-px pt-px"
+            class="
+              border-transparent
+              text-gray-700
+              hover:text-gray-800
+              relative
+              z-10
+              flex
+              items-center
+              transition-colors
+              ease-out
+              duration-200
+              text-sm
+              font-medium
+              border-b-2
+              -mb-px
+              pt-px
+            "
             aria-expanded="false"
             @click="setActiveIndex(index)"
           >
-            {{ navigationItem.text }}
+            {{ navigationItem.fields.text }}
           </button>
           <nuxt-link
-            v-else-if="navigationItem._type === 'link'"
-            :to="navigationItem.url"
-            class="border-transparent text-gray-700 hover:text-gray-800 relative z-10 flex items-center transition-colors ease-out duration-200 text-sm font-medium border-b-2 -mb-px pt-px"
+            v-else-if="navigationItem.type === 'partNavigationLink'"
+            :to="navigationItem.fields.url"
+            class="
+              border-transparent
+              text-gray-700
+              hover:text-gray-800
+              relative
+              z-10
+              flex
+              items-center
+              transition-colors
+              ease-out
+              duration-200
+              text-sm
+              font-medium
+              border-b-2
+              -mb-px
+              pt-px
+            "
           >
-            {{ navigationItem.text }}
+            {{ navigationItem.fields.text }}
           </nuxt-link>
         </div>
         <header-mega
-          v-if="navigationItem._type === 'mega'"
+          v-if="navigationItem.type === 'partNavigationMega'"
           :content="navigationItem"
           :active="activeIndex === index"
         />

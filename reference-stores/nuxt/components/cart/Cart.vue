@@ -1,8 +1,8 @@
 <template>
   <div
     v-if="content"
-    v-show="cartVisible"
-    class="fixed inset-0 overflow-hidden z-20"
+    class="fixed inset-0 overflow-hidden"
+    :class="cartVisible ? 'z-40' : '-z-10'"
     aria-labelledby="slide-over-title"
     role="dialog"
     aria-modal="true"

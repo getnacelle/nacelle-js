@@ -6,8 +6,8 @@
   >
     <h2 class="sr-only">Footer</h2>
     <div class="max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:py-6 lg:px-8">
-      <footer-primary :content="content.fields.primary" />
-      <footer-secondary :content="content.fields.secondary" />
+      <footer-primary :content="primaryContent" />
+      <footer-secondary :content="secondaryContent" />
     </div>
   </footer>
 </template>
@@ -26,6 +26,17 @@ export default {
     content: {
       type: Object,
       required: true
+    }
+  },
+  computed: {
+    primaryContent() {
+      return {
+        navigation: this.content?.fields?.navigationGroups
+      };
+    },
+    secondaryContent() {
+      const { navigationGroups, ...rest } = this.content?.fields;
+      return rest;
     }
   }
 };

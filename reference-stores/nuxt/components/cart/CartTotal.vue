@@ -1,16 +1,34 @@
 <template>
   <div v-if="content" class="border-t border-gray-200 py-6 px-4 sm:px-6">
     <div class="flex justify-between text-base font-medium text-gray-900">
-      <p>{{ content.subtotal }}</p>
+      <p>{{ content.subtotalLabel }}</p>
       <p v-show="total">{{ total }}</p>
     </div>
-    <p v-if="content.message" class="mt-0.5 text-sm text-gray-500">
-      {{ content.message }}
+    <p v-if="content.subtotalText" class="mt-0.5 text-sm text-gray-500">
+      {{ content.subtotalText }}
     </p>
     <div class="mt-6">
       <button
         :disabled="checkoutProcessing"
-        class="w-full flex justify-center items-center px-6 py-3 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700 transition duration-300 ease-in-out"
+        class="
+          w-full
+          flex
+          justify-center
+          items-center
+          px-6
+          py-3
+          border border-transparent
+          rounded-md
+          shadow-sm
+          text-base
+          font-medium
+          text-white
+          bg-indigo-600
+          hover:bg-indigo-700
+          transition
+          duration-300
+          ease-in-out
+        "
         :class="{ 'bg-gray-600': checkoutProcessing }"
         @click="processCheckout"
       >
@@ -18,7 +36,7 @@
       </button>
     </div>
     <div
-      v-if="content.continue"
+      v-if="content.continueText"
       class="mt-6 flex justify-center text-sm text-center text-gray-500"
     >
       <p>
@@ -28,7 +46,7 @@
           class="text-indigo-600 font-medium hover:text-indigo-500"
           @click="setCartVisibility(false)"
         >
-          {{ content.continue }}<span aria-hidden="true"> &rarr;</span>
+          {{ content.continueText }}<span aria-hidden="true"> &rarr;</span>
         </button>
       </p>
     </div>
@@ -56,7 +74,7 @@ export default {
     checkoutButtonText() {
       return this.checkoutProcessing
         ? 'Checking Out...'
-        : this.content.checkout;
+        : this.content.checkoutText;
     }
   },
   methods: {
