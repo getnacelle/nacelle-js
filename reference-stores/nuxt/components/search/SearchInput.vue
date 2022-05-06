@@ -110,6 +110,7 @@ export default {
       });
     },
     handleEnter(event) {
+      this.isFocussed = false;
       this.$router.push({ path: `/search?q=${this.query}` });
       event.target.blur();
     }
