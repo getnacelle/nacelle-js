@@ -10,9 +10,9 @@ const SearchForm = () => {
   const [resultsText, setResultsText] = useState();
   const { query, setQuery, results } = useSearch();
 
-  useEffect(() => {
-    setQuery({ query: router.query.q || '' });
-  }, [router.query.q, setQuery]);
+  // useEffect(() => {
+  //   setQuery({ query: router.query.q || '' });
+  // }, [router.query.q, setQuery]);
 
   useEffect(() => {
     setResultsText(

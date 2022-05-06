@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import logoIcon from 'assets/svgs/logo';
 
 const HeaderLogo = () => {
   return (
@@ -6,12 +7,9 @@ const HeaderLogo = () => {
       <Link href="/">
         <a>
           <span className="sr-only">Workflow</span>
-          <img
-            className="h-8 w-8"
-            src="https://tailwindui.com/img/logos/workflow-mark.svg?color=indigo&shade=600"
-            alt=""
-            height="32"
-            width="32"
+          <span
+            className="flex h-8 w-8"
+            dangerouslySetInnerHTML={{ __html: logoIcon }}
           />
         </a>
       </Link>

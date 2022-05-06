@@ -48,8 +48,11 @@ const ProductCard = () => {
     product && (
       <div
         className="cursor-pointer"
+        tabIndex="0"
         onMouseEnter={() => handleHover(true)}
         onMouseLeave={() => handleHover(false)}
+        onFocus={() => handleHover(true)}
+        onBlur={() => handleHover(true)}
       >
         <div className="w-full aspect-w-1 aspect-h-1 bg-gray-200 rounded-lg overflow-hidden xl:aspect-w-7 xl:aspect-h-8">
           <div className="lg:grid lg:grid-cols-2 lg:gap-x-8 lg:items-start">

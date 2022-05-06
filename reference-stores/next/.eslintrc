@@ -5,5 +5,8 @@
     "next": {
       "rootDir": "reference-stores/next"
     }
+  },
+  "rules": {
+    "import/no-anonymous-default-export": "off"
   }
 }

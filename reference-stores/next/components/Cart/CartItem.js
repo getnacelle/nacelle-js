@@ -4,7 +4,7 @@ import { useCart } from 'hooks/useCart';
 import { formatPrice } from 'utils/formatPrice';
 
 const CartItem = ({ item, content }) => {
-  const { removeItem } = useCart();
+  const { checkoutProcessing, removeItem } = useCart();
 
   const price = formatPrice({ price: item.price });
 
@@ -49,7 +49,7 @@ const CartItem = ({ item, content }) => {
             <div className="flex">
               <button
                 type="button"
-                // :disabled="checkoutProcessing"
+                disabled={checkoutProcessing}
                 className="font-medium text-indigo-600 hover:text-indigo-500"
                 onClick={handleRemove}
               >

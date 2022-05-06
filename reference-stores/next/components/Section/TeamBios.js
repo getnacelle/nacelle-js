@@ -48,7 +48,7 @@ const TeamBios = ({ content }) => {
                             </p>
                           )}
                         </div>
-                        <div class="text-lg">
+                        <div className="text-lg">
                           {member.fields.text && (
                             <div
                               className="text-gray-500"
