@@ -2,6 +2,7 @@ import { CSSTransition } from 'react-transition-group';
 import { useRouter } from 'next/router';
 import { useSearch } from 'hooks/useSearch';
 import SearchAutocompleteItem from './SearchAutocompleteItem';
+import styles from './SearchAutocomplete.module.css';
 
 const SearchAutocomplete = ({ content, show }) => {
   const router = useRouter();
@@ -13,7 +14,17 @@ const SearchAutocomplete = ({ content, show }) => {
 
   return (
     content && (
-      <CSSTransition in={show} timeout={0} classNames="fade-up">
+      <CSSTransition
+        in={show}
+        timeout={0}
+        classNames={{
+          enterActive: styles.enterActive,
+          exitActive: styles.exitActive,
+          enter: styles.enter,
+          exit: styles.exit,
+          enterDone: styles.enterDone
+        }}
+      >
         <div
           className={`
           w-full absolute md:right-0 md:w-96 md:top-10 bg-white overflow-hidden shadow rounded-lg
@@ -50,18 +61,6 @@ const SearchAutocomplete = ({ content, show }) => {
               </div>
             )}
           </div>
-          <style jsx>{`
-            .fade-up-enter-active,
-            .fade-up-exit-active,
-            .fade-up-enter-done {
-              transition: opacity 0.3s, transform 0.3s;
-            }
-            .fade-up-enter,
-            .fade-up-exit {
-              opacity: 0;
-              transform: translateY(20px);
-            }
-          `}</style>
         </div>
       </CSSTransition>
     )

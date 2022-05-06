@@ -4,6 +4,7 @@ import CartItem from './CartItem';
 import CartCrossSells from './CartCrossSells';
 import CartTotal from './CartTotal';
 import closeIcon from 'assets/svgs/close';
+import styles from './CartDrawer.module.css';
 
 const CartDrawer = ({ content }) => {
   const { cartVisible, cartItems, setCartVisible } = useCart();
@@ -30,7 +31,16 @@ const CartDrawer = ({ content }) => {
 
   return (
     content && (
-      <CSSTransition in={cartVisible} timeout={0} classNames="slide">
+      <CSSTransition
+        in={cartVisible}
+        timeout={0}
+        classNames={{
+          enterActive: styles.enterActive,
+          exitActive: styles.exitActive,
+          enter: styles.enter,
+          exit: styles.exit
+        }}
+      >
         <div className="fixed top-0 right-0 bottom-0 w-screen bg-white max-w-md transition-transform ease-in-out duration-500">
           <div className="h-full flex flex-col bg-white shadow-xl overflow-y-scroll">
             <div className="flex-1 py-6 overflow-y-auto px-4 sm:px-6">
@@ -83,16 +93,6 @@ const CartDrawer = ({ content }) => {
             </div>
             <CartTotal content={totalContent} />
           </div>
-          <style jsx>{`
-            .slide-enter-active,
-            .slide-exit-active {
-              transform: translateX(0%);
-            }
-            .slide-enter,
-            .slide-exit {
-              transform: translateX(100%);
-            }
-          `}</style>
         </div>
       </CSSTransition>
     )

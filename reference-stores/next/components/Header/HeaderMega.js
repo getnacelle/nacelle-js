@@ -2,6 +2,7 @@ import { CSSTransition } from 'react-transition-group';
 import Link from 'next/link';
 import Image from 'next/image';
 import { contentfulUtils } from 'services';
+import styles from './HeaderMega.module.css';
 
 const HeaderMega = ({ content, active }) => {
   const fields = content?.fields;
@@ -24,7 +25,16 @@ const HeaderMega = ({ content, active }) => {
 
   return (
     content && (
-      <CSSTransition in={active} timeout={0} classNames="fade">
+      <CSSTransition
+        in={active}
+        timeout={0}
+        classNames={{
+          enterActive: styles.enterActive,
+          exitActive: styles.exitActive,
+          enter: styles.enter,
+          exit: styles.exit
+        }}
+      >
         <div
           className={`
           absolute top-full inset-x-0 border-t border-gray-200 text-sm text-gray-500 z-10 transition ease-out duration-200
@@ -102,17 +112,6 @@ const HeaderMega = ({ content, active }) => {
               </div>
             </div>
           </div>
-          <style jsx>{`
-            .fade-enter-active,
-            .fade-exit-active,
-            .fade-enter-done {
-              opacity: 1;
-            }
-            .fade-enter,
-            .fade-exit {
-              opacity: 0;
-            }
-          `}</style>
         </div>
       </CSSTransition>
     )
