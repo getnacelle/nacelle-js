@@ -1,5 +1,11 @@
 <template>
-  <div @mouseenter="handleHover(true)" @mouseleave="handleHover(false)">
+  <div
+    tabindex="0"
+    @mouseenter="handleHover(true)"
+    @mouseleave="handleHover(false)"
+    @focus="handleHover(true)"
+    @blue="handleHover(false)"
+  >
     <div
       class="
         w-full
