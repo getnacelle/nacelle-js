@@ -1,0 +1,15 @@
+{
+  "private": true,
+  "scripts": {
+    "dev": "nuxt dev -port 4000",
+    "build": "nuxt build",
+    "start": "node .output/server/index.mjs"
+  },
+  "devDependencies": {
+    "@nuxtjs/tailwindcss": "^5.0.2",
+    "nuxt": "npm:nuxt3@latest"
+  },
+  "dependencies": {
+    "@nacelle/storefront-sdk": "^1.4.1"
+  }
+}
