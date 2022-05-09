@@ -1,0 +1,12 @@
+{
+  "root": true,
+  "extends": ["next/core-web-vitals", "prettier"],
+  "settings": {
+    "next": {
+      "rootDir": "reference-stores/next"
+    }
+  },
+  "rules": {
+    "import/no-anonymous-default-export": "off"
+  }
+}
