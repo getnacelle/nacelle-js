@@ -59,8 +59,10 @@ const SearchFilters = () => {
                         text-indigo-600
                         focus:ring-indigo-500
                       "
-                      checked={activeFilter({ filter: { ...filter, value } })}
-                      onClick={() =>
+                      checked={
+                        activeFilter({ filter: { ...filter, value } }) || false
+                      }
+                      onChange={() =>
                         toggleFilter({ filter: { ...filter, value } })
                       }
                     />

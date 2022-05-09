@@ -172,10 +172,12 @@ const SearchFiltersDrawer = ({ show, setShow }) => {
                               focus:ring-indigo-500
                               cursor-pointer
                             "
-                            checked={activeFilter({
-                              filter: { ...filter, value }
-                            })}
-                            onClick={() =>
+                            checked={
+                              activeFilter({
+                                filter: { ...filter, value }
+                              }) || false
+                            }
+                            onChange={() =>
                               toggleFilter({ filter: { ...filter, value } })
                             }
                           />

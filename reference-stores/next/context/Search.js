@@ -1,4 +1,4 @@
-import { createContext, useState } from 'react';
+import { createContext, useState, useEffect } from 'react';
 import { searchProducts } from 'utils/searchProducts';
 import { getProductFilters } from 'utils/getProductFilters';
 import { filterProducts } from 'utils/filterProducts';
@@ -12,13 +12,11 @@ export const SearchProvider = ({ children, catalog, query }) => {
   const [activeFilters, setActiveFilters] = useState([]);
   const [availableFilters, setAvailableFilters] = useState([]);
 
-  const handleQuery = ({ query }) => {
-    setSearchQuery(query);
+  useEffect(() => {
     const searchResults = searchProducts({
       products: catalog,
-      query
+      query: searchQuery
     });
-    setSearchResults(searchResults);
     const availableFiltersFromSearch = getProductFilters({
       products: searchResults
     });
@@ -26,13 +24,26 @@ export const SearchProvider = ({ children, catalog, query }) => {
       active: activeFilters,
       available: availableFiltersFromSearch
     });
+    setSearchResults(searchResults);
     setAvailableFilters(availableFiltersFromSearch);
-    setActiveFilters(activeFiltersFromSearch);
+    const activefiltersChanged =
+      JSON.stringify(activeFilters) !== JSON.stringify(activeFiltersFromSearch);
+    if (activefiltersChanged) {
+      setActiveFilters(availableFiltersFromSearch);
+    }
+    setResults(searchResults);
+  }, [catalog, searchQuery, activeFilters]);
+
+  useEffect(() => {
     const filterResults = filterProducts({
       products: searchResults,
-      filters: activeFiltersFromSearch
+      filters: activeFilters
     });
     setResults(filterResults);
+  }, [activeFilters, searchResults]);
+
+  const handleQuery = ({ query }) => {
+    setSearchQuery(query);
   };
 
   const handleToggleFilter = ({ filter }) => {
@@ -45,20 +56,10 @@ export const SearchProvider = ({ children, catalog, query }) => {
     if (activeIndex < 0) filters.push(rest);
     else filters.splice(activeIndex, 1);
     setActiveFilters(filters);
-    const filterResults = filterProducts({
-      products: searchResults,
-      filters
-    });
-    setResults(filterResults);
   };
 
   const handleSetFilters = ({ filters }) => {
     setActiveFilters(filters);
-    const filterResults = filterProducts({
-      products: searchResults,
-      filters
-    });
-    setResults(filterResults);
   };
 
   const getActiveFilters = ({ active, available }) => {

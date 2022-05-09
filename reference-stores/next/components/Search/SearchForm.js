@@ -7,12 +7,31 @@ import SearchFilters from './SearchFilters';
 
 const SearchForm = () => {
   const router = useRouter();
+  const [ready, setReady] = useState(false);
   const [resultsText, setResultsText] = useState();
   const { query, setQuery, results } = useSearch();
 
-  // useEffect(() => {
-  //   setQuery({ query: router.query.q || '' });
-  // }, [router.query.q, setQuery]);
+  useEffect(() => {
+    let isMounted = true;
+    if (router.isReady && !ready && isMounted) {
+      setReady(true);
+      setQuery({ query: router.query.q || '' });
+    }
+    return () => {
+      isMounted = false;
+    };
+  }, [router.query.q, router.isReady, ready, setQuery]);
+
+  const handleQuery = ({ query }) => {
+    setQuery({ query });
+    router.push(
+      {
+        query: { q: query }
+      },
+      undefined,
+      { scroll: false }
+    );
+  };
 
   useEffect(() => {
     setResultsText(
@@ -81,7 +100,7 @@ const SearchForm = () => {
               placeholder="Search"
               type="search"
               value={query}
-              onInput={(e) => setQuery({ query: e.target.value })}
+              onInput={(e) => handleQuery({ query: e.target.value })}
             />
           </div>
         </div>
