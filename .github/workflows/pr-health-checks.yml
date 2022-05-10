@@ -1,15 +1,11 @@
 name: pull-request-health-checks
 
 on:
-  pull_request:
+  pull_request_target:
     types:
       - opened
       - reopened
       - edited
-
-permissions:
-  contents: write
-  pull-requests: write
 
 jobs:
   pull-request-health-checks:
