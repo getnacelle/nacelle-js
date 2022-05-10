@@ -27,7 +27,7 @@ const SearchAutocomplete = ({ content, show }) => {
       >
         <div
           className={`
-          w-full absolute md:right-0 md:w-96 md:top-10 bg-white overflow-hidden shadow rounded-lg
+          w-full absolute lg:right-0 lg:w-96 lg:top-10 bg-white overflow-hidden shadow rounded-lg
           ${show ? 'z-50' : '-z-10 hidden'}
         `}
         >
