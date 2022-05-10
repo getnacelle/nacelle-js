@@ -7,6 +7,10 @@ on:
       - reopened
       - edited
 
+permissions:
+  issues: write
+  pull-requests: write
+
 jobs:
   pull-request-health-checks:
     runs-on: ubuntu-latest
