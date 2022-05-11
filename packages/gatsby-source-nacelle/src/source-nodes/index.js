@@ -179,6 +179,10 @@ module.exports = async function ({
         console.info(
           `[gatsby-source-nacelle] created ${newNodeCount} new ${dataType} nodes`
         );
+      } else if (!formattedData.length) {
+        console.info(
+          `[gatsby-source-nacelle] no ${dataType} data present, skipping node creation`
+        );
       } else {
         console.info(
           `[gatsby-source-nacelle] using cached ${dataType} nodes from previous build`
