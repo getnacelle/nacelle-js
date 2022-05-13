@@ -1,13 +1,23 @@
+import { useState, useEffect } from 'react';
 import { useProduct } from 'hooks/useProduct';
 import { useCart } from 'hooks/useCart';
 import { formatPrice } from 'utils/formatPrice';
 import { getCartVariant } from 'utils/getCartVariant';
 import ProductExpandable from './ProductExpandable';
+import { nacelleClient } from 'services';
 
 const ProductForm = ({ content }) => {
   const { product, selectedOptions, setSelectedOptions, selectedVariant } =
     useProduct();
-
+  const [variantAvailabilities, setVariantAvailabilities] = useState(
+    product.variants.map((v) => ({
+      nacelleEntryId: v.nacelleEntryId,
+      availableForSale: v.availableForSale
+    }))
+  );
+  const [variantAvailable, setVariantAvailable] = useState(
+    selectedVariant?.availableForSale
+  );
   const { checkoutProcessing, addItem } = useCart();
 
   const options =
@@ -40,7 +50,47 @@ const ProductForm = ({ content }) => {
       quantity: 1
     });
   };
-
+  useEffect(() => {
+    const observable = {
+      onNext: (result) => {
+        setVariantAvailabilities((prevState) =>
+          prevState.map((v) => {
+            if (
+              v.nacelleEntryId ===
+              result.data.variantInventoryUpdated[0].nacelleEntryId
+            ) {
+              return {
+                ...v,
+                availableForSale:
+                  result.data.variantInventoryUpdated[0].availableForSale
+              };
+            }
+            return v;
+          })
+        );
+      },
+      onError: (err) => {
+        console.log('errors will be appear here', err);
+      },
+      complete: () => {
+        console.log('complete hit');
+      }
+    };
+    const unsubscribe = nacelleClient.productVariantSubscription(
+      observable,
+      product.variants.map((v) => v.nacelleEntryId)
+    );
+    return () => {
+      unsubscribe();
+    };
+  }, [product]);
+  useEffect(() => {
+    setVariantAvailable(
+      variantAvailabilities.find(
+        (v) => v.nacelleEntryId === selectedVariant.nacelleEntryId
+      ).availableForSale
+    );
+  }, [selectedVariant, variantAvailabilities]);
   return (
     product && (
       <div className="mt-10 px-4 sm:px-0 sm:mt-16 lg:mt-0">
@@ -103,7 +153,7 @@ const ProductForm = ({ content }) => {
           <div className="mt-10 flex">
             <button
               type="button"
-              disabled={!selectedVariant.availableForSale || checkoutProcessing}
+              disabled={!variantAvailable || checkoutProcessing}
               className="
               max-w-xs
               flex-1
@@ -125,10 +175,12 @@ const ProductForm = ({ content }) => {
               focus:ring-offset-gray-50
               focus:ring-indigo-500
               sm:w-full
+              disabled:bg-indigo-600
+              disabled:opacity-70
             "
               onClick={handleAddItem}
             >
-              {selectedVariant.availableForSale ? (
+              {variantAvailable ? (
                 <span>Add to bag</span>
               ) : (
                 <span>Out of stock</span>

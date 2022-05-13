@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react';
 import { CSSTransition } from 'react-transition-group';
 import { useCart } from 'hooks/useCart';
 import CartItem from './CartItem';
@@ -5,10 +6,11 @@ import CartCrossSells from './CartCrossSells';
 import CartTotal from './CartTotal';
 import closeIcon from 'assets/svgs/close';
 import styles from './CartDrawer.module.css';
+import { nacelleClient } from 'services';
 
 const CartDrawer = ({ content }) => {
-  const { cartVisible, cartItems, setCartVisible } = useCart();
-
+  const { cartVisible, cartItems, setCartVisible, removeItem } = useCart();
+  const [itemsRemoved, setItemsRemoved] = useState([]);
   const fields = content?.fields;
 
   const itemContent = {
@@ -28,7 +30,38 @@ const CartDrawer = ({ content }) => {
     checkoutText: fields?.checkoutText,
     continueText: fields?.continueText
   };
-
+  useEffect(() => {
+    const observable = {
+      onNext: (result) => {
+        if (
+          result.data?.variantInventoryUpdated[0]?.availableForSale === false
+        ) {
+          const itemToRemove = cartItems.find(
+            (item) =>
+              item.variantNacelleEntryId ===
+              result.data.variantInventoryUpdated[0].nacelleEntryId
+          );
+          removeItem(itemToRemove.id);
+          setItemsRemoved((prevState) =>
+            prevState.concat(itemToRemove.productTitle)
+          );
+        }
+      },
+      onError: (err) => {
+        console.log('errors will be appear here', err);
+      },
+      complete: () => {
+        console.log('complete hit');
+      }
+    };
+    const unsubscribe = nacelleClient.productVariantSubscription(
+      observable,
+      cartItems.map((item) => item.variantNacelleEntryId)
+    );
+    return () => {
+      unsubscribe();
+    };
+  }, [cartItems]);
   return (
     content && (
       <CSSTransition
@@ -69,6 +102,30 @@ const CartDrawer = ({ content }) => {
               </div>
               <div className="mt-8">
                 <div className="flow-root">
+                  {itemsRemoved.length > 0 && (
+                    <div className="border-red-500 bg-red-100 border-2 rounded relative mb-4">
+                      <button
+                        type="button"
+                        className="absolute right-0 top-0 p-3 text-gray-400 hover:text-gray-500"
+                        onClick={() => setItemsRemoved([])}
+                      >
+                        <span className="sr-only">Clear message</span>
+                        <span
+                          className="flex h-4 w-4 text-gray-400"
+                          dangerouslySetInnerHTML={{ __html: closeIcon }}
+                        />
+                      </button>
+                      <p className="w-11/12 mx-auto py-2 pr-2">
+                        Unfortunately, some of your items have ran out of
+                        inventory and we have removed them from your cart. Items
+                        affected:
+                        <strong>
+                          {` `}
+                          {itemsRemoved.join(', ')}
+                        </strong>
+                      </p>
+                    </div>
+                  )}
                   {cartItems.length > 0 && (
                     <ul role="list" className="-my-6 divide-y divide-gray-200">
                       {cartItems.map((item) => (
