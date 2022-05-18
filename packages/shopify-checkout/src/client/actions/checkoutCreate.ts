@@ -49,7 +49,7 @@ export default async function createCheckout({
     const errs = errors || data?.checkoutCreate.checkoutUserErrors;
 
     if (errs?.length) {
-      handleShopifyError(errors, { caller: 'checkoutCreate' });
+      handleShopifyError(errs, { caller: 'checkoutCreate' });
     }
 
     if (data?.checkoutCreate.checkout) {

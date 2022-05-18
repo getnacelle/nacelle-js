@@ -8,7 +8,7 @@ import {
   createGqlClient
 } from '../../utils';
 import * as mutations from '../../graphql/mutations';
-import { Attribute } from '../../checkout-client.types';
+import { Attribute, ShopifyError } from '../../checkout-client.types';
 import { mockJsonResponse } from '../../../__tests__/utils';
 import {
   cartItems,
@@ -273,6 +273,53 @@ describe('putCheckout', () => {
     ).rejects.toThrow(networkErrorMessage);
   });
 
+  it('throws an error if the `checkoutAttributesUpdate` mutation returns an error', async () => {
+    expect.assertions(1);
+    const noteText = 'Test Note';
+    const mockErrorMesssage = 'There was a test error';
+    const mockErrorResponse: ShopifyError = {
+      message: mockErrorMesssage,
+      extensions: { value: null, problems: [] },
+      locations: []
+    };
+    mocked(fetchClient).mockImplementationOnce(
+      (): Promise<any> =>
+        mockJsonResponse<mutations.CheckoutAttributesUpdateData>({
+          errors: [mockErrorResponse]
+        })
+    );
+    await putCheckout({
+      gqlClient,
+      id: checkoutIds.beginsWithLetter,
+      note: noteText
+    }).catch((e) => expect(String(e).includes(mockErrorMesssage)).toBe(true));
+  });
+
+  it('throws an error if the `checkoutAttributesUpdate` mutation returns a checkoutError in the response', async () => {
+    expect.assertions(1);
+    const noteText = 'Test Note';
+    const mockErrorMessage = 'This is a mock checkout error';
+    const mockErrorResponse: mutations.CheckoutAttributesUpdateData = {
+      checkoutAttributesUpdateV2: {
+        checkout: null,
+        checkoutUserErrors: [
+          { code: 'MOCK ERROR', field: [], message: mockErrorMessage }
+        ]
+      }
+    };
+    mocked(fetchClient).mockImplementationOnce(
+      (): Promise<any> =>
+        mockJsonResponse<mutations.CheckoutAttributesUpdateData>({
+          data: mockErrorResponse
+        })
+    );
+    await putCheckout({
+      gqlClient,
+      id: checkoutIds.beginsWithLetter,
+      note: noteText
+    }).catch((e) => expect(String(e).includes(mockErrorMessage)).toBe(true));
+  });
+
   it('throws an error if an invalid `variantId` is provided', async () => {
     expect.assertions(1);
 
@@ -294,6 +341,98 @@ describe('putCheckout', () => {
         { customAttributes: [], variantId: invalidVariantId, quantity: 1 }
       ]
     }).catch((e) => expect(String(e).includes(problemExplanation)).toBe(true));
+  });
+
+  it('throws an error if `checkoutLineItemsReplace` mutation returns an error', async () => {
+    expect.assertions(1);
+    const mockErrorMessage = 'There was an error';
+    const mockErrorResponse: ShopifyError = {
+      message: mockErrorMessage,
+      extensions: { value: null, problems: [] },
+      locations: []
+    };
+    mocked(fetchClient).mockImplementation(
+      (): Promise<any> =>
+        mockJsonResponse<mutations.CheckoutLineItemsReplaceData>({
+          errors: [mockErrorResponse]
+        })
+    );
+    await putCheckout({
+      gqlClient,
+      id: checkoutIds.beginsWithLetter,
+      lineItems: newCartItems
+    }).catch((e) => expect(String(e).includes(mockErrorMessage)).toBe(true));
+  });
+
+  it('throws an error if the `checkoutLineItemsReplace` mutation response includes a `userError`', async () => {
+    expect.assertions(1);
+    const mockErrorMessage = 'There was a checkout user error';
+    const mockResponse: mutations.CheckoutLineItemsReplaceData = {
+      checkoutLineItemsReplace: {
+        checkout: null,
+        userErrors: [
+          { code: 'MOCK ERROR', field: [], message: mockErrorMessage }
+        ]
+      }
+    };
+    mocked(fetchClient).mockImplementation(
+      (): Promise<any> =>
+        mockJsonResponse<mutations.CheckoutLineItemsReplaceData>({
+          data: mockResponse
+        })
+    );
+    await putCheckout({
+      gqlClient,
+      id: checkoutIds.beginsWithLetter,
+      lineItems: newCartItems
+    }).catch((e) => expect(String(e).includes(mockErrorMessage)).toBe(true));
+  });
+
+  it('throws an error if the `checkoutCreate` mutation returns an errors response', async () => {
+    expect.assertions(1);
+    const mockErrorMessage = 'There was an error';
+    const mockErrorResponse = {
+      message: mockErrorMessage,
+      extensions: { value: null, problems: [] },
+      locations: []
+    };
+    mocked(fetchClient).mockImplementationOnce(
+      (): Promise<any> =>
+        mockJsonResponse<mutations.CheckoutCreateData>({
+          errors: [mockErrorResponse]
+        })
+    );
+    await putCheckout({
+      gqlClient,
+      lineItems: cartItemsToCheckoutItems({
+        cartItems
+      })
+    }).catch((e) => expect(String(e).includes(mockErrorMessage)).toBe(true));
+  });
+
+  it('throws an error if the `checkoutCreate` mutation data includes a clientCheckoutError', async () => {
+    expect.assertions(1);
+    const mockErrorMessage = 'There was a checkout user error';
+    const mockErrorResponse: mutations.CheckoutCreateData = {
+      checkoutCreate: {
+        checkout: null,
+        checkoutUserErrors: [
+          { code: 'MOCK ERROR', field: [], message: mockErrorMessage }
+        ]
+      }
+    };
+    mocked(fetchClient).mockImplementationOnce(
+      (): Promise<any> =>
+        mockJsonResponse<mutations.CheckoutCreateData>({
+          data: mockErrorResponse
+        })
+    );
+    await putCheckout({
+      gqlClient,
+      lineItems: cartItemsToCheckoutItems({
+        cartItems
+      })
+    }).catch((e) => expect(String(e).includes(mockErrorMessage)).toBe(true));
   });
 
   it('throws an error if the `checkoutCreate` mutation variables include a value of an incorrect type', async () => {
