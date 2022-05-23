@@ -1,6 +1,6 @@
 {
   "name": "next",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@contentful/rich-text-html-renderer": "^15.11.1",
-    "@nacelle/shopify-checkout": "^0.0.10",
+    "@nacelle/shopify-checkout": "^0.0.11",
     "@nacelle/storefront-sdk": "^1.1.1",
     "fuse.js": "^6.5.3",
     "idb-keyval": "^6.1.0",
