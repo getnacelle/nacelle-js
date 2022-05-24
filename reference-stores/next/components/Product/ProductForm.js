@@ -53,16 +53,17 @@ const ProductForm = ({ content }) => {
   useEffect(() => {
     const observable = {
       onNext: (result) => {
+        console.log(result);
         setVariantAvailabilities((prevState) =>
           prevState.map((v) => {
             if (
               v.nacelleEntryId ===
-              result.data.variantInventoryUpdated[0].nacelleEntryId
+              result.data.variantInventoryUpdated.nacelleEntryId
             ) {
               return {
                 ...v,
                 availableForSale:
-                  result.data.variantInventoryUpdated[0].availableForSale
+                  result.data.variantInventoryUpdated.availableForSale
               };
             }
             return v;

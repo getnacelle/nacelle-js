@@ -33,13 +33,11 @@ const CartDrawer = ({ content }) => {
   useEffect(() => {
     const observable = {
       onNext: (result) => {
-        if (
-          result.data?.variantInventoryUpdated[0]?.availableForSale === false
-        ) {
+        if (result.data?.variantInventoryUpdated?.availableForSale === false) {
           const itemToRemove = cartItems.find(
             (item) =>
               item.variantNacelleEntryId ===
-              result.data.variantInventoryUpdated[0].nacelleEntryId
+              result.data.variantInventoryUpdated.nacelleEntryId
           );
           removeItem(itemToRemove.id);
           setItemsRemoved((prevState) =>
