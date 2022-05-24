@@ -53,7 +53,6 @@ const ProductForm = ({ content }) => {
   useEffect(() => {
     const observable = {
       onNext: (result) => {
-        console.log(result);
         setVariantAvailabilities((prevState) =>
           prevState.map((v) => {
             if (
