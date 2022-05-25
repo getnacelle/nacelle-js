@@ -33,7 +33,7 @@ const NavDrawer = ({ content }) => {
           exit: styles.exit
         }}
       >
-        <div className="relative max-w-xs w-full bg-white shadow-xl pb-12 flex flex-col overflow-y-auto transition ease-in-out duration-300 transform">
+        <div className="relative max-w-xs w-full bg-white shadow-xl pb-12 flex flex-col overflow-y-auto transition-transform ease-in-out duration-300">
           <div className="px-4 pt-5 pb-2 flex">
             <button
               type="button"
@@ -49,7 +49,7 @@ const NavDrawer = ({ content }) => {
           </div>
           <SearchInput content={searchContent} />
           <NavTabs content={primaryContent} />
-          {/* <NavMenu content={primaryContent} /> */}
+          <NavMenu content={primaryContent} />
         </div>
       </CSSTransition>
     )

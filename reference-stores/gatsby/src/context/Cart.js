@@ -26,11 +26,11 @@ export const CartProvider = ({ children, cacheKey = 'cart' }) => {
   });
 
   useEffect(() => {
-    if (cartReady) {
+    if (cartReady && cartItems.length > 0) {
       set(cacheKey, cartItems);
       setCartVisible(true);
     }
-  }, [cartReady, cacheKey, cartItems]);
+  }, [cartItems]);
 
   useEffect(() => {
     return globalHistory.listen(({ action }) => {

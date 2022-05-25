@@ -13,9 +13,9 @@ const NavMenu = ({ content }) => {
           <div className="flow-root" key={index}>
             <Link
               className="-m-2 p-2 block font-medium text-gray-900"
-              to={link.fields.url}
+              to={link.remoteFields.url}
             >
-              {link.fields.text}
+              {link.remoteFields.text}
             </Link>
           </div>
         ))}
