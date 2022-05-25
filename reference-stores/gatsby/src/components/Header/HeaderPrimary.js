@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'gatsby';
 import { globalHistory } from '@reach/router';
-// import HeaderMega from './HeaderMega';
+import HeaderMega from './HeaderMega';
 
 const HeaderPrimary = ({ content }) => {
-
   const [activeIndex, setActiveIndex] = useState(null);
 
   const handleSetActiveIndex = (value) => {
@@ -65,7 +64,7 @@ const HeaderPrimary = ({ content }) => {
                 </button>
               )}
               {navigationItem.type === 'partNavigationLink' && (
-                <Link 
+                <Link
                   className="
                     border-transparent
                     text-gray-700
@@ -88,12 +87,12 @@ const HeaderPrimary = ({ content }) => {
                   {navigationItem.remoteFields.text}
                 </Link>
               )}
-              {/* {navigationItem.type === 'partNavigationMega' && (
+              {navigationItem.type === 'partNavigationMega' && (
                 <HeaderMega
-                  content={navigationItem}
+                  content={navigationItem.remoteFields}
                   active={activeIndex === index}
                 />
-              )} */}
+              )}
             </div>
           ))}
         </div>
