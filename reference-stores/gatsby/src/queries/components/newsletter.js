@@ -13,14 +13,14 @@ const HeaderQuery = () =>
           heading
           successText
           text {
+            nodeType
             content {
+              nodeType
               content {
                 nodeType
                 value
-              }
-              nodeType
+              } 
             }
-            nodeType
           }
         }
       }

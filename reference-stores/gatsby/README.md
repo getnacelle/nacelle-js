@@ -8,7 +8,7 @@ A Nacelle-fueled storefront built with Gatsby.js
 # install dependencies
 $ npm install
 
-# serve with hot reload at localhost:3000
+# serve with hot reload at localhost:8000
 $ npm run develop
 
 # build for production and launch server
