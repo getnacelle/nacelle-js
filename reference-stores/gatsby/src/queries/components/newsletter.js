@@ -1,6 +1,6 @@
 import { useStaticQuery, graphql } from 'gatsby';
 
-const HeaderQuery = () => 
+const NewsletterQuery = () =>
   useStaticQuery(graphql`
     {
       content: nacelleContentRemoteComponentNewsletter(
@@ -19,7 +19,7 @@ const HeaderQuery = () =>
               content {
                 nodeType
                 value
-              } 
+              }
             }
           }
         }
@@ -27,4 +27,4 @@ const HeaderQuery = () =>
     }
   `);
 
-export default HeaderQuery;
+export default NewsletterQuery;

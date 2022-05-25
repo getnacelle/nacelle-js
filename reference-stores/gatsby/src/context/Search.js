@@ -1,11 +1,13 @@
 import React, { createContext, useState, useEffect } from 'react';
+import ProductsQuery from 'queries/site/products';
 import { searchProducts } from 'utils/searchProducts';
 import { getProductFilters } from 'utils/getProductFilters';
 import { filterProducts } from 'utils/filterProducts';
 
 export const SearchContext = createContext({});
 
-export const SearchProvider = ({ children, catalog, query }) => {
+export const SearchProvider = ({ children, query }) => {
+  const { products: catalog } = ProductsQuery();
   const [searchQuery, setSearchQuery] = useState(query || '');
   const [searchResults, setSearchResults] = useState([]);
   const [results, setResults] = useState([]);

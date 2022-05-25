@@ -67,6 +67,10 @@ const HeaderQuery = () =>
               }
             }
           }
+          searchPlaceholder
+          searchHeading
+          searchAll
+          searchEmpty
         }
       }
     }

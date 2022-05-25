@@ -1,6 +1,6 @@
 import { useStaticQuery, graphql } from 'gatsby';
 
-const HeaderQuery = () => 
+const FooterQuery = () =>
   useStaticQuery(graphql`
     {
       content: nacelleContentRemoteComponentFooter(
@@ -27,4 +27,4 @@ const HeaderQuery = () =>
     }
   `);
 
-export default HeaderQuery;
+export default FooterQuery;

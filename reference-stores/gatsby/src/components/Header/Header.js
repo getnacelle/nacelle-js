@@ -4,6 +4,7 @@ import HeaderPromo from './HeaderPromo';
 import HeaderMenu from './HeaderMenu';
 import HeaderLogo from './HeaderLogo';
 import HeaderPrimary from './HeaderPrimary';
+import SearchInput from 'components/Search/SearchInput';
 import HeaderCart from './HeaderCart';
 
 const Header = () => {
@@ -17,12 +18,12 @@ const Header = () => {
     navigation: content?.remoteFields?.navigation
   };
 
-  // const searchContent = {
-  //   placeholder: content?.remoteFields?.searchPlaceholder,
-  //   heading: content?.remoteFields?.searchHeading,
-  //   all: content?.remoteFields?.searchAll,
-  //   empty: content?.remoteFields?.searchEmpty
-  // };
+  const searchContent = {
+    placeholder: content?.remoteFields?.searchPlaceholder,
+    heading: content?.remoteFields?.searchHeading,
+    all: content?.remoteFields?.searchAll,
+    empty: content?.remoteFields?.searchEmpty
+  };
 
   return (
     content && (
@@ -39,7 +40,7 @@ const Header = () => {
             <div className="ml-auto flex items-center">
               <div className="ml-auto flex items-center">
                 <div className="hidden lg:block">
-                  {/* <SearchInput content={searchContent} /> */}
+                  <SearchInput content={searchContent} />
                 </div>
                 <HeaderCart />
               </div>
