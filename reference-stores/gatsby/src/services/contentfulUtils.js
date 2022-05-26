@@ -17,16 +17,16 @@ const resolveRichText = (entry) => {
         .map(({ content, data, marks, ...rest }) => ({
           ...rest,
           content: Array.isArray(content) ? resolveRichText(content) : null,
-          data: data || {},
-          marks: marks || []
+          data: data ?? {},
+          marks: marks ?? []
         }));
     } else {
       const { content, data, marks, ...rest } = entry;
       return {
         ...rest,
         content: Array.isArray(content) ? resolveRichText(content) : null,
-        data: data || {},
-        marks: marks || []
+        data: data ?? {},
+        marks: marks ?? []
       };
     }
   }
