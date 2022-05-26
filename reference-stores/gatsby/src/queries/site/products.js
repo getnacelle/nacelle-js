@@ -1,4 +1,4 @@
-import { useStaticQuery, graphql } from 'gatsby';
+const { useStaticQuery, graphql } = require('gatsby');
 
 const ProductsQuery = () =>
   useStaticQuery(graphql`
@@ -26,4 +26,4 @@ const ProductsQuery = () =>
     }
   `);
 
-export default ProductsQuery;
+module.exports = ProductsQuery;

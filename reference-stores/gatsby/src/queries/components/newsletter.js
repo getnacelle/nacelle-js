@@ -1,4 +1,4 @@
-import { useStaticQuery, graphql } from 'gatsby';
+const { useStaticQuery, graphql } = require('gatsby');
 
 const NewsletterQuery = () =>
   useStaticQuery(graphql`
@@ -27,4 +27,4 @@ const NewsletterQuery = () =>
     }
   `);
 
-export default NewsletterQuery;
+module.exports = NewsletterQuery;
