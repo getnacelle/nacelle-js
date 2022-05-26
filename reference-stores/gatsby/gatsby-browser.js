@@ -1,5 +1,6 @@
 import * as React from 'react';
 import Layout from './src/components/Layout/Layout';
+import Head from './src/components/Head/Head';
 import { CartProvider } from './src/context/Cart';
 import { SearchProvider } from './src/context/Search';
 import { UiProvider } from './src/context/Ui';
@@ -10,9 +11,12 @@ export const wrapPageElement = ({ element, props }) => (
 );
 
 export const wrapRootElement = ({ element }) => (
-  <CartProvider>
-    <SearchProvider>
-      <UiProvider>{element}</UiProvider>
-    </SearchProvider>
-  </CartProvider>
+  <>
+    <Head />
+    <CartProvider>
+      <SearchProvider>
+        <UiProvider>{element}</UiProvider>
+      </SearchProvider>
+    </CartProvider>
+  </>
 );
