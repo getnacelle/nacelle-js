@@ -1,5 +1,6 @@
 const { PRODUCT_QUERY_FRAGMENT } = require('../fragments/product');
-// const { SECTIONS_QUERY_FRAGMENT } = require('../fragments/sections');
+const { SECTIONS_QUERY_FRAGMENT } = require('../fragments/sections');
+const { resolvePageData } = require('../../utils/resolvers/resolvePageData');
 
 const ProductsQuery = async ({ graphql }) => {
   const {
@@ -21,6 +22,9 @@ const ProductsQuery = async ({ graphql }) => {
               features
               sections {
                 type
+                remoteFields {
+                  ${SECTIONS_QUERY_FRAGMENT}
+                }
               }
             }
           }
@@ -30,7 +34,15 @@ const ProductsQuery = async ({ graphql }) => {
   `);
 
   const productNodes = products.edges.map(({ node }) => node);
-  const pageNodes = pages.edges.map(({ node }) => node);
+  let pageNodes = pages.edges.map(({ node }) => node);
+  pageNodes = await Promise.all(
+    pageNodes.map((pageNode) => {
+      return resolvePageData({
+        graphql,
+        page: pageNode
+      });
+    })
+  );
 
   let data = productNodes?.map((product) => ({
     product: product,
