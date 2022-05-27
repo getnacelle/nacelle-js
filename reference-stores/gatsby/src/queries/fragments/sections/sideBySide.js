@@ -9,6 +9,4 @@ module.exports = `
   imageAlt
   heading
   text
-  linkText
-  linkUrl
 `;

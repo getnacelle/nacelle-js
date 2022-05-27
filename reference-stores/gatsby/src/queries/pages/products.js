@@ -1,4 +1,5 @@
 const { PRODUCT_QUERY_FRAGMENT } = require('../fragments/product');
+// const { SECTIONS_QUERY_FRAGMENT } = require('../fragments/sections');
 
 const ProductsQuery = async ({ graphql }) => {
   const {
@@ -15,7 +16,13 @@ const ProductsQuery = async ({ graphql }) => {
       pages: allNacelleContentRemotePageProduct {
         edges {
           node {
-            handle
+            remoteFields {
+              handle
+              features
+              sections {
+                type
+              }
+            }
           }
         }
       }
@@ -27,13 +34,12 @@ const ProductsQuery = async ({ graphql }) => {
 
   let data = productNodes?.map((product) => ({
     product: product,
-    page: pageNodes.filter((page) => {
-      return page?.handle === `page-${product?.content.handle}`;
+    page: pageNodes.find((page) => {
+      return page?.remoteFields?.handle === `page-${product?.content.handle}`;
     })
   }));
 
   data = [...data];
-
   return data;
 };
 

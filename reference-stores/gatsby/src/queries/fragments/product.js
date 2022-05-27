@@ -6,6 +6,7 @@ productType
 content{
   handle
   title
+  description
   options{
     name
     values
@@ -13,6 +14,11 @@ content{
   featuredMedia{
     src
     thumbnailSrc
+    altText
+  }
+  media{
+    type
+    src
     altText
   }
 }
