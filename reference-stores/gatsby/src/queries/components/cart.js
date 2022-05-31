@@ -1,4 +1,4 @@
-import { useStaticQuery, graphql } from 'gatsby';
+const { useStaticQuery, graphql } = require('gatsby');
 
 const CartQuery = () =>
   useStaticQuery(graphql`
@@ -25,4 +25,4 @@ const CartQuery = () =>
     }
   `);
 
-export default CartQuery;
+module.exports = CartQuery;

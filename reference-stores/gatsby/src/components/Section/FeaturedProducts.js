@@ -1,24 +1,27 @@
-import Link from 'next/link';
+import React from 'react';
+import { Link } from 'gatsby';
 import { ProductProvider } from 'context/Product';
 import ProductCard from 'components/Product/ProductCard';
 
 const FeaturedProducts = ({ content }) => {
+  console.log('content', content.remoteFields);
   return (
     content && (
       <section className="relative bg-white">
         <div className="max-w-7xl mx-auto py-16 px-4 sm:py-24 sm:px-6 lg:px-8">
           <div className="sm:flex sm:items-baseline sm:justify-between">
-            {content.fields.heading && (
+            {content.remoteFields.heading && (
               <h2 className="text-2xl font-extrabold tracking-tight text-gray-900">
-                {content.fields.heading}
+                {content.remoteFields.heading}
               </h2>
             )}
-            {content.fields.linkUrl && (
-              <Link href={content.fields.linkUrl}>
-                <a className="hidden text-sm font-semibold text-indigo-600 hover:text-indigo-500 sm:block">
-                  {content.fields.linkText}
-                  <span aria-hidden="true"> &rarr;</span>
-                </a>
+            {content.remoteFields.linkUrl && (
+              <Link
+                to={content.remoteFields.linkUrl}
+                className="hidden text-sm font-semibold text-indigo-600 hover:text-indigo-500 sm:block"
+              >
+                {content.remoteFields.linkText}
+                <span aria-hidden="true"> &rarr;</span>
               </Link>
             )}
           </div>
@@ -33,19 +36,20 @@ const FeaturedProducts = ({ content }) => {
               xl:grid-cols-4 xl:gap-x-8
             "
           >
-            {content.fields.products.map((product) => (
+            {content.remoteFields.products.map((product) => (
               <ProductProvider product={product} key={product.nacelleEntryId}>
                 <ProductCard />
               </ProductProvider>
             ))}
           </div>
           <div className="mt-6 sm:hidden">
-            {content.fields.linkUrl && (
-              <Link href={content.fields.linkUrl}>
-                <a className="block text-sm font-semibold text-indigo-600 hover:text-indigo-500">
-                  {content.fields.linkText}
-                  <span aria-hidden="true"> &rarr;</span>
-                </a>
+            {content.remoteFields.linkUrl && (
+              <Link
+                to={content.remoteFields.linkUrl}
+                className="block text-sm font-semibold text-indigo-600 hover:text-indigo-500"
+              >
+                {content.remoteFields.linkText}
+                <span aria-hidden="true"> &rarr;</span>
               </Link>
             )}
           </div>

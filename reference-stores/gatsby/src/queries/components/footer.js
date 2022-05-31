@@ -1,4 +1,4 @@
-import { useStaticQuery, graphql } from 'gatsby';
+const { useStaticQuery, graphql } = require('gatsby');
 
 const FooterQuery = () =>
   useStaticQuery(graphql`
@@ -27,4 +27,4 @@ const FooterQuery = () =>
     }
   `);
 
-export default FooterQuery;
+module.exports = FooterQuery;

@@ -1,0 +1,44 @@
+const path = require('path');
+const ProductsQuery = require('./src/queries/pages/products');
+const CollectionsQuery = require('./src/queries/pages/collections');
+
+exports.createPages = async ({ graphql, actions: { createPage } }) => {
+  const productPages = await ProductsQuery({ graphql });
+  productPages.forEach((productPage) => {
+    createPage({
+      path: `/products/${productPage.product.content.handle}`,
+      component: path.resolve('./src/templates/products.js'),
+      context: productPage
+    });
+  });
+
+  const collectionPages = await CollectionsQuery({ graphql });
+  collectionPages.forEach((collectionPage) => {
+    const handle = collectionPage?.collection?.content?.handle;
+    const products = collectionPage?.collection?.products;
+    if (handle && products.length) {
+      const productsPerPage = 12;
+      const numPages = Math.ceil(products.length / productsPerPage);
+      Array.from({ length: numPages }).forEach((_, i) => {
+        const paginatedProducts = products.slice(
+          i * productsPerPage,
+          (i + 1) * productsPerPage
+        );
+        createPage({
+          path:
+            i === 0
+              ? `/collections/${handle}`
+              : `/collections/${handle}/${i + 1}`,
+          component: path.resolve('./src/templates/collections.js'),
+          context: {
+            collection: {
+              ...collectionPage.collection,
+              products: paginatedProducts,
+              numPages: numPages
+            }
+          }
+        });
+      });
+    }
+  });
+};
