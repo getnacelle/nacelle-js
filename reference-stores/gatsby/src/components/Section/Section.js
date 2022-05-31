@@ -3,16 +3,16 @@ import { pascalCase } from 'pascal-case';
 
 const Section = ({ content }) => {
   const sectionComponents = {
-    // ContactForm: dynamic(() => import('./ContactForm')),
-    // CtaStrip: dynamic(() => import('./CtaStrip')),
+    ContactForm: require('./ContactForm').default,
+    CtaStrip: require('./CtaStrip').default,
     FeaturedProducts: require('./FeaturedProducts').default,
-    // Hero: dynamic(() => import('./Hero')),
-    // HeroBanner: dynamic(() => import('./HeroBanner')),
+    Hero: require('./Hero').default,
+    HeroBanner: require('./HeroBanner').default,
     PromoStrip: require('./PromoStrip').default,
     Placeholder: require('./Placeholder').default,
-    // SideBySide: dynamic(() => import('./SideBySide')),
-    SideBySideFull: require('./SideBySideFull').default
-    // TeamBios: dynamic(() => import('./TeamBios'))
+    SideBySide: require('./SideBySide').default,
+    SideBySideFull: require('./SideBySideFull').default,
+    TeamBios: require('./TeamBios').default
   };
 
   const section =

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import successIcon from 'assets/svgs/success';
 
 const ContactForm = ({ content }) => {
@@ -35,7 +35,7 @@ const ContactForm = ({ content }) => {
                 className="text-green-500 mr-4 h-6 w-6"
                 dangerouslySetInnerHTML={{ __html: successIcon }}
               />
-              {content.fields.successText}
+              {content.remoteFields.successText}
             </div>
           )}
           {!success && (
@@ -61,7 +61,7 @@ const ContactForm = ({ content }) => {
                     border border-gray-300
                     rounded-md
                   "
-                  placeholder={content.fields.namePlaceholder}
+                  placeholder={content.remoteFields.namePlaceholder}
                   value={nameValue}
                   onChange={(e) => setNameValue(e.target.value)}
                 />
@@ -87,7 +87,7 @@ const ContactForm = ({ content }) => {
                     border border-gray-300
                     rounded-md
                   "
-                  placeholder={content.fields.emailPlaceholder}
+                  placeholder={content.remoteFields.emailPlaceholder}
                   value={emailValue}
                   onChange={(e) => setEmailValue(e.target.value)}
                 />
@@ -113,7 +113,7 @@ const ContactForm = ({ content }) => {
                     border border-gray-300
                     rounded-md
                   "
-                  placeholder={content.fields.phonePlaceholder}
+                  placeholder={content.remoteFields.phonePlaceholder}
                   value={phoneValue}
                   onChange={(e) => setPhoneValue(e.target.value)}
                 />
@@ -138,7 +138,7 @@ const ContactForm = ({ content }) => {
                     border border-gray-300
                     rounded-md
                   "
-                  placeholder={content.fields.messagePlaceholder}
+                  placeholder={content.remoteFields.messagePlaceholder}
                   value={messageValue}
                   onChange={(e) => setMessageValue(e.target.value)}
                 ></textarea>
@@ -165,7 +165,7 @@ const ContactForm = ({ content }) => {
                     focus:ring-indigo-500
                   "
                 >
-                  {content.fields.buttonText}
+                  {content.remoteFields.buttonText}
                 </button>
               </div>
             </form>

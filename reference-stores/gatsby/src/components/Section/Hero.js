@@ -1,5 +1,5 @@
-import Image from 'next/image';
-import Link from 'next/link';
+import React from 'react';
+import { /*Image,*/ Link } from 'gatsby';
 import { contentfulUtils } from 'services';
 
 const Hero = ({ content }) => {
@@ -7,17 +7,17 @@ const Hero = ({ content }) => {
     content && (
       <section className="bg-white">
         <div className="relative bg-gray-900">
-          {content.fields.image && (
+          {content.remoteFields.image && (
             <div
               aria-hidden="true"
               className="absolute inset-0 overflow-hidden"
             >
-              <Image
-                src={contentfulUtils.imageUrl(content.fields.image)}
-                alt={content.fields.imageAlt}
-                layout="fill"
-                objectFit="cover"
-                quality={80}
+              <img
+                src={contentfulUtils.imageUrl(content.remoteFields.image)}
+                alt={content.remoteFields.imageAlt}
+                // layout="fill"
+                // objectFit="cover"
+                // quality={80}
               />
             </div>
           )}
@@ -39,38 +39,37 @@ const Hero = ({ content }) => {
               lg:px-0
             "
           >
-            {content.fields.heading && (
+            {content.remoteFields.heading && (
               <h1 className="text-4xl font-extrabold tracking-tight text-white lg:text-6xl">
-                {content.fields.heading}
+                {content.remoteFields.heading}
               </h1>
             )}
-            {content.fields.text && (
+            {content.remoteFields.text && (
               <div
                 className="mt-4 text-xl text-white"
                 dangerouslySetInnerHTML={{
-                  __html: contentfulUtils.richText(content.fields.text)
+                  __html: contentfulUtils.richText(content.remoteFields.text)
                 }}
               />
             )}
-            {content.fields.linkUrl && (
-              <Link href={content.fields.linkUrl}>
-                <a
-                  className="
-                    mt-8
-                    inline-block
-                    bg-white
-                    border border-transparent
-                    rounded-md
-                    py-3
-                    px-8
-                    text-base
-                    font-medium
-                    text-gray-900
-                    hover:bg-gray-100
-                  "
-                >
-                  {content.fields.linkText}
-                </a>
+            {content.remoteFields.linkUrl && (
+              <Link
+                to={content.remoteFields.linkUrl}
+                className="
+                  mt-8
+                  inline-block
+                  bg-white
+                  border border-transparent
+                  rounded-md
+                  py-3
+                  px-8
+                  text-base
+                  font-medium
+                  text-gray-900
+                  hover:bg-gray-100
+                "
+              >
+                {content.remoteFields.linkText}
               </Link>
             )}
           </div>

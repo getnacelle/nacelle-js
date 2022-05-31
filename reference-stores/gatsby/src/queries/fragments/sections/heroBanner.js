@@ -1,6 +1,15 @@
 module.exports = `
   heading
-  text
+  text {
+    nodeType
+    content {
+      nodeType
+      content {
+        nodeType
+        value
+      }
+    }
+  }
   linkText
   linkUrl
 `;
