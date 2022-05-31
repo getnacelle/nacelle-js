@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'gatsby';
-import { globalHistory } from '@reach/router';
+import { useLocation } from '@reach/router';
 import HeaderMega from './HeaderMega';
 
 const HeaderPrimary = ({ content }) => {
   const [activeIndex, setActiveIndex] = useState(null);
+  const location = useLocation();
 
   const handleSetActiveIndex = (value) => {
     if (activeIndex === value) setActiveIndex(null);
@@ -23,10 +24,8 @@ const HeaderPrimary = ({ content }) => {
   }, []);
 
   useEffect(() => {
-    return globalHistory.listen(({ action }) => {
-      if (action === 'PUSH') setActiveIndex(false);
-    });
-  }, [setActiveIndex]);
+    setActiveIndex(false);
+  }, [setActiveIndex, location]);
 
   return (
     content && (

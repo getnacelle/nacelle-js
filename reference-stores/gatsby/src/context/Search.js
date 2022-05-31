@@ -6,11 +6,15 @@ import { filterProducts } from 'utils/filterProducts';
 
 export const SearchContext = createContext({});
 
-export const SearchProvider = ({ children, query }) => {
-  const { products } = ProductsQuery();
-  const catalog = useMemo(() => {
-    return products?.edges?.map((edge) => edge.node);
-  }, [products]);
+export const SearchProvider = ({ productList, children, query }) => {
+  let catalog = productList;
+
+  if (!catalog) {
+    const { products } = ProductsQuery();
+    catalog = useMemo(() => {
+      return products?.edges?.map((edge) => edge.node);
+    }, [products]);
+  }
 
   const [searchQuery, setSearchQuery] = useState(query || '');
   const [searchResults, setSearchResults] = useState([]);
