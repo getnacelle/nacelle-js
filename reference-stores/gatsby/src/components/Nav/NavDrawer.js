@@ -1,10 +1,11 @@
+import React from 'react';
 import { CSSTransition } from 'react-transition-group';
 import { useUi } from 'hooks/useUi';
 import closeIcon from 'assets/svgs/close';
 import SearchInput from 'components/Search/SearchInput';
 import NavTabs from './NavTabs';
 import NavMenu from './NavMenu';
-import styles from './NavDrawer.module.css';
+import * as styles from './NavDrawer.module.css';
 
 const NavDrawer = ({ content }) => {
   const { navVisible, setNavVisible } = useUi();
