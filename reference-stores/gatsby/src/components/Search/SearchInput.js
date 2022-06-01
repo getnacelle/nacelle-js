@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useSearch } from 'hooks/useSearch';
-import { navigate } from '@reach/router';
 import SearchAutocomplete from './SearchAutocomplete';
 import searchIcon from 'assets/svgs/search';
 
@@ -18,7 +17,8 @@ const SearchInput = ({ content }) => {
 
   const handleKeyUp = (e) => {
     if (e.key === 'Enter' || e.keyCode === 13) {
-      navigate(`/search?q=${e.target.value}`);
+      window.location.href = `/search?q=${e.target.value}`
+      // navigate();
       e.target.blur();
     }
   };

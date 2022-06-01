@@ -13,7 +13,6 @@ const SearchForm = () => {
 
   useEffect(() => {
     let isMounted = true;
-    console.log('fire again');
     const queryParam = new URLSearchParams(location.search).get('q');
     if (!ready && isMounted) {
       setReady(true);
@@ -26,7 +25,6 @@ const SearchForm = () => {
 
   const handleQuery = (val) => {
     setQuery({ query: val });
-    console.log('val', val);
     window.history.pushState(
       { path: `/search?q=${val}` },
       '',
