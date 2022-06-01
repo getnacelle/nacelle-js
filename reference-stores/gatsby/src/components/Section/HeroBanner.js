@@ -1,4 +1,5 @@
-import Link from 'next/link';
+import React from 'react';
+import { Link } from 'gatsby';
 import { contentfulUtils } from 'services';
 
 const HeroBanner = ({ content }) => {
@@ -16,7 +17,7 @@ const HeroBanner = ({ content }) => {
             lg:max-w-7xl lg:px-8
           "
         >
-          {content.fields.heading && (
+          {content.remoteFields.heading && (
             <h1
               className="
                 text-3xl
@@ -28,10 +29,10 @@ const HeroBanner = ({ content }) => {
                 lg:text-5xl
               "
             >
-              {content.fields.heading}
+              {content.remoteFields.heading}
             </h1>
           )}
-          {content.fields.text && (
+          {content.remoteFields.text && (
             <div
               className="
                 mt-6
@@ -43,30 +44,29 @@ const HeroBanner = ({ content }) => {
                 lg:text-xl
               "
               dangerouslySetInnerHTML={{
-                __html: contentfulUtils.richText(content.fields.text)
+                __html: contentfulUtils.richText(content.remoteFields.text)
               }}
             />
           )}
-          {content.fields.linkUrl && (
-            <Link href={content.fields.linkUrl}>
-              <a
-                className="
-                  mt-8
-                  inline-block
-                  bg-white
-                  border border-transparent
-                  rounded-md
-                  py-3
-                  px-8
-                  text-base
-                  font-medium
-                  text-white
-                  bg-indigo-600
-                  hover:bg-indigo-700
-                "
-              >
-                {content.fields.linkText}
-              </a>
+          {content.remoteFields.linkUrl && (
+            <Link
+              to={content.remoteFields.linkUrl}
+              className="
+                mt-8
+                inline-block
+                bg-white
+                border border-transparent
+                rounded-md
+                py-3
+                px-8
+                text-base
+                font-medium
+                text-white
+                bg-indigo-600
+                hover:bg-indigo-700
+              "
+            >
+              {content.remoteFields.linkText}
             </Link>
           )}
         </div>

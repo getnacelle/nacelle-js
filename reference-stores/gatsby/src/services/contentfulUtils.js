@@ -5,8 +5,7 @@ export default {
     typeof field === 'string'
       ? field
       : documentToHtmlString(resolveRichText(field)),
-  imageUrl: (image) => `https:${image.remoteFields.file.url}`,
-  test: (field) => resolveRichText(field)
+  imageUrl: (image) => `https:${image.remoteFields.file.url}`
 };
 
 const resolveRichText = (entry) => {

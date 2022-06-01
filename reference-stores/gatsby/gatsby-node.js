@@ -1,6 +1,7 @@
 const path = require('path');
 const ProductsQuery = require('./src/queries/pages/products');
 const CollectionsQuery = require('./src/queries/pages/collections');
+const ContentQuery = require('./src/queries/pages/content');
 const SearchQuery = require('./src/queries/pages/search');
 
 exports.createPages = async ({ graphql, actions: { createPage } }) => {
@@ -39,6 +40,19 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
             }
           }
         });
+      });
+    }
+  });
+
+  const contentPages = await ContentQuery({ graphql });
+  contentPages.forEach((contentPage) => {
+    let handle = contentPage?.page?.remoteFields?.handle?.split('page-')?.pop();
+    handle = handle && handle === 'homepage' ? '/' : `/pages/${handle}`;
+    if (handle) {
+      createPage({
+        path: handle,
+        component: path.resolve('./src/templates/content.js'),
+        context: contentPage
       });
     }
   });
