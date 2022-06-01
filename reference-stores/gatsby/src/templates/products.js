@@ -3,7 +3,7 @@ import { ProductProvider } from 'context/Product';
 import ProductDetails from 'components/Product/ProductDetails';
 import Section from 'components/Section/Section';
 
-const Product = ({ pageContext }) => {
+const Products = ({ pageContext }) => {
   const { product, page } = pageContext;
   const fields = page?.remoteFields || {};
   const { sections, ...rest } = fields;
@@ -23,4 +23,4 @@ const Product = ({ pageContext }) => {
   );
 };
 
-export default Product;
+export default Products;
