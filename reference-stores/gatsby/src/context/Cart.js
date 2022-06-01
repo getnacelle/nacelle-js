@@ -174,7 +174,6 @@ export const CartProvider = ({ children, cacheKey = 'cart' }) => {
           id: checkoutId
         });
         if (checkout?.completed) {
-          console.log('in here');
           await del('checkoutId');
           await del(cacheKey);
         }
