@@ -8,5 +8,14 @@ module.exports = `
   }
   imageAlt
   heading
-  text
+  text {
+    nodeType
+    content {
+      nodeType
+      content {
+        nodeType
+        value
+      }
+    }
+  }
 `;

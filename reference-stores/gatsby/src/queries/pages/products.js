@@ -1,5 +1,5 @@
 const { PRODUCT_QUERY_FRAGMENT } = require('../fragments/product');
-const { SECTIONS_QUERY_FRAGMENT } = require('../fragments/sections');
+const { SECTIONS_QUERY_FRAGMENT } = require('../fragments/sections/product');
 const { resolvePageData } = require('../../utils/resolvers/resolvePageData');
 
 const ProductsQuery = async ({ graphql }) => {
