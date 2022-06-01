@@ -42,7 +42,6 @@ const CollectionGrid = ({ collection }) => {
                     return (
                       <Link
                         to={path}
-                        key={i}
                         className="
                           w-8 h-8 
                           rounded-full 

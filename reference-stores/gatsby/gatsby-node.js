@@ -1,6 +1,7 @@
 const path = require('path');
 const ProductsQuery = require('./src/queries/pages/products');
 const CollectionsQuery = require('./src/queries/pages/collections');
+const SearchQuery = require('./src/queries/pages/search');
 
 exports.createPages = async ({ graphql, actions: { createPage } }) => {
   const productPages = await ProductsQuery({ graphql });
@@ -40,5 +41,12 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
         });
       });
     }
+  });
+
+  const searchPage = await SearchQuery({ graphql });
+  createPage({
+    path: '/search',
+    component: path.resolve('./src/templates/search.js'),
+    context: searchPage
   });
 };
