@@ -1,35 +1,34 @@
-import { useRouter } from 'next/router';
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useLocation } from '@reach/router';
 import { useSearch } from 'hooks/useSearch';
 import searchIcon from 'assets/svgs/search';
 import SearchResults from './SearchResults';
 import SearchFilters from './SearchFilters';
 
 const SearchForm = () => {
-  const router = useRouter();
   const [ready, setReady] = useState(false);
   const [resultsText, setResultsText] = useState();
   const { query, setQuery, results } = useSearch();
+  const location = useLocation();
 
   useEffect(() => {
     let isMounted = true;
-    if (router.isReady && !ready && isMounted) {
+    const queryParam = new URLSearchParams(location.search).get('q');
+    if (!ready && isMounted) {
       setReady(true);
-      setQuery({ query: router.query.q ?? '' });
+      setQuery({ query: queryParam ?? '' });
     }
     return () => {
       isMounted = false;
     };
-  }, [router.query.q, router.isReady, ready, setQuery]);
+  }, []);
 
   const handleQuery = (val) => {
     setQuery({ query: val });
-    router.push(
-      {
-        query: { q: val }
-      },
-      undefined,
-      { scroll: false }
+    window.history.pushState(
+      { path: `/search?q=${val}` },
+      '',
+      `/search?q=${val}`
     );
   };
 

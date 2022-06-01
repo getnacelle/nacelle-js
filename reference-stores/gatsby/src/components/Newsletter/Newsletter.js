@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import NewsletterQuery from 'queries/components/newsletter';
-import { globalHistory } from '@reach/router';
+import { useLocation } from '@reach/router';
 import { contentfulUtils } from 'services';
 import successIcon from 'assets/svgs/success';
 
 const Newsletter = () => {
   const { content } = NewsletterQuery();
+  const location = useLocation();
 
   const [emailValue, setEmailValue] = useState('');
   const [success, setSuccess] = useState(false);
@@ -16,10 +17,8 @@ const Newsletter = () => {
   };
 
   useEffect(() => {
-    return globalHistory.listen(({ action }) => {
-      if (action === 'PUSH') setSuccess(false);
-    });
-  }, [setSuccess]);
+    setSuccess(false);
+  }, [setSuccess, location]);
 
   return (
     content && (

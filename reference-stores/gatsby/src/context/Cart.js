@@ -149,7 +149,7 @@ export const CartProvider = ({ children, cacheKey = 'cart' }) => {
         variantId: lineItem.variantId
       }));
       const checkoutData = await checkoutClient.process({ cartItems: items });
-      // await set('checkoutId', checkoutData.id);
+      await set('checkoutId', checkoutData.id);
       if (checkoutData.url) {
         window.location.href = checkoutData.url;
       }
@@ -174,7 +174,6 @@ export const CartProvider = ({ children, cacheKey = 'cart' }) => {
           id: checkoutId
         });
         if (checkout?.completed) {
-          console.log('in here');
           await del('checkoutId');
           await del(cacheKey);
         }
