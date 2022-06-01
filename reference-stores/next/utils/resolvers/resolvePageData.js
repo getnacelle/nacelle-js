@@ -3,10 +3,10 @@ import { resolveFeaturedProducts } from './resolveFeaturedProducts';
 export const resolvePageData = async ({ client, page }) => {
   try {
     const sections = await Promise.all(
-      page?.fields?.sections?.map(async (section) => {
+      page?.fields?.sections?.map((section) => {
         switch (section.type) {
           case 'sectionFeaturedProducts':
-            return await resolveFeaturedProducts({
+            return resolveFeaturedProducts({
               client,
               section
             });
