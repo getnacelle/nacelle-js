@@ -1,4 +1,4 @@
-import { useStaticQuery, graphql } from 'gatsby';
+const { useStaticQuery, graphql } = require('gatsby');
 
 const HeaderQuery = () =>
   useStaticQuery(graphql`
@@ -76,4 +76,4 @@ const HeaderQuery = () =>
     }
   `);
 
-export default HeaderQuery;
+module.exports = HeaderQuery;

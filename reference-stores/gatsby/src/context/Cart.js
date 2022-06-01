@@ -23,12 +23,14 @@ export const CartProvider = ({ children, cacheKey = 'cart' }) => {
 
   useEffect(() => {
     initCart();
-  });
+  }, []);
 
   useEffect(() => {
-    if (cartReady && cartItems.length > 0) {
+    if (cartReady) {
       set(cacheKey, cartItems);
-      setCartVisible(true);
+      if (cartItems.length > 0) {
+        setCartVisible(true);
+      }
     }
   }, [cartItems]);
 
