@@ -6,7 +6,6 @@ export default {
       ? field
       : documentToHtmlString(resolveRichText(field)),
   imageUrl: (image) => `https:${image.remoteFields.file.url}`,
-  test: (field) => resolveRichText(field)
 };
 
 const resolveRichText = (entry) => {
