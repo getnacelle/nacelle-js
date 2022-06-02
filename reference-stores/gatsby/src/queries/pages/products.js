@@ -20,18 +20,19 @@ const ProductsQuery = async ({ graphql }) => {
             remoteFields {
               handle
               features
-              sections {
-                type
-                remoteFields {
-                  ${SECTIONS_QUERY_FRAGMENT}
-                }
-              }
             }
           }
         }
       }
     }
   `);
+
+  // sections {
+  //   type
+  //   remoteFields {
+  //     ${SECTIONS_QUERY_FRAGMENT}
+  //   }
+  // }
 
   const productNodes = products.edges.map(({ node }) => node);
   let pageNodes = pages.edges.map(({ node }) => node);

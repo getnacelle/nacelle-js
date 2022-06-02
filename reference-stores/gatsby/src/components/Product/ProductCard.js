@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Link /*Image*/ } from 'gatsby';
+import { Link } from 'gatsby';
+import { GatsbyImage, getImage } from 'gatsby-plugin-image';
 import { useProduct } from 'hooks/useProduct';
 import { useCart } from 'hooks/useCart';
 import { formatPrice } from 'utils/formatPrice';
@@ -57,15 +58,14 @@ const ProductCard = () => {
           <div className="lg:grid lg:grid-cols-2 lg:gap-x-8 lg:items-start">
             <Link
               to={`/products/${product.content.handle}`}
-              className="text-base text-gray-500 hover:text-gray-900 hover:opacity-75 focus:opacity-75"
+              className="absolute flex w-full h-full text-base text-gray-500 hover:text-gray-900 hover:opacity-75 focus:opacity-75"
             >
               <span className="sr-only">{product.content.title}</span>
-              <img
-                src={product.content.featuredMedia.src}
+              <GatsbyImage
+                image={getImage(product.content.featuredMedia.remoteImage.childImageSharp)}
                 alt={product.content.featuredMedia.altText}
-                // quality={80}
-                // layout="fill"
-                // objectFit="cover"
+                quality={80}
+                fit="cover"
               />
             </Link>
           </div>

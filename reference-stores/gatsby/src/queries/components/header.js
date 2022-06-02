@@ -9,60 +9,69 @@ const HeaderQuery = () =>
         remoteFields {
           promoText
           navigation {
-            type
-            remoteFields {
-              text
-              url
-              navigationGroup1 {
-                remoteFields {
-                  text
-                  links {
-                    remoteFields {
-                      text
-                      url
-                    }
-                  }
-                }
+            ... on NacelleContentRemotePartNavigationLink {
+              type
+              remoteFields {
+                text
+                title
+                url
               }
-              navigationGroup2 {
-                remoteFields {
-                  text
-                  links {
-                    remoteFields {
-                      text
-                      url
-                    }
-                  }
-                }
-              }
-              navigationCallout1 {
-                remoteFields {
-                  heading
-                  image {
-                    remoteFields {
-                      file {
+            }
+            ... on NacelleContentRemotePartNavigationMega {
+              type
+              remoteFields {
+                text
+                navigationGroup1 {
+                  remoteFields {
+                    text
+                    links {
+                      remoteFields {
+                        text
                         url
                       }
                     }
                   }
-                  imageAlt
-                  linkText
-                  linkUrl
                 }
-              }
-              navigationCallout2 {
-                remoteFields {
-                  heading
-                  image {
-                    remoteFields {
-                      file {
+                navigationGroup2 {
+                  remoteFields {
+                    text
+                    links {
+                      remoteFields {
+                        text
                         url
                       }
                     }
                   }
-                  imageAlt
-                  linkText
-                  linkUrl
+                }
+                navigationCallout1 {
+                  remoteFields {
+                    heading
+                    image {
+                      remoteFields {
+                        file {
+                          url
+                        }
+                      }
+                    }
+                    imageAlt
+                    linkText
+                    linkUrl
+                  }
+                }
+                navigationCallout2 {
+                  remoteFields {
+                    heading
+                    image {
+                      remoteFields {
+                        file {
+                          url
+                        }
+                      }
+                    }
+                    imageAlt
+                    linkText
+                    linkUrl
+                  }
                 }
               }
             }

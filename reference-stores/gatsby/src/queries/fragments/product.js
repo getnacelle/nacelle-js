@@ -12,13 +12,21 @@ content{
     values
   }
   featuredMedia{
-    src
+    remoteImage {
+      childImageSharp {
+        gatsbyImageData(width: 800, placeholder: TRACED_SVG)
+      }
+    }
     thumbnailSrc
     altText
   }
   media{
     type
-    src
+    remoteImage {
+      childImageSharp {
+        gatsbyImageData(width: 800, placeholder: TRACED_SVG)
+      }
+    }
     altText
   }
 }
@@ -32,7 +40,11 @@ variants{
     title
     locale
     featuredMedia{
-      src
+      remoteImage {
+				childImageSharp {
+					gatsbyImageData(width: 800, placeholder: TRACED_SVG)
+        }
+      }
       thumbnailSrc
       altText
     }
