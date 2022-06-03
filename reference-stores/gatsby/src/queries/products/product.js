@@ -1,4 +1,4 @@
-const PRODUCT_QUERY_FRAGMENT = `
+const PRODUCT_QUERY = `
 nacelleEntryId
 sourceEntryId
 availableForSale
@@ -64,4 +64,4 @@ variants{
 }
 `;
 
-exports.PRODUCT_QUERY_FRAGMENT = PRODUCT_QUERY_FRAGMENT;
+exports.PRODUCT_QUERY = PRODUCT_QUERY;

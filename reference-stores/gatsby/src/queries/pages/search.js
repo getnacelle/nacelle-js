@@ -1,4 +1,4 @@
-const { PRODUCT_QUERY_FRAGMENT } = require('../fragments/product');
+const { PRODUCT_QUERY } = require('../products/product');
 
 const SearchQuery = async ({ graphql }) => {
   const {
@@ -8,7 +8,7 @@ const SearchQuery = async ({ graphql }) => {
       products: allNacelleProduct {
         edges {
           node {
-            ${PRODUCT_QUERY_FRAGMENT}
+            ${PRODUCT_QUERY}
           }
         }
       }

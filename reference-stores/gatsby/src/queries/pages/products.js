@@ -1,5 +1,5 @@
-const { PRODUCT_QUERY_FRAGMENT } = require('../fragments/product');
-const { SECTIONS_QUERY_FRAGMENT } = require('../fragments/sections/product');
+const { PRODUCT_QUERY } = require('../products/product');
+const { SECTIONS_QUERY } = require('../sections/product');
 const { resolvePageData } = require('../../utils/resolvers/resolvePageData');
 
 const ProductsQuery = async ({ graphql }) => {
@@ -10,7 +10,7 @@ const ProductsQuery = async ({ graphql }) => {
       products: allNacelleProduct {
         edges {
           node {
-            ${PRODUCT_QUERY_FRAGMENT}
+            ${PRODUCT_QUERY}
           }
         }
       }
@@ -21,7 +21,7 @@ const ProductsQuery = async ({ graphql }) => {
               handle
               features
               sections {
-                ${SECTIONS_QUERY_FRAGMENT}
+                ${SECTIONS_QUERY}
               }
             }
           }

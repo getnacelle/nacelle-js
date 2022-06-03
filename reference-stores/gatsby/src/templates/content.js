@@ -1,7 +1,7 @@
 import React from 'react';
 import Section from 'components/Section/Section';
 
-const Products = ({ pageContext }) => {
+const Content = ({ pageContext }) => {
   const { page } = pageContext;
   const fields = page?.remoteFields || {};
   const { sections } = fields;
@@ -17,4 +17,4 @@ const Products = ({ pageContext }) => {
   );
 };
 
-export default Products;
+export default Content;

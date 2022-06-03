@@ -1,11 +1,5 @@
-// remoteImage {
-//   childImageSharp {
-//     gatsbyImageData(width: 800, placeholder: TRACED_SVG)
-//   }
-// }
-
 module.exports = `
-... on NacelleContentRemoteSectionSideBySideFull {
+... on NacelleContentRemoteSectionSideBySide {
   type
   remoteFields {
     image {
@@ -24,9 +18,7 @@ module.exports = `
       }
     }
     imageAlt
-    imageSide
     heading
-    subheading
     text {
       nodeType
       content {
@@ -37,8 +29,6 @@ module.exports = `
         }
       }
     }
-    linkText
-    linkUrl
   }
 }
 `;
