@@ -1,10 +1,8 @@
-// const SECTIONS_QUERY = `
-//   ${require('./heroBanner')}
-
 const SECTIONS_QUERY = `
   ${require('./contactForm')}
   ${require('./ctaStrip')}
   ${require('./featuredProducts')}
+  ${require('./hero')}
   ${require('./heroBanner')}
   ${require('./promoStrip')}
   ${require('./sideBySide')}

@@ -1,5 +1,6 @@
 import React from 'react';
-import { /*Image,*/ Link } from 'gatsby';
+import { GatsbyImage, getImage } from 'gatsby-plugin-image';
+import { Link } from 'gatsby';
 import { contentfulUtils } from 'services';
 
 const CtaStrip = ({ content }) => {
@@ -9,12 +10,11 @@ const CtaStrip = ({ content }) => {
         <div aria-hidden="true" className="absolute inset-0">
           {content.remoteFields.image && (
             <div className="absolute inset-0 max-w-7xl mx-auto overflow-hidden xl:px-8">
-              <img
-                src={contentfulUtils.imageUrl(content.remoteFields.image)}
+              <GatsbyImage
+                image={getImage(content.remoteFields.image.remoteFields.file.remoteImage.childImageSharp)}
                 alt={content.remoteFields.imageAlt}
-                // quality={80}
-                // layout="fill"
-                // objectFit="cover"
+                fit="cover"
+                className="w-full h-full"
               />
             </div>
           )}

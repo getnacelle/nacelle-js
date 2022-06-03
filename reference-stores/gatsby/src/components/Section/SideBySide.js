@@ -1,5 +1,5 @@
 import React from 'react';
-// import { Image } from 'gatsby';
+import { GatsbyImage, getImage } from 'gatsby-plugin-image';
 import { contentfulUtils } from 'services';
 
 const SideBySide = ({ content }) => {
@@ -28,12 +28,11 @@ const SideBySide = ({ content }) => {
               </div>
               {content.remoteFields.image && (
                 <div className="aspect-w-3 aspect-h-2 bg-gray-100 rounded-lg overflow-hidden">
-                  <img
-                    src={contentfulUtils.imageUrl(content.remoteFields.image)}
+                  <GatsbyImage
+                    image={getImage(content.remoteFields.image.remoteFields.file.remoteImage.childImageSharp)}
                     alt={content.remoteFields.imageAlt}
-                    // quality={80}
-                    // layout="fill"
-                    // objectFit="cover"
+                    fit="cover"
+                    className="w-full h-full"
                   />
                 </div>
               )}

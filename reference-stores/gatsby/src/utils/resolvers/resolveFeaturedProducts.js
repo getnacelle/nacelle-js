@@ -33,7 +33,6 @@ const resolveFeaturedProducts = async ({ graphql, section }) => {
       }
     };
   } catch (err) {
-    console.log('err', err);
     return section;
   }
 };

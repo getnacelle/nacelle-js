@@ -15,8 +15,8 @@ content{
     remoteImage {
       childImageSharp {
         gatsbyImageData(
-          layout: FULL_WIDTH
-          transformOptions: {fit: COVER}
+          width: 800
+          quality: 80
           placeholder: TRACED_SVG
         )
       }
@@ -49,8 +49,12 @@ variants{
     locale
     featuredMedia{
       remoteImage {
-				childImageSharp {
-					gatsbyImageData(width: 800, placeholder: TRACED_SVG)
+        childImageSharp {
+          gatsbyImageData(
+            width: 800 
+            quality: 80
+            placeholder: TRACED_SVG
+          )
         }
       }
       thumbnailSrc

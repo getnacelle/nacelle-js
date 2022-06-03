@@ -12,6 +12,7 @@ export const getCartVariant = ({ product, variant }) => {
       selectedOptions,
       title: variantTitle
     } = variant.content || {};
+
     return {
       availableForSale,
       compareAtPrice,
@@ -19,7 +20,7 @@ export const getCartVariant = ({ product, variant }) => {
       variantTitle,
       price,
       sku,
-      featuredMedia: featuredMedia || productFeaturedMedia,
+      featuredMedia: featuredMedia?.remoteImage || productFeaturedMedia,
       selectedOptions,
       productHandle,
       productTitle

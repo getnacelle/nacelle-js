@@ -49,7 +49,15 @@ const HeaderQuery = () =>
                     image {
                       remoteFields {
                         file {
-                          url
+                          remoteImage {
+                            childImageSharp {
+                              gatsbyImageData(
+                                width: 600
+                                quality: 80
+                                placeholder: TRACED_SVG
+                              )
+                            }
+                          }
                         }
                       }
                     }
@@ -64,7 +72,15 @@ const HeaderQuery = () =>
                     image {
                       remoteFields {
                         file {
-                          url
+                          remoteImage {
+                            childImageSharp {
+                              gatsbyImageData(
+                                width: 600
+                                quality: 80
+                                placeholder: TRACED_SVG
+                              )
+                            }
+                          }
                         }
                       }
                     }
