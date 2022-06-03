@@ -1,6 +1,6 @@
 const SECTIONS_QUERY_FRAGMENT = `
-  ${require('./featuredProducts')},
-  ${require('./promoStrip')},
+  ${require('./featuredProducts')}
+  ${require('./promoStrip')}
   ${require('./sideBySideFull')}
 `;
 

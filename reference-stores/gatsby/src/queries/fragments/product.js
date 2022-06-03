@@ -14,7 +14,11 @@ content{
   featuredMedia{
     remoteImage {
       childImageSharp {
-        gatsbyImageData(width: 800, placeholder: TRACED_SVG)
+        gatsbyImageData(
+          layout: FULL_WIDTH
+          transformOptions: {fit: COVER}
+          placeholder: TRACED_SVG
+        )
       }
     }
     thumbnailSrc
@@ -24,7 +28,11 @@ content{
     type
     remoteImage {
       childImageSharp {
-        gatsbyImageData(width: 800, placeholder: TRACED_SVG)
+        gatsbyImageData(
+          width: 800 
+          quality: 80
+          placeholder: TRACED_SVG
+        )
       }
     }
     altText

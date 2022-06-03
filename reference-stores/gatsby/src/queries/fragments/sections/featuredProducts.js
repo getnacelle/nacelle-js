@@ -1,10 +1,15 @@
 module.exports = `
-  heading
-  linkText
-  linkUrl
-  products {
-    remoteFields {
-      handle
+... on NacelleContentRemoteSectionFeaturedProducts {
+  type
+  remoteFields {
+    heading
+    linkText
+    linkUrl
+    products {
+      remoteFields {
+        handle
+      }
     }
   }
+}
 `;

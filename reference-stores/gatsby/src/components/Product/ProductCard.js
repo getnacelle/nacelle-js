@@ -64,7 +64,7 @@ const ProductCard = () => {
               <GatsbyImage
                 image={getImage(product.content.featuredMedia.remoteImage.childImageSharp)}
                 alt={product.content.featuredMedia.altText}
-                quality={80}
+                className="w-full h-full"
                 fit="cover"
               />
             </Link>

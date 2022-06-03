@@ -56,7 +56,6 @@ const ProductGallery = () => {
                   <GatsbyImage
                     image={getImage(image.remoteImage.childImageSharp)}
                     alt={image.altText}
-                    quality={80}
                     fit="cover"
                   />
                 </span>
@@ -83,14 +82,13 @@ const ProductGallery = () => {
               tabIndex="0"
               className={`
                 flex
-                ${index !== activeImageIndex && 'hidden'}
+                ${index !== activeImageIndex ? 'hidden' : null}
               `}
             >
               <GatsbyImage
                 image={getImage(image.remoteImage.childImageSharp)}
                 alt={image.altText}
                 className="sm:rounded-lg"
-                quality={80}
                 fit="cover"
               />
             </div>
