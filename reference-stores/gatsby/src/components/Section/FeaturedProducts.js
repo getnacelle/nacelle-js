@@ -4,6 +4,7 @@ import { ProductProvider } from 'context/Product';
 import ProductCard from 'components/Product/ProductCard';
 
 const FeaturedProducts = ({ content }) => {
+  console.log('c', content)
   return (
     content && (
       <section className="relative bg-white">
@@ -36,7 +37,7 @@ const FeaturedProducts = ({ content }) => {
             "
           >
             {content.remoteFields.products.map((product) => (
-              <ProductProvider product={product} key={product.nacelleEntryId}>
+              <ProductProvider product={product.remoteProduct} key={product.remoteProduct.nacelleEntryId}>
                 <ProductCard />
               </ProductProvider>
             ))}
