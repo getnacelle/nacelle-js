@@ -1,5 +1,6 @@
 import React from 'react';
-import { Link /* Image */ } from 'gatsby';
+import { GatsbyImage, getImage } from 'gatsby-plugin-image';
+import { Link } from 'gatsby';
 import { useCart } from 'hooks/useCart';
 import { formatPrice } from 'utils/formatPrice';
 import { getCartVariant } from 'utils/getCartVariant';
@@ -8,18 +9,18 @@ const CartCrossSells = ({ content }) => {
   const { cartItems, checkoutProcessing, addItem } = useCart();
 
   const crossSellItems = content?.items
-    ?.filter((item) => {
+    ?.filter(({ remoteProduct }) => {
       return (
-        item.availableForSale &&
+        remoteProduct.availableForSale &&
         !cartItems.some((cartItem) => {
-          return cartItem.productHandle === item.content.handle;
+          return cartItem.productHandle === remoteProduct.content.handle;
         })
       );
     })
-    .map((item) => ({
-      ...item,
-      image: item.content.featuredMedia,
-      price: formatPrice({ price: item.variants[0].price })
+    .map(({ remoteProduct }) => ({
+      ...remoteProduct,
+      image: remoteProduct.content.featuredMedia,
+      price: formatPrice({ price: remoteProduct.variants[0].price })
     }))
     .slice(0, 3);
 
@@ -48,13 +49,12 @@ const CartCrossSells = ({ content }) => {
           {crossSellItems.map((crossSell) => (
             <li key={crossSell.nacelleEntryId} className="py-6 flex">
               <div className="relative flex-shrink-0 w-24 h-24 border border-gray-200 rounded-md overflow-hidden">
-                <img
-                  src={crossSell.image.src}
-                  alt={crossSell.image.allText}
-                  // quality={80}
-                  // layout="fill"
-                  // objectFit="cover"
-                />
+              <GatsbyImage
+                image={getImage(crossSell.image.remoteImage.childImageSharp)}
+                alt={crossSell.content.title}
+                className="w-full h-full"
+                fit="cover"
+              />
               </div>
               <div className="ml-4 flex-1 flex flex-col">
                 <div>

@@ -1,3 +1,5 @@
+const { PRODUCT_QUERY } = require('../products/product')
+
 module.exports = `
 ... on NacelleContentRemoteSectionFeaturedProducts {
   type
@@ -8,6 +10,9 @@ module.exports = `
     products {
       remoteFields {
         handle
+      }
+      remoteProduct {
+        ${PRODUCT_QUERY}
       }
     }
   }

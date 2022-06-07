@@ -1,6 +1,5 @@
 const { PRODUCT_QUERY } = require('../products/product');
 const { SECTIONS_QUERY } = require('../sections/product');
-const { resolvePageData } = require('../../utils/resolvers/resolvePageData');
 
 const ProductsQuery = async ({ graphql }) => {
   const {
@@ -31,25 +30,16 @@ const ProductsQuery = async ({ graphql }) => {
   `);
 
   const productNodes = products.edges.map(({ node }) => node);
-  let pageNodes = pages.edges.map(({ node }) => node);
-  pageNodes = await Promise.all(
-    pageNodes.map((pageNode) => {
-      return resolvePageData({
-        graphql,
-        page: pageNode
-      });
-    })
-  );
+  const pageNodes = pages.edges.map(({ node }) => node);
 
-  let data = productNodes?.map((product) => ({
+  const data = productNodes?.map((product) => ({
     product: product,
     page: pageNodes.find((page) => {
       return page?.remoteFields?.handle === `page-${product?.content.handle}`;
     })
   }));
 
-  data = [...data];
-  return data;
+  return [...data];
 };
 
 module.exports = ProductsQuery;
