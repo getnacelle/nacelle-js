@@ -1,5 +1,5 @@
 import React from 'react';
-// import { Image } from 'gatsby';
+import { GatsbyImage, getImage } from 'gatsby-plugin-image';
 import { contentfulUtils } from 'services';
 
 const TeamBios = ({ content }) => {
@@ -30,14 +30,11 @@ const TeamBios = ({ content }) => {
                   <div className="space-y-4 sm:grid sm:grid-cols-3 sm:gap-6 sm:space-y-0 lg:gap-8">
                     {member.remoteFields.image && (
                       <div className="h-0 aspect-w-3 aspect-h-2 sm:aspect-w-3 sm:aspect-h-4 shadow-lg rounded-lg overflow-hidden">
-                        <img
-                          src={contentfulUtils.imageUrl(
-                            member.remoteFields.image
-                          )}
+                        <GatsbyImage
+                          image={getImage(member.remoteFields.image.remoteFields.file.remoteImage.childImageSharp)}
                           alt={member.remoteFields.imageAlt}
-                          // quality={80}
-                          // layout="fill"
-                          // objectFit="cover"
+                          fit="cover"
+                          className="w-full h-full"
                         />
                       </div>
                     )}

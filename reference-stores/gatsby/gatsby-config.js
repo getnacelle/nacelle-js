@@ -29,9 +29,9 @@ module.exports = {
       options: {
         postCssPlugins: [require('tailwindcss'), require('autoprefixer')]
       }
-    }
-    // "gatsby-plugin-image",
-    // 'gatsby-plugin-sharp',
-    // 'gatsby-transformer-sharp'
+    },
+    "gatsby-plugin-image",
+    'gatsby-plugin-sharp',
+    'gatsby-transformer-sharp'
   ]
 };

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-// import { Image } from 'gatsby';
+import { GatsbyImage, getImage } from 'gatsby-plugin-image';
 import { useProduct } from 'hooks/useProduct';
 
 const ProductGallery = () => {
@@ -26,7 +26,7 @@ const ProductGallery = () => {
             {images.map((image, index) => (
               <button
                 id={`tabs-1-tab-${index}`}
-                key={image.src}
+                key={index}
                 className="
                 relative
                 h-24
@@ -52,13 +52,11 @@ const ProductGallery = () => {
                 onClick={() => handleImageClick(index)}
               >
                 <span className="sr-only">{image.altText}</span>
-                <span className="absolute inset-0 rounded-md overflow-hidden">
-                  <img
-                    src={image.src}
+                <span className="absolute flex inset-0 rounded-md overflow-hidden">
+                  <GatsbyImage
+                    image={getImage(image.remoteImage.childImageSharp)}
                     alt={image.altText}
-                    // quality={80}
-                    // layout="fill"
-                    // objectFit="cover"
+                    fit="cover"
                   />
                 </span>
                 <span
@@ -78,19 +76,20 @@ const ProductGallery = () => {
           {images.map((image, index) => (
             <div
               id={`tabs-1-panel-${index}`}
-              key={image.src}
+              key={index}
               aria-labelledby={`tabs-1-panel-${index}`}
               role="tabpanel"
               tabIndex="0"
-              className={index !== activeImageIndex ? 'hidden' : ''}
+              className={`
+                flex
+                ${index !== activeImageIndex ? 'hidden' : null}
+              `}
             >
-              <img
-                src={image.src}
+              <GatsbyImage
+                image={getImage(image.remoteImage.childImageSharp)}
                 alt={image.altText}
-                className="picture sm:rounded-lg"
-                // quality={80}
-                // layout="fill"
-                // objectFit="cover"
+                className="sm:rounded-lg"
+                fit="cover"
               />
             </div>
           ))}
@@ -98,7 +97,6 @@ const ProductGallery = () => {
       </div>
     )
   );
-  return <div>Gallery</div>;
 };
 
 export default ProductGallery;

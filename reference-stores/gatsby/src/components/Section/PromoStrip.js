@@ -1,5 +1,5 @@
 import React from 'react';
-// import { Image } from 'gatsby';
+import { GatsbyImage, getImage } from 'gatsby-plugin-image';
 import { contentfulUtils } from 'services';
 
 const PromoStrip = ({ content }) => {
@@ -8,12 +8,11 @@ const PromoStrip = ({ content }) => {
       <section className="relative bg-gray-800 py-28 px-6 sm:py-32 sm:px-12 lg:px-16">
         {content.remoteFields.image && (
           <div className="absolute inset-0 overflow-hidden">
-            <img
-              src={contentfulUtils.imageUrl(content.remoteFields.image)}
+            <GatsbyImage
+              image={getImage(content.remoteFields.image.remoteFields.file.remoteImage.childImageSharp)}
               alt={content.remoteFields.imageAlt}
-              // quality={80}
-              // layout="fill"
-              // objectFit="cover"
+              fit="cover"
+              className="w-full h-full"
             />
           </div>
         )}

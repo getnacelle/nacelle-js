@@ -11,7 +11,15 @@ const ProductsQuery = () =>
               handle
               title
               featuredMedia {
-                src
+                remoteImage {
+                  childImageSharp {
+                    gatsbyImageData(
+                      width: 500
+                      quality: 80
+                      placeholder: TRACED_SVG
+                    )
+                  }
+                }
                 thumbnailSrc
                 altText
               }

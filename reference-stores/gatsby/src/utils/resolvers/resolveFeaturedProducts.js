@@ -1,4 +1,4 @@
-const { PRODUCT_QUERY_FRAGMENT } = require('../../queries/fragments/product');
+const { PRODUCT_QUERY } = require('../../queries/products/product');
 
 const resolveFeaturedProducts = async ({ graphql, section }) => {
   try {
@@ -17,7 +17,7 @@ const resolveFeaturedProducts = async ({ graphql, section }) => {
           ){
             edges {
               node {
-                ${PRODUCT_QUERY_FRAGMENT}
+                ${PRODUCT_QUERY}
               }
             }
           }
@@ -33,7 +33,6 @@ const resolveFeaturedProducts = async ({ graphql, section }) => {
       }
     };
   } catch (err) {
-    console.log('err', err);
     return section;
   }
 };
