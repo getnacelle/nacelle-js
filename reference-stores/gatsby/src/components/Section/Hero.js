@@ -1,5 +1,6 @@
 import React from 'react';
-import { /*Image,*/ Link } from 'gatsby';
+import { GatsbyImage, getImage } from 'gatsby-plugin-image';
+import { Link } from 'gatsby';
 import { contentfulUtils } from 'services';
 
 const Hero = ({ content }) => {
@@ -12,12 +13,11 @@ const Hero = ({ content }) => {
               aria-hidden="true"
               className="absolute inset-0 overflow-hidden"
             >
-              <img
-                src={contentfulUtils.imageUrl(content.remoteFields.image)}
+              <GatsbyImage
+                image={getImage(content.remoteFields.image.remoteFields.file.remoteImage.childImageSharp)}
                 alt={content.remoteFields.imageAlt}
-                // layout="fill"
-                // objectFit="cover"
-                // quality={80}
+                fit="cover"
+                className="w-full h-full"
               />
             </div>
           )}

@@ -1,5 +1,6 @@
 import React from 'react';
-import { Link /* Image */ } from 'gatsby';
+import { GatsbyImage, getImage } from 'gatsby-plugin-image';
+import { Link } from 'gatsby';
 import { useCart } from 'hooks/useCart';
 import { formatPrice } from 'utils/formatPrice';
 
@@ -17,12 +18,11 @@ const CartItem = ({ item, content }) => {
     content && (
       <li className="py-6 flex">
         <div className="relative flex-shrink-0 w-24 h-24 border border-gray-200 rounded-md overflow-hidden">
-          <img
-            src={item.featuredMedia.src}
+          <GatsbyImage
+            image={getImage(item.featuredMedia.remoteImage.childImageSharp)}
             alt={item.featuredMedia.altText}
-            // quality={80}
-            // layout="fill"
-            // objectFit="cover"
+            className="w-full h-full"
+            fit="cover"
           />
         </div>
         <div className="ml-4 flex-1 flex flex-col">

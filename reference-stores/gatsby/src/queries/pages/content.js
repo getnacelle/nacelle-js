@@ -1,4 +1,4 @@
-const { SECTIONS_QUERY_FRAGMENT } = require('../fragments/sections');
+const { SECTIONS_QUERY } = require('../sections');
 const { resolvePageData } = require('../../utils/resolvers/resolvePageData');
 
 const ContentQuery = async ({ graphql }) => {
@@ -12,10 +12,7 @@ const ContentQuery = async ({ graphql }) => {
             remoteFields {
               handle
               sections {
-                type
-                remoteFields {
-                  ${SECTIONS_QUERY_FRAGMENT}
-                }
+                ${SECTIONS_QUERY}
               }
             }
           }

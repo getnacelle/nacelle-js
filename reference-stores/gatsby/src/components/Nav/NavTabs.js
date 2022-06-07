@@ -1,7 +1,7 @@
 import React from 'react';
 import { useState } from 'react';
-import { Link /* Image */ } from 'gatsby';
-import { contentfulUtils } from 'services';
+import { GatsbyImage, getImage } from 'gatsby-plugin-image';
+import { Link} from 'gatsby';
 
 const NavTabs = ({ content }) => {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -98,14 +98,11 @@ const NavTabs = ({ content }) => {
                           group-hover:opacity-75
                         "
                     >
-                      <img
-                        src={contentfulUtils.imageUrl(
-                          callout.remoteFields.image
-                        )}
+                      <GatsbyImage
+                        image={getImage(callout.remoteFields.image.remoteFields.file.remoteImage.childImageSharp)}
                         alt={callout.remoteFields.imageAlt}
-                        // quality={80}
-                        // layout="fill"
-                        // objectFit="cover"
+                        fit="cover"
+                        className="w-full h-full"
                       />
                     </div>
                   )}

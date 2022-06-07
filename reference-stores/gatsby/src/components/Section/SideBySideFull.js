@@ -1,5 +1,6 @@
 import React from 'react';
-import { /*Image,*/ Link } from 'gatsby';
+import { Link } from 'gatsby';
+import { GatsbyImage, getImage } from 'gatsby-plugin-image';
 import { contentfulUtils } from 'services';
 
 const SideBySideFull = ({ content }) => {
@@ -17,12 +18,11 @@ const SideBySideFull = ({ content }) => {
               }
             `}
           >
-            <img
-              src={contentfulUtils.imageUrl(content.remoteFields.image)}
+            <GatsbyImage
+              image={getImage(content.remoteFields.image.remoteFields.file.remoteImage.childImageSharp)}
               alt={content.remoteFields.imageAlt}
-              // quality={80}
-              // layout="fill"
-              // objectFit="cover"
+              fit="cover"
+              className="w-full h-full"
             />
           </div>
         </div>

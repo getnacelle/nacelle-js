@@ -1,5 +1,6 @@
 import React from 'react';
-import { Link /* Image */ } from 'gatsby';
+import { GatsbyImage, getImage } from 'gatsby-plugin-image';
+import { Link } from 'gatsby';
 import { formatPrice } from 'utils/formatPrice';
 
 const SearchAutocompleteItem = ({ item }) => {
@@ -16,12 +17,11 @@ const SearchAutocompleteItem = ({ item }) => {
       >
         <div className="flex-shrink-0 w-24 h-24 border border-gray-200 rounded-md overflow-hidden">
           <div className="relative w-full h-full">
-            <img
-              src={item.content.featuredMedia.src}
+            <GatsbyImage
+              image={getImage(item.content.featuredMedia.remoteImage.childImageSharp)}
               alt={item.content.featuredMedia.altText}
-              // quality={80}
-              // layout="fill"
-              // objectFit="cover"
+              className="w-full h-full"
+              fit="cover"
             />
           </div>
         </div>
