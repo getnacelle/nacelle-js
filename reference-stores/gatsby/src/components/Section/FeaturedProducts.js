@@ -36,7 +36,7 @@ const FeaturedProducts = ({ content }) => {
             "
           >
             {content.remoteFields.products.map((product) => (
-              <ProductProvider product={product} key={product.nacelleEntryId}>
+              <ProductProvider product={product.remoteProduct} key={product.remoteProduct.nacelleEntryId}>
                 <ProductCard />
               </ProductProvider>
             ))}

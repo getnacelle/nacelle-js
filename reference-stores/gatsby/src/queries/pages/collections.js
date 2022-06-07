@@ -27,13 +27,12 @@ const CollectionsQuery = async ({ graphql }) => {
     ...node
   }));
 
-  let data = collectionNodes?.map((collection) => ({
+  const data = collectionNodes?.map((collection) => ({
     collection: collection,
     page: null
   }));
 
-  data = [...data];
-  return data;
+  return [...data];
 };
 
 module.exports = CollectionsQuery;
