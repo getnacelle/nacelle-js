@@ -4,7 +4,6 @@ import { ProductProvider } from 'context/Product';
 import ProductCard from 'components/Product/ProductCard';
 
 const FeaturedProducts = ({ content }) => {
-  console.log('c', content)
   return (
     content && (
       <section className="relative bg-white">
