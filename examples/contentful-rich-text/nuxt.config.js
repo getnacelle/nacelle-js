@@ -1,5 +1,3 @@
-import { buildRoutes } from './utils/buildRoutes';
-
 export default {
   // Target: https://go.nuxtjs.dev/config-target
   target: 'static',

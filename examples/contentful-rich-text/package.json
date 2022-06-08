@@ -1,5 +1,5 @@
 {
-  "name": "nuxt-starter",
+  "name": "contentful-rich-text",
   "version": "1.0.4",
   "private": true,
   "scripts": {
@@ -12,7 +12,9 @@
     "lintfix": "npm run lint:js -- --fix"
   },
   "dependencies": {
+    "@contentful/rich-text-types": "^15.12.1",
     "@nacelle/storefront-sdk": "^1.0.3",
+    "contentful-rich-text-vue-renderer": "^2.2.0-beta.0",
     "nuxt": "^2.15.8",
     "vue": "^2.6.14"
   },
