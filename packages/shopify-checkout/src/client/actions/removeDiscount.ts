@@ -16,9 +16,7 @@ export interface RemoveDiscountParams {
 }
 
 export type RemoveDiscountVariables = {
-  input: {
-    checkoutId: string;
-  };
+  checkoutId: string;
 };
 
 export default async function removeDiscount({
@@ -28,9 +26,10 @@ export default async function removeDiscount({
 }: RemoveDiscountParams): Promise<void | ShopifyCheckout> {
   const query = checkoutDiscountCodeRemove;
   const variables = {
-    input: { checkoutId: id },
+    checkoutId: id,
     queueToken
   };
+
   try {
     if (!isVerifiedCheckoutId(id)) {
       throw new Error(

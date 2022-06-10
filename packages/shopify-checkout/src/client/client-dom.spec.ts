@@ -305,10 +305,8 @@ describe('createShopifyCheckoutClient', () => {
       body: JSON.stringify({
         query: mutations.checkoutDiscountCodeApplyV2,
         variables: {
-          input: {
-            checkoutId: checkoutIds.beginsWithLetter,
-            discountCode: 'BFCM2020'
-          }
+          checkoutId: checkoutIds.beginsWithLetter,
+          discountCode: 'BFCM2020'
         }
       })
     });
@@ -345,9 +343,7 @@ describe('createShopifyCheckoutClient', () => {
       body: JSON.stringify({
         query: mutations.checkoutDiscountCodeRemove,
         variables: {
-          input: {
-            checkoutId: checkoutIds.beginsWithLetter
-          }
+          checkoutId: checkoutIds.beginsWithLetter
         }
       })
     });

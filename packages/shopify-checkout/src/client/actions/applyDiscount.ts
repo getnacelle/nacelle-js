@@ -17,10 +17,8 @@ export interface ApplyDiscountParams {
 }
 
 export type ApplyDiscountVariables = {
-  input: {
-    checkoutId: string;
-    discountCode?: string;
-  };
+  checkoutId: string;
+  discountCode?: string;
 };
 
 export default async function applyDiscount({
@@ -31,7 +29,8 @@ export default async function applyDiscount({
 }: ApplyDiscountParams): Promise<void | ShopifyCheckout> {
   const query = checkoutDiscountCodeApplyV2;
   const variables = {
-    input: { checkoutId: id, discountCode },
+    checkoutId: id,
+    discountCode,
     queueToken
   };
 
