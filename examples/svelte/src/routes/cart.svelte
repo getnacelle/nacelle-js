@@ -1,5 +1,5 @@
 <script>
-  import { cartCount, cartSubtotal } from '~/stores/cart'
+import { lineItems, cartCount, cartSubtotal } from '~/stores/cart'
 </script>
 
 <div class="cart">
@@ -7,44 +7,46 @@
   {#if $cartCount}
     <div class="cart__contents">
       <ul class="cart__items">
-        <!-- <li
-          :key="lineItem.id"
-          class="cart__item"
-        >
-          <div class="cart__item-media">
-            <nuxt-img
-              v-if="lineItem.variant.featuredMedia"
-              :src="lineItem.variant.featuredMedia.thumbnailSrc"
-              :alt="lineItem.variant.featuredMedia.altText"
-              class="cart__item-image"
-            />
-          </div>
-          <div class="cart__item-main">
-            <h2 class="cart__item-title">
-              {{ lineItem.variant.productTitle }}
-            </h2>
-            <p class="cart__item-subtitle">{{ lineItem.variant.title }}</p>
-            <p class="cart__item-price">${{ lineItem.variant.price }}</p>
-            <p class="cart__item-quantity">
-              <strong>Quantity:</strong> {{ lineItem.quantity }}
-            </p>
-            <button
-              class="cart__item-action"
-              @click="decrementItem(lineItem.id)"
-            >
-              -
-            </button>
-            <button
-              class="cart__item-action"
-              @click="incrementItem(lineItem.id)"
-            >
-              +
-            </button>
-            <button class="cart__item-action" @click="removeItem(lineItem.id)">
-              Remove
-            </button>
-          </div>
-        </li> -->
+        {#each lineItems as lineItem (lineItem.id)}
+          <li
+            class="cart__item"
+          >
+            <div class="cart__item-media">
+              {#if lineItem.variant.featuredMedia}
+                <img
+                  src={lineItem.variant.featuredMedia.thumbnailSrc}
+                  alt={lineItem.variant.featuredMedia.altText}
+                  class="cart__item-image"
+                />
+              {/if}
+            </div>
+            <div class="cart__item-main">
+              <h2 class="cart__item-title">
+                {lineItem.variant.productTitle}
+              </h2>
+              <p class="cart__item-subtitle">{lineItem.variant.title}</p>
+              <p class="cart__item-price">${lineItem.variant.price}</p>
+              <p class="cart__item-quantity">
+                <strong>Quantity:</strong> {lineItem.quantity}
+              </p>
+              <!-- <button
+                class="cart__item-action"
+                @click="decrementItem(lineItem.id)"
+              >
+                -
+              </button>
+              <button
+                class="cart__item-action"
+                @click="incrementItem(lineItem.id)"
+              >
+                +
+              </button>
+              <button class="cart__item-action" @click="removeItem(lineItem.id)">
+                Remove
+              </button> -->
+            </div>
+          </li>
+        {/each}
       </ul>
       <p class="cart__subtotal">
         <strong>Subtotal:</strong> {$cartSubtotal}
