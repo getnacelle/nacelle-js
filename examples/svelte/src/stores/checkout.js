@@ -1,16 +1,21 @@
-import { get, set, del } from 'idb-keyval';
+import { get } from 'svelte/store';
+import { get as getKey, set as setKey, del as delKey } from 'idb-keyval';
 import checkoutClient from '~/services/shopifyCheckout';
 import { lineItems, setLineItems } from './cart';
 
+// State
+export const cacheKey = 'checkoutId';
+
+// Actions
 export const initCheckout = async () => {
 	try {
-		const checkoutId = await get('checkoutId');
+		const checkoutId = await getKey(cacheKey);
 		if (checkoutId) {
 			const checkout = checkoutClient.get({
 				id: checkoutId
 			});
 			if (checkout?.completed) {
-				await del('checkoutId');
+				await delKey(cacheKey);
 				setLineItems([]);
 			}
 		}
@@ -21,12 +26,13 @@ export const initCheckout = async () => {
 
 export const processCheckout = async () => {
 	try {
-		const cartItems = lineItems.map((lineItem) => ({
+		const $lineItems = get(lineItems);
+		const cartItems = $lineItems.map((lineItem) => ({
 			quantity: lineItem.quantity,
 			variantId: lineItem.variant.id
 		}));
 		const checkoutData = await checkoutClient.process({ cartItems });
-		await set('checkoutId', checkoutData.id);
+		await setKey(cacheKey, checkoutData.id);
 		if (checkoutData.url) {
 			window.location.href = checkoutData.url;
 		}
@@ -34,3 +40,8 @@ export const processCheckout = async () => {
 		console.error(err);
 	}
 };
+
+// Init
+if (typeof document !== 'undefined') {
+	initCheckout();
+}

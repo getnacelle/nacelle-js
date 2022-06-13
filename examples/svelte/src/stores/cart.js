@@ -43,3 +43,82 @@ export const addItem = (payload) => {
 	}
 	setKey('cart', get(lineItems));
 };
+
+export const removeItem = (payload) => {
+	const $lineItems = get(lineItems);
+	const index = $lineItems.findIndex((lineItem) => {
+		return lineItem.id === payload;
+	});
+	if (index > -1) {
+		lineItems.set([...$lineItems.slice(index, 1), ...$lineItems.slice(index)]);
+	}
+	setKey('cart', get(lineItems));
+};
+
+export const updateItem = (payload) => {
+	const $lineItems = get(lineItems);
+	const index = $lineItems.findIndex((lineItem) => {
+		return lineItem.id === payload;
+	});
+	if (index > 0) {
+		lineItems.set(...$lineItems.slice(0, index), payload, ...$lineItems.slice(index));
+	}
+	setKey('cart', get(lineItems));
+};
+
+export const incrementItem = (payload) => {
+	const $lineItems = get(lineItems);
+	const index = $lineItems.findIndex((lineItem) => {
+		return lineItem.id === payload;
+	});
+	if (index > 0) {
+		lineItems.set(
+			...$lineItems.slice(0, index),
+			{
+				...$lineItems[index],
+				quantity: $lineItems[index].quantity + 1
+			},
+			...$lineItems.slice(index)
+		);
+	}
+	setKey('cart', get(lineItems));
+};
+
+export const decrementItem = (payload) => {
+	const $lineItems = get(lineItems);
+	const index = $lineItems.findIndex((lineItem) => {
+		return lineItem.id === payload;
+	});
+	if (index > 0) {
+		if ($lineItems[index].quantity === 1) {
+			lineItems.set(...$lineItems.slice(0, index), payload, ...$lineItems.slice(index));
+		} else {
+			lineItems.set(
+				...$lineItems.slice(0, index),
+				{
+					...$lineItems[index],
+					quantity: $lineItems[index].quantity - 1
+				},
+				...$lineItems.slice(index)
+			);
+		}
+	}
+	setKey('cart', get(lineItems));
+};
+
+export const clearCart = () => {
+	lineItems.set([]);
+	setKey('cart', get(lineItems));
+};
+
+// Actions
+
+const initCart = async () => {
+	const cachedCart = await getKey(cacheKey);
+	if (cachedCart) lineItems.set(cachedCart);
+};
+
+// Init
+if (typeof document !== 'undefined') {
+	initCart();
+}

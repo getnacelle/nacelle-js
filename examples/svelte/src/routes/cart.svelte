@@ -1,5 +1,16 @@
 <script>
-import { lineItems, cartCount, cartSubtotal } from '~/stores/cart'
+import { 
+  lineItems, 
+  cartCount, 
+  cartSubtotal,
+  removeItem,
+  incrementItem,
+  decrementItem,
+  clearCart
+} from '~/stores/cart'
+import { 
+  processCheckout
+} from '~/stores/checkout'
 </script>
 
 <div class="cart">
@@ -7,7 +18,7 @@ import { lineItems, cartCount, cartSubtotal } from '~/stores/cart'
   {#if $cartCount}
     <div class="cart__contents">
       <ul class="cart__items">
-        {#each lineItems as lineItem (lineItem.id)}
+        {#each $lineItems as lineItem (lineItem.id)}
           <li
             class="cart__item"
           >
@@ -29,32 +40,35 @@ import { lineItems, cartCount, cartSubtotal } from '~/stores/cart'
               <p class="cart__item-quantity">
                 <strong>Quantity:</strong> {lineItem.quantity}
               </p>
-              <!-- <button
+              <button
                 class="cart__item-action"
-                @click="decrementItem(lineItem.id)"
+                on:click={decrementItem(lineItem.id)}
               >
                 -
               </button>
               <button
                 class="cart__item-action"
-                @click="incrementItem(lineItem.id)"
+                on:click={incrementItem(lineItem.id)}
               >
                 +
               </button>
-              <button class="cart__item-action" @click="removeItem(lineItem.id)">
+              <button 
+                class="cart__item-action" 
+                on:click={removeItem(lineItem.id)}
+              >
                 Remove
-              </button> -->
+              </button>
             </div>
           </li>
         {/each}
       </ul>
       <p class="cart__subtotal">
-        <strong>Subtotal:</strong> {$cartSubtotal}
+        <strong>Subtotal:</strong> ${$cartSubtotal}
       </p>
-      <!-- <button class="cart__action" @click="clearCart">Clear Cart</button> -->
-      <!-- <button class="cart__action" @click="processCheckout">
+      <button class="cart__action" on:click={clearCart}>Clear Cart</button>
+      <button class="cart__action" on:click={processCheckout}>
         Proceed To Checkout
-      </button> -->
+      </button>
     </div>
   {:else}
     <h2 class="cart__empty">Empty Cart</h2>
