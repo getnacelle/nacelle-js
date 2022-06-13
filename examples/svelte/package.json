@@ -1,0 +1,32 @@
+{
+	"name": "svelte-starter",
+	"version": "0.0.1",
+	"scripts": {
+		"dev": "svelte-kit dev",
+		"build": "svelte-kit build",
+		"package": "svelte-kit package",
+		"preview": "svelte-kit preview",
+		"prepare": "svelte-kit sync",
+		"lint": "prettier --check --plugin-search-dir=. . && eslint .",
+		"format": "prettier --write --plugin-search-dir=. ."
+	},
+	"devDependencies": {
+		"@sveltejs/adapter-auto": "^1.0.0-next.50",
+		"@sveltejs/kit": "next",
+		"eslint": "^8.16.0",
+		"eslint-config-prettier": "^8.3.0",
+		"eslint-plugin-svelte3": "^4.0.0",
+		"prettier": "^2.6.2",
+		"prettier-plugin-svelte": "^2.7.0",
+		"sass": "^1.52.3",
+		"svelte": "^3.44.0",
+		"svelte-preprocess": "^4.10.7"
+	},
+	"type": "module",
+	"dependencies": {
+		"@nacelle/shopify-checkout": "^0.0.11",
+		"@nacelle/storefront-sdk": "^1.7.1",
+		"idb-keyval": "^6.1.0",
+		"uuid": "^8.3.2"
+	}
+}
