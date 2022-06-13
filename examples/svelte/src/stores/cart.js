@@ -1,5 +1,5 @@
 import { writable, get, derived } from 'svelte/store';
-import { /*get,*/ set } from 'idb-keyval';
+import { get as getKey, set as setKey } from 'idb-keyval';
 import { v4 as uuid } from 'uuid';
 
 // State
@@ -17,11 +17,12 @@ export const cartSubtotal = derived(lineItems, ($lineItems) =>
 // Mutations
 export const setLineItems = (payload) => {
 	lineItems.set(payload);
-	set('cart', get(lineItems));
+	setKey('cart', get(lineItems));
 };
 
 export const addItem = (payload) => {
-	const index = lineItems.findIndex((lineItem) => {
+	const $lineItems = get(lineItems);
+	const index = $lineItems.findIndex((lineItem) => {
 		if (lineItem.variant.id === payload.variant.id) {
 			return JSON.stringify(payload.metafields) === JSON.stringify(lineItem.metafields);
 		}
@@ -29,16 +30,16 @@ export const addItem = (payload) => {
 	});
 	if (index === -1) {
 		payload.id = `${payload.variant.id}::${uuid()}`;
-		lineItems.set([...lineItems, payload]);
+		lineItems.set([...$lineItems, payload]);
 	} else {
 		lineItems.set(
-			...lineItems.slice(0, index),
+			...$lineItems.slice(0, index),
 			{
-				...lineItems[index],
-				quantity: lineItems[index].quantity + payload.quantity
+				...$lineItems[index],
+				quantity: $lineItems[index].quantity + payload.quantity
 			},
-			...lineItems.slice(index)
+			...$lineItems.slice(index)
 		);
 	}
-	set('cart', get(lineItems));
+	setKey('cart', get(lineItems));
 };
