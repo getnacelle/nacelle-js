@@ -30,17 +30,14 @@ export const addItem = (payload) => {
 	});
 	if (index === -1) {
 		payload.id = `${payload.variant.id}::${uuid()}`;
-		lineItems.set([...$lineItems, payload]);
+		$lineItems.push(payload);
 	} else {
-		lineItems.set(
-			...$lineItems.slice(0, index),
-			{
-				...$lineItems[index],
-				quantity: $lineItems[index].quantity + payload.quantity
-			},
-			...$lineItems.slice(index)
-		);
+		$lineItems.splice(index, 1, {
+			...$lineItems[index],
+			quantity: $lineItems[index].quantity + payload.quantity
+		});
 	}
+	lineItems.set($lineItems);
 	setKey('cart', get(lineItems));
 };
 
@@ -50,8 +47,9 @@ export const removeItem = (payload) => {
 		return lineItem.id === payload;
 	});
 	if (index > -1) {
-		lineItems.set([...$lineItems.slice(index, 1), ...$lineItems.slice(index)]);
+		$lineItems.splice(index, 1);
 	}
+	lineItems.set($lineItems);
 	setKey('cart', get(lineItems));
 };
 
@@ -61,8 +59,12 @@ export const updateItem = (payload) => {
 		return lineItem.id === payload;
 	});
 	if (index > 0) {
-		lineItems.set(...$lineItems.slice(0, index), payload, ...$lineItems.slice(index));
+		$lineItems.splice(index, 1, {
+			...$lineItems[index],
+			...payload
+		});
 	}
+	lineItems.set($lineItems);
 	setKey('cart', get(lineItems));
 };
 
@@ -71,16 +73,13 @@ export const incrementItem = (payload) => {
 	const index = $lineItems.findIndex((lineItem) => {
 		return lineItem.id === payload;
 	});
-	if (index > 0) {
-		lineItems.set(
-			...$lineItems.slice(0, index),
-			{
-				...$lineItems[index],
-				quantity: $lineItems[index].quantity + 1
-			},
-			...$lineItems.slice(index)
-		);
+	if (index > -1) {
+		$lineItems.splice(index, 1, {
+			...$lineItems[index],
+			quantity: $lineItems[index].quantity + 1
+		});
 	}
+	lineItems.set($lineItems);
 	setKey('cart', get(lineItems));
 };
 
@@ -89,20 +88,17 @@ export const decrementItem = (payload) => {
 	const index = $lineItems.findIndex((lineItem) => {
 		return lineItem.id === payload;
 	});
-	if (index > 0) {
+	if (index > -1) {
 		if ($lineItems[index].quantity === 1) {
-			lineItems.set(...$lineItems.slice(0, index), payload, ...$lineItems.slice(index));
+			$lineItems.splice(index, 1);
 		} else {
-			lineItems.set(
-				...$lineItems.slice(0, index),
-				{
-					...$lineItems[index],
-					quantity: $lineItems[index].quantity - 1
-				},
-				...$lineItems.slice(index)
-			);
+			$lineItems.splice(index, 1, {
+				...$lineItems[index],
+				quantity: $lineItems[index].quantity - 1
+			});
 		}
 	}
+	lineItems.set($lineItems);
 	setKey('cart', get(lineItems));
 };
 
@@ -112,7 +108,6 @@ export const clearCart = () => {
 };
 
 // Actions
-
 const initCart = async () => {
 	const cachedCart = await getKey(cacheKey);
 	if (cachedCart) lineItems.set(cachedCart);

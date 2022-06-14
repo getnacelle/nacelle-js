@@ -126,6 +126,7 @@
         </div>
       {/if}
       <div class="product__main">
+        <a sveltekit:prefetch href="/cart">CART</a>
         {#if product.content.title}
           <h1 class="product__title">
             {product.content.title}
