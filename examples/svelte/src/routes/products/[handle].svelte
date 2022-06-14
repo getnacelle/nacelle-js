@@ -126,7 +126,6 @@
         </div>
       {/if}
       <div class="product__main">
-        <a sveltekit:prefetch href="/cart">CART</a>
         {#if product.content.title}
           <h1 class="product__title">
             {product.content.title}
@@ -195,7 +194,7 @@
 </div>
 
 <style lang=scss>
-  .product {
+.product {
   width: 100%;
   display: flex;
   flex-direction: column;
