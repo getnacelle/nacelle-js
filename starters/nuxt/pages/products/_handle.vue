@@ -128,7 +128,7 @@ export default {
       if (variant) {
         this.addItem({
           variant,
-          quantity: 1
+          quantity: this.quantity
         });
       }
     }
