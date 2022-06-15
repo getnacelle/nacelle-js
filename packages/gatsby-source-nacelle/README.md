@@ -65,6 +65,26 @@ As of `@nacelle/gatsby-source-nacelle` version `9.0.0`, GraphQL types are genera
 
 When crafting content models for your eCommerce project, it’s common for some content models to have fields that contain arrays of references to other content. For example, a `page`-type content model might contain a `sections` array that contains arrangeable references to content types like `heroBanner`, `testimonial`, and `sideBySide`. In this scenario, where sections contains multiple types of content, we must use [inline GraphQL fragments](https://graphql.org/learn/queries/#inline-fragments) to query the sections data. For more detail, please see [nacelle.com/docs/building-your-store/using-gatsby](https://nacelle.com/docs/building-your-store/using-gatsby)
 
+### Rich Text
+
+To make rich text more useable, rich text is stringified. This makes it easier to work with since it doesn't require changing your queries when your text changes. However, for working with Sanity's [`@portabletext/react`](https://www.npmjs.com/package/@portabletext/react) or Contentful's [`@contentful/rich-text-react-renderer`](https://www.npmjs.com/package/@contentful/rich-text-react-renderer), you'll need to transform the stringified rich text to an Object. You can do so by using `JSON.parse`
+
+```jsx
+// sanity
+const RichTextComponent = ({richTextString}) => {
+  const richText = JSON.parse(richTextString);
+  return <PortableText value={richText} />
+}
+```
+
+```jsx
+//contentful
+const RichTextComponent = ({richTextString}) => {
+  const richText = JSON.parse(richTextString);
+  return documentToReactComponents(richText);
+}
+```
+
 ## Additional Features
 
 ### Incremental Builds
