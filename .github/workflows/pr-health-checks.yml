@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: 🩺 Perform Pull Request Health Checks
-        if: github.actor != 'dependabot-bot'
+        if: ${{ github.actor != 'dependabot[bot]' }}
         uses: aslafy-z/conventional-pr-title-action@v2.2.5
         with:
           success-state: Title follows the specification.
