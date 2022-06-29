@@ -19,7 +19,7 @@
     "lint": "eslint ./"
   },
   "author": "Nacelle Inc. (getnacelle.com)",
-  "license": "ISC",
+  "license": "Apache-2.0",
   "dependencies": {
     "@nacelle/storefront-sdk": "^1.1.2",
     "lodash.get": "^4.4.2",

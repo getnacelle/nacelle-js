@@ -40,7 +40,11 @@ async function createFileNode(
   node,
   nodeMedia,
   gatsbyApi,
-  { isImage = () => true, imageProperties = ['src', 'thumbnailSrc'] }
+  {
+    isImage = () => true,
+    imageProperties = ['src', 'thumbnailSrc'],
+    newField = 'remoteImage'
+  }
 ) {
   try {
     const { createRemoteFileNode } = require('gatsby-source-filesystem');
@@ -68,7 +72,7 @@ async function createFileNode(
 
         if (fileNode) {
           // add a field `remoteImage` to the source plugin's node from the File node
-          setNodeMedia(node, nodeMedia, fileNode);
+          setNodeMedia(node, nodeMedia, fileNode, newField);
         }
       }
     }
@@ -96,12 +100,12 @@ module.exports = async function (
   node,
   nodeMedia,
   gatsbyApi,
-  { isImage, imageProperties } = {}
+  { isImage, imageProperties, newField } = {}
 ) {
   // create a FileNode in Gatsby that gatsby-transformer-sharp will create optimized images for
   try {
     const nodeMediaArray = Array.isArray(nodeMedia) ? nodeMedia : [nodeMedia];
-    const options = { isImage, imageProperties };
+    const options = { isImage, imageProperties, newField };
 
     await Promise.all(
       nodeMediaArray.map((media) => {

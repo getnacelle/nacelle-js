@@ -2,8 +2,7 @@
   Gatsby-Source-Nacelle
 </h1>
 
-<!-- [![npm version](https://img.shields.io/npm/v/@nacelle/gatsby-source-nacelle.svg)](https://www.npmjs.com/package/@nacelle/gatsby-source-nacelle) -->
-<!-- [![GitHub license](https://img.shields.io/github/license/getnacelle/nacelle-react/tree/main/packages/gatsby-source-nacelle)](https://github.com/getnacelle/nacelle-react/tree/main/packages/gatsby-source-nacelle/blob/master/LICENSE) -->
+[![npm version](https://img.shields.io/npm/v/@nacelle/gatsby-source-nacelle.svg)](https://www.npmjs.com/package/@nacelle/gatsby-source-nacelle) ![NPM](https://img.shields.io/npm/l/@nacelle/gatsby-source-nacelle)
 
 This plugin connects Gatsby to [Nacelle's](https://www.nacelle.com) v2 API, which gives you access to the product data (individual products, collections, etc.) and content data (blog posts, articles, etc.) needed to build an eCommerce storefront.
 
@@ -22,14 +21,6 @@ Follow these steps to add `gatsby-source-nacelle` to your Gatsby site:
 ### Install
 
 First make sure you're site is using Gatsby v4. Then follow the below instructions to start using the plugin.
-
-#### With Yarn
-
-```shell
-yarn add @nacelle/gatsby-source-nacelle @nacelle/storefront-sdk
-```
-
-#### With NPM
 
 ```shell
 npm i @nacelle/gatsby-source-nacelle @nacelle/storefront-sdk
@@ -63,6 +54,36 @@ module.exports = {
 ```
 
 You'll note that we use `.env` variables to set Nacelle credentials. You can learn more about using environment variables with Gatsby in the [Gatsby docs](https://www.gatsbyjs.org/docs/environment-variables/)
+
+## Data Fetching
+
+### Content Data Queries and Types
+
+As of `@nacelle/gatsby-source-nacelle` version `9.0.0`, GraphQL types are generated for each of your content models. This enables Gatsby’s GraphQL schema to fully type your content, which allows you to craft granular content queries. To prevent naming collisions, all of the content types are prefixed by `NacelleContentRemote`. For example, `heroBanner`-type content will have the type `NacelleContentRemoteHeroBanner`.
+
+### Fetching Arrays of Data Containing Multiple Content Types
+
+When crafting content models for your eCommerce project, it’s common for some content models to have fields that contain arrays of references to other content. For example, a `page`-type content model might contain a `sections` array that contains arrangeable references to content types like `heroBanner`, `testimonial`, and `sideBySide`. In this scenario, where sections contains multiple types of content, we must use [inline GraphQL fragments](https://graphql.org/learn/queries/#inline-fragments) to query the sections data. For more detail, please see [nacelle.com/docs/building-your-store/using-gatsby](https://nacelle.com/docs/building-your-store/using-gatsby)
+
+### Rich Text
+
+To make rich text more useable, rich text is stringified. This makes it easier to work with since it doesn't require changing your queries when your text changes. However, for working with Sanity's [`@portabletext/react`](https://www.npmjs.com/package/@portabletext/react) or Contentful's [`@contentful/rich-text-react-renderer`](https://www.npmjs.com/package/@contentful/rich-text-react-renderer), you'll need to transform the stringified rich text to an Object. You can do so by using `JSON.parse`
+
+```jsx
+// sanity
+const RichTextComponent = ({richTextString}) => {
+  const richText = JSON.parse(richTextString);
+  return <PortableText value={richText} />
+}
+```
+
+```jsx
+//contentful
+const RichTextComponent = ({richTextString}) => {
+  const richText = JSON.parse(richTextString);
+  return documentToReactComponents(richText);
+}
+```
 
 ## Additional Features
 
