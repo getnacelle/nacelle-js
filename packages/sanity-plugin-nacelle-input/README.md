@@ -21,9 +21,9 @@
 
 You'll need to provide the ID and Token associated with your Nacelle space. These credentials can be found in the [Nacelle Dashboard](https://dashboard.getnacelle.com/).
 
-For a single space you can add these credentials in one of two ways:
+#### Adding credentials to a single space:
 
-#### in `./config/@nacelle/sanity-plugin-nacelle-input.json`
+##### Config file for single space - `./config/@nacelle/sanity-plugin-nacelle-input.json`
 
 ```json
 {
@@ -32,28 +32,29 @@ For a single space you can add these credentials in one of two ways:
 }
 ```
 
-#### in `.env.development` / `.env.production`
+##### in `.env.development` / `.env.production`
 
 ```
 SANITY_STUDIO_NACELLE_SPACE_ENDPOINT=your-nacelle-storefront-api-endpoint
 SANITY_STUDIO_NACELLE_SPACE_TOKEN=your-nacelle-graphql-token
 ```
 
-For multiple spaces you can add these credentials like this:
 
-#### in `./config/@nacelle/sanity-plugin-nacelle-input.json`
+#### Adding Credentials to multiple spaces
+
+Create a config file at `./config/@nacelle/sanity-plugin-nacelle-input.json`. Then add a `nacelleSpaces` array like so:
 
 ```json
 "nacelleSpaces": [
     {
       "spaceName": "Space 1",
-      "spaceEndpoint": "https://your-nacelle-storefront-api-endpoint",
-      "spaceToken": "your-nacelle-graphql-token"
+      "nacelleSpaceEndpoint": "https://your-nacelle-storefront-api-endpoint",
+      "nacelleSpaceToken": "your-nacelle-graphql-token"
     },
     {
       "spaceName": "Space 2",
-      "spaceEndpoint": "https://storefront.api.development.nacelle.com/graphql/v1/spaces/clever-owl-jr0WwlZv7L",
-      "spaceToken": "2a74743f-7a00-4274-9cb6-2dfe15e89d47"
+      "nacelleSpaceEndpoint": "https://storefront.api.development.nacelle.com/graphql/v1/spaces/clever-owl-jr0WwlZv7L",
+      "nacelleSpaceToken": "2a74743f-7a00-4274-9cb6-2dfe15e89d47"
     }
   ]
 ```
