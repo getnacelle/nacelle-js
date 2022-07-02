@@ -113,11 +113,6 @@ const Interface = ({
     )
     setSpaceOptions(activeSpace)
   }
-  console.log(
-    multiSelect,
-    Array.isArray(config.nacelleSpaces),
-    config.nacelleSpaces.length
-  )
   return (
     <Box style={{ display: interfaceOpen ? 'block' : 'none' }} padding={4}>
       <Stack space={4} paddingBottom={2}>
