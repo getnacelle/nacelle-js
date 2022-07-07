@@ -205,7 +205,7 @@ const NacelleLinker = ({ type, onChange, value, markers, level, readOnly }) => {
     <ThemeProvider theme={studioTheme}>
       {interfaceOpen && (
         <Dialog
-          header="Indexed PIM Data"
+          header="Product/Collection Data"
           id="dialog-example"
           onClose={onClose}
           width={1}

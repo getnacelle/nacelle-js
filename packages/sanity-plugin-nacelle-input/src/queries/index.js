@@ -33,7 +33,7 @@ export const GET_PRODUCTS = `
 export const GET_COLLECTIONS = `
   query allProductCollections(
     $first: Int
-    $searchFilter: ProductSearchOptions
+    $searchFilter: ProductCollectionSearchOptions
   ) {
     allProductCollections(
       filter: { first: $first, searchFilter: $searchFilter }
