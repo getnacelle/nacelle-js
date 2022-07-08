@@ -188,6 +188,51 @@ const checkout = await checkoutClient.discountRemove({
 });
 ```
 
+##### Making custom query to Shopify Checkout API
+
+| Parameter | [Type](#common-types)     | Required? | Description                                               |
+| --------- | ------------------------- | --------- | --------------------------------------------------------- |
+| `query`   | `string`                  | ✅        | A valid Shopify API query or mutation                     |
+| `input`   | `Record<string, unknown>` | ✅        | A valid variable objects for a Shopify query or mutations |
+
+##### Example
+
+```js
+// Allows for end user to send any query/mutation to Shopify API
+const checkout = await checkoutClient.query({
+  query: `
+    mutation checkoutShippingAddressUpdateV2($checkoutId: ID!, $shippingAddress: MailingAddressInput!) {
+      checkoutShippingAddressUpdateV2(checkoutId: $checkoutId, shippingAddress: $shippingAddress) {
+        checkout {
+          id
+          webUrl
+        }
+        checkoutUserErrors {
+          code
+          fields
+          message
+        }
+      }
+    }
+    `,
+  input: {
+    checkoutId: checkoutData.id,
+    shippingAddress: {
+      address1: '123 smith street',
+      city: 'Smith',
+      country: 'USA',
+      firstName: 'John',
+      lastName: 'John'
+    }
+  }
+});
+```
+
+Other example mutations from Shopify docs:
+
+- [checkoutShippingAddressUpdateV2](https://shopify.dev/api/storefront/2022-07/mutations/checkoutShippingAddressUpdateV2)
+- [checkoutCustomerAssociateV2](https://shopify.dev/api/storefront/2022-07/mutations/checkoutCustomerAssociateV2)
+
 ### Advanced Usage
 
 #### Using a custom `fetchClient`

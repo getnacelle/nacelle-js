@@ -2,18 +2,26 @@ import {
   findCheckout,
   putCheckout,
   applyDiscount,
-  removeDiscount
+  removeDiscount,
+  queryCheckout
 } from '../client/actions';
 import { FindCheckoutParams } from '../client/actions/findCheckout';
 import { PutCheckoutParams } from '../client/actions/putCheckout';
 import { ApplyDiscountParams } from '../client/actions/applyDiscount';
 import { RemoveDiscountParams } from '../client/actions/removeDiscount';
+import { CheckoutQueryParams } from '../client/actions/queryCheckout';
+
 import {
   cartItemsToCheckoutItems,
   createGqlClient,
   metafieldsToCustomAttributes
 } from '../utils';
-import { CartItem, Metafield, ShopifyCheckout } from '../checkout-client.types';
+import {
+  CartItem,
+  Metafield,
+  ShopifyCheckout,
+  ShopifyResponse
+} from '../checkout-client.types';
 
 export interface CreateClientParams {
   storefrontCheckoutToken: string;
@@ -25,6 +33,7 @@ export interface CreateClientParams {
 export type GetCheckoutParams = Pick<FindCheckoutParams, 'id'>;
 export type DiscountApplyParams = Omit<ApplyDiscountParams, 'gqlClient'>;
 export type DiscountRemoveParams = Omit<RemoveDiscountParams, 'gqlClient'>;
+export type CustomQueryParams = Omit<CheckoutQueryParams, 'gqlClient'>;
 
 export type GetCheckout = (
   params: GetCheckoutParams
@@ -47,6 +56,10 @@ export type RemoveDiscount = (
   params: DiscountRemoveParams
 ) => Promise<void | ShopifyCheckout>;
 
+export type QueryCheckout = (
+  params: CustomQueryParams
+) => Promise<void | ShopifyResponse<unknown>>;
+
 export interface CheckoutClient {
   /**
    * Retrieve a previously-created Shopify checkout.
@@ -65,6 +78,10 @@ export interface CheckoutClient {
    * Applies and validate discount code
    */
   discountRemove: RemoveDiscount;
+  /**
+   * Allows for end user to send any query/mutation to Shopify API
+   */
+  query: QueryCheckout;
 }
 
 /**
@@ -134,10 +151,19 @@ export default function createShopifyCheckoutClient({
     return await removeDiscount({ gqlClient, id, queueToken });
   }
 
+  async function query({
+    query,
+    input,
+    queueToken
+  }: CustomQueryParams): Promise<ShopifyResponse<unknown> | void> {
+    return await queryCheckout({ gqlClient, query, input, queueToken });
+  }
+
   return {
     get: getCheckout,
     process: processCheckout,
     discountApply,
-    discountRemove
+    discountRemove,
+    query
   };
 }

@@ -15,7 +15,7 @@ export const clientSettings = {
   myshopifyDomain: 'nacelle-swag-store'
 };
 
-export const graphqlEndpoint = `https://${clientSettings.myshopifyDomain}.myshopify.com/api/2022-01/graphql`;
+export const graphqlEndpoint = `https://${clientSettings.myshopifyDomain}.myshopify.com/api/2022-07/graphql`;
 
 const checkoutUuids = {
   beginsWithLetter: 'a9b8c7?key=123123',
@@ -74,6 +74,7 @@ interface Checkouts {
   checkoutCreate: ShopifyResponse<mutations.CheckoutCreateData>;
   applyDiscount: ShopifyResponse<mutations.CheckoutDiscountCodeApplyV2Data>;
   removeDiscount: ShopifyResponse<mutations.CheckoutDiscountCodeRemoveData>;
+  shippingAddressUpdate: ShopifyResponse<unknown>;
   checkoutUpdate(
     params: CheckoutUpdateVariables
   ): ShopifyResponse<mutations.CheckoutAttributesUpdateData>;
@@ -123,6 +124,17 @@ export const checkouts: Checkouts = {
       checkoutDiscountCodeRemove: {
         checkout: {
           ...emptyCheckout
+        },
+        checkoutUserErrors: []
+      }
+    }
+  },
+  shippingAddressUpdate: {
+    data: {
+      checkoutShippingAddressUpdateV2: {
+        checkout: {
+          id: checkoutIds.beginsWithLetter,
+          webUrl
         },
         checkoutUserErrors: []
       }
@@ -274,5 +286,36 @@ export const shopifyErrors = {
         }
       }
     }
+  }
+};
+
+export const mockCustomQuery = `  
+mutation checkoutShippingAddressUpdateV2($checkoutId: ID!, $shippingAddress: MailingAddressInput!) {
+  checkoutShippingAddressUpdateV2(checkoutId: $checkoutId, shippingAddress: $shippingAddress) {
+    checkout {
+      id
+      webUrl
+    }
+    checkoutUserErrors {
+      code
+      message
+    }
+  }
+}            
+`;
+
+export const mockCustomQueryinput = {
+  checkoutId: 'testId',
+  shippingAddress: {
+    address1: 'testA1',
+    address2: 'testA2',
+    city: 'testCity',
+    company: 'testCo',
+    country: 'USA',
+    firstName: 'testFN',
+    lastName: 'testLN',
+    phone: 'testPhone',
+    province: 'NY',
+    zip: 'testZip'
   }
 };

@@ -55,7 +55,7 @@ export default function createGqlClient({
         throw new Error(missingParametersErrorMessage);
       }
       const domain = sanitizeShopifyDomain(myshopifyDomain || '');
-      endpoint = `https://${domain}.myshopify.com/api/2022-01/graphql`;
+      endpoint = `https://${domain}.myshopify.com/api/2022-07/graphql`;
     }
 
     let fetcher = fetchClient;
