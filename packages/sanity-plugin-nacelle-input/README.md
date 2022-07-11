@@ -19,7 +19,7 @@
 
 ### Credentials
 
-You'll need to provide the ID and Token associated with your Nacelle space. These credentials can be found in the [Nacelle Dashboard](https://dashboard.getnacelle.com/).
+You'll need to provide the ID and Token associated with your Nacelle space. These credentials can be found in the [Nacelle Dashboard](https://dashboard.nacelle.com).
 
 #### Adding credentials to a single space:
 
