@@ -48,13 +48,13 @@ Create a config file at `./config/@nacelle/sanity-plugin-nacelle-input.json`. Th
 "nacelleSpaces": [
     {
       "spaceName": "Space 1",
-      "nacelleSpaceEndpoint": "https://your-nacelle-storefront-api-endpoint",
-      "nacelleSpaceToken": "your-nacelle-graphql-token"
+      "nacelleEndpoint": "space-1's-nacelle-storefront-endpoint",
+      "nacelleSpaceToken": "space-1's-nacelle-public-storefront-token"
     },
     {
       "spaceName": "Space 2",
-      "nacelleSpaceEndpoint": "https://storefront.api.development.nacelle.com/graphql/v1/spaces/clever-owl-jr0WwlZv7L",
-      "nacelleSpaceToken": "2a74743f-7a00-4274-9cb6-2dfe15e89d47"
+      "nacelleEndpoint": "space-2's-nacelle-storefront-endpoint",
+      "nacelleSpaceToken": "space-2's-nacelle-public-storefront-token"
     }
   ]
 ```
