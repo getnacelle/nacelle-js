@@ -35,8 +35,8 @@ You'll need to provide the ID and Token associated with your Nacelle space. Thes
 ##### in `.env.development` / `.env.production`
 
 ```
-SANITY_STUDIO_NACELLE_SPACE_ENDPOINT=your-nacelle-storefront-api-endpoint
-SANITY_STUDIO_NACELLE_SPACE_TOKEN=your-nacelle-graphql-token
+SANITY_STUDIO_NACELLE_SPACE_ENDPOINT=your-nacelle-storefront-endpoint
+SANITY_STUDIO_NACELLE_SPACE_TOKEN=your-nacelle-public-storefront-token
 ```
 
 
