@@ -39,7 +39,6 @@ SANITY_STUDIO_NACELLE_SPACE_ENDPOINT=your-nacelle-storefront-endpoint
 SANITY_STUDIO_NACELLE_SPACE_TOKEN=your-nacelle-public-storefront-token
 ```
 
-
 #### Adding Credentials to multiple spaces
 
 Create a config file at `./config/@nacelle/sanity-plugin-nacelle-input.json`. Then add a `nacelleSpaces` array like so:
@@ -103,27 +102,21 @@ Realistically, you probably want to restrict the component to _either_ products 
 
 ### Using This Data in Your Frontend Project
 
-Since this custom input component just stores the `handle` of a particular product or collection, you'll use the [Nacelle Client JS SDK](https://docs.getnacelle.com/api-reference/client-js-sdk.html) to fetch the associated product or collection object.
+Since this custom input component just stores the `handle` of a particular product or collection, you'll use the [Nacelle Storefront SDK](https://nacelle.com/docs/querying-data/storefront-sdk?nacelle=v2&storefrontSdk=1.0.3) to fetch the associated product or collection object.
 
 #### Product
 
 ```js
-const product = await client.data.product({
-  handle: 'handle-from-my-sanity-entry'
+const products = await client.products({
+  handles: ['handle-from-my-sanity-entry']
 })
 ```
 
 #### Collection
 
 ```js
-const collection = await client.data.collection({
-  handle: 'handle-from-my-sanity-entry'
-})
-
-const productHandles = collection.productLists[0].handles
-
-const collectionProducts = await client.data.products({
-  handles: productHandles
+const collections = await client.collections({
+  handles: ['handle-from-my-sanity-entry']
 })
 ```
 
@@ -142,6 +135,6 @@ The best way to test changes to this plugin is by using `npm link` to use it fro
 3. Run `npm link` to setup an npm symlink for this project
 4. (Optional) Run `npm run build -- --watch`, this will automatically rebuild whenever you make any local changes
 5. In another terminal, navigate to an existing Sanity project which has this plugin installed. (If you don't have one, you can follow the instructions above to create one)
-6. Run `npm link @nacelle/sanity-plugin-nacelle-input` - this will link the version of the `@nacelle/sanity-plugin-nacelle-input` in your local Sanity Project to your local clone of this repo. 
+6. Run `npm link @nacelle/sanity-plugin-nacelle-input` - this will link the version of the `@nacelle/sanity-plugin-nacelle-input` in your local Sanity Project to your local clone of this repo.
 7. Run your command to start Sanity Studio, e.g. `npm run start`. You should see any changes you've made locally to this repo in your studio.
    - If you used the watch command in step 4, you should be able to make changes to this repo and then reload the page to see them reflected in the studio.
