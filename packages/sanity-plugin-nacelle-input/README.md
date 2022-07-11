@@ -1,6 +1,6 @@
 # Sanity Custom Input Plugin: Nacelle PIM Linker
 
-[Nacelle](https://docs.getnacelle.com/intro.html#what-is-nacelle) indexes data from your [PIM](https://en.wikipedia.org/wiki/Product_information_management) (e.g. Shopify, Magento) and CMS to power headless eCommerce projects. This plugin provides a [custom input component](https://www.sanity.io/docs/custom-input-widgets) for Sanity Studio that helps you reference product & collection data stored in Nacelle indices.
+[Nacelle](https://nacelle.com/docs) powers headless commerce projects by orchestrating product and content data. This plugin provides a [custom input component](https://www.sanity.io/docs/custom-input-widgets) for Sanity Studio that helps you reference product & collection data ingested by Nacelle.
 
 <details>
   <summary>Expand to see the custom input component in action!</summary>
@@ -19,7 +19,7 @@
 
 ### Credentials
 
-You'll need to provide the ID and Token associated with your Nacelle space. These credentials can be found in the [Nacelle Dashboard](https://dashboard.getnacelle.com/).
+You'll need to provide the ID and Token associated with your Nacelle space. These credentials can be found in the [Nacelle Dashboard](https://dashboard.nacelle.com).
 
 #### Adding credentials to a single space:
 
@@ -27,7 +27,7 @@ You'll need to provide the ID and Token associated with your Nacelle space. Thes
 
 ```json
 {
-  "nacelleSpaceEndpoint": "your-nacelle-storefront-api-endpoint",
+  "nacelleEndpoint": "your-nacelle-storefront-api-endpoint",
   "nacelleSpaceToken": "your-nacelle-graphql-token"
 }
 ```
@@ -35,8 +35,8 @@ You'll need to provide the ID and Token associated with your Nacelle space. Thes
 ##### in `.env.development` / `.env.production`
 
 ```
-SANITY_STUDIO_NACELLE_SPACE_ENDPOINT=your-nacelle-storefront-api-endpoint
-SANITY_STUDIO_NACELLE_SPACE_TOKEN=your-nacelle-graphql-token
+SANITY_STUDIO_NACELLE_SPACE_ENDPOINT=your-nacelle-storefront-endpoint
+SANITY_STUDIO_NACELLE_SPACE_TOKEN=your-nacelle-public-storefront-token
 ```
 
 
@@ -48,13 +48,13 @@ Create a config file at `./config/@nacelle/sanity-plugin-nacelle-input.json`. Th
 "nacelleSpaces": [
     {
       "spaceName": "Space 1",
-      "nacelleSpaceEndpoint": "https://your-nacelle-storefront-api-endpoint",
-      "nacelleSpaceToken": "your-nacelle-graphql-token"
+      "nacelleEndpoint": "space-1's-nacelle-storefront-endpoint",
+      "nacelleSpaceToken": "space-1's-nacelle-public-storefront-token"
     },
     {
       "spaceName": "Space 2",
-      "nacelleSpaceEndpoint": "https://storefront.api.development.nacelle.com/graphql/v1/spaces/clever-owl-jr0WwlZv7L",
-      "nacelleSpaceToken": "2a74743f-7a00-4274-9cb6-2dfe15e89d47"
+      "nacelleEndpoint": "space-2's-nacelle-storefront-endpoint",
+      "nacelleSpaceToken": "space-2's-nacelle-public-storefront-token"
     }
   ]
 ```
