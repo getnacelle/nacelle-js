@@ -1,2 +1,2 @@
-export { useHailFrequency } from './useHailFrequency'
+export { useNacelleStorefront } from './useNacelleStorefront'
 export { useInterval } from './useInterval'

@@ -4,7 +4,7 @@ import useSWR from 'swr'
 import fetch from 'isomorphic-unfetch'
 import config from 'config:@nacelle/sanity-plugin-nacelle-input'
 
-async function fetchFromHailFrequency({
+function fetchFromNacelleStorefront({
   query,
   first,
   spaceToken,
@@ -22,7 +22,7 @@ async function fetchFromHailFrequency({
     : {
         first
       }
-  return await fetch(endpoint, {
+  return fetch(endpoint, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -38,7 +38,7 @@ async function fetchFromHailFrequency({
 async function fetcher(query, spaceToken, endpoint, type, searchTerm) {
   let data = []
 
-  const res = await fetchFromHailFrequency({
+  const res = await fetchFromNacelleStorefront({
     query,
     first: 200,
     spaceToken,
@@ -63,7 +63,7 @@ async function fetcher(query, spaceToken, endpoint, type, searchTerm) {
  * @param {function(Object[]):Object[]} params.dataHandler - params.dataHandler - Data handler function that can be used to transform data returned from Nacelle's indices
  * @returns {Object[]} The data stored in Nacelle's indices
  */
-export const useHailFrequency = ({
+export const useNacelleStorefront = ({
   query,
   options,
   type,

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 
-import { useHailFrequency } from '../hooks'
+import { useNacelleStorefront } from '../hooks'
 import Gallery from './Gallery'
 import Loading from './Loading'
 
@@ -17,7 +17,7 @@ const NacelleResults = ({
 }) => {
   const [isLoading, setIsLoading] = useState(true)
 
-  const data = useHailFrequency({
+  const data = useNacelleStorefront({
     query,
     options,
     dataHandler,
