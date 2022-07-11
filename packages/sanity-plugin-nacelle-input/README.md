@@ -27,7 +27,7 @@ You'll need to provide the ID and Token associated with your Nacelle space. Thes
 
 ```json
 {
-  "nacelleSpaceEndpoint": "your-nacelle-storefront-api-endpoint",
+  "nacelleEndpoint": "your-nacelle-storefront-api-endpoint",
   "nacelleSpaceToken": "your-nacelle-graphql-token"
 }
 ```
