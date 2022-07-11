@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 
 import useSWR from 'swr'
 import fetch from 'isomorphic-unfetch'
+/* eslint-disable-next-line import/no-unresolved */
 import config from 'config:@nacelle/sanity-plugin-nacelle-input'
 
 function fetchFromNacelleStorefront({
