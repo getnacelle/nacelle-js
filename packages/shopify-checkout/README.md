@@ -230,9 +230,8 @@ const checkout = await checkoutClient.query({
 
 Other example mutations from Shopify docs:
 
-[checkoutshippingaddressupdatev2]: https://shopify.dev/api/storefront/2022-07/mutations/checkoutShippingAddressUpdateV2
-[checkoutcustomerassociatev2]: https://shopify.dev/api/storefront/2022-07/mutations/checkoutCustomerAssociateV2
-
+- [`checkoutShippingAddressUpdateV2`][shopify-mutation-checkout-shipping-address-update-v2]
+- [`checkoutCustomerAssociateV2`][shopify-mutation-checkout-customer-associate-v2]
 ### Advanced Usage
 
 #### Using a custom `fetchClient`
@@ -267,3 +266,5 @@ const checkoutClient = createShopifyCheckoutClient({
 
 [shopify-checkout-object]: https://shopify.dev/api/storefront/2022-01/objects/checkout#fields
 [shopify-scalars]: https://shopify.dev/api/storefront/2022-01/scalars/ID
+[shopify-mutation-checkout-shipping-address-update-v2]: https://shopify.dev/api/storefront/2022-07/mutations/checkoutShippingAddressUpdateV2
+[shopify-mutation-checkout-customer-associate-v2]: https://shopify.dev/api/storefront/2022-07/mutations/checkoutCustomerAssociateV2
