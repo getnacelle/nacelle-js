@@ -16,7 +16,7 @@ import {
   headers,
   webUrl,
   mockCustomQuery,
-  mockCustomQueryinput
+  mockCustomQueryvariables
 } from '../../__tests__/mocks';
 
 jest.mock('cross-fetch');
@@ -366,7 +366,7 @@ it('makes the expected request when sending custom query', async () => {
   await expect(
     checkoutClient.query({
       query: mockCustomQuery,
-      input: mockCustomQueryinput
+      variables: mockCustomQueryvariables
     })
   ).resolves.toMatchObject(checkouts.shippingAddressUpdate);
   expect(fetchClient).toHaveBeenCalledTimes(1);
@@ -375,7 +375,7 @@ it('makes the expected request when sending custom query', async () => {
     headers,
     body: JSON.stringify({
       query: mockCustomQuery,
-      variables: mockCustomQueryinput
+      variables: mockCustomQueryvariables
     })
   });
 });

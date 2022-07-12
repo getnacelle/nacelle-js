@@ -188,17 +188,17 @@ const checkout = await checkoutClient.discountRemove({
 });
 ```
 
-##### Making custom query to Shopify Checkout API
+##### Making custom checkout queries to the Shopify Storefront API
 
-| Parameter | [Type](#common-types)     | Required? | Description                                               |
-| --------- | ------------------------- | --------- | --------------------------------------------------------- |
-| `query`   | `string`                  | ✅        | A valid Shopify API query or mutation                     |
-| `input`   | `Record<string, unknown>` | ✅        | A valid variable objects for a Shopify query or mutations |
+| Parameter   | [Type](#common-types) | Required? | Description                                           |
+| ----------- | --------------------- | --------- | ----------------------------------------------------- |
+| `query`     | `string`              | ✅        | A Shopify Storefront API query/mutation               |
+| `variables` | `object`              | ✅        | Variables for a Shopify Storefront API query/mutation |
 
 ##### Example
 
 ```js
-// Allows for end user to send any query/mutation to Shopify API
+// Send any query/mutation to the Shopify Storefront API
 const checkout = await checkoutClient.query({
   query: `
     mutation checkoutShippingAddressUpdateV2($checkoutId: ID!, $shippingAddress: MailingAddressInput!) {
@@ -215,7 +215,7 @@ const checkout = await checkoutClient.query({
       }
     }
     `,
-  input: {
+  variables: {
     checkoutId: checkoutData.id,
     shippingAddress: {
       address1: '123 smith street',
@@ -230,8 +230,8 @@ const checkout = await checkoutClient.query({
 
 Other example mutations from Shopify docs:
 
-- [checkoutShippingAddressUpdateV2](https://shopify.dev/api/storefront/2022-07/mutations/checkoutShippingAddressUpdateV2)
-- [checkoutCustomerAssociateV2](https://shopify.dev/api/storefront/2022-07/mutations/checkoutCustomerAssociateV2)
+[checkoutshippingaddressupdatev2]: https://shopify.dev/api/storefront/2022-07/mutations/checkoutShippingAddressUpdateV2
+[checkoutcustomerassociatev2]: https://shopify.dev/api/storefront/2022-07/mutations/checkoutCustomerAssociateV2
 
 ### Advanced Usage
 

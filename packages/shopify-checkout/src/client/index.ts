@@ -79,7 +79,7 @@ export interface CheckoutClient {
    */
   discountRemove: RemoveDiscount;
   /**
-   * Allows for end user to send any query/mutation to Shopify API
+   * Send any query/mutation to the Shopify Storefront API
    */
   query: QueryCheckout;
 }
@@ -153,10 +153,11 @@ export default function createShopifyCheckoutClient({
 
   async function query({
     query,
-    input,
-    queueToken
-  }: CustomQueryParams): Promise<ShopifyResponse<unknown> | void> {
-    return await queryCheckout({ gqlClient, query, input, queueToken });
+    variables
+  }: CustomQueryParams): Promise<ShopifyResponse<
+    Record<string, unknown>
+  > | void> {
+    return await queryCheckout({ gqlClient, query, variables });
   }
 
   return {

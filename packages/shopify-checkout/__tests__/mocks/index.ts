@@ -304,7 +304,7 @@ mutation checkoutShippingAddressUpdateV2($checkoutId: ID!, $shippingAddress: Mai
 }            
 `;
 
-export const mockCustomQueryinput = {
+export const mockCustomQueryvariables = {
   checkoutId: 'testId',
   shippingAddress: {
     address1: 'testA1',

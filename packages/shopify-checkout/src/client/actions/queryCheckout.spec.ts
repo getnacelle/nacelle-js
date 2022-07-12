@@ -10,7 +10,7 @@ import {
   graphqlEndpoint,
   headers,
   mockCustomQuery,
-  mockCustomQueryinput
+  mockCustomQueryvariables
 } from '../../../__tests__/mocks';
 
 jest.mock('cross-fetch');
@@ -31,7 +31,7 @@ describe('custom query', () => {
       queryCheckout({
         gqlClient,
         query: mockCustomQuery,
-        input: mockCustomQueryinput
+        variables: mockCustomQueryvariables
       }).then((response) => response)
     ).resolves.toMatchObject(checkouts.shippingAddressUpdate);
 
@@ -41,7 +41,7 @@ describe('custom query', () => {
       headers,
       body: JSON.stringify({
         query: mockCustomQuery,
-        variables: mockCustomQueryinput
+        variables: mockCustomQueryvariables
       })
     });
   });
