@@ -1,69 +1,45 @@
 export const GET_PRODUCTS = `
-  query allProducts($first: Int, $searchFilter: ProductSearchOptions) {
-    allProducts(filter: { first: $first, searchFilter: $searchFilter }) {
-      pageInfo {
-        hasNextPage
-        endCursor
-      }
-      totalCount
-      edges {
-        node {
-          nacelleEntryId
-          content {
-            featuredMedia {
-              thumbnailSrc
-            }
-            handle
-            title
+query allProducts($first: Int, $after: String, $searchFilter: ProductSearchOptions) {
+  allProducts(filter: {first: $first, after: $after, searchFilter: $searchFilter}) {
+    edges {
+      node {
+        nacelleEntryId
+        content {
+          featuredMedia {
+            thumbnailSrc
           }
+          handle
+          title
+        }
           tags
           productType
-          variants {
+          variants{
             content {
               title
             }
             sku
-          }
         }
       }
     }
   }
-`
+}`
 
 export const GET_COLLECTIONS = `
-  query allProductCollections(
-    $first: Int
-    $searchFilter: ProductCollectionSearchOptions
-  ) {
-    allProductCollections(
-      filter: { first: $first, searchFilter: $searchFilter }
-    ) {
-      pageInfo {
-        hasNextPage
-        endCursor
-      }
-      totalCount
-      edges {
-        node {
-          nacelleEntryId
-          content {
-            title
-            handle
-          }
-          products {
-            nacelleEntryId
-            content {
-              title
-              handle
-              nacelleEntryId
-              featuredMedia {
-                id
-                thumbnailSrc
-              }
-            }
+query allProductCollections($first: Int, $after: String, $searchFilter: ProductCollectionSearchOptions) {
+  allProductCollections(filter: { first: $first, after: $after, searchFilter: $searchFilter }) {
+    edges {
+      node {
+        nacelleEntryId
+        content {
+          title
+          handle
+          featuredMedia {
+            id
+            thumbnailSrc
           }
         }
       }
     }
   }
+}
 `

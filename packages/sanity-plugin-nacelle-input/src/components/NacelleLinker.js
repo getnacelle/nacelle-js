@@ -1,13 +1,11 @@
 import React, { useState, useEffect, useCallback, useContext } from 'react'
 import PropTypes from 'prop-types'
 
-import { useId } from '@reach/auto-id'
-
-/* eslint-disable import/no-unresolved */
 import PatchEvent, { set, unset } from 'part:@sanity/form-builder/patch-event'
 import FormField from 'part:@sanity/components/formfields/default'
-import config from 'config:@nacelle/sanity-plugin-nacelle-input'
-/* eslint-enable import/no-unresolved */
+import { useId } from '@reach/auto-id'
+
+import config from 'config:@nacelle/sanity-plugin-pim-linker'
 
 import {
   ThemeProvider,
@@ -106,15 +104,16 @@ const Interface = ({
     Array.isArray(config.nacelleSpaces) &&
     config.nacelleSpaces.length > 1 &&
     config.nacelleSpaces.some(
-      (s) => s.nacelleEndpoint && s.nacelleSpaceToken && s.spaceName
+      (s) => s.spaceEndpoint && s.spaceToken && s.spaceName
     )
 
   const onSelect = (e) => {
     const activeSpace = config.nacelleSpaces.find(
-      (space) => space.nacelleEndpoint == e.target.value
+      (space) => space.spaceEndpoint == e.target.value
     )
     setSpaceOptions(activeSpace)
   }
+
   return (
     <Box style={{ display: interfaceOpen ? 'block' : 'none' }} padding={4}>
       <Stack space={4} paddingBottom={2}>
@@ -122,12 +121,12 @@ const Interface = ({
           <Select
             className="select"
             onChange={onSelect}
-            defaultValue={spaceOptions?.nacelleEndpoint}
+            defaultValue={spaceOptions?.spaceId}
           >
             {config.nacelleSpaces.map((space, idx) => (
               <option
-                value={space.nacelleEndpoint}
-                key={`${space.spaceName}-${idx}`}
+                value={space.spaceEndpoint}
+                key={`${space.spaceId}-${idx}`}
               >
                 {space.spaceName}
               </option>
@@ -176,7 +175,7 @@ const NacelleLinker = ({ type, onChange, value, markers, level, readOnly }) => {
     if (!spaceOptions) {
       const initialSpace = Array.isArray(config.nacelleSpaces)
         ? config.nacelleSpaces.find(
-            (s) => s.nacelleEndpoint && s.nacelleSpaceToken && s.spaceName
+            (s) => s.spaceId && s.spaceToken && s.spaceName
           )
         : {}
       setSpaceOptions(initialSpace)
@@ -193,7 +192,7 @@ const NacelleLinker = ({ type, onChange, value, markers, level, readOnly }) => {
   }
 
   const dataTypeFromOptions = type.options && type.options.dataType
-  let dataType
+  let dataType = []
 
   if (!dataTypeFromOptions) {
     dataType = ['collections', 'products']
@@ -203,11 +202,13 @@ const NacelleLinker = ({ type, onChange, value, markers, level, readOnly }) => {
       : [dataTypeFromOptions]
   }
 
+  dataType = dataType.sort()
+
   return (
     <ThemeProvider theme={studioTheme}>
       {interfaceOpen && (
         <Dialog
-          header="Product/Collection Data"
+          header="Indexed PIM Data"
           id="dialog-example"
           onClose={onClose}
           width={1}
@@ -235,14 +236,14 @@ const NacelleLinker = ({ type, onChange, value, markers, level, readOnly }) => {
                     }
                     value={searchQuery || ''}
                   />
-                  {dataType.map((type, idx) => (
+                  {dataType[activeTab] && (
                     <NacelleData
-                      key={type}
-                      dataType={type}
-                      active={idx === activeTab}
+                      key={dataType[activeTab]}
+                      dataType={dataType[activeTab]}
+                      active={true}
                       searchTerm={searchQuery || ''}
                     />
-                  ))}
+                  )}
                 </Interface>
               </SpaceOptionsContext.Provider>
             </SearchQueryContext.Provider>

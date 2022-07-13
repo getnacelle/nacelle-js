@@ -23,6 +23,7 @@ function fetchFromNacelleStorefront({
     : {
         first
       }
+
   return fetch(endpoint, {
     method: 'POST',
     headers: {
@@ -46,9 +47,10 @@ async function fetcher(query, spaceToken, endpoint, type, searchTerm) {
     endpoint,
     searchTerm
   })
+
   const queryResultData =
     res?.data?.[
-      type.includes('product') ? 'allProducts' : 'allProductCollections'
+      type === 'products' ? 'allProducts' : 'allProductCollections'
     ]
   const queryResultNodes = queryResultData?.edges.map((edge) => edge.node)
   if (queryResultNodes?.length) {
@@ -79,6 +81,7 @@ export const useNacelleStorefront = ({
     options?.nacelleEndpoint ??
     config.nacelleEndpoint ??
     process.env.SANITY_STUDIO_NACELLE_ENDPOINT
+
   const { data, error } = useSWR(
     [query, spaceToken, endpoint, type, searchTerm],
     fetcher

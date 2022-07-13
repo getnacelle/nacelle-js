@@ -33,11 +33,38 @@ const NacelleResults = ({
     }
   }, [data, setIsLoading])
 
+  const filterOption = (query, option) => {
+    const queryText = query.toLowerCase().trim()
+    const titleMatch = option.content.title.toLowerCase().includes(queryText)
+    const handleMatch = option.content.handle
+      .replace('/-/g', '')
+      .includes(queryText)
+    const tagsMatch =
+      Array.isArray(option.tags) &&
+      option.tags.find((tag) => tag.toLowerCase().includes(queryText))
+    const variantsMatch =
+      Array.isArray(option.variants) &&
+      option.variants.find((variant) => {
+        const titleMatch = variant.content.title
+          .toLowerCase()
+          .includes(queryText)
+        const skuMatch =
+          variant.sku &&
+          variant.sku.toLowerCase().replace('/-/g', '').includes(queryText)
+        return titleMatch || skuMatch
+      })
+    return titleMatch || handleMatch || tagsMatch || variantsMatch
+  }
+
+  const filteredData =
+    data &&
+    data.filter((searchOption) => filterOption(searchTerm, searchOption))
+
   if (isLoading) {
     return <Loading />
   }
 
-  return <Gallery data={data} active={active} />
+  return <Gallery data={filteredData} active={active} />
 }
 
 NacelleResults.propTypes = {
