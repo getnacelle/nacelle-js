@@ -1,11 +1,13 @@
 import React, { useState, useEffect, useCallback, useContext } from 'react'
 import PropTypes from 'prop-types'
 
+/* eslint-disable import/no-unresolved */
 import PatchEvent, { set, unset } from 'part:@sanity/form-builder/patch-event'
 import FormField from 'part:@sanity/components/formfields/default'
 import { useId } from '@reach/auto-id'
+import config from 'config:@nacelle/sanity-plugin-nacelle-input'
+/* eslint-enable import/no-unresolved */
 
-import config from 'config:@nacelle/sanity-plugin-pim-linker'
 
 import {
   ThemeProvider,
