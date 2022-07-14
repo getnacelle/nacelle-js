@@ -154,9 +154,7 @@ export default function createShopifyCheckoutClient({
   async function query({
     query,
     variables
-  }: CustomQueryParams): Promise<ShopifyResponse<
-    Record<string, unknown>
-  > | void> {
+  }: CustomQueryParams): Promise<ShopifyResponse<Record<string, unknown>>> {
     return await queryCheckout({ gqlClient, query, variables });
   }
 
