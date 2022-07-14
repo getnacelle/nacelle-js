@@ -1,6 +1,6 @@
 {
   "name": "nuxt-reference-store",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "private": true,
   "scripts": {
     "dev": "nuxt",
@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@contentful/rich-text-html-renderer": "^15.11.1",
-    "@nacelle/shopify-checkout": "^0.0.12",
+    "@nacelle/shopify-checkout": "^0.1.0",
     "@nacelle/storefront-sdk": "^1.0.3",
     "core-js": "^3.19.3",
     "fuse.js": "^6.5.3",

@@ -1,6 +1,6 @@
 {
   "name": "next-starter",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@nacelle/react-hooks": "^6.1.0",
-    "@nacelle/shopify-checkout": "^0.0.12",
+    "@nacelle/shopify-checkout": "^0.1.0",
     "@nacelle/storefront-sdk": "^1.0.3",
     "next": "12.0.7",
     "react": "17.0.2",
