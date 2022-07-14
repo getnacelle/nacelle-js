@@ -188,6 +188,50 @@ const checkout = await checkoutClient.discountRemove({
 });
 ```
 
+##### Making custom checkout queries to the Shopify Storefront API
+
+| Parameter   | [Type](#common-types) | Required? | Description                                           |
+| ----------- | --------------------- | --------- | ----------------------------------------------------- |
+| `query`     | `string`              | ✅        | A Shopify Storefront API query/mutation               |
+| `variables` | `object`              | ✅        | Variables for a Shopify Storefront API query/mutation |
+
+##### Example
+
+```js
+// Send any query/mutation to the Shopify Storefront API
+const checkout = await checkoutClient.query({
+  query: `
+    mutation checkoutShippingAddressUpdateV2($checkoutId: ID!, $shippingAddress: MailingAddressInput!) {
+      checkoutShippingAddressUpdateV2(checkoutId: $checkoutId, shippingAddress: $shippingAddress) {
+        checkout {
+          id
+          webUrl
+        }
+        checkoutUserErrors {
+          code
+          fields
+          message
+        }
+      }
+    }
+    `,
+  variables: {
+    checkoutId: checkoutData.id,
+    shippingAddress: {
+      address1: '123 smith street',
+      city: 'Smith',
+      country: 'USA',
+      firstName: 'John',
+      lastName: 'John'
+    }
+  }
+});
+```
+
+Other example mutations from Shopify docs:
+
+- [`checkoutShippingAddressUpdateV2`][shopify-mutation-checkout-shipping-address-update-v2]
+- [`checkoutCustomerAssociateV2`][shopify-mutation-checkout-customer-associate-v2]
 ### Advanced Usage
 
 #### Using a custom `fetchClient`
@@ -222,3 +266,5 @@ const checkoutClient = createShopifyCheckoutClient({
 
 [shopify-checkout-object]: https://shopify.dev/api/storefront/2022-01/objects/checkout#fields
 [shopify-scalars]: https://shopify.dev/api/storefront/2022-01/scalars/ID
+[shopify-mutation-checkout-shipping-address-update-v2]: https://shopify.dev/api/storefront/2022-07/mutations/checkoutShippingAddressUpdateV2
+[shopify-mutation-checkout-customer-associate-v2]: https://shopify.dev/api/storefront/2022-07/mutations/checkoutCustomerAssociateV2

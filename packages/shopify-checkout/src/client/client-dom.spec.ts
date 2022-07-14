@@ -14,7 +14,9 @@ import {
   checkoutIds,
   graphqlEndpoint,
   headers,
-  webUrl
+  webUrl,
+  mockCustomQuery,
+  mockCustomQueryvariables
 } from '../../__tests__/mocks';
 
 jest.mock('cross-fetch');
@@ -347,5 +349,33 @@ describe('createShopifyCheckoutClient', () => {
         }
       })
     });
+  });
+});
+
+it('makes the expected request when sending custom query', async () => {
+  const checkoutClient = createShopifyCheckoutClient({
+    ...clientSettings,
+    fetchClient
+  });
+
+  mocked(fetchClient).mockImplementationOnce(
+    (): Promise<any> =>
+      mockJsonResponse<unknown>(checkouts.shippingAddressUpdate)
+  );
+
+  await expect(
+    checkoutClient.query({
+      query: mockCustomQuery,
+      variables: mockCustomQueryvariables
+    })
+  ).resolves.toMatchObject(checkouts.shippingAddressUpdate);
+  expect(fetchClient).toHaveBeenCalledTimes(1);
+  expect(fetchClient).toHaveBeenCalledWith(graphqlEndpoint, {
+    method: 'POST',
+    headers,
+    body: JSON.stringify({
+      query: mockCustomQuery,
+      variables: mockCustomQueryvariables
+    })
   });
 });
