@@ -9,7 +9,9 @@ export default function queryCheckout({
   gqlClient,
   query,
   variables
-}: CheckoutQueryParams): Promise<ShopifyResponse<Record<string, unknown>>> {
+}: CheckoutQueryParams): Promise<ShopifyResponse<
+  Record<string, unknown>
+> | void> {
   return gqlClient<typeof variables, ShopifyResponse<Record<string, unknown>>>({
     query,
     variables
