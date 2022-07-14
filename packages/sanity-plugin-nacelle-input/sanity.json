@@ -1,0 +1,17 @@
+{
+  "paths": {
+    "source": "./src",
+    "compiled": "./dist"
+  },
+  "parts": [
+    {
+      "name": "part:sanity-plugin-nacelle-input/nacelleInput",
+      "path": "components/NacelleLinker.js",
+      "description": "React component that provides product and/or collection data from Nacelle"
+    },
+    {
+      "implements": "part:@sanity/base/schema-type",
+      "path": "schema.js"
+    }
+  ]
+}
