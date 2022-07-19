@@ -1,6 +1,7 @@
 {
 	"name": "svelte-starter",
 	"version": "0.0.2",
+	"private": true,
 	"scripts": {
 		"dev": "svelte-kit dev",
 		"build": "svelte-kit build",
