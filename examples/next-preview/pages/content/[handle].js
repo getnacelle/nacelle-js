@@ -1,9 +1,14 @@
-import { nacelleClient, nacellePreviewClient } from 'services';
+import { nacelleClient } from 'services';
 
-function Content({ content }) {
+function Content({ content, preview }) {
   return (
-    content && (<pre>{JSON.stringify(content, null, 2)}</pre>)
-  )
+    content && (
+      <div>
+        <h2>Preview: {preview ? 'True' : 'False'}</h2>
+        <pre>{JSON.stringify(content, null, 2)}</pre>
+      </div>
+    )
+  );
 }
 
 export default Content;
@@ -24,17 +29,22 @@ export async function getStaticPaths() {
   };
 }
 
-export async function getStaticProps({ params, preview }) {
+export async function getStaticProps({ params, preview, previewData }) {
   // Performs a GraphQL query to Nacelle to get product data,
   // using the handle of the current page.
   // (https://nacelle.com/docs/querying-data/storefront-sdk)
+  console.log('PREVIEW', preview, previewData);
 
-  console.log({ handles: [ params.handle ] })
-  const contents = preview 
-    ? await nacellePreviewClient.content({handles: [params.handle]}) 
-    : await nacelleClient.content({handles: [params.handle]}) 
+  if (preview && previewData?.previewToken) {
+    nacelleClient.setConfig({
+      previewToken: previewData?.previewToken
+    });
+  }
 
-  console.log(contents)
+  const contents = await nacelleClient.content({ handles: [params.handle] });
+
+  console.log(contents);
+  console.log(await nacelleClient.getConfig());
   if (!contents.length) {
     return {
       notFound: true
@@ -43,7 +53,8 @@ export async function getStaticProps({ params, preview }) {
 
   return {
     props: {
-      content: contents[0]
+      content: contents[0],
+      preview: preview || false
     }
   };
 }
