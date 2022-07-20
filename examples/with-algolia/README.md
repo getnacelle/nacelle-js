@@ -21,7 +21,7 @@ const index = client.initIndex('your_index_name')
 const objects = [
   {
     objectID: 1,
-    name: 'Foo',
+    title: 'Product 1',
   },
 ]
 
@@ -44,9 +44,9 @@ Using the same library as above, we can search our Algolia index:
 
 ```javascript
 index
-  .search('Fo')
+  .search('Product 1')
   .then(({ hits }) => {
-    console.log(hits)
+    console.log(hits) 
   })
   .catch((err) => {
     console.log(err)
