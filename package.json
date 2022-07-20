@@ -11,7 +11,7 @@
     "format": "lerna run format",
     "lint": "lerna run lint",
     "lint:fix": "lerna run lint:fix",
-    "build": "lerna run build",
+    "build": "lerna run build --no-private",
     "test:ci": "jest --clearCache && lerna run test:ci",
     "release": "npm run build && lerna publish"
   },
