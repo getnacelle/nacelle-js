@@ -1,0 +1,22 @@
+service: aws-node-express-api-project
+frameworkVersion: '3'
+plugins:
+  - serverless-plugin-typescript
+  - serverless-offline
+
+provider:
+  name: aws
+  runtime: nodejs16.x
+
+useDotenv: true
+
+functions:
+  api:
+    handler: handler.handler
+    events:
+      - httpApi: '*'
+    environment:
+      ALGOLIA_INDEX: ${env:ALGOLIA_INDEX}
+      ALGOLIA_API_KEY: ${env:ALGOLIA_API_KEY}
+      NACELLE_STOREFRONT_API_ENDPOINT: ${env:NACELLE_STOREFRONT_API_ENDPOINT}
+      NACELLE_STOREFRONT_API_TOKEN: ${env:NACELLE_STOREFRONT_API_TOKEN}
