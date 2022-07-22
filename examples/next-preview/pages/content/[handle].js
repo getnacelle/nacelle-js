@@ -48,7 +48,7 @@ export async function getStaticProps({ params, preview, previewData }) {
   // Re-configures the client with the preview token
   if (preview && previewData?.previewToken) {
     nacelleClient.setConfig({
-      previewToken: previewData?.previewToken
+      previewToken: previewData.previewToken
     });
   }
 

@@ -38,6 +38,10 @@ Once you have the demo running locally, navigate to a URL following these rules:
 - To deactivate the preview navigate to: `/api/exit-preview`
 - To verify is the preview is active or not you can check whether or not you have an active preview cookie
 
+## Securing Preview Content with a Preview Mode Secret
+
+Unauthorized users should not have access to preview content. Please check out the [Next.js Preview Mode docs](https://nextjs.org/docs/advanced-features/preview-mode#securely-accessing-it-from-your-headless-cms) for information about implementing a Preview Mode Secret in `/pages/api/preview.js`.
+
 ## Project Directory
 
 ### `pages`
