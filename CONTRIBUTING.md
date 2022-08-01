@@ -171,7 +171,7 @@ To make the process as easy as possible we've created a Pull Request Template th
 
 #### Changesets
 
-Versioning is handled by [Changesets](https://github.com/changesets/changesets). Packages contributors are expected to add changeset by running `npm run changesets` on the root and chose the appropriate bump and write some markdowns which will be added to the changelogs.
+Versioning is handled by [Changesets](https://github.com/changesets/changesets). Package contributors are expected to add a changeset before making a pull request. To add a changeset run `npm run changesets` in the root directory, choose the appropriate version bump, and write some markdowns which will be added to the changelogs.
 
 ## Styleguides
 
