@@ -13,7 +13,8 @@
     "lint:fix": "lerna run lint:fix",
     "build": "lerna run build --no-private",
     "test:ci": "jest --clearCache && lerna run test:ci",
-    "release": "npm run build && lerna publish"
+    "changeset": "changeset",
+    "release": "npm run build && changeset publish"
   },
   "engines": {
     "node": ">=14.14 <17",
@@ -63,5 +64,8 @@
   "lint-staged": {
     "*.{js,jsx,ts,tsx,vue}": "eslint --fix",
     "*.{js,jsx,ts,tsx,vue,css,md}": "prettier --write"
+  },
+  "dependencies": {
+    "@changesets/cli": "^2.24.0"
   }
 }

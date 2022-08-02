@@ -21,6 +21,7 @@ Before contributing we ask that you review the following guidelines. If you thin
 - [Reporting Bugs](#reporting-bugs)
 - [Suggesting Enhancements](#suggesting-enhancements)
 - [Submitting Pull Requests](#submitting-pull-requests)
+- [Changesets](#changesets)
 
 [Styleguides](#styleguides)
 
@@ -167,6 +168,10 @@ Before opening a pull request you should review all of our [styleguides](#styleg
 #### How To Submit A Good Pull Request
 
 To make the process as easy as possible we've created a Pull Request Template that will be added to your PR when you create it. Be sure to fill out all the required fields with as much detail and context as possible.
+
+#### Changesets
+
+Versioning is handled by [Changesets](https://github.com/changesets/changesets). Package contributors are expected to add a changeset before making a pull request. To add a changeset run `npm run changesets` in the root directory, choose the appropriate version bump, and write some markdowns which will be added to the changelogs.
 
 ## Styleguides
 
