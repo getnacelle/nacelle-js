@@ -5,6 +5,7 @@
     ":semanticCommitTypeAll(fix)",
     "schedule:earlyMondays"
   ],
+  "ignorePaths": [".github/**"],
   "rangeStrategy": "replace",
   "packageRules": [
     {
