@@ -34,6 +34,8 @@ npm install
 npm run bootstrap 
 ```
 
+Copy the .env.example to a file called `.env` and replace the values marked with `<>` with the values for your Nacelle space and Shopify storefront.
+
 ### Development Server
 
 Start the development server on http://localhost:3000
