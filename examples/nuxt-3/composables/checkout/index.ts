@@ -48,7 +48,9 @@ export async function processCheckout(): Promise<void> {
       quantity: lineItem.quantity,
       variantId: lineItem.variant.id
     }));
-    const checkoutArgs = { cartItems: checkoutItems };
+    const checkoutArgs: { cartItems: typeof checkoutItems; id?: string } = {
+      cartItems: checkoutItems
+    };
     if (checkoutState.checkoutId) {
       checkoutArgs.id = checkoutState.checkoutId;
     }
