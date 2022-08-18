@@ -1,4 +1,3 @@
-import { graphql } from 'graphql';
 import CollectionProductFragment from './collection-product-fragment.query';
 
 export default `
