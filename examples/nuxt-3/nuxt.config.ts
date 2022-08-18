@@ -16,7 +16,7 @@ export default defineNuxtConfig({
       },
       shopify: {
         myShopifyDomain: '',
-        StorefrontCheckoutToken: '',
+        StorefrontCheckoutToken: ''
       }
     }
   },
@@ -40,7 +40,9 @@ export default defineNuxtConfig({
   },
   build: {
     // need to transpile the storefront-sdk for Node to use as ESM
-    transpile: ['@nacelle/storefront-sdk']
+    // but only transpile in production because it breaks imports in local dev
+    transpile:
+      process.env.NODE_ENV === 'development' ? [] : ['@nacelle/storefront-sdk']
   },
   autoImports: {
     // setup composables to search one level down since rc-7 added breaking change
