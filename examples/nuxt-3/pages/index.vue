@@ -1,7 +1,10 @@
 <template>
   <main class="home">
     <div class="home__logo">
-      <img src="/nacelle-logo.svg" />
+      <img
+        src="/nacelle-logo.svg"
+        alt="Nacelle Logo, a white capital N in standard orientation, carved out of two parallel Red rectangles slanted to the left"
+      />
     </div>
     <h1>Welcome to your Nacelle Storefront</h1>
     <p>Edit <code class="inline-code">pages/index.vue</code> to get started.</p>
