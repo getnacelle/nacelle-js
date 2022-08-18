@@ -1,3 +1,4 @@
+import { graphql } from 'graphql';
 import CollectionProductFragment from './collection-product-fragment.query';
 
 export default `
@@ -30,22 +31,24 @@ export default `
 `;
 
 export const CollectionProductsQuery = `
-    query allProductCollections(filter: {handles: [$handle]}) {
-        edges {
-            node {
-                productConnection(first: 12, after: $after) {
-                    pageInfo {
-                        hasNextPage
-                        endCursor
-                    }
-                    edges {
-                        node {
-                            ...CollectionProductFragment
-                        }
-                    }
-                }
+  query CollectionProducts($handle: String) {
+    allProductCollections(filter: { handles: [$handle] }) {
+      edges {
+        node {
+          productConnection(first: 12, after: $after) {
+            pageInfo {
+              hasNextPage
+              endCursor
             }
+            edges {
+              node {
+                ...CollectionProductFragment
+              }
+            }
+          }
         }
+      }
     }
-    ${CollectionProductFragment}
+  }
+  ${CollectionProductFragment}
 `;
