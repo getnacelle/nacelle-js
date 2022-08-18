@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-import { useInterval } from '../hooks'
+import { useInterval } from '../../hooks'
 
 const Loading = () => {
   const [ellipses, setEllipses] = useState('.')
