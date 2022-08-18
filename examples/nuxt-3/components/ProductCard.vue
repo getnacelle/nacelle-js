@@ -29,11 +29,7 @@
           >{{ option.name }}</label
         >
         <select :id="`${option.name}-select-id`" class="product-card__select">
-          <option
-            v-for="(value, vIndex) in option.values"
-            :value="value"
-            :key="value"
-          >
+          <option v-for="value in option.values" :value="value" :key="value">
             {{ value }}
           </option>
         </select>

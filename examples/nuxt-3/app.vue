@@ -54,8 +54,6 @@ useHead({
   text-decoration-style: none;
 }
 .cart-link {
-  /* display: flex; */
-  /* align-items: end; */
   height: 2rem;
 }
 

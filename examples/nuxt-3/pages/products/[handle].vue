@@ -79,7 +79,6 @@
 <script setup>
 import { addItemToCart } from '~~/composables/cart';
 import { ProductPageQuery } from '~~/queries';
-// import { useSdk } from '~~/composables/nacelle';
 import { getSelectedVariant } from '~~/utils/getSelectedVariant';
 
 const route = useRoute();
@@ -145,7 +144,7 @@ const addItem = async (e) => {
     variant: selectedVariant
   });
   if (cartVariant) {
-    //unref the quantity so only it's value gets used in the cart
+    // unref the quantity so only its value gets used in the cart
     await addItemToCart(
       reactive({ variant: cartVariant, quantity: unref(quantity) })
     );

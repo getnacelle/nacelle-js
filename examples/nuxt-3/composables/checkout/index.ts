@@ -3,7 +3,6 @@ import createShopifyCheckoutClient, {
   CheckoutClient
 } from '@nacelle/shopify-checkout';
 import { ShopifyCheckout } from '@nacelle/shopify-checkout/dist/types/checkout-client.types';
-import createCheckout from '@nacelle/shopify-checkout/dist/types/client/actions/checkoutCreate';
 import { Ref } from 'vue';
 const checkoutClient: Ref<CheckoutClient | null> = ref(null);
 
@@ -28,9 +27,9 @@ export async function initCheckout(): Promise<void> {
     const shopifyCheckoutClient = useShopifyCheckout();
     checkoutState.checkoutId = await get('checkoutId');
     if (checkoutState.checkoutId) {
-      const checkout = await shopifyCheckoutClient.get({
+      const checkout = (await shopifyCheckoutClient.get({
         id: checkoutState.checkoutId
-      });
+      })) as ShopifyCheckout;
       if (checkout?.completed) {
         await del('checkoutId');
         await clearCart();
