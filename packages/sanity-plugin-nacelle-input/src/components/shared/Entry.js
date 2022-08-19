@@ -22,7 +22,7 @@ const Entry = ({ item }) => {
     <MenuItem
       paddingX={2}
       onClick={() => {
-        setItem(item.content.handle)
+        setItem(item)
         setSearchQuery(null)
       }}
     >

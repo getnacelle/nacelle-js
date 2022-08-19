@@ -39,6 +39,7 @@ module.exports = {
         aspects: ['invalidHref']
       }
     ],
+    'import/no-named-as-default-member': 'off',
     'import/no-unresolved': [2, { ignore: ['^(all|part):'] }]
   }
 }

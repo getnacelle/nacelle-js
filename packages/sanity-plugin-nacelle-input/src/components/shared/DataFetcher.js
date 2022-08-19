@@ -5,7 +5,7 @@ import { useNacelleStorefront } from '../../hooks'
 import Gallery from './Gallery'
 import Loading from './Loading'
 
-const NacelleResults = ({
+const DataFetcher = ({
   query,
   options,
   dataHandler,
@@ -67,7 +67,7 @@ const NacelleResults = ({
   return <Gallery data={filteredData} active={active} />
 }
 
-NacelleResults.propTypes = {
+DataFetcher.propTypes = {
   query: PropTypes.string.isRequired,
   options: PropTypes.object,
   dataHandler: PropTypes.func,
@@ -78,4 +78,4 @@ NacelleResults.propTypes = {
   searchTerm: PropTypes.string
 }
 
-export default NacelleResults
+export default DataFetcher

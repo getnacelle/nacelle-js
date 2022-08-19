@@ -1,8 +1,8 @@
-import NacelleLinker from './components/NacelleLinker'
+import NacelleData from './components/NacelleData'
 
 export default {
   title: 'Nacelle Data',
   name: 'nacelleData',
   type: 'string',
-  inputComponent: NacelleLinker
+  inputComponent: NacelleData
 }

@@ -18,7 +18,7 @@ import {
   Stack,
   Flex
 } from '@sanity/ui'
-import NacelleData from './shared/NacelleData'
+import DataSwitch from './shared/DataSwitch'
 import Interface from './shared/Interface'
 import {
   ItemContext,
@@ -49,7 +49,7 @@ const SearchIcon = () => (
   </svg>
 )
 
-const NacelleLinker = ({ type, onChange, value, markers, level, readOnly }) => {
+const NacelleData = ({ type, onChange, value, markers, level, readOnly }) => {
   const [searchQuery, setSearchQuery] = useState(null)
   const [spaceOptions, setSpaceOptions] = useState(null)
   const [activeTab, setActiveTab] = useState(0)
@@ -74,8 +74,8 @@ const NacelleLinker = ({ type, onChange, value, markers, level, readOnly }) => {
 
   const inputId = useId()
 
-  const selectItem = (item) => {
-    onChange(createPatchFrom(item))
+  const selectItem = (selectedItem) => {
+    onChange(createPatchFrom(selectedItem?.content?.handle))
     onClose()
   }
 
@@ -125,7 +125,7 @@ const NacelleLinker = ({ type, onChange, value, markers, level, readOnly }) => {
                     value={searchQuery || ''}
                   />
                   {dataType[activeTab] && (
-                    <NacelleData
+                    <DataSwitch
                       key={dataType[activeTab]}
                       dataType={dataType[activeTab]}
                       active={true}
@@ -178,7 +178,7 @@ const NacelleLinker = ({ type, onChange, value, markers, level, readOnly }) => {
   )
 }
 
-NacelleLinker.propTypes = {
+NacelleData.propTypes = {
   type: PropTypes.shape({
     title: PropTypes.string,
     description: PropTypes.string,
@@ -194,5 +194,5 @@ NacelleLinker.propTypes = {
 }
 
 export default React.forwardRef((props, ref) => (
-  <NacelleLinker {...props} forwardedRef={ref} />
+  <NacelleData {...props} forwardedRef={ref} />
 ))

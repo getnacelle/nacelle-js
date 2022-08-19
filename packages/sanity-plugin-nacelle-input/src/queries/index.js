@@ -3,12 +3,14 @@ query allProducts($first: Int, $after: String, $searchFilter: ProductSearchOptio
   allProducts(filter: {first: $first, after: $after, searchFilter: $searchFilter}) {
     edges {
       node {
+        __typename
         nacelleEntryId
         content {
           featuredMedia {
             thumbnailSrc
           }
           handle
+          locale
           title
         }
           tags
@@ -29,10 +31,12 @@ query allProductCollections($first: Int, $after: String, $searchFilter: ProductC
   allProductCollections(filter: { first: $first, after: $after, searchFilter: $searchFilter }) {
     edges {
       node {
+        __typename
         nacelleEntryId
         content {
           title
           handle
+          locale
           featuredMedia {
             id
             thumbnailSrc
