@@ -1,6 +1,5 @@
 import { get, set } from 'idb-keyval';
 import { v4 as uuid } from 'uuid';
-import { reactive, unref, computed } from '#imports';
 import type { Ref, ComputedRef, DeepReadonly } from 'vue';
 import type {
   Media,
@@ -9,13 +8,7 @@ import type {
   Variant
 } from '@nacelle/storefront-sdk';
 import type { Metafield } from '@nacelle/shopify-checkout/dist/types/checkout-client.types';
-
-export interface LineItem {
-  id?: string;
-  metafields?: Metafield;
-  quantity: number;
-  variant: CartVariant;
-}
+import { reactive, unref, computed } from '#imports';
 
 export interface CartVariant {
   availableForSale?: boolean;
@@ -28,6 +21,13 @@ export interface CartVariant {
   title?: string;
   productHandle?: string;
   productTitle?: string;
+}
+
+export interface LineItem {
+  id?: string;
+  metafields?: Metafield;
+  quantity: number;
+  variant: CartVariant;
 }
 
 const cacheKey = 'cart';
@@ -97,7 +97,7 @@ export async function removeItemFromCart(lineItemId: string): Promise<boolean> {
 
 export async function updateItemInCart(item: LineItem): Promise<void> {
   const itemIndex = cartState.lineItems.findIndex(
-    (item) => item.id === item.id
+    (lineItem) => lineItem.id === item.id
   );
   if (itemIndex > -1) {
     cartState.lineItems[itemIndex] = {

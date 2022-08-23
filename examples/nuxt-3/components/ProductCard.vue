@@ -2,8 +2,8 @@
   <div class="product-card">
     <div class="product-card__main">
       <h2
-        class="product-card__title"
         :id="`product-card-header-${product.content.handle}`"
+        class="product-card__title"
       >
         <NuxtLink :to="`/products/${product.content.handle}`">{{
           product.content.title
@@ -19,9 +19,9 @@
         <div class="product-card__price">${{ selectedVariant.price }}</div>
       </div>
       <div
-        class="product-card__option"
         v-for="option in options"
         :key="option.name"
+        class="product-card__option"
       >
         <label
           :for="`${option.name}-select-id`"
@@ -29,7 +29,7 @@
           >{{ option.name }}</label
         >
         <select :id="`${option.name}-select-id`" class="product-card__select">
-          <option v-for="value in option.values" :value="value" :key="value">
+          <option v-for="value in option.values" :key="value" :value="value">
             {{ value }}
           </option>
         </select>
@@ -58,11 +58,13 @@
 </template>
 
 <script setup>
-const props = defineProps({ product: Object });
+const props = defineProps({
+  product: {
+    type: Object,
+    default: () => ({})
+  }
+});
 const selectedVariant = ref(props.product?.variants?.[0] ?? null);
-const selectedOptions = ref(
-  selectedVariant?.value?.content?.selectedOptions ?? null
-);
 const options = computed(() =>
   props.product?.content?.options?.filter((option) => {
     return option.values.length > 1;
@@ -89,7 +91,7 @@ const cartButtonAccessibleLabel = computed(() => {
 });
 
 const addToCart = () => {
-  let cartVariant = transformProductForCart({
+  const cartVariant = transformProductForCart({
     product: props.product,
     variant: selectedVariant
   });

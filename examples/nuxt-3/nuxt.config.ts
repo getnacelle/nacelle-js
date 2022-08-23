@@ -4,7 +4,7 @@ import { buildRoutes } from './utils/buildRoutes';
 // https://v3.nuxtjs.org/api/configuration/nuxt.config
 export default defineNuxtConfig({
   // Nuxt 3 will replace any runtimeConfig values with matching env
-  //values if they're prefixed with NUXT, as long as they have an initial value
+  // values if they're prefixed with NUXT, as long as they have an initial value
   // see https://v3.nuxtjs.org/guide/features/runtime-config/#environment-variables
   runtimeConfig: {
     public: {
