@@ -138,9 +138,9 @@ const onOptionChanged = (option, $event) => {
   }
 };
 
-const addItem = async (e) => {
+const addItem = async () => {
   const cartVariant = transformProductForCart({
-    product: product,
+    product,
     variant: selectedVariant
   });
   if (cartVariant) {

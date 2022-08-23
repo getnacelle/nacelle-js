@@ -42,17 +42,17 @@ const { data: collectionPageData, error: pageFetchError } = await useAsyncData(
       const {
         productConnection: {
           pageInfo: productPaginationInfo,
-          totalProductCount,
+          productCount,
           edges: productEdges
         },
-        ...collection
-      } = allProductCollections.edges[0]?.node;
-      const products = productEdges.map((edge) => edge.node);
+        ...productCollection
+      } = allProductCollections.edges[0].node;
+      const collectionProducts = productEdges.map((edge) => edge.node);
       return {
-        collection,
-        products,
+        collection: productCollection,
+        products: collectionProducts,
         productPaginationInfo,
-        totalProductCount
+        totalProductCount: productCount
       };
     }
     return {};
@@ -81,7 +81,7 @@ const loadMoreProducts = async () => {
   isFetchingProducts.value = true;
   const { productCollections } = await sdk.query({
     CollectionProductsQuery,
-    variables: { handle: handle, after: productPaginationCursor }
+    variables: { handle, after: productPaginationCursor }
   });
   const {
     productConnection: {
