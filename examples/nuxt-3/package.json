@@ -1,0 +1,22 @@
+{
+  "name": "@nacelle/nuxt-3-starter-example",
+  "private": true,
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "prepare": "nuxt prepare",
+    "typecheck": "nuxt typecheck"
+  },
+  "devDependencies": {
+    "nuxt": "^3.0.0-rc.8"
+  },
+  "dependencies": {
+    "@nacelle/shopify-checkout": "^0.0.11",
+    "@nacelle/storefront-sdk": "^1.5.1",
+    "fuse.js": "^6.6.2",
+    "idb-keyval": "^6.1.0",
+    "uuid": "^8.3.2"
+  }
+}
