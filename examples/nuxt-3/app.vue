@@ -1,21 +1,19 @@
 <template>
-  <div>
-    <header>
-      <nav class="site-nav">
-        <ul role="list">
-          <li><NuxtLink to="/">Home</NuxtLink></li>
-          <li>
-            <NuxtLink to="/cart" class="cart-link">
-              Cart<sup v-if="cartQuantity" class="cart__quantity">
-                {{ cartQuantity }}
-              </sup>
-            </NuxtLink>
-          </li>
-        </ul>
-      </nav>
-    </header>
-    <NuxtPage />
-  </div>
+  <header>
+    <nav class="site-nav">
+      <ul role="list">
+        <li><NuxtLink to="/">Home</NuxtLink></li>
+        <li>
+          <NuxtLink to="/cart" class="cart-link">
+            Cart<sup v-if="cartQuantity" class="cart__quantity">
+              {{ cartQuantity }}
+            </sup>
+          </NuxtLink>
+        </li>
+      </ul>
+    </nav>
+  </header>
+  <NuxtPage />
 </template>
 <script setup>
 // This is the site-wide meta configuration. Can override this on individual pages
