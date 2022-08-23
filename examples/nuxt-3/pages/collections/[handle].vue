@@ -42,7 +42,7 @@ const { data: collectionPageData, error: pageFetchError } = await useAsyncData(
       const {
         productConnection: {
           pageInfo: productPaginationInfo,
-          productCount,
+          totalCount: productCount,
           edges: productEdges
         },
         ...productCollection
