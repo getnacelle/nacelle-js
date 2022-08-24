@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useContext } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import PropTypes from 'prop-types'
 
 /* eslint-disable import/no-unresolved */
@@ -8,7 +8,6 @@ import { useId } from '@reach/auto-id'
 import config from 'config:@nacelle/sanity-plugin-nacelle-input'
 /* eslint-enable import/no-unresolved */
 
-
 import {
   ThemeProvider,
   studioTheme,
@@ -16,59 +15,19 @@ import {
   TextInput,
   Button,
   Dialog,
-  Select,
-  Tab,
-  TabList,
-  TabPanel,
   Stack,
   Flex
 } from '@sanity/ui'
-import NacelleDataFetcher from './NacelleDataFetcher'
-import { GET_PRODUCTS, GET_COLLECTIONS } from '../queries'
+import DataSwitch from './shared/DataSwitch'
+import Interface from './shared/Interface'
 import {
-  HandleContext,
+  ItemContext,
   SearchQueryContext,
   SpaceOptionsContext
 } from '../context'
 
 const createPatchFrom = (value) =>
   PatchEvent.from(value === '' ? unset() : set(value))
-
-const NacelleData = ({ dataType, active, searchTerm }) => {
-  const { spaceOptions } = useContext(SpaceOptionsContext)
-  switch (dataType) {
-    case 'products':
-      return (
-        <NacelleDataFetcher
-          query={GET_PRODUCTS}
-          options={spaceOptions}
-          className="tabContent"
-          active={active}
-          id="products-panel"
-          type="products"
-          searchTerm={searchTerm}
-        />
-      )
-    case 'collections':
-      return (
-        <NacelleDataFetcher
-          query={GET_COLLECTIONS}
-          options={spaceOptions}
-          className="tabContent"
-          active={active}
-          id="collections-panel"
-          type="productCollections"
-          searchTerm={searchTerm}
-        />
-      )
-  }
-}
-
-NacelleData.propTypes = {
-  dataType: PropTypes.string.isRequired,
-  active: PropTypes.bool,
-  searchTerm: PropTypes.string
-}
 
 const SearchIcon = () => (
   <svg
@@ -90,80 +49,7 @@ const SearchIcon = () => (
   </svg>
 )
 
-const Interface = ({
-  dataType,
-  interfaceOpen,
-  children,
-  activeTab,
-  setActiveTab
-}) => {
-  const { spaceOptions, setSpaceOptions } = useContext(SpaceOptionsContext)
-
-  const dataTypes = Array.isArray(dataType) ? dataType.sort() : [dataType]
-  const multiTab = dataTypes.length > 1
-
-  const multiSelect =
-    Array.isArray(config.nacelleSpaces) &&
-    config.nacelleSpaces.length > 1 &&
-    config.nacelleSpaces.some(
-      (s) => s.spaceEndpoint && s.spaceToken && s.spaceName
-    )
-
-  const onSelect = (e) => {
-    const activeSpace = config.nacelleSpaces.find(
-      (space) => space.spaceEndpoint == e.target.value
-    )
-    setSpaceOptions(activeSpace)
-  }
-
-  return (
-    <Box style={{ display: interfaceOpen ? 'block' : 'none' }} padding={4}>
-      <Stack space={4} paddingBottom={2}>
-        {multiSelect && (
-          <Select
-            className="select"
-            onChange={onSelect}
-            defaultValue={spaceOptions?.spaceId}
-          >
-            {config.nacelleSpaces.map((space, idx) => (
-              <option
-                value={space.spaceEndpoint}
-                key={`${space.spaceId}-${idx}`}
-              >
-                {space.spaceName}
-              </option>
-            ))}
-          </Select>
-        )}
-        {multiTab && (
-          <TabList className="tab">
-            {dataTypes.map((type, idx) => (
-              <Tab
-                key={type}
-                label={type}
-                selected={idx === activeTab}
-                className="tablinks"
-                onClick={() => setActiveTab(idx)}
-                space={2}
-              />
-            ))}
-          </TabList>
-        )}
-      </Stack>
-      <TabPanel>{children}</TabPanel>
-    </Box>
-  )
-}
-
-Interface.propTypes = {
-  dataType: PropTypes.oneOfType([PropTypes.array, PropTypes.string]),
-  interfaceOpen: PropTypes.bool.isRequired,
-  activeTab: PropTypes.number,
-  setActiveTab: PropTypes.func,
-  children: PropTypes.node
-}
-
-const NacelleLinker = ({ type, onChange, value, markers, level, readOnly }) => {
+const NacelleData = ({ type, onChange, value, markers, level, readOnly }) => {
   const [searchQuery, setSearchQuery] = useState(null)
   const [spaceOptions, setSpaceOptions] = useState(null)
   const [activeTab, setActiveTab] = useState(0)
@@ -184,12 +70,12 @@ const NacelleLinker = ({ type, onChange, value, markers, level, readOnly }) => {
     }
   }, [spaceOptions])
 
-  const handle = value || ''
+  const item = value || ''
 
   const inputId = useId()
 
-  const selectItem = (handle) => {
-    onChange(createPatchFrom(handle))
+  const selectItem = (selectedItem) => {
+    onChange(createPatchFrom(selectedItem?.content?.handle))
     onClose()
   }
 
@@ -216,7 +102,7 @@ const NacelleLinker = ({ type, onChange, value, markers, level, readOnly }) => {
           width={1}
           zOffset={1000}
         >
-          <HandleContext.Provider value={{ handle, setHandle: selectItem }}>
+          <ItemContext.Provider value={{ item, setItem: selectItem }}>
             <SearchQueryContext.Provider
               value={{ searchQuery, setSearchQuery }}
             >
@@ -239,7 +125,7 @@ const NacelleLinker = ({ type, onChange, value, markers, level, readOnly }) => {
                     value={searchQuery || ''}
                   />
                   {dataType[activeTab] && (
-                    <NacelleData
+                    <DataSwitch
                       key={dataType[activeTab]}
                       dataType={dataType[activeTab]}
                       active={true}
@@ -249,7 +135,7 @@ const NacelleLinker = ({ type, onChange, value, markers, level, readOnly }) => {
                 </Interface>
               </SpaceOptionsContext.Provider>
             </SearchQueryContext.Provider>
-          </HandleContext.Provider>
+          </ItemContext.Provider>
         </Dialog>
       )}
       <FormField
@@ -263,7 +149,7 @@ const NacelleLinker = ({ type, onChange, value, markers, level, readOnly }) => {
             <Box flex={1}>
               <TextInput
                 id={inputId}
-                value={handle}
+                value={item}
                 onChange={(e) => selectItem(e.target.value)}
               />
             </Box>
@@ -292,7 +178,7 @@ const NacelleLinker = ({ type, onChange, value, markers, level, readOnly }) => {
   )
 }
 
-NacelleLinker.propTypes = {
+NacelleData.propTypes = {
   type: PropTypes.shape({
     title: PropTypes.string,
     description: PropTypes.string,
@@ -308,5 +194,5 @@ NacelleLinker.propTypes = {
 }
 
 export default React.forwardRef((props, ref) => (
-  <NacelleLinker {...props} forwardedRef={ref} />
+  <NacelleData {...props} forwardedRef={ref} />
 ))

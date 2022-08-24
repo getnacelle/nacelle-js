@@ -2,7 +2,7 @@ import React, { useContext } from 'react'
 import PropTypes from 'prop-types'
 
 import { MenuItem, Box, Text, Flex } from '@sanity/ui'
-import { HandleContext, SearchQueryContext } from '../context'
+import { ItemContext, SearchQueryContext } from '../../context'
 
 const Thumb = ({ src }) => {
   return (
@@ -15,14 +15,14 @@ Thumb.propTypes = {
 }
 
 const Entry = ({ item }) => {
-  const { setHandle } = useContext(HandleContext)
+  const { setItem } = useContext(ItemContext)
   const { setSearchQuery } = useContext(SearchQueryContext)
 
   return (
     <MenuItem
       paddingX={2}
       onClick={() => {
-        setHandle(item.content.handle)
+        setItem(item)
         setSearchQuery(null)
       }}
     >
