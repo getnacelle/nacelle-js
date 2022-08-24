@@ -76,11 +76,16 @@ const NacelleData = ({ type, onChange, value, markers, level, readOnly }) => {
 
   const inputId = useId()
 
+  const typenameMap = {
+    Product: 'PRODUCT',
+    ProductCollection: 'COLLECTION'
+  }
+
   const selectItem = (selectedItem) => {
     onChange(
       createPatchFrom({
         type: selectedItem?.__typename && 'NacelleReference',
-        referenceType: selectedItem?.__typename,
+        referenceType: typenameMap[selectedItem.__typename],
         nacelledEntryId: selectedItem?.nacelleEntryId,
         handle: selectedItem?.content?.handle,
         locale: selectedItem?.content?.locale

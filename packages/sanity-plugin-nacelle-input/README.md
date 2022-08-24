@@ -60,6 +60,66 @@ Create a config file at `./config/@nacelle/sanity-plugin-nacelle-input.json`. Th
 
 ## Use in Schema Documents
 
+Set the `type` field to `nacelleReference` to use the custom input component:
+
+```js
+{
+  name: 'reference',
+  title: 'Reference',
+  type: 'nacelleReference',
+}
+```
+
+### Options
+
+By default, the custom input component allows you to reference products or collections.
+
+Realistically, you probably want to restrict the component to _either_ products or collections. To do that, provide either `['products']` or `['collections']` to `options.dataType`:
+
+```js
+// example: collections ONLY
+{
+  name: 'collectionReference',
+  title: 'Collection',
+  type: 'nacelleReference',
+  options: {
+    dataType: ['collections']
+  }
+}
+```
+
+```js
+// example: products ONLY
+{
+  name: 'productReference',
+  title: 'Product',
+  type: 'nacelleReference',
+  options: {
+    dataType: ['products']
+  }
+}
+```
+
+### Data Shape
+
+The custom input component will store a reference object with the following format:
+
+```js
+{
+  type: 'NacelleReference',
+  referenceType: 'PRODUCT', // PRODUCT or COLLECTION
+  nacelledEntryId: '123455'
+  handle: 'blue-shirt'
+  locale: 'en-US'
+}
+```
+
+## Backwards compatibility
+
+A backwards compatible custom input called `nacelleData` is also inlcuded. This input stores only the `handle` of a particular product or collection.
+
+### Use in Schema Documents
+
 Set the `type` field to `nacelleData` to use the custom input component:
 
 ```js
@@ -70,54 +130,14 @@ Set the `type` field to `nacelleData` to use the custom input component:
 }
 ```
 
-### Options
+### Data Shape
 
-By default, the custom input component allows you to choose a `handle` from either products or collections.
-
-Realistically, you probably want to restrict the component to _either_ products or collections. To do that, provide either `['products']` or `['collections']` to `options.dataType`:
+The backwards compatible custom input component will store only a reference `handle`.
 
 ```js
-// example: collections ONLY
 {
-  name: 'collectionHandle',
-  title: 'Collection',
-  type: 'nacelleData',
-  options: {
-    dataType: ['collections']
-  }
+  handle: 'blue-shirt'
 }
-```
-
-```js
-// example: products ONLY
-{
-  name: 'productHandle',
-  title: 'Product',
-  type: 'nacelleData',
-  options: {
-    dataType: ['products']
-  }
-}
-```
-
-### Using This Data in Your Frontend Project
-
-Since this custom input component just stores the `handle` of a particular product or collection, you'll use the [Nacelle Storefront SDK](https://nacelle.com/docs/querying-data/storefront-sdk?nacelle=v2&storefrontSdk=1.0.3) to fetch the associated product or collection object.
-
-#### Product
-
-```js
-const products = await client.products({
-  handles: ['handle-from-my-sanity-entry']
-})
-```
-
-#### Collection
-
-```js
-const collections = await client.collections({
-  handles: ['handle-from-my-sanity-entry']
-})
 ```
 
 ---
