@@ -116,7 +116,7 @@ The custom input component will store a reference object with the following form
 
 ## Backwards compatibility
 
-A backwards compatible custom input called `nacelleData` is also inlcuded. This input stores only the `handle` of a particular product or collection.
+For projects that were using [@nacelle/sanity-plugin-pim-linker](https://www.npmjs.com/package/@nacelle/sanity-plugin-pim-linker) for product/collection references, we provide a backward-compatible custom input called `nacelleData`. This input stores only the `handle` of a particular product or collection rather than a structured `nacelleReference` object.
 
 ### Use in Schema Documents
 
