@@ -16,7 +16,7 @@
     {
       "name": "part:sanity-plugin-nacelle-input/nacelleReference",
       "path": "components/NacelleLinker.js",
-      "description": "React component that provides product and/or collection data from Nacelle"
+      "description": "React component that provides a structured reference to product and/or collection data from Nacelle"
     },
     {
       "implements": "part:@sanity/base/schema-type",
