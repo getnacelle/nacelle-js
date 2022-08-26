@@ -8,4 +8,5 @@
 export { default as cartFromGql } from './cartFromGql';
 export { default as createGqlClient } from './createGqlClient';
 export { default as handleShopifyError } from './handleShopifyError';
+export { default as sanitizeFragment } from './sanitizeFragment';
 // @endindex
