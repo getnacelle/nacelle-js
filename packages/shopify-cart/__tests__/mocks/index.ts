@@ -21,7 +21,7 @@ export const clientSettings = {
 };
 import { ShopifyError } from '../../src/types/errors.type';
 
-export const graphqlEndpoint = `https://${clientSettings.shopifyShopId}.myshopify.com/api/2022-04/graphql`;
+export const graphqlEndpoint = `https://${clientSettings.shopifyShopId}.myshopify.com/api/2022-07/graphql`;
 export const cartId = Buffer.from('gid://shopify/Cart/112233').toString(
   'base64'
 );
@@ -73,8 +73,8 @@ interface CartResponse {
 
 export const cartWithoutLine: Cart_CartFragment = {
   id: cartId,
-  createdAt: '2022-04-01T00:00:00Z',
-  updatedAt: '2022-04-01T00:00:00Z',
+  createdAt: '2022-07-01T00:00:00Z',
+  updatedAt: '2022-07-01T00:00:00Z',
   checkoutUrl,
   buyerIdentity: {
     countryCode: null,
@@ -108,8 +108,8 @@ export const cartWithoutLine: Cart_CartFragment = {
 
 export const cartWithLine: Cart_CartFragment = {
   id: cartId,
-  createdAt: '2022-04-01T00:00:00Z',
-  updatedAt: '2022-04-01T00:00:00Z',
+  createdAt: '2022-07-01T00:00:00Z',
+  updatedAt: '2022-07-01T00:00:00Z',
   checkoutUrl,
   buyerIdentity: {
     countryCode: null,
