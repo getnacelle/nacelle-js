@@ -246,9 +246,9 @@ const cart = await cartClient.cartNoteUpdate({
 <!-- LINKS -->
 
 [shopify-access-scopes]: https://shopify.dev/api/usage/access-scopes#unauthenticated-access-scopes
-[shopify-cart-object]: https://shopify.dev/api/storefront/2022-04/objects/Cart#top
-[shopify-attributes-input]: https://shopify.dev/api/storefront/2022-04/input-objects/AttributeInput
-[shopify-buyer-identity-input]: https://shopify.dev/api/storefront/2022-04/input-objects/CartBuyerIdentityInput
-[shopify-cart-input]: https://shopify.dev/api/storefront/2022-04/input-objects/CartInput
-[shopify-cart-line-input]: https://shopify.dev/api/storefront/2022-04/input-objects/CartLineInput
-[shopify-cart-line-update-input]: https://shopify.dev/api/storefront/2022-04/input-objects/CartLineUpdateInput
+[shopify-cart-object]: https://shopify.dev/api/storefront/2022-07/objects/Cart#top
+[shopify-attributes-input]: https://shopify.dev/api/storefront/2022-07/input-objects/AttributeInput
+[shopify-buyer-identity-input]: https://shopify.dev/api/storefront/2022-07/input-objects/CartBuyerIdentityInput
+[shopify-cart-input]: https://shopify.dev/api/storefront/2022-07/input-objects/CartInput
+[shopify-cart-line-input]: https://shopify.dev/api/storefront/2022-07/input-objects/CartLineInput
+[shopify-cart-line-update-input]: https://shopify.dev/api/storefront/2022-07/input-objects/CartLineUpdateInput
