@@ -89,17 +89,25 @@ export const cartWithoutLine: Cart_CartFragment = {
     },
     edges: []
   },
-  estimatedCost: {
+  cost: {
+    checkoutChargeAmount: {
+      currencyCode: CurrencyCode.Usd,
+      amount: '0.0'
+    },
     subtotalAmount: {
       currencyCode: CurrencyCode.Usd,
       amount: '0.0'
     },
+    subtotalAmountEstimated: false,
     totalAmount: {
       currencyCode: CurrencyCode.Usd,
       amount: '0.0'
     },
+    totalAmountEstimated: false,
     totalDutyAmount: null,
-    totalTaxAmount: null
+    totalDutyAmountEstimated: false,
+    totalTaxAmount: null,
+    totalTaxAmountEstimated: false
   },
   note: null,
   attributes: [],
@@ -129,11 +137,16 @@ export const cartWithLine: Cart_CartFragment = {
           id: 'Z2lkOi8vc2hvcGlmeS9DYXJ0TGluZS9lNTQzY2FmOTZmYTY0NWI1NGQwN2FiMjAzNWVmOWRiYT9jYXJ0PWE3YWFkMmZiMWU2NjExNDIyYzk0NmY2ODI3NzEwNTUw',
           quantity: 1,
           attributes: [],
-          estimatedCost: {
+          cost: {
             subtotalAmount: {
               amount: '265.0',
               currencyCode: CurrencyCode.Usd
             },
+            amountPerQuantity: {
+              amount: '265.0',
+              currencyCode: CurrencyCode.Usd
+            },
+            compareAtAmountPerQuantity: null,
             totalAmount: {
               amount: '265.0',
               currencyCode: CurrencyCode.Usd
@@ -178,17 +191,25 @@ export const cartWithLine: Cart_CartFragment = {
       }
     ]
   },
-  estimatedCost: {
+  cost: {
+    checkoutChargeAmount: {
+      amount: '0.0',
+      currencyCode: CurrencyCode.Usd
+    },
     subtotalAmount: {
       currencyCode: CurrencyCode.Usd,
       amount: '0.0'
     },
+    subtotalAmountEstimated: true,
     totalAmount: {
       currencyCode: CurrencyCode.Usd,
       amount: '0.0'
     },
+    totalAmountEstimated: true,
     totalDutyAmount: null,
-    totalTaxAmount: null
+    totalDutyAmountEstimated: false,
+    totalTaxAmount: null,
+    totalTaxAmountEstimated: true
   },
   note: null,
   attributes: [],
