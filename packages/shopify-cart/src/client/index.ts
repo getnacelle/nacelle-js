@@ -10,7 +10,7 @@ import {
   cartLinesRemove,
   cartNoteUpdate
 } from './actions';
-import { Cart } from '../types/cart.type';
+import { CartResponse } from '../types/cart.type';
 import {
   AttributeInput,
   CartInput,
@@ -26,44 +26,44 @@ export interface CreateClientParams {
   fetchClient?: typeof fetch;
 }
 
-type FetchCart = (params: { cartId: string }) => Promise<Cart | void>;
+type FetchCart = (params: { cartId: string }) => Promise<CartResponse | void>;
 
 type CartAttributesUpdate = (params: {
   cartId: string;
   attributes: AttributeInput[];
-}) => Promise<Cart | void>;
+}) => Promise<CartResponse | void>;
 
 type CartBuyerIdentityUpdate = (params: {
   cartId: string;
   buyerIdentity: CartBuyerIdentityInput;
-}) => Promise<Cart | void>;
+}) => Promise<CartResponse | void>;
 
-type CartCreate = (params: CartInput) => Promise<Cart | void>;
+type CartCreate = (params: CartInput) => Promise<CartResponse | void>;
 
 type CartDiscountCodesUpdate = (params: {
   cartId: string;
   discountCodes?: string[];
-}) => Promise<Cart | void>;
+}) => Promise<CartResponse | void>;
 
 type CartLinesAdd = (params: {
   cartId: string;
   lines: Array<CartLineInput>;
-}) => Promise<Cart | void>;
+}) => Promise<CartResponse | void>;
 
 type CartLinesUpdate = (params: {
   cartId: string;
   lines: Array<CartLineUpdateInput>;
-}) => Promise<Cart | void>;
+}) => Promise<CartResponse | void>;
 
 type CartLinesRemove = (params: {
   cartId: string;
   lineIds: Array<string>;
-}) => Promise<Cart | void>;
+}) => Promise<CartResponse | void>;
 
 type CartNoteUpdate = (params: {
   cartId: string;
   note: string;
-}) => Promise<Cart | void>;
+}) => Promise<CartResponse | void>;
 
 export interface CartClient {
   /**
@@ -153,36 +153,38 @@ export default function createShopifyCartClient({
   });
 
   return {
-    cart: (params: { cartId: string }): Promise<Cart | void> =>
+    cart: (params: { cartId: string }): Promise<CartResponse | void> =>
       cart({ gqlClient, ...params }),
     cartAttributesUpdate: (params: {
       cartId: string;
       attributes: AttributeInput[];
-    }): Promise<Cart | void> => cartAttributesUpdate({ gqlClient, ...params }),
+    }): Promise<CartResponse | void> =>
+      cartAttributesUpdate({ gqlClient, ...params }),
     cartBuyerIdentityUpdate: (params: {
       cartId: string;
       buyerIdentity: CartBuyerIdentityInput;
-    }): Promise<Cart | void> =>
+    }): Promise<CartResponse | void> =>
       cartBuyerIdentityUpdate({ gqlClient, ...params }),
-    cartCreate: (params: CartInput): Promise<Cart | void> =>
+    cartCreate: (params: CartInput): Promise<CartResponse | void> =>
       cartCreate({ gqlClient, params }),
     cartDiscountCodesUpdate: (params: {
       cartId: string;
       discountCodes?: string[];
-    }): Promise<Cart | void> =>
+    }): Promise<CartResponse | void> =>
       cartDiscountCodesUpdate({ gqlClient, ...params }),
     cartLinesAdd: (params: {
       cartId: string;
       lines: Array<CartLineInput>;
-    }): Promise<Cart | void> => cartLinesAdd({ gqlClient, ...params }),
+    }): Promise<CartResponse | void> => cartLinesAdd({ gqlClient, ...params }),
     cartLinesUpdate: (params: {
       cartId: string;
       lines: Array<CartLineUpdateInput>;
-    }): Promise<Cart | void> => cartLinesUpdate({ gqlClient, ...params }),
+    }): Promise<CartResponse | void> =>
+      cartLinesUpdate({ gqlClient, ...params }),
     cartLinesRemove: (params: {
       cartId: string;
       lineIds: Array<string>;
-    }): Promise<Cart | void> =>
+    }): Promise<CartResponse | void> =>
       cartLinesRemove({
         gqlClient,
         ...params
@@ -190,6 +192,6 @@ export default function createShopifyCartClient({
     cartNoteUpdate: (params: {
       cartId: string;
       note: string;
-    }): Promise<Cart | void> => cartNoteUpdate({ gqlClient, ...params })
+    }): Promise<CartResponse | void> => cartNoteUpdate({ gqlClient, ...params })
   };
 }

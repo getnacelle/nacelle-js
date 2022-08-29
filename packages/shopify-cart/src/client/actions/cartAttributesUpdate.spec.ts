@@ -1,25 +1,25 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import fetchClient from 'cross-fetch';
 import { CartAttributesUpdateMutation } from '../../types/shopify.type';
-import { ShopifyError } from '../../types/errors.type';
-import { cartAttributesUpdate } from '../../client/actions';
-import mutations from '../../graphql/mutations';
 import { createGqlClient } from '../../utils';
+import formatCartResponse from '../../utils/formatCartResponse';
 import { mockJsonResponse } from '../../../__tests__/utils';
 import {
   cartId,
-  carts,
   clientSettings,
   graphqlEndpoint,
   headers,
-  responses,
-  shopifyErrors
+  responses
 } from '../../../__tests__/mocks';
+import cartAttributesUpdate from './cartAttributesUpdate';
+import mutations from '../../graphql/mutations';
 
 jest.mock('cross-fetch');
+jest.mock('../../utils/formatCartResponse');
 
 const gqlClient = createGqlClient({ ...clientSettings, fetchClient });
 const mockedFetchClient = jest.mocked(fetchClient, true);
+const mockedFormatCartResponse = jest.mocked(formatCartResponse, true);
 
 describe('cartAttributesUpdate', () => {
   afterEach(() => {
@@ -33,16 +33,10 @@ describe('cartAttributesUpdate', () => {
           responses.mutations.cartAttributesUpdate.noAttributes
         )
     );
-    await expect(
-      cartAttributesUpdate({
-        gqlClient,
-        cartId,
-        attributes: [{ key: 'testKey', value: 'testValue' }]
-      })
-    ).resolves.toStrictEqual({
-      cart: carts.withoutLine,
-      userErrors: null,
-      errors: null
+    await cartAttributesUpdate({
+      gqlClient,
+      cartId,
+      attributes: [{ key: 'testKey', value: 'testValue' }]
     });
 
     expect(fetchClient).toHaveBeenCalledTimes(1);
@@ -57,27 +51,19 @@ describe('cartAttributesUpdate', () => {
         }
       })
     });
-  });
 
-  // Test Returned Errors
-  it('return the correct response when errors encountered', async () => {
-    mockedFetchClient.mockImplementationOnce(
-      (): Promise<any> =>
-        mockJsonResponse<{ errors: ShopifyError[] }>({
-          errors: [shopifyErrors.cartIdNotValid('123')]
-        })
-    );
-
-    await expect(
-      cartAttributesUpdate({ gqlClient, cartId, attributes: [] })
-    ).resolves.toStrictEqual({
-      cart: null,
-      userErrors: null,
-      errors: [shopifyErrors.cartIdNotValid('123')]
+    expect(mockedFormatCartResponse).toHaveBeenCalledTimes(1);
+    expect(mockedFormatCartResponse).toHaveBeenCalledWith({
+      cart: responses.mutations.cartAttributesUpdate.noAttributes.data
+        ?.cartAttributesUpdate?.cart,
+      userErrors:
+        responses.mutations.cartAttributesUpdate.noAttributes.data
+          ?.cartAttributesUpdate?.userErrors,
+      errors: undefined
     });
   });
 
-  // Test Error Handling
+  // Test Thrown Error
   it('throws an error if there are problems with the request', async () => {
     const networkErrorMessage = 'Network error!';
     mockedFetchClient.mockImplementation(

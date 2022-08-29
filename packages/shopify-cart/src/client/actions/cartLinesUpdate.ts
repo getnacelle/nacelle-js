@@ -1,6 +1,6 @@
-import { Cart, CartFragmentResponse } from '../../types/cart.type';
 import mutations from '../../graphql/mutations';
-import { handleShopifyError, cartFromGql } from '../../utils';
+import { formatCartResponse } from '../../utils';
+import { CartResponse, CartFragmentResponse } from '../../types/cart.type';
 import {
   CartLineUpdateInput,
   CartLinesUpdatePayload,
@@ -25,9 +25,9 @@ export default async function cartLinesUpdate({
   gqlClient,
   cartId,
   lines
-}: CartLinesUpdateParams): Promise<void | Cart> {
+}: CartLinesUpdateParams): Promise<void | CartResponse> {
   try {
-    const cartResponse = await gqlClient<
+    const shopifyResponse = await gqlClient<
       MutationCartLinesUpdateArgs,
       MutationCartLinesUpdateResponse
     >({
@@ -37,17 +37,11 @@ export default async function cartLinesUpdate({
       throw new Error(err);
     });
 
-    const errs = cartResponse.data?.cartLinesUpdate.userErrors;
-
-    if (errs?.length) {
-      handleShopifyError(errs, { caller: 'cartLinesUpdate' });
-    }
-
-    const cart = cartResponse.data?.cartLinesUpdate.cart;
-
-    if (cart) {
-      return cartFromGql({ cart });
-    }
+    return formatCartResponse({
+      cart: shopifyResponse.data?.cartLinesUpdate.cart,
+      userErrors: shopifyResponse.data?.cartLinesUpdate.userErrors,
+      errors: shopifyResponse?.errors
+    });
   } catch (err) {
     throw new Error(String(err));
   }

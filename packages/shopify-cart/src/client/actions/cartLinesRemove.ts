@@ -1,6 +1,6 @@
-import { Cart, CartFragmentResponse } from '../../types/cart.type';
 import mutations from '../../graphql/mutations';
-import { handleShopifyError, cartFromGql } from '../../utils';
+import { formatCartResponse } from '../../utils';
+import { CartResponse, CartFragmentResponse } from '../../types/cart.type';
 import {
   CartLinesRemovePayload,
   MutationCartLinesRemoveArgs
@@ -24,9 +24,9 @@ export default async function cartLinesRemove({
   gqlClient,
   cartId,
   lineIds
-}: CartLinesRemoveParams): Promise<void | Cart> {
+}: CartLinesRemoveParams): Promise<void | CartResponse> {
   try {
-    const cartResponse = await gqlClient<
+    const shopifyResponse = await gqlClient<
       MutationCartLinesRemoveArgs,
       MutationCartLinesRemoveResponse
     >({
@@ -36,17 +36,11 @@ export default async function cartLinesRemove({
       throw new Error(err);
     });
 
-    const errs = cartResponse.data?.cartLinesRemove.userErrors;
-
-    if (errs?.length) {
-      handleShopifyError(errs, { caller: 'cartLinesRemove' });
-    }
-
-    const cart = cartResponse.data?.cartLinesRemove.cart;
-
-    if (cart) {
-      return cartFromGql({ cart });
-    }
+    return formatCartResponse({
+      cart: shopifyResponse.data?.cartLinesRemove.cart,
+      userErrors: shopifyResponse.data?.cartLinesRemove.userErrors,
+      errors: shopifyResponse?.errors
+    });
   } catch (err) {
     throw new Error(String(err));
   }

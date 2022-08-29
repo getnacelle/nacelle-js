@@ -6,7 +6,7 @@ export type FormatCartResponseParams = Pick<
   CartResponse,
   'errors' | 'userErrors'
 > & {
-  cart: Cart_CartFragment | undefined;
+  cart: Cart_CartFragment | undefined | null;
 };
 
 /**
