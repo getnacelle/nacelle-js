@@ -1,5 +1,5 @@
 import queries from '../../graphql/queries';
-import { cartFromGql } from '../../utils';
+import { formatCartResponse } from '../../utils';
 import { CartResponse } from '../../types/cart.type';
 import { QueryRootCartArgs, Cart_CartFragment } from '../../types/shopify.type';
 import { GqlClient } from '../../cart-client.types';
@@ -20,7 +20,7 @@ export default async function cart({
   cartId
 }: CartParams): Promise<void | CartResponse> {
   try {
-    const cartResponse = await gqlClient<
+    const shopifyResponse = await gqlClient<
       QueryRootCartArgs,
       ShopifyCartResponse
     >({
@@ -29,21 +29,12 @@ export default async function cart({
     }).catch((err) => {
       throw new Error(err);
     });
-    const errors = cartResponse?.errors;
 
-    if (errors) {
-      return { cart: null, userErrors: null, errors };
-    }
-
-    const cartData = cartResponse.data?.cart;
-
-    if (cartData) {
-      return {
-        cart: cartFromGql({ cart: cartData }),
-        userErrors: null,
-        errors: null
-      };
-    }
+    return formatCartResponse({
+      cart: shopifyResponse.data?.cart,
+      userErrors: null,
+      errors: shopifyResponse?.errors
+    });
   } catch (err) {
     throw new Error(String(err));
   }

@@ -1,18 +1,19 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import fetchClient from 'cross-fetch';
 import { CartAttributesUpdateMutation } from '../../types/shopify.type';
+import { ShopifyError } from '../../types/errors.type';
 import { cartAttributesUpdate } from '../../client/actions';
 import mutations from '../../graphql/mutations';
 import { createGqlClient } from '../../utils';
 import { mockJsonResponse } from '../../../__tests__/utils';
-import { cartDoesNotExistUserError } from '../../utils/handleShopifyError';
 import {
   cartId,
   carts,
   clientSettings,
   graphqlEndpoint,
   headers,
-  responses
+  responses,
+  shopifyErrors
 } from '../../../__tests__/mocks';
 
 jest.mock('cross-fetch');
@@ -39,7 +40,9 @@ describe('cartAttributesUpdate', () => {
         attributes: [{ key: 'testKey', value: 'testValue' }]
       })
     ).resolves.toStrictEqual({
-      ...carts.withoutLine
+      cart: carts.withoutLine,
+      userErrors: null,
+      errors: null
     });
 
     expect(fetchClient).toHaveBeenCalledTimes(1);
@@ -53,6 +56,24 @@ describe('cartAttributesUpdate', () => {
           attributes: [{ key: 'testKey', value: 'testValue' }]
         }
       })
+    });
+  });
+
+  // Test Returned Errors
+  it('return the correct response when errors encountered', async () => {
+    mockedFetchClient.mockImplementationOnce(
+      (): Promise<any> =>
+        mockJsonResponse<{ errors: ShopifyError[] }>({
+          errors: [shopifyErrors.cartIdNotValid('123')]
+        })
+    );
+
+    await expect(
+      cartAttributesUpdate({ gqlClient, cartId, attributes: [] })
+    ).resolves.toStrictEqual({
+      cart: null,
+      userErrors: null,
+      errors: [shopifyErrors.cartIdNotValid('123')]
     });
   });
 
@@ -71,25 +92,5 @@ describe('cartAttributesUpdate', () => {
         attributes: [{ key: 'testKey', value: 'testValue' }]
       })
     ).rejects.toThrow(networkErrorMessage);
-  });
-
-  it('throws an error if the cart id is invalid', async () => {
-    mockedFetchClient.mockImplementationOnce(
-      (): Promise<any> =>
-        mockJsonResponse<CartAttributesUpdateMutation>({
-          data: {
-            cartAttributesUpdate: { userErrors: [cartDoesNotExistUserError] }
-          }
-        })
-    );
-
-    expect.assertions(1);
-    await cartAttributesUpdate({
-      gqlClient,
-      cartId,
-      attributes: [{ key: 'testKey', value: 'testValue' }]
-    }).catch((e) =>
-      expect(String(e).includes(cartDoesNotExistUserError.message)).toBe(true)
-    );
   });
 });

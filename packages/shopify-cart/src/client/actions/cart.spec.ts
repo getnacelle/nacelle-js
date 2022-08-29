@@ -1,25 +1,25 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import fetchClient from 'cross-fetch';
 import { Cart_CartFragment } from '../../types/shopify.type';
-import { ShopifyError } from '../../types/errors.type';
-import { createGqlClient, cartFromGql } from '../../utils';
+import { createGqlClient } from '../../utils';
+import formatCartResponse from '../../utils/formatCartResponse';
 import { mockJsonResponse } from '../../../__tests__/utils';
 import {
   clientSettings,
   cartId,
   responses,
   graphqlEndpoint,
-  headers,
-  cartWithLineResponse,
-  shopifyErrors
+  headers
 } from '../../../__tests__/mocks';
 import cart from './cart';
 import queries from '../../graphql/queries';
 
 jest.mock('cross-fetch');
+jest.mock('../../utils/formatCartResponse');
 
 const gqlClient = createGqlClient({ ...clientSettings, fetchClient });
 const mockedFetchClient = jest.mocked(fetchClient, true);
+const mockedFormatCartResponse = jest.mocked(formatCartResponse, true);
 
 describe('fetch cart', () => {
   afterEach(() => {
@@ -32,11 +32,7 @@ describe('fetch cart', () => {
         mockJsonResponse<{ cart: Cart_CartFragment }>(responses.queries.cart)
     );
 
-    await expect(cart({ gqlClient, cartId })).resolves.toStrictEqual({
-      cart: cartFromGql(cartWithLineResponse),
-      userErrors: null,
-      errors: null
-    });
+    await cart({ gqlClient, cartId });
 
     expect(fetchClient).toHaveBeenCalledTimes(1);
     expect(fetchClient).toHaveBeenCalledWith(graphqlEndpoint, {
@@ -47,21 +43,12 @@ describe('fetch cart', () => {
         variables: { id: cartId }
       })
     });
-  });
 
-  // Test Returned Errors
-  it('return the correct response when errors encountered', async () => {
-    mockedFetchClient.mockImplementationOnce(
-      (): Promise<any> =>
-        mockJsonResponse<{ errors: ShopifyError[] }>({
-          errors: [shopifyErrors.cartIdNotValid('123')]
-        })
-    );
-
-    await expect(cart({ gqlClient, cartId })).resolves.toStrictEqual({
-      cart: null,
+    expect(mockedFormatCartResponse).toHaveBeenCalledTimes(1);
+    expect(mockedFormatCartResponse).toHaveBeenCalledWith({
+      cart: responses.queries.cart.data?.cart,
       userErrors: null,
-      errors: [shopifyErrors.cartIdNotValid('123')]
+      errors: undefined
     });
   });
 
@@ -77,23 +64,4 @@ describe('fetch cart', () => {
       networkErrorMessage
     );
   });
-
-  // it('throws an error if the cart id is invalid', async () => {
-  //   const checkoutIdNotValid = shopifyErrors.cartIdNotValid('not-a-valid-id');
-  //   const problemMessage = String(
-  //     checkoutIdNotValid.extensions.problems[0].message
-  //   );
-
-  //   mockedFetchClient.mockImplementationOnce(
-  //     (): Promise<any> =>
-  //       mockJsonResponse<{ errors: ShopifyError[] }>({
-  //         errors: [shopifyErrors.cartIdNotValid('not-a-valid-id')]
-  //       })
-  //   );
-
-  //   expect.assertions(1);
-  //   await cart({ gqlClient, cartId }).catch((e) =>
-  //     expect(String(e).includes(problemMessage)).toBe(true)
-  //   );
-  // });
 });
