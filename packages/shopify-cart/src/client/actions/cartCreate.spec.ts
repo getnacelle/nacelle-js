@@ -25,6 +25,31 @@ describe('cartCreate', () => {
     jest.clearAllMocks();
   });
 
+  it('make a request with the expected query and variables when params empty', async () => {
+    mockedFetchClient.mockImplementationOnce(
+      (): Promise<any> =>
+        mockJsonResponse<CartCreateMutation>(
+          responses.mutations.cartCreate.withoutLine
+        )
+    );
+
+    await expect(cartCreate({ gqlClient })).resolves.toStrictEqual({
+      ...carts.withoutLine,
+      id: cartId,
+      lines: []
+    });
+
+    expect(fetchClient).toHaveBeenCalledTimes(1);
+    expect(fetchClient).toHaveBeenCalledWith(graphqlEndpoint, {
+      method: 'POST',
+      headers,
+      body: JSON.stringify({
+        query: mutations.CART_CREATE,
+        variables: { input: {} }
+      })
+    });
+  });
+
   it('make a request with the expected query and variables', async () => {
     mockedFetchClient.mockImplementationOnce(
       (): Promise<any> =>

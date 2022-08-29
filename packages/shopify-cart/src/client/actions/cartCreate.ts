@@ -10,7 +10,7 @@ import { GqlClient } from '../../cart-client.types';
 
 export interface CreateCartParams {
   gqlClient: GqlClient;
-  params: CartInput;
+  params?: CartInput;
 }
 
 export type CartCreateResponse = CartCreatePayload & CartFragmentResponse;
@@ -29,7 +29,7 @@ export default async function cartCreate({
       MutationCartCreateResponse
     >({
       query: mutations.CART_CREATE,
-      variables: { input: params }
+      variables: { input: params ?? {} }
     }).catch((err) => {
       throw new Error(err);
     });
