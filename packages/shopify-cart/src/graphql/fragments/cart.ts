@@ -34,14 +34,18 @@ export default /* GraphQL */ `
             key
             value
           }
-          estimatedCost {
+          cost {
             subtotalAmount {
-              amount
-              currencyCode
+              ...Money_money
             }
             totalAmount {
-              amount
-              currencyCode
+              ...Money_money
+            }
+            amountPerQuantity {
+              ...Money_money
+            }
+            compareAtAmountPerQuantity {
+              ...Money_money
             }
           }
           discountAllocations {
@@ -62,19 +66,26 @@ export default /* GraphQL */ `
         }
       }
     }
-    estimatedCost {
+    cost {
+      checkoutChargeAmount {
+        ...Money_money
+      }
       subtotalAmount {
         ...Money_money
       }
+      subtotalAmountEstimated
       totalAmount {
         ...Money_money
       }
+      totalAmountEstimated
       totalDutyAmount {
         ...Money_money
       }
+      totalDutyAmountEstimated
       totalTaxAmount {
         ...Money_money
       }
+      totalTaxAmountEstimated
     }
     note
     attributes {

@@ -8,7 +8,7 @@ export interface Cart {
   buyerIdentity?: Cart_CartFragment['buyerIdentity'];
   attributes: Cart_CartFragment['attributes'];
   discountCodes?: Cart_CartFragment['discountCodes'];
-  estimatedCost?: Cart_CartFragment['estimatedCost'];
+  Cost?: Cart_CartFragment['cost'];
 }
 
 export interface CartFragmentResponse {
