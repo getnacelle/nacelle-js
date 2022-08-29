@@ -33,11 +33,7 @@ describe('cartCreate', () => {
         )
     );
 
-    await expect(cartCreate({ gqlClient })).resolves.toStrictEqual({
-      ...carts.withoutLine,
-      id: cartId,
-      lines: []
-    });
+    await cartCreate({ gqlClient });
 
     expect(fetchClient).toHaveBeenCalledTimes(1);
     expect(fetchClient).toHaveBeenCalledWith(graphqlEndpoint, {
