@@ -125,7 +125,7 @@ const cart = await cartClient.cartBuyerIdentityUpdate({
 
 _Creates a new Shopify cart._
 
-**Accepts**: params - an object containing the following optional values: `attributes` (`array`), `buyerIdentity` (`object`), `discountCodes` (`array`), `lines` (`array`), `note` (`string`). For more information on the cart optional values, checkout Shopify's [`CartInput`][shopify-cart-input]
+**Accepts**: params - an optional object containing the following optional values: `attributes` (`array`), `buyerIdentity` (`object`), `discountCodes` (`array`), `lines` (`array`), `note` (`string`). To initialize an empty cart, exclude all parameters. For more information on the cart optional values, checkout Shopify's [`CartInput`][shopify-cart-input]
 
 **Returns**: a Shopify [`Cart`][shopify-cart-object].
 
