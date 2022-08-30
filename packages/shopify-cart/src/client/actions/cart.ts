@@ -33,7 +33,7 @@ export default async function cart({
     return formatCartResponse({
       cart: shopifyResponse.data?.cart,
       userErrors: null,
-      errors: shopifyResponse?.errors
+      errors: shopifyResponse.errors
     });
   } catch (err) {
     throw new Error(String(err));

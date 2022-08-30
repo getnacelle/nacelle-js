@@ -39,7 +39,7 @@ export default async function cartLinesRemove({
     return formatCartResponse({
       cart: shopifyResponse.data?.cartLinesRemove.cart,
       userErrors: shopifyResponse.data?.cartLinesRemove.userErrors,
-      errors: shopifyResponse?.errors
+      errors: shopifyResponse.errors
     });
   } catch (err) {
     throw new Error(String(err));

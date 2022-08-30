@@ -37,7 +37,7 @@ export default async function cartCreate({
     return formatCartResponse({
       cart: shopifyResponse.data?.cartCreate.cart,
       userErrors: shopifyResponse.data?.cartCreate.userErrors,
-      errors: shopifyResponse?.errors
+      errors: shopifyResponse.errors
     });
   } catch (err) {
     throw new Error(String(err));

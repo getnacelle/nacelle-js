@@ -39,7 +39,7 @@ export default async function cartNoteUpdate({
     return formatCartResponse({
       cart: shopifyResponse.data?.cartNoteUpdate.cart,
       userErrors: shopifyResponse.data?.cartNoteUpdate.userErrors,
-      errors: shopifyResponse?.errors
+      errors: shopifyResponse.errors
     });
   } catch (err) {
     throw new Error(String(err));

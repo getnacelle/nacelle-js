@@ -39,7 +39,7 @@ export default async function cartLinesAdd({
     return formatCartResponse({
       cart: shopifyResponse.data?.cartLinesAdd.cart,
       userErrors: shopifyResponse.data?.cartLinesAdd.userErrors,
-      errors: shopifyResponse?.errors
+      errors: shopifyResponse.errors
     });
   } catch (err) {
     throw new Error(String(err));

@@ -40,7 +40,7 @@ export default async function CartBuyerIdentityUpdate({
     return formatCartResponse({
       cart: shopifyResponse.data?.cartBuyerIdentityUpdate.cart,
       userErrors: shopifyResponse.data?.cartBuyerIdentityUpdate.userErrors,
-      errors: shopifyResponse?.errors
+      errors: shopifyResponse.errors
     });
   } catch (err) {
     throw new Error(String(err));
