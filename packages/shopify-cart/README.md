@@ -78,7 +78,7 @@ const cartClient = createShopifyCartClient({
 Every method on the `cartClient` returns an object with the following keys.
 
 1. `cart` - a Shopify [`Cart`][shopify-cart-object] object with the addition of `nacelleEntryIds`
-2. `userErrors` - a array of Shopify [`CartUserError`][shopify-cart-user-error] objects.
+2. `userErrors` - an array of Shopify [`CartUserError`][shopify-cart-user-error] objects.
 3. `errors` - an array of top level [Shopify API Errors][shopify-api-error]
 
 ### Cart client API
