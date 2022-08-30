@@ -39,7 +39,7 @@ describe('fetch cart', () => {
       method: 'POST',
       headers,
       body: JSON.stringify({
-        query: queries.CART,
+        query: queries.CART(),
         variables: { id: cartId }
       })
     });

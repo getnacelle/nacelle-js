@@ -1,5 +1,5 @@
-import { Cart_CartFragment, CartUserError, Maybe } from './shopify.type';
-import { ShopifyError } from './errors.type';
+import type { Cart_CartFragment, CartUserError, Maybe } from './shopify.type';
+import type { ShopifyError } from './errors.type';
 
 export interface Cart {
   id?: string;

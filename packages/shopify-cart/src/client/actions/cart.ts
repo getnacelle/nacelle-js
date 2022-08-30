@@ -1,13 +1,18 @@
 import queries from '../../graphql/queries';
 import { formatCartResponse } from '../../utils';
-import { CartResponse } from '../../types/cart.type';
-import { QueryRootCartArgs, Cart_CartFragment } from '../../types/shopify.type';
-import { GqlClient } from '../../cart-client.types';
-import { ShopifyError } from '../../types/errors.type';
+import type { CartResponse } from '../../types/cart.type';
+import type { CartFragments } from '../../graphql/fragments/cart';
+import type {
+  QueryRootCartArgs,
+  Cart_CartFragment
+} from '../../types/shopify.type';
+import type { GqlClient } from '../../cart-client.types';
+import type { ShopifyError } from '../../types/errors.type';
 
 export interface CartParams {
-  gqlClient: GqlClient;
   cartId: string;
+  gqlClient: GqlClient;
+  customFragments?: CartFragments;
 }
 
 export interface ShopifyCartResponse {
@@ -16,15 +21,16 @@ export interface ShopifyCartResponse {
 }
 
 export default async function cart({
-  gqlClient,
-  cartId
+  cartId,
+  customFragments,
+  gqlClient
 }: CartParams): Promise<void | CartResponse> {
   try {
     const shopifyResponse = await gqlClient<
       QueryRootCartArgs,
       ShopifyCartResponse
     >({
-      query: queries.CART,
+      query: queries.CART(customFragments),
       variables: { id: cartId }
     }).catch((err) => {
       throw new Error(err);

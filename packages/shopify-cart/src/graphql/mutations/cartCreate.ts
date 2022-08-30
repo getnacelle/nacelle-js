@@ -1,6 +1,9 @@
-import fragments from '../fragments';
+import defaultFragments from '../fragments';
+import type { MutationFragments } from '.';
 
-export default /* GraphQL */ `
+export default (
+  customFragments: MutationFragments = {}
+): string => /* GraphQL */ `
   mutation CartCreate(
     $input: CartInput!
     $numCartLines: Int = 250
@@ -15,6 +18,6 @@ export default /* GraphQL */ `
       }
     }
   }
-  ${fragments.CART}
-  ${fragments.USER_ERRORS}
+  ${defaultFragments.CART(customFragments)}
+  ${customFragments.USER_ERRORS ?? defaultFragments.USER_ERRORS()}
 `;

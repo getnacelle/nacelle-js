@@ -6,9 +6,9 @@ export interface CartFromGqlParams {
 }
 
 /**
- * Convert a `cart` from a Storefront GraphQL response to a `Cart`
+ * Convert a `cart` from a Shopify Storefront GraphQL response to a `Cart`
  * @param params
- * @param params.cart - the `cart` from a Storefront GraphQL response
+ * @param params.cart - the `cart` from a Shopify Storefront GraphQL response
  * @returns Formatted `Cart` object
  */
 export default function cartFromGql({ cart }: CartFromGqlParams): Cart {
