@@ -1,4 +1,3 @@
-import { createGqlClient, sanitizeFragment } from '../utils';
 import {
   cart,
   cartAttributesUpdate,
@@ -10,6 +9,7 @@ import {
   cartLinesRemove,
   cartNoteUpdate
 } from './actions';
+import { createGqlClient, sanitizeFragments } from '../utils';
 import fragments from '../graphql/fragments';
 import type { Cart } from '../types/cart.type';
 import type {
@@ -157,25 +157,7 @@ export default function createShopifyCartClient({
     shopifyCustomEndpoint,
     fetchClient
   });
-
-  const sanitizedCustomFragments: CustomFragments = {};
-
-  if (customFragments) {
-    // Ensure that `customFragments` matches the expected format
-    if (typeof customFragments !== 'object' || Array.isArray(customFragments)) {
-      throw new Error(
-        "`customFragments` must be an object. Please refer to `@nacelle/shopify-cart`'s README."
-      );
-    }
-
-    for (const [fragmentType, fragment] of Object.entries(customFragments)) {
-      const fragmentKey = fragmentType as keyof CustomFragments;
-      sanitizedCustomFragments[fragmentKey] = sanitizeFragment(
-        fragment,
-        fragmentKey
-      );
-    }
-  }
+  const sanitizedCustomFragments = sanitizeFragments(customFragments);
 
   return {
     cart: (params: { cartId: string }): Promise<Cart | void> =>

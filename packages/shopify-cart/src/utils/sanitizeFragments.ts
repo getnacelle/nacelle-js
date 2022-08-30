@@ -1,5 +1,5 @@
 import fragments from '../graphql/fragments';
-import type { UserSuppliedFragmentType } from '../client';
+import type { CustomFragments, UserSuppliedFragmentType } from '../client';
 
 /**
  * Enforce that user-supplied fragments have predictable fragment names and use the expected GraphQL types.
@@ -20,7 +20,7 @@ import type { UserSuppliedFragmentType } from '../client';
  * sanitizeFragment(moneyFragment, 'MONEY');
  * ```
  */
-export default function sanitizeFragment(
+export function sanitizeFragment(
   fragment: string,
   fragmentType: UserSuppliedFragmentType
 ): string {
@@ -48,4 +48,31 @@ export default function sanitizeFragment(
 
   // Replace the supplied fragment name with our default fragment name.
   return fragment.replace(regexp, `$1${expectedFragmentName}$3$4`);
+}
+
+export default function sanitizeFragments(
+  customFragments?: CustomFragments
+): CustomFragments | undefined {
+  if (!customFragments) {
+    return;
+  }
+
+  const sanitizedCustomFragments: CustomFragments = {};
+
+  // Ensure that `customFragments` matches the expected format
+  if (typeof customFragments !== 'object' || Array.isArray(customFragments)) {
+    throw new Error(
+      "`customFragments` must be an object. Please refer to `@nacelle/shopify-cart`'s README."
+    );
+  }
+
+  for (const [fragmentType, fragment] of Object.entries(customFragments)) {
+    const fragmentKey = fragmentType as keyof CustomFragments;
+    sanitizedCustomFragments[fragmentKey] = sanitizeFragment(
+      fragment,
+      fragmentKey
+    );
+  }
+
+  return sanitizedCustomFragments;
 }
