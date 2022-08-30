@@ -17,6 +17,22 @@ A minimal Shopify cart client for headless storefronts.
 - ships in [tree-shakeable](https://developer.mozilla.org/en-US/docs/Glossary/Tree_shaking) ESM, as well as UMD & IIFE formats for maximum portability
 - 100% code coverage
 
+## Versioning
+
+`@nacelle/shopify-cart` will release quarterly updates that coincide with the Shopify Storefront API's [release schedule][shopify-release-schedule], such that the `@latest` version of `@nacelle/shopify-cart` uses the latest version of the Shopify Storefront API. Features in the Project Roadmap will be added in quarterly releases. Minor updates & patches will be released on an as-needed basis.
+
+## Project Roadmap
+
+We welcome [feature & enhancement suggestions](https://github.com/getnacelle/nacelle-js/issues/new?labels=enhancement%2Ctriage&template=feature_request.yml&title=%5BEnhancement%5D%3A+) via GitHub Issues.
+
+### October 2022
+
+- Update to use the `2022-10` version of the Shopify Storefront API.
+
+### January 2023
+
+- Update to use the `2023-01` version of the Shopify Storefront API.
+
 ## Usage
 
 ### Install
@@ -252,3 +268,4 @@ const cart = await cartClient.cartNoteUpdate({
 [shopify-cart-input]: https://shopify.dev/api/storefront/2022-07/input-objects/CartInput
 [shopify-cart-line-input]: https://shopify.dev/api/storefront/2022-07/input-objects/CartLineInput
 [shopify-cart-line-update-input]: https://shopify.dev/api/storefront/2022-07/input-objects/CartLineUpdateInput
+[shopify-release-schedule]: https://shopify.dev/api/usage/versioning#release-schedule
