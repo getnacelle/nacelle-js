@@ -19,7 +19,7 @@ A minimal Shopify cart client for headless storefronts.
 
 ## Versioning
 
-`@nacelle/shopify-cart` will release major updates quarterly that coincide with the Shopify Storefront API's [release schedule](https://shopify.dev/api/usage/versioning#release-schedule). Any new feature requests will be released with the next major update. Minor updates & patches will be released on an as needed basis.
+`@nacelle/shopify-cart` will release major updates quarterly that coincide with the Shopify Storefront API's [release schedule][shopify-release-schedule]. Any new feature requests will be released with the next major update. Minor updates & patches will be released on an as needed basis.
 
 ## Usage
 
@@ -256,3 +256,4 @@ const cart = await cartClient.cartNoteUpdate({
 [shopify-cart-input]: https://shopify.dev/api/storefront/2022-07/input-objects/CartInput
 [shopify-cart-line-input]: https://shopify.dev/api/storefront/2022-07/input-objects/CartLineInput
 [shopify-cart-line-update-input]: https://shopify.dev/api/storefront/2022-07/input-objects/CartLineUpdateInput
+[shopify-release-schedule]: https://shopify.dev/api/usage/versioning#release-schedule
