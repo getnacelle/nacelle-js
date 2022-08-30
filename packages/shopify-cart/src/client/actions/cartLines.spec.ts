@@ -5,29 +5,28 @@ import {
   CartLineUpdateMutation,
   CartLineRemoveMutation
 } from '../../types/shopify.type';
-import { 
-  cartLinesAdd,
-  cartLinesRemove,
-  cartLinesUpdate
- } from '../../client/actions';
-import mutations from '../../graphql/mutations';
-import { createGqlClient, cartFromGql } from '../../utils';
+import { createGqlClient } from '../../utils';
+import formatCartResponse from '../../utils/formatCartResponse';
 import { mockJsonResponse } from '../../../__tests__/utils';
-import { cartDoesNotExistUserError } from '../../utils/handleShopifyError';
 import {
   clientSettings,
   cartId,
-  cartWithoutLineResponse,
   cartWithLineResponse,
   responses,
   graphqlEndpoint,
   headers
 } from '../../../__tests__/mocks';
+import cartLinesAdd from './cartLinesAdd';
+import cartLinesRemove from './cartLinesRemove';
+import cartLinesUpdate from './cartLinesUpdate';
+import mutations from '../../graphql/mutations';
 
 jest.mock('cross-fetch');
+jest.mock('../../utils/formatCartResponse');
 
 const gqlClient = createGqlClient({ ...clientSettings, fetchClient });
 const mockedFetchClient = jest.mocked(fetchClient, true);
+const mockedFormatCartResponse = jest.mocked(formatCartResponse, true);
 
 describe('cartLinesAdd', () => {
   afterEach(() => {
@@ -40,18 +39,16 @@ describe('cartLinesAdd', () => {
         mockJsonResponse<CartLineAddMutation>(responses.mutations.cartLinesAdd)
     );
 
-    await expect(
-      cartLinesAdd({
-        gqlClient,
-        cartId,
-        lines: [
-          {
-            merchandiseId:
-              cartWithLineResponse.cart.lines.edges[0].node.merchandise.id
-          }
-        ]
-      })
-    ).resolves.toStrictEqual(cartFromGql(cartWithLineResponse));
+    await cartLinesAdd({
+      gqlClient,
+      cartId,
+      lines: [
+        {
+          merchandiseId:
+            cartWithLineResponse.cart.lines.edges[0].node.merchandise.id
+        }
+      ]
+    });
 
     expect(fetchClient).toHaveBeenCalledTimes(1);
     expect(fetchClient).toHaveBeenCalledWith(graphqlEndpoint, {
@@ -70,9 +67,17 @@ describe('cartLinesAdd', () => {
         }
       })
     });
+
+    expect(mockedFormatCartResponse).toHaveBeenCalledTimes(1);
+    expect(mockedFormatCartResponse).toHaveBeenCalledWith({
+      cart: responses.mutations.cartLinesAdd.data?.cartLinesAdd?.cart,
+      userErrors:
+        responses.mutations.cartLinesAdd.data?.cartLinesAdd?.userErrors,
+      errors: undefined
+    });
   });
 
-  // Test Error Handling
+  // Test Thrown Error
   it('throws an error if there are problems with the request', async () => {
     const networkErrorMessage = 'Network error!';
     mockedFetchClient.mockImplementation(
@@ -93,29 +98,6 @@ describe('cartLinesAdd', () => {
       })
     ).rejects.toThrow(networkErrorMessage);
   });
-
-  it('throws an error if the cart id is invalid', async () => {
-    mockedFetchClient.mockImplementationOnce(
-      (): Promise<any> =>
-        mockJsonResponse<CartLineAddMutation>({
-          data: { cartLinesAdd: { userErrors: [cartDoesNotExistUserError] } }
-        })
-    );
-
-    expect.assertions(1);
-    await cartLinesAdd({
-      gqlClient,
-      cartId,
-      lines: [
-        {
-          merchandiseId:
-            cartWithLineResponse.cart.lines.edges[0].node.merchandise.id
-        }
-      ]
-    }).catch((e) =>
-      expect(String(e).includes(cartDoesNotExistUserError.message)).toBe(true)
-    );
-  });
 });
 
 describe('cartLinesUpdate', () => {
@@ -134,19 +116,17 @@ describe('cartLinesUpdate', () => {
     const updatedCart = cartWithLineResponse;
     updatedCart.cart.lines.edges[0].node.quantity = 2;
 
-    await expect(
-      cartLinesUpdate({
-        gqlClient,
-        cartId,
-        lines: [
-          {
-            id: updatedCart.cart.lines.edges[0].node.id,
-            merchandiseId: updatedCart.cart.lines.edges[0].node.merchandise.id,
-            quantity: 2
-          }
-        ]
-      })
-    ).resolves.toStrictEqual(cartFromGql(updatedCart));
+    await cartLinesUpdate({
+      gqlClient,
+      cartId,
+      lines: [
+        {
+          id: updatedCart.cart.lines.edges[0].node.id,
+          merchandiseId: updatedCart.cart.lines.edges[0].node.merchandise.id,
+          quantity: 2
+        }
+      ]
+    });
 
     expect(fetchClient).toHaveBeenCalledTimes(1);
     expect(fetchClient).toHaveBeenCalledWith(graphqlEndpoint, {
@@ -167,9 +147,17 @@ describe('cartLinesUpdate', () => {
         }
       })
     });
+
+    expect(mockedFormatCartResponse).toHaveBeenCalledTimes(1);
+    expect(mockedFormatCartResponse).toHaveBeenCalledWith({
+      cart: responses.mutations.cartLinesUpdate.data?.cartLinesUpdate?.cart,
+      userErrors:
+        responses.mutations.cartLinesUpdate.data?.cartLinesUpdate?.userErrors,
+      errors: undefined
+    });
   });
 
-  // Test Error Handling
+  // Test Thrown Error
   it('throws an error if there are problems with the request', async () => {
     const networkErrorMessage = 'Network error!';
     mockedFetchClient.mockImplementation(
@@ -192,31 +180,6 @@ describe('cartLinesUpdate', () => {
       })
     ).rejects.toThrow(networkErrorMessage);
   });
-
-  it('throws an error if the cart id is invalid', async () => {
-    mockedFetchClient.mockImplementationOnce(
-      (): Promise<any> =>
-        mockJsonResponse<CartLineUpdateMutation>({
-          data: { cartLinesUpdate: { userErrors: [cartDoesNotExistUserError] } }
-        })
-    );
-
-    expect.assertions(1);
-    await cartLinesUpdate({
-      gqlClient,
-      cartId,
-      lines: [
-        {
-          id: cartWithLineResponse.cart.lines.edges[0].node.id,
-          merchandiseId:
-            cartWithLineResponse.cart.lines.edges[0].node.merchandise.id,
-          quantity: 2
-        }
-      ]
-    }).catch((e) =>
-      expect(String(e).includes(cartDoesNotExistUserError.message)).toBe(true)
-    );
-  });
 });
 
 describe('cartLinesRemove', () => {
@@ -232,13 +195,11 @@ describe('cartLinesRemove', () => {
         )
     );
 
-    await expect(
-      cartLinesRemove({
-        gqlClient,
-        cartId,
-        lineIds: [cartWithLineResponse.cart.lines.edges[0].node.id]
-      })
-    ).resolves.toStrictEqual(cartFromGql(cartWithoutLineResponse));
+    await cartLinesRemove({
+      gqlClient,
+      cartId,
+      lineIds: [cartWithLineResponse.cart.lines.edges[0].node.id]
+    });
 
     expect(fetchClient).toHaveBeenCalledTimes(1);
     expect(fetchClient).toHaveBeenCalledWith(graphqlEndpoint, {
@@ -252,9 +213,17 @@ describe('cartLinesRemove', () => {
         }
       })
     });
+
+    expect(mockedFormatCartResponse).toHaveBeenCalledTimes(1);
+    expect(mockedFormatCartResponse).toHaveBeenCalledWith({
+      cart: responses.mutations.cartLinesRemove.data?.cartLinesRemove?.cart,
+      userErrors:
+        responses.mutations.cartLinesRemove.data?.cartLinesRemove?.userErrors,
+      errors: undefined
+    });
   });
 
-  // Test Error Handling
+  // Test Thrown Error
   it('throws an error if there are problems with the request', async () => {
     const networkErrorMessage = 'Network error!';
     mockedFetchClient.mockImplementation(
@@ -269,23 +238,5 @@ describe('cartLinesRemove', () => {
         lineIds: [cartWithLineResponse.cart.lines.edges[0].node.id]
       })
     ).rejects.toThrow(networkErrorMessage);
-  });
-
-  it('throws an error if the cart id is invalid', async () => {
-    mockedFetchClient.mockImplementationOnce(
-      (): Promise<any> =>
-        mockJsonResponse<CartLineRemoveMutation>({
-          data: { cartLinesRemove: { userErrors: [cartDoesNotExistUserError] } }
-        })
-    );
-
-    expect.assertions(1);
-    await cartLinesRemove({
-      gqlClient,
-      cartId,
-      lineIds: [cartWithLineResponse.cart.lines.edges[0].node.id]
-    }).catch((e) =>
-      expect(String(e).includes(cartDoesNotExistUserError.message)).toBe(true)
-    );
   });
 });
