@@ -17,6 +17,10 @@ A minimal Shopify cart client for headless storefronts.
 - ships in [tree-shakeable](https://developer.mozilla.org/en-US/docs/Glossary/Tree_shaking) ESM, as well as UMD & IIFE formats for maximum portability
 - 100% code coverage
 
+## Versioning
+
+`@nacelle/shopify-cart` will release major updates quarterly that coincide with the Shopify Storefront API's [release schedule](https://shopify.dev/api/usage/versioning#release-schedule). Any new feature requests will be released with the next major update. Minor updates & patches will be released on an as needed basis.
+
 ## Usage
 
 ### Install
