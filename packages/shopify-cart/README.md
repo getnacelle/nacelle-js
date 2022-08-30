@@ -19,7 +19,19 @@ A minimal Shopify cart client for headless storefronts.
 
 ## Versioning
 
-`@nacelle/shopify-cart` will release major updates quarterly that coincide with the Shopify Storefront API's [release schedule][shopify-release-schedule]. Any new feature requests will be released with the next major update. Minor updates & patches will be released on an as needed basis.
+`@nacelle/shopify-cart` will release quarterly updates that coincide with the Shopify Storefront API's [release schedule][shopify-release-schedule], such that the `@latest` version of `@nacelle/shopify-cart` uses the latest version of the Shopify Storefront API. Features in the Project Roadmap will be added in quarterly releases. Minor updates & patches will be released on an as-needed basis.
+
+## Project Roadmap
+
+We welcome [feature & enhancement suggestions](https://github.com/getnacelle/nacelle-js/issues/new?labels=enhancement%2Ctriage&template=feature_request.yml&title=%5BEnhancement%5D%3A+) via GitHub Issues.
+
+### October 2022
+
+- Update to use the `2022-10` version of the Shopify Storefront API.
+
+### January 2023
+
+- Update to use the `2023-01` version of the Shopify Storefront API.
 
 ## Usage
 
