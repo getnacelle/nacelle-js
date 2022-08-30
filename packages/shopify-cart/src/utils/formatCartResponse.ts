@@ -25,7 +25,9 @@ export default function formatCartResponse({
     errors: null
   };
 
-  cartResponse.errors = errors ?? null;
+  if (errors?.length) {
+    cartResponse.errors = errors;
+  }
 
   if (userErrors?.length) {
     cartResponse.userErrors = userErrors;

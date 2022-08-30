@@ -1,6 +1,6 @@
 import formatCartResponse from './formatCartResponse';
 import cartFromGql from './cartFromGql';
-import { cartWithoutLine } from '../../__tests__/mocks';
+import { cartWithoutLine, shopifyErrors } from '../../__tests__/mocks';
 
 describe('formatCartResponse', () => {
   it('returns the correct values based on inputs', () => {
@@ -8,7 +8,7 @@ describe('formatCartResponse', () => {
       formatCartResponse({
         cart: cartWithoutLine,
         userErrors: [],
-        errors: null
+        errors: []
       })
     ).toMatchObject({
       cart: cartFromGql({ cart: cartWithoutLine }),
@@ -20,12 +20,12 @@ describe('formatCartResponse', () => {
       formatCartResponse({
         cart: null,
         userErrors: [{ message: 'error message ' }],
-        errors: null
+        errors: [shopifyErrors.cartIdNotValid('123')]
       })
     ).toMatchObject({
       cart: null,
       userErrors: [{ message: 'error message ' }],
-      errors: null
+      errors: [shopifyErrors.cartIdNotValid('123')]
     });
   });
 });
