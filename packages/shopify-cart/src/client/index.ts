@@ -10,8 +10,9 @@ import {
   cartLinesRemove,
   cartNoteUpdate
 } from './actions';
-import { Cart } from '../types/cart.type';
-import {
+import fragments from '../graphql/fragments';
+import type { Cart } from '../types/cart.type';
+import type {
   AttributeInput,
   CartInput,
   CartBuyerIdentityInput,
@@ -19,10 +20,14 @@ import {
   CartLineUpdateInput
 } from '../types/shopify.type';
 
+export type UserSuppliedFragmentType = Exclude<keyof typeof fragments, 'CART'>;
+export type CustomFragments = Record<UserSuppliedFragmentType, string>;
+
 export interface CreateClientParams {
   shopifyShopId?: string;
   shopifyStorefrontAccessToken: string;
   shopifyCustomEndpoint?: string;
+  customFragments?: CustomFragments;
   fetchClient?: typeof fetch;
 }
 
@@ -143,6 +148,7 @@ export default function createShopifyCartClient({
   shopifyShopId,
   shopifyStorefrontAccessToken,
   shopifyCustomEndpoint,
+  customFragments,
   fetchClient
 }: CreateClientParams): CartClient {
   const gqlClient = createGqlClient({
@@ -154,23 +160,24 @@ export default function createShopifyCartClient({
 
   return {
     cart: (params: { cartId: string }): Promise<Cart | void> =>
-      cart({ gqlClient, ...params }),
+      cart({ customFragments, gqlClient, ...params }),
     cartAttributesUpdate: (params: {
       cartId: string;
       attributes: AttributeInput[];
-    }): Promise<Cart | void> => cartAttributesUpdate({ gqlClient, ...params }),
+    }): Promise<Cart | void> =>
+      cartAttributesUpdate({ customFragments, gqlClient, ...params }),
     cartBuyerIdentityUpdate: (params: {
       cartId: string;
       buyerIdentity: CartBuyerIdentityInput;
     }): Promise<Cart | void> =>
-      cartBuyerIdentityUpdate({ gqlClient, ...params }),
+      cartBuyerIdentityUpdate({ customFragments, gqlClient, ...params }),
     cartCreate: (params: CartInput): Promise<Cart | void> =>
-      cartCreate({ gqlClient, params }),
+      cartCreate({ customFragments, gqlClient, params }),
     cartDiscountCodesUpdate: (params: {
       cartId: string;
       discountCodes?: string[];
     }): Promise<Cart | void> =>
-      cartDiscountCodesUpdate({ gqlClient, ...params }),
+      cartDiscountCodesUpdate({ customFragments, gqlClient, ...params }),
     cartLinesAdd: (params: {
       cartId: string;
       lines: Array<CartLineInput>;
@@ -178,18 +185,21 @@ export default function createShopifyCartClient({
     cartLinesUpdate: (params: {
       cartId: string;
       lines: Array<CartLineUpdateInput>;
-    }): Promise<Cart | void> => cartLinesUpdate({ gqlClient, ...params }),
+    }): Promise<Cart | void> =>
+      cartLinesUpdate({ customFragments, gqlClient, ...params }),
     cartLinesRemove: (params: {
       cartId: string;
       lineIds: Array<string>;
     }): Promise<Cart | void> =>
       cartLinesRemove({
+        customFragments,
         gqlClient,
         ...params
       }),
     cartNoteUpdate: (params: {
       cartId: string;
       note: string;
-    }): Promise<Cart | void> => cartNoteUpdate({ gqlClient, ...params })
+    }): Promise<Cart | void> =>
+      cartNoteUpdate({ customFragments, gqlClient, ...params })
   };
 }

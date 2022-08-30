@@ -5,11 +5,11 @@ import {
   CartLineUpdateMutation,
   CartLineRemoveMutation
 } from '../../types/shopify.type';
-import { 
+import {
   cartLinesAdd,
   cartLinesRemove,
   cartLinesUpdate
- } from '../../client/actions';
+} from '../../client/actions';
 import mutations from '../../graphql/mutations';
 import { createGqlClient, cartFromGql } from '../../utils';
 import { mockJsonResponse } from '../../../__tests__/utils';
@@ -58,7 +58,7 @@ describe('cartLinesAdd', () => {
       method: 'POST',
       headers,
       body: JSON.stringify({
-        query: mutations.CART_LINE_ADD,
+        query: mutations.CART_LINE_ADD(),
         variables: {
           cartId,
           lines: [
@@ -153,7 +153,7 @@ describe('cartLinesUpdate', () => {
       method: 'POST',
       headers,
       body: JSON.stringify({
-        query: mutations.CART_LINE_UPDATE,
+        query: mutations.CART_LINE_UPDATE(),
         variables: {
           cartId,
           lines: [
@@ -245,7 +245,7 @@ describe('cartLinesRemove', () => {
       method: 'POST',
       headers,
       body: JSON.stringify({
-        query: mutations.CART_LINE_REMOVE,
+        query: mutations.CART_LINE_REMOVE(),
         variables: {
           cartId,
           lineIds: [cartWithLineResponse.cart.lines.edges[0].node.id]

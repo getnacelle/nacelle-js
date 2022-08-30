@@ -1,17 +1,19 @@
 import mutations from '../../graphql/mutations';
 import { handleShopifyError, cartFromGql } from '../../utils';
-import { Cart, CartFragmentResponse } from '../../types/cart.type';
-import {
+import type { Cart, CartFragmentResponse } from '../../types/cart.type';
+import type { MutationFragments } from '../../graphql/mutations';
+import type {
   CartBuyerIdentityInput,
   CartBuyerIdentityUpdatePayload,
   MutationCartBuyerIdentityUpdateArgs
 } from '../../types/shopify.type';
-import { GqlClient } from '../../cart-client.types';
+import type { GqlClient } from '../../cart-client.types';
 
 export interface CartBuyerIdentityUpdateParams {
   gqlClient: GqlClient;
   cartId: string;
   buyerIdentity: CartBuyerIdentityInput;
+  customFragments?: MutationFragments;
 }
 
 export type CartBuyerIdentityUpdateResponse = CartBuyerIdentityUpdatePayload &
@@ -24,14 +26,15 @@ export interface MutationCartBuyerIdentityUpdateResponse {
 export default async function CartBuyerIdentityUpdate({
   gqlClient,
   cartId,
-  buyerIdentity
+  buyerIdentity,
+  customFragments
 }: CartBuyerIdentityUpdateParams): Promise<void | Cart> {
   try {
     const cartResponse = await gqlClient<
       MutationCartBuyerIdentityUpdateArgs,
       MutationCartBuyerIdentityUpdateResponse
     >({
-      query: mutations.CART_BUYER_IDENTITY_UPDATE,
+      query: mutations.CART_BUYER_IDENTITY_UPDATE(customFragments),
       variables: { cartId, buyerIdentity }
     }).catch((err) => {
       throw new Error(err);

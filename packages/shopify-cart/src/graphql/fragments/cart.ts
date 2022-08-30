@@ -1,9 +1,20 @@
-import merchandiseFragment from './merchandise';
-import moneyFragment from './money';
-import imageFragment from './image';
+import defaultExtendCart from './extendCart';
+import defaultExtendCartLine from './extendCartLine';
+import defaultImage from './image';
+import defaultMerchandise from './merchandise';
+import defaultMoney from './money';
 
-export default /* GraphQL */ `
+export interface CartFragments {
+  EXTEND_CART?: string;
+  EXTEND_CART_LINE?: string;
+  IMAGE?: string;
+  MERCHANDISE?: string;
+  MONEY?: string;
+}
+
+export default (customFragments: CartFragments) => /* GraphQL */ `
   fragment Cart_cart on Cart {
+    ...Cart_extendCart
     id
     checkoutUrl
     createdAt
@@ -28,6 +39,7 @@ export default /* GraphQL */ `
       edges {
         cursor
         node {
+          ...CartLine_extendCartLine
           id
           quantity
           attributes {
@@ -85,7 +97,9 @@ export default /* GraphQL */ `
       code
     }
   }
-  ${merchandiseFragment}
-  ${moneyFragment}
-  ${imageFragment}
+  ${customFragments.EXTEND_CART ?? defaultExtendCart}
+  ${customFragments.EXTEND_CART_LINE ?? defaultExtendCartLine}
+  ${customFragments.IMAGE ?? defaultImage}
+  ${customFragments.MERCHANDISE ?? defaultMerchandise}
+  ${customFragments.MONEY ?? defaultMoney}
 `;

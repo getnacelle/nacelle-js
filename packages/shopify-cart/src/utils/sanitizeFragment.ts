@@ -1,9 +1,10 @@
 import fragments from '../graphql/fragments';
+import type { UserSuppliedFragmentType } from '../client';
 
 /**
  * Enforce that user-supplied fragments have predictable fragment names and use the expected GraphQL types.
  * @param fragment user-supplied GraphQL fragment that could have an arbitrary fragment name.
- * @param fragmentType the .
+ * @param fragmentType the fragment type/key.
  * @returns a modified version of the fragment, where the fragment's name is `fragmentName`.
  * @example
  * We need a user-supplied `MoneyV2` fragment to have a fragment name of `Money_money`, so that we can use it elsewhere.
@@ -21,7 +22,7 @@ import fragments from '../graphql/fragments';
  */
 export default function sanitizeFragment(
   fragment: string,
-  fragmentType: keyof typeof fragments
+  fragmentType: UserSuppliedFragmentType
 ): string {
   // In this regex, we use four capture groups:
   // - `$1` captures `fragment `.
@@ -31,7 +32,7 @@ export default function sanitizeFragment(
   const regexp = /(fragment )(\w+)( on )(\w+)/;
 
   // First, determine what the expected fragment name and GraphQL type are.
-  const defaultFragmentResult = regexp.exec(fragments[fragmentType]);
+  const defaultFragmentResult = regexp.exec(fragments[fragmentType]());
   const expectedFragmentName = (defaultFragmentResult as RegExpExecArray)[2];
   const expectedOnType = (defaultFragmentResult as RegExpExecArray)[4];
 

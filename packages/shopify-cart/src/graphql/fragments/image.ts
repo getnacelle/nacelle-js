@@ -1,4 +1,4 @@
-export default /* GraphQL */ `
+export default () => /* GraphQL */ `
   fragment Image_image on Image {
     id
     url

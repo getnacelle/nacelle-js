@@ -47,7 +47,7 @@ describe('cartNoteUpdate', () => {
       method: 'POST',
       headers,
       body: JSON.stringify({
-        query: mutations.CART_NOTE_UPDATE,
+        query: mutations.CART_NOTE_UPDATE(),
         variables: {
           cartId,
           note: 'Cart Note'

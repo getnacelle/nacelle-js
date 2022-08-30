@@ -44,7 +44,7 @@ describe('cartCreate', () => {
       method: 'POST',
       headers,
       body: JSON.stringify({
-        query: mutations.CART_CREATE,
+        query: mutations.CART_CREATE(),
         variables: { input: {} }
       })
     });
@@ -71,7 +71,7 @@ describe('cartCreate', () => {
       method: 'POST',
       headers,
       body: JSON.stringify({
-        query: mutations.CART_CREATE,
+        query: mutations.CART_CREATE(),
         variables: { input: { lines: [] } }
       })
     });

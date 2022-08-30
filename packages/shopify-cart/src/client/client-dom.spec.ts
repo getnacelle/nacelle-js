@@ -61,7 +61,7 @@ describe('createShopifyCartClient', () => {
       method: 'POST',
       headers,
       body: JSON.stringify({
-        query: mutations.CART_CREATE,
+        query: mutations.CART_CREATE(),
         variables: { input: { note } }
       })
     });
@@ -85,7 +85,7 @@ describe('createShopifyCartClient', () => {
       method: 'POST',
       headers,
       body: JSON.stringify({
-        query: queries.CART,
+        query: queries.CART(),
         variables: { id: cartId }
       })
     });
@@ -112,7 +112,7 @@ describe('createShopifyCartClient', () => {
       method: 'POST',
       headers,
       body: JSON.stringify({
-        query: mutations.CART_LINE_ADD,
+        query: mutations.CART_LINE_ADD(),
         variables: {
           cartId,
           lines: []
@@ -152,7 +152,7 @@ describe('createShopifyCartClient', () => {
       method: 'POST',
       headers,
       body: JSON.stringify({
-        query: mutations.CART_LINE_UPDATE,
+        query: mutations.CART_LINE_UPDATE(),
         variables: {
           cartId,
           lines: [
@@ -191,7 +191,7 @@ describe('createShopifyCartClient', () => {
       method: 'POST',
       headers,
       body: JSON.stringify({
-        query: mutations.CART_LINE_REMOVE,
+        query: mutations.CART_LINE_REMOVE(),
         variables: {
           cartId,
           lineIds: [cartWithLineResponse.cart.lines.edges[0].node.id]
@@ -225,7 +225,7 @@ describe('createShopifyCartClient', () => {
       method: 'POST',
       headers,
       body: JSON.stringify({
-        query: mutations.CART_BUYER_IDENTITY_UPDATE,
+        query: mutations.CART_BUYER_IDENTITY_UPDATE(),
         variables: {
           cartId,
           buyerIdentity: {
@@ -259,7 +259,7 @@ describe('createShopifyCartClient', () => {
       method: 'POST',
       headers,
       body: JSON.stringify({
-        query: mutations.CART_DISCOUNT_CODES_UPDATE,
+        query: mutations.CART_DISCOUNT_CODES_UPDATE(),
         variables: {
           cartId,
           discountCodes: ['code']
@@ -288,7 +288,7 @@ describe('createShopifyCartClient', () => {
       method: 'POST',
       headers,
       body: JSON.stringify({
-        query: mutations.CART_NOTE_UPDATE,
+        query: mutations.CART_NOTE_UPDATE(),
         variables: {
           cartId,
           note
@@ -318,7 +318,7 @@ describe('createShopifyCartClient', () => {
       method: 'POST',
       headers,
       body: JSON.stringify({
-        query: mutations.CART_ATTRIBUTES_UPDATE,
+        query: mutations.CART_ATTRIBUTES_UPDATE(),
         variables: { cartId, attributes }
       })
     });

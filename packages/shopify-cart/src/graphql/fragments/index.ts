@@ -6,6 +6,8 @@
 // EXPORT FRAGMENTS
 // @index('./!(*.spec).ts', (f, _) => `import { default as ${_.camelCase(f.name)} } from '${f.path}';`)
 import { default as cart } from './cart';
+import { default as extendCart } from './extendCart';
+import { default as extendCartLine } from './extendCartLine';
 import { default as image } from './image';
 import { default as merchandise } from './merchandise';
 import { default as money } from './money';
@@ -13,8 +15,10 @@ import { default as userErrors } from './userErrors';
 // @endindex
 
 export default {
-  // @index('./!(*.spec).ts', (f, _) => `${_.constantCase(f.name)}: ${f.name},`)
+  // @index('./!(*.spec).ts', (f, _) => `${_.constantCase(f.name)}: ${f.name},`
   CART: cart,
+  EXTEND_CART: extendCart,
+  EXTEND_CART_LINE: extendCartLine,
   IMAGE: image,
   MERCHANDISE: merchandise,
   MONEY: money,

@@ -49,7 +49,7 @@ describe('cartDiscountCodesUpdate', () => {
       method: 'POST',
       headers,
       body: JSON.stringify({
-        query: mutations.CART_DISCOUNT_CODES_UPDATE,
+        query: mutations.CART_DISCOUNT_CODES_UPDATE(),
         variables: {
           cartId,
           discountCodes: ['code']

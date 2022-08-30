@@ -1,4 +1,4 @@
-import { Cart_CartFragment, CartUserError, Maybe } from './shopify.type';
+import type { Cart_CartFragment, CartUserError, Maybe } from './shopify.type';
 
 export interface Cart {
   id?: string;
