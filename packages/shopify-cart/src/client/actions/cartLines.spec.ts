@@ -44,7 +44,7 @@ describe('cartLinesAdd', () => {
       cartId,
       lines: [
         {
-          merchandiseId:
+          variantId:
             cartWithLineResponse.cart.lines.edges[0].node.merchandise.id
         }
       ]
@@ -91,7 +91,7 @@ describe('cartLinesAdd', () => {
         cartId,
         lines: [
           {
-            merchandiseId:
+            variantId:
               cartWithLineResponse.cart.lines.edges[0].node.merchandise.id
           }
         ]
@@ -122,7 +122,7 @@ describe('cartLinesUpdate', () => {
       lines: [
         {
           id: updatedCart.cart.lines.edges[0].node.id,
-          merchandiseId: updatedCart.cart.lines.edges[0].node.merchandise.id,
+          variantId: updatedCart.cart.lines.edges[0].node.merchandise.id,
           quantity: 2
         }
       ]
@@ -138,10 +138,10 @@ describe('cartLinesUpdate', () => {
           cartId,
           lines: [
             {
-              id: updatedCart.cart.lines.edges[0].node.id,
+              quantity: 2,
               merchandiseId:
                 updatedCart.cart.lines.edges[0].node.merchandise.id,
-              quantity: 2
+              id: updatedCart.cart.lines.edges[0].node.id
             }
           ]
         }
@@ -172,7 +172,7 @@ describe('cartLinesUpdate', () => {
         lines: [
           {
             id: cartWithLineResponse.cart.lines.edges[0].node.id,
-            merchandiseId:
+            variantId:
               cartWithLineResponse.cart.lines.edges[0].node.merchandise.id,
             quantity: 2
           }

@@ -1,6 +1,13 @@
 import mutations from '../../graphql/mutations';
-import { formatCartResponse } from '../../utils';
-import { CartResponse, CartFragmentResponse } from '../../types/cart.type';
+import {
+  formatCartResponse,
+  transformNacelleLineItemToShopifyLineItem
+} from '../../utils';
+import {
+  CartResponse,
+  CartFragmentResponse,
+  NacelleCartLineItemInput
+} from '../../types/cart.type';
 import {
   CartLineInput,
   CartLinesAddPayload,
@@ -11,7 +18,7 @@ import { GqlClient } from '../../cart-client.types';
 export interface CartLinesAddParams {
   gqlClient: GqlClient;
   cartId: string;
-  lines: Array<CartLineInput>;
+  lines: Array<NacelleCartLineItemInput>;
 }
 
 export type CartLinesAddResponse = CartLinesAddPayload & CartFragmentResponse;
@@ -26,12 +33,15 @@ export default async function cartLinesAdd({
   lines
 }: CartLinesAddParams): Promise<void | CartResponse> {
   try {
+    const formattedLines = transformNacelleLineItemToShopifyLineItem(
+      lines
+    ) as CartLineInput[];
     const shopifyResponse = await gqlClient<
       MutationCartLinesAddArgs,
       MutationCartLinesAddResponse
     >({
       query: mutations.CART_LINE_ADD,
-      variables: { cartId, lines }
+      variables: { cartId, lines: formattedLines }
     }).catch((err) => {
       throw new Error(err);
     });

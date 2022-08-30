@@ -134,7 +134,7 @@ export const cartWithLine: Cart_CartFragment = {
       {
         cursor: 'eyJsYXN0X2lkIjoiOTk4ODc3IiwibGFzdF92YWx1ZSI6IjY2NTU0NCJ9',
         node: {
-          id: 'Z2lkOi8vc2hvcGlmeS9DYXJ0TGluZS9lNTQzY2FmOTZmYTY0NWI1NGQwN2FiMjAzNWVmOWRiYT9jYXJ0PWE3YWFkMmZiMWU2NjExNDIyYzk0NmY2ODI3NzEwNTUw',
+          id: 'gid://shopify/CartLine/e543caf96fa645b54d07ab2035ef9dba?cart=a7aad2fb1e6611422c946f6827710550',
           quantity: 1,
           attributes: [],
           cost: {
@@ -154,7 +154,7 @@ export const cartWithLine: Cart_CartFragment = {
           },
           discountAllocations: [],
           merchandise: {
-            id: 'Z2lkOi8vc2hvcGlmeS9Qcm9kdWN0VmFyaWFudC8zMzg5NDEyMDcxODQ3MQ==',
+            id: 'gid://shopify/ProductVariant/33894120718471',
             availableForSale: true,
             compareAtPriceV2: {
               currencyCode: CurrencyCode.Usd,

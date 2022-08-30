@@ -1,4 +1,11 @@
-import { Cart_CartFragment, CartUserError, Maybe } from './shopify.type';
+import {
+  Cart_CartFragment,
+  CartUserError,
+  Maybe,
+  CartLineInput,
+  CartInput,
+  CartLineUpdateInput
+} from './shopify.type';
 import { ShopifyError } from './errors.type';
 
 export interface Cart {
@@ -21,4 +28,18 @@ export interface CartResponse {
 export interface CartFragmentResponse {
   cart?: Maybe<Cart_CartFragment>;
   userErrors: Array<CartUserError>;
+}
+
+export interface NacelleCartLineItemInput
+  extends Omit<CartLineInput, 'merchandiseId'> {
+  variantId: string;
+}
+
+export interface NacelleCartInput extends Omit<CartInput, 'lines'> {
+  lines?: Maybe<NacelleCartLineItemInput[]> | undefined;
+}
+
+export interface NacelleCartLineItemUpdateInput
+  extends Omit<CartLineUpdateInput, 'merchandiseId'> {
+  variantId?: Maybe<string> | undefined;
 }

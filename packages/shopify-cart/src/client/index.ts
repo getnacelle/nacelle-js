@@ -10,12 +10,14 @@ import {
   cartLinesRemove,
   cartNoteUpdate
 } from './actions';
-import { CartResponse } from '../types/cart.type';
+import {
+  CartResponse,
+  NacelleCartInput,
+  NacelleCartLineItemInput
+} from '../types/cart.type';
 import {
   AttributeInput,
-  CartInput,
   CartBuyerIdentityInput,
-  CartLineInput,
   CartLineUpdateInput
 } from '../types/shopify.type';
 
@@ -38,7 +40,7 @@ type CartBuyerIdentityUpdate = (params: {
   buyerIdentity: CartBuyerIdentityInput;
 }) => Promise<CartResponse | void>;
 
-type CartCreate = (params: CartInput) => Promise<CartResponse | void>;
+type CartCreate = (params: NacelleCartInput) => Promise<CartResponse | void>;
 
 type CartDiscountCodesUpdate = (params: {
   cartId: string;
@@ -47,7 +49,7 @@ type CartDiscountCodesUpdate = (params: {
 
 type CartLinesAdd = (params: {
   cartId: string;
-  lines: Array<CartLineInput>;
+  lines: Array<NacelleCartLineItemInput>;
 }) => Promise<CartResponse | void>;
 
 type CartLinesUpdate = (params: {
@@ -165,7 +167,7 @@ export default function createShopifyCartClient({
       buyerIdentity: CartBuyerIdentityInput;
     }): Promise<CartResponse | void> =>
       cartBuyerIdentityUpdate({ gqlClient, ...params }),
-    cartCreate: (params: CartInput): Promise<CartResponse | void> =>
+    cartCreate: (params: NacelleCartInput): Promise<CartResponse | void> =>
       cartCreate({ gqlClient, params }),
     cartDiscountCodesUpdate: (params: {
       cartId: string;
@@ -174,7 +176,7 @@ export default function createShopifyCartClient({
       cartDiscountCodesUpdate({ gqlClient, ...params }),
     cartLinesAdd: (params: {
       cartId: string;
-      lines: Array<CartLineInput>;
+      lines: Array<NacelleCartLineItemInput>;
     }): Promise<CartResponse | void> => cartLinesAdd({ gqlClient, ...params }),
     cartLinesUpdate: (params: {
       cartId: string;
