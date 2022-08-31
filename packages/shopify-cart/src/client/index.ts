@@ -13,13 +13,10 @@ import {
 import {
   CartResponse,
   NacelleCartInput,
-  NacelleCartLineItemInput
+  NacelleCartLineItemInput,
+  NacelleCartLineItemUpdateInput
 } from '../types/cart.type';
-import {
-  AttributeInput,
-  CartBuyerIdentityInput,
-  CartLineUpdateInput
-} from '../types/shopify.type';
+import { AttributeInput, CartBuyerIdentityInput } from '../types/shopify.type';
 
 export interface CreateClientParams {
   shopifyShopId?: string;
@@ -54,7 +51,7 @@ type CartLinesAdd = (params: {
 
 type CartLinesUpdate = (params: {
   cartId: string;
-  lines: Array<CartLineUpdateInput>;
+  lines: Array<NacelleCartLineItemUpdateInput>;
 }) => Promise<CartResponse | void>;
 
 type CartLinesRemove = (params: {
@@ -180,7 +177,7 @@ export default function createShopifyCartClient({
     }): Promise<CartResponse | void> => cartLinesAdd({ gqlClient, ...params }),
     cartLinesUpdate: (params: {
       cartId: string;
-      lines: Array<CartLineUpdateInput>;
+      lines: Array<NacelleCartLineItemUpdateInput>;
     }): Promise<CartResponse | void> =>
       cartLinesUpdate({ gqlClient, ...params }),
     cartLinesRemove: (params: {

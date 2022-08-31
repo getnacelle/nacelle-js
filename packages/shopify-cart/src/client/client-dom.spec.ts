@@ -133,7 +133,8 @@ describe('createShopifyCartClient', () => {
       lines: [
         {
           id: updatedCart.cart.lines.edges[0].node.id,
-          merchandiseId: updatedCart.cart.lines.edges[0].node.merchandise.id,
+          nacelleEntryId: updatedCart.cart.lines.edges[0].node.attributes[0]
+            .value as string,
           quantity: 2
         }
       ]
@@ -149,10 +150,10 @@ describe('createShopifyCartClient', () => {
           cartId,
           lines: [
             {
-              id: updatedCart.cart.lines.edges[0].node.id,
+              quantity: 2,
               merchandiseId:
                 updatedCart.cart.lines.edges[0].node.merchandise.id,
-              quantity: 2
+              id: updatedCart.cart.lines.edges[0].node.id
             }
           ]
         }
