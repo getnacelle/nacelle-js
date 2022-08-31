@@ -1,3 +1,4 @@
+import defaultDiscountAllocation from './discountAllocation';
 import defaultExtendCart from './extendCart';
 import defaultExtendCartLine from './extendCartLine';
 import defaultImage from './image';
@@ -5,6 +6,7 @@ import defaultMerchandise from './merchandise';
 import defaultMoney from './money';
 
 export interface CartFragments {
+  DISCOUNT_ALLOCATION?: string;
   EXTEND_CART?: string;
   EXTEND_CART_LINE?: string;
   IMAGE?: string;
@@ -18,6 +20,9 @@ export default (customFragments: CartFragments) => /* GraphQL */ `
     id
     checkoutUrl
     createdAt
+    discountAllocations {
+      ...CartDiscountAllocation_discountAllocation
+    }
     updatedAt
     buyerIdentity {
       countryCode
@@ -57,16 +62,7 @@ export default (customFragments: CartFragments) => /* GraphQL */ `
             }
           }
           discountAllocations {
-            ... on CartAutomaticDiscountAllocation {
-              title
-            }
-            ... on CartCodeDiscountAllocation {
-              code
-            }
-            discountedAmount {
-              amount
-              currencyCode
-            }
+            ...CartDiscountAllocation_discountAllocation
           }
           merchandise {
             ...Merchandise_merchandise
@@ -97,6 +93,7 @@ export default (customFragments: CartFragments) => /* GraphQL */ `
       code
     }
   }
+  ${customFragments.DISCOUNT_ALLOCATION ?? defaultDiscountAllocation}
   ${customFragments.EXTEND_CART ?? defaultExtendCart}
   ${customFragments.EXTEND_CART_LINE ?? defaultExtendCartLine}
   ${customFragments.IMAGE ?? defaultImage}
