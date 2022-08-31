@@ -22,9 +22,7 @@ export const clientSettings = {
 import { ShopifyError } from '../../src/types/errors.type';
 
 export const graphqlEndpoint = `https://${clientSettings.shopifyShopId}.myshopify.com/api/2022-07/graphql`;
-export const cartId = Buffer.from('gid://shopify/Cart/112233').toString(
-  'base64'
-);
+export const cartId = 'gid://shopify/Cart/112233';
 const checkoutUrl = 'https://pepper-wood-apparel.myshopify.com/cart/c/334455';
 
 export const headers = {
