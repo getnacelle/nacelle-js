@@ -73,6 +73,14 @@ const cartClient = createShopifyCartClient({
 });
 ```
 
+### Response Data
+
+Every method on the `cartClient` returns an object with the following keys.
+
+1. `cart` - a Shopify [`Cart`][shopify-cart-object] object with the addition of `nacelleEntryIds`
+2. `userErrors` - an array of Shopify [`CartUserError`][shopify-cart-user-error] objects.
+3. `errors` - an array of top-level Shopify [API Errors][shopify-api-error]
+
 ### Cart client API
 
 The cart client exposes the following methods:
@@ -93,12 +101,10 @@ _Retrieves an existing Shopify cart._
 
 **Accepts**: params - an object containing the `cartId` (`string`) of the cart of interest.
 
-**Returns**: a Shopify [`Cart`][shopify-cart-object].
-
 ##### Example
 
 ```js
-const cart = await cartClient.cart({
+const { cart, userErrors, errors } = await cartClient.cart({
   cartId: 'Z2lkOi8vc2hvcGlmeS9DaGVja291dC85OTg4Nzc/a2V5PTEyMzEyMw=='
 });
 ```
@@ -109,12 +115,10 @@ _Updates an existing Shopify cart's attributes._
 
 **Accepts**: params - an object containing the `cartId` (`string`) of interest, and the `attributes` (`array`) to set. For more information on the cart `attributes`, checkout Shopify's [`AttributeInput`][shopify-attributes-input]
 
-**Returns**: a Shopify [`Cart`][shopify-cart-object].
-
 ##### Example
 
 ```js
-const cart = await cartClient.cartAttributesUpdate({
+const { cart, userErrors, errors } = await cartClient.cartAttributesUpdate({
   cartId: 'Z2lkOi8vc2hvcGlmeS9DaGVja291dC85OTg4Nzc/a2V5PTEyMzEyMw==',
   attributes: [{ key: 'gift_options', value: 'in box with bow' }]
 });
@@ -126,12 +130,10 @@ _Updates an existing Shopify cart's buyer identity._
 
 **Accepts**: params - an object containing the `cartId` (`string`) of interest, and the `buyerIdentity` (`object`) to set. For more information on the cart `buyerIndentity`, checkout Shopify's [`CartBuyerIdentityInput`][shopify-buyer-identity-input]
 
-**Returns**: a Shopify [`Cart`][shopify-cart-object].
-
 ##### Example
 
 ```js
-const cart = await cartClient.cartBuyerIdentityUpdate({
+const { cart, userErrors, errors } = await cartClient.cartBuyerIdentityUpdate({
   cartId: 'Z2lkOi8vc2hvcGlmeS9DaGVja291dC85OTg4Nzc/a2V5PTEyMzEyMw==',
   buyerIdentity: { email: 'email@example.com' }
 });
@@ -143,12 +145,10 @@ _Creates a new Shopify cart._
 
 **Accepts**: params - an optional object containing the following optional values: `attributes` (`array`), `buyerIdentity` (`object`), `discountCodes` (`array`), `lines` (`array`), `note` (`string`). To initialize an empty cart, exclude all parameters. For more information on the cart optional values, checkout Shopify's [`CartInput`][shopify-cart-input]
 
-**Returns**: a Shopify [`Cart`][shopify-cart-object].
-
 ##### Example
 
 ```js
-const cart = await cartClient.cartCreate({
+const { cart, userErrors, errors } = await cartClient.cartCreate({
   lines: [
     {
       merchandiseId:
@@ -167,12 +167,10 @@ _Updates an existing Shopify cart's discount codes._
 
 **Accepts**: params - an object containing the `cartId` (`string`) of interest, and the `discountCodes` (`array`) to set.
 
-**Returns**: a Shopify [`Cart`][shopify-cart-object].
-
 ##### Example
 
 ```js
-const cart = await cartClient.cartDiscountCodesUpdate({
+const { cart, userErrors, errors } = await cartClient.cartDiscountCodesUpdate({
   cartId: 'Z2lkOi8vc2hvcGlmeS9DaGVja291dC85OTg4Nzc/a2V5PTEyMzEyMw==',
   discountCodes: ['20OFF']
 });
@@ -184,12 +182,10 @@ _Adds lines to an existing Shopify cart._
 
 **Accepts**: params - an object containing the `cartId` (`string`) of interest, and the `lines` (`array`) to add. For more information on the cart `lines`, checkout Shopify's [`CartLineInput`][shopify-cart-line-input]
 
-**Returns**: a Shopify [`Cart`][shopify-cart-object].
-
 ##### Example
 
 ```js
-const cart = await cartClient.cartLinesAdd({
+const { cart, userErrors, errors } = await cartClient.cartLinesAdd({
   cartId: 'Z2lkOi8vc2hvcGlmeS9DaGVja291dC85OTg4Nzc/a2V5PTEyMzEyMw==',
   lines: [
     {
@@ -207,12 +203,10 @@ _Removes lines from an existing Shopify cart._
 
 **Accepts**: params - an object containing the `cartId` (`string`) of interest, and the `lineIds` (`array`) to remove.
 
-**Returns**: a Shopify [`Cart`][shopify-cart-object].
-
 ##### Example
 
 ```js
-const cart = await cartClient.cartLinesRemove({
+const { cart, userErrors, errors } = await cartClient.cartLinesRemove({
   cartId: 'Z2lkOi8vc2hvcGlmeS9DaGVja291dC85OTg4Nzc/a2V5PTEyMzEyMw==',
   lineIds: [
     'Z2lkOi8vc2hvcGlmeS9DYXJ0TGluZS9lNTQzY2FmOTZmYTY0NWI1NGQwN2FiMjAzNWVmOWRiYT9jYXJ0PWE3YWFkMmZiMWU2NjExNDIyYzk0NmY2ODI3NzEwNTUw'
@@ -226,12 +220,10 @@ _Updates lines on an existing Shopify cart._
 
 **Accepts**: params - an object containing the `cartId` (`string`) of interest, and the `lines` (`array`) to update. For more information on the cart `lines`, checkout Shopify's [`CartLineUpdateInput`][shopify-cart-line-update-input]
 
-**Returns**: a Shopify [`Cart`][shopify-cart-object].
-
 ##### Example
 
 ```js
-const cart = await cartClient.cartLinesAdd({
+const { cart, userErrors, errors } = await cartClient.cartLinesAdd({
   cartId: 'Z2lkOi8vc2hvcGlmeS9DaGVja291dC85OTg4Nzc/a2V5PTEyMzEyMw==',
   lines: [
     {
@@ -248,12 +240,10 @@ _Updates note on an existing Shopify cart._
 
 **Accepts**: params - an object containing the `cartId` (`string`) of interest, and the `note` (`string`) to update.
 
-**Returns**: a Shopify [`Cart`][shopify-cart-object].
-
 ##### Example
 
 ```js
-const cart = await cartClient.cartNoteUpdate({
+const { cart, userErrors, errors } = await cartClient.cartNoteUpdate({
   cartId: 'Z2lkOi8vc2hvcGlmeS9DaGVja291dC85OTg4Nzc/a2V5PTEyMzEyMw==',
   note: 'Please use a red ribbon for the bow, if possible :)'
 });
@@ -263,6 +253,8 @@ const cart = await cartClient.cartNoteUpdate({
 
 [shopify-access-scopes]: https://shopify.dev/api/usage/access-scopes#unauthenticated-access-scopes
 [shopify-cart-object]: https://shopify.dev/api/storefront/2022-07/objects/Cart#top
+[shopify-cart-user-error]: https://shopify.dev/api/storefront/2022-07/objects/CartUserError
+[shopify-api-error]: https://shopify.dev/api/storefront#status_and_error_codes
 [shopify-attributes-input]: https://shopify.dev/api/storefront/2022-07/input-objects/AttributeInput
 [shopify-buyer-identity-input]: https://shopify.dev/api/storefront/2022-07/input-objects/CartBuyerIdentityInput
 [shopify-cart-input]: https://shopify.dev/api/storefront/2022-07/input-objects/CartInput
