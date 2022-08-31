@@ -1,15 +1,4 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import {
-  CartAttributesUpdateMutation,
-  CartBuyerIdentityUpdateMutation,
-  CartCreateMutation,
-  CartDiscountCodesUpdateMutation,
-  CartLineAddMutation,
-  CartLineUpdateMutation,
-  CartLineRemoveMutation,
-  CartNoteUpdateMutation,
-  Cart_CartFragment
-} from '../types/shopify.type';
 import createShopifyCartClient from './index';
 import mutations from '../graphql/mutations';
 import { mockJsonResponse } from '../../__tests__/utils';
@@ -24,6 +13,17 @@ import {
 } from '../../__tests__/mocks';
 import { cartFromGql } from '../utils';
 import queries from '../graphql/queries';
+import type {
+  CartAttributesUpdateMutation,
+  CartBuyerIdentityUpdateMutation,
+  CartCreateMutation,
+  CartDiscountCodesUpdateMutation,
+  CartLineAddMutation,
+  CartLineUpdateMutation,
+  CartLineRemoveMutation,
+  CartNoteUpdateMutation,
+  Cart_CartFragment
+} from '../types/shopify.type';
 
 describe('createShopifyCartClient', () => {
   afterEach(() => {
@@ -322,5 +322,89 @@ describe('createShopifyCartClient', () => {
         variables: { cartId, attributes }
       })
     });
+  });
+
+  it('makes requests using user-supplied `customFragments`', async () => {
+    const windowFetch = jest.fn(
+      (): Promise<any> =>
+        mockJsonResponse<CartCreateMutation>(
+          responses.mutations.cartCreate.withLine
+        )
+    );
+    window.fetch = windowFetch;
+
+    const cartClient = createShopifyCartClient({
+      ...clientSettings,
+      customFragments: {
+        MERCHANDISE: `
+          fragment Merchandise_merchandise on ProductVariant {
+            weight
+          }
+        `,
+        USER_ERRORS: `
+          fragment CartUserError_userErrors on CartUserError {
+            message
+          }
+        `
+      }
+    });
+
+    await cartClient.cartCreate({ lines: [] });
+
+    expect(windowFetch).toHaveBeenCalledTimes(1);
+    const requestBody = (windowFetch.mock.calls[0] as Request[])[1].body;
+
+    expect(requestBody).toMatch(
+      /fragment Merchandise_merchandise on ProductVariant {\\n\s+ weight\\n\s+ }/
+    );
+    expect(requestBody).toMatch(
+      /fragment CartUserError_userErrors on CartUserError {\\n\s+ message\\n\s+ }/
+    );
+  });
+
+  it('makes requests using `EXTEND_`-type user-supplied `customFragments`', async () => {
+    const windowFetch = jest.fn(
+      (): Promise<any> =>
+        mockJsonResponse<{ cart: Cart_CartFragment }>(responses.queries.cart)
+    );
+    window.fetch = windowFetch;
+
+    const cartClient = createShopifyCartClient({
+      ...clientSettings,
+      customFragments: {
+        EXTEND_CART: `
+          fragment Cart_extendCart on Cart {
+            deliveryGroups(first: 1) {
+              nodes {
+                deliveryOptions {
+                  code
+                }
+              }
+            }
+          }
+        `,
+        EXTEND_CART_LINE: `
+          fragment CartLine_extendCartLine on CartLine {
+            sellingPlanAllocation {
+              checkoutChargeAmount {
+                amount
+              }
+            }
+          }
+        `
+      }
+    });
+
+    await cartClient.cart({ cartId });
+
+    expect(windowFetch).toHaveBeenCalledTimes(1);
+    const requestBody = (windowFetch.mock.calls[0] as Request[])[1].body;
+
+    expect(requestBody).toMatch(
+      /fragment Cart_extendCart on Cart {\\n\s+ deliveryGroups\(first: 1\) {\\n\s+ nodes {\\n\s+ deliveryOptions {\\n\s+ code\\n\s+ }\\n\s+ }\\n\s+ }\\n\s+ }/
+    );
+    expect(requestBody).toMatch(
+      /fragment CartLine_extendCartLine on CartLine {\\n\s+ sellingPlanAllocation {\\n\s+ checkoutChargeAmount {\\n\s+ amount\\n\s+ }\\n\s+ }\\n\s+ }/
+    );
   });
 });
