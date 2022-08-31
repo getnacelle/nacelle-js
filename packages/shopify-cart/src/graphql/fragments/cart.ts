@@ -1,3 +1,4 @@
+import defaultBuyerIdentity from './buyerIdentity';
 import defaultDiscountAllocation from './discountAllocation';
 import defaultExtendCart from './extendCart';
 import defaultExtendCartLine from './extendCartLine';
@@ -6,6 +7,7 @@ import defaultMerchandise from './merchandise';
 import defaultMoney from './money';
 
 export interface CartFragments {
+  BUYER_IDENTITY?: string;
   DISCOUNT_ALLOCATION?: string;
   EXTEND_CART?: string;
   EXTEND_CART_LINE?: string;
@@ -25,16 +27,7 @@ export default (customFragments: CartFragments) => /* GraphQL */ `
     }
     updatedAt
     buyerIdentity {
-      countryCode
-      customer {
-        id
-        email
-        firstName
-        lastName
-        displayName
-      }
-      email
-      phone
+      ...CartBuyerIndentity_buyerIdentity
     }
     lines(first: $numCartLines) {
       pageInfo {
@@ -93,6 +86,7 @@ export default (customFragments: CartFragments) => /* GraphQL */ `
       code
     }
   }
+  ${customFragments.BUYER_IDENTITY ?? defaultBuyerIdentity}
   ${customFragments.DISCOUNT_ALLOCATION ?? defaultDiscountAllocation}
   ${customFragments.EXTEND_CART ?? defaultExtendCart}
   ${customFragments.EXTEND_CART_LINE ?? defaultExtendCartLine}
