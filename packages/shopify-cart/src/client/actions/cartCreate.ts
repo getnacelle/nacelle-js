@@ -33,7 +33,7 @@ export default async function cartCreate({
   try {
     let formattedParams: NacelleCartInput | CartInput | undefined = params;
     if (params && params.lines) {
-      const { lines: nacelleLines = [] } = params;
+      const nacelleLines = params.lines;
       const shopifyLines =
         transformNacelleLineItemToShopifyLineItem(nacelleLines);
       formattedParams = { ...params, lines: shopifyLines } as CartInput;
