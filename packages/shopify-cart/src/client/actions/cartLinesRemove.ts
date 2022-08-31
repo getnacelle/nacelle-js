@@ -1,5 +1,5 @@
 import mutations from '../../graphql/mutations';
-import { formatCartResponse, getShopifyIdFromNacelleId } from '../../utils';
+import { formatCartResponse } from '../../utils';
 import { CartResponse, CartFragmentResponse } from '../../types/cart.type';
 import {
   CartLinesRemovePayload,
@@ -26,15 +26,12 @@ export default async function cartLinesRemove({
   lineIds
 }: CartLinesRemoveParams): Promise<void | CartResponse> {
   try {
-    const shopifyLineIds = lineIds.map((nacelleLineId) =>
-      getShopifyIdFromNacelleId(nacelleLineId)
-    );
     const shopifyResponse = await gqlClient<
       MutationCartLinesRemoveArgs,
       MutationCartLinesRemoveResponse
     >({
       query: mutations.CART_LINE_REMOVE,
-      variables: { cartId, lineIds: shopifyLineIds }
+      variables: { cartId, lineIds }
     }).catch((err) => {
       throw new Error(err);
     });

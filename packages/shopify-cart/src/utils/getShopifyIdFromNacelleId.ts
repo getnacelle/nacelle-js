@@ -2,36 +2,23 @@ export default function getShopifyVariantFromNacelleId(
   nacelleVariantId: string
 ): string {
   try {
-    // if it starts with gid, assume it's a shopify id and return it
-    if (nacelleVariantId.startsWith('gid://')) {
-      return nacelleVariantId;
-    }
-    let shopifyId = nacelleVariantId;
     let decodedId = nacelleVariantId;
-    if (!nacelleVariantId.startsWith('id://')) {
-      if (typeof window !== 'undefined') {
-        decodedId = atob(nacelleVariantId);
-      } else {
-        decodedId = Buffer.from(nacelleVariantId, 'base64').toString('utf-8');
-      }
-    }
-    if (decodedId.startsWith('gid://')) {
-      return decodedId;
+    if (typeof window !== 'undefined') {
+      decodedId = atob(nacelleVariantId);
+    } else {
+      decodedId = Buffer.from(nacelleVariantId, 'base64').toString('utf-8');
     }
     const nacelleEntryIdParts = parseDecodedNacelleEntryId(decodedId);
     const dataType = convertDataTypeToShopifyDataType(
       nacelleEntryIdParts.dataType
     );
-    shopifyId = `gid://shopify/${dataType}/${nacelleEntryIdParts.sourceEntryId}`;
-
-    return shopifyId;
-  } catch {
+    return `gid://shopify/${dataType}/${nacelleEntryIdParts.sourceEntryId}`;
+  } catch (e) {
     throw new Error(
-      'Invalid Nacelle Id. Need to pass a NacelleEntryId or Shopify Id'
+      'Invalid Nacelle Entry Id for Cart - must be a Product Variant Nacelle Entry Id'
     );
   }
 }
-
 
 type DataTypes = 'CONTENT' | 'PRODUCT' | 'PRODUCT_VARIANT' | 'COLLECTION';
 type SourceName = 'CONTENTFUL' | 'SANITY' | 'SHOPIFY';
@@ -101,13 +88,10 @@ function parseDecodedNacelleEntryId(id: string): NacelleEntryIdProperties {
 
 function convertDataTypeToShopifyDataType(
   dataType: DataTypes
-): 'Product' | 'ProductVariant' | 'Collection' {
-  switch (dataType) {
-    case 'COLLECTION':
-      return 'Collection';
-    case 'PRODUCT':
-      return 'Product';
-    default:
-      return 'ProductVariant';
+): 'ProductVariant' {
+  if (dataType === 'PRODUCT_VARIANT') {
+    return 'ProductVariant';
+  } else {
+    throw new Error('Only Product Variant Ids allowed');
   }
 }

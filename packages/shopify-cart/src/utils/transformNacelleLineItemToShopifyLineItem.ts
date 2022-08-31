@@ -9,8 +9,8 @@ export default function (
   nacelleLines: NacelleCartLineItemInput[] | NacelleCartLineItemUpdateInput[]
 ): CartLineInput[] | CartLineUpdateInput[] {
   return nacelleLines?.map((line) => {
-    if (line.variantId) {
-      const shopifyId = getShopifyIdFromNacelleId(line.variantId);
+    if (line.nacelleEntryId) {
+      const shopifyId = getShopifyIdFromNacelleId(line.nacelleEntryId);
       const shopifyItem: CartLineInput | CartLineUpdateInput = {
         attributes: line.attributes,
         quantity: line.quantity,

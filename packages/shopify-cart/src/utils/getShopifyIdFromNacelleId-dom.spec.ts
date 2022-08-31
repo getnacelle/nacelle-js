@@ -11,34 +11,18 @@ describe('getShopifyIdFromNacelleId', () => {
       decodedShopifyGid
     );
   });
-  it('returns an unencoded shopify gid if an unencoded gid is passed in', () => {
-    expect(getShopifyIdFromNacelleId(decodedShopifyGid)).toStrictEqual(
-      decodedShopifyGid
-    );
+  it('throws an error if a shopify gid is passed in', () => {
+    expect(() => getShopifyIdFromNacelleId(decodedShopifyGid)).toThrow();
   });
-  it('returns an unencoded shopify gid if an encoded gid is passed', () => {
-    expect(getShopifyIdFromNacelleId(btoa(decodedShopifyGid))).toStrictEqual(
-      decodedShopifyGid
-    );
-  });
-  it('throws an error if an invalid gid is passed', () => {
+
+  it('throws an error if an invalid nacelleEntryId is passed', () => {
     const invalidId = 'abc/def/gh';
     expect(() => getShopifyIdFromNacelleId(invalidId)).toThrow();
   });
-  it('returns a shopify gid for a Product NacelleEntryId', () => {
+  it('throws an error if a non PRODUCT_VARIANT NacelleEntryId is passed in', () => {
     const unencodedNacelleEntryId =
       'id://shopify/pepper-wood-apparel/default/PRODUCT/33894120718471/en-US';
     const nacelleEntryId = btoa(unencodedNacelleEntryId);
-    expect(getShopifyIdFromNacelleId(nacelleEntryId)).toStrictEqual(
-      'gid://shopify/Product/33894120718471'
-    );
-  });
-  it('returns a shopify gid for a Collection NacelleEntryId', () => {
-    const unencodedNacelleEntryId =
-      'id://shopify/pepper-wood-apparel/default/COLLECTION/33894120718471/en-US';
-    const nacelleEntryId = btoa(unencodedNacelleEntryId);
-    expect(getShopifyIdFromNacelleId(nacelleEntryId)).toStrictEqual(
-      'gid://shopify/Collection/33894120718471'
-    );
+    expect(() => getShopifyIdFromNacelleId(nacelleEntryId)).toThrow();
   });
 });
