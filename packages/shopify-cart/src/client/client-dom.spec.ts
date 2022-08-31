@@ -19,10 +19,8 @@ import {
   graphqlEndpoint,
   headers,
   cartId,
-  cartWithLineResponse,
-  cartWithoutLineResponse
+  cartWithLineResponse
 } from '../../__tests__/mocks';
-import { cartFromGql } from '../utils';
 import queries from '../graphql/queries';
 
 describe('createShopifyCartClient', () => {
@@ -76,9 +74,7 @@ describe('createShopifyCartClient', () => {
 
     const cartClient = createShopifyCartClient(clientSettings);
 
-    await expect(cartClient.cart({ cartId })).resolves.toMatchObject(
-      cartFromGql(cartWithLineResponse)
-    );
+    await cartClient.cart({ cartId });
 
     expect(windowFetch).toHaveBeenCalledTimes(1);
     expect(windowFetch).toHaveBeenCalledWith(graphqlEndpoint, {
@@ -100,12 +96,10 @@ describe('createShopifyCartClient', () => {
 
     const cartClient = createShopifyCartClient(clientSettings);
 
-    await expect(
-      cartClient.cartLinesAdd({
-        cartId,
-        lines: []
-      })
-    ).resolves.toMatchObject(cartFromGql(cartWithLineResponse));
+    await cartClient.cartLinesAdd({
+      cartId,
+      lines: []
+    });
 
     expect(windowFetch).toHaveBeenCalledTimes(1);
     expect(windowFetch).toHaveBeenCalledWith(graphqlEndpoint, {
@@ -134,18 +128,16 @@ describe('createShopifyCartClient', () => {
     const updatedCart = cartWithLineResponse;
     updatedCart.cart.lines.nodes[0].quantity = 2;
 
-    await expect(
-      cartClient.cartLinesUpdate({
-        cartId,
-        lines: [
-          {
-            id: updatedCart.cart.lines.nodes[0].id,
-            merchandiseId: updatedCart.cart.lines.nodes[0].merchandise.id,
-            quantity: 2
-          }
-        ]
-      })
-    ).resolves.toMatchObject(cartFromGql(updatedCart));
+    await cartClient.cartLinesUpdate({
+      cartId,
+      lines: [
+        {
+          id: updatedCart.cart.lines.nodes[0].id,
+          merchandiseId: updatedCart.cart.lines.nodes[0].merchandise.id,
+          quantity: 2
+        }
+      ]
+    });
 
     expect(windowFetch).toHaveBeenCalledTimes(1);
     expect(windowFetch).toHaveBeenCalledWith(graphqlEndpoint, {
@@ -178,12 +170,10 @@ describe('createShopifyCartClient', () => {
 
     const cartClient = createShopifyCartClient(clientSettings);
 
-    await expect(
-      cartClient.cartLinesRemove({
-        cartId,
-        lineIds: [cartWithLineResponse.cart.lines.nodes[0].id]
-      })
-    ).resolves.toMatchObject(cartFromGql(cartWithoutLineResponse));
+    await cartClient.cartLinesRemove({
+      cartId,
+      lineIds: [cartWithLineResponse.cart.lines.nodes[0].id]
+    });
 
     expect(windowFetch).toHaveBeenCalledTimes(1);
     expect(windowFetch).toHaveBeenCalledWith(graphqlEndpoint, {
@@ -210,14 +200,12 @@ describe('createShopifyCartClient', () => {
 
     const cartClient = createShopifyCartClient(clientSettings);
 
-    await expect(
-      cartClient.cartBuyerIdentityUpdate({
-        cartId,
-        buyerIdentity: {
-          email: 'email@email.com'
-        }
-      })
-    ).resolves.toMatchObject(cartFromGql(cartWithoutLineResponse));
+    await cartClient.cartBuyerIdentityUpdate({
+      cartId,
+      buyerIdentity: {
+        email: 'email@email.com'
+      }
+    });
 
     expect(windowFetch).toHaveBeenCalledTimes(1);
     expect(windowFetch).toHaveBeenCalledWith(graphqlEndpoint, {
@@ -246,12 +234,10 @@ describe('createShopifyCartClient', () => {
 
     const cartClient = createShopifyCartClient(clientSettings);
 
-    await expect(
-      cartClient.cartDiscountCodesUpdate({
-        cartId,
-        discountCodes: ['code']
-      })
-    ).resolves.toMatchObject(cartFromGql(cartWithoutLineResponse));
+    await cartClient.cartDiscountCodesUpdate({
+      cartId,
+      discountCodes: ['code']
+    });
 
     expect(windowFetch).toHaveBeenCalledTimes(1);
     expect(windowFetch).toHaveBeenCalledWith(graphqlEndpoint, {
@@ -278,9 +264,7 @@ describe('createShopifyCartClient', () => {
 
     const cartClient = createShopifyCartClient(clientSettings);
     const note = 'Cart Note';
-    await expect(
-      cartClient.cartNoteUpdate({ cartId, note })
-    ).resolves.toMatchObject(cartFromGql(cartWithoutLineResponse));
+    await cartClient.cartNoteUpdate({ cartId, note });
 
     expect(windowFetch).toHaveBeenCalledTimes(1);
     expect(windowFetch).toHaveBeenCalledWith(graphqlEndpoint, {
@@ -308,9 +292,7 @@ describe('createShopifyCartClient', () => {
     const cartClient = createShopifyCartClient(clientSettings);
     const attributes = [{ key: 'testKey', value: 'testValue' }];
 
-    await expect(
-      cartClient.cartAttributesUpdate({ cartId, attributes })
-    ).resolves.toMatchObject(cartFromGql(cartWithoutLineResponse));
+    await cartClient.cartAttributesUpdate({ cartId, attributes });
 
     expect(windowFetch).toHaveBeenCalledTimes(1);
     expect(windowFetch).toHaveBeenCalledWith(graphqlEndpoint, {
