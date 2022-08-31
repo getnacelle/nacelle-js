@@ -132,7 +132,7 @@ export const cartWithLine: Cart_CartFragment = {
       {
         cursor: 'eyJsYXN0X2lkIjoiOTk4ODc3IiwibGFzdF92YWx1ZSI6IjY2NTU0NCJ9',
         node: {
-          id: 'Z2lkOi8vc2hvcGlmeS9DYXJ0TGluZS9lNTQzY2FmOTZmYTY0NWI1NGQwN2FiMjAzNWVmOWRiYT9jYXJ0PWE3YWFkMmZiMWU2NjExNDIyYzk0NmY2ODI3NzEwNTUw',
+          id: 'gid://shopify/CartLine/e543caf96fa645b54d07ab2035ef9dba?cart=a7aad2fb1e6611422c946f6827710550',
           quantity: 1,
           attributes: [],
           cost: {
@@ -152,7 +152,7 @@ export const cartWithLine: Cart_CartFragment = {
           },
           discountAllocations: [],
           merchandise: {
-            id: 'Z2lkOi8vc2hvcGlmeS9Qcm9kdWN0VmFyaWFudC8zMzg5NDEyMDcxODQ3MQ==',
+            id: 'gid://shopify/ProductVariant/33894120718471',
             availableForSale: true,
             compareAtPriceV2: {
               currencyCode: CurrencyCode.Usd,
@@ -165,7 +165,7 @@ export const cartWithLine: Cart_CartFragment = {
             requiresShipping: false,
             title: 'Default Title',
             image: {
-              id: 'Z2lkOi8vc2hvcGlmeS9Qcm9kdWN0SW1hZ2UvMTYyODQ5MTM1MDAyOTU=',
+              id: 'gid://shopify/ProductImage/16284913500295',
               url: 'https://cdn.shopify.com/s/files/1/0344/4362/4583/products/pexels-photo-1270015.jpg?v=1587622893',
               altText: 'Raffaella Bag',
               width: 1600,
