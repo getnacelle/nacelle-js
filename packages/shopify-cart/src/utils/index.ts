@@ -8,7 +8,7 @@
 export { default as cartFromGql } from './cartFromGql';
 export { default as createGqlClient } from './createGqlClient';
 export { default as formatCartResponse } from './formatCartResponse';
-export { default as sanitizeFragment } from './sanitizeFragment';
 export { default as getShopifyIdFromNacelleId } from './getShopifyIdFromNacelleId';
+export { default as sanitizeFragment } from './sanitizeFragment';
 export { default as transformNacelleLineItemToShopifyLineItem } from './transformNacelleLineItemToShopifyLineItem';
 // @endindex
