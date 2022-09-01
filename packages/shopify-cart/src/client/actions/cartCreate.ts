@@ -14,7 +14,6 @@ import type {
   MutationCartCreateArgs
 } from '../../types/shopify.type';
 import type { MutationFragments } from '../../graphql/mutations';
-import type { CartResponse, CartFragmentResponse } from '../../types/cart.type';
 import type { GqlClient } from '../../cart-client.types';
 
 export interface CreateCartParams {
