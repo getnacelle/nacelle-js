@@ -105,7 +105,7 @@ _Retrieves an existing Shopify cart._
 
 ```js
 const { cart, userErrors, errors } = await cartClient.cart({
-  cartId: 'Z2lkOi8vc2hvcGlmeS9DaGVja291dC85OTg4Nzc/a2V5PTEyMzEyMw=='
+  cartId: 'gid://shopify/Cart/112233'
 });
 ```
 
@@ -119,7 +119,7 @@ _Updates an existing Shopify cart's attributes._
 
 ```js
 const { cart, userErrors, errors } = await cartClient.cartAttributesUpdate({
-  cartId: 'Z2lkOi8vc2hvcGlmeS9DaGVja291dC85OTg4Nzc/a2V5PTEyMzEyMw==',
+  cartId: 'gid://shopify/Cart/112233',
   attributes: [{ key: 'gift_options', value: 'in box with bow' }]
 });
 ```
@@ -134,7 +134,7 @@ _Updates an existing Shopify cart's buyer identity._
 
 ```js
 const { cart, userErrors, errors } = await cartClient.cartBuyerIdentityUpdate({
-  cartId: 'Z2lkOi8vc2hvcGlmeS9DaGVja291dC85OTg4Nzc/a2V5PTEyMzEyMw==',
+  cartId: 'gid://shopify/Cart/112233',
   buyerIdentity: { email: 'email@example.com' }
 });
 ```
@@ -151,8 +151,7 @@ _Creates a new Shopify cart._
 const { cart, userErrors, errors } = await cartClient.cartCreate({
   lines: [
     {
-      merchandiseId:
-        'Z2lkOi8vc2hvcGlmeS9Qcm9kdWN0VmFyaWFudC8zMzg5NDEyMDcxODQ3MQ==',
+      merchandiseId: 'gid://shopify/ProductVariant/33894120718471',
       quantity: 1
     }
   ],
@@ -171,7 +170,7 @@ _Updates an existing Shopify cart's discount codes._
 
 ```js
 const { cart, userErrors, errors } = await cartClient.cartDiscountCodesUpdate({
-  cartId: 'Z2lkOi8vc2hvcGlmeS9DaGVja291dC85OTg4Nzc/a2V5PTEyMzEyMw==',
+  cartId: 'gid://shopify/Cart/112233',
   discountCodes: ['20OFF']
 });
 ```
@@ -186,11 +185,10 @@ _Adds lines to an existing Shopify cart._
 
 ```js
 const { cart, userErrors, errors } = await cartClient.cartLinesAdd({
-  cartId: 'Z2lkOi8vc2hvcGlmeS9DaGVja291dC85OTg4Nzc/a2V5PTEyMzEyMw==',
+  cartId: 'gid://shopify/Cart/112233',
   lines: [
     {
-      merchandiseId:
-        'Z2lkOi8vc2hvcGlmeS9Qcm9kdWN0VmFyaWFudC8zMzg5NDEyMDcxODQ3MQ==',
+      merchandiseId: 'gid://shopify/ProductVariant/33894120718471',
       quantity: 1
     }
   ]
@@ -207,9 +205,9 @@ _Removes lines from an existing Shopify cart._
 
 ```js
 const { cart, userErrors, errors } = await cartClient.cartLinesRemove({
-  cartId: 'Z2lkOi8vc2hvcGlmeS9DaGVja291dC85OTg4Nzc/a2V5PTEyMzEyMw==',
+  cartId: 'gid://shopify/Cart/112233',
   lineIds: [
-    'Z2lkOi8vc2hvcGlmeS9DYXJ0TGluZS9lNTQzY2FmOTZmYTY0NWI1NGQwN2FiMjAzNWVmOWRiYT9jYXJ0PWE3YWFkMmZiMWU2NjExNDIyYzk0NmY2ODI3NzEwNTUw'
+    'gid://shopify/CartLine/e543caf96fa645b54d07ab2035ef9dba?cart=a7aad2fb1e6611422c946f6827710550'
   ]
 });
 ```
@@ -224,10 +222,10 @@ _Updates lines on an existing Shopify cart._
 
 ```js
 const { cart, userErrors, errors } = await cartClient.cartLinesAdd({
-  cartId: 'Z2lkOi8vc2hvcGlmeS9DaGVja291dC85OTg4Nzc/a2V5PTEyMzEyMw==',
+  cartId: 'gid://shopify/Cart/112233',
   lines: [
     {
-      id: 'Z2lkOi8vc2hvcGlmeS9DYXJ0TGluZS9lNTQzY2FmOTZmYTY0NWI1NGQwN2FiMjAzNWVmOWRiYT9jYXJ0PWE3YWFkMmZiMWU2NjExNDIyYzk0NmY2ODI3NzEwNTUw',
+      id: 'gid://shopify/CartLine/e543caf96fa645b54d07ab2035ef9dba?cart=a7aad2fb1e6611422c946f6827710550',
       quantity: 3
     }
   ]
@@ -244,7 +242,7 @@ _Updates note on an existing Shopify cart._
 
 ```js
 const { cart, userErrors, errors } = await cartClient.cartNoteUpdate({
-  cartId: 'Z2lkOi8vc2hvcGlmeS9DaGVja291dC85OTg4Nzc/a2V5PTEyMzEyMw==',
+  cartId: 'gid://shopify/Cart/112233',
   note: 'Please use a red ribbon for the bow, if possible :)'
 });
 ```
