@@ -3,8 +3,10 @@ export default function getShopifyVariantFromNacelleId(
 ): string {
   try {
     let decodedId = nacelleVariantId;
+    // note: can possibly use atob without window check when Node 14 is end of life
+    // see discussion: https://github.com/getnacelle/nacelle-js/pull/223/files#r960111641
     if (typeof window !== 'undefined') {
-      decodedId = atob(nacelleVariantId);
+      decodedId = globalThis.atob(nacelleVariantId);
     } else {
       decodedId = Buffer.from(nacelleVariantId, 'base64').toString('utf-8');
     }
