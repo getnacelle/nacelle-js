@@ -1,4 +1,3 @@
-import { createGqlClient } from '../utils';
 import {
   cart,
   cartAttributesUpdate,
@@ -10,8 +9,10 @@ import {
   cartLinesRemove,
   cartNoteUpdate
 } from './actions';
-import { CartResponse } from '../types/cart.type';
-import {
+import { createGqlClient, sanitizeFragments } from '../utils';
+import fragments from '../graphql/fragments';
+import type { CartResponse } from '../types/cart.type';
+import type {
   AttributeInput,
   CartInput,
   CartBuyerIdentityInput,
@@ -19,11 +20,18 @@ import {
   CartLineUpdateInput
 } from '../types/shopify.type';
 
+export type UserSuppliedFragmentType = Exclude<
+  keyof typeof fragments,
+  'CART' | 'MERCHANDISE'
+>;
+export type CustomFragments = Partial<Record<UserSuppliedFragmentType, string>>;
+
 export interface CreateClientParams {
-  shopifyShopId?: string;
   shopifyStorefrontAccessToken: string;
-  shopifyCustomEndpoint?: string;
+  customFragments?: CustomFragments;
   fetchClient?: typeof fetch;
+  shopifyCustomEndpoint?: string;
+  shopifyShopId?: string;
 }
 
 type FetchCart = (params: { cartId: string }) => Promise<CartResponse | void>;
@@ -143,7 +151,8 @@ export default function createShopifyCartClient({
   shopifyShopId,
   shopifyStorefrontAccessToken,
   shopifyCustomEndpoint,
-  fetchClient
+  fetchClient,
+  customFragments
 }: CreateClientParams): CartClient {
   const gqlClient = createGqlClient({
     shopifyShopId,
@@ -151,47 +160,71 @@ export default function createShopifyCartClient({
     shopifyCustomEndpoint,
     fetchClient
   });
+  const sanitizedCustomFragments = sanitizeFragments(customFragments);
 
   return {
     cart: (params: { cartId: string }): Promise<CartResponse | void> =>
-      cart({ gqlClient, ...params }),
+      cart({ customFragments, gqlClient, ...params }),
     cartAttributesUpdate: (params: {
       cartId: string;
       attributes: AttributeInput[];
     }): Promise<CartResponse | void> =>
-      cartAttributesUpdate({ gqlClient, ...params }),
+      cartAttributesUpdate({
+        customFragments: sanitizedCustomFragments,
+        gqlClient,
+        ...params
+      }),
     cartBuyerIdentityUpdate: (params: {
       cartId: string;
       buyerIdentity: CartBuyerIdentityInput;
     }): Promise<CartResponse | void> =>
-      cartBuyerIdentityUpdate({ gqlClient, ...params }),
+      cartBuyerIdentityUpdate({
+        customFragments: sanitizedCustomFragments,
+        gqlClient,
+        ...params
+      }),
     cartCreate: (params: CartInput): Promise<CartResponse | void> =>
-      cartCreate({ gqlClient, params }),
+      cartCreate({
+        customFragments: sanitizedCustomFragments,
+        gqlClient,
+        params
+      }),
     cartDiscountCodesUpdate: (params: {
       cartId: string;
       discountCodes?: string[];
     }): Promise<CartResponse | void> =>
-      cartDiscountCodesUpdate({ gqlClient, ...params }),
+      cartDiscountCodesUpdate({
+        customFragments: sanitizedCustomFragments,
+        gqlClient,
+        ...params
+      }),
     cartLinesAdd: (params: {
       cartId: string;
       lines: Array<CartLineInput>;
-    }): Promise<CartResponse | void> => cartLinesAdd({ gqlClient, ...params }),
+    }): Promise<CartResponse | void> =>
+      cartLinesAdd({
+        customFragments: sanitizedCustomFragments,
+        gqlClient,
+        ...params
+      }),
     cartLinesUpdate: (params: {
       cartId: string;
       lines: Array<CartLineUpdateInput>;
     }): Promise<CartResponse | void> =>
-      cartLinesUpdate({ gqlClient, ...params }),
+      cartLinesUpdate({ customFragments, gqlClient, ...params }),
     cartLinesRemove: (params: {
       cartId: string;
       lineIds: Array<string>;
     }): Promise<CartResponse | void> =>
       cartLinesRemove({
+        customFragments: sanitizedCustomFragments,
         gqlClient,
         ...params
       }),
     cartNoteUpdate: (params: {
       cartId: string;
       note: string;
-    }): Promise<CartResponse | void> => cartNoteUpdate({ gqlClient, ...params })
+    }): Promise<CartResponse | void> =>
+      cartNoteUpdate({ customFragments, gqlClient, ...params })
   };
 }
