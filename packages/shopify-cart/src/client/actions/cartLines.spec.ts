@@ -1,12 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import fetchClient from 'cross-fetch';
-import {
-  CartLineAddMutation,
-  CartLineUpdateMutation,
-  CartLineRemoveMutation
-} from '../../types/shopify.type';
 import { createGqlClient } from '../../utils';
 import formatCartResponse from '../../utils/formatCartResponse';
+import {
+  cartLinesAdd,
+  cartLinesRemove,
+  cartLinesUpdate
+} from '../../client/actions';
+import mutations from '../../graphql/mutations';
 import { mockJsonResponse } from '../../../__tests__/utils';
 import {
   clientSettings,
@@ -16,10 +17,11 @@ import {
   graphqlEndpoint,
   headers
 } from '../../../__tests__/mocks';
-import cartLinesAdd from './cartLinesAdd';
-import cartLinesRemove from './cartLinesRemove';
-import cartLinesUpdate from './cartLinesUpdate';
-import mutations from '../../graphql/mutations';
+import type {
+  CartLineAddMutation,
+  CartLineUpdateMutation,
+  CartLineRemoveMutation
+} from '../../types/shopify.type';
 
 jest.mock('cross-fetch');
 jest.mock('../../utils/formatCartResponse');
@@ -44,8 +46,8 @@ describe('cartLinesAdd', () => {
       cartId,
       lines: [
         {
-          nacelleEntryId: cartWithLineResponse.cart.lines.edges[0].node
-            .attributes[0].value as string
+          nacelleEntryId: cartWithLineResponse.cart.lines.nodes[0].attributes[0]
+            .value as string
         }
       ]
     });
@@ -55,13 +57,13 @@ describe('cartLinesAdd', () => {
       method: 'POST',
       headers,
       body: JSON.stringify({
-        query: mutations.CART_LINE_ADD,
+        query: mutations.CART_LINE_ADD(),
         variables: {
           cartId,
           lines: [
             {
               merchandiseId:
-                cartWithLineResponse.cart.lines.edges[0].node.merchandise.id
+                cartWithLineResponse.cart.lines.nodes[0].merchandise.id
             }
           ]
         }
@@ -91,7 +93,7 @@ describe('cartLinesAdd', () => {
         cartId,
         lines: [
           {
-            nacelleEntryId: cartWithLineResponse.cart.lines.edges[0].node
+            nacelleEntryId: cartWithLineResponse.cart.lines.nodes[0]
               .attributes[0].value as string
           }
         ]
@@ -114,15 +116,15 @@ describe('cartLinesUpdate', () => {
     );
 
     const updatedCart = cartWithLineResponse;
-    updatedCart.cart.lines.edges[0].node.quantity = 2;
+    updatedCart.cart.lines.nodes[0].quantity = 2;
 
     await cartLinesUpdate({
       gqlClient,
       cartId,
       lines: [
         {
-          id: updatedCart.cart.lines.edges[0].node.id,
-          nacelleEntryId: updatedCart.cart.lines.edges[0].node.attributes[0]
+          id: updatedCart.cart.lines.nodes[0].id,
+          nacelleEntryId: updatedCart.cart.lines.nodes[0].attributes[0]
             .value as string,
           quantity: 2
         }
@@ -134,15 +136,14 @@ describe('cartLinesUpdate', () => {
       method: 'POST',
       headers,
       body: JSON.stringify({
-        query: mutations.CART_LINE_UPDATE,
+        query: mutations.CART_LINE_UPDATE(),
         variables: {
           cartId,
           lines: [
             {
               quantity: 2,
-              merchandiseId:
-                updatedCart.cart.lines.edges[0].node.merchandise.id,
-              id: updatedCart.cart.lines.edges[0].node.id
+              merchandiseId: updatedCart.cart.lines.nodes[0].merchandise.id,
+              id: updatedCart.cart.lines.nodes[0].id
             }
           ]
         }
@@ -172,8 +173,8 @@ describe('cartLinesUpdate', () => {
         cartId,
         lines: [
           {
-            id: cartWithLineResponse.cart.lines.edges[0].node.id,
-            nacelleEntryId: cartWithLineResponse.cart.lines.edges[0].node
+            id: cartWithLineResponse.cart.lines.nodes[0].id,
+            nacelleEntryId: cartWithLineResponse.cart.lines.nodes[0]
               .attributes[0].value as string,
             quantity: 2
           }
@@ -199,7 +200,7 @@ describe('cartLinesRemove', () => {
     await cartLinesRemove({
       gqlClient,
       cartId,
-      lineIds: [cartWithLineResponse.cart.lines.edges[0].node.id]
+      lineIds: [cartWithLineResponse.cart.lines.nodes[0].id]
     });
 
     expect(fetchClient).toHaveBeenCalledTimes(1);
@@ -207,10 +208,10 @@ describe('cartLinesRemove', () => {
       method: 'POST',
       headers,
       body: JSON.stringify({
-        query: mutations.CART_LINE_REMOVE,
+        query: mutations.CART_LINE_REMOVE(),
         variables: {
           cartId,
-          lineIds: [cartWithLineResponse.cart.lines.edges[0].node.id]
+          lineIds: [cartWithLineResponse.cart.lines.nodes[0].id]
         }
       })
     });
@@ -236,7 +237,7 @@ describe('cartLinesRemove', () => {
       cartLinesRemove({
         gqlClient,
         cartId,
-        lineIds: [cartWithLineResponse.cart.lines.edges[0].node.id]
+        lineIds: [cartWithLineResponse.cart.lines.nodes[0].id]
       })
     ).rejects.toThrow(networkErrorMessage);
   });

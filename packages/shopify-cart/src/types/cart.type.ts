@@ -1,4 +1,4 @@
-import {
+import type {
   Cart_CartFragment,
   CartUserError,
   Maybe,
@@ -6,11 +6,11 @@ import {
   CartInput,
   CartLineUpdateInput
 } from './shopify.type';
-import { ShopifyError } from './errors.type';
+import type { ShopifyError } from './errors.type';
 
 export interface Cart {
   id?: string;
-  lines: Cart_CartFragment['lines']['edges'][1]['node'][];
+  lines: Cart_CartFragment['lines']['nodes'][1][];
   checkoutUrl?: string;
   note?: string;
   buyerIdentity?: Cart_CartFragment['buyerIdentity'];
