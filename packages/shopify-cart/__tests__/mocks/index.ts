@@ -134,7 +134,13 @@ export const cartWithLine: Cart_CartFragment = {
       {
         id: 'gid://shopify/CartLine/e543caf96fa645b54d07ab2035ef9dba?cart=a7aad2fb1e6611422c946f6827710550',
         quantity: 1,
-        attributes: [],
+        attributes: [
+          {
+            key: 'nacelleEntryId',
+            value:
+              'aWQ6Ly9TSE9QSUZZL3BlcHBlci13b29kcy1hcHBhcmVsL2RlZmF1bHQvUFJPRFVDVF9WQVJJQU5ULzMzODk0MTIwNzE4NDcxL2VuLVVT'
+          }
+        ],
         cost: {
           subtotalAmount: {
             amount: '265.0',
