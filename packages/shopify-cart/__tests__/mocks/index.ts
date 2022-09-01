@@ -80,6 +80,7 @@ export const cartWithoutLine: Cart_CartFragment = {
     email: null,
     phone: null
   },
+  discountAllocations: [],
   lines: {
     pageInfo: {
       hasNextPage: false,
@@ -123,6 +124,7 @@ export const cartWithLine: Cart_CartFragment = {
     email: null,
     phone: null
   },
+  discountAllocations: [],
   lines: {
     pageInfo: {
       hasNextPage: false,
