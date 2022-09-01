@@ -47,7 +47,7 @@ describe('cartBuyerIdentityUpdate', () => {
       method: 'POST',
       headers,
       body: JSON.stringify({
-        query: mutations.CART_BUYER_IDENTITY_UPDATE,
+        query: mutations.CART_BUYER_IDENTITY_UPDATE(),
         variables: {
           cartId,
           buyerIdentity: {

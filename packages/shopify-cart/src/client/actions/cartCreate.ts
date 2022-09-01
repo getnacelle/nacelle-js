@@ -1,15 +1,17 @@
 import mutations from '../../graphql/mutations';
 import { formatCartResponse } from '../../utils';
-import { CartResponse, CartFragmentResponse } from '../../types/cart.type';
-import {
+import type {
   CartInput,
   CartCreatePayload,
   MutationCartCreateArgs
 } from '../../types/shopify.type';
-import { GqlClient } from '../../cart-client.types';
+import type { MutationFragments } from '../../graphql/mutations';
+import type { CartResponse, CartFragmentResponse } from '../../types/cart.type';
+import type { GqlClient } from '../../cart-client.types';
 
 export interface CreateCartParams {
   gqlClient: GqlClient;
+  customFragments?: MutationFragments;
   params?: CartInput;
 }
 
@@ -20,6 +22,7 @@ export interface MutationCartCreateResponse {
 }
 
 export default async function cartCreate({
+  customFragments,
   gqlClient,
   params
 }: CreateCartParams): Promise<void | CartResponse> {
@@ -28,7 +31,7 @@ export default async function cartCreate({
       MutationCartCreateArgs,
       MutationCartCreateResponse
     >({
-      query: mutations.CART_CREATE,
+      query: mutations.CART_CREATE(customFragments),
       variables: { input: params ?? {} }
     }).catch((err) => {
       throw new Error(err);

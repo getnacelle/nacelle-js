@@ -1,12 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import fetchClient from 'cross-fetch';
-import {
-  CartLineAddMutation,
-  CartLineUpdateMutation,
-  CartLineRemoveMutation
-} from '../../types/shopify.type';
 import { createGqlClient } from '../../utils';
 import formatCartResponse from '../../utils/formatCartResponse';
+import {
+  cartLinesAdd,
+  cartLinesRemove,
+  cartLinesUpdate
+} from '../../client/actions';
+import mutations from '../../graphql/mutations';
 import { mockJsonResponse } from '../../../__tests__/utils';
 import {
   clientSettings,
@@ -16,10 +17,11 @@ import {
   graphqlEndpoint,
   headers
 } from '../../../__tests__/mocks';
-import cartLinesAdd from './cartLinesAdd';
-import cartLinesRemove from './cartLinesRemove';
-import cartLinesUpdate from './cartLinesUpdate';
-import mutations from '../../graphql/mutations';
+import type {
+  CartLineAddMutation,
+  CartLineUpdateMutation,
+  CartLineRemoveMutation
+} from '../../types/shopify.type';
 
 jest.mock('cross-fetch');
 jest.mock('../../utils/formatCartResponse');
@@ -54,7 +56,7 @@ describe('cartLinesAdd', () => {
       method: 'POST',
       headers,
       body: JSON.stringify({
-        query: mutations.CART_LINE_ADD,
+        query: mutations.CART_LINE_ADD(),
         variables: {
           cartId,
           lines: [
@@ -132,7 +134,7 @@ describe('cartLinesUpdate', () => {
       method: 'POST',
       headers,
       body: JSON.stringify({
-        query: mutations.CART_LINE_UPDATE,
+        query: mutations.CART_LINE_UPDATE(),
         variables: {
           cartId,
           lines: [
@@ -204,7 +206,7 @@ describe('cartLinesRemove', () => {
       method: 'POST',
       headers,
       body: JSON.stringify({
-        query: mutations.CART_LINE_REMOVE,
+        query: mutations.CART_LINE_REMOVE(),
         variables: {
           cartId,
           lineIds: [cartWithLineResponse.cart.lines.nodes[0].id]

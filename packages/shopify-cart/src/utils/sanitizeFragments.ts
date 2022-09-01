@@ -1,9 +1,10 @@
 import fragments from '../graphql/fragments';
+import type { CustomFragments, UserSuppliedFragmentType } from '../client';
 
 /**
  * Enforce that user-supplied fragments have predictable fragment names and use the expected GraphQL types.
  * @param fragment user-supplied GraphQL fragment that could have an arbitrary fragment name.
- * @param fragmentType the .
+ * @param fragmentType the fragment type/key.
  * @returns a modified version of the fragment, where the fragment's name is `fragmentName`.
  * @example
  * We need a user-supplied `MoneyV2` fragment to have a fragment name of `Money_money`, so that we can use it elsewhere.
@@ -19,9 +20,9 @@ import fragments from '../graphql/fragments';
  * sanitizeFragment(moneyFragment, 'MONEY');
  * ```
  */
-export default function sanitizeFragment(
+export function sanitizeFragment(
   fragment: string,
-  fragmentType: keyof typeof fragments
+  fragmentType: UserSuppliedFragmentType
 ): string {
   // In this regex, we use four capture groups:
   // - `$1` captures `fragment `.
@@ -31,7 +32,7 @@ export default function sanitizeFragment(
   const regexp = /(fragment )(\w+)( on )(\w+)/;
 
   // First, determine what the expected fragment name and GraphQL type are.
-  const defaultFragmentResult = regexp.exec(fragments[fragmentType]);
+  const defaultFragmentResult = regexp.exec(fragments[fragmentType]());
   const expectedFragmentName = (defaultFragmentResult as RegExpExecArray)[2];
   const expectedOnType = (defaultFragmentResult as RegExpExecArray)[4];
 
@@ -47,4 +48,31 @@ export default function sanitizeFragment(
 
   // Replace the supplied fragment name with our default fragment name.
   return fragment.replace(regexp, `$1${expectedFragmentName}$3$4`);
+}
+
+export default function sanitizeFragments(
+  customFragments?: CustomFragments
+): CustomFragments | undefined {
+  if (!customFragments) {
+    return;
+  }
+
+  const sanitizedCustomFragments: CustomFragments = {};
+
+  // Ensure that `customFragments` matches the expected format
+  if (typeof customFragments !== 'object' || Array.isArray(customFragments)) {
+    throw new Error(
+      "`customFragments` must be an object. Please refer to `@nacelle/shopify-cart`'s README."
+    );
+  }
+
+  for (const [fragmentType, fragment] of Object.entries(customFragments)) {
+    const fragmentKey = fragmentType as keyof CustomFragments;
+    sanitizedCustomFragments[fragmentKey] = sanitizeFragment(
+      fragment,
+      fragmentKey
+    );
+  }
+
+  return sanitizedCustomFragments;
 }
