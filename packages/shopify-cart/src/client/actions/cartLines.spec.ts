@@ -44,8 +44,7 @@ describe('cartLinesAdd', () => {
       cartId,
       lines: [
         {
-          merchandiseId:
-            cartWithLineResponse.cart.lines.edges[0].node.merchandise.id
+          merchandiseId: cartWithLineResponse.cart.lines.nodes[0].merchandise.id
         }
       ]
     });
@@ -61,7 +60,7 @@ describe('cartLinesAdd', () => {
           lines: [
             {
               merchandiseId:
-                cartWithLineResponse.cart.lines.edges[0].node.merchandise.id
+                cartWithLineResponse.cart.lines.nodes[0].merchandise.id
             }
           ]
         }
@@ -92,7 +91,7 @@ describe('cartLinesAdd', () => {
         lines: [
           {
             merchandiseId:
-              cartWithLineResponse.cart.lines.edges[0].node.merchandise.id
+              cartWithLineResponse.cart.lines.nodes[0].merchandise.id
           }
         ]
       })
@@ -114,15 +113,15 @@ describe('cartLinesUpdate', () => {
     );
 
     const updatedCart = cartWithLineResponse;
-    updatedCart.cart.lines.edges[0].node.quantity = 2;
+    updatedCart.cart.lines.nodes[0].quantity = 2;
 
     await cartLinesUpdate({
       gqlClient,
       cartId,
       lines: [
         {
-          id: updatedCart.cart.lines.edges[0].node.id,
-          merchandiseId: updatedCart.cart.lines.edges[0].node.merchandise.id,
+          id: updatedCart.cart.lines.nodes[0].id,
+          merchandiseId: updatedCart.cart.lines.nodes[0].merchandise.id,
           quantity: 2
         }
       ]
@@ -138,9 +137,8 @@ describe('cartLinesUpdate', () => {
           cartId,
           lines: [
             {
-              id: updatedCart.cart.lines.edges[0].node.id,
-              merchandiseId:
-                updatedCart.cart.lines.edges[0].node.merchandise.id,
+              id: updatedCart.cart.lines.nodes[0].id,
+              merchandiseId: updatedCart.cart.lines.nodes[0].merchandise.id,
               quantity: 2
             }
           ]
@@ -171,9 +169,9 @@ describe('cartLinesUpdate', () => {
         cartId,
         lines: [
           {
-            id: cartWithLineResponse.cart.lines.edges[0].node.id,
+            id: cartWithLineResponse.cart.lines.nodes[0].id,
             merchandiseId:
-              cartWithLineResponse.cart.lines.edges[0].node.merchandise.id,
+              cartWithLineResponse.cart.lines.nodes[0].merchandise.id,
             quantity: 2
           }
         ]
@@ -198,7 +196,7 @@ describe('cartLinesRemove', () => {
     await cartLinesRemove({
       gqlClient,
       cartId,
-      lineIds: [cartWithLineResponse.cart.lines.edges[0].node.id]
+      lineIds: [cartWithLineResponse.cart.lines.nodes[0].id]
     });
 
     expect(fetchClient).toHaveBeenCalledTimes(1);
@@ -209,7 +207,7 @@ describe('cartLinesRemove', () => {
         query: mutations.CART_LINE_REMOVE,
         variables: {
           cartId,
-          lineIds: [cartWithLineResponse.cart.lines.edges[0].node.id]
+          lineIds: [cartWithLineResponse.cart.lines.nodes[0].id]
         }
       })
     });
@@ -235,7 +233,7 @@ describe('cartLinesRemove', () => {
       cartLinesRemove({
         gqlClient,
         cartId,
-        lineIds: [cartWithLineResponse.cart.lines.edges[0].node.id]
+        lineIds: [cartWithLineResponse.cart.lines.nodes[0].id]
       })
     ).rejects.toThrow(networkErrorMessage);
   });

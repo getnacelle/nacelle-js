@@ -14,7 +14,7 @@ export interface CartFromGqlParams {
 export default function cartFromGql({ cart }: CartFromGqlParams): Cart {
   return {
     ...cart,
-    lines: cart.lines.edges.map((edge) => edge.node),
+    lines: cart.lines.nodes,
     note: cart.note ?? undefined
   };
 }

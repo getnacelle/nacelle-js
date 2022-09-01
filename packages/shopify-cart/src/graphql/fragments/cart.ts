@@ -25,44 +25,41 @@ export default /* GraphQL */ `
         hasNextPage
         hasPreviousPage
       }
-      edges {
-        cursor
-        node {
-          id
-          quantity
-          attributes {
-            key
-            value
+      nodes {
+        id
+        quantity
+        attributes {
+          key
+          value
+        }
+        cost {
+          subtotalAmount {
+            ...Money_money
           }
-          cost {
-            subtotalAmount {
-              ...Money_money
-            }
-            totalAmount {
-              ...Money_money
-            }
-            amountPerQuantity {
-              ...Money_money
-            }
-            compareAtAmountPerQuantity {
-              ...Money_money
-            }
+          totalAmount {
+            ...Money_money
           }
-          discountAllocations {
-            ... on CartAutomaticDiscountAllocation {
-              title
-            }
-            ... on CartCodeDiscountAllocation {
-              code
-            }
-            discountedAmount {
-              amount
-              currencyCode
-            }
+          amountPerQuantity {
+            ...Money_money
           }
-          merchandise {
-            ...Merchandise_merchandise
+          compareAtAmountPerQuantity {
+            ...Money_money
           }
+        }
+        discountAllocations {
+          ... on CartAutomaticDiscountAllocation {
+            title
+          }
+          ... on CartCodeDiscountAllocation {
+            code
+          }
+          discountedAmount {
+            amount
+            currencyCode
+          }
+        }
+        merchandise {
+          ...Merchandise_merchandise
         }
       }
     }
