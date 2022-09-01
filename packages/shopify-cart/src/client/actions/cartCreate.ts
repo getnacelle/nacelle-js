@@ -1,18 +1,25 @@
 import mutations from '../../graphql/mutations';
-import { formatCartResponse } from '../../utils';
+import {
+  formatCartResponse,
+  transformNacelleLineItemToShopifyLineItem
+} from '../../utils';
 import type {
-  CartInput,
+  CartResponse,
+  CartFragmentResponse,
+  NacelleCartInput
+} from '../../types/cart.type';
+import type {
   CartCreatePayload,
+  CartInput,
   MutationCartCreateArgs
 } from '../../types/shopify.type';
 import type { MutationFragments } from '../../graphql/mutations';
-import type { CartResponse, CartFragmentResponse } from '../../types/cart.type';
 import type { GqlClient } from '../../cart-client.types';
 
 export interface CreateCartParams {
   gqlClient: GqlClient;
   customFragments?: MutationFragments;
-  params?: CartInput;
+  params?: NacelleCartInput;
 }
 
 export type CartCreateResponse = CartCreatePayload & CartFragmentResponse;
@@ -27,12 +34,19 @@ export default async function cartCreate({
   params
 }: CreateCartParams): Promise<void | CartResponse> {
   try {
+    let formattedParams: NacelleCartInput | CartInput | undefined = params;
+    if (params && params.lines) {
+      const nacelleLines = params.lines;
+      const shopifyLines =
+        transformNacelleLineItemToShopifyLineItem(nacelleLines);
+      formattedParams = { ...params, lines: shopifyLines } as CartInput;
+    }
     const shopifyResponse = await gqlClient<
       MutationCartCreateArgs,
       MutationCartCreateResponse
     >({
       query: mutations.CART_CREATE(customFragments),
-      variables: { input: params ?? {} }
+      variables: { input: (formattedParams as CartInput | undefined) ?? {} }
     }).catch((err) => {
       throw new Error(err);
     });

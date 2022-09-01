@@ -1,7 +1,14 @@
 import mutations from '../../graphql/mutations';
-import { formatCartResponse } from '../../utils';
+import {
+  formatCartResponse,
+  transformNacelleLineItemToShopifyLineItem
+} from '../../utils';
 import type { MutationFragments } from '../../graphql/mutations';
-import type { CartResponse, CartFragmentResponse } from '../../types/cart.type';
+import type {
+  CartResponse,
+  CartFragmentResponse,
+  NacelleCartLineItemUpdateInput
+} from '../../types/cart.type';
 import type {
   CartLineUpdateInput,
   CartLinesUpdatePayload,
@@ -12,7 +19,7 @@ import type { GqlClient } from '../../cart-client.types';
 export interface CartLinesUpdateParams {
   cartId: string;
   gqlClient: GqlClient;
-  lines: Array<CartLineUpdateInput>;
+  lines: Array<NacelleCartLineItemUpdateInput>;
   customFragments?: MutationFragments;
 }
 
@@ -30,12 +37,14 @@ export default async function cartLinesUpdate({
   lines
 }: CartLinesUpdateParams): Promise<void | CartResponse> {
   try {
+    const formattedLines: CartLineUpdateInput[] =
+      transformNacelleLineItemToShopifyLineItem(lines) as CartLineUpdateInput[];
     const shopifyResponse = await gqlClient<
       MutationCartLinesUpdateArgs,
       MutationCartLinesUpdateResponse
     >({
       query: mutations.CART_LINE_UPDATE(customFragments),
-      variables: { cartId, lines }
+      variables: { cartId, lines: formattedLines }
     }).catch((err) => {
       throw new Error(err);
     });
