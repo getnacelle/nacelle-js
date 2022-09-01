@@ -1,24 +1,32 @@
-import merchandiseFragment from './merchandise';
-import moneyFragment from './money';
-import imageFragment from './image';
+import defaultBuyerIdentity from './buyerIdentity';
+import defaultDiscountAllocation from './discountAllocation';
+import defaultExtendCart from './extendCart';
+import defaultExtendCartLine from './extendCartLine';
+import defaultExtendCartLineMerchandise from './extendCartLineMerchandise';
+import defaultMerchandise from './merchandise';
+import defaultMoney from './money';
 
-export default /* GraphQL */ `
+export interface CartFragments {
+  BUYER_IDENTITY?: string;
+  DISCOUNT_ALLOCATION?: string;
+  EXTEND_CART?: string;
+  EXTEND_CART_LINE?: string;
+  EXTEND_CART_LINE_MERCHANDISE?: string;
+  MONEY?: string;
+}
+
+export default (customFragments?: CartFragments) => /* GraphQL */ `
   fragment Cart_cart on Cart {
+    ...Cart_extendCart
     id
     checkoutUrl
     createdAt
+    discountAllocations {
+      ...CartDiscountAllocation_discountAllocation
+    }
     updatedAt
     buyerIdentity {
-      countryCode
-      customer {
-        id
-        email
-        firstName
-        lastName
-        displayName
-      }
-      email
-      phone
+      ...CartBuyerIdentity_buyerIdentity
     }
     lines(first: $numCartLines) {
       pageInfo {
@@ -26,6 +34,7 @@ export default /* GraphQL */ `
         hasPreviousPage
       }
       nodes {
+        ...CartLine_extendCartLine
         id
         quantity
         attributes {
@@ -47,16 +56,7 @@ export default /* GraphQL */ `
           }
         }
         discountAllocations {
-          ... on CartAutomaticDiscountAllocation {
-            title
-          }
-          ... on CartCodeDiscountAllocation {
-            code
-          }
-          discountedAmount {
-            amount
-            currencyCode
-          }
+          ...CartDiscountAllocation_discountAllocation
         }
         merchandise {
           ...Merchandise_merchandise
@@ -93,7 +93,12 @@ export default /* GraphQL */ `
       code
     }
   }
-  ${merchandiseFragment}
-  ${moneyFragment}
-  ${imageFragment}
+  ${defaultMerchandise()}
+  ${customFragments?.BUYER_IDENTITY ?? defaultBuyerIdentity()}
+  ${customFragments?.DISCOUNT_ALLOCATION ?? defaultDiscountAllocation()}
+  ${customFragments?.EXTEND_CART ?? defaultExtendCart()}
+  ${customFragments?.EXTEND_CART_LINE ?? defaultExtendCartLine()}
+  ${customFragments?.EXTEND_CART_LINE_MERCHANDISE ??
+  defaultExtendCartLineMerchandise()}
+  ${customFragments?.MONEY ?? defaultMoney()}
 `;

@@ -1,16 +1,18 @@
 import mutations from '../../graphql/mutations';
 import { formatCartResponse } from '../../utils';
-import { CartResponse, CartFragmentResponse } from '../../types/cart.type';
+import type { MutationFragments } from '../../graphql/mutations';
+import type { CartResponse, CartFragmentResponse } from '../../types/cart.type';
 import {
   CartLinesRemovePayload,
   MutationCartLinesRemoveArgs
 } from '../../types/shopify.type';
-import { GqlClient } from '../../cart-client.types';
+import type { GqlClient } from '../../cart-client.types';
 
 export interface CartLinesRemoveParams {
   gqlClient: GqlClient;
   cartId: string;
   lineIds: Array<string>;
+  customFragments?: MutationFragments;
 }
 
 export type CartLinesRemoveResponse = CartLinesRemovePayload &
@@ -21,8 +23,9 @@ export interface MutationCartLinesRemoveResponse {
 }
 
 export default async function cartLinesRemove({
-  gqlClient,
   cartId,
+  customFragments,
+  gqlClient,
   lineIds
 }: CartLinesRemoveParams): Promise<void | CartResponse> {
   try {
@@ -30,7 +33,7 @@ export default async function cartLinesRemove({
       MutationCartLinesRemoveArgs,
       MutationCartLinesRemoveResponse
     >({
-      query: mutations.CART_LINE_REMOVE,
+      query: mutations.CART_LINE_REMOVE(customFragments),
       variables: { cartId, lineIds }
     }).catch((err) => {
       throw new Error(err);
