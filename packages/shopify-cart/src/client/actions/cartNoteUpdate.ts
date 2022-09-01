@@ -1,16 +1,18 @@
-import { Cart, CartFragmentResponse } from '../../types/cart.type';
-import {
+import mutations from '../../graphql/mutations';
+import { formatCartResponse } from '../../utils';
+import type {
   CartNoteUpdatePayload,
   MutationCartNoteUpdateArgs
 } from '../../types/shopify.type';
-import { GqlClient } from '../../cart-client.types';
-import mutations from '../../graphql/mutations';
-import { cartFromGql, handleShopifyError } from '../../utils';
+import type { MutationFragments } from '../../graphql/mutations';
+import type { CartResponse, CartFragmentResponse } from '../../types/cart.type';
+import type { GqlClient } from '../../cart-client.types';
 
 export interface UpdateCartNoteParams {
-  gqlClient: GqlClient;
   cartId: string;
+  gqlClient: GqlClient;
   note: string;
+  customFragments?: MutationFragments;
 }
 
 export type CartNoteUpdateResponse = CartNoteUpdatePayload &
@@ -21,32 +23,27 @@ export interface MutationCartNoteUpdateResponse {
 }
 
 export default async function cartNoteUpdate({
-  gqlClient,
   cartId,
+  customFragments,
+  gqlClient,
   note
-}: UpdateCartNoteParams): Promise<void | Cart> {
+}: UpdateCartNoteParams): Promise<void | CartResponse> {
   try {
-    const cartResponse = await gqlClient<
+    const shopifyResponse = await gqlClient<
       MutationCartNoteUpdateArgs,
       MutationCartNoteUpdateResponse
     >({
-      query: mutations.CART_NOTE_UPDATE,
+      query: mutations.CART_NOTE_UPDATE(customFragments),
       variables: { cartId, note }
     }).catch((err) => {
       throw new Error(err);
     });
 
-    const errs = cartResponse.data?.cartNoteUpdate.userErrors;
-
-    if (errs?.length) {
-      handleShopifyError(errs, { caller: 'cartNoteUpdate' });
-    }
-
-    const cart = cartResponse.data?.cartNoteUpdate.cart;
-
-    if (cart) {
-      return cartFromGql({ cart });
-    }
+    return formatCartResponse({
+      cart: shopifyResponse.data?.cartNoteUpdate.cart,
+      userErrors: shopifyResponse.data?.cartNoteUpdate.userErrors,
+      errors: shopifyResponse.errors
+    });
   } catch (err) {
     throw new Error(String(err));
   }

@@ -7,6 +7,6 @@
 // @index('./!(*.spec).ts', (f, _) => `export { default as ${_.camelCase(f.name)} } from '${f.path}';`)
 export { default as cartFromGql } from './cartFromGql';
 export { default as createGqlClient } from './createGqlClient';
-export { default as handleShopifyError } from './handleShopifyError';
-export { default as sanitizeFragment } from './sanitizeFragment';
+export { default as formatCartResponse } from './formatCartResponse';
+export { default as sanitizeFragments } from './sanitizeFragments';
 // @endindex

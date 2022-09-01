@@ -1,15 +1,17 @@
 import mutations from '../../graphql/mutations';
-import { handleShopifyError, cartFromGql } from '../../utils';
-import {
+import { formatCartResponse } from '../../utils';
+import type {
   CartInput,
   CartCreatePayload,
   MutationCartCreateArgs
 } from '../../types/shopify.type';
-import { Cart, CartFragmentResponse } from '../../types/cart.type';
-import { GqlClient } from '../../cart-client.types';
+import type { MutationFragments } from '../../graphql/mutations';
+import type { CartResponse, CartFragmentResponse } from '../../types/cart.type';
+import type { GqlClient } from '../../cart-client.types';
 
 export interface CreateCartParams {
   gqlClient: GqlClient;
+  customFragments?: MutationFragments;
   params?: CartInput;
 }
 
@@ -20,31 +22,26 @@ export interface MutationCartCreateResponse {
 }
 
 export default async function cartCreate({
+  customFragments,
   gqlClient,
   params
-}: CreateCartParams): Promise<void | Cart> {
+}: CreateCartParams): Promise<void | CartResponse> {
   try {
-    const cartResponse = await gqlClient<
+    const shopifyResponse = await gqlClient<
       MutationCartCreateArgs,
       MutationCartCreateResponse
     >({
-      query: mutations.CART_CREATE,
+      query: mutations.CART_CREATE(customFragments),
       variables: { input: params ?? {} }
     }).catch((err) => {
       throw new Error(err);
     });
 
-    const errs = cartResponse.data?.cartCreate.userErrors;
-
-    if (errs?.length) {
-      handleShopifyError(errs, { caller: 'cartCreate' });
-    }
-
-    const cart = cartResponse.data?.cartCreate.cart;
-
-    if (cart) {
-      return cartFromGql({ cart });
-    }
+    return formatCartResponse({
+      cart: shopifyResponse.data?.cartCreate.cart,
+      userErrors: shopifyResponse.data?.cartCreate.userErrors,
+      errors: shopifyResponse.errors
+    });
   } catch (err) {
     throw new Error(String(err));
   }

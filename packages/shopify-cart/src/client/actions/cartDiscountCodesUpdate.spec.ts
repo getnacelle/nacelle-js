@@ -1,24 +1,25 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import fetchClient from 'cross-fetch';
 import { CartDiscountCodesUpdateMutation } from '../../types/shopify.type';
-import { cartDiscountCodesUpdate } from '../../client/actions';
-import mutations from '../../graphql/mutations';
 import { createGqlClient } from '../../utils';
+import formatCartResponse from '../../utils/formatCartResponse';
 import { mockJsonResponse } from '../../../__tests__/utils';
-import { cartDoesNotExistUserError } from '../../utils/handleShopifyError';
 import {
   clientSettings,
   cartId,
-  carts,
   responses,
   graphqlEndpoint,
   headers
 } from '../../../__tests__/mocks';
+import cartDiscountCodesUpdate from './cartDiscountCodesUpdate';
+import mutations from '../../graphql/mutations';
 
 jest.mock('cross-fetch');
+jest.mock('../../utils/formatCartResponse');
 
 const gqlClient = createGqlClient({ ...clientSettings, fetchClient });
 const mockedFetchClient = jest.mocked(fetchClient, true);
+const mockedFormatCartResponse = jest.mocked(formatCartResponse, true);
 
 describe('cartDiscountCodesUpdate', () => {
   afterEach(() => {
@@ -33,15 +34,10 @@ describe('cartDiscountCodesUpdate', () => {
         )
     );
 
-    await expect(
-      cartDiscountCodesUpdate({
-        gqlClient,
-        cartId,
-        discountCodes: ['code']
-      })
-    ).resolves.toStrictEqual({
-      ...carts.withoutLine,
-      id: cartId
+    await cartDiscountCodesUpdate({
+      gqlClient,
+      cartId,
+      discountCodes: ['code']
     });
 
     expect(fetchClient).toHaveBeenCalledTimes(1);
@@ -49,16 +45,26 @@ describe('cartDiscountCodesUpdate', () => {
       method: 'POST',
       headers,
       body: JSON.stringify({
-        query: mutations.CART_DISCOUNT_CODES_UPDATE,
+        query: mutations.CART_DISCOUNT_CODES_UPDATE(),
         variables: {
           cartId,
           discountCodes: ['code']
         }
       })
     });
+
+    expect(mockedFormatCartResponse).toHaveBeenCalledTimes(1);
+    expect(mockedFormatCartResponse).toHaveBeenCalledWith({
+      cart: responses.mutations.cartDiscountCodesUpdate.withoutCodes.data
+        ?.cartDiscountCodesUpdate?.cart,
+      userErrors:
+        responses.mutations.cartDiscountCodesUpdate.withoutCodes.data
+          ?.cartDiscountCodesUpdate?.userErrors,
+      errors: undefined
+    });
   });
 
-  // Test Error Handling
+  // Test Thrown Handling
   it('throws an error if there are problems with the request', async () => {
     const networkErrorMessage = 'Network error!';
     mockedFetchClient.mockImplementation(
@@ -73,25 +79,5 @@ describe('cartDiscountCodesUpdate', () => {
         discountCodes: ['code']
       })
     ).rejects.toThrow(networkErrorMessage);
-  });
-
-  it('throws an error if the cart id is invalid', async () => {
-    mockedFetchClient.mockImplementationOnce(
-      (): Promise<any> =>
-        mockJsonResponse<CartDiscountCodesUpdateMutation>({
-          data: {
-            cartDiscountCodesUpdate: { userErrors: [cartDoesNotExistUserError] }
-          }
-        })
-    );
-
-    expect.assertions(1);
-    await cartDiscountCodesUpdate({
-      gqlClient,
-      cartId,
-      discountCodes: ['code']
-    }).catch((e) =>
-      expect(String(e).includes(cartDoesNotExistUserError.message)).toBe(true)
-    );
   });
 });

@@ -1,16 +1,18 @@
-import { Cart, CartFragmentResponse } from '../../types/cart.type';
 import mutations from '../../graphql/mutations';
-import { handleShopifyError, cartFromGql } from '../../utils';
+import { formatCartResponse } from '../../utils';
+import type { MutationFragments } from '../../graphql/mutations';
+import type { CartResponse, CartFragmentResponse } from '../../types/cart.type';
 import {
   CartLinesRemovePayload,
   MutationCartLinesRemoveArgs
 } from '../../types/shopify.type';
-import { GqlClient } from '../../cart-client.types';
+import type { GqlClient } from '../../cart-client.types';
 
 export interface CartLinesRemoveParams {
   gqlClient: GqlClient;
   cartId: string;
   lineIds: Array<string>;
+  customFragments?: MutationFragments;
 }
 
 export type CartLinesRemoveResponse = CartLinesRemovePayload &
@@ -21,32 +23,27 @@ export interface MutationCartLinesRemoveResponse {
 }
 
 export default async function cartLinesRemove({
-  gqlClient,
   cartId,
+  customFragments,
+  gqlClient,
   lineIds
-}: CartLinesRemoveParams): Promise<void | Cart> {
+}: CartLinesRemoveParams): Promise<void | CartResponse> {
   try {
-    const cartResponse = await gqlClient<
+    const shopifyResponse = await gqlClient<
       MutationCartLinesRemoveArgs,
       MutationCartLinesRemoveResponse
     >({
-      query: mutations.CART_LINE_REMOVE,
+      query: mutations.CART_LINE_REMOVE(customFragments),
       variables: { cartId, lineIds }
     }).catch((err) => {
       throw new Error(err);
     });
 
-    const errs = cartResponse.data?.cartLinesRemove.userErrors;
-
-    if (errs?.length) {
-      handleShopifyError(errs, { caller: 'cartLinesRemove' });
-    }
-
-    const cart = cartResponse.data?.cartLinesRemove.cart;
-
-    if (cart) {
-      return cartFromGql({ cart });
-    }
+    return formatCartResponse({
+      cart: shopifyResponse.data?.cartLinesRemove.cart,
+      userErrors: shopifyResponse.data?.cartLinesRemove.userErrors,
+      errors: shopifyResponse.errors
+    });
   } catch (err) {
     throw new Error(String(err));
   }

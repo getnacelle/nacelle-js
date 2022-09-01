@@ -1,17 +1,19 @@
-import { Cart, CartFragmentResponse } from '../../types/cart.type';
 import mutations from '../../graphql/mutations';
-import { handleShopifyError, cartFromGql } from '../../utils';
-import {
+import { formatCartResponse } from '../../utils';
+import type { MutationFragments } from '../../graphql/mutations';
+import type { CartResponse, CartFragmentResponse } from '../../types/cart.type';
+import type {
   CartLineUpdateInput,
   CartLinesUpdatePayload,
   MutationCartLinesUpdateArgs
 } from '../../types/shopify.type';
-import { GqlClient } from '../../cart-client.types';
+import type { GqlClient } from '../../cart-client.types';
 
 export interface CartLinesUpdateParams {
-  gqlClient: GqlClient;
   cartId: string;
+  gqlClient: GqlClient;
   lines: Array<CartLineUpdateInput>;
+  customFragments?: MutationFragments;
 }
 
 export type CartLinesUpdateResponse = CartLinesUpdatePayload &
@@ -22,32 +24,27 @@ export interface MutationCartLinesUpdateResponse {
 }
 
 export default async function cartLinesUpdate({
-  gqlClient,
   cartId,
+  customFragments,
+  gqlClient,
   lines
-}: CartLinesUpdateParams): Promise<void | Cart> {
+}: CartLinesUpdateParams): Promise<void | CartResponse> {
   try {
-    const cartResponse = await gqlClient<
+    const shopifyResponse = await gqlClient<
       MutationCartLinesUpdateArgs,
       MutationCartLinesUpdateResponse
     >({
-      query: mutations.CART_LINE_UPDATE,
+      query: mutations.CART_LINE_UPDATE(customFragments),
       variables: { cartId, lines }
     }).catch((err) => {
       throw new Error(err);
     });
 
-    const errs = cartResponse.data?.cartLinesUpdate.userErrors;
-
-    if (errs?.length) {
-      handleShopifyError(errs, { caller: 'cartLinesUpdate' });
-    }
-
-    const cart = cartResponse.data?.cartLinesUpdate.cart;
-
-    if (cart) {
-      return cartFromGql({ cart });
-    }
+    return formatCartResponse({
+      cart: shopifyResponse.data?.cartLinesUpdate.cart,
+      userErrors: shopifyResponse.data?.cartLinesUpdate.userErrors,
+      errors: shopifyResponse.errors
+    });
   } catch (err) {
     throw new Error(String(err));
   }
