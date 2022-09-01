@@ -11,14 +11,13 @@ import {
 } from './actions';
 import { createGqlClient, sanitizeFragments } from '../utils';
 import fragments from '../graphql/fragments';
-import type { CartResponse } from '../types/cart.type';
 import type {
-  AttributeInput,
-  CartInput,
-  CartBuyerIdentityInput,
-  CartLineInput,
-  CartLineUpdateInput
-} from '../types/shopify.type';
+  CartResponse,
+  NacelleCartInput,
+  NacelleCartLineItemInput,
+  NacelleCartLineItemUpdateInput
+} from '../types/cart.type';
+import { AttributeInput, CartBuyerIdentityInput } from '../types/shopify.type';
 
 export type UserSuppliedFragmentType = Exclude<
   keyof typeof fragments,
@@ -46,7 +45,7 @@ type CartBuyerIdentityUpdate = (params: {
   buyerIdentity: CartBuyerIdentityInput;
 }) => Promise<CartResponse | void>;
 
-type CartCreate = (params: CartInput) => Promise<CartResponse | void>;
+type CartCreate = (params: NacelleCartInput) => Promise<CartResponse | void>;
 
 type CartDiscountCodesUpdate = (params: {
   cartId: string;
@@ -55,12 +54,12 @@ type CartDiscountCodesUpdate = (params: {
 
 type CartLinesAdd = (params: {
   cartId: string;
-  lines: Array<CartLineInput>;
+  lines: Array<NacelleCartLineItemInput>;
 }) => Promise<CartResponse | void>;
 
 type CartLinesUpdate = (params: {
   cartId: string;
-  lines: Array<CartLineUpdateInput>;
+  lines: Array<NacelleCartLineItemUpdateInput>;
 }) => Promise<CartResponse | void>;
 
 type CartLinesRemove = (params: {
@@ -183,7 +182,7 @@ export default function createShopifyCartClient({
         gqlClient,
         ...params
       }),
-    cartCreate: (params: CartInput): Promise<CartResponse | void> =>
+    cartCreate: (params: NacelleCartInput): Promise<CartResponse | void> =>
       cartCreate({
         customFragments: sanitizedCustomFragments,
         gqlClient,
@@ -200,7 +199,7 @@ export default function createShopifyCartClient({
       }),
     cartLinesAdd: (params: {
       cartId: string;
-      lines: Array<CartLineInput>;
+      lines: Array<NacelleCartLineItemInput>;
     }): Promise<CartResponse | void> =>
       cartLinesAdd({
         customFragments: sanitizedCustomFragments,
@@ -209,7 +208,7 @@ export default function createShopifyCartClient({
       }),
     cartLinesUpdate: (params: {
       cartId: string;
-      lines: Array<CartLineUpdateInput>;
+      lines: Array<NacelleCartLineItemUpdateInput>;
     }): Promise<CartResponse | void> =>
       cartLinesUpdate({ customFragments, gqlClient, ...params }),
     cartLinesRemove: (params: {
