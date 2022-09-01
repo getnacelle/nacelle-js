@@ -151,7 +151,8 @@ describe('createShopifyCartClient', () => {
           lines: [
             {
               quantity: 2,
-              merchandiseId: updatedCart.cart.lines.nodes[0].merchandise.id,
+              merchandiseId:
+                updatedCart.cart.lines.nodes[0].merchandise.sourceEntryId,
               id: updatedCart.cart.lines.nodes[0].id
             }
           ]
@@ -438,9 +439,9 @@ describe('createShopifyCartClient', () => {
       /fragment ProductVariant_extendCartLineMerchandise on ProductVariant {\\n\s+ weight\\n\s+ }/
     );
 
-    // Check that the `id` from the required `Merchandise_merchandise` fragment was included
+    // Check that the `sourceEntryId` from the required `Merchandise_merchandise` fragment was included
     expect(requestBody).toMatch(
-      /fragment Merchandise_merchandise on ProductVariant {\\n\s+ id/
+      /fragment Merchandise_merchandise on ProductVariant {\\n\s+ sourceEntryId/
     );
   });
 });

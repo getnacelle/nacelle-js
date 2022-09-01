@@ -1,6 +1,6 @@
 export default () => /* GraphQL */ `
   fragment Merchandise_merchandise on ProductVariant {
-    id
+    sourceEntryId: id
     ...ProductVariant_extendCartLineMerchandise
   }
 `;

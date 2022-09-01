@@ -1,5 +1,6 @@
 import { Cart } from '../types/cart.type';
 import { Cart_CartFragment } from '../types/shopify.type';
+import transformShopifyLineToNacelleLine from './transformShopifyLineToNacelleLine';
 
 export interface CartFromGqlParams {
   cart: Cart_CartFragment;
@@ -14,7 +15,7 @@ export interface CartFromGqlParams {
 export default function cartFromGql({ cart }: CartFromGqlParams): Cart {
   return {
     ...cart,
-    lines: cart.lines.nodes,
+    lines: transformShopifyLineToNacelleLine(cart.lines.nodes),
     note: cart.note ?? undefined
   };
 }

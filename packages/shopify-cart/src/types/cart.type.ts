@@ -10,13 +10,27 @@ import type { ShopifyError } from './errors.type';
 
 export interface Cart {
   id?: string;
-  lines: Cart_CartFragment['lines']['nodes'][1][];
+  lines: NacelleCartLine[];
   checkoutUrl?: string;
   note?: string;
   buyerIdentity?: Cart_CartFragment['buyerIdentity'];
   attributes: Cart_CartFragment['attributes'];
   discountCodes?: Cart_CartFragment['discountCodes'];
-  Cost?: Cart_CartFragment['cost'];
+  cost?: Cart_CartFragment['cost'];
+}
+
+export type CartLine = Cart_CartFragment['lines']['nodes'][1];
+export type CartMerchandise =
+  Cart_CartFragment['lines']['nodes'][1]['merchandise'];
+
+export interface NacelleCartMerchandise extends Omit<CartMerchandise, 'id'> {
+  sourceEntryId: string;
+  nacelleEntryId: string;
+}
+
+export interface NacelleCartLine
+  extends Omit<CartLine, 'nacelleEntryId' | 'merchandise'> {
+  merchandise: NacelleCartMerchandise;
 }
 
 export interface CartResponse {

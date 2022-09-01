@@ -63,7 +63,8 @@ describe('cartLinesAdd', () => {
           lines: [
             {
               merchandiseId:
-                cartWithLineResponse.cart.lines.nodes[0].merchandise.id
+                cartWithLineResponse.cart.lines.nodes[0].merchandise
+                  .sourceEntryId
             }
           ]
         }
@@ -142,7 +143,8 @@ describe('cartLinesUpdate', () => {
           lines: [
             {
               quantity: 2,
-              merchandiseId: updatedCart.cart.lines.nodes[0].merchandise.id,
+              merchandiseId:
+                updatedCart.cart.lines.nodes[0].merchandise.sourceEntryId,
               id: updatedCart.cart.lines.nodes[0].id
             }
           ]
