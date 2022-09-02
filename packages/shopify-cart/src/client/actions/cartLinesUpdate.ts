@@ -10,7 +10,6 @@ import type {
   NacelleCartLineItemUpdateInput
 } from '../../types/cart.type';
 import type {
-  CartLineUpdateInput,
   CartLinesUpdatePayload,
   MutationCartLinesUpdateArgs
 } from '../../types/shopify.type';
@@ -37,8 +36,7 @@ export default async function cartLinesUpdate({
   lines
 }: CartLinesUpdateParams): Promise<void | CartResponse> {
   try {
-    const formattedLines: CartLineUpdateInput[] =
-      transformNacelleLineItemToShopifyLineItem(lines) as CartLineUpdateInput[];
+    const formattedLines = transformNacelleLineItemToShopifyLineItem(lines);
     const shopifyResponse = await gqlClient<
       MutationCartLinesUpdateArgs,
       MutationCartLinesUpdateResponse

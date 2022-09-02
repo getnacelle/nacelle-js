@@ -141,9 +141,9 @@ describe('cartLinesUpdate', () => {
           cartId,
           lines: [
             {
+              id: updatedCart.cart.lines.nodes[0].id,
               quantity: 2,
-              merchandiseId: updatedCart.cart.lines.nodes[0].merchandise.id,
-              id: updatedCart.cart.lines.nodes[0].id
+              merchandiseId: updatedCart.cart.lines.nodes[0].merchandise.id
             }
           ]
         }
