@@ -33,20 +33,25 @@ export default async function cartCreate({
   gqlClient,
   params
 }: CreateCartParams): Promise<void | CartResponse> {
+  let shopifyParams: CartInput = {};
+
   try {
-    let formattedParams: NacelleCartInput | CartInput | undefined = params;
-    if (params && params.lines) {
-      const nacelleLines = params.lines;
-      const shopifyLines =
-        transformNacelleLineItemToShopifyLineItem(nacelleLines);
-      formattedParams = { ...params, lines: shopifyLines } as CartInput;
+    if (params) {
+      const { lines: nacelleLines, ...otherParams } = params;
+      shopifyParams = otherParams;
+
+      if (nacelleLines) {
+        shopifyParams.lines =
+          transformNacelleLineItemToShopifyLineItem(nacelleLines);
+      }
     }
+
     const shopifyResponse = await gqlClient<
       MutationCartCreateArgs,
       MutationCartCreateResponse
     >({
       query: mutations.CART_CREATE(customFragments),
-      variables: { input: (formattedParams as CartInput | undefined) ?? {} }
+      variables: { input: shopifyParams }
     }).catch((err) => {
       throw new Error(err);
     });
