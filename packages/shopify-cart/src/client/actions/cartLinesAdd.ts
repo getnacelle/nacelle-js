@@ -10,7 +10,6 @@ import type {
 } from '../../types/cart.type';
 import type { MutationFragments } from '../../graphql/mutations';
 import type {
-  CartLineInput,
   CartLinesAddPayload,
   MutationCartLinesAddArgs
 } from '../../types/shopify.type';
@@ -36,9 +35,7 @@ export default async function cartLinesAdd({
   lines
 }: CartLinesAddParams): Promise<void | CartResponse> {
   try {
-    const formattedLines = transformNacelleLineItemToShopifyLineItem(
-      lines
-    ) as CartLineInput[];
+    const formattedLines = transformNacelleLineItemToShopifyLineItem(lines);
     const shopifyResponse = await gqlClient<
       MutationCartLinesAddArgs,
       MutationCartLinesAddResponse
