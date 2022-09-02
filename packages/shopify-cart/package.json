@@ -41,7 +41,7 @@
       "require": "./dist/nacelle-shopify-cart.umd.js"
     }
   },
-  "types": "./dist/types/client/index.d.ts",
+  "types": "./dist/types/index.d.ts",
   "sideEffects": false,
   "directories": {
     "src": "src",
