@@ -74,7 +74,6 @@ export const cartWithoutLine: Cart_CartFragment = {
   createdAt: '2022-07-01T00:00:00Z',
   updatedAt: '2022-07-01T00:00:00Z',
   checkoutUrl,
-  discountAllocations: [],
   buyerIdentity: {
     countryCode: null,
     customer: null,
@@ -119,7 +118,6 @@ export const cartWithLine: Cart_CartFragment = {
   createdAt: '2022-07-01T00:00:00Z',
   updatedAt: '2022-07-01T00:00:00Z',
   checkoutUrl,
-  discountAllocations: [],
   buyerIdentity: {
     countryCode: null,
     customer: null,

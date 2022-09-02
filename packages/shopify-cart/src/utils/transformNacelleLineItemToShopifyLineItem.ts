@@ -9,23 +9,11 @@ export default function (
   nacelleLines: NacelleCartLineItemInput[] | NacelleCartLineItemUpdateInput[]
 ): CartLineInput[] | CartLineUpdateInput[] {
   return nacelleLines?.map((line) => {
-    if (line.nacelleEntryId) {
-      const shopifyId = getShopifyIdFromNacelleId(line.nacelleEntryId);
-      const shopifyItem: CartLineInput | CartLineUpdateInput = {
-        attributes: line.attributes,
-        quantity: line.quantity,
-        sellingPlanId: line.sellingPlanId,
-        merchandiseId: shopifyId
-      };
-      if ((line as NacelleCartLineItemUpdateInput).id) {
-        (shopifyItem as CartLineUpdateInput).id = (
-          line as NacelleCartLineItemUpdateInput
-        ).id;
-        return shopifyItem as CartLineUpdateInput;
-      }
-      return shopifyItem;
-    } else {
-      return line as CartLineUpdateInput;
+    const { nacelleEntryId, ...rest } = line;
+    const shopifyItem = { ...rest } as CartLineInput | CartLineUpdateInput;
+    if (nacelleEntryId) {
+      shopifyItem.merchandiseId = getShopifyIdFromNacelleId(nacelleEntryId);
     }
+    return shopifyItem;
   }) as CartLineInput[] | CartLineUpdateInput[];
 }
