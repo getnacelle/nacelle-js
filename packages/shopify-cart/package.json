@@ -32,12 +32,12 @@
     "npm": ">=7"
   },
   "main": "./dist/nacelle-shopify-cart.umd.js",
-  "module": "./dist/nacelle-shopify-cart.es.js",
+  "module": "./dist/nacelle-shopify-cart.mjs",
   "unpkg": "./dist/nacelle-shopify-cart.iife.js",
   "jsdelivr": "./dist/nacelle-shopify-cart.iife.js",
   "exports": {
     ".": {
-      "import": "./dist/nacelle-shopify-cart.es.js",
+      "import": "./dist/nacelle-shopify-cart.mjs",
       "require": "./dist/nacelle-shopify-cart.umd.js"
     }
   },
