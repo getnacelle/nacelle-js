@@ -7,6 +7,7 @@ export default (
   mutation CartCreate(
     $input: CartInput!
     $numCartLines: Int = 250
+    $afterCursor: String
     $country: CountryCode = ZZ
   ) @inContext(country: $country) {
     cartCreate(input: $input) {

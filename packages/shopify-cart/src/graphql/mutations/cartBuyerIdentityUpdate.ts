@@ -8,6 +8,7 @@ export default (
     $cartId: ID!
     $buyerIdentity: CartBuyerIdentityInput!
     $numCartLines: Int = 250
+    $afterCursor: String
     $country: CountryCode = ZZ
   ) @inContext(country: $country) {
     cartBuyerIdentityUpdate(cartId: $cartId, buyerIdentity: $buyerIdentity) {

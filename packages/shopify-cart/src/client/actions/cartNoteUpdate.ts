@@ -1,5 +1,5 @@
 import mutations from '../../graphql/mutations';
-import { formatCartResponse } from '../../utils';
+import { formatCartResponse, depaginateLines } from '../../utils';
 import type {
   CartNoteUpdatePayload,
   MutationCartNoteUpdateArgs
@@ -39,8 +39,14 @@ export default async function cartNoteUpdate({
       throw new Error(err);
     });
 
-    return formatCartResponse({
+    const cart = await depaginateLines({
       cart: shopifyResponse.data?.cartNoteUpdate.cart,
+      customFragments,
+      gqlClient
+    });
+
+    return formatCartResponse({
+      cart,
       userErrors: shopifyResponse.data?.cartNoteUpdate.userErrors,
       errors: shopifyResponse.errors
     });

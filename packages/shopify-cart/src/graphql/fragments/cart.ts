@@ -28,10 +28,11 @@ export default (customFragments?: CartFragments) => /* GraphQL */ `
     buyerIdentity {
       ...CartBuyerIdentity_buyerIdentity
     }
-    lines(first: $numCartLines) {
+    lines(first: $numCartLines, after: $afterCursor) {
       pageInfo {
         hasNextPage
         hasPreviousPage
+        endCursor
       }
       nodes {
         ...CartLine_extendCartLine
