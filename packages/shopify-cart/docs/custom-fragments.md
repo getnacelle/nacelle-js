@@ -1,13 +1,13 @@
 # Custom fragments in `@nacelle/shopify-cart`
 
-`@nacelle/shopify-cart` uses [GraphQL][graphql-docs] queries and mutations to create and modify Shopify `Cart`s. We use GraphQL [fragments][graphql-fragments-docs] to specify properties of interest for things like [`cart.lines.merchandise`][shopify-merchandise], [`cart.discountAllocations`][shopify-discount-allocation], and [`userErrors`][shopify-user-error].
+`@nacelle/shopify-cart` uses [GraphQL][graphql-docs] queries and mutations to create and modify Shopify `Cart`s. We use GraphQL [fragments][graphql-fragments-docs] to specify properties of interest for things like `cart.lines.merchandise`, `cart.discountAllocations`, and `userErrors`.
 
-Because [`Cart`][shopify-cart-object] data needs will vary project-to-project, it's important that developers have the power to specify which properties of the `Cart` object or its sub-properties should be returned in `cartClient` responses. By providing `customFragments` to the `cartClient`, developers can enjoy the convenience of `@nacelle/shopify-cart` with the flexibility of GraphQL.
+Because `Cart` data needs will vary project-to-project, it's important that developers have the power to specify which properties of the `Cart` object or its sub-properties should be returned in `cartClient` responses. By providing `customFragments` to the `cartClient`, developers can enjoy the convenience of `@nacelle/shopify-cart` with the flexibility of GraphQL.
 
 ## Prerequisites
 
 1. If you don't have prior experience with GraphQL fragments in GraphQL queries/mutations, please refer to the [GraphQL docs on fragments][graphql-fragments-docs].
-2. If you aren't yet familiar with the schema for Shopify `Cart` data, use your favorite GraphQL client (or [Shopify's Storefront API GraphiQL explorer][shopify-graphiql-explorer]) to explore the Shopify Storefront API's GraphQL schema for the [`Cart`][shopify-cart-object] object and its sub-properties. Once you're comfortable with the location and property names of the cart data you're interested in, you can start crafting `customFragments` for `@nacelle/shopify-cart`.
+2. If you aren't yet familiar with the schema for Shopify `Cart` data, use your favorite GraphQL client (or [Shopify's Storefront API GraphiQL explorer][shopify-graphiql-explorer]) to explore the Shopify Storefront API's GraphQL schema for [the `Cart` object][shopify-cart-object] and its sub-properties. Once you're comfortable with the location and property names of the cart data you're interested in, you can start crafting `customFragments` for `@nacelle/shopify-cart`.
 
 ## Initializing the `cartClient` with `customFragments`
 
@@ -118,7 +118,4 @@ const cartClient = createShopifyCartClient({
 [shopify-access-scopes]: https://shopify.dev/api/usage/access-scopes#unauthenticated-access-scopes
 [shopify-cart-object]: https://shopify.dev/api/storefront/2022-07/objects/Cart#top
 [shopify-cart-user-error]: https://shopify.dev/api/storefront/2022-07/objects/CartUserError
-[shopify-discount-allocation]: https://shopify.dev/api/storefront/2022-07/interfaces/CartDiscountAllocation
 [shopify-graphiql-explorer]: https://shopify.dev/custom-storefronts/tools/graphiql-storefront-api
-[shopify-merchandise]: https://shopify.dev/api/storefront/2022-07/unions/Merchandise
-[shopify-user-error]: https://shopify.dev/api/storefront/2022-07/objects/CartUserError
