@@ -1,35 +1,15 @@
-# Custom Fragments
+# Custom fragments in `@nacelle/shopify-cart`
 
 If you'd like to query for additional fields on the [`Cart`][shopify-cart-object] object or its sub-properties, you can supply [GraphQL fragments][graphql-fragments-docs] when initializing the `cartClient`.
-
-## Prerequisites
-
-1. If you don't have prior experience with GraphQL fragments in GraphQL queries/mutations, please refer to the [GraphQL docs on fragments][graphql-fragments-docs].
-2. If you aren't yet familiar with the schema for Shopify `Cart` data, use your favorite GraphQL client (or [Shopify's Storefront API GraphiQL explorer][shopify-graphiql-explorer]) to explore the Shopify Storefront API's GraphQL schema for the [`Cart`][shopify-cart-object] object and its sub-properties. Once you're comfortable with the location and property names of the cart data you're interested in, you can start crafting `customFragments` for `@nacelle/shopify-cart`.
-
-## Concepts
-
-### The flexibility of GraphQL fragments
 
 `@nacelle/shopify-cart` uses GraphQL queries and mutations to create and modify Shopify `Cart`s. We use GraphQL fragments to specify properties of interest for things like `cart.lines.merchandise`, `cart.discountAllocations`, and `userErrors`.
 
 Because `Cart` data needs will vary project-to-project, it's important that developers have the power to specify their own properties of interest. By providing a way to supply `customFragments` to the `cartClient`, developers can enjoy the convenience of `@nacelle/shopify-cart` with the flexibility of GraphQL.
 
-### Default fragments in `@nacelle/shopify-cart`
+## Prerequisites
 
-Please check out `@nacelle/shopify-cart`'s [default GraphQL fragments][nacelle-shopify-cart-fragments]. Familiarity with these fragments will help you to identify which fragments you'd like to augment or override.
-
-### The two flavors of `customFragments`
-
-There are two flavors of GraphQL fragments that you can supply as `customFragments` - "extension" fragments, and "replacement" fragments.
-
-#### Extension fragments
-
-Extension fragments make additive changes to the default fragments. When supplying an extension fragment, you can only query for more data, not less. Extension fragments have `customFragments` keys that start with "`EXTEND_`".
-
-#### Replacement fragments
-
-Replacement fragments totally override `@nacelle/shopify-cart`'s default fragments, except for any data fields that are required by `@nacelle/shopify-cart`. Any `customFragments` keys that do not start with "`EXTEND_`" are replacement fragments.
+1. If you don't have prior experience with GraphQL fragments in GraphQL queries/mutations, please refer to the [GraphQL docs on fragments][graphql-fragments-docs].
+2. If you aren't yet familiar with the schema for Shopify `Cart` data, use your favorite GraphQL client (or [Shopify's Storefront API GraphiQL explorer][shopify-graphiql-explorer]) to explore the Shopify Storefront API's GraphQL schema for the [`Cart`][shopify-cart-object] object and its sub-properties. Once you're comfortable with the location and property names of the cart data you're interested in, you can start crafting `customFragments` for `@nacelle/shopify-cart`.
 
 ## Initializing the `cartClient` with `customFragments`
 
@@ -63,6 +43,20 @@ Valid `FRAGMENT_KEY`s include:
 Please take care to ensure that your fragments use the expected GraphQL types. If a fragment is provided with an unexpected GraphQL type, `@nacelle/shopify-cart` will throw an error when the `cartClient` is initialized.
 
 The fragment name (example: `SomeFragment` in `fragment SomeFragment on GraphqlTypeOfInterest`) can be a name of your choosing.
+
+## Default fragments
+
+Please check out `@nacelle/shopify-cart`'s [default GraphQL fragments][nacelle-shopify-cart-fragments]. Familiarity with these fragments will help you to identify which fragments you'd like to augment or override.
+
+There are two flavors of GraphQL fragments that you can supply as `customFragments` - "extension" fragments, and "replacement" fragments.
+
+## Extension fragments
+
+Extension fragments make additive changes to the default fragments. When supplying an extension fragment, you can only query for more data, not less. Extension fragments have `customFragments` keys that start with "`EXTEND_`".
+
+## Replacement fragments
+
+Replacement fragments totally override `@nacelle/shopify-cart`'s default fragments, except for any data fields that are required by `@nacelle/shopify-cart`. Any `customFragments` keys that do not start with "`EXTEND_`" are replacement fragments.
 
 ## Examples
 
