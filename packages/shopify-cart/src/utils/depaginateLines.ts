@@ -28,7 +28,7 @@ export default async function depaginateLines({
   try {
     if (cart) {
       let { hasNextPage, endCursor } = cart.lines.pageInfo;
-      let nodes = cart.lines.nodes;
+      const nodes = cart.lines.nodes;
 
       while (hasNextPage && endCursor) {
         const shopifyResponse = await gqlClient<
@@ -45,7 +45,7 @@ export default async function depaginateLines({
         endCursor = shopifyResponse.data?.cart?.lines.pageInfo.endCursor;
 
         if (shopifyResponse.data?.cart?.lines.nodes) {
-          nodes = [...nodes, ...shopifyResponse.data.cart.lines.nodes];
+          nodes.push(...shopifyResponse.data.cart.lines.nodes);
         }
       }
 
