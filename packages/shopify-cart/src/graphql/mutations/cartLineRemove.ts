@@ -8,6 +8,7 @@ export default (
     $cartId: ID!
     $lineIds: [ID!]!
     $numCartLines: Int = 250
+    $afterCursor: String
     $country: CountryCode = ZZ
   ) @inContext(country: $country) {
     cartLinesRemove(cartId: $cartId, lineIds: $lineIds) {
