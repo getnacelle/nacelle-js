@@ -8,6 +8,7 @@ export default (
     $cartId: ID!
     $note: String
     $numCartLines: Int = 250
+    $afterCursor: String
     $country: CountryCode = ZZ
   ) @inContext(country: $country) {
     cartNoteUpdate(cartId: $cartId, note: $note) {
