@@ -5,7 +5,7 @@ import { defineConfig, UserConfig } from 'vite';
 export const config: UserConfig = {
   build: {
     lib: {
-      entry: path.resolve(__dirname, 'src', 'client', 'index.ts'),
+      entry: path.resolve(__dirname, 'src', 'index.ts'),
       fileName: 'nacelle-shopify-cart',
       formats: ['es', 'umd', 'iife'],
       name: 'NacelleShopifyCart'
