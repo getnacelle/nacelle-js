@@ -2,7 +2,7 @@
 
 `@nacelle/shopify-cart` uses [GraphQL][graphql-docs] queries and mutations to create and modify Shopify `Cart`s. We use GraphQL [fragments][graphql-fragments-docs] to specify properties of interest for things like [`cart.lines.merchandise`][shopify-merchandise], [`cart.discountAllocations`][shopify-discount-allocation], and [`userErrors`][shopify-user-error].
 
-Because [`Cart`][shopify-cart-object] data needs will vary project-to-project, it's important that developers have the power to specify which properties of the [`Cart`][shopify-cart-object] object or its sub-properties should be returned in `cartClient` responses. By providing `customFragments` to the `cartClient`, developers can enjoy the convenience of `@nacelle/shopify-cart` with the flexibility of GraphQL.
+Because [`Cart`][shopify-cart-object] data needs will vary project-to-project, it's important that developers have the power to specify which properties of the `Cart` object or its sub-properties should be returned in `cartClient` responses. By providing `customFragments` to the `cartClient`, developers can enjoy the convenience of `@nacelle/shopify-cart` with the flexibility of GraphQL.
 
 ## Prerequisites
 
