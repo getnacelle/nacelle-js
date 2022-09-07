@@ -1,10 +1,8 @@
 # Custom fragments in `@nacelle/shopify-cart`
 
-If you'd like to query for additional fields on the [`Cart`][shopify-cart-object] object or its sub-properties, you can supply [GraphQL fragments][graphql-fragments-docs] when initializing the `cartClient`.
+`@nacelle/shopify-cart` uses [GraphQL][graphql-docs] queries and mutations to create and modify Shopify `Cart`s. We use GraphQL [fragments][graphql-fragments-docs] to specify properties of interest for things like [`cart.lines.merchandise`][shopify-merchandise], [`cart.discountAllocations`][shopify-discount-allocation], and [`userErrors`][shopify-user-error].
 
-`@nacelle/shopify-cart` uses GraphQL queries and mutations to create and modify Shopify `Cart`s. We use GraphQL fragments to specify properties of interest for things like `cart.lines.merchandise`, `cart.discountAllocations`, and `userErrors`.
-
-Because `Cart` data needs will vary project-to-project, it's important that developers have the power to specify their own properties of interest. By providing a way to supply `customFragments` to the `cartClient`, developers can enjoy the convenience of `@nacelle/shopify-cart` with the flexibility of GraphQL.
+Because [`Cart`][shopify-cart-object] data needs will vary project-to-project, it's important that developers have the power to specify which properties of the [`Cart`][shopify-cart-object] object or its sub-properties should be returned in `cartClient` responses. By providing `customFragments` to the `cartClient`, developers can enjoy the convenience of `@nacelle/shopify-cart` with the flexibility of GraphQL.
 
 ## Prerequisites
 
@@ -30,7 +28,7 @@ const cartClient = createShopifyCartClient({
 
 Valid `FRAGMENT_KEY`s include:
 
-| `FRAGMENT_KEY`        | Expected GraphQL type of fragment | Fragment Variety                      |
+| Fragment Key          | Expected GraphQL type of fragment | Fragment Variety                      |
 | --------------------- | --------------------------------- | ------------------------------------- |
 | `BUYER_IDENTITY`      | `CartBuyerIdentity`               | [Replacement](#replacement-fragments) |
 | `DISCOUNT_ALLOCATION` | `CartDiscountAllocation`          | [Replacement](#replacement-fragments) |
@@ -114,9 +112,13 @@ const cartClient = createShopifyCartClient({
 
 <!-- LINKS -->
 
+[graphql-docs]: https://graphql.org/learn
 [graphql-fragments-docs]: https://graphql.org/learn/queries/#fragments
 [nacelle-shopify-cart-fragments]: https://github.com/getnacelle/nacelle-js/tree/main/packages/shopify-cart/src/graphql/fragments
 [shopify-access-scopes]: https://shopify.dev/api/usage/access-scopes#unauthenticated-access-scopes
 [shopify-cart-object]: https://shopify.dev/api/storefront/2022-07/objects/Cart#top
 [shopify-cart-user-error]: https://shopify.dev/api/storefront/2022-07/objects/CartUserError
+[shopify-discount-allocation]: https://shopify.dev/api/storefront/2022-07/interfaces/CartDiscountAllocation
 [shopify-graphiql-explorer]: https://shopify.dev/custom-storefronts/tools/graphiql-storefront-api
+[shopify-merchandise]: https://shopify.dev/api/storefront/2022-07/unions/Merchandise
+[shopify-user-error]: https://shopify.dev/api/storefront/2022-07/objects/CartUserError
