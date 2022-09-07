@@ -2,7 +2,6 @@ import defaultBuyerIdentity from './buyerIdentity';
 import defaultDiscountAllocation from './discountAllocation';
 import defaultExtendCart from './extendCart';
 import defaultExtendCartLine from './extendCartLine';
-import defaultExtendCartLineMerchandise from './extendCartLineMerchandise';
 import defaultMerchandise from './merchandise';
 import defaultMoney from './money';
 
@@ -59,6 +58,9 @@ export default (customFragments?: CartFragments) => /* GraphQL */ `
           ...CartDiscountAllocation_discountAllocation
         }
         merchandise {
+          ... on ProductVariant {
+            id
+          }
           ...Merchandise_merchandise
         }
       }
@@ -98,7 +100,5 @@ export default (customFragments?: CartFragments) => /* GraphQL */ `
   ${customFragments?.DISCOUNT_ALLOCATION ?? defaultDiscountAllocation()}
   ${customFragments?.EXTEND_CART ?? defaultExtendCart()}
   ${customFragments?.EXTEND_CART_LINE ?? defaultExtendCartLine()}
-  ${customFragments?.EXTEND_CART_LINE_MERCHANDISE ??
-  defaultExtendCartLineMerchandise()}
   ${customFragments?.MONEY ?? defaultMoney()}
 `;

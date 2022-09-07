@@ -409,38 +409,4 @@ describe('createShopifyCartClient', () => {
       /fragment CartLine_extendCartLine on CartLine {\\n\s+ sellingPlanAllocation {\\n\s+ checkoutChargeAmount {\\n\s+ amount\\n\s+ }\\n\s+ }\\n\s+ }/
     );
   });
-
-  it('retains required properties of a fragment when an `EXTEND_`-type custom fragment is provided', async () => {
-    const windowFetch = jest.fn(
-      (): Promise<any> =>
-        mockJsonResponse<{ cart: Cart_CartFragment }>(responses.queries.cart)
-    );
-    window.fetch = windowFetch;
-
-    const cartClient = createShopifyCartClient({
-      ...clientSettings,
-      customFragments: {
-        EXTEND_CART_LINE_MERCHANDISE: `
-          fragment ProductVariant_extendCartLineMerchandise on ProductVariant {
-            weight
-          }
-        `
-      }
-    });
-
-    await cartClient.cart({ cartId });
-
-    expect(windowFetch).toHaveBeenCalledTimes(1);
-    const requestBody = (windowFetch.mock.calls[0] as Request[])[1].body;
-
-    // Check that the supplied `EXTEND_CART_LINE_MERCHANDISE` fragment was included
-    expect(requestBody).toMatch(
-      /fragment ProductVariant_extendCartLineMerchandise on ProductVariant {\\n\s+ weight\\n\s+ }/
-    );
-
-    // Check that the `id` from the required `Merchandise_merchandise` fragment was included
-    expect(requestBody).toMatch(
-      /fragment Merchandise_merchandise on ProductVariant {\\n\s+ id/
-    );
-  });
 });

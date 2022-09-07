@@ -10,7 +10,6 @@ import { default as cart } from './cart';
 import { default as discountAllocation } from './discountAllocation';
 import { default as extendCart } from './extendCart';
 import { default as extendCartLine } from './extendCartLine';
-import { default as extendCartLineMerchandise } from './extendCartLineMerchandise';
 import { default as merchandise } from './merchandise';
 import { default as money } from './money';
 import { default as userErrors } from './userErrors';
@@ -23,7 +22,6 @@ export default {
   DISCOUNT_ALLOCATION: discountAllocation,
   EXTEND_CART: extendCart,
   EXTEND_CART_LINE: extendCartLine,
-  EXTEND_CART_LINE_MERCHANDISE: extendCartLineMerchandise,
   MERCHANDISE: merchandise,
   MONEY: money,
   USER_ERRORS: userErrors

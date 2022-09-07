@@ -45,9 +45,10 @@ npm i @nacelle/shopify-cart
 
 To get started, you'll need:
 
-- a Shopify Storefront API access token with [`unauthenticated_read_checkouts` & `unauthenticated_write_checkouts` access scopes][shopify-access-scopes]
-- your `myshopify` domain / Shop ID
-  - example: for `gamma-nova-jewelry.myshopify.com`, the domain / Shop ID is `gamma-nova-jewelry`
+- A Shopify Storefront API access token with [`unauthenticated_read_checkouts` & `unauthenticated_write_checkouts` access scopes][shopify-access-scopes]
+  - If you need access to Selling Plans data, you must also enable the `unauthenticated_read_selling_plans` access scope
+- Your Shop ID (`myshopify` domain)
+  - Example: for `gamma-nova-jewelry.myshopify.com`, the Shop ID is `gamma-nova-jewelry`
 
 ### Initializing the client
 
@@ -69,9 +70,13 @@ import createShopifyCartClient from '@nacelle/shopify-cart';
 
 const cartClient = createShopifyCartClient({
   shopifyShopId: '<your-shop-id>',
-  shopifyStorefrontAccessToken: '<your-storefront-api-access-token>'
+  shopifyStorefrontAccessToken: '<your-shopify-storefront-api-access-token>'
 });
 ```
+
+#### Querying additional fields with custom GraphQL fragments
+
+If you'd like to query for additional fields on the [`Cart`][shopify-cart-object] object or its sub-properties, please see the [Custom Fragments docs][custom-fragments-docs] to learn how to supply `customFragments` to the `cartClient`.
 
 ### Response Data
 
@@ -81,7 +86,7 @@ Every method on the `cartClient` returns an object with the following keys.
 2. `userErrors` - an array of Shopify [`CartUserError`][shopify-cart-user-error] objects.
 3. `errors` - an array of top-level Shopify [API Errors][shopify-api-error]
 
-### Cart client API
+## Cart client API
 
 The cart client exposes the following methods:
 
@@ -249,6 +254,7 @@ const { cart, userErrors, errors } = await cartClient.cartNoteUpdate({
 
 <!-- LINKS -->
 
+[custom-fragments-docs]: https://github.com/getnacelle/nacelle-js/tree/main/packages/shopify-cart/docs/custom-fragments.md
 [shopify-access-scopes]: https://shopify.dev/api/usage/access-scopes#unauthenticated-access-scopes
 [shopify-cart-object]: https://shopify.dev/api/storefront/2022-07/objects/Cart#top
 [shopify-cart-user-error]: https://shopify.dev/api/storefront/2022-07/objects/CartUserError
