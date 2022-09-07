@@ -6607,6 +6607,7 @@ export type CartAttributesUpdateMutationVariables = Exact<{
   cartId: Scalars['ID'];
   attributes: Array<AttributeInput> | AttributeInput;
   numCartLines?: InputMaybe<Scalars['Int']>;
+  afterCursor?: InputMaybe<Scalars['String']>;
   country?: InputMaybe<CountryCode>;
 }>;
 
@@ -6617,6 +6618,7 @@ export type CartBuyerIdentityUpdateMutationVariables = Exact<{
   cartId: Scalars['ID'];
   buyerIdentity: CartBuyerIdentityInput;
   numCartLines?: InputMaybe<Scalars['Int']>;
+  afterCursor?: InputMaybe<Scalars['String']>;
   country?: InputMaybe<CountryCode>;
 }>;
 
@@ -6626,6 +6628,7 @@ export type CartBuyerIdentityUpdateMutation = { __typename?: 'Mutation', cartBuy
 export type CartCreateMutationVariables = Exact<{
   input: CartInput;
   numCartLines?: InputMaybe<Scalars['Int']>;
+  afterCursor?: InputMaybe<Scalars['String']>;
   country?: InputMaybe<CountryCode>;
 }>;
 
@@ -6636,6 +6639,7 @@ export type CartDiscountCodesUpdateMutationVariables = Exact<{
   cartId: Scalars['ID'];
   discountCodes?: InputMaybe<Array<Scalars['String']> | Scalars['String']>;
   numCartLines?: InputMaybe<Scalars['Int']>;
+  afterCursor?: InputMaybe<Scalars['String']>;
   country?: InputMaybe<CountryCode>;
 }>;
 
@@ -6646,6 +6650,7 @@ export type CartLineAddMutationVariables = Exact<{
   cartId: Scalars['ID'];
   lines: Array<CartLineInput> | CartLineInput;
   numCartLines?: InputMaybe<Scalars['Int']>;
+  afterCursor?: InputMaybe<Scalars['String']>;
   country?: InputMaybe<CountryCode>;
 }>;
 
@@ -6656,6 +6661,7 @@ export type CartLineRemoveMutationVariables = Exact<{
   cartId: Scalars['ID'];
   lineIds: Array<Scalars['ID']> | Scalars['ID'];
   numCartLines?: InputMaybe<Scalars['Int']>;
+  afterCursor?: InputMaybe<Scalars['String']>;
   country?: InputMaybe<CountryCode>;
 }>;
 
@@ -6666,6 +6672,7 @@ export type CartLineUpdateMutationVariables = Exact<{
   cartId: Scalars['ID'];
   lines: Array<CartLineUpdateInput> | CartLineUpdateInput;
   numCartLines?: InputMaybe<Scalars['Int']>;
+  afterCursor?: InputMaybe<Scalars['String']>;
   country?: InputMaybe<CountryCode>;
 }>;
 
@@ -6676,6 +6683,7 @@ export type CartNoteUpdateMutationVariables = Exact<{
   cartId: Scalars['ID'];
   note?: InputMaybe<Scalars['String']>;
   numCartLines?: InputMaybe<Scalars['Int']>;
+  afterCursor?: InputMaybe<Scalars['String']>;
   country?: InputMaybe<CountryCode>;
 }>;
 
@@ -6685,6 +6693,7 @@ export type CartNoteUpdateMutation = { __typename?: 'Mutation', cartNoteUpdate?:
 export type CartQueryVariables = Exact<{
   id: Scalars['ID'];
   numCartLines?: InputMaybe<Scalars['Int']>;
+  afterCursor?: InputMaybe<Scalars['String']>;
   country?: InputMaybe<CountryCode>;
 }>;
 
