@@ -27,29 +27,30 @@ export default async function depaginateLines({
 }: DepaginateLinesParams): Promise<Cart_CartFragment | null> {
   try {
     if (cart) {
-      let { hasNextPage, endCursor } = cart.lines.pageInfo;
+      const pageInfo = { ...cart.lines.pageInfo };
       const nodes = cart.lines.nodes;
 
-      while (hasNextPage && endCursor) {
+      while (pageInfo.hasNextPage && pageInfo.endCursor) {
         const shopifyResponse = await gqlClient<
           PaginateCartLinesQueryArgs,
           ShopifyCartResponse
         >({
           query: queries.CART(customFragments),
-          variables: { id: cart.id, afterCursor: endCursor }
+          variables: { id: cart.id, afterCursor: pageInfo.endCursor }
         }).catch((err) => {
           throw new Error(err);
         });
-        hasNextPage =
+        pageInfo.hasNextPage =
           shopifyResponse.data?.cart?.lines.pageInfo.hasNextPage || false;
-        endCursor = shopifyResponse.data?.cart?.lines.pageInfo.endCursor;
+        pageInfo.endCursor =
+          shopifyResponse.data?.cart?.lines.pageInfo.endCursor;
 
         if (shopifyResponse.data?.cart?.lines.nodes) {
           nodes.push(...shopifyResponse.data.cart.lines.nodes);
         }
       }
 
-      return { ...cart, lines: { pageInfo: cart.lines.pageInfo, nodes } };
+      return { ...cart, lines: { pageInfo, nodes } };
     }
     return null;
   } catch (err) {
