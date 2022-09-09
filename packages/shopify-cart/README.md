@@ -59,7 +59,8 @@ The cart client accepts the following parameters:
 - `shopifyShopId` (`string`) - optional Shopify shop id
 - `shopifyStorefrontAccessToken` (`string`) - required Shopify Storefront API access token
 - `shopifyCustomEndpoint` (`string`) - optional Shopify custom API endpoint
-- `fetchClient` (`object`) - optional fetch API-compatible fetch client
+- `customFragments` (`object`) - optional GraphQL fragments for data customization (see the [Custom Fragments docs][custom-fragments-docs])
+- `fetchClient` (`function`) - optional Fetch API-compatible request function
 
 _You must provide a `shopifyShopId` or a `shopifyCustomEndpoint`_
 
