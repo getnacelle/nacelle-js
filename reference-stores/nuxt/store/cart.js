@@ -120,7 +120,6 @@ export const actions = {
           }
         ]
       });
-      console.log('CART', cart);
       if (cart) {
         commit('setCart', {
           lines: linesTransformer(cart.lines),
