@@ -6607,6 +6607,7 @@ export type CartAttributesUpdateMutationVariables = Exact<{
   numCartLines?: InputMaybe<Scalars['Int']>;
   afterCursor?: InputMaybe<Scalars['String']>;
   country?: InputMaybe<CountryCode>;
+  language?: InputMaybe<LanguageCode>;
 }>;
 
 
@@ -6618,6 +6619,7 @@ export type CartBuyerIdentityUpdateMutationVariables = Exact<{
   numCartLines?: InputMaybe<Scalars['Int']>;
   afterCursor?: InputMaybe<Scalars['String']>;
   country?: InputMaybe<CountryCode>;
+  language?: InputMaybe<LanguageCode>;
 }>;
 
 
@@ -6628,6 +6630,7 @@ export type CartCreateMutationVariables = Exact<{
   numCartLines?: InputMaybe<Scalars['Int']>;
   afterCursor?: InputMaybe<Scalars['String']>;
   country?: InputMaybe<CountryCode>;
+  language?: InputMaybe<LanguageCode>;
 }>;
 
 
@@ -6639,6 +6642,7 @@ export type CartDiscountCodesUpdateMutationVariables = Exact<{
   numCartLines?: InputMaybe<Scalars['Int']>;
   afterCursor?: InputMaybe<Scalars['String']>;
   country?: InputMaybe<CountryCode>;
+  language?: InputMaybe<LanguageCode>;
 }>;
 
 
@@ -6650,6 +6654,7 @@ export type CartLineAddMutationVariables = Exact<{
   numCartLines?: InputMaybe<Scalars['Int']>;
   afterCursor?: InputMaybe<Scalars['String']>;
   country?: InputMaybe<CountryCode>;
+  language?: InputMaybe<LanguageCode>;
 }>;
 
 
@@ -6661,6 +6666,7 @@ export type CartLineRemoveMutationVariables = Exact<{
   numCartLines?: InputMaybe<Scalars['Int']>;
   afterCursor?: InputMaybe<Scalars['String']>;
   country?: InputMaybe<CountryCode>;
+  language?: InputMaybe<LanguageCode>;
 }>;
 
 
@@ -6672,6 +6678,7 @@ export type CartLineUpdateMutationVariables = Exact<{
   numCartLines?: InputMaybe<Scalars['Int']>;
   afterCursor?: InputMaybe<Scalars['String']>;
   country?: InputMaybe<CountryCode>;
+  language?: InputMaybe<LanguageCode>;
 }>;
 
 
@@ -6683,6 +6690,7 @@ export type CartNoteUpdateMutationVariables = Exact<{
   numCartLines?: InputMaybe<Scalars['Int']>;
   afterCursor?: InputMaybe<Scalars['String']>;
   country?: InputMaybe<CountryCode>;
+  language?: InputMaybe<LanguageCode>;
 }>;
 
 
@@ -6693,6 +6701,7 @@ export type CartQueryVariables = Exact<{
   numCartLines?: InputMaybe<Scalars['Int']>;
   afterCursor?: InputMaybe<Scalars['String']>;
   country?: InputMaybe<CountryCode>;
+  language?: InputMaybe<LanguageCode>;
 }>;
 
 

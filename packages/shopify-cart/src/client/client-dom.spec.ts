@@ -22,6 +22,10 @@ import type {
   CartNoteUpdateMutation,
   Cart_CartFragment
 } from '../types/shopify.type';
+import { LanguageCode, CountryCode } from '../types/shopify.type';
+
+const defaultLanguage = LanguageCode.En;
+const defaultCountry = CountryCode.Zz;
 
 describe('createShopifyCartClient', () => {
   afterEach(() => {
@@ -60,7 +64,11 @@ describe('createShopifyCartClient', () => {
       headers,
       body: JSON.stringify({
         query: mutations.CART_CREATE(),
-        variables: { input: { note } }
+        variables: {
+          input: { note },
+          language: defaultLanguage,
+          country: defaultCountry
+        }
       })
     });
   });
@@ -82,11 +90,66 @@ describe('createShopifyCartClient', () => {
       headers,
       body: JSON.stringify({
         query: queries.CART(),
-        variables: { id: cartId }
+        variables: {
+          id: cartId,
+          language: defaultLanguage,
+          country: defaultCountry
+        }
       })
     });
   });
 
+  it('makes a request with provided language when language is passed to createCart', async () => {
+    const windowFetch = jest.fn(
+      (): Promise<any> =>
+        mockJsonResponse<{ cart: Cart_CartFragment }>(responses.queries.cart)
+    );
+    window.fetch = windowFetch;
+    const cartClient = createShopifyCartClient({
+      ...clientSettings,
+      language: LanguageCode.Fr
+    });
+    await cartClient.cart({ cartId });
+    expect(windowFetch).toHaveBeenCalledTimes(1);
+    expect(windowFetch).toHaveBeenCalledWith(graphqlEndpoint, {
+      method: 'POST',
+      headers,
+      body: JSON.stringify({
+        query: queries.CART(),
+        variables: {
+          id: cartId,
+          language: LanguageCode.Fr,
+          country: defaultCountry
+        }
+      })
+    });
+  });
+
+  it('makes a request with provided country when country is passed to createCart', async () => {
+    const windowFetch = jest.fn(
+      (): Promise<any> =>
+        mockJsonResponse<{ cart: Cart_CartFragment }>(responses.queries.cart)
+    );
+    window.fetch = windowFetch;
+    const cartClient = createShopifyCartClient({
+      ...clientSettings,
+      country: CountryCode.Us
+    });
+    await cartClient.cart({ cartId });
+    expect(windowFetch).toHaveBeenCalledTimes(1);
+    expect(windowFetch).toHaveBeenCalledWith(graphqlEndpoint, {
+      method: 'POST',
+      headers,
+      body: JSON.stringify({
+        query: queries.CART(),
+        variables: {
+          id: cartId,
+          language: defaultLanguage,
+          country: CountryCode.Us
+        }
+      })
+    });
+  });
   it('makes the expected request when adding line item to cart', async () => {
     const windowFetch = jest.fn(
       (): Promise<any> =>
@@ -109,7 +172,9 @@ describe('createShopifyCartClient', () => {
         query: mutations.CART_LINE_ADD(),
         variables: {
           cartId,
-          lines: []
+          lines: [],
+          language: defaultLanguage,
+          country: defaultCountry
         }
       })
     });
@@ -154,7 +219,9 @@ describe('createShopifyCartClient', () => {
               quantity: 2,
               merchandiseId: updatedCart.cart.lines.nodes[0].merchandise.id
             }
-          ]
+          ],
+          language: defaultLanguage,
+          country: defaultCountry
         }
       })
     });
@@ -184,7 +251,9 @@ describe('createShopifyCartClient', () => {
         query: mutations.CART_LINE_REMOVE(),
         variables: {
           cartId,
-          lineIds: [cartWithLineResponse.cart.lines.nodes[0].id]
+          lineIds: [cartWithLineResponse.cart.lines.nodes[0].id],
+          language: defaultLanguage,
+          country: defaultCountry
         }
       })
     });
@@ -218,7 +287,9 @@ describe('createShopifyCartClient', () => {
           cartId,
           buyerIdentity: {
             email: 'email@email.com'
-          }
+          },
+          language: defaultLanguage,
+          country: defaultCountry
         }
       })
     });
@@ -248,7 +319,9 @@ describe('createShopifyCartClient', () => {
         query: mutations.CART_DISCOUNT_CODES_UPDATE(),
         variables: {
           cartId,
-          discountCodes: ['code']
+          discountCodes: ['code'],
+          language: defaultLanguage,
+          country: defaultCountry
         }
       })
     });
@@ -275,7 +348,9 @@ describe('createShopifyCartClient', () => {
         query: mutations.CART_NOTE_UPDATE(),
         variables: {
           cartId,
-          note
+          note,
+          language: defaultLanguage,
+          country: defaultCountry
         }
       })
     });
@@ -301,7 +376,12 @@ describe('createShopifyCartClient', () => {
       headers,
       body: JSON.stringify({
         query: mutations.CART_ATTRIBUTES_UPDATE(),
-        variables: { cartId, attributes }
+        variables: {
+          cartId,
+          attributes,
+          language: defaultLanguage,
+          country: defaultCountry
+        }
       })
     });
   });

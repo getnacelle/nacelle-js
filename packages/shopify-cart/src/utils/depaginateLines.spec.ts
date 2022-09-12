@@ -1,7 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import depaginateLines from './depaginateLines';
 import fetchClient from 'cross-fetch';
-import { Cart_CartFragment } from '../types/shopify.type';
+import {
+  Cart_CartFragment,
+  CountryCode,
+  LanguageCode
+} from '../types/shopify.type';
 import { createGqlClient } from '../utils';
 import { mockJsonResponse } from '../../__tests__/utils';
 import {
@@ -17,6 +21,8 @@ jest.mock('cross-fetch');
 
 const gqlClient = createGqlClient({ ...clientSettings, fetchClient });
 const mockedFetchClient = jest.mocked(fetchClient, true);
+const defaultLanguage = LanguageCode.En;
+const defaultCountry = CountryCode.Zz;
 
 describe('depaginate lines', () => {
   afterEach(() => {
@@ -30,7 +36,9 @@ describe('depaginate lines', () => {
 
     await depaginateLines({
       cart: cartWithPaginatedLines,
-      gqlClient
+      gqlClient,
+      language: defaultLanguage,
+      country: defaultCountry
     });
     expect(fetchClient).toHaveBeenCalledTimes(1);
     expect(fetchClient).toHaveBeenCalledWith(graphqlEndpoint, {
@@ -40,7 +48,9 @@ describe('depaginate lines', () => {
         query: queries.CART(),
         variables: {
           id: cartWithPaginatedLines.id,
-          afterCursor: cartWithPaginatedLines.lines.pageInfo.endCursor
+          afterCursor: cartWithPaginatedLines.lines.pageInfo.endCursor,
+          language: defaultLanguage,
+          country: defaultCountry
         }
       })
     });
@@ -60,12 +70,21 @@ describe('depaginate lines', () => {
 
     await depaginateLines({
       cart: cartWithPaginatedLines,
-      gqlClient
+      gqlClient,
+      language: defaultLanguage,
+      country: defaultCountry
     });
     expect(fetchClient).toHaveBeenCalledTimes(2);
   });
   it('returns null if cart param is falsy', async () => {
-    expect(await depaginateLines({ cart: undefined, gqlClient })).toBe(null);
+    expect(
+      await depaginateLines({
+        cart: undefined,
+        gqlClient,
+        language: defaultLanguage,
+        country: defaultCountry
+      })
+    ).toBe(null);
   });
   it('throws an error if there are problems with the request', async () => {
     const networkErrorMessage = 'Network error!';
@@ -75,7 +94,12 @@ describe('depaginate lines', () => {
 
     expect.assertions(1);
     await expect(
-      depaginateLines({ gqlClient, cart: cartWithPaginatedLines })
+      depaginateLines({
+        gqlClient,
+        cart: cartWithPaginatedLines,
+        language: defaultLanguage,
+        country: defaultCountry
+      })
     ).rejects.toThrow(networkErrorMessage);
   });
 });

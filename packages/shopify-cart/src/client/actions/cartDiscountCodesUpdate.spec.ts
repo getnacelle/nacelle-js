@@ -1,6 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import fetchClient from 'cross-fetch';
-import { CartDiscountCodesUpdateMutation } from '../../types/shopify.type';
+import {
+  CartDiscountCodesUpdateMutation,
+  CountryCode,
+  LanguageCode
+} from '../../types/shopify.type';
 import { createGqlClient } from '../../utils';
 import formatCartResponse from '../../utils/formatCartResponse';
 import { mockJsonResponse } from '../../../__tests__/utils';
@@ -20,6 +24,8 @@ jest.mock('../../utils/formatCartResponse');
 const gqlClient = createGqlClient({ ...clientSettings, fetchClient });
 const mockedFetchClient = jest.mocked(fetchClient, true);
 const mockedFormatCartResponse = jest.mocked(formatCartResponse, true);
+const defaultLanguage = LanguageCode.En;
+const defaultCountry = CountryCode.Zz;
 
 describe('cartDiscountCodesUpdate', () => {
   afterEach(() => {
@@ -37,7 +43,9 @@ describe('cartDiscountCodesUpdate', () => {
     await cartDiscountCodesUpdate({
       gqlClient,
       cartId,
-      discountCodes: ['code']
+      discountCodes: ['code'],
+      language: defaultLanguage,
+      country: defaultCountry
     });
 
     expect(fetchClient).toHaveBeenCalledTimes(1);
@@ -48,7 +56,9 @@ describe('cartDiscountCodesUpdate', () => {
         query: mutations.CART_DISCOUNT_CODES_UPDATE(),
         variables: {
           cartId,
-          discountCodes: ['code']
+          discountCodes: ['code'],
+          language: defaultLanguage,
+          country: defaultCountry
         }
       })
     });
@@ -76,7 +86,9 @@ describe('cartDiscountCodesUpdate', () => {
       cartDiscountCodesUpdate({
         gqlClient,
         cartId,
-        discountCodes: ['code']
+        discountCodes: ['code'],
+        language: defaultLanguage,
+        country: defaultCountry
       })
     ).rejects.toThrow(networkErrorMessage);
   });

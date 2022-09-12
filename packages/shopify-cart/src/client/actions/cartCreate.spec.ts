@@ -1,6 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import fetchClient from 'cross-fetch';
-import { CartCreateMutation } from '../../types/shopify.type';
+import {
+  CartCreateMutation,
+  CountryCode,
+  LanguageCode
+} from '../../types/shopify.type';
 import { createGqlClient } from '../../utils';
 import formatCartResponse from '../../utils/formatCartResponse';
 import { mockJsonResponse } from '../../../__tests__/utils';
@@ -19,6 +23,8 @@ jest.mock('../../utils/formatCartResponse');
 const gqlClient = createGqlClient({ ...clientSettings, fetchClient });
 const mockedFetchClient = jest.mocked(fetchClient, true);
 const mockedFormatCartResponse = jest.mocked(formatCartResponse, true);
+const defaultLanguage = LanguageCode.En;
+const defaultCountry = CountryCode.Zz;
 
 describe('cartCreate', () => {
   afterEach(() => {
@@ -33,7 +39,11 @@ describe('cartCreate', () => {
         )
     );
 
-    await cartCreate({ gqlClient });
+    await cartCreate({
+      gqlClient,
+      language: defaultLanguage,
+      country: defaultCountry
+    });
 
     expect(fetchClient).toHaveBeenCalledTimes(1);
     expect(fetchClient).toHaveBeenCalledWith(graphqlEndpoint, {
@@ -41,7 +51,11 @@ describe('cartCreate', () => {
       headers,
       body: JSON.stringify({
         query: mutations.CART_CREATE(),
-        variables: { input: {} }
+        variables: {
+          input: {},
+          language: defaultLanguage,
+          country: defaultCountry
+        }
       })
     });
   });
@@ -54,7 +68,12 @@ describe('cartCreate', () => {
         )
     );
 
-    await cartCreate({ gqlClient, params: { lines: [] } });
+    await cartCreate({
+      gqlClient,
+      params: { lines: [] },
+      language: defaultLanguage,
+      country: defaultCountry
+    });
 
     expect(fetchClient).toHaveBeenCalledTimes(1);
     expect(fetchClient).toHaveBeenCalledWith(graphqlEndpoint, {
@@ -62,7 +81,11 @@ describe('cartCreate', () => {
       headers,
       body: JSON.stringify({
         query: mutations.CART_CREATE(),
-        variables: { input: { lines: [] } }
+        variables: {
+          input: { lines: [] },
+          language: defaultLanguage,
+          country: defaultCountry
+        }
       })
     });
 
@@ -84,7 +107,12 @@ describe('cartCreate', () => {
 
     expect.assertions(1);
     await expect(
-      cartCreate({ gqlClient, params: { lines: [] } })
+      cartCreate({
+        gqlClient,
+        params: { lines: [] },
+        language: defaultLanguage,
+        country: defaultCountry
+      })
     ).rejects.toThrow(networkErrorMessage);
   });
 });
