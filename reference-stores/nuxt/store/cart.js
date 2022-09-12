@@ -109,8 +109,7 @@ export const actions = {
     });
     if (index === -1) {
       payload.id = `${payload.variantId}::${uuid()}`;
-      const items = [...state.lineItems];
-      items.unshift(payload);
+      const items = [...state.lineItems, payload];
       commit('setCart', { lines: items });
       const { cart, userErrors, errors } = await this.$cartClient.cartLinesAdd({
         cartId: state.cartId,
