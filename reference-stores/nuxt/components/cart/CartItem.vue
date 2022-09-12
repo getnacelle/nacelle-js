@@ -63,7 +63,7 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex';
+import { mapActions, mapState } from 'vuex';
 
 import { formatPrice } from '~/utils/formatPrice';
 
@@ -80,7 +80,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters('checkout', ['checkoutProcessing']),
+    ...mapState('cart', ['checkoutProcessing']),
     price() {
       return formatPrice({ price: this.item.price });
     }

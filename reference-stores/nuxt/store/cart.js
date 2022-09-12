@@ -5,7 +5,8 @@ export const state = () => ({
   cartClient: null,
   cartId: null,
   cacheKeyCartId: 'cartId',
-  cacheKeyLineItems: 'cart',
+  cartCheckoutUrl: null,
+  checkoutProcessing: false,
   lineItems: []
 });
 
@@ -46,7 +47,6 @@ export const getters = {
     return state.lineItems;
   },
   cartCount(state) {
-    console.log('CHECK 2', state.lineItems);
     return state.lineItems.reduce((acc, item) => acc + item.quantity, 0);
   },
   cartSubtotal(state) {
@@ -58,47 +58,23 @@ export const getters = {
 };
 
 export const mutations = {
-  setCart(state, payload) {
+  setCartId(state, payload) {
     state.cartId = payload;
     set(state.cacheKeyCartId, payload);
   },
-  setLineItems(state, payload) {
-    state.lineItems = payload;
-    set(state.cacheKeyLineItems, payload);
-  },
-  incrementItem(state, payload) {
-    const index = state.lineItems.findIndex((item) => item.id === payload);
-    if (index > -1) {
-      state.lineItems.splice(index, 1, {
-        ...state.lineItems[index],
-        quantity: state.lineItems[index].quantity + 1
-      });
+  setCart(state, payload) {
+    state.lineItems = payload.lines;
+    if (payload.checkoutUrl) {
+      state.cartCheckoutUrl = payload.checkoutUrl;
     }
-    set(state.cacheKeyLineItems, state.lineItems);
   },
-  decrementItem(state, payload) {
-    const index = state.lineItems.findIndex((item) => item.id === payload);
-    if (index > -1) {
-      if (state.lineItems[index].quantity === 1) {
-        state.lineItems.splice(index, 1);
-      } else {
-        state.lineItems.splice(index, 1, {
-          ...state.lineItems[index],
-          quantity: state.lineItems[index].quantity - 1
-        });
-      }
-    }
-    set(state.cacheKeyLineItems, state.lineItems);
-  },
-  clearCart(state) {
-    state.lineItems = [];
-    set(state.cacheKeyLineItems, state.lineItems);
+  checkoutProcessing(state) {
+    state.checkoutProcessing = true;
   }
 };
 
 export const actions = {
   async initCart({ state, dispatch }) {
-    const cachedCart = await get(state.cacheKeyLineItems);
     const cachedCartId = await get(state.cacheKeyCartId);
 
     if (cachedCartId) {
@@ -106,26 +82,24 @@ export const actions = {
     } else {
       await dispatch('createCart');
     }
-    // commit('setLineItems', cachedCart || []);
-
-    console.log('CHECK', cachedCart, cachedCartId);
   },
   async createCart({ commit }) {
     const { cart, userErrors, errors } = await this.$cartClient.cartCreate();
-    console.log('SET CREATE CART RESPONSE', { cart, userErrors, errors });
     if (cart) {
-      commit('setCart', cart.id);
+      commit('setCartId', cart.id);
     }
     handleResponseErrors({ userErrors, errors });
   },
   async retrieveCart({ commit }, payload) {
-    commit('setCart', payload);
+    commit('setCartId', payload);
     const { cart, userErrors, errors } = await this.$cartClient.cart({
       cartId: payload
     });
-    console.log('SET RETRIEVE CART RESPONSE', { cart, userErrors, errors });
     if (cart) {
-      commit('setLineItems', linesTransformer(cart.lines));
+      commit('setCart', {
+        lines: linesTransformer(cart.lines),
+        checkoutUrl: cart.checkoutUrl
+      });
     }
     handleResponseErrors({ userErrors, errors });
   },
@@ -137,7 +111,7 @@ export const actions = {
       payload.id = `${payload.variantId}::${uuid()}`;
       const items = [...state.lineItems];
       items.unshift(payload);
-      commit('setLineItems', items);
+      commit('setCart', { lines: items });
       const { cart, userErrors, errors } = await this.$cartClient.cartLinesAdd({
         cartId: state.cartId,
         lines: [
@@ -147,9 +121,12 @@ export const actions = {
           }
         ]
       });
-      console.log('ADD TO CART ADD', { cart, userErrors, errors });
+      console.log('CART', cart);
       if (cart) {
-        commit('setLineItems', linesTransformer(cart.lines));
+        commit('setCart', {
+          lines: linesTransformer(cart.lines),
+          checkoutUrl: cart.checkoutUrl
+        });
       }
       handleResponseErrors({ userErrors, errors });
     } else {
@@ -159,8 +136,7 @@ export const actions = {
         ...state.lineItems[index],
         quantity: state.lineItems[index].quantity + payload.quantity
       });
-      commit('setLineItems', items);
-      console.log('ID CHECK', state.lineItems[index].id);
+      commit('setCart', { lines: items });
 
       await dispatch('updateItemQuantity', {
         id: state.lineItems[index].id,
@@ -174,15 +150,18 @@ export const actions = {
     if (index > -1) {
       const id = state.lineItems[index].id;
       items.splice(index, 1);
-      commit('setLineItems', items);
+      commit('setCart', { lines: items });
       const { cart, userErrors, errors } =
         await this.$cartClient.cartLinesRemove({
           cartId: state.cartId,
           lineIds: [id]
         });
-      console.log('CART REMOVE', { userErrors, errors });
+
       if (cart) {
-        commit('setLineItems', linesTransformer(cart.lines));
+        commit('setCart', {
+          lines: linesTransformer(cart.lines),
+          checkoutUrl: cart.checkoutUrl
+        });
       }
       handleResponseErrors({ userErrors, errors });
     }
@@ -199,9 +178,12 @@ export const actions = {
         ]
       }
     );
-    console.log('ADD TO CART UPDATE', { userErrors, errors });
+
     if (cart) {
-      commit('setLineItems', linesTransformer(cart.lines));
+      commit('setCart', {
+        lines: linesTransformer(cart.lines),
+        checkoutUrl: cart.checkoutUrl
+      });
     }
     handleResponseErrors({ userErrors, errors });
   },
@@ -213,7 +195,7 @@ export const actions = {
         ...state.lineItems[index],
         quantity: state.lineItems[index].quantity + 1
       });
-      commit('setLineItems', items);
+      commit('setCart', { lines: items });
       await dispatch('updateItemQuantity', {
         id: state.lineItems[index].id,
         quantity: state.lineItems[index].quantity
@@ -231,12 +213,20 @@ export const actions = {
           ...state.lineItems[index],
           quantity: state.lineItems[index].quantity - 1
         });
-        commit('setLineItems', items);
+        commit('setCart', { lines: items });
         await dispatch('updateItemQuantity', {
           id: state.lineItems[index].id,
           quantity: state.lineItems[index].quantity
         });
       }
+    }
+  },
+  checkout({ state, commit }) {
+    if (state.cartCheckoutUrl) {
+      commit('checkoutProcessing');
+      window.location.href = state.cartCheckoutUrl;
+    } else {
+      alert('There was an issue with your checkout.');
     }
   }
 };

@@ -9,7 +9,6 @@
     </p>
     <div class="mt-6">
       <button
-        :disabled="checkoutProcessing"
         class="
           w-full
           flex
@@ -30,7 +29,7 @@
           ease-in-out
         "
         :class="{ 'bg-gray-600': checkoutProcessing }"
-        @click="processCheckout"
+        @click="checkout"
       >
         {{ checkoutButtonText }}
       </button>
@@ -54,7 +53,7 @@
 </template>
 
 <script>
-import { mapGetters, mapMutations, mapActions } from 'vuex';
+import { mapState, mapGetters, mapMutations, mapActions } from 'vuex';
 import { formatPrice } from '~/utils/formatPrice';
 
 export default {
@@ -66,8 +65,8 @@ export default {
     }
   },
   computed: {
+    ...mapState('cart', ['checkoutProcessing']),
     ...mapGetters('cart', ['cartSubtotal']),
-    ...mapGetters('checkout', ['checkoutProcessing']),
     total() {
       return formatPrice({ price: this.cartSubtotal });
     },
@@ -79,7 +78,7 @@ export default {
   },
   methods: {
     ...mapMutations('ui', ['setCartVisibility']),
-    ...mapActions('checkout', ['processCheckout'])
+    ...mapActions('cart', ['checkout'])
   }
 };
 </script>
