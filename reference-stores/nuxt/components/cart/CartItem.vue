@@ -63,7 +63,7 @@
 </template>
 
 <script>
-import { mapGetters, mapMutations } from 'vuex';
+import { mapGetters, mapActions } from 'vuex';
 
 import { formatPrice } from '~/utils/formatPrice';
 
@@ -86,7 +86,7 @@ export default {
     }
   },
   methods: {
-    ...mapMutations('cart', ['removeItem']),
+    ...mapActions('cart', ['removeItem']),
     handleRemove() {
       this.removeItem(this.item.id);
     }

@@ -78,7 +78,7 @@
 </template>
 
 <script>
-import { mapGetters, mapMutations } from 'vuex';
+import { mapGetters, mapActions } from 'vuex';
 
 import { formatPrice } from '~/utils/formatPrice';
 import { getCartVariant } from '~/utils/getCartVariant';
@@ -117,7 +117,7 @@ export default {
     }
   },
   methods: {
-    ...mapMutations('cart', ['addItem']),
+    ...mapActions('cart', ['addItem']),
     handleAdd(item) {
       this.addItem({
         ...getCartVariant({

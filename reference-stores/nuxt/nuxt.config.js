@@ -25,6 +25,7 @@ export default {
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
     '~/plugins/nacelle-sdk.js',
+    '~/plugins/shopify-cart.js',
     '~/plugins/contentful.js',
     '~/plugins/nuxt-client-init.client.js'
   ],
@@ -47,6 +48,10 @@ export default {
       storefrontCheckoutToken: process.env.SHOPIFY_STOREFRONT_CHECKOUT_TOKEN,
       myshopifyDomain: process.env.MYSHOPIFY_DOMAIN,
       storefrontApiVersion: process.env.SHOPIFY_STOREFRONT_API_VERSION
+    },
+    cart: {
+      shopifyShopId: process.env.SHOPIFY_SHOP_ID,
+      shopifyStorefrontAccessToken: process.env.SHOPIFY_STOREFRONT_ACCESS_TOKEN
     }
   },
 
