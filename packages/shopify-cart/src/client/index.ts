@@ -17,7 +17,7 @@ import type {
   NacelleCartLineItemInput,
   NacelleCartLineItemUpdateInput
 } from '../types/cart.type';
-import {
+import type {
   AttributeInput,
   CartBuyerIdentityInput,
   CountryCode,
@@ -159,8 +159,8 @@ export default function createShopifyCartClient({
   shopifyCustomEndpoint,
   fetchClient,
   customFragments,
-  language = LanguageCode.En,
-  country = CountryCode.Zz
+  language = 'EN',
+  country = 'ZZ'
 }: CreateClientParams): CartClient {
   const gqlClient = createGqlClient({
     shopifyShopId,

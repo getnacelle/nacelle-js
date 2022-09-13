@@ -20,12 +20,13 @@ import type {
   CartLineUpdateMutation,
   CartLineRemoveMutation,
   CartNoteUpdateMutation,
-  Cart_CartFragment
+  Cart_CartFragment,
+  LanguageCode,
+  CountryCode
 } from '../types/shopify.type';
-import { LanguageCode, CountryCode } from '../types/shopify.type';
 
-const defaultLanguage = LanguageCode.En;
-const defaultCountry = CountryCode.Zz;
+const defaultLanguage: LanguageCode = 'EN';
+const defaultCountry: CountryCode = 'ZZ';
 
 describe('createShopifyCartClient', () => {
   afterEach(() => {
@@ -107,7 +108,7 @@ describe('createShopifyCartClient', () => {
     window.fetch = windowFetch;
     const cartClient = createShopifyCartClient({
       ...clientSettings,
-      language: LanguageCode.Fr
+      language: 'FR'
     });
     await cartClient.cart({ cartId });
     expect(windowFetch).toHaveBeenCalledTimes(1);
@@ -118,7 +119,7 @@ describe('createShopifyCartClient', () => {
         query: queries.CART(),
         variables: {
           id: cartId,
-          language: LanguageCode.Fr,
+          language: 'FR',
           country: defaultCountry
         }
       })
@@ -133,7 +134,7 @@ describe('createShopifyCartClient', () => {
     window.fetch = windowFetch;
     const cartClient = createShopifyCartClient({
       ...clientSettings,
-      country: CountryCode.Us
+      country: 'US'
     });
     await cartClient.cart({ cartId });
     expect(windowFetch).toHaveBeenCalledTimes(1);
@@ -145,7 +146,7 @@ describe('createShopifyCartClient', () => {
         variables: {
           id: cartId,
           language: defaultLanguage,
-          country: CountryCode.Us
+          country: 'US'
         }
       })
     });

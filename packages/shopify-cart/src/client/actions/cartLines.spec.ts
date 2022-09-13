@@ -30,8 +30,8 @@ jest.mock('../../utils/formatCartResponse');
 const gqlClient = createGqlClient({ ...clientSettings, fetchClient });
 const mockedFetchClient = jest.mocked(fetchClient, true);
 const mockedFormatCartResponse = jest.mocked(formatCartResponse, true);
-const defaultLanguage = LanguageCode.En;
-const defaultCountry = CountryCode.Zz;
+const defaultLanguage: LanguageCode = 'EN';
+const defaultCountry: CountryCode = 'ZZ';
 
 describe('cartLinesAdd', () => {
   afterEach(() => {
