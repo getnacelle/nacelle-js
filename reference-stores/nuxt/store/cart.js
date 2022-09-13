@@ -1,5 +1,4 @@
 import { get, set } from 'idb-keyval';
-import { v4 as uuid } from 'uuid';
 
 export const state = () => ({
   cartClient: null,
@@ -7,17 +6,9 @@ export const state = () => ({
   cacheKeyCartId: 'cartId',
   cartCheckoutUrl: null,
   checkoutProcessing: false,
-  lineItems: []
+  lineItems: [],
+  cartErrors: []
 });
-
-const handleResponseErrors = (response) => {
-  if (response.userErrors) {
-    console.error('User error', response.userErrors);
-  }
-  if (response.errors) {
-    console.error(response.errors);
-  }
-};
 
 const linesTransformer = (lines) => {
   return lines.map((line) => {
@@ -70,6 +61,17 @@ export const mutations = {
   },
   checkoutProcessing(state) {
     state.checkoutProcessing = true;
+  },
+  setErrors(state, payload) {
+    state.cartErrors = [];
+    if (payload.errors) {
+      payload.errors.forEach((error) => state.cartErrors.push(error.message));
+    }
+    if (payload.userErrors) {
+      payload.userErrors.forEach((error) =>
+        state.cartErrors.push(error.message)
+      );
+    }
   }
 };
 
@@ -88,7 +90,7 @@ export const actions = {
     if (cart) {
       commit('setCartId', cart.id);
     }
-    handleResponseErrors({ userErrors, errors });
+    commit('setErrors', { userErrors, errors });
   },
   async retrieveCart({ commit }, payload) {
     commit('setCartId', payload);
@@ -101,21 +103,21 @@ export const actions = {
         checkoutUrl: cart.checkoutUrl
       });
     }
-    handleResponseErrors({ userErrors, errors });
+    commit('setErrors', { userErrors, errors });
   },
   async addItem({ state, commit, dispatch }, payload) {
     const index = state.lineItems.findIndex((lineItem) => {
       return lineItem.variantId === payload.variantId;
     });
     if (index === -1) {
-      payload.id = `${payload.variantId}::${uuid()}`;
+      payload.id = payload.variantId;
       const items = [...state.lineItems, payload];
       commit('setCart', { lines: items });
       const { cart, userErrors, errors } = await this.$cartClient.cartLinesAdd({
         cartId: state.cartId,
         lines: [
           {
-            merchandiseId: `${payload.variantId}::${uuid()}`,
+            merchandiseId: payload.variantId,
             quantity: 1
           }
         ]
@@ -126,7 +128,7 @@ export const actions = {
           checkoutUrl: cart.checkoutUrl
         });
       }
-      handleResponseErrors({ userErrors, errors });
+      commit('setErrors', { userErrors, errors });
     } else {
       const items = [...state.lineItems];
 
@@ -161,7 +163,8 @@ export const actions = {
           checkoutUrl: cart.checkoutUrl
         });
       }
-      handleResponseErrors({ userErrors, errors });
+
+      commit('setErrors', { userErrors, errors });
     }
   },
   async updateItemQuantity({ state, commit }, payload) {
@@ -183,7 +186,7 @@ export const actions = {
         checkoutUrl: cart.checkoutUrl
       });
     }
-    handleResponseErrors({ userErrors, errors });
+    commit('setErrors', { userErrors, errors });
   },
   async incrementItem({ state, commit, dispatch }, payload) {
     const index = state.lineItems.findIndex((item) => item.id === payload);
