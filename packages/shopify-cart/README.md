@@ -4,17 +4,15 @@ A minimal Shopify cart client for headless storefronts.
 
 [![npm version](https://img.shields.io/npm/v/@nacelle/shopify-cart?style=for-the-badge)](https://npmjs.org/package/@nacelle/shopify-cart)
 
-⚠️ Warning ⚠️ this project is pre-`1.0.0`. We reserve the right to make any changes at any time. Please see [semver.org](https://semver.org) for details.
-
 ## Overview
 
 `@nacelle/shopify-cart` adds Shopify cart functionality to headless commerce projects.
 
 ## Features
 
-- tiny, with zero dependencies
+- zero dependencies
 - full [TypeScript](https://www.typescriptlang.org) support
-- ships in [tree-shakeable](https://developer.mozilla.org/en-US/docs/Glossary/Tree_shaking) ESM, as well as UMD & IIFE formats for maximum portability
+- ships in ESM, as well as UMD & IIFE formats for maximum portability
 - 100% code coverage
 
 ## Versioning
