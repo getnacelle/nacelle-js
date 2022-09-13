@@ -12,7 +12,7 @@ A minimal Shopify cart client for headless storefronts.
 
 - zero dependencies
 - full [TypeScript](https://www.typescriptlang.org) support
-- ships in ESM, as well as UMD & IIFE formats for maximum portability
+- ships in ESM, UMD & IIFE formats for maximum portability
 - 100% code coverage
 
 ## Versioning
