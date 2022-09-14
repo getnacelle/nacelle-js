@@ -7,7 +7,8 @@ export default (customFragments: CartFragments = {}): string => /* GraphQL */ `
     $numCartLines: Int = 250
     $afterCursor: String
     $country: CountryCode = ZZ
-  ) @inContext(country: $country) {
+    $language: LanguageCode = EN
+  ) @inContext(country: $country, language: $language) {
     cart(id: $id) {
       ...Cart_cart
     }

@@ -3,7 +3,9 @@ import { formatCartResponse, depaginateLines } from '../../utils';
 import type {
   AttributeInput,
   CartAttributesUpdatePayload,
-  MutationCartAttributesUpdateArgs
+  CartAttributesUpdateMutationVariables,
+  CountryCode,
+  LanguageCode
 } from '../../types/shopify.type';
 import type { GqlClient } from '../../cart-client.types';
 import type { CartResponse, CartFragmentResponse } from '../../types/cart.type';
@@ -14,6 +16,8 @@ export interface UpdateCartAttributesParams {
   cartId: string;
   gqlClient: GqlClient;
   customFragments?: MutationFragments;
+  language: LanguageCode;
+  country: CountryCode;
 }
 
 export type CartAttributesUpdateResponse = CartAttributesUpdatePayload &
@@ -27,15 +31,17 @@ export default async function cartAttributesUpdate({
   attributes,
   cartId,
   customFragments,
-  gqlClient
+  gqlClient,
+  language,
+  country
 }: UpdateCartAttributesParams): Promise<void | CartResponse> {
   try {
     const shopifyResponse = await gqlClient<
-      MutationCartAttributesUpdateArgs,
+      CartAttributesUpdateMutationVariables,
       MutationCartAttributesUpdateResponse
     >({
       query: mutations.CART_ATTRIBUTES_UPDATE(customFragments),
-      variables: { cartId, attributes }
+      variables: { cartId, attributes, language, country }
     }).catch((err) => {
       throw new Error(err);
     });
@@ -43,7 +49,9 @@ export default async function cartAttributesUpdate({
     const cart = await depaginateLines({
       cart: shopifyResponse.data?.cartAttributesUpdate.cart,
       customFragments,
-      gqlClient
+      gqlClient,
+      language,
+      country
     });
 
     return formatCartResponse({
