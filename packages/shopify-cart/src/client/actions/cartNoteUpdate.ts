@@ -2,7 +2,9 @@ import mutations from '../../graphql/mutations';
 import { formatCartResponse, depaginateLines } from '../../utils';
 import type {
   CartNoteUpdatePayload,
-  MutationCartNoteUpdateArgs
+  CartNoteUpdateMutationVariables,
+  LanguageCode,
+  CountryCode
 } from '../../types/shopify.type';
 import type { MutationFragments } from '../../graphql/mutations';
 import type { CartResponse, CartFragmentResponse } from '../../types/cart.type';
@@ -13,6 +15,8 @@ export interface UpdateCartNoteParams {
   gqlClient: GqlClient;
   note: string;
   customFragments?: MutationFragments;
+  language: LanguageCode;
+  country: CountryCode;
 }
 
 export type CartNoteUpdateResponse = CartNoteUpdatePayload &
@@ -26,15 +30,17 @@ export default async function cartNoteUpdate({
   cartId,
   customFragments,
   gqlClient,
-  note
+  note,
+  language,
+  country
 }: UpdateCartNoteParams): Promise<void | CartResponse> {
   try {
     const shopifyResponse = await gqlClient<
-      MutationCartNoteUpdateArgs,
+      CartNoteUpdateMutationVariables,
       MutationCartNoteUpdateResponse
     >({
       query: mutations.CART_NOTE_UPDATE(customFragments),
-      variables: { cartId, note }
+      variables: { cartId, note, language, country }
     }).catch((err) => {
       throw new Error(err);
     });
@@ -42,7 +48,9 @@ export default async function cartNoteUpdate({
     const cart = await depaginateLines({
       cart: shopifyResponse.data?.cartNoteUpdate.cart,
       customFragments,
-      gqlClient
+      gqlClient,
+      language,
+      country
     });
 
     return formatCartResponse({

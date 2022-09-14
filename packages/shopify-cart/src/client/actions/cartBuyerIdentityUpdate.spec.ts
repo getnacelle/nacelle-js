@@ -1,6 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import fetchClient from 'cross-fetch';
-import { CartBuyerIdentityUpdateMutation } from '../../types/shopify.type';
+import {
+  CartBuyerIdentityUpdateMutation,
+  CountryCode,
+  LanguageCode
+} from '../../types/shopify.type';
 import { createGqlClient } from '../../utils';
 import formatCartResponse from '../../utils/formatCartResponse';
 import { mockJsonResponse } from '../../../__tests__/utils';
@@ -20,6 +24,8 @@ jest.mock('../../utils/formatCartResponse');
 const gqlClient = createGqlClient({ ...clientSettings, fetchClient });
 const mockedFetchClient = jest.mocked(fetchClient, true);
 const mockedFormatCartResponse = jest.mocked(formatCartResponse, true);
+const defaultLanguage: LanguageCode = 'EN';
+const defaultCountry: CountryCode = 'ZZ';
 
 describe('cartBuyerIdentityUpdate', () => {
   afterEach(() => {
@@ -39,7 +45,9 @@ describe('cartBuyerIdentityUpdate', () => {
       cartId,
       buyerIdentity: {
         email: 'email@email.com'
-      }
+      },
+      language: defaultLanguage,
+      country: defaultCountry
     });
 
     expect(fetchClient).toHaveBeenCalledTimes(1);
@@ -52,7 +60,9 @@ describe('cartBuyerIdentityUpdate', () => {
           cartId,
           buyerIdentity: {
             email: 'email@email.com'
-          }
+          },
+          language: defaultLanguage,
+          country: defaultCountry
         }
       })
     });
@@ -82,7 +92,9 @@ describe('cartBuyerIdentityUpdate', () => {
         cartId,
         buyerIdentity: {
           email: 'email@email.com'
-        }
+        },
+        language: defaultLanguage,
+        country: defaultCountry
       })
     ).rejects.toThrow(networkErrorMessage);
   });

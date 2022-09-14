@@ -9,7 +9,8 @@ export default (
     $numCartLines: Int = 250
     $afterCursor: String
     $country: CountryCode = ZZ
-  ) @inContext(country: $country) {
+    $language: LanguageCode = EN
+  ) @inContext(country: $country, language: $language) {
     cartCreate(input: $input) {
       cart {
         ...Cart_cart

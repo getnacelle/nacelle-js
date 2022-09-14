@@ -4,7 +4,9 @@ import type { MutationFragments } from '../../graphql/mutations';
 import type { CartResponse, CartFragmentResponse } from '../../types/cart.type';
 import {
   CartLinesRemovePayload,
-  MutationCartLinesRemoveArgs
+  CartLineRemoveMutationVariables,
+  LanguageCode,
+  CountryCode
 } from '../../types/shopify.type';
 import type { GqlClient } from '../../cart-client.types';
 
@@ -13,6 +15,8 @@ export interface CartLinesRemoveParams {
   cartId: string;
   lineIds: Array<string>;
   customFragments?: MutationFragments;
+  language: LanguageCode;
+  country: CountryCode;
 }
 
 export type CartLinesRemoveResponse = CartLinesRemovePayload &
@@ -26,15 +30,17 @@ export default async function cartLinesRemove({
   cartId,
   customFragments,
   gqlClient,
-  lineIds
+  lineIds,
+  language,
+  country
 }: CartLinesRemoveParams): Promise<void | CartResponse> {
   try {
     const shopifyResponse = await gqlClient<
-      MutationCartLinesRemoveArgs,
+      CartLineRemoveMutationVariables,
       MutationCartLinesRemoveResponse
     >({
       query: mutations.CART_LINE_REMOVE(customFragments),
-      variables: { cartId, lineIds }
+      variables: { cartId, lineIds, language, country }
     }).catch((err) => {
       throw new Error(err);
     });
@@ -42,7 +48,9 @@ export default async function cartLinesRemove({
     const cart = await depaginateLines({
       cart: shopifyResponse.data?.cartLinesRemove.cart,
       customFragments,
-      gqlClient
+      gqlClient,
+      language,
+      country
     });
 
     return formatCartResponse({

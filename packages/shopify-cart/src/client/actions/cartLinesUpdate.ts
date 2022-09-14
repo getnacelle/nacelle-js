@@ -12,7 +12,9 @@ import type {
 } from '../../types/cart.type';
 import type {
   CartLinesUpdatePayload,
-  MutationCartLinesUpdateArgs
+  CartLineUpdateMutationVariables,
+  LanguageCode,
+  CountryCode
 } from '../../types/shopify.type';
 import type { GqlClient } from '../../cart-client.types';
 
@@ -21,6 +23,8 @@ export interface CartLinesUpdateParams {
   gqlClient: GqlClient;
   lines: Array<NacelleCartLineItemUpdateInput>;
   customFragments?: MutationFragments;
+  language: LanguageCode;
+  country: CountryCode;
 }
 
 export type CartLinesUpdateResponse = CartLinesUpdatePayload &
@@ -34,16 +38,18 @@ export default async function cartLinesUpdate({
   cartId,
   customFragments,
   gqlClient,
-  lines
+  lines,
+  language,
+  country
 }: CartLinesUpdateParams): Promise<void | CartResponse> {
   try {
     const formattedLines = transformNacelleLineItemToShopifyLineItem(lines);
     const shopifyResponse = await gqlClient<
-      MutationCartLinesUpdateArgs,
+      CartLineUpdateMutationVariables,
       MutationCartLinesUpdateResponse
     >({
       query: mutations.CART_LINE_UPDATE(customFragments),
-      variables: { cartId, lines: formattedLines }
+      variables: { cartId, lines: formattedLines, language, country }
     }).catch((err) => {
       throw new Error(err);
     });
@@ -51,7 +57,9 @@ export default async function cartLinesUpdate({
     const cart = await depaginateLines({
       cart: shopifyResponse.data?.cartLinesUpdate.cart,
       customFragments,
-      gqlClient
+      gqlClient,
+      language,
+      country
     });
 
     return formatCartResponse({
