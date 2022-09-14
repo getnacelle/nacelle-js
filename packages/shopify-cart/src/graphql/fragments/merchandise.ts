@@ -1,5 +1,6 @@
 export default () => /* GraphQL */ `
   fragment Merchandise_merchandise on ProductVariant {
+    sourceEntryId: id
     availableForSale
     compareAtPriceV2 {
       ...Money_money

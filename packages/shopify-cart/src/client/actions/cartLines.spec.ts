@@ -63,7 +63,8 @@ describe('cartLinesAdd', () => {
           lines: [
             {
               merchandiseId:
-                cartWithLineResponse.cart.lines.nodes[0].merchandise.id
+                cartWithLineResponse.cart.lines.nodes[0].merchandise
+                  .sourceEntryId
             }
           ]
         }
@@ -123,10 +124,10 @@ describe('cartLinesUpdate', () => {
       cartId,
       lines: [
         {
-          id: updatedCart.cart.lines.nodes[0].id,
+          quantity: 2,
           nacelleEntryId: updatedCart.cart.lines.nodes[0].attributes[0]
             .value as string,
-          quantity: 2
+          id: updatedCart.cart.lines.nodes[0].id
         }
       ]
     });
@@ -141,9 +142,10 @@ describe('cartLinesUpdate', () => {
           cartId,
           lines: [
             {
-              id: updatedCart.cart.lines.nodes[0].id,
               quantity: 2,
-              merchandiseId: updatedCart.cart.lines.nodes[0].merchandise.id
+              id: updatedCart.cart.lines.nodes[0].id,
+              merchandiseId:
+                updatedCart.cart.lines.nodes[0].merchandise.sourceEntryId
             }
           ]
         }
