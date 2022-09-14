@@ -157,7 +157,7 @@ _Creates a new Shopify cart._
 const { cart, userErrors, errors } = await cartClient.cartCreate({
   lines: [
     {
-      merchandiseId: 'gid://shopify/ProductVariant/33894120718471',
+      nacelleEntryId: '<nacelle-entry-id>',
       quantity: 1
     }
   ],
@@ -194,7 +194,7 @@ const { cart, userErrors, errors } = await cartClient.cartLinesAdd({
   cartId: 'gid://shopify/Cart/112233',
   lines: [
     {
-      merchandiseId: 'gid://shopify/ProductVariant/33894120718471',
+      nacelleEntryId: '<nacelle-entry-id>',
       quantity: 1
     }
   ]
@@ -231,7 +231,7 @@ const { cart, userErrors, errors } = await cartClient.cartLinesAdd({
   cartId: 'gid://shopify/Cart/112233',
   lines: [
     {
-      id: 'gid://shopify/CartLine/e543caf96fa645b54d07ab2035ef9dba?cart=a7aad2fb1e6611422c946f6827710550',
+      nacelleEntryId: '<nacelle-entry-id>',
       quantity: 3
     }
   ]
