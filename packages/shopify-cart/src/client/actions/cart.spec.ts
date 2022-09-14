@@ -1,6 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import fetchClient from 'cross-fetch';
-import { Cart_CartFragment } from '../../types/shopify.type';
+import {
+  Cart_CartFragment,
+  CountryCode,
+  LanguageCode
+} from '../../types/shopify.type';
 import { createGqlClient } from '../../utils';
 import formatCartResponse from '../../utils/formatCartResponse';
 import { mockJsonResponse } from '../../../__tests__/utils';
@@ -20,6 +24,8 @@ jest.mock('../../utils/formatCartResponse');
 const gqlClient = createGqlClient({ ...clientSettings, fetchClient });
 const mockedFetchClient = jest.mocked(fetchClient, true);
 const mockedFormatCartResponse = jest.mocked(formatCartResponse, true);
+const defaultLanguage: LanguageCode = 'EN';
+const defaultCountry: CountryCode = 'ZZ';
 
 describe('fetch cart', () => {
   afterEach(() => {
@@ -32,7 +38,12 @@ describe('fetch cart', () => {
         mockJsonResponse<{ cart: Cart_CartFragment }>(responses.queries.cart)
     );
 
-    await cart({ gqlClient, cartId });
+    await cart({
+      gqlClient,
+      cartId,
+      language: defaultLanguage,
+      country: defaultCountry
+    });
 
     expect(fetchClient).toHaveBeenCalledTimes(1);
     expect(fetchClient).toHaveBeenCalledWith(graphqlEndpoint, {
@@ -40,7 +51,11 @@ describe('fetch cart', () => {
       headers,
       body: JSON.stringify({
         query: queries.CART(),
-        variables: { id: cartId }
+        variables: {
+          id: cartId,
+          language: defaultLanguage,
+          country: defaultCountry
+        }
       })
     });
 
@@ -60,8 +75,13 @@ describe('fetch cart', () => {
     );
 
     expect.assertions(1);
-    await expect(cart({ gqlClient, cartId })).rejects.toThrow(
-      networkErrorMessage
-    );
+    await expect(
+      cart({
+        gqlClient,
+        cartId,
+        language: defaultLanguage,
+        country: defaultCountry
+      })
+    ).rejects.toThrow(networkErrorMessage);
   });
 });

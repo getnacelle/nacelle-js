@@ -10,7 +10,8 @@ export default (
     $numCartLines: Int = 250
     $afterCursor: String
     $country: CountryCode = ZZ
-  ) @inContext(country: $country) {
+    $language: LanguageCode = EN
+  ) @inContext(country: $country, language: $language) {
     cartAttributesUpdate(attributes: $attributes, cartId: $cartId) {
       cart {
         ...Cart_cart

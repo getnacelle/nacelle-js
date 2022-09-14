@@ -5,7 +5,9 @@ import type { MutationFragments } from '../../graphql/mutations';
 import type {
   CartBuyerIdentityInput,
   CartBuyerIdentityUpdatePayload,
-  MutationCartBuyerIdentityUpdateArgs
+  CartBuyerIdentityUpdateMutationVariables,
+  LanguageCode,
+  CountryCode
 } from '../../types/shopify.type';
 import type { GqlClient } from '../../cart-client.types';
 
@@ -14,6 +16,8 @@ export interface CartBuyerIdentityUpdateParams {
   cartId: string;
   buyerIdentity: CartBuyerIdentityInput;
   customFragments?: MutationFragments;
+  language: LanguageCode;
+  country: CountryCode;
 }
 
 export type CartBuyerIdentityUpdateResponse = CartBuyerIdentityUpdatePayload &
@@ -27,15 +31,17 @@ export default async function CartBuyerIdentityUpdate({
   buyerIdentity,
   cartId,
   customFragments,
-  gqlClient
+  gqlClient,
+  language,
+  country
 }: CartBuyerIdentityUpdateParams): Promise<void | CartResponse> {
   try {
     const shopifyResponse = await gqlClient<
-      MutationCartBuyerIdentityUpdateArgs,
+      CartBuyerIdentityUpdateMutationVariables,
       MutationCartBuyerIdentityUpdateResponse
     >({
       query: mutations.CART_BUYER_IDENTITY_UPDATE(customFragments),
-      variables: { cartId, buyerIdentity }
+      variables: { cartId, buyerIdentity, language, country }
     }).catch((err) => {
       throw new Error(err);
     });
@@ -43,7 +49,9 @@ export default async function CartBuyerIdentityUpdate({
     const cart = await depaginateLines({
       cart: shopifyResponse.data?.cartBuyerIdentityUpdate.cart,
       customFragments,
-      gqlClient
+      gqlClient,
+      language,
+      country
     });
 
     return formatCartResponse({

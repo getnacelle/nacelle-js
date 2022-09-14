@@ -3,8 +3,10 @@ import { formatCartResponse, depaginateLines } from '../../utils';
 import type { CartResponse } from '../../types/cart.type';
 import type { CartFragments } from '../../graphql/fragments/cart';
 import type {
-  QueryRootCartArgs,
-  Cart_CartFragment
+  CartQueryVariables,
+  Cart_CartFragment,
+  LanguageCode,
+  CountryCode
 } from '../../types/shopify.type';
 import type { GqlClient } from '../../cart-client.types';
 import type { ShopifyError } from '../../types/errors.type';
@@ -13,6 +15,8 @@ export interface CartParams {
   cartId: string;
   gqlClient: GqlClient;
   customFragments?: CartFragments;
+  language: LanguageCode;
+  country: CountryCode;
 }
 
 export interface ShopifyCartResponse {
@@ -23,15 +27,17 @@ export interface ShopifyCartResponse {
 export default async function cart({
   cartId,
   customFragments,
-  gqlClient
+  gqlClient,
+  language,
+  country
 }: CartParams): Promise<void | CartResponse> {
   try {
     const shopifyResponse = await gqlClient<
-      QueryRootCartArgs,
+      CartQueryVariables,
       ShopifyCartResponse
     >({
       query: queries.CART(customFragments),
-      variables: { id: cartId }
+      variables: { id: cartId, language, country }
     }).catch((err) => {
       throw new Error(err);
     });
@@ -39,7 +45,9 @@ export default async function cart({
     const cart = await depaginateLines({
       cart: shopifyResponse.data?.cart,
       customFragments,
-      gqlClient
+      gqlClient,
+      language,
+      country
     });
 
     return formatCartResponse({

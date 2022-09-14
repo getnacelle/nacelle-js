@@ -1,17 +1,26 @@
 import queries from '../graphql/queries';
-import { QueryRootCartArgs, Cart_CartFragment } from '../types/shopify.type';
+import {
+  QueryRootCartArgs,
+  Cart_CartFragment,
+  LanguageCode,
+  CountryCode
+} from '../types/shopify.type';
 import type { CartFragments } from '../graphql/fragments/cart';
 import type { GqlClient } from '../cart-client.types';
 import type { ShopifyCartResponse } from '../client/actions/cart';
 
 export interface PaginateCartLinesQueryArgs extends QueryRootCartArgs {
   afterCursor: string;
+  language: LanguageCode;
+  country: CountryCode;
 }
 
 export interface DepaginateLinesParams {
   cart: Cart_CartFragment | undefined | null;
   customFragments?: CartFragments;
   gqlClient: GqlClient;
+  language: LanguageCode;
+  country: CountryCode;
 }
 
 /**
@@ -23,7 +32,9 @@ export interface DepaginateLinesParams {
 export default async function depaginateLines({
   cart,
   customFragments,
-  gqlClient
+  gqlClient,
+  language,
+  country
 }: DepaginateLinesParams): Promise<Cart_CartFragment | null> {
   try {
     if (cart) {
@@ -36,7 +47,12 @@ export default async function depaginateLines({
           ShopifyCartResponse
         >({
           query: queries.CART(customFragments),
-          variables: { id: cart.id, afterCursor: pageInfo.endCursor }
+          variables: {
+            id: cart.id,
+            afterCursor: pageInfo.endCursor,
+            language,
+            country
+          }
         }).catch((err) => {
           throw new Error(err);
         });

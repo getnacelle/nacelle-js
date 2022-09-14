@@ -59,6 +59,8 @@ The cart client accepts the following parameters:
 - `shopifyCustomEndpoint` (`string`) - optional Shopify custom API endpoint
 - `customFragments` (`object`) - optional GraphQL fragments for data customization (see the [Custom Fragments docs][custom-fragments-docs])
 - `fetchClient` (`function`) - optional Fetch API-compatible request function
+- `country` (`string`) - optional [Shopify Country Code][shopify-cart-country-code] used for cart queries/responses. Defaults to `ZZ` (unknown region) if not supplied.
+- `language` (`string`) - optional [Shopify Language Code][shopify-cart-language-code] used for cart queries/responses. Defaults to `EN` if not supplied.
 
 _You must provide a `shopifyShopId` or a `shopifyCustomEndpoint`_
 
@@ -264,3 +266,5 @@ const { cart, userErrors, errors } = await cartClient.cartNoteUpdate({
 [shopify-cart-line-input]: https://shopify.dev/api/storefront/2022-07/input-objects/CartLineInput
 [shopify-cart-line-update-input]: https://shopify.dev/api/storefront/2022-07/input-objects/CartLineUpdateInput
 [shopify-release-schedule]: https://shopify.dev/api/usage/versioning#release-schedule
+[shopify-cart-language-code]: https://shopify.dev/api/storefront/2022-07/enums/LanguageCode
+[shopify-cart-country-code]: https://shopify.dev/api/storefront/2022-07/enums/CountryCode
