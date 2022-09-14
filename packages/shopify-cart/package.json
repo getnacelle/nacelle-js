@@ -28,7 +28,7 @@
     "url": "https://github.com/getnacelle/shopify-cart/issues"
   },
   "engines": {
-    "node": ">=14.14 <17",
+    "node": ">=14.14 <19",
     "npm": ">=7"
   },
   "main": "./dist/nacelle-shopify-cart.umd.js",
