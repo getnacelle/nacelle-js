@@ -24,10 +24,7 @@ import type {
   LanguageCode
 } from '../types/shopify.type';
 
-export type UserSuppliedFragmentType = Exclude<
-  keyof typeof fragments,
-  'CART' | 'MERCHANDISE'
->;
+export type UserSuppliedFragmentType = Exclude<keyof typeof fragments, 'CART'>;
 export type CustomFragments = Partial<Record<UserSuppliedFragmentType, string>>;
 
 export interface CreateClientParams {
