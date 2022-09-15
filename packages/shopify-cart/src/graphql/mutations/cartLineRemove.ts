@@ -1,8 +1,8 @@
 import defaultFragments from '../fragments';
-import type { MutationFragments } from '.';
+import type { CustomFragments } from '../fragments';
 
 export default (
-  customFragments: MutationFragments = {}
+  customFragments: CustomFragments = {}
 ): string => /* GraphQL */ `
   mutation CartLineRemove(
     $cartId: ID!

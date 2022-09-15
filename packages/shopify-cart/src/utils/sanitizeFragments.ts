@@ -1,5 +1,5 @@
-import fragments from '../graphql/fragments';
-import type { CustomFragments, UserSuppliedFragmentType } from '../client';
+import fragments, { customFragmentKeys } from '../graphql/fragments';
+import type { CustomFragmentKey, CustomFragments } from '../graphql/fragments';
 
 /**
  * Enforce that user-supplied fragments have predictable fragment names and use the expected GraphQL types.
@@ -22,7 +22,7 @@ import type { CustomFragments, UserSuppliedFragmentType } from '../client';
  */
 export function sanitizeFragment(
   fragment: string,
-  fragmentType: UserSuppliedFragmentType
+  fragmentType: CustomFragmentKey
 ): string {
   // In this regex, we use four capture groups:
   // - `$1` captures `fragment `.
@@ -50,6 +50,9 @@ export function sanitizeFragment(
   return fragment.replace(regexp, `$1${expectedFragmentName}$3$4`);
 }
 
+const isCustomFragmentKey = (input: string): input is CustomFragmentKey =>
+  customFragmentKeys.has(input as CustomFragmentKey);
+
 export default function sanitizeFragments(
   customFragments?: CustomFragments
 ): CustomFragments | undefined {
@@ -66,12 +69,15 @@ export default function sanitizeFragments(
     );
   }
 
-  for (const [fragmentType, fragment] of Object.entries(customFragments)) {
-    const fragmentKey = fragmentType as keyof CustomFragments;
-    sanitizedCustomFragments[fragmentKey] = sanitizeFragment(
-      fragment,
-      fragmentKey
-    );
+  for (const [fragmentKey, fragment] of Object.entries(customFragments)) {
+    if (isCustomFragmentKey(fragmentKey)) {
+      sanitizedCustomFragments[fragmentKey] = sanitizeFragment(
+        fragment,
+        fragmentKey
+      );
+    } else {
+      throw new Error(`Invalid custom fragment '${fragmentKey}' provided.`);
+    }
   }
 
   return sanitizedCustomFragments;

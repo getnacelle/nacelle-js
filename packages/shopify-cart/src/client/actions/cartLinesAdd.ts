@@ -9,7 +9,7 @@ import type {
   CartFragmentResponse,
   NacelleCartLineItemInput
 } from '../../types/cart.type';
-import type { MutationFragments } from '../../graphql/mutations';
+import type { CustomFragments } from '../../graphql/fragments';
 import type {
   CartLinesAddPayload,
   CartLineAddMutationVariables,
@@ -22,7 +22,7 @@ export interface CartLinesAddParams {
   cartId: string;
   gqlClient: GqlClient;
   lines: Array<NacelleCartLineItemInput>;
-  customFragments?: MutationFragments;
+  customFragments?: CustomFragments;
   language: LanguageCode;
   country: CountryCode;
 }

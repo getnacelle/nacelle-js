@@ -16,12 +16,12 @@ import type {
   LanguageCode,
   CountryCode
 } from '../../types/shopify.type';
-import type { MutationFragments } from '../../graphql/mutations';
+import type { CustomFragments } from '../../graphql/fragments';
 import type { GqlClient } from '../../cart-client.types';
 
 export interface CreateCartParams {
   gqlClient: GqlClient;
-  customFragments?: MutationFragments;
+  customFragments?: CustomFragments;
   params?: NacelleCartInput;
   language: LanguageCode;
   country: CountryCode;
