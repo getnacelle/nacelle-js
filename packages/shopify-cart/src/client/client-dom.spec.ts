@@ -198,10 +198,10 @@ describe('createShopifyCartClient', () => {
       cartId,
       lines: [
         {
+          quantity: 2,
           id: updatedCart.cart.lines.nodes[0].id,
           nacelleEntryId: updatedCart.cart.lines.nodes[0].attributes[0]
-            .value as string,
-          quantity: 2
+            .value as string
         }
       ]
     });
@@ -216,9 +216,10 @@ describe('createShopifyCartClient', () => {
           cartId,
           lines: [
             {
-              id: updatedCart.cart.lines.nodes[0].id,
               quantity: 2,
-              merchandiseId: updatedCart.cart.lines.nodes[0].merchandise.id
+              id: updatedCart.cart.lines.nodes[0].id,
+              merchandiseId:
+                updatedCart.cart.lines.nodes[0].merchandise.sourceEntryId
             }
           ],
           language: defaultLanguage,
