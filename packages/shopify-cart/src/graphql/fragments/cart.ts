@@ -36,6 +36,9 @@ export default (customFragments?: CartFragments) => /* GraphQL */ `
       nodes {
         ...CartLine_extendCartLine
         id
+        nacelleEntryId: attribute(key: "nacelleEntryId") {
+          value
+        }
         quantity
         attributes {
           key
@@ -60,7 +63,7 @@ export default (customFragments?: CartFragments) => /* GraphQL */ `
         }
         merchandise {
           ... on ProductVariant {
-            id
+            sourceEntryId: id
           }
           ...Merchandise_merchandise
         }

@@ -1,6 +1,6 @@
 import { cartFromGql } from '../../src/utils';
 import { ShopifyResponse } from '../../src/cart-client.types';
-import { Cart } from '../../src/types/cart.type';
+import { Cart, CartLine, NacelleCartLine } from '../../src/types/cart.type';
 import {
   CartAttributesUpdateMutation,
   CartBuyerIdentityUpdateMutation,
@@ -113,86 +113,95 @@ export const cartWithoutLine: Cart_CartFragment = {
   discountCodes: []
 };
 
+export const cartLine: CartLine = {
+  id: 'gid://shopify/CartLine/e543caf96fa645b54d07ab2035ef9dba?cart=a7aad2fb1e6611422c946f6827710550',
+  quantity: 1,
+  attributes: [
+    {
+      key: 'nacelleEntryId',
+      value:
+        'aWQ6Ly9TSE9QSUZZL3BlcHBlci13b29kcy1hcHBhcmVsL2RlZmF1bHQvUFJPRFVDVF9WQVJJQU5ULzMzODk0MTIwNzE4NDcxL2VuLVVT'
+    }
+  ],
+  nacelleEntryId: {
+    value:
+      'aWQ6Ly9TSE9QSUZZL3BlcHBlci13b29kcy1hcHBhcmVsL2RlZmF1bHQvUFJPRFVDVF9WQVJJQU5ULzMzODk0MTIwNzE4NDcxL2VuLVVT'
+  },
+  cost: {
+    subtotalAmount: {
+      amount: '265.0',
+      currencyCode: 'USD'
+    },
+    amountPerQuantity: {
+      amount: '265.0',
+      currencyCode: 'USD'
+    },
+    compareAtAmountPerQuantity: null,
+    totalAmount: {
+      amount: '265.0',
+      currencyCode: 'USD'
+    }
+  },
+  discountAllocations: [],
+  merchandise: {
+    sourceEntryId: 'gid://shopify/ProductVariant/33894120718471',
+    availableForSale: true,
+    compareAtPriceV2: {
+      currencyCode: 'USD',
+      amount: '300.0'
+    },
+    priceV2: {
+      currencyCode: 'USD',
+      amount: '265.0'
+    },
+    requiresShipping: false,
+    title: 'Default Title',
+    image: {
+      id: 'gid://shopify/ProductImage/16284913500295',
+      url: 'https://cdn.shopify.com/s/files/1/0344/4362/4583/products/pexels-photo-1270015.jpg?v=1587622893',
+      altText: 'Raffaella Bag',
+      width: 1600,
+      height: 1067
+    },
+    product: {
+      handle: 'raffaella-bag',
+      onlineStoreUrl: 'https://nacelle.com/example',
+      tags: [],
+      title: 'Raffaella Bag',
+      vendor: 'Prairie Wind Apparel'
+    },
+    selectedOptions: [
+      {
+        name: 'Title',
+        value: 'Default Title'
+      }
+    ]
+  }
+};
+
+const cartLineConverter = { ...cartLine } as any;
+cartLineConverter.merchandise.nacelleEntryId = cartLineConverter.nacelleEntryId;
+delete cartLineConverter.nacelleEntryId;
+export const cartLineNacelle: NacelleCartLine = cartLineConverter;
+
 export const cartWithLine: Cart_CartFragment = {
   id: cartId,
   createdAt: '2022-07-01T00:00:00Z',
   updatedAt: '2022-07-01T00:00:00Z',
   checkoutUrl,
+  discountAllocations: [],
   buyerIdentity: {
     countryCode: null,
     customer: null,
     email: null,
     phone: null
   },
-  discountAllocations: [],
   lines: {
     pageInfo: {
       hasNextPage: false,
       hasPreviousPage: false
     },
-    nodes: [
-      {
-        id: 'gid://shopify/CartLine/e543caf96fa645b54d07ab2035ef9dba?cart=a7aad2fb1e6611422c946f6827710550',
-        quantity: 1,
-        attributes: [
-          {
-            key: 'nacelleEntryId',
-            value:
-              'aWQ6Ly9TSE9QSUZZL3BlcHBlci13b29kcy1hcHBhcmVsL2RlZmF1bHQvUFJPRFVDVF9WQVJJQU5ULzMzODk0MTIwNzE4NDcxL2VuLVVT'
-          }
-        ],
-        cost: {
-          subtotalAmount: {
-            amount: '265.0',
-            currencyCode: 'USD'
-          },
-          amountPerQuantity: {
-            amount: '265.0',
-            currencyCode: 'USD'
-          },
-          compareAtAmountPerQuantity: null,
-          totalAmount: {
-            amount: '265.0',
-            currencyCode: 'USD'
-          }
-        },
-        discountAllocations: [],
-        merchandise: {
-          id: 'gid://shopify/ProductVariant/33894120718471',
-          availableForSale: true,
-          compareAtPriceV2: {
-            currencyCode: 'USD',
-            amount: '300.0'
-          },
-          priceV2: {
-            currencyCode: 'USD',
-            amount: '265.0'
-          },
-          requiresShipping: false,
-          title: 'Default Title',
-          image: {
-            id: 'gid://shopify/ProductImage/16284913500295',
-            url: 'https://cdn.shopify.com/s/files/1/0344/4362/4583/products/pexels-photo-1270015.jpg?v=1587622893',
-            altText: 'Raffaella Bag',
-            width: 1600,
-            height: 1067
-          },
-          product: {
-            handle: 'raffaella-bag',
-            onlineStoreUrl: 'https://nacelle.com/example',
-            tags: [],
-            title: 'Raffaella Bag',
-            vendor: 'Prairie Wind Apparel'
-          },
-          selectedOptions: [
-            {
-              name: 'Title',
-              value: 'Default Title'
-            }
-          ]
-        }
-      }
-    ]
+    nodes: [cartLine]
   },
   cost: {
     checkoutChargeAmount: {
@@ -224,13 +233,13 @@ export const cartWithPaginatedLines: Cart_CartFragment = {
   createdAt: '2022-07-01T00:00:00Z',
   updatedAt: '2022-07-01T00:00:00Z',
   checkoutUrl,
+  discountAllocations: [],
   buyerIdentity: {
     countryCode: null,
     customer: null,
     email: null,
     phone: null
   },
-  discountAllocations: [],
   lines: {
     pageInfo: {
       hasNextPage: true,
@@ -238,63 +247,7 @@ export const cartWithPaginatedLines: Cart_CartFragment = {
       endCursor:
         'gid://shopify/CartLine/e543caf96fa645b54d07ab2035ef9dba?cart=a7aad2fb1e6611422c946f6827710550'
     },
-    nodes: [
-      {
-        id: 'gid://shopify/CartLine/e543caf96fa645b54d07ab2035ef9dba?cart=a7aad2fb1e6611422c946f6827710550',
-        quantity: 1,
-        attributes: [],
-        cost: {
-          subtotalAmount: {
-            amount: '265.0',
-            currencyCode: 'USD'
-          },
-          amountPerQuantity: {
-            amount: '265.0',
-            currencyCode: 'USD'
-          },
-          compareAtAmountPerQuantity: null,
-          totalAmount: {
-            amount: '265.0',
-            currencyCode: 'USD'
-          }
-        },
-        discountAllocations: [],
-        merchandise: {
-          id: 'gid://shopify/ProductVariant/33894120718471',
-          availableForSale: true,
-          compareAtPriceV2: {
-            currencyCode: 'USD',
-            amount: '300.0'
-          },
-          priceV2: {
-            currencyCode: 'USD',
-            amount: '265.0'
-          },
-          requiresShipping: false,
-          title: 'Default Title',
-          image: {
-            id: 'gid://shopify/ProductImage/16284913500295',
-            url: 'https://cdn.shopify.com/s/files/1/0344/4362/4583/products/pexels-photo-1270015.jpg?v=1587622893',
-            altText: 'Raffaella Bag',
-            width: 1600,
-            height: 1067
-          },
-          product: {
-            handle: 'raffaella-bag',
-            onlineStoreUrl: 'https://nacelle.com/example',
-            tags: [],
-            title: 'Raffaella Bag',
-            vendor: 'Prairie Wind Apparel'
-          },
-          selectedOptions: [
-            {
-              name: 'Title',
-              value: 'Default Title'
-            }
-          ]
-        }
-      }
-    ]
+    nodes: [cartLine]
   },
   cost: {
     checkoutChargeAmount: {
