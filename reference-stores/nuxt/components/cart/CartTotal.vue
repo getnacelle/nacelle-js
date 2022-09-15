@@ -29,6 +29,7 @@
           ease-in-out
         "
         :class="{ 'bg-gray-600': checkoutProcessing }"
+        :disable="checkoutProcessing || !cartCheckoutUrl"
         @click="checkout"
       >
         {{ checkoutButtonText }}
@@ -65,7 +66,7 @@ export default {
     }
   },
   computed: {
-    ...mapState('cart', ['checkoutProcessing']),
+    ...mapState('cart', ['checkoutProcessing', 'cartCheckoutUrl']),
     ...mapGetters('cart', ['cartSubtotal']),
     total() {
       return formatPrice({ price: this.cartSubtotal });

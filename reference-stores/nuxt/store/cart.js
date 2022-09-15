@@ -11,26 +11,29 @@ export const state = () => ({
 });
 
 const linesTransformer = (lines) => {
-  return lines.map((line) => {
+  return lines.reduce((array, line) => {
     const { merchandise, cost } = line;
-    return {
-      availableForSale: merchandise.availableForSale,
-      compareAtPrice: merchandise.compareAtPriceV2,
-      featuredMedia: {
-        altText: merchandise.image.altText,
-        src: merchandise.image.url,
-        thumbnailSrc: merchandise.image.url
-      },
-      id: line.id,
-      price: cost.amountPerQuantity.amount,
-      productHandle: merchandise.product.handle,
-      productTitle: merchandise.product.title,
-      quantity: line.quantity,
-      selectedOptions: merchandise.selectedOptions,
-      variantId: merchandise.id,
-      variantTitle: merchandise.title
-    };
-  });
+    if (line.quantity) {
+      array.push({
+        availableForSale: merchandise.availableForSale,
+        compareAtPrice: merchandise.compareAtPriceV2,
+        featuredMedia: {
+          altText: merchandise.image.altText,
+          src: merchandise.image.url,
+          thumbnailSrc: merchandise.image.url
+        },
+        id: line.id,
+        price: cost.amountPerQuantity.amount,
+        productHandle: merchandise.product.handle,
+        productTitle: merchandise.product.title,
+        quantity: line.quantity,
+        selectedOptions: merchandise.selectedOptions,
+        variantId: merchandise.id,
+        variantTitle: merchandise.title
+      });
+    }
+    return array;
+  }, []);
 };
 
 export const getters = {
