@@ -12,7 +12,9 @@ import type {
 import type {
   CartCreatePayload,
   CartInput,
-  MutationCartCreateArgs
+  CartCreateMutationVariables,
+  LanguageCode,
+  CountryCode
 } from '../../types/shopify.type';
 import type { MutationFragments } from '../../graphql/mutations';
 import type { GqlClient } from '../../cart-client.types';
@@ -21,6 +23,8 @@ export interface CreateCartParams {
   gqlClient: GqlClient;
   customFragments?: MutationFragments;
   params?: NacelleCartInput;
+  language: LanguageCode;
+  country: CountryCode;
 }
 
 export type CartCreateResponse = CartCreatePayload & CartFragmentResponse;
@@ -32,7 +36,9 @@ export interface MutationCartCreateResponse {
 export default async function cartCreate({
   customFragments,
   gqlClient,
-  params
+  params,
+  language,
+  country
 }: CreateCartParams): Promise<void | CartResponse> {
   let shopifyParams: CartInput = {};
 
@@ -48,11 +54,11 @@ export default async function cartCreate({
     }
 
     const shopifyResponse = await gqlClient<
-      MutationCartCreateArgs,
+      CartCreateMutationVariables,
       MutationCartCreateResponse
     >({
       query: mutations.CART_CREATE(customFragments),
-      variables: { input: shopifyParams }
+      variables: { input: shopifyParams, language, country }
     }).catch((err) => {
       throw new Error(err);
     });
@@ -60,7 +66,9 @@ export default async function cartCreate({
     const cart = await depaginateLines({
       cart: shopifyResponse.data?.cartCreate.cart,
       customFragments,
-      gqlClient
+      gqlClient,
+      language,
+      country
     });
 
     return formatCartResponse({

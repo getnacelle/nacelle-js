@@ -185,26 +185,25 @@ export type ArticleEdge = {
 };
 
 /** The set of valid sort keys for the Article query. */
-export enum ArticleSortKeys {
+export type ArticleSortKeys =
   /** Sort by the `author` value. */
-  Author = 'AUTHOR',
+  | 'AUTHOR'
   /** Sort by the `blog_title` value. */
-  BlogTitle = 'BLOG_TITLE',
+  | 'BLOG_TITLE'
   /** Sort by the `id` value. */
-  Id = 'ID',
+  | 'ID'
   /** Sort by the `published_at` value. */
-  PublishedAt = 'PUBLISHED_AT',
+  | 'PUBLISHED_AT'
   /**
    * Sort by relevance to the search terms when the `query` parameter is specified on the connection.
    * Don't use this sort key when no search query is specified.
    *
    */
-  Relevance = 'RELEVANCE',
+  | 'RELEVANCE'
   /** Sort by the `title` value. */
-  Title = 'TITLE',
+  | 'TITLE'
   /** Sort by the `updated_at` value. */
-  UpdatedAt = 'UPDATED_AT'
-}
+  | 'UPDATED_AT';
 
 /** Represents a generic custom attribute. */
 export type Attribute = {
@@ -344,36 +343,34 @@ export type BlogEdge = {
 };
 
 /** The set of valid sort keys for the Blog query. */
-export enum BlogSortKeys {
+export type BlogSortKeys =
   /** Sort by the `handle` value. */
-  Handle = 'HANDLE',
+  | 'HANDLE'
   /** Sort by the `id` value. */
-  Id = 'ID',
+  | 'ID'
   /**
    * Sort by relevance to the search terms when the `query` parameter is specified on the connection.
    * Don't use this sort key when no search query is specified.
    *
    */
-  Relevance = 'RELEVANCE',
+  | 'RELEVANCE'
   /** Sort by the `title` value. */
-  Title = 'TITLE'
-}
+  | 'TITLE';
 
 /** Card brand, such as Visa or Mastercard, which can be used for payments. */
-export enum CardBrand {
+export type CardBrand =
   /** American Express. */
-  AmericanExpress = 'AMERICAN_EXPRESS',
+  | 'AMERICAN_EXPRESS'
   /** Diners Club. */
-  DinersClub = 'DINERS_CLUB',
+  | 'DINERS_CLUB'
   /** Discover. */
-  Discover = 'DISCOVER',
+  | 'DISCOVER'
   /** JCB. */
-  Jcb = 'JCB',
+  | 'JCB'
   /** Mastercard. */
-  Mastercard = 'MASTERCARD',
+  | 'MASTERCARD'
   /** Visa. */
-  Visa = 'VISA'
-}
+  | 'VISA';
 
 /** A cart represents the merchandise that a buyer intends to purchase, and the estimated cost associated with the cart. To learn how to interact with a cart during a customer's session, refer to [Manage a cart with the Storefront API](https://shopify.dev/api/examples/cart). */
 export type Cart = Node & {
@@ -644,18 +641,17 @@ export type CartDiscountCodesUpdatePayload = {
 };
 
 /** Possible error codes that can be returned by `CartUserError`. */
-export enum CartErrorCode {
+export type CartErrorCode =
   /** The input value is invalid. */
-  Invalid = 'INVALID',
+  | 'INVALID'
   /** Merchandise line was not found in cart. */
-  InvalidMerchandiseLine = 'INVALID_MERCHANDISE_LINE',
+  | 'INVALID_MERCHANDISE_LINE'
   /** The input value should be less than the maximum value allowed. */
-  LessThan = 'LESS_THAN',
+  | 'LESS_THAN'
   /** Missing discount code. */
-  MissingDiscountCode = 'MISSING_DISCOUNT_CODE',
+  | 'MISSING_DISCOUNT_CODE'
   /** Missing note. */
-  MissingNote = 'MISSING_NOTE'
-}
+  | 'MISSING_NOTE';
 
 /**
  * The estimated costs that the buyer will pay at checkout.
@@ -1174,96 +1170,95 @@ export type CheckoutEmailUpdateV2Payload = {
 };
 
 /** Possible error codes that can be returned by `CheckoutUserError`. */
-export enum CheckoutErrorCode {
+export type CheckoutErrorCode =
   /** Checkout is already completed. */
-  AlreadyCompleted = 'ALREADY_COMPLETED',
+  | 'ALREADY_COMPLETED'
   /** Input email contains an invalid domain name. */
-  BadDomain = 'BAD_DOMAIN',
+  | 'BAD_DOMAIN'
   /** The input value is blank. */
-  Blank = 'BLANK',
+  | 'BLANK'
   /** Cart does not meet discount requirements notice. */
-  CartDoesNotMeetDiscountRequirementsNotice = 'CART_DOES_NOT_MEET_DISCOUNT_REQUIREMENTS_NOTICE',
+  | 'CART_DOES_NOT_MEET_DISCOUNT_REQUIREMENTS_NOTICE'
   /** Customer already used once per customer discount notice. */
-  CustomerAlreadyUsedOncePerCustomerDiscountNotice = 'CUSTOMER_ALREADY_USED_ONCE_PER_CUSTOMER_DISCOUNT_NOTICE',
+  | 'CUSTOMER_ALREADY_USED_ONCE_PER_CUSTOMER_DISCOUNT_NOTICE'
   /** Discount already applied. */
-  DiscountAlreadyApplied = 'DISCOUNT_ALREADY_APPLIED',
+  | 'DISCOUNT_ALREADY_APPLIED'
   /** Discount disabled. */
-  DiscountDisabled = 'DISCOUNT_DISABLED',
+  | 'DISCOUNT_DISABLED'
   /** Discount expired. */
-  DiscountExpired = 'DISCOUNT_EXPIRED',
+  | 'DISCOUNT_EXPIRED'
   /** Discount limit reached. */
-  DiscountLimitReached = 'DISCOUNT_LIMIT_REACHED',
+  | 'DISCOUNT_LIMIT_REACHED'
   /** Discount not found. */
-  DiscountNotFound = 'DISCOUNT_NOT_FOUND',
+  | 'DISCOUNT_NOT_FOUND'
   /** Checkout is already completed. */
-  Empty = 'EMPTY',
+  | 'EMPTY'
   /** Queue token has expired. */
-  ExpiredQueueToken = 'EXPIRED_QUEUE_TOKEN',
+  | 'EXPIRED_QUEUE_TOKEN'
   /** Gift card has already been applied. */
-  GiftCardAlreadyApplied = 'GIFT_CARD_ALREADY_APPLIED',
+  | 'GIFT_CARD_ALREADY_APPLIED'
   /** Gift card code is invalid. */
-  GiftCardCodeInvalid = 'GIFT_CARD_CODE_INVALID',
+  | 'GIFT_CARD_CODE_INVALID'
   /** Gift card currency does not match checkout currency. */
-  GiftCardCurrencyMismatch = 'GIFT_CARD_CURRENCY_MISMATCH',
+  | 'GIFT_CARD_CURRENCY_MISMATCH'
   /** Gift card has no funds left. */
-  GiftCardDepleted = 'GIFT_CARD_DEPLETED',
+  | 'GIFT_CARD_DEPLETED'
   /** Gift card is disabled. */
-  GiftCardDisabled = 'GIFT_CARD_DISABLED',
+  | 'GIFT_CARD_DISABLED'
   /** Gift card is expired. */
-  GiftCardExpired = 'GIFT_CARD_EXPIRED',
+  | 'GIFT_CARD_EXPIRED'
   /** Gift card was not found. */
-  GiftCardNotFound = 'GIFT_CARD_NOT_FOUND',
+  | 'GIFT_CARD_NOT_FOUND'
   /** Gift card cannot be applied to a checkout that contains a gift card. */
-  GiftCardUnusable = 'GIFT_CARD_UNUSABLE',
+  | 'GIFT_CARD_UNUSABLE'
   /** The input value should be greater than or equal to the minimum value allowed. */
-  GreaterThanOrEqualTo = 'GREATER_THAN_OR_EQUAL_TO',
+  | 'GREATER_THAN_OR_EQUAL_TO'
   /** Higher value discount applied. */
-  HigherValueDiscountApplied = 'HIGHER_VALUE_DISCOUNT_APPLIED',
+  | 'HIGHER_VALUE_DISCOUNT_APPLIED'
   /** The input value is invalid. */
-  Invalid = 'INVALID',
+  | 'INVALID'
   /** Cannot specify country and presentment currency code. */
-  InvalidCountryAndCurrency = 'INVALID_COUNTRY_AND_CURRENCY',
+  | 'INVALID_COUNTRY_AND_CURRENCY'
   /** Input Zip is invalid for country provided. */
-  InvalidForCountry = 'INVALID_FOR_COUNTRY',
+  | 'INVALID_FOR_COUNTRY'
   /** Input Zip is invalid for country and province provided. */
-  InvalidForCountryAndProvince = 'INVALID_FOR_COUNTRY_AND_PROVINCE',
+  | 'INVALID_FOR_COUNTRY_AND_PROVINCE'
   /** Invalid province in country. */
-  InvalidProvinceInCountry = 'INVALID_PROVINCE_IN_COUNTRY',
+  | 'INVALID_PROVINCE_IN_COUNTRY'
   /** Queue token is invalid. */
-  InvalidQueueToken = 'INVALID_QUEUE_TOKEN',
+  | 'INVALID_QUEUE_TOKEN'
   /** Invalid region in country. */
-  InvalidRegionInCountry = 'INVALID_REGION_IN_COUNTRY',
+  | 'INVALID_REGION_IN_COUNTRY'
   /** Invalid state in country. */
-  InvalidStateInCountry = 'INVALID_STATE_IN_COUNTRY',
+  | 'INVALID_STATE_IN_COUNTRY'
   /** The input value should be less than the maximum value allowed. */
-  LessThan = 'LESS_THAN',
+  | 'LESS_THAN'
   /** The input value should be less than or equal to the maximum value allowed. */
-  LessThanOrEqualTo = 'LESS_THAN_OR_EQUAL_TO',
+  | 'LESS_THAN_OR_EQUAL_TO'
   /** Line item was not found in checkout. */
-  LineItemNotFound = 'LINE_ITEM_NOT_FOUND',
+  | 'LINE_ITEM_NOT_FOUND'
   /** Checkout is locked. */
-  Locked = 'LOCKED',
+  | 'LOCKED'
   /** Maximum number of discount codes limit reached. */
-  MaximumDiscountCodeLimitReached = 'MAXIMUM_DISCOUNT_CODE_LIMIT_REACHED',
+  | 'MAXIMUM_DISCOUNT_CODE_LIMIT_REACHED'
   /** Missing payment input. */
-  MissingPaymentInput = 'MISSING_PAYMENT_INPUT',
+  | 'MISSING_PAYMENT_INPUT'
   /** Not enough in stock. */
-  NotEnoughInStock = 'NOT_ENOUGH_IN_STOCK',
+  | 'NOT_ENOUGH_IN_STOCK'
   /** Input value is not supported. */
-  NotSupported = 'NOT_SUPPORTED',
+  | 'NOT_SUPPORTED'
   /** The input value needs to be blank. */
-  Present = 'PRESENT',
+  | 'PRESENT'
   /** Shipping rate expired. */
-  ShippingRateExpired = 'SHIPPING_RATE_EXPIRED',
+  | 'SHIPPING_RATE_EXPIRED'
   /** Throttled during checkout. */
-  ThrottledDuringCheckout = 'THROTTLED_DURING_CHECKOUT',
+  | 'THROTTLED_DURING_CHECKOUT'
   /** The input value is too long. */
-  TooLong = 'TOO_LONG',
+  | 'TOO_LONG'
   /** The amount of the payment does not match the value to be paid. */
-  TotalPriceMismatch = 'TOTAL_PRICE_MISMATCH',
+  | 'TOTAL_PRICE_MISMATCH'
   /** Unable to apply discount. */
-  UnableToApply = 'UNABLE_TO_APPLY'
-}
+  | 'UNABLE_TO_APPLY';
 
 /** Return type for `checkoutGiftCardRemoveV2` mutation. */
 export type CheckoutGiftCardRemoveV2Payload = {
@@ -1544,20 +1539,19 @@ export type CollectionEdge = {
 };
 
 /** The set of valid sort keys for the Collection query. */
-export enum CollectionSortKeys {
+export type CollectionSortKeys =
   /** Sort by the `id` value. */
-  Id = 'ID',
+  | 'ID'
   /**
    * Sort by relevance to the search terms when the `query` parameter is specified on the connection.
    * Don't use this sort key when no search query is specified.
    *
    */
-  Relevance = 'RELEVANCE',
+  | 'RELEVANCE'
   /** Sort by the `title` value. */
-  Title = 'TITLE',
+  | 'TITLE'
   /** Sort by the `updated_at` value. */
-  UpdatedAt = 'UPDATED_AT'
-}
+  | 'UPDATED_AT';
 
 /** A comment on an article. */
 export type Comment = Node & {
@@ -1635,498 +1629,497 @@ export type Country = {
  * and the territories associated with the United States of America are represented by the country code `US`.
  *
  */
-export enum CountryCode {
+export type CountryCode =
   /** Ascension Island. */
-  Ac = 'AC',
+  | 'AC'
   /** Andorra. */
-  Ad = 'AD',
+  | 'AD'
   /** United Arab Emirates. */
-  Ae = 'AE',
+  | 'AE'
   /** Afghanistan. */
-  Af = 'AF',
+  | 'AF'
   /** Antigua & Barbuda. */
-  Ag = 'AG',
+  | 'AG'
   /** Anguilla. */
-  Ai = 'AI',
+  | 'AI'
   /** Albania. */
-  Al = 'AL',
+  | 'AL'
   /** Armenia. */
-  Am = 'AM',
+  | 'AM'
   /** Netherlands Antilles. */
-  An = 'AN',
+  | 'AN'
   /** Angola. */
-  Ao = 'AO',
+  | 'AO'
   /** Argentina. */
-  Ar = 'AR',
+  | 'AR'
   /** Austria. */
-  At = 'AT',
+  | 'AT'
   /** Australia. */
-  Au = 'AU',
+  | 'AU'
   /** Aruba. */
-  Aw = 'AW',
+  | 'AW'
   /** Åland Islands. */
-  Ax = 'AX',
+  | 'AX'
   /** Azerbaijan. */
-  Az = 'AZ',
+  | 'AZ'
   /** Bosnia & Herzegovina. */
-  Ba = 'BA',
+  | 'BA'
   /** Barbados. */
-  Bb = 'BB',
+  | 'BB'
   /** Bangladesh. */
-  Bd = 'BD',
+  | 'BD'
   /** Belgium. */
-  Be = 'BE',
+  | 'BE'
   /** Burkina Faso. */
-  Bf = 'BF',
+  | 'BF'
   /** Bulgaria. */
-  Bg = 'BG',
+  | 'BG'
   /** Bahrain. */
-  Bh = 'BH',
+  | 'BH'
   /** Burundi. */
-  Bi = 'BI',
+  | 'BI'
   /** Benin. */
-  Bj = 'BJ',
+  | 'BJ'
   /** St. Barthélemy. */
-  Bl = 'BL',
+  | 'BL'
   /** Bermuda. */
-  Bm = 'BM',
+  | 'BM'
   /** Brunei. */
-  Bn = 'BN',
+  | 'BN'
   /** Bolivia. */
-  Bo = 'BO',
+  | 'BO'
   /** Caribbean Netherlands. */
-  Bq = 'BQ',
+  | 'BQ'
   /** Brazil. */
-  Br = 'BR',
+  | 'BR'
   /** Bahamas. */
-  Bs = 'BS',
+  | 'BS'
   /** Bhutan. */
-  Bt = 'BT',
+  | 'BT'
   /** Bouvet Island. */
-  Bv = 'BV',
+  | 'BV'
   /** Botswana. */
-  Bw = 'BW',
+  | 'BW'
   /** Belarus. */
-  By = 'BY',
+  | 'BY'
   /** Belize. */
-  Bz = 'BZ',
+  | 'BZ'
   /** Canada. */
-  Ca = 'CA',
+  | 'CA'
   /** Cocos (Keeling) Islands. */
-  Cc = 'CC',
+  | 'CC'
   /** Congo - Kinshasa. */
-  Cd = 'CD',
+  | 'CD'
   /** Central African Republic. */
-  Cf = 'CF',
+  | 'CF'
   /** Congo - Brazzaville. */
-  Cg = 'CG',
+  | 'CG'
   /** Switzerland. */
-  Ch = 'CH',
+  | 'CH'
   /** Côte d’Ivoire. */
-  Ci = 'CI',
+  | 'CI'
   /** Cook Islands. */
-  Ck = 'CK',
+  | 'CK'
   /** Chile. */
-  Cl = 'CL',
+  | 'CL'
   /** Cameroon. */
-  Cm = 'CM',
+  | 'CM'
   /** China. */
-  Cn = 'CN',
+  | 'CN'
   /** Colombia. */
-  Co = 'CO',
+  | 'CO'
   /** Costa Rica. */
-  Cr = 'CR',
+  | 'CR'
   /** Cuba. */
-  Cu = 'CU',
+  | 'CU'
   /** Cape Verde. */
-  Cv = 'CV',
+  | 'CV'
   /** Curaçao. */
-  Cw = 'CW',
+  | 'CW'
   /** Christmas Island. */
-  Cx = 'CX',
+  | 'CX'
   /** Cyprus. */
-  Cy = 'CY',
+  | 'CY'
   /** Czechia. */
-  Cz = 'CZ',
+  | 'CZ'
   /** Germany. */
-  De = 'DE',
+  | 'DE'
   /** Djibouti. */
-  Dj = 'DJ',
+  | 'DJ'
   /** Denmark. */
-  Dk = 'DK',
+  | 'DK'
   /** Dominica. */
-  Dm = 'DM',
+  | 'DM'
   /** Dominican Republic. */
-  Do = 'DO',
+  | 'DO'
   /** Algeria. */
-  Dz = 'DZ',
+  | 'DZ'
   /** Ecuador. */
-  Ec = 'EC',
+  | 'EC'
   /** Estonia. */
-  Ee = 'EE',
+  | 'EE'
   /** Egypt. */
-  Eg = 'EG',
+  | 'EG'
   /** Western Sahara. */
-  Eh = 'EH',
+  | 'EH'
   /** Eritrea. */
-  Er = 'ER',
+  | 'ER'
   /** Spain. */
-  Es = 'ES',
+  | 'ES'
   /** Ethiopia. */
-  Et = 'ET',
+  | 'ET'
   /** Finland. */
-  Fi = 'FI',
+  | 'FI'
   /** Fiji. */
-  Fj = 'FJ',
+  | 'FJ'
   /** Falkland Islands. */
-  Fk = 'FK',
+  | 'FK'
   /** Faroe Islands. */
-  Fo = 'FO',
+  | 'FO'
   /** France. */
-  Fr = 'FR',
+  | 'FR'
   /** Gabon. */
-  Ga = 'GA',
+  | 'GA'
   /** United Kingdom. */
-  Gb = 'GB',
+  | 'GB'
   /** Grenada. */
-  Gd = 'GD',
+  | 'GD'
   /** Georgia. */
-  Ge = 'GE',
+  | 'GE'
   /** French Guiana. */
-  Gf = 'GF',
+  | 'GF'
   /** Guernsey. */
-  Gg = 'GG',
+  | 'GG'
   /** Ghana. */
-  Gh = 'GH',
+  | 'GH'
   /** Gibraltar. */
-  Gi = 'GI',
+  | 'GI'
   /** Greenland. */
-  Gl = 'GL',
+  | 'GL'
   /** Gambia. */
-  Gm = 'GM',
+  | 'GM'
   /** Guinea. */
-  Gn = 'GN',
+  | 'GN'
   /** Guadeloupe. */
-  Gp = 'GP',
+  | 'GP'
   /** Equatorial Guinea. */
-  Gq = 'GQ',
+  | 'GQ'
   /** Greece. */
-  Gr = 'GR',
+  | 'GR'
   /** South Georgia & South Sandwich Islands. */
-  Gs = 'GS',
+  | 'GS'
   /** Guatemala. */
-  Gt = 'GT',
+  | 'GT'
   /** Guinea-Bissau. */
-  Gw = 'GW',
+  | 'GW'
   /** Guyana. */
-  Gy = 'GY',
+  | 'GY'
   /** Hong Kong SAR. */
-  Hk = 'HK',
+  | 'HK'
   /** Heard & McDonald Islands. */
-  Hm = 'HM',
+  | 'HM'
   /** Honduras. */
-  Hn = 'HN',
+  | 'HN'
   /** Croatia. */
-  Hr = 'HR',
+  | 'HR'
   /** Haiti. */
-  Ht = 'HT',
+  | 'HT'
   /** Hungary. */
-  Hu = 'HU',
+  | 'HU'
   /** Indonesia. */
-  Id = 'ID',
+  | 'ID'
   /** Ireland. */
-  Ie = 'IE',
+  | 'IE'
   /** Israel. */
-  Il = 'IL',
+  | 'IL'
   /** Isle of Man. */
-  Im = 'IM',
+  | 'IM'
   /** India. */
-  In = 'IN',
+  | 'IN'
   /** British Indian Ocean Territory. */
-  Io = 'IO',
+  | 'IO'
   /** Iraq. */
-  Iq = 'IQ',
+  | 'IQ'
   /** Iran. */
-  Ir = 'IR',
+  | 'IR'
   /** Iceland. */
-  Is = 'IS',
+  | 'IS'
   /** Italy. */
-  It = 'IT',
+  | 'IT'
   /** Jersey. */
-  Je = 'JE',
+  | 'JE'
   /** Jamaica. */
-  Jm = 'JM',
+  | 'JM'
   /** Jordan. */
-  Jo = 'JO',
+  | 'JO'
   /** Japan. */
-  Jp = 'JP',
+  | 'JP'
   /** Kenya. */
-  Ke = 'KE',
+  | 'KE'
   /** Kyrgyzstan. */
-  Kg = 'KG',
+  | 'KG'
   /** Cambodia. */
-  Kh = 'KH',
+  | 'KH'
   /** Kiribati. */
-  Ki = 'KI',
+  | 'KI'
   /** Comoros. */
-  Km = 'KM',
+  | 'KM'
   /** St. Kitts & Nevis. */
-  Kn = 'KN',
+  | 'KN'
   /** North Korea. */
-  Kp = 'KP',
+  | 'KP'
   /** South Korea. */
-  Kr = 'KR',
+  | 'KR'
   /** Kuwait. */
-  Kw = 'KW',
+  | 'KW'
   /** Cayman Islands. */
-  Ky = 'KY',
+  | 'KY'
   /** Kazakhstan. */
-  Kz = 'KZ',
+  | 'KZ'
   /** Laos. */
-  La = 'LA',
+  | 'LA'
   /** Lebanon. */
-  Lb = 'LB',
+  | 'LB'
   /** St. Lucia. */
-  Lc = 'LC',
+  | 'LC'
   /** Liechtenstein. */
-  Li = 'LI',
+  | 'LI'
   /** Sri Lanka. */
-  Lk = 'LK',
+  | 'LK'
   /** Liberia. */
-  Lr = 'LR',
+  | 'LR'
   /** Lesotho. */
-  Ls = 'LS',
+  | 'LS'
   /** Lithuania. */
-  Lt = 'LT',
+  | 'LT'
   /** Luxembourg. */
-  Lu = 'LU',
+  | 'LU'
   /** Latvia. */
-  Lv = 'LV',
+  | 'LV'
   /** Libya. */
-  Ly = 'LY',
+  | 'LY'
   /** Morocco. */
-  Ma = 'MA',
+  | 'MA'
   /** Monaco. */
-  Mc = 'MC',
+  | 'MC'
   /** Moldova. */
-  Md = 'MD',
+  | 'MD'
   /** Montenegro. */
-  Me = 'ME',
+  | 'ME'
   /** St. Martin. */
-  Mf = 'MF',
+  | 'MF'
   /** Madagascar. */
-  Mg = 'MG',
+  | 'MG'
   /** North Macedonia. */
-  Mk = 'MK',
+  | 'MK'
   /** Mali. */
-  Ml = 'ML',
+  | 'ML'
   /** Myanmar (Burma). */
-  Mm = 'MM',
+  | 'MM'
   /** Mongolia. */
-  Mn = 'MN',
+  | 'MN'
   /** Macao SAR. */
-  Mo = 'MO',
+  | 'MO'
   /** Martinique. */
-  Mq = 'MQ',
+  | 'MQ'
   /** Mauritania. */
-  Mr = 'MR',
+  | 'MR'
   /** Montserrat. */
-  Ms = 'MS',
+  | 'MS'
   /** Malta. */
-  Mt = 'MT',
+  | 'MT'
   /** Mauritius. */
-  Mu = 'MU',
+  | 'MU'
   /** Maldives. */
-  Mv = 'MV',
+  | 'MV'
   /** Malawi. */
-  Mw = 'MW',
+  | 'MW'
   /** Mexico. */
-  Mx = 'MX',
+  | 'MX'
   /** Malaysia. */
-  My = 'MY',
+  | 'MY'
   /** Mozambique. */
-  Mz = 'MZ',
+  | 'MZ'
   /** Namibia. */
-  Na = 'NA',
+  | 'NA'
   /** New Caledonia. */
-  Nc = 'NC',
+  | 'NC'
   /** Niger. */
-  Ne = 'NE',
+  | 'NE'
   /** Norfolk Island. */
-  Nf = 'NF',
+  | 'NF'
   /** Nigeria. */
-  Ng = 'NG',
+  | 'NG'
   /** Nicaragua. */
-  Ni = 'NI',
+  | 'NI'
   /** Netherlands. */
-  Nl = 'NL',
+  | 'NL'
   /** Norway. */
-  No = 'NO',
+  | 'NO'
   /** Nepal. */
-  Np = 'NP',
+  | 'NP'
   /** Nauru. */
-  Nr = 'NR',
+  | 'NR'
   /** Niue. */
-  Nu = 'NU',
+  | 'NU'
   /** New Zealand. */
-  Nz = 'NZ',
+  | 'NZ'
   /** Oman. */
-  Om = 'OM',
+  | 'OM'
   /** Panama. */
-  Pa = 'PA',
+  | 'PA'
   /** Peru. */
-  Pe = 'PE',
+  | 'PE'
   /** French Polynesia. */
-  Pf = 'PF',
+  | 'PF'
   /** Papua New Guinea. */
-  Pg = 'PG',
+  | 'PG'
   /** Philippines. */
-  Ph = 'PH',
+  | 'PH'
   /** Pakistan. */
-  Pk = 'PK',
+  | 'PK'
   /** Poland. */
-  Pl = 'PL',
+  | 'PL'
   /** St. Pierre & Miquelon. */
-  Pm = 'PM',
+  | 'PM'
   /** Pitcairn Islands. */
-  Pn = 'PN',
+  | 'PN'
   /** Palestinian Territories. */
-  Ps = 'PS',
+  | 'PS'
   /** Portugal. */
-  Pt = 'PT',
+  | 'PT'
   /** Paraguay. */
-  Py = 'PY',
+  | 'PY'
   /** Qatar. */
-  Qa = 'QA',
+  | 'QA'
   /** Réunion. */
-  Re = 'RE',
+  | 'RE'
   /** Romania. */
-  Ro = 'RO',
+  | 'RO'
   /** Serbia. */
-  Rs = 'RS',
+  | 'RS'
   /** Russia. */
-  Ru = 'RU',
+  | 'RU'
   /** Rwanda. */
-  Rw = 'RW',
+  | 'RW'
   /** Saudi Arabia. */
-  Sa = 'SA',
+  | 'SA'
   /** Solomon Islands. */
-  Sb = 'SB',
+  | 'SB'
   /** Seychelles. */
-  Sc = 'SC',
+  | 'SC'
   /** Sudan. */
-  Sd = 'SD',
+  | 'SD'
   /** Sweden. */
-  Se = 'SE',
+  | 'SE'
   /** Singapore. */
-  Sg = 'SG',
+  | 'SG'
   /** St. Helena. */
-  Sh = 'SH',
+  | 'SH'
   /** Slovenia. */
-  Si = 'SI',
+  | 'SI'
   /** Svalbard & Jan Mayen. */
-  Sj = 'SJ',
+  | 'SJ'
   /** Slovakia. */
-  Sk = 'SK',
+  | 'SK'
   /** Sierra Leone. */
-  Sl = 'SL',
+  | 'SL'
   /** San Marino. */
-  Sm = 'SM',
+  | 'SM'
   /** Senegal. */
-  Sn = 'SN',
+  | 'SN'
   /** Somalia. */
-  So = 'SO',
+  | 'SO'
   /** Suriname. */
-  Sr = 'SR',
+  | 'SR'
   /** South Sudan. */
-  Ss = 'SS',
+  | 'SS'
   /** São Tomé & Príncipe. */
-  St = 'ST',
+  | 'ST'
   /** El Salvador. */
-  Sv = 'SV',
+  | 'SV'
   /** Sint Maarten. */
-  Sx = 'SX',
+  | 'SX'
   /** Syria. */
-  Sy = 'SY',
+  | 'SY'
   /** Eswatini. */
-  Sz = 'SZ',
+  | 'SZ'
   /** Tristan da Cunha. */
-  Ta = 'TA',
+  | 'TA'
   /** Turks & Caicos Islands. */
-  Tc = 'TC',
+  | 'TC'
   /** Chad. */
-  Td = 'TD',
+  | 'TD'
   /** French Southern Territories. */
-  Tf = 'TF',
+  | 'TF'
   /** Togo. */
-  Tg = 'TG',
+  | 'TG'
   /** Thailand. */
-  Th = 'TH',
+  | 'TH'
   /** Tajikistan. */
-  Tj = 'TJ',
+  | 'TJ'
   /** Tokelau. */
-  Tk = 'TK',
+  | 'TK'
   /** Timor-Leste. */
-  Tl = 'TL',
+  | 'TL'
   /** Turkmenistan. */
-  Tm = 'TM',
+  | 'TM'
   /** Tunisia. */
-  Tn = 'TN',
+  | 'TN'
   /** Tonga. */
-  To = 'TO',
+  | 'TO'
   /** Turkey. */
-  Tr = 'TR',
+  | 'TR'
   /** Trinidad & Tobago. */
-  Tt = 'TT',
+  | 'TT'
   /** Tuvalu. */
-  Tv = 'TV',
+  | 'TV'
   /** Taiwan. */
-  Tw = 'TW',
+  | 'TW'
   /** Tanzania. */
-  Tz = 'TZ',
+  | 'TZ'
   /** Ukraine. */
-  Ua = 'UA',
+  | 'UA'
   /** Uganda. */
-  Ug = 'UG',
+  | 'UG'
   /** U.S. Outlying Islands. */
-  Um = 'UM',
+  | 'UM'
   /** United States. */
-  Us = 'US',
+  | 'US'
   /** Uruguay. */
-  Uy = 'UY',
+  | 'UY'
   /** Uzbekistan. */
-  Uz = 'UZ',
+  | 'UZ'
   /** Vatican City. */
-  Va = 'VA',
+  | 'VA'
   /** St. Vincent & Grenadines. */
-  Vc = 'VC',
+  | 'VC'
   /** Venezuela. */
-  Ve = 'VE',
+  | 'VE'
   /** British Virgin Islands. */
-  Vg = 'VG',
+  | 'VG'
   /** Vietnam. */
-  Vn = 'VN',
+  | 'VN'
   /** Vanuatu. */
-  Vu = 'VU',
+  | 'VU'
   /** Wallis & Futuna. */
-  Wf = 'WF',
+  | 'WF'
   /** Samoa. */
-  Ws = 'WS',
+  | 'WS'
   /** Kosovo. */
-  Xk = 'XK',
+  | 'XK'
   /** Yemen. */
-  Ye = 'YE',
+  | 'YE'
   /** Mayotte. */
-  Yt = 'YT',
+  | 'YT'
   /** South Africa. */
-  Za = 'ZA',
+  | 'ZA'
   /** Zambia. */
-  Zm = 'ZM',
+  | 'ZM'
   /** Zimbabwe. */
-  Zw = 'ZW',
+  | 'ZW'
   /** Unknown Region. */
-  Zz = 'ZZ'
-}
+  | 'ZZ';
 
 /** Credit card information used for a payment. */
 export type CreditCard = {
@@ -2168,18 +2161,17 @@ export type CreditCardPaymentInputV2 = {
 };
 
 /** The part of the image that should remain after cropping. */
-export enum CropRegion {
+export type CropRegion =
   /** Keep the bottom of the image. */
-  Bottom = 'BOTTOM',
+  | 'BOTTOM'
   /** Keep the center of the image. */
-  Center = 'CENTER',
+  | 'CENTER'
   /** Keep the left of the image. */
-  Left = 'LEFT',
+  | 'LEFT'
   /** Keep the right of the image. */
-  Right = 'RIGHT',
+  | 'RIGHT'
   /** Keep the top of the image. */
-  Top = 'TOP'
-}
+  | 'TOP';
 
 /** A currency. */
 export type Currency = {
@@ -2197,339 +2189,329 @@ export type Currency = {
  * and non-standard codes.
  *
  */
-export enum CurrencyCode {
+export type CurrencyCode =
   /** United Arab Emirates Dirham (AED). */
-  Aed = 'AED',
+  | 'AED'
   /** Afghan Afghani (AFN). */
-  Afn = 'AFN',
+  | 'AFN'
   /** Albanian Lek (ALL). */
-  All = 'ALL',
+  | 'ALL'
   /** Armenian Dram (AMD). */
-  Amd = 'AMD',
+  | 'AMD'
   /** Netherlands Antillean Guilder. */
-  Ang = 'ANG',
+  | 'ANG'
   /** Angolan Kwanza (AOA). */
-  Aoa = 'AOA',
+  | 'AOA'
   /** Argentine Pesos (ARS). */
-  Ars = 'ARS',
+  | 'ARS'
   /** Australian Dollars (AUD). */
-  Aud = 'AUD',
+  | 'AUD'
   /** Aruban Florin (AWG). */
-  Awg = 'AWG',
+  | 'AWG'
   /** Azerbaijani Manat (AZN). */
-  Azn = 'AZN',
+  | 'AZN'
   /** Bosnia and Herzegovina Convertible Mark (BAM). */
-  Bam = 'BAM',
+  | 'BAM'
   /** Barbadian Dollar (BBD). */
-  Bbd = 'BBD',
+  | 'BBD'
   /** Bangladesh Taka (BDT). */
-  Bdt = 'BDT',
+  | 'BDT'
   /** Bulgarian Lev (BGN). */
-  Bgn = 'BGN',
+  | 'BGN'
   /** Bahraini Dinar (BHD). */
-  Bhd = 'BHD',
+  | 'BHD'
   /** Burundian Franc (BIF). */
-  Bif = 'BIF',
+  | 'BIF'
   /** Bermudian Dollar (BMD). */
-  Bmd = 'BMD',
+  | 'BMD'
   /** Brunei Dollar (BND). */
-  Bnd = 'BND',
+  | 'BND'
   /** Bolivian Boliviano (BOB). */
-  Bob = 'BOB',
+  | 'BOB'
   /** Brazilian Real (BRL). */
-  Brl = 'BRL',
+  | 'BRL'
   /** Bahamian Dollar (BSD). */
-  Bsd = 'BSD',
+  | 'BSD'
   /** Bhutanese Ngultrum (BTN). */
-  Btn = 'BTN',
+  | 'BTN'
   /** Botswana Pula (BWP). */
-  Bwp = 'BWP',
+  | 'BWP'
   /** Belarusian Ruble (BYN). */
-  Byn = 'BYN',
-  /**
-   * Belarusian Ruble (BYR).
-   * @deprecated `BYR` is deprecated. Use `BYN` available from version `2021-01` onwards instead.
-   */
-  Byr = 'BYR',
+  | 'BYN'
+  /** Belarusian Ruble (BYR). */
+  | 'BYR'
   /** Belize Dollar (BZD). */
-  Bzd = 'BZD',
+  | 'BZD'
   /** Canadian Dollars (CAD). */
-  Cad = 'CAD',
+  | 'CAD'
   /** Congolese franc (CDF). */
-  Cdf = 'CDF',
+  | 'CDF'
   /** Swiss Francs (CHF). */
-  Chf = 'CHF',
+  | 'CHF'
   /** Chilean Peso (CLP). */
-  Clp = 'CLP',
+  | 'CLP'
   /** Chinese Yuan Renminbi (CNY). */
-  Cny = 'CNY',
+  | 'CNY'
   /** Colombian Peso (COP). */
-  Cop = 'COP',
+  | 'COP'
   /** Costa Rican Colones (CRC). */
-  Crc = 'CRC',
+  | 'CRC'
   /** Cape Verdean escudo (CVE). */
-  Cve = 'CVE',
+  | 'CVE'
   /** Czech Koruny (CZK). */
-  Czk = 'CZK',
+  | 'CZK'
   /** Djiboutian Franc (DJF). */
-  Djf = 'DJF',
+  | 'DJF'
   /** Danish Kroner (DKK). */
-  Dkk = 'DKK',
+  | 'DKK'
   /** Dominican Peso (DOP). */
-  Dop = 'DOP',
+  | 'DOP'
   /** Algerian Dinar (DZD). */
-  Dzd = 'DZD',
+  | 'DZD'
   /** Egyptian Pound (EGP). */
-  Egp = 'EGP',
+  | 'EGP'
   /** Eritrean Nakfa (ERN). */
-  Ern = 'ERN',
+  | 'ERN'
   /** Ethiopian Birr (ETB). */
-  Etb = 'ETB',
+  | 'ETB'
   /** Euro (EUR). */
-  Eur = 'EUR',
+  | 'EUR'
   /** Fijian Dollars (FJD). */
-  Fjd = 'FJD',
+  | 'FJD'
   /** Falkland Islands Pounds (FKP). */
-  Fkp = 'FKP',
+  | 'FKP'
   /** United Kingdom Pounds (GBP). */
-  Gbp = 'GBP',
+  | 'GBP'
   /** Georgian Lari (GEL). */
-  Gel = 'GEL',
+  | 'GEL'
   /** Ghanaian Cedi (GHS). */
-  Ghs = 'GHS',
+  | 'GHS'
   /** Gibraltar Pounds (GIP). */
-  Gip = 'GIP',
+  | 'GIP'
   /** Gambian Dalasi (GMD). */
-  Gmd = 'GMD',
+  | 'GMD'
   /** Guinean Franc (GNF). */
-  Gnf = 'GNF',
+  | 'GNF'
   /** Guatemalan Quetzal (GTQ). */
-  Gtq = 'GTQ',
+  | 'GTQ'
   /** Guyanese Dollar (GYD). */
-  Gyd = 'GYD',
+  | 'GYD'
   /** Hong Kong Dollars (HKD). */
-  Hkd = 'HKD',
+  | 'HKD'
   /** Honduran Lempira (HNL). */
-  Hnl = 'HNL',
+  | 'HNL'
   /** Croatian Kuna (HRK). */
-  Hrk = 'HRK',
+  | 'HRK'
   /** Haitian Gourde (HTG). */
-  Htg = 'HTG',
+  | 'HTG'
   /** Hungarian Forint (HUF). */
-  Huf = 'HUF',
+  | 'HUF'
   /** Indonesian Rupiah (IDR). */
-  Idr = 'IDR',
+  | 'IDR'
   /** Israeli New Shekel (NIS). */
-  Ils = 'ILS',
+  | 'ILS'
   /** Indian Rupees (INR). */
-  Inr = 'INR',
+  | 'INR'
   /** Iraqi Dinar (IQD). */
-  Iqd = 'IQD',
+  | 'IQD'
   /** Iranian Rial (IRR). */
-  Irr = 'IRR',
+  | 'IRR'
   /** Icelandic Kronur (ISK). */
-  Isk = 'ISK',
+  | 'ISK'
   /** Jersey Pound. */
-  Jep = 'JEP',
+  | 'JEP'
   /** Jamaican Dollars (JMD). */
-  Jmd = 'JMD',
+  | 'JMD'
   /** Jordanian Dinar (JOD). */
-  Jod = 'JOD',
+  | 'JOD'
   /** Japanese Yen (JPY). */
-  Jpy = 'JPY',
+  | 'JPY'
   /** Kenyan Shilling (KES). */
-  Kes = 'KES',
+  | 'KES'
   /** Kyrgyzstani Som (KGS). */
-  Kgs = 'KGS',
+  | 'KGS'
   /** Cambodian Riel. */
-  Khr = 'KHR',
+  | 'KHR'
   /** Kiribati Dollar (KID). */
-  Kid = 'KID',
+  | 'KID'
   /** Comorian Franc (KMF). */
-  Kmf = 'KMF',
+  | 'KMF'
   /** South Korean Won (KRW). */
-  Krw = 'KRW',
+  | 'KRW'
   /** Kuwaiti Dinar (KWD). */
-  Kwd = 'KWD',
+  | 'KWD'
   /** Cayman Dollars (KYD). */
-  Kyd = 'KYD',
+  | 'KYD'
   /** Kazakhstani Tenge (KZT). */
-  Kzt = 'KZT',
+  | 'KZT'
   /** Laotian Kip (LAK). */
-  Lak = 'LAK',
+  | 'LAK'
   /** Lebanese Pounds (LBP). */
-  Lbp = 'LBP',
+  | 'LBP'
   /** Sri Lankan Rupees (LKR). */
-  Lkr = 'LKR',
+  | 'LKR'
   /** Liberian Dollar (LRD). */
-  Lrd = 'LRD',
+  | 'LRD'
   /** Lesotho Loti (LSL). */
-  Lsl = 'LSL',
+  | 'LSL'
   /** Lithuanian Litai (LTL). */
-  Ltl = 'LTL',
+  | 'LTL'
   /** Latvian Lati (LVL). */
-  Lvl = 'LVL',
+  | 'LVL'
   /** Libyan Dinar (LYD). */
-  Lyd = 'LYD',
+  | 'LYD'
   /** Moroccan Dirham. */
-  Mad = 'MAD',
+  | 'MAD'
   /** Moldovan Leu (MDL). */
-  Mdl = 'MDL',
+  | 'MDL'
   /** Malagasy Ariary (MGA). */
-  Mga = 'MGA',
+  | 'MGA'
   /** Macedonia Denar (MKD). */
-  Mkd = 'MKD',
+  | 'MKD'
   /** Burmese Kyat (MMK). */
-  Mmk = 'MMK',
+  | 'MMK'
   /** Mongolian Tugrik. */
-  Mnt = 'MNT',
+  | 'MNT'
   /** Macanese Pataca (MOP). */
-  Mop = 'MOP',
+  | 'MOP'
   /** Mauritanian Ouguiya (MRU). */
-  Mru = 'MRU',
+  | 'MRU'
   /** Mauritian Rupee (MUR). */
-  Mur = 'MUR',
+  | 'MUR'
   /** Maldivian Rufiyaa (MVR). */
-  Mvr = 'MVR',
+  | 'MVR'
   /** Malawian Kwacha (MWK). */
-  Mwk = 'MWK',
+  | 'MWK'
   /** Mexican Pesos (MXN). */
-  Mxn = 'MXN',
+  | 'MXN'
   /** Malaysian Ringgits (MYR). */
-  Myr = 'MYR',
+  | 'MYR'
   /** Mozambican Metical. */
-  Mzn = 'MZN',
+  | 'MZN'
   /** Namibian Dollar. */
-  Nad = 'NAD',
+  | 'NAD'
   /** Nigerian Naira (NGN). */
-  Ngn = 'NGN',
+  | 'NGN'
   /** Nicaraguan Córdoba (NIO). */
-  Nio = 'NIO',
+  | 'NIO'
   /** Norwegian Kroner (NOK). */
-  Nok = 'NOK',
+  | 'NOK'
   /** Nepalese Rupee (NPR). */
-  Npr = 'NPR',
+  | 'NPR'
   /** New Zealand Dollars (NZD). */
-  Nzd = 'NZD',
+  | 'NZD'
   /** Omani Rial (OMR). */
-  Omr = 'OMR',
+  | 'OMR'
   /** Panamian Balboa (PAB). */
-  Pab = 'PAB',
+  | 'PAB'
   /** Peruvian Nuevo Sol (PEN). */
-  Pen = 'PEN',
+  | 'PEN'
   /** Papua New Guinean Kina (PGK). */
-  Pgk = 'PGK',
+  | 'PGK'
   /** Philippine Peso (PHP). */
-  Php = 'PHP',
+  | 'PHP'
   /** Pakistani Rupee (PKR). */
-  Pkr = 'PKR',
+  | 'PKR'
   /** Polish Zlotych (PLN). */
-  Pln = 'PLN',
+  | 'PLN'
   /** Paraguayan Guarani (PYG). */
-  Pyg = 'PYG',
+  | 'PYG'
   /** Qatari Rial (QAR). */
-  Qar = 'QAR',
+  | 'QAR'
   /** Romanian Lei (RON). */
-  Ron = 'RON',
+  | 'RON'
   /** Serbian dinar (RSD). */
-  Rsd = 'RSD',
+  | 'RSD'
   /** Russian Rubles (RUB). */
-  Rub = 'RUB',
+  | 'RUB'
   /** Rwandan Franc (RWF). */
-  Rwf = 'RWF',
+  | 'RWF'
   /** Saudi Riyal (SAR). */
-  Sar = 'SAR',
+  | 'SAR'
   /** Solomon Islands Dollar (SBD). */
-  Sbd = 'SBD',
+  | 'SBD'
   /** Seychellois Rupee (SCR). */
-  Scr = 'SCR',
+  | 'SCR'
   /** Sudanese Pound (SDG). */
-  Sdg = 'SDG',
+  | 'SDG'
   /** Swedish Kronor (SEK). */
-  Sek = 'SEK',
+  | 'SEK'
   /** Singapore Dollars (SGD). */
-  Sgd = 'SGD',
+  | 'SGD'
   /** Saint Helena Pounds (SHP). */
-  Shp = 'SHP',
+  | 'SHP'
   /** Sierra Leonean Leone (SLL). */
-  Sll = 'SLL',
+  | 'SLL'
   /** Somali Shilling (SOS). */
-  Sos = 'SOS',
+  | 'SOS'
   /** Surinamese Dollar (SRD). */
-  Srd = 'SRD',
+  | 'SRD'
   /** South Sudanese Pound (SSP). */
-  Ssp = 'SSP',
-  /**
-   * Sao Tome And Principe Dobra (STD).
-   * @deprecated `STD` is deprecated. Use `STN` available from version `2022-07` onwards instead.
-   */
-  Std = 'STD',
+  | 'SSP'
+  /** Sao Tome And Principe Dobra (STD). */
+  | 'STD'
   /** Sao Tome And Principe Dobra (STN). */
-  Stn = 'STN',
+  | 'STN'
   /** Syrian Pound (SYP). */
-  Syp = 'SYP',
+  | 'SYP'
   /** Swazi Lilangeni (SZL). */
-  Szl = 'SZL',
+  | 'SZL'
   /** Thai baht (THB). */
-  Thb = 'THB',
+  | 'THB'
   /** Tajikistani Somoni (TJS). */
-  Tjs = 'TJS',
+  | 'TJS'
   /** Turkmenistani Manat (TMT). */
-  Tmt = 'TMT',
+  | 'TMT'
   /** Tunisian Dinar (TND). */
-  Tnd = 'TND',
+  | 'TND'
   /** Tongan Pa'anga (TOP). */
-  Top = 'TOP',
+  | 'TOP'
   /** Turkish Lira (TRY). */
-  Try = 'TRY',
+  | 'TRY'
   /** Trinidad and Tobago Dollars (TTD). */
-  Ttd = 'TTD',
+  | 'TTD'
   /** Taiwan Dollars (TWD). */
-  Twd = 'TWD',
+  | 'TWD'
   /** Tanzanian Shilling (TZS). */
-  Tzs = 'TZS',
+  | 'TZS'
   /** Ukrainian Hryvnia (UAH). */
-  Uah = 'UAH',
+  | 'UAH'
   /** Ugandan Shilling (UGX). */
-  Ugx = 'UGX',
+  | 'UGX'
   /** United States Dollars (USD). */
-  Usd = 'USD',
+  | 'USD'
   /** Uruguayan Pesos (UYU). */
-  Uyu = 'UYU',
+  | 'UYU'
   /** Uzbekistan som (UZS). */
-  Uzs = 'UZS',
+  | 'UZS'
   /** Venezuelan Bolivares (VED). */
-  Ved = 'VED',
-  /**
-   * Venezuelan Bolivares (VEF).
-   * @deprecated `VEF` is deprecated. Use `VES` available from version `2020-10` onwards instead.
-   */
-  Vef = 'VEF',
+  | 'VED'
+  /** Venezuelan Bolivares (VEF). */
+  | 'VEF'
   /** Venezuelan Bolivares (VES). */
-  Ves = 'VES',
+  | 'VES'
   /** Vietnamese đồng (VND). */
-  Vnd = 'VND',
+  | 'VND'
   /** Vanuatu Vatu (VUV). */
-  Vuv = 'VUV',
+  | 'VUV'
   /** Samoan Tala (WST). */
-  Wst = 'WST',
+  | 'WST'
   /** Central African CFA Franc (XAF). */
-  Xaf = 'XAF',
+  | 'XAF'
   /** East Caribbean Dollar (XCD). */
-  Xcd = 'XCD',
+  | 'XCD'
   /** West African CFA franc (XOF). */
-  Xof = 'XOF',
+  | 'XOF'
   /** CFP Franc (XPF). */
-  Xpf = 'XPF',
+  | 'XPF'
   /** Unrecognized currency. */
-  Xxx = 'XXX',
+  | 'XXX'
   /** Yemeni Rial (YER). */
-  Yer = 'YER',
+  | 'YER'
   /** South African Rand (ZAR). */
-  Zar = 'ZAR',
+  | 'ZAR'
   /** Zambian Kwacha (ZMW). */
-  Zmw = 'ZMW'
-}
+  | 'ZMW';
 
 /** A customer represents a customer account with the shop. Customer accounts store contact information for the customer, saving logged-in customers the trouble of having to provide it at every checkout. */
 export type Customer = HasMetafields & {
@@ -2797,38 +2779,37 @@ export type CustomerDefaultAddressUpdatePayload = {
 };
 
 /** Possible error codes that can be returned by `CustomerUserError`. */
-export enum CustomerErrorCode {
+export type CustomerErrorCode =
   /** Customer already enabled. */
-  AlreadyEnabled = 'ALREADY_ENABLED',
+  | 'ALREADY_ENABLED'
   /** Input email contains an invalid domain name. */
-  BadDomain = 'BAD_DOMAIN',
+  | 'BAD_DOMAIN'
   /** The input value is blank. */
-  Blank = 'BLANK',
+  | 'BLANK'
   /** Input contains HTML tags. */
-  ContainsHtmlTags = 'CONTAINS_HTML_TAGS',
+  | 'CONTAINS_HTML_TAGS'
   /** Input contains URL. */
-  ContainsUrl = 'CONTAINS_URL',
+  | 'CONTAINS_URL'
   /** Customer is disabled. */
-  CustomerDisabled = 'CUSTOMER_DISABLED',
+  | 'CUSTOMER_DISABLED'
   /** The input value is invalid. */
-  Invalid = 'INVALID',
+  | 'INVALID'
   /** Multipass token is not valid. */
-  InvalidMultipassRequest = 'INVALID_MULTIPASS_REQUEST',
+  | 'INVALID_MULTIPASS_REQUEST'
   /** Address does not exist. */
-  NotFound = 'NOT_FOUND',
+  | 'NOT_FOUND'
   /** Input password starts or ends with whitespace. */
-  PasswordStartsOrEndsWithWhitespace = 'PASSWORD_STARTS_OR_ENDS_WITH_WHITESPACE',
+  | 'PASSWORD_STARTS_OR_ENDS_WITH_WHITESPACE'
   /** The input value is already taken. */
-  Taken = 'TAKEN',
+  | 'TAKEN'
   /** Invalid activation token. */
-  TokenInvalid = 'TOKEN_INVALID',
+  | 'TOKEN_INVALID'
   /** The input value is too long. */
-  TooLong = 'TOO_LONG',
+  | 'TOO_LONG'
   /** The input value is too short. */
-  TooShort = 'TOO_SHORT',
+  | 'TOO_SHORT'
   /** Unidentified customer. */
-  UnidentifiedCustomer = 'UNIDENTIFIED_CUSTOMER'
-}
+  | 'UNIDENTIFIED_CUSTOMER';
 
 /** Return type for `customerRecover` mutation. */
 export type CustomerRecoverPayload = {
@@ -2935,32 +2916,30 @@ export type CustomerUserError = DisplayableError & {
 };
 
 /** List of different delivery method types. */
-export enum DeliveryMethodType {
+export type DeliveryMethodType =
   /** Local Delivery. */
-  Local = 'LOCAL',
+  | 'LOCAL'
   /** None. */
-  None = 'NONE',
+  | 'NONE'
   /** Shipping to a Pickup Point. */
-  PickupPoint = 'PICKUP_POINT',
+  | 'PICKUP_POINT'
   /** Local Pickup. */
-  PickUp = 'PICK_UP',
+  | 'PICK_UP'
   /** Retail. */
-  Retail = 'RETAIL',
+  | 'RETAIL'
   /** Shipping. */
-  Shipping = 'SHIPPING'
-}
+  | 'SHIPPING';
 
 /** Digital wallet, such as Apple Pay, which can be used for accelerated checkouts. */
-export enum DigitalWallet {
+export type DigitalWallet =
   /** Android Pay. */
-  AndroidPay = 'ANDROID_PAY',
+  | 'ANDROID_PAY'
   /** Apple Pay. */
-  ApplePay = 'APPLE_PAY',
+  | 'APPLE_PAY'
   /** Google Pay. */
-  GooglePay = 'GOOGLE_PAY',
+  | 'GOOGLE_PAY'
   /** Shopify Pay. */
-  ShopifyPay = 'SHOPIFY_PAY'
-}
+  | 'SHOPIFY_PAY';
 
 /**
  * An amount discounting the line that has been allocated by a discount.
@@ -2991,17 +2970,13 @@ export type DiscountApplication = {
 };
 
 /** The method by which the discount's value is allocated onto its entitled lines. */
-export enum DiscountApplicationAllocationMethod {
+export type DiscountApplicationAllocationMethod =
   /** The value is spread across all entitled lines. */
-  Across = 'ACROSS',
+  | 'ACROSS'
   /** The value is applied onto every entitled line. */
-  Each = 'EACH',
-  /**
-   * The value is specifically applied onto a particular line.
-   * @deprecated Use ACROSS instead.
-   */
-  One = 'ONE'
-}
+  | 'EACH'
+  /** The value is specifically applied onto a particular line. */
+  | 'ONE';
 
 /**
  * An auto-generated type for paginating through multiple DiscountApplications.
@@ -3036,25 +3011,23 @@ export type DiscountApplicationEdge = {
  * The value `ALL`, combined with a `targetType` of `SHIPPING_LINE`, applies the discount on all shipping lines.
  *
  */
-export enum DiscountApplicationTargetSelection {
+export type DiscountApplicationTargetSelection =
   /** The discount is allocated onto all the lines. */
-  All = 'ALL',
+  | 'ALL'
   /** The discount is allocated onto only the lines that it's entitled for. */
-  Entitled = 'ENTITLED',
+  | 'ENTITLED'
   /** The discount is allocated onto explicitly chosen lines. */
-  Explicit = 'EXPLICIT'
-}
+  | 'EXPLICIT';
 
 /**
  * The type of line (i.e. line item or shipping line) on an order that the discount is applicable towards.
  *
  */
-export enum DiscountApplicationTargetType {
+export type DiscountApplicationTargetType =
   /** The discount applies onto line items. */
-  LineItem = 'LINE_ITEM',
+  | 'LINE_ITEM'
   /** The discount applies onto shipping lines. */
-  ShippingLine = 'SHIPPING_LINE'
-}
+  | 'SHIPPING_LINE';
 
 /**
  * Discount code applications capture the intentions of a discount code at
@@ -3140,14 +3113,13 @@ export type Filter = {
  * (https://shopify.dev/api/examples/filter-products).
  *
  */
-export enum FilterType {
+export type FilterType =
   /** A boolean value. */
-  Boolean = 'BOOLEAN',
+  | 'BOOLEAN'
   /** A list of selectable values. */
-  List = 'LIST',
+  | 'LIST'
   /** A range of prices. */
-  PriceRange = 'PRICE_RANGE'
-}
+  | 'PRICE_RANGE';
 
 /** A selectable value within a filter. */
 export type FilterValue = {
@@ -3376,14 +3348,13 @@ export type ImageConnection = {
 };
 
 /** List of supported image content types. */
-export enum ImageContentType {
+export type ImageContentType =
   /** A JPG image. */
-  Jpg = 'JPG',
+  | 'JPG'
   /** A PNG image. */
-  Png = 'PNG',
+  | 'PNG'
   /** A WEBP image. */
-  Webp = 'WEBP'
-}
+  | 'WEBP';
 
 /**
  * An auto-generated type which holds one Image and a cursor during pagination.
@@ -3448,282 +3419,281 @@ export type Language = {
 };
 
 /** ISO 639-1 language codes supported by Shopify. */
-export enum LanguageCode {
+export type LanguageCode =
   /** Afrikaans. */
-  Af = 'AF',
+  | 'AF'
   /** Akan. */
-  Ak = 'AK',
+  | 'AK'
   /** Amharic. */
-  Am = 'AM',
+  | 'AM'
   /** Arabic. */
-  Ar = 'AR',
+  | 'AR'
   /** Assamese. */
-  As = 'AS',
+  | 'AS'
   /** Azerbaijani. */
-  Az = 'AZ',
+  | 'AZ'
   /** Belarusian. */
-  Be = 'BE',
+  | 'BE'
   /** Bulgarian. */
-  Bg = 'BG',
+  | 'BG'
   /** Bambara. */
-  Bm = 'BM',
+  | 'BM'
   /** Bangla. */
-  Bn = 'BN',
+  | 'BN'
   /** Tibetan. */
-  Bo = 'BO',
+  | 'BO'
   /** Breton. */
-  Br = 'BR',
+  | 'BR'
   /** Bosnian. */
-  Bs = 'BS',
+  | 'BS'
   /** Catalan. */
-  Ca = 'CA',
+  | 'CA'
   /** Chechen. */
-  Ce = 'CE',
+  | 'CE'
   /** Czech. */
-  Cs = 'CS',
+  | 'CS'
   /** Church Slavic. */
-  Cu = 'CU',
+  | 'CU'
   /** Welsh. */
-  Cy = 'CY',
+  | 'CY'
   /** Danish. */
-  Da = 'DA',
+  | 'DA'
   /** German. */
-  De = 'DE',
+  | 'DE'
   /** Dzongkha. */
-  Dz = 'DZ',
+  | 'DZ'
   /** Ewe. */
-  Ee = 'EE',
+  | 'EE'
   /** Greek. */
-  El = 'EL',
+  | 'EL'
   /** English. */
-  En = 'EN',
+  | 'EN'
   /** Esperanto. */
-  Eo = 'EO',
+  | 'EO'
   /** Spanish. */
-  Es = 'ES',
+  | 'ES'
   /** Estonian. */
-  Et = 'ET',
+  | 'ET'
   /** Basque. */
-  Eu = 'EU',
+  | 'EU'
   /** Persian. */
-  Fa = 'FA',
+  | 'FA'
   /** Fulah. */
-  Ff = 'FF',
+  | 'FF'
   /** Finnish. */
-  Fi = 'FI',
+  | 'FI'
   /** Faroese. */
-  Fo = 'FO',
+  | 'FO'
   /** French. */
-  Fr = 'FR',
+  | 'FR'
   /** Western Frisian. */
-  Fy = 'FY',
+  | 'FY'
   /** Irish. */
-  Ga = 'GA',
+  | 'GA'
   /** Scottish Gaelic. */
-  Gd = 'GD',
+  | 'GD'
   /** Galician. */
-  Gl = 'GL',
+  | 'GL'
   /** Gujarati. */
-  Gu = 'GU',
+  | 'GU'
   /** Manx. */
-  Gv = 'GV',
+  | 'GV'
   /** Hausa. */
-  Ha = 'HA',
+  | 'HA'
   /** Hebrew. */
-  He = 'HE',
+  | 'HE'
   /** Hindi. */
-  Hi = 'HI',
+  | 'HI'
   /** Croatian. */
-  Hr = 'HR',
+  | 'HR'
   /** Hungarian. */
-  Hu = 'HU',
+  | 'HU'
   /** Armenian. */
-  Hy = 'HY',
+  | 'HY'
   /** Interlingua. */
-  Ia = 'IA',
+  | 'IA'
   /** Indonesian. */
-  Id = 'ID',
+  | 'ID'
   /** Igbo. */
-  Ig = 'IG',
+  | 'IG'
   /** Sichuan Yi. */
-  Ii = 'II',
+  | 'II'
   /** Icelandic. */
-  Is = 'IS',
+  | 'IS'
   /** Italian. */
-  It = 'IT',
+  | 'IT'
   /** Japanese. */
-  Ja = 'JA',
+  | 'JA'
   /** Javanese. */
-  Jv = 'JV',
+  | 'JV'
   /** Georgian. */
-  Ka = 'KA',
+  | 'KA'
   /** Kikuyu. */
-  Ki = 'KI',
+  | 'KI'
   /** Kazakh. */
-  Kk = 'KK',
+  | 'KK'
   /** Kalaallisut. */
-  Kl = 'KL',
+  | 'KL'
   /** Khmer. */
-  Km = 'KM',
+  | 'KM'
   /** Kannada. */
-  Kn = 'KN',
+  | 'KN'
   /** Korean. */
-  Ko = 'KO',
+  | 'KO'
   /** Kashmiri. */
-  Ks = 'KS',
+  | 'KS'
   /** Kurdish. */
-  Ku = 'KU',
+  | 'KU'
   /** Cornish. */
-  Kw = 'KW',
+  | 'KW'
   /** Kyrgyz. */
-  Ky = 'KY',
+  | 'KY'
   /** Luxembourgish. */
-  Lb = 'LB',
+  | 'LB'
   /** Ganda. */
-  Lg = 'LG',
+  | 'LG'
   /** Lingala. */
-  Ln = 'LN',
+  | 'LN'
   /** Lao. */
-  Lo = 'LO',
+  | 'LO'
   /** Lithuanian. */
-  Lt = 'LT',
+  | 'LT'
   /** Luba-Katanga. */
-  Lu = 'LU',
+  | 'LU'
   /** Latvian. */
-  Lv = 'LV',
+  | 'LV'
   /** Malagasy. */
-  Mg = 'MG',
+  | 'MG'
   /** Māori. */
-  Mi = 'MI',
+  | 'MI'
   /** Macedonian. */
-  Mk = 'MK',
+  | 'MK'
   /** Malayalam. */
-  Ml = 'ML',
+  | 'ML'
   /** Mongolian. */
-  Mn = 'MN',
+  | 'MN'
   /** Marathi. */
-  Mr = 'MR',
+  | 'MR'
   /** Malay. */
-  Ms = 'MS',
+  | 'MS'
   /** Maltese. */
-  Mt = 'MT',
+  | 'MT'
   /** Burmese. */
-  My = 'MY',
+  | 'MY'
   /** Norwegian (Bokmål). */
-  Nb = 'NB',
+  | 'NB'
   /** North Ndebele. */
-  Nd = 'ND',
+  | 'ND'
   /** Nepali. */
-  Ne = 'NE',
+  | 'NE'
   /** Dutch. */
-  Nl = 'NL',
+  | 'NL'
   /** Norwegian Nynorsk. */
-  Nn = 'NN',
+  | 'NN'
   /** Norwegian. */
-  No = 'NO',
+  | 'NO'
   /** Oromo. */
-  Om = 'OM',
+  | 'OM'
   /** Odia. */
-  Or = 'OR',
+  | 'OR'
   /** Ossetic. */
-  Os = 'OS',
+  | 'OS'
   /** Punjabi. */
-  Pa = 'PA',
+  | 'PA'
   /** Polish. */
-  Pl = 'PL',
+  | 'PL'
   /** Pashto. */
-  Ps = 'PS',
+  | 'PS'
   /** Portuguese. */
-  Pt = 'PT',
+  | 'PT'
   /** Portuguese (Brazil). */
-  PtBr = 'PT_BR',
+  | 'PT_BR'
   /** Portuguese (Portugal). */
-  PtPt = 'PT_PT',
+  | 'PT_PT'
   /** Quechua. */
-  Qu = 'QU',
+  | 'QU'
   /** Romansh. */
-  Rm = 'RM',
+  | 'RM'
   /** Rundi. */
-  Rn = 'RN',
+  | 'RN'
   /** Romanian. */
-  Ro = 'RO',
+  | 'RO'
   /** Russian. */
-  Ru = 'RU',
+  | 'RU'
   /** Kinyarwanda. */
-  Rw = 'RW',
+  | 'RW'
   /** Sindhi. */
-  Sd = 'SD',
+  | 'SD'
   /** Northern Sami. */
-  Se = 'SE',
+  | 'SE'
   /** Sango. */
-  Sg = 'SG',
+  | 'SG'
   /** Sinhala. */
-  Si = 'SI',
+  | 'SI'
   /** Slovak. */
-  Sk = 'SK',
+  | 'SK'
   /** Slovenian. */
-  Sl = 'SL',
+  | 'SL'
   /** Shona. */
-  Sn = 'SN',
+  | 'SN'
   /** Somali. */
-  So = 'SO',
+  | 'SO'
   /** Albanian. */
-  Sq = 'SQ',
+  | 'SQ'
   /** Serbian. */
-  Sr = 'SR',
+  | 'SR'
   /** Sundanese. */
-  Su = 'SU',
+  | 'SU'
   /** Swedish. */
-  Sv = 'SV',
+  | 'SV'
   /** Swahili. */
-  Sw = 'SW',
+  | 'SW'
   /** Tamil. */
-  Ta = 'TA',
+  | 'TA'
   /** Telugu. */
-  Te = 'TE',
+  | 'TE'
   /** Tajik. */
-  Tg = 'TG',
+  | 'TG'
   /** Thai. */
-  Th = 'TH',
+  | 'TH'
   /** Tigrinya. */
-  Ti = 'TI',
+  | 'TI'
   /** Turkmen. */
-  Tk = 'TK',
+  | 'TK'
   /** Tongan. */
-  To = 'TO',
+  | 'TO'
   /** Turkish. */
-  Tr = 'TR',
+  | 'TR'
   /** Tatar. */
-  Tt = 'TT',
+  | 'TT'
   /** Uyghur. */
-  Ug = 'UG',
+  | 'UG'
   /** Ukrainian. */
-  Uk = 'UK',
+  | 'UK'
   /** Urdu. */
-  Ur = 'UR',
+  | 'UR'
   /** Uzbek. */
-  Uz = 'UZ',
+  | 'UZ'
   /** Vietnamese. */
-  Vi = 'VI',
+  | 'VI'
   /** Volapük. */
-  Vo = 'VO',
+  | 'VO'
   /** Wolof. */
-  Wo = 'WO',
+  | 'WO'
   /** Xhosa. */
-  Xh = 'XH',
+  | 'XH'
   /** Yiddish. */
-  Yi = 'YI',
+  | 'YI'
   /** Yoruba. */
-  Yo = 'YO',
+  | 'YO'
   /** Chinese. */
-  Zh = 'ZH',
+  | 'ZH'
   /** Chinese (Simplified). */
-  ZhCn = 'ZH_CN',
+  | 'ZH_CN'
   /** Chinese (Traditional). */
-  ZhTw = 'ZH_TW',
+  | 'ZH_TW'
   /** Zulu. */
-  Zu = 'ZU'
-}
+  | 'ZU';
 
 /** Information about the localized experiences configured for the shop. */
 export type Localization = {
@@ -3811,16 +3781,15 @@ export type LocationEdge = {
 };
 
 /** The set of valid sort keys for the Location query. */
-export enum LocationSortKeys {
+export type LocationSortKeys =
   /** Sort by the `city` value. */
-  City = 'CITY',
+  | 'CITY'
   /** Sort by the `distance` value. */
-  Distance = 'DISTANCE',
+  | 'DISTANCE'
   /** Sort by the `id` value. */
-  Id = 'ID',
+  | 'ID'
   /** Sort by the `name` value. */
-  Name = 'NAME'
-}
+  | 'NAME';
 
 /** Represents a mailing address for customers and shipping. */
 export type MailingAddress = Node & {
@@ -4020,16 +3989,15 @@ export type MediaConnection = {
 };
 
 /** The possible content types for a media object. */
-export enum MediaContentType {
+export type MediaContentType =
   /** An externally hosted video. */
-  ExternalVideo = 'EXTERNAL_VIDEO',
+  | 'EXTERNAL_VIDEO'
   /** A Shopify hosted image. */
-  Image = 'IMAGE',
+  | 'IMAGE'
   /** A 3d model. */
-  Model_3D = 'MODEL_3D',
+  | 'MODEL_3D'
   /** A Shopify hosted video. */
-  Video = 'VIDEO'
-}
+  | 'VIDEO';
 
 /**
  * An auto-generated type which holds one Media and a cursor during pagination.
@@ -4044,12 +4012,11 @@ export type MediaEdge = {
 };
 
 /** Host for a Media Resource. */
-export enum MediaHost {
+export type MediaHost =
   /** Host for Vimeo embedded videos. */
-  Vimeo = 'VIMEO',
+  | 'VIMEO'
   /** Host for YouTube embedded videos. */
-  Youtube = 'YOUTUBE'
-}
+  | 'YOUTUBE';
 
 /** Represents a Shopify hosted image. */
 export type MediaImage = Media & Node & {
@@ -4107,30 +4074,29 @@ export type MenuItem = Node & {
 };
 
 /** A menu item type. */
-export enum MenuItemType {
+export type MenuItemType =
   /** An article link. */
-  Article = 'ARTICLE',
+  | 'ARTICLE'
   /** A blog link. */
-  Blog = 'BLOG',
+  | 'BLOG'
   /** A catalog link. */
-  Catalog = 'CATALOG',
+  | 'CATALOG'
   /** A collection link. */
-  Collection = 'COLLECTION',
+  | 'COLLECTION'
   /** A collection link. */
-  Collections = 'COLLECTIONS',
+  | 'COLLECTIONS'
   /** A frontpage link. */
-  Frontpage = 'FRONTPAGE',
+  | 'FRONTPAGE'
   /** An http link. */
-  Http = 'HTTP',
+  | 'HTTP'
   /** A page link. */
-  Page = 'PAGE',
+  | 'PAGE'
   /** A product link. */
-  Product = 'PRODUCT',
+  | 'PRODUCT'
   /** A search link. */
-  Search = 'SEARCH',
+  | 'SEARCH'
   /** A shop policy link. */
-  ShopPolicy = 'SHOP_POLICY'
-}
+  | 'SHOP_POLICY';
 
 /** The merchandise to be purchased at checkout. */
 export type Merchandise = ProductVariant;
@@ -4809,18 +4775,17 @@ export type OrderSuccessfulFulfillmentsArgs = {
 };
 
 /** Represents the reason for the order's cancellation. */
-export enum OrderCancelReason {
+export type OrderCancelReason =
   /** The customer wanted to cancel the order. */
-  Customer = 'CUSTOMER',
+  | 'CUSTOMER'
   /** Payment was declined. */
-  Declined = 'DECLINED',
+  | 'DECLINED'
   /** The order was fraudulent. */
-  Fraud = 'FRAUD',
+  | 'FRAUD'
   /** There was insufficient inventory. */
-  Inventory = 'INVENTORY',
+  | 'INVENTORY'
   /** The order was canceled for an unlisted reason. */
-  Other = 'OTHER'
-}
+  | 'OTHER';
 
 /**
  * An auto-generated type for paginating through multiple Orders.
@@ -4849,44 +4814,42 @@ export type OrderEdge = {
 };
 
 /** Represents the order's current financial status. */
-export enum OrderFinancialStatus {
+export type OrderFinancialStatus =
   /** Displayed as **Authorized**. */
-  Authorized = 'AUTHORIZED',
+  | 'AUTHORIZED'
   /** Displayed as **Paid**. */
-  Paid = 'PAID',
+  | 'PAID'
   /** Displayed as **Partially paid**. */
-  PartiallyPaid = 'PARTIALLY_PAID',
+  | 'PARTIALLY_PAID'
   /** Displayed as **Partially refunded**. */
-  PartiallyRefunded = 'PARTIALLY_REFUNDED',
+  | 'PARTIALLY_REFUNDED'
   /** Displayed as **Pending**. */
-  Pending = 'PENDING',
+  | 'PENDING'
   /** Displayed as **Refunded**. */
-  Refunded = 'REFUNDED',
+  | 'REFUNDED'
   /** Displayed as **Voided**. */
-  Voided = 'VOIDED'
-}
+  | 'VOIDED';
 
 /** Represents the order's aggregated fulfillment status for display purposes. */
-export enum OrderFulfillmentStatus {
+export type OrderFulfillmentStatus =
   /** Displayed as **Fulfilled**. All of the items in the order have been fulfilled. */
-  Fulfilled = 'FULFILLED',
+  | 'FULFILLED'
   /** Displayed as **In progress**. Some of the items in the order have been fulfilled, or a request for fulfillment has been sent to the fulfillment service. */
-  InProgress = 'IN_PROGRESS',
+  | 'IN_PROGRESS'
   /** Displayed as **On hold**. All of the unfulfilled items in this order are on hold. */
-  OnHold = 'ON_HOLD',
+  | 'ON_HOLD'
   /** Displayed as **Open**. None of the items in the order have been fulfilled. Replaced by "UNFULFILLED" status. */
-  Open = 'OPEN',
+  | 'OPEN'
   /** Displayed as **Partially fulfilled**. Some of the items in the order have been fulfilled. */
-  PartiallyFulfilled = 'PARTIALLY_FULFILLED',
+  | 'PARTIALLY_FULFILLED'
   /** Displayed as **Pending fulfillment**. A request for fulfillment of some items awaits a response from the fulfillment service. Replaced by "IN_PROGRESS" status. */
-  PendingFulfillment = 'PENDING_FULFILLMENT',
+  | 'PENDING_FULFILLMENT'
   /** Displayed as **Restocked**. All of the items in the order have been restocked. Replaced by "UNFULFILLED" status. */
-  Restocked = 'RESTOCKED',
+  | 'RESTOCKED'
   /** Displayed as **Scheduled**. All of the unfulfilled items in this order are scheduled for fulfillment at later time. */
-  Scheduled = 'SCHEDULED',
+  | 'SCHEDULED'
   /** Displayed as **Unfulfilled**. None of the items in the order have been fulfilled. */
-  Unfulfilled = 'UNFULFILLED'
-}
+  | 'UNFULFILLED';
 
 /** Represents a single line in an order. There is one line item for each distinct product variant. */
 export type OrderLineItem = {
@@ -4936,20 +4899,19 @@ export type OrderLineItemEdge = {
 };
 
 /** The set of valid sort keys for the Order query. */
-export enum OrderSortKeys {
+export type OrderSortKeys =
   /** Sort by the `id` value. */
-  Id = 'ID',
+  | 'ID'
   /** Sort by the `processed_at` value. */
-  ProcessedAt = 'PROCESSED_AT',
+  | 'PROCESSED_AT'
   /**
    * Sort by relevance to the search terms when the `query` parameter is specified on the connection.
    * Don't use this sort key when no search query is specified.
    *
    */
-  Relevance = 'RELEVANCE',
+  | 'RELEVANCE'
   /** Sort by the `total_price` value. */
-  TotalPrice = 'TOTAL_PRICE'
-}
+  | 'TOTAL_PRICE';
 
 /** Shopify merchants can create pages to hold static HTML content. Each Page object represents a custom page on the online store. */
 export type Page = HasMetafields & Node & OnlineStorePublishable & {
@@ -5038,20 +5000,19 @@ export type PageInfo = {
 };
 
 /** The set of valid sort keys for the Page query. */
-export enum PageSortKeys {
+export type PageSortKeys =
   /** Sort by the `id` value. */
-  Id = 'ID',
+  | 'ID'
   /**
    * Sort by relevance to the search terms when the `query` parameter is specified on the connection.
    * Don't use this sort key when no search query is specified.
    *
    */
-  Relevance = 'RELEVANCE',
+  | 'RELEVANCE'
   /** Sort by the `title` value. */
-  Title = 'TITLE',
+  | 'TITLE'
   /** Sort by the `updated_at` value. */
-  UpdatedAt = 'UPDATED_AT'
-}
+  | 'UPDATED_AT';
 
 /** A payment applied to a checkout. */
 export type Payment = Node & {
@@ -5110,18 +5071,17 @@ export type PaymentSettings = {
 };
 
 /** The valid values for the types of payment token. */
-export enum PaymentTokenType {
+export type PaymentTokenType =
   /** Apple Pay token type. */
-  ApplePay = 'APPLE_PAY',
+  | 'APPLE_PAY'
   /** Google Pay token type. */
-  GooglePay = 'GOOGLE_PAY',
+  | 'GOOGLE_PAY'
   /** Shopify Pay token type. */
-  ShopifyPay = 'SHOPIFY_PAY',
+  | 'SHOPIFY_PAY'
   /** Stripe token type. */
-  StripeVaultToken = 'STRIPE_VAULT_TOKEN',
+  | 'STRIPE_VAULT_TOKEN'
   /** Vault payment token type. */
-  Vault = 'VAULT'
-}
+  | 'VAULT';
 
 /** A filter used to view a subset of products in a collection matching a specific price range. */
 export type PriceRangeFilter = {
@@ -5347,28 +5307,27 @@ export type ProductVariantsArgs = {
 };
 
 /** The set of valid sort keys for the ProductCollection query. */
-export enum ProductCollectionSortKeys {
+export type ProductCollectionSortKeys =
   /** Sort by the `best-selling` value. */
-  BestSelling = 'BEST_SELLING',
+  | 'BEST_SELLING'
   /** Sort by the `collection-default` value. */
-  CollectionDefault = 'COLLECTION_DEFAULT',
+  | 'COLLECTION_DEFAULT'
   /** Sort by the `created` value. */
-  Created = 'CREATED',
+  | 'CREATED'
   /** Sort by the `id` value. */
-  Id = 'ID',
+  | 'ID'
   /** Sort by the `manual` value. */
-  Manual = 'MANUAL',
+  | 'MANUAL'
   /** Sort by the `price` value. */
-  Price = 'PRICE',
+  | 'PRICE'
   /**
    * Sort by relevance to the search terms when the `query` parameter is specified on the connection.
    * Don't use this sort key when no search query is specified.
    *
    */
-  Relevance = 'RELEVANCE',
+  | 'RELEVANCE'
   /** Sort by the `title` value. */
-  Title = 'TITLE'
-}
+  | 'TITLE';
 
 /**
  * An auto-generated type for paginating through multiple Products.
@@ -5417,34 +5376,32 @@ export type ProductFilter = {
 };
 
 /** The set of valid sort keys for the ProductImage query. */
-export enum ProductImageSortKeys {
+export type ProductImageSortKeys =
   /** Sort by the `created_at` value. */
-  CreatedAt = 'CREATED_AT',
+  | 'CREATED_AT'
   /** Sort by the `id` value. */
-  Id = 'ID',
+  | 'ID'
   /** Sort by the `position` value. */
-  Position = 'POSITION',
+  | 'POSITION'
   /**
    * Sort by relevance to the search terms when the `query` parameter is specified on the connection.
    * Don't use this sort key when no search query is specified.
    *
    */
-  Relevance = 'RELEVANCE'
-}
+  | 'RELEVANCE';
 
 /** The set of valid sort keys for the ProductMedia query. */
-export enum ProductMediaSortKeys {
+export type ProductMediaSortKeys =
   /** Sort by the `id` value. */
-  Id = 'ID',
+  | 'ID'
   /** Sort by the `position` value. */
-  Position = 'POSITION',
+  | 'POSITION'
   /**
    * Sort by relevance to the search terms when the `query` parameter is specified on the connection.
    * Don't use this sort key when no search query is specified.
    *
    */
-  Relevance = 'RELEVANCE'
-}
+  | 'RELEVANCE';
 
 /**
  * Product property names like "Size", "Color", and "Material" that the customers can select.
@@ -5472,30 +5429,29 @@ export type ProductPriceRange = {
 };
 
 /** The set of valid sort keys for the Product query. */
-export enum ProductSortKeys {
+export type ProductSortKeys =
   /** Sort by the `best_selling` value. */
-  BestSelling = 'BEST_SELLING',
+  | 'BEST_SELLING'
   /** Sort by the `created_at` value. */
-  CreatedAt = 'CREATED_AT',
+  | 'CREATED_AT'
   /** Sort by the `id` value. */
-  Id = 'ID',
+  | 'ID'
   /** Sort by the `price` value. */
-  Price = 'PRICE',
+  | 'PRICE'
   /** Sort by the `product_type` value. */
-  ProductType = 'PRODUCT_TYPE',
+  | 'PRODUCT_TYPE'
   /**
    * Sort by relevance to the search terms when the `query` parameter is specified on the connection.
    * Don't use this sort key when no search query is specified.
    *
    */
-  Relevance = 'RELEVANCE',
+  | 'RELEVANCE'
   /** Sort by the `title` value. */
-  Title = 'TITLE',
+  | 'TITLE'
   /** Sort by the `updated_at` value. */
-  UpdatedAt = 'UPDATED_AT',
+  | 'UPDATED_AT'
   /** Sort by the `vendor` value. */
-  Vendor = 'VENDOR'
-}
+  | 'VENDOR';
 
 /** A product variant represents a different version of a product, such as differing sizes or differing colors. */
 export type ProductVariant = HasMetafields & Node & {
@@ -5620,22 +5576,21 @@ export type ProductVariantEdge = {
 };
 
 /** The set of valid sort keys for the ProductVariant query. */
-export enum ProductVariantSortKeys {
+export type ProductVariantSortKeys =
   /** Sort by the `id` value. */
-  Id = 'ID',
+  | 'ID'
   /** Sort by the `position` value. */
-  Position = 'POSITION',
+  | 'POSITION'
   /**
    * Sort by relevance to the search terms when the `query` parameter is specified on the connection.
    * Don't use this sort key when no search query is specified.
    *
    */
-  Relevance = 'RELEVANCE',
+  | 'RELEVANCE'
   /** Sort by the `sku` value. */
-  Sku = 'SKU',
+  | 'SKU'
   /** Sort by the `title` value. */
-  Title = 'TITLE'
-}
+  | 'TITLE';
 
 /** The schema’s entry-point for queries. This acts as the public, top-level API from which all queries must start. */
 export type QueryRoot = {
@@ -6039,12 +5994,11 @@ export type SellingPlanCheckoutChargePercentageValue = {
 };
 
 /** The checkout charge when the full amount isn't charged at checkout. */
-export enum SellingPlanCheckoutChargeType {
+export type SellingPlanCheckoutChargeType =
   /** The checkout charge is a percentage of the product or variant price. */
-  Percentage = 'PERCENTAGE',
+  | 'PERCENTAGE'
   /** The checkout charge is a fixed price amount. */
-  Price = 'PRICE'
-}
+  | 'PRICE';
 
 /** The portion of the price to be charged at checkout. */
 export type SellingPlanCheckoutChargeValue = MoneyV2 | SellingPlanCheckoutChargePercentageValue;
@@ -6390,34 +6344,32 @@ export type Transaction = {
 };
 
 /** The different kinds of order transactions. */
-export enum TransactionKind {
+export type TransactionKind =
   /**
    * An amount reserved against the cardholder's funding source.
    * Money does not change hands until the authorization is captured.
    *
    */
-  Authorization = 'AUTHORIZATION',
+  | 'AUTHORIZATION'
   /** A transfer of the money that was reserved during the authorization stage. */
-  Capture = 'CAPTURE',
+  | 'CAPTURE'
   /** Money returned to the customer when they have paid too much. */
-  Change = 'CHANGE',
+  | 'CHANGE'
   /** An authorization for a payment taken with an EMV credit card reader. */
-  EmvAuthorization = 'EMV_AUTHORIZATION',
+  | 'EMV_AUTHORIZATION'
   /** An authorization and capture performed together in a single step. */
-  Sale = 'SALE'
-}
+  | 'SALE';
 
 /** Transaction statuses describe the status of a transaction. */
-export enum TransactionStatus {
+export type TransactionStatus =
   /** There was an error while processing the transaction. */
-  Error = 'ERROR',
+  | 'ERROR'
   /** The transaction failed. */
-  Failure = 'FAILURE',
+  | 'FAILURE'
   /** The transaction is pending. */
-  Pending = 'PENDING',
+  | 'PENDING'
   /** The transaction succeeded. */
-  Success = 'SUCCESS'
-}
+  | 'SUCCESS';
 
 /**
  * The measurement used to calculate a unit price for a product variant (e.g. $9.99 / 100ml).
@@ -6438,50 +6390,47 @@ export type UnitPriceMeasurement = {
 };
 
 /** The accepted types of unit of measurement. */
-export enum UnitPriceMeasurementMeasuredType {
+export type UnitPriceMeasurementMeasuredType =
   /** Unit of measurements representing areas. */
-  Area = 'AREA',
+  | 'AREA'
   /** Unit of measurements representing lengths. */
-  Length = 'LENGTH',
+  | 'LENGTH'
   /** Unit of measurements representing volumes. */
-  Volume = 'VOLUME',
+  | 'VOLUME'
   /** Unit of measurements representing weights. */
-  Weight = 'WEIGHT'
-}
+  | 'WEIGHT';
 
 /** The valid units of measurement for a unit price measurement. */
-export enum UnitPriceMeasurementMeasuredUnit {
+export type UnitPriceMeasurementMeasuredUnit =
   /** 100 centiliters equals 1 liter. */
-  Cl = 'CL',
+  | 'CL'
   /** 100 centimeters equals 1 meter. */
-  Cm = 'CM',
+  | 'CM'
   /** Metric system unit of weight. */
-  G = 'G',
+  | 'G'
   /** 1 kilogram equals 1000 grams. */
-  Kg = 'KG',
+  | 'KG'
   /** Metric system unit of volume. */
-  L = 'L',
+  | 'L'
   /** Metric system unit of length. */
-  M = 'M',
+  | 'M'
   /** Metric system unit of area. */
-  M2 = 'M2',
+  | 'M2'
   /** 1 cubic meter equals 1000 liters. */
-  M3 = 'M3',
+  | 'M3'
   /** 1000 milligrams equals 1 gram. */
-  Mg = 'MG',
+  | 'MG'
   /** 1000 milliliters equals 1 liter. */
-  Ml = 'ML',
+  | 'ML'
   /** 1000 millimeters equals 1 meter. */
-  Mm = 'MM'
-}
+  | 'MM';
 
 /** Systems of weights and measures. */
-export enum UnitSystem {
+export type UnitSystem =
   /** Imperial system of weights and measures. */
-  ImperialSystem = 'IMPERIAL_SYSTEM',
+  | 'IMPERIAL_SYSTEM'
   /** Metric system of weights and measures. */
-  MetricSystem = 'METRIC_SYSTEM'
-}
+  | 'METRIC_SYSTEM';
 
 /** A redirect on the online store. */
 export type UrlRedirect = Node & {
@@ -6568,16 +6517,15 @@ export type VideoSource = {
 };
 
 /** Units of measurement for weight. */
-export enum WeightUnit {
+export type WeightUnit =
   /** Metric system unit of mass. */
-  Grams = 'GRAMS',
+  | 'GRAMS'
   /** 1 kilogram equals 1000 grams. */
-  Kilograms = 'KILOGRAMS',
+  | 'KILOGRAMS'
   /** Imperial system unit of mass. */
-  Ounces = 'OUNCES',
+  | 'OUNCES'
   /** 1 pound equals 16 ounces. */
-  Pounds = 'POUNDS'
-}
+  | 'POUNDS';
 
 export type CartBuyerIdentity_BuyerIdentityFragment = { __typename?: 'CartBuyerIdentity', countryCode?: CountryCode | null, email?: string | null, phone?: string | null, customer?: { __typename?: 'Customer', id: string, email?: string | null, firstName?: string | null, lastName?: string | null, displayName: string } | null };
 
@@ -6607,6 +6555,7 @@ export type CartAttributesUpdateMutationVariables = Exact<{
   numCartLines?: InputMaybe<Scalars['Int']>;
   afterCursor?: InputMaybe<Scalars['String']>;
   country?: InputMaybe<CountryCode>;
+  language?: InputMaybe<LanguageCode>;
 }>;
 
 
@@ -6618,6 +6567,7 @@ export type CartBuyerIdentityUpdateMutationVariables = Exact<{
   numCartLines?: InputMaybe<Scalars['Int']>;
   afterCursor?: InputMaybe<Scalars['String']>;
   country?: InputMaybe<CountryCode>;
+  language?: InputMaybe<LanguageCode>;
 }>;
 
 
@@ -6628,6 +6578,7 @@ export type CartCreateMutationVariables = Exact<{
   numCartLines?: InputMaybe<Scalars['Int']>;
   afterCursor?: InputMaybe<Scalars['String']>;
   country?: InputMaybe<CountryCode>;
+  language?: InputMaybe<LanguageCode>;
 }>;
 
 
@@ -6639,6 +6590,7 @@ export type CartDiscountCodesUpdateMutationVariables = Exact<{
   numCartLines?: InputMaybe<Scalars['Int']>;
   afterCursor?: InputMaybe<Scalars['String']>;
   country?: InputMaybe<CountryCode>;
+  language?: InputMaybe<LanguageCode>;
 }>;
 
 
@@ -6650,6 +6602,7 @@ export type CartLineAddMutationVariables = Exact<{
   numCartLines?: InputMaybe<Scalars['Int']>;
   afterCursor?: InputMaybe<Scalars['String']>;
   country?: InputMaybe<CountryCode>;
+  language?: InputMaybe<LanguageCode>;
 }>;
 
 
@@ -6661,6 +6614,7 @@ export type CartLineRemoveMutationVariables = Exact<{
   numCartLines?: InputMaybe<Scalars['Int']>;
   afterCursor?: InputMaybe<Scalars['String']>;
   country?: InputMaybe<CountryCode>;
+  language?: InputMaybe<LanguageCode>;
 }>;
 
 
@@ -6672,6 +6626,7 @@ export type CartLineUpdateMutationVariables = Exact<{
   numCartLines?: InputMaybe<Scalars['Int']>;
   afterCursor?: InputMaybe<Scalars['String']>;
   country?: InputMaybe<CountryCode>;
+  language?: InputMaybe<LanguageCode>;
 }>;
 
 
@@ -6683,6 +6638,7 @@ export type CartNoteUpdateMutationVariables = Exact<{
   numCartLines?: InputMaybe<Scalars['Int']>;
   afterCursor?: InputMaybe<Scalars['String']>;
   country?: InputMaybe<CountryCode>;
+  language?: InputMaybe<LanguageCode>;
 }>;
 
 
@@ -6693,6 +6649,7 @@ export type CartQueryVariables = Exact<{
   numCartLines?: InputMaybe<Scalars['Int']>;
   afterCursor?: InputMaybe<Scalars['String']>;
   country?: InputMaybe<CountryCode>;
+  language?: InputMaybe<LanguageCode>;
 }>;
 
 

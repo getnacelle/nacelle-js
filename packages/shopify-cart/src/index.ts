@@ -20,5 +20,7 @@ export type { ShopifyError } from './types/errors.type';
 export type {
   AttributeInput,
   CartBuyerIdentityInput,
-  CartUserError
+  CartUserError,
+  CountryCode,
+  LanguageCode
 } from './types/shopify.type';

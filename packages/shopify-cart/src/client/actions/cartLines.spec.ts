@@ -17,6 +17,7 @@ import {
   graphqlEndpoint,
   headers
 } from '../../../__tests__/mocks';
+import { CountryCode, LanguageCode } from '../../types/shopify.type';
 import type {
   CartLineAddMutation,
   CartLineUpdateMutation,
@@ -29,6 +30,8 @@ jest.mock('../../utils/formatCartResponse');
 const gqlClient = createGqlClient({ ...clientSettings, fetchClient });
 const mockedFetchClient = jest.mocked(fetchClient, true);
 const mockedFormatCartResponse = jest.mocked(formatCartResponse, true);
+const defaultLanguage: LanguageCode = 'EN';
+const defaultCountry: CountryCode = 'ZZ';
 
 describe('cartLinesAdd', () => {
   afterEach(() => {
@@ -49,7 +52,9 @@ describe('cartLinesAdd', () => {
           nacelleEntryId: cartWithLineResponse.cart.lines.nodes[0].attributes[0]
             .value as string
         }
-      ]
+      ],
+      language: defaultLanguage,
+      country: defaultCountry
     });
 
     expect(fetchClient).toHaveBeenCalledTimes(1);
@@ -66,7 +71,9 @@ describe('cartLinesAdd', () => {
                 cartWithLineResponse.cart.lines.nodes[0].merchandise
                   .sourceEntryId
             }
-          ]
+          ],
+          language: defaultLanguage,
+          country: defaultCountry
         }
       })
     });
@@ -97,7 +104,9 @@ describe('cartLinesAdd', () => {
             nacelleEntryId: cartWithLineResponse.cart.lines.nodes[0]
               .attributes[0].value as string
           }
-        ]
+        ],
+        language: defaultLanguage,
+        country: defaultCountry
       })
     ).rejects.toThrow(networkErrorMessage);
   });
@@ -129,7 +138,9 @@ describe('cartLinesUpdate', () => {
             .value as string,
           id: updatedCart.cart.lines.nodes[0].id
         }
-      ]
+      ],
+      language: defaultLanguage,
+      country: defaultCountry
     });
 
     expect(fetchClient).toHaveBeenCalledTimes(1);
@@ -147,7 +158,9 @@ describe('cartLinesUpdate', () => {
               merchandiseId:
                 updatedCart.cart.lines.nodes[0].merchandise.sourceEntryId
             }
-          ]
+          ],
+          language: defaultLanguage,
+          country: defaultCountry
         }
       })
     });
@@ -180,7 +193,9 @@ describe('cartLinesUpdate', () => {
               .attributes[0].value as string,
             quantity: 2
           }
-        ]
+        ],
+        language: defaultLanguage,
+        country: defaultCountry
       })
     ).rejects.toThrow(networkErrorMessage);
   });
@@ -202,7 +217,9 @@ describe('cartLinesRemove', () => {
     await cartLinesRemove({
       gqlClient,
       cartId,
-      lineIds: [cartWithLineResponse.cart.lines.nodes[0].id]
+      lineIds: [cartWithLineResponse.cart.lines.nodes[0].id],
+      language: defaultLanguage,
+      country: defaultCountry
     });
 
     expect(fetchClient).toHaveBeenCalledTimes(1);
@@ -213,7 +230,9 @@ describe('cartLinesRemove', () => {
         query: mutations.CART_LINE_REMOVE(),
         variables: {
           cartId,
-          lineIds: [cartWithLineResponse.cart.lines.nodes[0].id]
+          lineIds: [cartWithLineResponse.cart.lines.nodes[0].id],
+          language: defaultLanguage,
+          country: defaultCountry
         }
       })
     });
@@ -239,7 +258,9 @@ describe('cartLinesRemove', () => {
       cartLinesRemove({
         gqlClient,
         cartId,
-        lineIds: [cartWithLineResponse.cart.lines.nodes[0].id]
+        lineIds: [cartWithLineResponse.cart.lines.nodes[0].id],
+        language: defaultLanguage,
+        country: defaultCountry
       })
     ).rejects.toThrow(networkErrorMessage);
   });

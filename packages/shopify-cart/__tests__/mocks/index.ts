@@ -10,7 +10,6 @@ import {
   CartLineUpdateMutation,
   CartLineRemoveMutation,
   CartNoteUpdateMutation,
-  CurrencyCode,
   Cart_CartFragment,
   CartUserError_UserErrorsFragment
 } from '../../src/types/shopify.type';
@@ -91,16 +90,16 @@ export const cartWithoutLine: Cart_CartFragment = {
   },
   cost: {
     checkoutChargeAmount: {
-      currencyCode: CurrencyCode.Usd,
+      currencyCode: 'USD',
       amount: '0.0'
     },
     subtotalAmount: {
-      currencyCode: CurrencyCode.Usd,
+      currencyCode: 'USD',
       amount: '0.0'
     },
     subtotalAmountEstimated: false,
     totalAmount: {
-      currencyCode: CurrencyCode.Usd,
+      currencyCode: 'USD',
       amount: '0.0'
     },
     totalAmountEstimated: false,
@@ -131,16 +130,16 @@ export const cartLine: CartLine = {
   cost: {
     subtotalAmount: {
       amount: '265.0',
-      currencyCode: CurrencyCode.Usd
+      currencyCode: 'USD'
     },
     amountPerQuantity: {
       amount: '265.0',
-      currencyCode: CurrencyCode.Usd
+      currencyCode: 'USD'
     },
     compareAtAmountPerQuantity: null,
     totalAmount: {
       amount: '265.0',
-      currencyCode: CurrencyCode.Usd
+      currencyCode: 'USD'
     }
   },
   discountAllocations: [],
@@ -148,11 +147,11 @@ export const cartLine: CartLine = {
     sourceEntryId: 'gid://shopify/ProductVariant/33894120718471',
     availableForSale: true,
     compareAtPriceV2: {
-      currencyCode: CurrencyCode.Usd,
+      currencyCode: 'USD',
       amount: '300.0'
     },
     priceV2: {
-      currencyCode: CurrencyCode.Usd,
+      currencyCode: 'USD',
       amount: '265.0'
     },
     requiresShipping: false,
@@ -207,15 +206,15 @@ export const cartWithLine: Cart_CartFragment = {
   cost: {
     checkoutChargeAmount: {
       amount: '0.0',
-      currencyCode: CurrencyCode.Usd
+      currencyCode: 'USD'
     },
     subtotalAmount: {
-      currencyCode: CurrencyCode.Usd,
+      currencyCode: 'USD',
       amount: '0.0'
     },
     subtotalAmountEstimated: true,
     totalAmount: {
-      currencyCode: CurrencyCode.Usd,
+      currencyCode: 'USD',
       amount: '0.0'
     },
     totalAmountEstimated: true,
@@ -253,15 +252,15 @@ export const cartWithPaginatedLines: Cart_CartFragment = {
   cost: {
     checkoutChargeAmount: {
       amount: '0.0',
-      currencyCode: CurrencyCode.Usd
+      currencyCode: 'USD'
     },
     subtotalAmount: {
-      currencyCode: CurrencyCode.Usd,
+      currencyCode: 'USD',
       amount: '0.0'
     },
     subtotalAmountEstimated: true,
     totalAmount: {
-      currencyCode: CurrencyCode.Usd,
+      currencyCode: 'USD',
       amount: '0.0'
     },
     totalAmountEstimated: true,

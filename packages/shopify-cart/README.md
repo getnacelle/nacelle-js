@@ -4,17 +4,15 @@ A minimal Shopify cart client for headless storefronts.
 
 [![npm version](https://img.shields.io/npm/v/@nacelle/shopify-cart?style=for-the-badge)](https://npmjs.org/package/@nacelle/shopify-cart)
 
-⚠️ Warning ⚠️ this project is pre-`1.0.0`. We reserve the right to make any changes at any time. Please see [semver.org](https://semver.org) for details.
-
 ## Overview
 
 `@nacelle/shopify-cart` adds Shopify cart functionality to headless commerce projects.
 
 ## Features
 
-- tiny, with zero dependencies
+- zero dependencies
 - full [TypeScript](https://www.typescriptlang.org) support
-- ships in [tree-shakeable](https://developer.mozilla.org/en-US/docs/Glossary/Tree_shaking) ESM, as well as UMD & IIFE formats for maximum portability
+- ships in ESM, UMD & IIFE formats for maximum portability
 - 100% code coverage
 
 ## Versioning
@@ -61,6 +59,8 @@ The cart client accepts the following parameters:
 - `shopifyCustomEndpoint` (`string`) - optional Shopify custom API endpoint
 - `customFragments` (`object`) - optional GraphQL fragments for data customization (see the [Custom Fragments docs][custom-fragments-docs])
 - `fetchClient` (`function`) - optional Fetch API-compatible request function
+- `country` (`string`) - optional [Shopify Country Code][shopify-cart-country-code] used for cart queries/responses. Defaults to `ZZ` (unknown region) if not supplied.
+- `language` (`string`) - optional [Shopify Language Code][shopify-cart-language-code] used for cart queries/responses. Defaults to `EN` if not supplied.
 
 _You must provide a `shopifyShopId` or a `shopifyCustomEndpoint`_
 
@@ -266,3 +266,5 @@ const { cart, userErrors, errors } = await cartClient.cartNoteUpdate({
 [shopify-cart-line-input]: https://shopify.dev/api/storefront/2022-07/input-objects/CartLineInput
 [shopify-cart-line-update-input]: https://shopify.dev/api/storefront/2022-07/input-objects/CartLineUpdateInput
 [shopify-release-schedule]: https://shopify.dev/api/usage/versioning#release-schedule
+[shopify-cart-language-code]: https://shopify.dev/api/storefront/2022-07/enums/LanguageCode
+[shopify-cart-country-code]: https://shopify.dev/api/storefront/2022-07/enums/CountryCode
