@@ -399,11 +399,6 @@ describe('createShopifyCartClient', () => {
     const cartClient = createShopifyCartClient({
       ...clientSettings,
       customFragments: {
-        USER_ERRORS: `
-          fragment CartUserError_userErrors on CartUserError {
-            message
-          }
-        `,
         BUYER_IDENTITY: `
           fragment CartBuyerIdentity_buyerIdentity on CartBuyerIdentity {
             email
@@ -417,6 +412,21 @@ describe('createShopifyCartClient', () => {
               currencyCode
             }
           }
+        `,
+        MERCHANDISE: `
+          fragment Merchandise_merchandise on ProductVariant {
+            available: availableForSale
+          }
+        `,
+        MONEY: `
+          fragment Money_money on MoneyV2 {
+            cost: amount
+          }
+        `,
+        USER_ERRORS: `
+          fragment CartUserError_userErrors on CartUserError {
+            message
+          }
         `
       }
     });
@@ -426,11 +436,6 @@ describe('createShopifyCartClient', () => {
     expect(windowFetch).toHaveBeenCalledTimes(1);
     const requestBody = (windowFetch.mock.calls[0] as Request[])[1].body;
 
-    // USER_ERRORS
-    expect(requestBody).toMatch(
-      /fragment CartUserError_userErrors on CartUserError {\\n\s+ message\\n\s+ }/
-    );
-
     // BUYER_IDENTITY
     expect(requestBody).toMatch(
       /fragment CartBuyerIdentity_buyerIdentity on CartBuyerIdentity {\\n\s+ email\\n\s+ phone\\n\s+ }/
@@ -439,6 +444,21 @@ describe('createShopifyCartClient', () => {
     // DISCOUNT_ALLOCATION
     expect(requestBody).toMatch(
       /fragment CartDiscountAllocation_discountAllocation on CartDiscountAllocation {\\n\s+ discountedAmount {\\n\s+ amount\\n\s+ currencyCode\\n\s+ }\\n\s+ }/
+    );
+
+    // MERCHANDISE
+    expect(requestBody).toMatch(
+      /fragment Merchandise_merchandise on ProductVariant {\\n\s+ available: availableForSale\\n\s+ }/
+    );
+
+    // MONEY
+    expect(requestBody).toMatch(
+      /fragment Money_money on MoneyV2 {\\n\s+ cost: amount\\n\s+ }/
+    );
+
+    // USER_ERRORS
+    expect(requestBody).toMatch(
+      /fragment CartUserError_userErrors on CartUserError {\\n\s+ message\\n\s+ }/
     );
   });
 
