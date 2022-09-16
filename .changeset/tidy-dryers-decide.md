@@ -1,5 +1,5 @@
 ---
-'@nacelle/shopify-cart': minor
+'@nacelle/shopify-cart': major
 ---
 
 - feat(breaking!): Exports `esm` builds as `nacelle-shopify-cart.mjs`

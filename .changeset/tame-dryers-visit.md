@@ -1,5 +1,5 @@
 ---
-"@nacelle/nacelle-js": patch
+"@nacelle/shopify-cart": patch
 ---
 
 docs: updated responses/errors
