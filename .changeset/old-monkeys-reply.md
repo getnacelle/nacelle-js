@@ -1,5 +1,5 @@
 ---
-'@nacelle/shopify-cart': minor
+'@nacelle/shopify-cart': major
 ---
 
 feat(breaking!): allows for nacelleEntryId's to be passed into cart methods. 
