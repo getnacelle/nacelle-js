@@ -101,6 +101,7 @@ export const actions = {
       cartId: payload
     });
     if (cart) {
+      console.log('RETRIEVE', cart);
       commit('setCart', {
         lines: linesTransformer(cart.lines),
         checkoutUrl: cart.checkoutUrl
@@ -120,12 +121,13 @@ export const actions = {
         cartId: state.cartId,
         lines: [
           {
-            merchandiseId: payload.variantId,
+            nacelleEntryId: payload.nacelleEntryId,
             quantity: 1
           }
         ]
       });
       if (cart) {
+        console.log('ADD', cart);
         commit('setCart', {
           lines: linesTransformer(cart.lines),
           checkoutUrl: cart.checkoutUrl
@@ -142,7 +144,7 @@ export const actions = {
       commit('setCart', { lines: items });
 
       await dispatch('updateItemQuantity', {
-        id: state.lineItems[index].id,
+        nacelleEntryId: state.lineItems[index].nacelleEntryId,
         quantity: state.lineItems[index].quantity
       });
     }
@@ -176,7 +178,7 @@ export const actions = {
         cartId: state.cartId,
         lines: [
           {
-            id: payload.id,
+            id: payload.nacelleEntryId,
             quantity: payload.quantity
           }
         ]
@@ -184,6 +186,7 @@ export const actions = {
     );
 
     if (cart) {
+      console.log('UPDATE', cart);
       commit('setCart', {
         lines: linesTransformer(cart.lines),
         checkoutUrl: cart.checkoutUrl
@@ -201,7 +204,7 @@ export const actions = {
       });
       commit('setCart', { lines: items });
       await dispatch('updateItemQuantity', {
-        id: state.lineItems[index].id,
+        nacelleEntryId: state.lineItems[index].nacelleEntryId,
         quantity: state.lineItems[index].quantity
       });
     }
@@ -219,7 +222,7 @@ export const actions = {
         });
         commit('setCart', { lines: items });
         await dispatch('updateItemQuantity', {
-          id: state.lineItems[index].id,
+          nacelleEntryId: state.lineItems[index].nacelleEntryId,
           quantity: state.lineItems[index].quantity
         });
       }
