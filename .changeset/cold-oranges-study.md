@@ -1,5 +1,5 @@
 ---
-'@nacelle/shopify-cart': minor
+'@nacelle/shopify-cart': major
 ---
 
 feat (breaking): Adds options for language and country codes to cart create.
