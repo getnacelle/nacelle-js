@@ -511,4 +511,313 @@ describe('createShopifyCartClient', () => {
       /fragment CartLine_extendCartLine on CartLine {\\n\s+ sellingPlanAllocation {\\n\s+ checkoutChargeAmount {\\n\s+ amount\\n\s+ }\\n\s+ }\\n\s+ }/
     );
   });
+
+  it('returns the config options passed in when you call getConfig', () => {
+    const cartClientWithNonDefaultCountryAndLanguage = createShopifyCartClient({
+      ...clientSettings,
+      country: 'CA',
+      language: 'FR'
+    });
+    expect(cartClientWithNonDefaultCountryAndLanguage.getConfig()).toEqual({
+      ...clientSettings,
+      country: 'CA',
+      language: 'FR'
+    });
+    const cartClientWithDefaultLanguageAndCountry = createShopifyCartClient({
+      ...clientSettings
+    });
+    expect(cartClientWithDefaultLanguageAndCountry.getConfig()).toEqual({
+      ...clientSettings,
+      country: defaultCountry,
+      language: defaultLanguage
+    });
+  });
+  it('updates the language setting in the config if you set a new language with setConfig', () => {
+    const cartClient = createShopifyCartClient({ ...clientSettings });
+    cartClient.setConfig({ language: 'FR' });
+    expect(cartClient.getConfig()).toEqual({
+      ...clientSettings,
+      country: defaultCountry,
+      language: 'FR'
+    });
+  });
+  it('updates the country setting in the config if you set a new language with setConfig', () => {
+    const cartClient = createShopifyCartClient({ ...clientSettings });
+    cartClient.setConfig({ country: 'CA' });
+    expect(cartClient.getConfig()).toEqual({
+      ...clientSettings,
+      language: defaultLanguage,
+      country: 'CA'
+    });
+  });
+  it('uses the updated settings in the cart request if you update the config with setConfig', async () => {
+    const windowFetch = jest.fn(
+      (): Promise<any> =>
+        mockJsonResponse<{ cart: Cart_CartFragment }>(responses.queries.cart)
+    );
+    window.fetch = windowFetch;
+
+    const cartClient = createShopifyCartClient(clientSettings);
+    cartClient.setConfig({ language: 'FR', country: 'CA' });
+    await cartClient.cart({ cartId });
+
+    expect(windowFetch).toHaveBeenCalledTimes(1);
+    expect(windowFetch).toHaveBeenCalledWith(graphqlEndpoint, {
+      method: 'POST',
+      headers,
+      body: JSON.stringify({
+        query: queries.CART(),
+        variables: {
+          id: cartId,
+          language: 'FR',
+          country: 'CA'
+        }
+      })
+    });
+  });
+  it('uses the updated client settings in the cartLinesAdd request if you update the config with setConfig', async () => {
+    const windowFetch = jest.fn(
+      (): Promise<any> =>
+        mockJsonResponse<CartLineAddMutation>(responses.mutations.cartLinesAdd)
+    );
+    window.fetch = windowFetch;
+
+    const cartClient = createShopifyCartClient(clientSettings);
+
+    cartClient.setConfig({ language: 'FR', country: 'CA' });
+
+    await cartClient.cartLinesAdd({
+      cartId,
+      lines: []
+    });
+
+    expect(windowFetch).toHaveBeenCalledTimes(1);
+    expect(windowFetch).toHaveBeenCalledWith(graphqlEndpoint, {
+      method: 'POST',
+      headers,
+      body: JSON.stringify({
+        query: mutations.CART_LINE_ADD(),
+        variables: {
+          cartId,
+          lines: [],
+          language: 'FR',
+          country: 'CA'
+        }
+      })
+    });
+  });
+  it('uses the updated client settings in the cartLinesUpdate request if you update the config with setConfig', async () => {
+    const windowFetch = jest.fn(
+      (): Promise<any> =>
+        mockJsonResponse<CartLineUpdateMutation>(
+          responses.mutations.cartLinesUpdate
+        )
+    );
+    window.fetch = windowFetch;
+
+    const cartClient = createShopifyCartClient(clientSettings);
+    cartClient.setConfig({ language: 'FR', country: 'CA' });
+    const updatedCart = cartWithLineResponse;
+    updatedCart.cart.lines.nodes[0].quantity = 2;
+
+    await cartClient.cartLinesUpdate({
+      cartId,
+      lines: [
+        {
+          quantity: 2,
+          id: updatedCart.cart.lines.nodes[0].id,
+          nacelleEntryId: updatedCart.cart.lines.nodes[0].attributes[0]
+            .value as string
+        }
+      ]
+    });
+
+    expect(windowFetch).toHaveBeenCalledTimes(1);
+    expect(windowFetch).toHaveBeenCalledWith(graphqlEndpoint, {
+      method: 'POST',
+      headers,
+      body: JSON.stringify({
+        query: mutations.CART_LINE_UPDATE(),
+        variables: {
+          cartId,
+          lines: [
+            {
+              quantity: 2,
+              id: updatedCart.cart.lines.nodes[0].id,
+              merchandiseId:
+                updatedCart.cart.lines.nodes[0].merchandise.sourceEntryId
+            }
+          ],
+          language: 'FR',
+          country: 'CA'
+        }
+      })
+    });
+  });
+
+  it('uses the updated client settings in the cartLinesRemove request if you update the config with setConfig', async () => {
+    const windowFetch = jest.fn(
+      (): Promise<any> =>
+        mockJsonResponse<CartLineRemoveMutation>(
+          responses.mutations.cartLinesRemove
+        )
+    );
+    window.fetch = windowFetch;
+
+    const cartClient = createShopifyCartClient(clientSettings);
+    cartClient.setConfig({ language: 'FR', country: 'CA' });
+
+    await cartClient.cartLinesRemove({
+      cartId,
+      lineIds: [cartWithLineResponse.cart.lines.nodes[0].id]
+    });
+
+    expect(windowFetch).toHaveBeenCalledTimes(1);
+    expect(windowFetch).toHaveBeenCalledWith(graphqlEndpoint, {
+      method: 'POST',
+      headers,
+      body: JSON.stringify({
+        query: mutations.CART_LINE_REMOVE(),
+        variables: {
+          cartId,
+          lineIds: [cartWithLineResponse.cart.lines.nodes[0].id],
+          language: 'FR',
+          country: 'CA'
+        }
+      })
+    });
+  });
+
+  it('uses the updated client settings in the CartBuyerIdentityUpdate request if you update the config with setConfig', async () => {
+    const windowFetch = jest.fn(
+      (): Promise<any> =>
+        mockJsonResponse<CartBuyerIdentityUpdateMutation>(
+          responses.mutations.cartBuyerIdentityUpdate.withoutBuyer
+        )
+    );
+    window.fetch = windowFetch;
+
+    const cartClient = createShopifyCartClient(clientSettings);
+    cartClient.setConfig({ language: 'FR', country: 'CA' });
+
+    await cartClient.cartBuyerIdentityUpdate({
+      cartId,
+      buyerIdentity: {
+        email: 'email@email.com'
+      }
+    });
+
+    expect(windowFetch).toHaveBeenCalledTimes(1);
+    expect(windowFetch).toHaveBeenCalledWith(graphqlEndpoint, {
+      method: 'POST',
+      headers,
+      body: JSON.stringify({
+        query: mutations.CART_BUYER_IDENTITY_UPDATE(),
+        variables: {
+          cartId,
+          buyerIdentity: {
+            email: 'email@email.com'
+          },
+          language: 'FR',
+          country: 'CA'
+        }
+      })
+    });
+  });
+
+  it('uses the updated client settings in the cartDiscountCodesUpdateMutation request if you update the config with setConfig', async () => {
+    const windowFetch = jest.fn(
+      (): Promise<any> =>
+        mockJsonResponse<CartDiscountCodesUpdateMutation>(
+          responses.mutations.cartDiscountCodesUpdate.withoutCodes
+        )
+    );
+    window.fetch = windowFetch;
+
+    const cartClient = createShopifyCartClient(clientSettings);
+    cartClient.setConfig({ language: 'FR', country: 'CA' });
+
+    await cartClient.cartDiscountCodesUpdate({
+      cartId,
+      discountCodes: ['code']
+    });
+
+    expect(windowFetch).toHaveBeenCalledTimes(1);
+    expect(windowFetch).toHaveBeenCalledWith(graphqlEndpoint, {
+      method: 'POST',
+      headers,
+      body: JSON.stringify({
+        query: mutations.CART_DISCOUNT_CODES_UPDATE(),
+        variables: {
+          cartId,
+          discountCodes: ['code'],
+          language: 'FR',
+          country: 'CA'
+        }
+      })
+    });
+  });
+
+  it('uses the updated client settings in the cartNoteUpdateMutation request if you update the config with setConfig', async () => {
+    const windowFetch = jest.fn(
+      (): Promise<any> =>
+        mockJsonResponse<CartNoteUpdateMutation>(
+          responses.mutations.cartNoteUpdate.noNote
+        )
+    );
+    window.fetch = windowFetch;
+
+    const cartClient = createShopifyCartClient(clientSettings);
+    const note = 'Cart Note';
+    cartClient.setConfig({ language: 'FR', country: 'CA' });
+
+    await cartClient.cartNoteUpdate({ cartId, note });
+
+    expect(windowFetch).toHaveBeenCalledTimes(1);
+    expect(windowFetch).toHaveBeenCalledWith(graphqlEndpoint, {
+      method: 'POST',
+      headers,
+      body: JSON.stringify({
+        query: mutations.CART_NOTE_UPDATE(),
+        variables: {
+          cartId,
+          note,
+          language: 'FR',
+          country: 'CA'
+        }
+      })
+    });
+  });
+
+  it('uses the updated client settings in the cartAttributesUpdate request if you update the config with setConfig', async () => {
+    const windowFetch = jest.fn(
+      (): Promise<any> =>
+        mockJsonResponse<CartAttributesUpdateMutation>(
+          responses.mutations.cartAttributesUpdate.noAttributes
+        )
+    );
+    window.fetch = windowFetch;
+
+    const cartClient = createShopifyCartClient(clientSettings);
+    cartClient.setConfig({ language: 'FR', country: 'CA' });
+
+    const attributes = [{ key: 'testKey', value: 'testValue' }];
+
+    await cartClient.cartAttributesUpdate({ cartId, attributes });
+
+    expect(windowFetch).toHaveBeenCalledTimes(1);
+    expect(windowFetch).toHaveBeenCalledWith(graphqlEndpoint, {
+      method: 'POST',
+      headers,
+      body: JSON.stringify({
+        query: mutations.CART_ATTRIBUTES_UPDATE(),
+        variables: {
+          cartId,
+          attributes,
+          language: 'FR',
+          country: 'CA'
+        }
+      })
+    });
+  });
 });
