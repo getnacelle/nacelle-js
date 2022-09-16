@@ -4,7 +4,9 @@ import type { CartResponse, CartFragmentResponse } from '../../types/cart.type';
 import type { MutationFragments } from '../../graphql/mutations';
 import type {
   CartDiscountCodesUpdatePayload,
-  MutationCartDiscountCodesUpdateArgs
+  CartDiscountCodesUpdateMutationVariables,
+  LanguageCode,
+  CountryCode
 } from '../../types/shopify.type';
 import type { GqlClient } from '../../cart-client.types';
 
@@ -13,6 +15,8 @@ export interface CreateDiscountCodesUpdateParams {
   gqlClient: GqlClient;
   customFragments?: MutationFragments;
   discountCodes?: string[];
+  language: LanguageCode;
+  country: CountryCode;
 }
 
 export type CartDiscountCodesUpdateResponse = CartDiscountCodesUpdatePayload &
@@ -26,15 +30,17 @@ export default async function cartDiscountCodesUpdate({
   cartId,
   customFragments,
   discountCodes,
-  gqlClient
+  gqlClient,
+  language,
+  country
 }: CreateDiscountCodesUpdateParams): Promise<void | CartResponse> {
   try {
     const shopifyResponse = await gqlClient<
-      MutationCartDiscountCodesUpdateArgs,
+      CartDiscountCodesUpdateMutationVariables,
       MutationCartDiscountCodesUpdateResponse
     >({
       query: mutations.CART_DISCOUNT_CODES_UPDATE(customFragments),
-      variables: { cartId, discountCodes }
+      variables: { cartId, discountCodes, language, country }
     }).catch((err) => {
       throw new Error(err);
     });
@@ -42,7 +48,9 @@ export default async function cartDiscountCodesUpdate({
     const cart = await depaginateLines({
       cart: shopifyResponse.data?.cartDiscountCodesUpdate.cart,
       customFragments,
-      gqlClient
+      gqlClient,
+      language,
+      country
     });
 
     return formatCartResponse({

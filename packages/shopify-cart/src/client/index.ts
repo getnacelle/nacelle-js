@@ -17,12 +17,14 @@ import type {
   NacelleCartLineItemInput,
   NacelleCartLineItemUpdateInput
 } from '../types/cart.type';
-import { AttributeInput, CartBuyerIdentityInput } from '../types/shopify.type';
+import type {
+  AttributeInput,
+  CartBuyerIdentityInput,
+  CountryCode,
+  LanguageCode
+} from '../types/shopify.type';
 
-export type UserSuppliedFragmentType = Exclude<
-  keyof typeof fragments,
-  'CART' | 'MERCHANDISE'
->;
+export type UserSuppliedFragmentType = Exclude<keyof typeof fragments, 'CART'>;
 export type CustomFragments = Partial<Record<UserSuppliedFragmentType, string>>;
 
 export interface CreateClientParams {
@@ -31,6 +33,8 @@ export interface CreateClientParams {
   fetchClient?: typeof fetch;
   shopifyCustomEndpoint?: string;
   shopifyShopId?: string;
+  language?: LanguageCode;
+  country?: CountryCode;
 }
 
 type FetchCart = (params: { cartId: string }) => Promise<CartResponse | void>;
@@ -151,7 +155,9 @@ export default function createShopifyCartClient({
   shopifyStorefrontAccessToken,
   shopifyCustomEndpoint,
   fetchClient,
-  customFragments
+  customFragments,
+  language = 'EN',
+  country = 'ZZ'
 }: CreateClientParams): CartClient {
   const gqlClient = createGqlClient({
     shopifyShopId,
@@ -160,10 +166,15 @@ export default function createShopifyCartClient({
     fetchClient
   });
   const sanitizedCustomFragments = sanitizeFragments(customFragments);
-
   return {
     cart: (params: { cartId: string }): Promise<CartResponse | void> =>
-      cart({ customFragments, gqlClient, ...params }),
+      cart({
+        customFragments,
+        gqlClient,
+        language,
+        country,
+        ...params
+      }),
     cartAttributesUpdate: (params: {
       cartId: string;
       attributes: AttributeInput[];
@@ -171,6 +182,8 @@ export default function createShopifyCartClient({
       cartAttributesUpdate({
         customFragments: sanitizedCustomFragments,
         gqlClient,
+        language,
+        country,
         ...params
       }),
     cartBuyerIdentityUpdate: (params: {
@@ -180,12 +193,16 @@ export default function createShopifyCartClient({
       cartBuyerIdentityUpdate({
         customFragments: sanitizedCustomFragments,
         gqlClient,
+        language: language,
+        country: country,
         ...params
       }),
     cartCreate: (params: NacelleCartInput): Promise<CartResponse | void> =>
       cartCreate({
         customFragments: sanitizedCustomFragments,
         gqlClient,
+        language,
+        country,
         params
       }),
     cartDiscountCodesUpdate: (params: {
@@ -195,6 +212,8 @@ export default function createShopifyCartClient({
       cartDiscountCodesUpdate({
         customFragments: sanitizedCustomFragments,
         gqlClient,
+        language,
+        country,
         ...params
       }),
     cartLinesAdd: (params: {
@@ -204,13 +223,21 @@ export default function createShopifyCartClient({
       cartLinesAdd({
         customFragments: sanitizedCustomFragments,
         gqlClient,
+        language,
+        country,
         ...params
       }),
     cartLinesUpdate: (params: {
       cartId: string;
       lines: Array<NacelleCartLineItemUpdateInput>;
     }): Promise<CartResponse | void> =>
-      cartLinesUpdate({ customFragments, gqlClient, ...params }),
+      cartLinesUpdate({
+        customFragments,
+        gqlClient,
+        language,
+        country,
+        ...params
+      }),
     cartLinesRemove: (params: {
       cartId: string;
       lineIds: Array<string>;
@@ -218,12 +245,20 @@ export default function createShopifyCartClient({
       cartLinesRemove({
         customFragments: sanitizedCustomFragments,
         gqlClient,
+        language,
+        country,
         ...params
       }),
     cartNoteUpdate: (params: {
       cartId: string;
       note: string;
     }): Promise<CartResponse | void> =>
-      cartNoteUpdate({ customFragments, gqlClient, ...params })
+      cartNoteUpdate({
+        customFragments,
+        gqlClient,
+        language,
+        country,
+        ...params
+      })
   };
 }
