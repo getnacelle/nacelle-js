@@ -29,7 +29,8 @@ export const getCartVariant = ({ product, variant }) => {
       selectedOptions,
       productHandle,
       productTitle,
-      nacelleEntryId
+      nacelleEntryId,
+      metafields: []
     };
   }
 };

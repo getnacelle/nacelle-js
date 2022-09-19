@@ -88,7 +88,7 @@ export default {
   methods: {
     ...mapActions('cart', ['removeItem']),
     handleRemove() {
-      this.removeItem(this.item.id);
+      this.removeItem(this.item.cartLineId);
     }
   }
 };

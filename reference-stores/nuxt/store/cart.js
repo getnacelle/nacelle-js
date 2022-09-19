@@ -1,4 +1,5 @@
 import { get, set } from 'idb-keyval';
+import { v4 as uuid } from 'uuid';
 
 export const state = () => ({
   cartClient: null,
@@ -10,30 +11,27 @@ export const state = () => ({
   cartErrors: []
 });
 
-const linesTransformer = (lines) => {
-  return lines.reduce((array, line) => {
-    const { merchandise, cost } = line;
-    if (line.quantity) {
-      array.push({
-        availableForSale: merchandise.availableForSale,
-        compareAtPrice: merchandise.compareAtPriceV2,
-        featuredMedia: {
-          altText: merchandise.image.altText,
-          src: merchandise.image.url,
-          thumbnailSrc: merchandise.image.url
-        },
-        id: line.id,
-        price: cost.amountPerQuantity.amount,
-        productHandle: merchandise.product.handle,
-        productTitle: merchandise.product.title,
-        quantity: line.quantity,
-        selectedOptions: merchandise.selectedOptions,
-        variantId: merchandise.id,
-        variantTitle: merchandise.title
-      });
-    }
-    return array;
-  }, []);
+const lineTransformer = (line) => {
+  const { merchandise, cost } = line;
+  return {
+    availableForSale: merchandise.availableForSale,
+    compareAtPrice: merchandise.compareAtPriceV2,
+    featuredMedia: {
+      altText: merchandise.image.altText,
+      src: merchandise.image.url,
+      thumbnailSrc: merchandise.image.url
+    },
+    cartLineId: line.id,
+    nacelleEntryId: merchandise.nacelleEntryId,
+    price: cost.amountPerQuantity.amount,
+    productHandle: merchandise.product.handle,
+    productTitle: merchandise.product.title,
+    quantity: line.quantity,
+    selectedOptions: merchandise.selectedOptions,
+    variantId: merchandise.sourceEntryId,
+    variantTitle: merchandise.title,
+    metafields: line.attributes
+  };
 };
 
 export const getters = {
@@ -56,12 +54,40 @@ export const mutations = {
     state.cartId = payload;
     set(state.cacheKeyCartId, payload);
   },
-  setCart(state, payload) {
+  setOptimisticCart(state, payload) {
     state.lineItems = payload.lines;
     if (payload.checkoutUrl) {
       state.cartCheckoutUrl = payload.checkoutUrl;
     }
   },
+  setCart(state, payload) {
+    const lineItemsFromCart = [...payload.lines];
+    let array = [];
+    state.lineItems.forEach((lineItem) => {
+      const index = lineItemsFromCart.findIndex((cartItem) => {
+        if (
+          lineItem.cartLineId &&
+          !lineItem.cartLineId.includes('placeholder')
+        ) {
+          return lineItem.cartLineId === cartItem.id;
+        } else {
+          return lineItem.variantId === cartItem.merchandise.sourceEntryId;
+        }
+      });
+      if (index > -1) {
+        array.push(lineTransformer(lineItemsFromCart.splice(index, 1)[0]));
+      }
+    });
+    array = [
+      ...array,
+      ...lineItemsFromCart.map((line) => lineTransformer(line))
+    ];
+    state.lineItems = array;
+    if (payload.checkoutUrl) {
+      state.cartCheckoutUrl = payload.checkoutUrl;
+    }
+  },
+
   checkoutProcessing(state) {
     state.checkoutProcessing = true;
   },
@@ -81,7 +107,6 @@ export const mutations = {
 export const actions = {
   async initCart({ state, dispatch }) {
     const cachedCartId = await get(state.cacheKeyCartId);
-
     if (cachedCartId) {
       await dispatch('retrieveCart', cachedCartId);
     } else {
@@ -101,9 +126,8 @@ export const actions = {
       cartId: payload
     });
     if (cart) {
-      console.log('RETRIEVE', cart);
-      commit('setCart', {
-        lines: linesTransformer(cart.lines),
+      commit('setOptimisticCart', {
+        lines: cart.lines.map((line) => lineTransformer(line)),
         checkoutUrl: cart.checkoutUrl
       });
     }
@@ -111,12 +135,16 @@ export const actions = {
   },
   async addItem({ state, commit, dispatch }, payload) {
     const index = state.lineItems.findIndex((lineItem) => {
-      return lineItem.variantId === payload.variantId;
+      if (payload.cartLineId) {
+        return payload.cartLineId === lineItem.cartLineId;
+      } else {
+        return lineItem.variantId === payload.variantId;
+      }
     });
     if (index === -1) {
-      payload.id = payload.variantId;
-      const items = [...state.lineItems, payload];
-      commit('setCart', { lines: items });
+      const cartLineId = `placeholder-${uuid()}`;
+      const items = [...state.lineItems, { ...payload, cartLineId }];
+      commit('setOptimisticCart', { lines: items });
       const { cart, userErrors, errors } = await this.$cartClient.cartLinesAdd({
         cartId: state.cartId,
         lines: [
@@ -127,9 +155,8 @@ export const actions = {
         ]
       });
       if (cart) {
-        console.log('ADD', cart);
         commit('setCart', {
-          lines: linesTransformer(cart.lines),
+          lines: cart.lines,
           checkoutUrl: cart.checkoutUrl
         });
       }
@@ -141,30 +168,33 @@ export const actions = {
         ...state.lineItems[index],
         quantity: state.lineItems[index].quantity + payload.quantity
       });
-      commit('setCart', { lines: items });
+      commit('setOptimisticCart', { lines: items });
 
       await dispatch('updateItemQuantity', {
+        cartLineId: state.lineItems[index].cartLineId,
         nacelleEntryId: state.lineItems[index].nacelleEntryId,
         quantity: state.lineItems[index].quantity
       });
     }
   },
   async removeItem({ state, commit }, payload) {
-    const index = state.lineItems.findIndex((item) => item.id === payload);
+    const index = state.lineItems.findIndex(
+      (item) => item.cartLineId === payload
+    );
     const items = [...state.lineItems];
     if (index > -1) {
-      const id = state.lineItems[index].id;
+      const cartLineId = state.lineItems[index].cartLineId;
       items.splice(index, 1);
-      commit('setCart', { lines: items });
+      commit('setOptimisticCart', { lines: items });
       const { cart, userErrors, errors } =
         await this.$cartClient.cartLinesRemove({
           cartId: state.cartId,
-          lineIds: [id]
+          lineIds: [cartLineId]
         });
 
       if (cart) {
         commit('setCart', {
-          lines: linesTransformer(cart.lines),
+          lines: cart.lines,
           checkoutUrl: cart.checkoutUrl
         });
       }
@@ -178,7 +208,8 @@ export const actions = {
         cartId: state.cartId,
         lines: [
           {
-            id: payload.nacelleEntryId,
+            id: payload.cartLineId,
+            nacelleEntryId: payload.nacelleEntryId,
             quantity: payload.quantity
           }
         ]
@@ -186,31 +217,35 @@ export const actions = {
     );
 
     if (cart) {
-      console.log('UPDATE', cart);
       commit('setCart', {
-        lines: linesTransformer(cart.lines),
+        lines: cart.lines,
         checkoutUrl: cart.checkoutUrl
       });
     }
     commit('setErrors', { userErrors, errors });
   },
   async incrementItem({ state, commit, dispatch }, payload) {
-    const index = state.lineItems.findIndex((item) => item.id === payload);
+    const index = state.lineItems.findIndex(
+      (item) => item.cartLineId === payload
+    );
     if (index > -1) {
       const items = [...state.lineItems];
       items.splice(index, 1, {
         ...state.lineItems[index],
         quantity: state.lineItems[index].quantity + 1
       });
-      commit('setCart', { lines: items });
+      commit('setOptimisticCart', { lines: items });
       await dispatch('updateItemQuantity', {
+        cartLineId: state.lineItems[index].cartLineId,
         nacelleEntryId: state.lineItems[index].nacelleEntryId,
         quantity: state.lineItems[index].quantity
       });
     }
   },
   async decrementItem({ state, commit, dispatch }, payload) {
-    const index = state.lineItems.findIndex((item) => item.id === payload);
+    const index = state.lineItems.findIndex(
+      (item) => item.cartLineId === payload
+    );
     if (index > -1) {
       if (state.lineItems[index].quantity === 1) {
         await dispatch('removeItem', payload);
@@ -220,8 +255,9 @@ export const actions = {
           ...state.lineItems[index],
           quantity: state.lineItems[index].quantity - 1
         });
-        commit('setCart', { lines: items });
+        commit('setOptimisticCart', { lines: items });
         await dispatch('updateItemQuantity', {
+          cartLineId: state.lineItems[index].cartLineId,
           nacelleEntryId: state.lineItems[index].nacelleEntryId,
           quantity: state.lineItems[index].quantity
         });
