@@ -100,7 +100,9 @@ describe('cartCreate', () => {
       cart: responses.mutations.cartCreate.withoutLine.data?.cartCreate?.cart,
       userErrors:
         responses.mutations.cartCreate.withoutLine.data?.cartCreate?.userErrors,
-      errors: undefined
+      errors: undefined,
+      shopifyShopId: defaultShopId,
+      locale: defaultLocale
     });
   });
 

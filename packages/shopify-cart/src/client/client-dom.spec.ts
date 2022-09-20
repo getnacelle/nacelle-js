@@ -28,6 +28,8 @@ import type {
 const defaultLanguage: LanguageCode = 'EN';
 const defaultCountry: CountryCode = 'ZZ';
 const defaultLocale = 'en-US';
+const defaultEntryId =
+  'aWQ6Ly9TSE9QSUZZL3Rlc3QvZGVmYXVsdC9QUk9EVUNUX1ZBUklBTlQvMDAwMC9lbi1VUw==';
 
 describe('createShopifyCartClient', () => {
   afterEach(() => {
@@ -201,8 +203,7 @@ describe('createShopifyCartClient', () => {
         {
           quantity: 2,
           id: updatedCart.cart.lines.nodes[0].id,
-          nacelleEntryId: updatedCart.cart.lines.nodes[0].attributes[0]
-            .value as string
+          nacelleEntryId: defaultEntryId
         }
       ]
     });
@@ -632,8 +633,7 @@ describe('createShopifyCartClient', () => {
         {
           quantity: 2,
           id: updatedCart.cart.lines.nodes[0].id,
-          nacelleEntryId: updatedCart.cart.lines.nodes[0].attributes[0]
-            .value as string
+          nacelleEntryId: defaultEntryId
         }
       ]
     });

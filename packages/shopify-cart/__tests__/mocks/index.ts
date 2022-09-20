@@ -134,7 +134,7 @@ export const cartLine: CartLine = {
   },
   discountAllocations: [],
   merchandise: {
-    sourceEntryId: 'gid://shopify/ProductVariant/33894120718471',
+    sourceEntryId: 'gid://shopify/ProductVariant/0000',
     availableForSale: true,
     compareAtPriceV2: {
       currencyCode: 'USD',

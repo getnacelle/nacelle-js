@@ -67,7 +67,9 @@ describe('fetch cart', () => {
     expect(mockedFormatCartResponse).toHaveBeenCalledWith({
       cart: responses.queries.cart.data?.cart,
       userErrors: null,
-      errors: undefined
+      errors: undefined,
+      shopifyShopId: defaultShopId,
+      locale: defaultLocale
     });
   });
 

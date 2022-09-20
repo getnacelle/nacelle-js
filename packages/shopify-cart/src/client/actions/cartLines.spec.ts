@@ -20,8 +20,8 @@ import {
 import { CountryCode, LanguageCode } from '../../types/shopify.type';
 import type {
   CartLineAddMutation,
-  CartLineUpdateMutation,
-  CartLineRemoveMutation
+  CartLineRemoveMutation,
+  CartLineUpdateMutation
 } from '../../types/shopify.type';
 
 jest.mock('cross-fetch');
@@ -200,8 +200,7 @@ describe('cartLinesUpdate', () => {
         lines: [
           {
             id: cartWithLineResponse.cart.lines.nodes[0].id,
-            nacelleEntryId: cartWithLineResponse.cart.lines.nodes[0]
-              .attributes[0].value as string,
+            nacelleEntryId: defaultEntryId,
             quantity: 2
           }
         ],
