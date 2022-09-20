@@ -150,7 +150,7 @@ export const actions = {
         lines: [
           {
             nacelleEntryId: payload.nacelleEntryId,
-            quantity: 1
+            quantity: payload.quantity || 1
           }
         ]
       });
@@ -163,17 +163,17 @@ export const actions = {
       commit('setErrors', { userErrors, errors });
     } else {
       const items = [...state.lineItems];
-
+      const quantity = state.lineItems[index].quantity + payload.quantity;
       items.splice(index, 1, {
         ...state.lineItems[index],
-        quantity: state.lineItems[index].quantity + payload.quantity
+        quantity
       });
       commit('setOptimisticCart', { lines: items });
 
       await dispatch('updateItemQuantity', {
         cartLineId: state.lineItems[index].cartLineId,
         nacelleEntryId: state.lineItems[index].nacelleEntryId,
-        quantity: state.lineItems[index].quantity
+        quantity
       });
     }
   },
