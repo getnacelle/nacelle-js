@@ -184,7 +184,7 @@ const { cart, userErrors, errors } = await cartClient.cartBuyerIdentityUpdate({
 
 _Creates a new Shopify cart._
 
-**Accepts**: params - an optional object containing the following optional values: `attributes` (`array`), `buyerIdentity` (`object`), `discountCodes` (`array`), `lines` (`array`), `note` (`string`). To initialize an empty cart, exclude all parameters. For more information on the cart optional values, checkout Shopify's [`CartInput`][shopify-cart-input]
+**Accepts**: params - an optional object containing the following optional values: `attributes` (`array`), `buyerIdentity` (`object`), `discountCodes` (`array`), `lines` (`array`), `note` (`string`). To initialize an empty cart, exclude all parameters. For more information on the cart optional values, checkout Shopify's [`CartInput`][shopify-cart-input].Note that the `lines` parameter differs from Shopify [`CartLineInput`][shopify-cart-line-input] in that it expects the variant's `nacelleEntryId` instead of a Shopify `merchandiseId`.
 
 ##### Example
 
@@ -192,7 +192,7 @@ _Creates a new Shopify cart._
 const { cart, userErrors, errors } = await cartClient.cartCreate({
   lines: [
     {
-      merchandiseId: 'gid://shopify/ProductVariant/33894120718471',
+      nacelleEntryId: '<nacelle-entry-id>',
       quantity: 1
     }
   ],
@@ -220,7 +220,7 @@ const { cart, userErrors, errors } = await cartClient.cartDiscountCodesUpdate({
 
 _Adds lines to an existing Shopify cart._
 
-**Accepts**: params - an object containing the `cartId` (`string`) of interest, and the `lines` (`array`) to add. For more information on the cart `lines`, checkout Shopify's [`CartLineInput`][shopify-cart-line-input]
+**Accepts**: params - an object containing the `cartId` (`string`) of interest, and the `lines` (`array`) to add. For more information on the cart `lines`, checkout Shopify's [`CartLineInput`][shopify-cart-line-input]. Note that the `lines` parameter differs from Shopify [`CartLineInput`][shopify-cart-line-input] in that it expects the variant's `nacelleEntryId` instead of a Shopify `merchandiseId`.
 
 ##### Example
 
@@ -229,7 +229,7 @@ const { cart, userErrors, errors } = await cartClient.cartLinesAdd({
   cartId: 'gid://shopify/Cart/112233',
   lines: [
     {
-      merchandiseId: 'gid://shopify/ProductVariant/33894120718471',
+      nacelleEntryId: '<nacelle-entry-id>',
       quantity: 1
     }
   ]
@@ -257,16 +257,17 @@ const { cart, userErrors, errors } = await cartClient.cartLinesRemove({
 
 _Updates lines on an existing Shopify cart._
 
-**Accepts**: params - an object containing the `cartId` (`string`) of interest, and the `lines` (`array`) to update. For more information on the cart `lines`, checkout Shopify's [`CartLineUpdateInput`][shopify-cart-line-update-input]
+**Accepts**: params - an object containing the `cartId` (`string`) of interest, and the `lines` (`array`) to update. For more information on the cart `lines`, checkout Shopify's [`CartLineUpdateInput`][shopify-cart-line-update-input]. Note that the `lines` parameter differs from Shopify [`CartLineInput`][shopify-cart-line-input] in that it expects the variant's `nacelleEntryId` instead of a Shopify `merchandiseId`.
 
 ##### Example
 
 ```js
-const { cart, userErrors, errors } = await cartClient.cartLinesAdd({
+const { cart, userErrors, errors } = await cartClient.cartLinesUpdate({
   cartId: 'gid://shopify/Cart/112233',
   lines: [
     {
-      id: 'gid://shopify/CartLine/e543caf96fa645b54d07ab2035ef9dba?cart=a7aad2fb1e6611422c946f6827710550',
+      id: 'gid://shopify/CartLine/e543caf96fa645b54d07ab2035ef9dba?cart=a7aad2fb1e6611422c946f6827710550'
+      nacelleEntryId: '<nacelle-entry-id>',
       quantity: 3
     }
   ]
