@@ -5,39 +5,42 @@
       <ul class="cart__items">
         <li
           v-for="lineItem in cart.lineItems"
-          :key="lineItem.id"
+          :key="lineItem.variantId"
           class="cart__item"
         >
           <div class="cart__item-media">
             <nuxt-img
-              v-if="lineItem.variant.featuredMedia"
-              :src="lineItem.variant.featuredMedia.thumbnailSrc"
-              :alt="lineItem.variant.featuredMedia.altText"
+              v-if="lineItem.featuredMedia"
+              :src="lineItem.featuredMedia.thumbnailSrc"
+              :alt="lineItem.featuredMedia.altText"
               class="cart__item-image"
             />
           </div>
           <div class="cart__item-main">
             <h2 class="cart__item-title">
-              {{ lineItem.variant.productTitle }}
+              {{ lineItem.title }}
             </h2>
-            <p class="cart__item-subtitle">{{ lineItem.variant.title }}</p>
-            <p class="cart__item-price">${{ lineItem.variant.price }}</p>
+            <p class="cart__item-subtitle">{{ lineItem.title }}</p>
+            <p class="cart__item-price">${{ lineItem.price }}</p>
             <p class="cart__item-quantity">
               <strong>Quantity:</strong> {{ lineItem.quantity }}
             </p>
             <button
               class="cart__item-action"
-              @click="decrementItem(lineItem.id)"
+              @click="decrementItem(lineItem.cartLineId)"
             >
               -
             </button>
             <button
               class="cart__item-action"
-              @click="incrementItem(lineItem.id)"
+              @click="incrementItem(lineItem.cartLineId)"
             >
               +
             </button>
-            <button class="cart__item-action" @click="removeItem(lineItem.id)">
+            <button
+              class="cart__item-action"
+              @click="removeItem(lineItem.cartLineId)"
+            >
               Remove
             </button>
           </div>
@@ -47,7 +50,7 @@
         <strong>Subtotal:</strong> ${{ cartSubtotal }}
       </p>
       <button class="cart__action" @click="clearCart">Clear Cart</button>
-      <button class="cart__action" @click="processCheckout">
+      <button class="cart__action" @click="checkout">
         Proceed To Checkout
       </button>
     </div>
@@ -56,7 +59,7 @@
 </template>
 
 <script>
-import { mapState, mapGetters, mapMutations, mapActions } from 'vuex';
+import { mapState, mapGetters, mapActions } from 'vuex';
 
 export default {
   name: 'CartPage',
@@ -65,13 +68,13 @@ export default {
     ...mapGetters('cart', ['cartCount', 'cartSubtotal'])
   },
   methods: {
-    ...mapMutations('cart', [
+    ...mapActions('cart', [
+      'checkout',
       'removeItem',
       'incrementItem',
       'decrementItem',
       'clearCart'
-    ]),
-    ...mapActions('checkout', ['processCheckout'])
+    ])
   }
 };
 </script>
@@ -83,6 +86,7 @@ export default {
 }
 .cart__item-image {
   margin-right: 10px;
+  max-height: 200px;
 }
 .cart__item-title {
   margin: 0 0 10px;

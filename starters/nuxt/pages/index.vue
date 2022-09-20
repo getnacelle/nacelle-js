@@ -16,7 +16,10 @@
 
 <script>
 export default {
-  name: 'HomePage'
+  name: 'HomePage',
+  created() {
+    console.log('HELLO2', this.$cartClient);
+  }
 };
 </script>
 

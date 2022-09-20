@@ -62,7 +62,7 @@
 </template>
 
 <script>
-import { mapMutations } from 'vuex';
+import { mapActions } from 'vuex';
 import { v4 as uuid } from 'uuid';
 import { getSelectedVariant } from '~/utils/getSelectedVariant';
 import { getCartVariant } from '~/utils/getCartVariant';
@@ -105,7 +105,7 @@ export default {
     this.selectedOptions = [...this.selectedVariant?.content?.selectedOptions];
   },
   methods: {
-    ...mapMutations('cart', ['addItem']),
+    ...mapActions('cart', ['addItem']),
     handleOptionChange($event, option) {
       const newOption = { name: option.name, value: $event.target.value };
       const optionIndex = this.selectedOptions.findIndex((selectedOption) => {
@@ -127,7 +127,7 @@ export default {
       });
       if (variant) {
         this.addItem({
-          variant,
+          ...variant,
           quantity: this.quantity
         });
       }
