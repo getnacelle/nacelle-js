@@ -6543,7 +6543,7 @@ export type Cart_ExtendCartFragment = { __typename?: 'Cart', id: string };
 
 export type CartLine_ExtendCartLineFragment = { __typename?: 'CartLine', id: string };
 
-export type Merchandise_MerchandiseFragment = { __typename?: 'ProductVariant', availableForSale: boolean, requiresShipping: boolean, title: string, sourceEntryId: string, compareAtPriceV2?: { __typename?: 'MoneyV2', currencyCode: CurrencyCode, amount: any } | null, priceV2: { __typename?: 'MoneyV2', currencyCode: CurrencyCode, amount: any }, image?: { __typename?: 'Image', id?: string | null, url: any, altText?: string | null, width?: number | null, height?: number | null } | null, product: { __typename?: 'Product', handle: string, onlineStoreUrl?: any | null, tags: Array<string>, title: string, vendor: string }, selectedOptions: Array<{ __typename?: 'SelectedOption', name: string, value: string }> };
+export type Merchandise_MerchandiseFragment = { __typename?: 'ProductVariant', availableForSale: boolean, requiresShipping: boolean, title: string, compareAtPriceV2?: { __typename?: 'MoneyV2', currencyCode: CurrencyCode, amount: any } | null, priceV2: { __typename?: 'MoneyV2', currencyCode: CurrencyCode, amount: any }, image?: { __typename?: 'Image', id?: string | null, url: any, altText?: string | null, width?: number | null, height?: number | null } | null, product: { __typename?: 'Product', handle: string, onlineStoreUrl?: any | null, tags: Array<string>, title: string, vendor: string }, selectedOptions: Array<{ __typename?: 'SelectedOption', name: string, value: string }> };
 
 export type Money_MoneyFragment = { __typename?: 'MoneyV2', currencyCode: CurrencyCode, amount: any };
 
