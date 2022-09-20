@@ -231,6 +231,7 @@ const { cart, userErrors, errors } = await cartClient.cartLinesAdd({
   cartId: 'gid://shopify/Cart/112233',
   lines: [
     {
+      cartLineId: 'gid://shopify/CartLine/e543caf96fa645b54d07ab2035ef9dba?cart=a7aad2fb1e6611422c946f6827710550'
       nacelleEntryId: '<nacelle-entry-id>',
       quantity: 3
     }
