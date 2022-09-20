@@ -160,6 +160,7 @@ export interface CartClient {
    * Update the editable global config values used to make requests to Shopify.
    * @param {string} language - Shopify Language Code
    * @param {string} country - Shopify Country Code
+   * @param {string} locale - Nacelle Locale
    */
   setConfig: SetConfig;
 
