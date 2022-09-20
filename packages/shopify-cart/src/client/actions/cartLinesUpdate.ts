@@ -4,7 +4,7 @@ import {
   transformNacelleLineItemToShopifyLineItem,
   depaginateLines
 } from '../../utils';
-import type { MutationFragments } from '../../graphql/mutations';
+import type { CustomFragments } from '../../graphql/fragments';
 import type {
   CartResponse,
   CartFragmentResponse,
@@ -22,8 +22,8 @@ export interface CartLinesUpdateParams {
   cartId: string;
   gqlClient: GqlClient;
   lines: Array<NacelleCartLineItemUpdateInput>;
-  customFragments?: MutationFragments;
   shopifyShopId: string;
+  customFragments?: CustomFragments;
   language: LanguageCode;
   country: CountryCode;
   locale: string;

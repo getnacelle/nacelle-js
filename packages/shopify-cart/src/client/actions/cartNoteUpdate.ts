@@ -6,7 +6,7 @@ import type {
   LanguageCode,
   CountryCode
 } from '../../types/shopify.type';
-import type { MutationFragments } from '../../graphql/mutations';
+import type { CustomFragments } from '../../graphql/fragments';
 import type { CartResponse, CartFragmentResponse } from '../../types/cart.type';
 import type { GqlClient } from '../../cart-client.types';
 
@@ -14,8 +14,8 @@ export interface UpdateCartNoteParams {
   cartId: string;
   gqlClient: GqlClient;
   note: string;
-  customFragments?: MutationFragments;
   shopifyShopId: string;
+  customFragments?: CustomFragments;
   language: LanguageCode;
   country: CountryCode;
   locale: string;

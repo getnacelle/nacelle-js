@@ -1,7 +1,7 @@
 import mutations from '../../graphql/mutations';
 import { formatCartResponse, depaginateLines } from '../../utils';
 import type { CartResponse, CartFragmentResponse } from '../../types/cart.type';
-import type { MutationFragments } from '../../graphql/mutations';
+import type { CustomFragments } from '../../graphql/fragments';
 import type {
   CartDiscountCodesUpdatePayload,
   CartDiscountCodesUpdateMutationVariables,
@@ -13,7 +13,7 @@ import type { GqlClient } from '../../cart-client.types';
 export interface CreateDiscountCodesUpdateParams {
   cartId: string;
   gqlClient: GqlClient;
-  customFragments?: MutationFragments;
+  customFragments?: CustomFragments;
   discountCodes?: string[];
   shopifyShopId: string;
   language: LanguageCode;

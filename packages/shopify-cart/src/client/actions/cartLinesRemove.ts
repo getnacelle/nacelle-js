@@ -1,6 +1,6 @@
 import mutations from '../../graphql/mutations';
 import { formatCartResponse, depaginateLines } from '../../utils';
-import type { MutationFragments } from '../../graphql/mutations';
+import type { CustomFragments } from '../../graphql/fragments';
 import type { CartResponse, CartFragmentResponse } from '../../types/cart.type';
 import {
   CartLinesRemovePayload,
@@ -14,8 +14,8 @@ export interface CartLinesRemoveParams {
   gqlClient: GqlClient;
   cartId: string;
   lineIds: Array<string>;
-  customFragments?: MutationFragments;
   shopifyShopId: string;
+  customFragments?: CustomFragments;
   language: LanguageCode;
   country: CountryCode;
   locale: string;

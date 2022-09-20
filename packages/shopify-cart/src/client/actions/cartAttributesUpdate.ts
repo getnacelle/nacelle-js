@@ -9,14 +9,14 @@ import type {
 } from '../../types/shopify.type';
 import type { GqlClient } from '../../cart-client.types';
 import type { CartResponse, CartFragmentResponse } from '../../types/cart.type';
-import type { MutationFragments } from '../../graphql/mutations';
+import type { CustomFragments } from '../../graphql/fragments';
 
 export interface UpdateCartAttributesParams {
   attributes: AttributeInput[];
   cartId: string;
   gqlClient: GqlClient;
   shopifyShopId: string;
-  customFragments?: MutationFragments;
+  customFragments?: CustomFragments;
   language: LanguageCode;
   country: CountryCode;
   locale: string;

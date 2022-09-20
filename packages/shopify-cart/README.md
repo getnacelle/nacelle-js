@@ -87,6 +87,41 @@ Every method on the `cartClient` returns an object with the following keys.
 2. `userErrors` - an array of Shopify [`CartUserError`][shopify-cart-user-error] objects.
 3. `errors` - an array of top-level Shopify [API Errors][shopify-api-error]
 
+### Types
+
+For projects using typescript, types are exported along with the client & client methods.
+
+#### Available types:
+
+1. `NacelleCartInput` - `cartCreate` params
+2. `NacelleCartLineItemInput` - `cartLinesAdd` params
+3. `NacelleCartLineItemUpdateInput` - `cartLinesUpdate` params
+4. `AttributeInput` - `cartAttributesUpdate` params
+5. `CartBuyerIdentityInput` - `cartBuyerIdentityUpdate` params
+6. `Cart` - Shopify cart object
+7. `ShopifyError` - Shopify error response
+8. `CartResponse` - response on cart requests
+9. `CartUserError` - Shopify user error response on cart requests
+
+#### Example
+
+```js
+import createShopifyCartClient from '@nacelle/shopify-cart';
+import type { NacelleCartInput, CartResponse } from '@nacelle/shopify-cart';
+
+const cartClient = createShopifyCartClient({
+  shopifyShopId: '<your-shop-id>',
+  shopifyStorefrontAccessToken: '<your-shopify-storefront-api-access-token>'
+});
+const lines: NacelleCartInput[] = [
+  {
+    quantity: 1,
+    nacelleEntryId: '<nacelle-entry-id>'
+  }
+];
+const response: CartResponse = await cartClient.cartCreate({ lines });
+```
+
 ## Cart client API
 
 The cart client exposes the following methods:
