@@ -76,10 +76,10 @@ type CartNoteUpdate = (params: {
   note: string;
 }) => Promise<CartResponse | void>;
 
-type CartClientConfig = Omit<
-  CreateClientParams,
-  'fetchClient' | 'customFragments'
->;
+type CartClientConfig = {
+  language: LanguageCode;
+  country: CountryCode;
+};
 
 type SetConfig = (configParams: {
   language?: LanguageCode;
@@ -162,7 +162,7 @@ export interface CartClient {
   setConfig: SetConfig;
 
   /**
-   * Retrieve the config info used to make requests to Shopify.
+   * Retrieve the language and country info used to make requests to Shopify.
    * To edit values, use setConfig
    * @returns {object} Cart Client Config
    */
@@ -193,9 +193,6 @@ export default function createShopifyCartClient({
   });
   const sanitizedCustomFragments = sanitizeFragments(customFragments);
   const config = {
-    shopifyShopId,
-    shopifyStorefrontAccessToken,
-    shopifyCustomEndpoint,
     language,
     country
   };

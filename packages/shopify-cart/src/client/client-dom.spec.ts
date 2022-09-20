@@ -512,14 +512,13 @@ describe('createShopifyCartClient', () => {
     );
   });
 
-  it('returns the config options passed in when you call getConfig', () => {
+  it('returns the editable config options passed in when you call getConfig', () => {
     const cartClientWithNonDefaultCountryAndLanguage = createShopifyCartClient({
       ...clientSettings,
       country: 'CA',
       language: 'FR'
     });
     expect(cartClientWithNonDefaultCountryAndLanguage.getConfig()).toEqual({
-      ...clientSettings,
       country: 'CA',
       language: 'FR'
     });
@@ -527,7 +526,6 @@ describe('createShopifyCartClient', () => {
       ...clientSettings
     });
     expect(cartClientWithDefaultLanguageAndCountry.getConfig()).toEqual({
-      ...clientSettings,
       country: defaultCountry,
       language: defaultLanguage
     });
@@ -536,7 +534,6 @@ describe('createShopifyCartClient', () => {
     const cartClient = createShopifyCartClient({ ...clientSettings });
     cartClient.setConfig({ language: 'FR' });
     expect(cartClient.getConfig()).toEqual({
-      ...clientSettings,
       country: defaultCountry,
       language: 'FR'
     });
@@ -545,7 +542,6 @@ describe('createShopifyCartClient', () => {
     const cartClient = createShopifyCartClient({ ...clientSettings });
     cartClient.setConfig({ country: 'CA' });
     expect(cartClient.getConfig()).toEqual({
-      ...clientSettings,
       language: defaultLanguage,
       country: 'CA'
     });
