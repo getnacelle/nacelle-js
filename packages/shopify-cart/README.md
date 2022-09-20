@@ -106,10 +106,8 @@ For projects using typescript, types are exported along with the client & client
 #### Example
 
 ```js
-import createShopifyCartClient, {
-  NacelleCartInput,
-  CartResponse
-} from '@nacelle/shopify-cart';
+import createShopifyCartClient from '@nacelle/shopify-cart';
+import type { NacelleCartInput, CartResponse } from '@nacelle/shopify-cart';
 
 const cartClient = createShopifyCartClient({
   shopifyShopId: '<your-shop-id>',
