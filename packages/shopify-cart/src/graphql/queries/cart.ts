@@ -1,7 +1,9 @@
 import defaultFragments from '../fragments';
-import type { CartFragments } from '../fragments/cart';
+import type { CustomFragments } from '../fragments';
 
-export default (customFragments: CartFragments = {}): string => /* GraphQL */ `
+export default (
+  customFragments: CustomFragments = {}
+): string => /* GraphQL */ `
   query Cart(
     $id: ID!
     $numCartLines: Int = 250

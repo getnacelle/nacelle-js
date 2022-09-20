@@ -1,7 +1,7 @@
 import mutations from '../../graphql/mutations';
 import { formatCartResponse, depaginateLines } from '../../utils';
 import type { CartResponse, CartFragmentResponse } from '../../types/cart.type';
-import type { MutationFragments } from '../../graphql/mutations';
+import type { CustomFragments } from '../../graphql/fragments';
 import type {
   CartBuyerIdentityInput,
   CartBuyerIdentityUpdatePayload,
@@ -15,7 +15,7 @@ export interface CartBuyerIdentityUpdateParams {
   gqlClient: GqlClient;
   cartId: string;
   buyerIdentity: CartBuyerIdentityInput;
-  customFragments?: MutationFragments;
+  customFragments?: CustomFragments;
   language: LanguageCode;
   country: CountryCode;
 }
