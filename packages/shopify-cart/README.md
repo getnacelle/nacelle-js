@@ -149,7 +149,7 @@ const { cart, userErrors, errors } = await cartClient.cartBuyerIdentityUpdate({
 
 _Creates a new Shopify cart._
 
-**Accepts**: params - an optional object containing the following optional values: `attributes` (`array`), `buyerIdentity` (`object`), `discountCodes` (`array`), `lines` (`array`), `note` (`string`). To initialize an empty cart, exclude all parameters. For more information on the cart optional values, checkout Shopify's [`CartInput`][shopify-cart-input]
+**Accepts**: params - an optional object containing the following optional values: `attributes` (`array`), `buyerIdentity` (`object`), `discountCodes` (`array`), `lines` (`array`), `note` (`string`). To initialize an empty cart, exclude all parameters. For more information on the cart optional values, checkout Shopify's [`CartInput`][shopify-cart-input]. Note that our lines parameter accepts a different value than Shopify's by accepting `nacelleEntryId`.
 
 ##### Example
 
@@ -185,7 +185,7 @@ const { cart, userErrors, errors } = await cartClient.cartDiscountCodesUpdate({
 
 _Adds lines to an existing Shopify cart._
 
-**Accepts**: params - an object containing the `cartId` (`string`) of interest, and the `lines` (`array`) to add. For more information on the cart `lines`, checkout Shopify's [`CartLineInput`][shopify-cart-line-input]
+**Accepts**: params - an object containing the `cartId` (`string`) of interest, and the `lines` (`array`) to add. For more information on the cart `lines`, checkout Shopify's [`CartLineInput`][shopify-cart-line-input]. Note that our lines parameter accepts a different value than Shopify's by accepting `nacelleEntryId`.
 
 ##### Example
 
@@ -222,12 +222,12 @@ const { cart, userErrors, errors } = await cartClient.cartLinesRemove({
 
 _Updates lines on an existing Shopify cart._
 
-**Accepts**: params - an object containing the `cartId` (`string`) of interest, and the `lines` (`array`) to update. For more information on the cart `lines`, checkout Shopify's [`CartLineUpdateInput`][shopify-cart-line-update-input]
+**Accepts**: params - an object containing the `cartId` (`string`) of interest, and the `lines` (`array`) to update. For more information on the cart `lines`, checkout Shopify's [`CartLineUpdateInput`][shopify-cart-line-update-input]. Note that our lines parameter accepts a different value than Shopify's by accepting `nacelleEntryId`.
 
 ##### Example
 
 ```js
-const { cart, userErrors, errors } = await cartClient.cartLinesAdd({
+const { cart, userErrors, errors } = await cartClient.cartLinesUpdate({
   cartId: 'gid://shopify/Cart/112233',
   lines: [
     {
