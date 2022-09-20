@@ -73,7 +73,9 @@ describe('cartAttributesUpdate', () => {
       userErrors:
         responses.mutations.cartAttributesUpdate.noAttributes.data
           ?.cartAttributesUpdate?.userErrors,
-      errors: undefined
+      errors: undefined,
+      shopifyShopId: defaultShopId,
+      locale: defaultLocale
     });
   });
 

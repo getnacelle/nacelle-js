@@ -74,7 +74,9 @@ describe('cartDiscountCodesUpdate', () => {
       userErrors:
         responses.mutations.cartDiscountCodesUpdate.withoutCodes.data
           ?.cartDiscountCodesUpdate?.userErrors,
-      errors: undefined
+      errors: undefined,
+      locale: defaultLocale,
+      shopifyShopId: defaultShopId
     });
   });
 

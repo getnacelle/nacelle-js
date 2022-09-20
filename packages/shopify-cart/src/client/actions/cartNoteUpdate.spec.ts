@@ -73,7 +73,9 @@ describe('cartNoteUpdate', () => {
       userErrors:
         responses.mutations.cartNoteUpdate.noNote.data?.cartNoteUpdate
           ?.userErrors,
-      errors: undefined
+      errors: undefined,
+      locale: defaultLocale,
+      shopifyShopId: defaultShopId
     });
   });
 

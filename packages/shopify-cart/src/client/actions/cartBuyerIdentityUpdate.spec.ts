@@ -48,6 +48,7 @@ describe('cartBuyerIdentityUpdate', () => {
       buyerIdentity: {
         email: 'email@email.com'
       },
+      shopifyShopId: defaultShopId,
       language: defaultLanguage,
       country: defaultCountry,
       locale: defaultLocale
@@ -77,7 +78,9 @@ describe('cartBuyerIdentityUpdate', () => {
       userErrors:
         responses.mutations.cartBuyerIdentityUpdate.withoutBuyer.data
           ?.cartBuyerIdentityUpdate?.userErrors,
-      errors: undefined
+      errors: undefined,
+      locale: defaultLocale,
+      shopifyShopId: defaultShopId
     });
   });
 
