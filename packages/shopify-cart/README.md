@@ -305,17 +305,17 @@ _Updates the language and country settings used to make requests to Shopify._
 
 ```js
 // update the language
-cartClient.setConfig({language: "FR"})
+cartClient.setConfig({ language: 'FR' });
 ```
 
 ```js
 // update country
-cartClient.setConfig({country: "CA"})
+cartClient.setConfig({ country: 'CA' });
 ```
 
 ```js
 // update the language & country
-cartClient.setConfig({country: "CA", language: "FR"})
+cartClient.setConfig({ country: 'CA', language: 'FR' });
 ```
 
 <!-- LINKS -->
