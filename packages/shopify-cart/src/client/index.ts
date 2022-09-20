@@ -10,7 +10,6 @@ import {
   cartNoteUpdate
 } from './actions';
 import { createGqlClient, sanitizeFragments } from '../utils';
-import fragments from '../graphql/fragments';
 import type {
   CartResponse,
   NacelleCartInput,
@@ -23,9 +22,7 @@ import type {
   CountryCode,
   LanguageCode
 } from '../types/shopify.type';
-
-export type UserSuppliedFragmentType = Exclude<keyof typeof fragments, 'CART'>;
-export type CustomFragments = Partial<Record<UserSuppliedFragmentType, string>>;
+import type { CustomFragments } from '../graphql/fragments';
 
 export interface CreateClientParams {
   shopifyStorefrontAccessToken: string;

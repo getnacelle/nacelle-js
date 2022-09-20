@@ -24,3 +24,4 @@ export type {
   CountryCode,
   LanguageCode
 } from './types/shopify.type';
+export type { CustomFragmentKey, CustomFragments } from './graphql/fragments';

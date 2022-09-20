@@ -1,7 +1,7 @@
 import queries from '../../graphql/queries';
 import { formatCartResponse, depaginateLines } from '../../utils';
 import type { CartResponse } from '../../types/cart.type';
-import type { CartFragments } from '../../graphql/fragments/cart';
+import type { CustomFragments } from '../../graphql/fragments';
 import type {
   CartQueryVariables,
   Cart_CartFragment,
@@ -14,7 +14,7 @@ import type { ShopifyError } from '../../types/errors.type';
 export interface CartParams {
   cartId: string;
   gqlClient: GqlClient;
-  customFragments?: CartFragments;
+  customFragments?: CustomFragments;
   language: LanguageCode;
   country: CountryCode;
 }

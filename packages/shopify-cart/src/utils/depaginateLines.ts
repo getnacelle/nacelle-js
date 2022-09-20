@@ -5,7 +5,7 @@ import {
   LanguageCode,
   CountryCode
 } from '../types/shopify.type';
-import type { CartFragments } from '../graphql/fragments/cart';
+import type { CustomFragments } from '../graphql/fragments';
 import type { GqlClient } from '../cart-client.types';
 import type { ShopifyCartResponse } from '../client/actions/cart';
 
@@ -17,7 +17,7 @@ export interface PaginateCartLinesQueryArgs extends QueryRootCartArgs {
 
 export interface DepaginateLinesParams {
   cart: Cart_CartFragment | undefined | null;
-  customFragments?: CartFragments;
+  customFragments?: CustomFragments;
   gqlClient: GqlClient;
   language: LanguageCode;
   country: CountryCode;
