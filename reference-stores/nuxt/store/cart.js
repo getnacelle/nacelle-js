@@ -264,6 +264,25 @@ export const actions = {
       }
     }
   },
+  async clearCart({ state, commit }) {
+    const items = [...state.lineItems];
+    commit('setOptimisticCart', { lines: [] });
+    const { cart, userErrors, errors } = await this.$cartClient.cartLinesRemove(
+      {
+        cartId: state.cartId,
+        lineIds: items.map((item) => item.cartLineId)
+      }
+    );
+
+    if (cart) {
+      commit('setCart', {
+        lines: [],
+        checkoutUrl: cart.checkoutUrl
+      });
+    }
+
+    commit('setErrors', { userErrors, errors });
+  },
   checkout({ state, commit }) {
     if (state.cartCheckoutUrl) {
       commit('checkoutProcessing');
