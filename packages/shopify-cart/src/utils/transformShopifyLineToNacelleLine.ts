@@ -1,15 +1,24 @@
 import { CartLine, NacelleCartLine } from '../types/cart.type';
 
-export default function (shopifyLines: CartLine[]): NacelleCartLine[] {
-  return shopifyLines?.map((shopifyLine) => {
-    const transformedLine: CartLine = { ...shopifyLine };
-    const nacelleEntryId = transformedLine.nacelleEntryId?.value as string;
-    delete transformedLine.nacelleEntryId;
+export interface TransformShopifyCartLineParams {
+  lines: CartLine[];
+  shopifyShopId: string;
+  locale: string;
+}
+
+export default function ({
+  lines,
+  shopifyShopId,
+  locale
+}: TransformShopifyCartLineParams): NacelleCartLine[] {
+  return lines?.map((line) => {
     return {
-      ...transformedLine,
+      ...line,
       merchandise: {
-        ...transformedLine.merchandise,
-        nacelleEntryId
+        ...line.merchandise,
+        nacelleEntryId: btoa(
+          `id://SHOPIFY/${shopifyShopId}/default/PRODUCT_VARIANT/${line.merchandise.sourceEntryId}/${locale}`
+        )
       }
     };
   });

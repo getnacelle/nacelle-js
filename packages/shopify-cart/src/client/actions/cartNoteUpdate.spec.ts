@@ -26,6 +26,8 @@ const mockedFetchClient = jest.mocked(fetchClient, true);
 const mockedFormatCartResponse = jest.mocked(formatCartResponse, true);
 const defaultLanguage: LanguageCode = 'EN';
 const defaultCountry: CountryCode = 'ZZ';
+const defaultLocale = 'en-US';
+const defaultShopId = 'shop-id';
 
 describe('cartNoteUpdate', () => {
   afterEach(() => {
@@ -43,8 +45,10 @@ describe('cartNoteUpdate', () => {
       gqlClient,
       cartId,
       note: 'Cart Note',
+      shopifyShopId: defaultShopId,
       language: defaultLanguage,
-      country: defaultCountry
+      country: defaultCountry,
+      locale: defaultLocale
     });
 
     expect(fetchClient).toHaveBeenCalledTimes(1);
@@ -86,8 +90,10 @@ describe('cartNoteUpdate', () => {
         gqlClient,
         cartId,
         note: 'Cart Note',
+        shopifyShopId: defaultShopId,
         language: defaultLanguage,
-        country: defaultCountry
+        country: defaultCountry,
+        locale: defaultLocale
       })
     ).rejects.toThrow(networkErrorMessage);
   });

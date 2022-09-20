@@ -26,6 +26,8 @@ const mockedFetchClient = jest.mocked(fetchClient, true);
 const mockedFormatCartResponse = jest.mocked(formatCartResponse, true);
 const defaultLanguage: LanguageCode = 'EN';
 const defaultCountry: CountryCode = 'ZZ';
+const defaultLocale = 'en-US';
+const defaultShopId = 'shop-id';
 
 describe('cartAttributesUpdate', () => {
   afterEach(() => {
@@ -44,7 +46,9 @@ describe('cartAttributesUpdate', () => {
       cartId,
       attributes: [{ key: 'testKey', value: 'testValue' }],
       language: defaultLanguage,
-      country: defaultCountry
+      country: defaultCountry,
+      locale: defaultLocale,
+      shopifyShopId: defaultShopId
     });
 
     expect(fetchClient).toHaveBeenCalledTimes(1);
@@ -87,7 +91,9 @@ describe('cartAttributesUpdate', () => {
         cartId,
         attributes: [{ key: 'testKey', value: 'testValue' }],
         language: defaultLanguage,
-        country: defaultCountry
+        country: defaultCountry,
+        locale: defaultLocale,
+        shopifyShopId: defaultShopId
       })
     ).rejects.toThrow(networkErrorMessage);
   });

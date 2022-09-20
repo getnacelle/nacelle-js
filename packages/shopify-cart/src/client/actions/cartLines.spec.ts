@@ -32,6 +32,8 @@ const mockedFetchClient = jest.mocked(fetchClient, true);
 const mockedFormatCartResponse = jest.mocked(formatCartResponse, true);
 const defaultLanguage: LanguageCode = 'EN';
 const defaultCountry: CountryCode = 'ZZ';
+const defaultLocale = 'en-US';
+const defaultShopId = 'shop-id';
 
 describe('cartLinesAdd', () => {
   afterEach(() => {
@@ -53,8 +55,10 @@ describe('cartLinesAdd', () => {
             .value as string
         }
       ],
+      shopifyShopId: defaultShopId,
       language: defaultLanguage,
-      country: defaultCountry
+      country: defaultCountry,
+      locale: defaultLocale
     });
 
     expect(fetchClient).toHaveBeenCalledTimes(1);
@@ -105,8 +109,10 @@ describe('cartLinesAdd', () => {
               .attributes[0].value as string
           }
         ],
+        shopifyShopId: defaultShopId,
         language: defaultLanguage,
-        country: defaultCountry
+        country: defaultCountry,
+        locale: defaultLocale
       })
     ).rejects.toThrow(networkErrorMessage);
   });
@@ -139,8 +145,10 @@ describe('cartLinesUpdate', () => {
           id: updatedCart.cart.lines.nodes[0].id
         }
       ],
+      shopifyShopId: defaultShopId,
       language: defaultLanguage,
-      country: defaultCountry
+      country: defaultCountry,
+      locale: defaultLocale
     });
 
     expect(fetchClient).toHaveBeenCalledTimes(1);
@@ -194,8 +202,10 @@ describe('cartLinesUpdate', () => {
             quantity: 2
           }
         ],
+        shopifyShopId: defaultShopId,
         language: defaultLanguage,
-        country: defaultCountry
+        country: defaultCountry,
+        locale: defaultLocale
       })
     ).rejects.toThrow(networkErrorMessage);
   });
@@ -218,8 +228,10 @@ describe('cartLinesRemove', () => {
       gqlClient,
       cartId,
       lineIds: [cartWithLineResponse.cart.lines.nodes[0].id],
+      shopifyShopId: defaultShopId,
       language: defaultLanguage,
-      country: defaultCountry
+      country: defaultCountry,
+      locale: defaultLocale
     });
 
     expect(fetchClient).toHaveBeenCalledTimes(1);
@@ -259,8 +271,10 @@ describe('cartLinesRemove', () => {
         gqlClient,
         cartId,
         lineIds: [cartWithLineResponse.cart.lines.nodes[0].id],
+        shopifyShopId: defaultShopId,
         language: defaultLanguage,
-        country: defaultCountry
+        country: defaultCountry,
+        locale: defaultLocale
       })
     ).rejects.toThrow(networkErrorMessage);
   });

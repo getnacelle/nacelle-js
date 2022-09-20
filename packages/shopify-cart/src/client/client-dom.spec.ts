@@ -27,6 +27,7 @@ import type {
 
 const defaultLanguage: LanguageCode = 'EN';
 const defaultCountry: CountryCode = 'ZZ';
+const defaultLocale = 'en-US';
 
 describe('createShopifyCartClient', () => {
   afterEach(() => {
@@ -516,12 +517,14 @@ describe('createShopifyCartClient', () => {
     const cartClientWithNonDefaultCountryAndLanguage = createShopifyCartClient({
       ...clientSettings,
       country: 'CA',
-      language: 'FR'
+      language: 'FR',
+      locale: 'en-US'
     });
     expect(cartClientWithNonDefaultCountryAndLanguage.getConfig()).toEqual({
       ...clientSettings,
       country: 'CA',
-      language: 'FR'
+      language: 'FR',
+      locale: 'en-US'
     });
     const cartClientWithDefaultLanguageAndCountry = createShopifyCartClient({
       ...clientSettings
@@ -529,7 +532,8 @@ describe('createShopifyCartClient', () => {
     expect(cartClientWithDefaultLanguageAndCountry.getConfig()).toEqual({
       ...clientSettings,
       country: defaultCountry,
-      language: defaultLanguage
+      language: defaultLanguage,
+      locale: defaultLocale
     });
   });
   it('updates the language setting in the config if you set a new language with setConfig', () => {
@@ -538,7 +542,8 @@ describe('createShopifyCartClient', () => {
     expect(cartClient.getConfig()).toEqual({
       ...clientSettings,
       country: defaultCountry,
-      language: 'FR'
+      language: 'FR',
+      locale: 'en-US'
     });
   });
   it('updates the country setting in the config if you set a new language with setConfig', () => {
@@ -547,7 +552,8 @@ describe('createShopifyCartClient', () => {
     expect(cartClient.getConfig()).toEqual({
       ...clientSettings,
       language: defaultLanguage,
-      country: 'CA'
+      country: 'CA',
+      locale: 'en-US'
     });
   });
   it('uses the updated settings in the cart request if you update the config with setConfig', async () => {

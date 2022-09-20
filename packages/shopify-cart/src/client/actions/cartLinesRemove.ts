@@ -15,8 +15,10 @@ export interface CartLinesRemoveParams {
   cartId: string;
   lineIds: Array<string>;
   customFragments?: MutationFragments;
+  shopifyShopId: string;
   language: LanguageCode;
   country: CountryCode;
+  locale: string;
 }
 
 export type CartLinesRemoveResponse = CartLinesRemovePayload &
@@ -31,8 +33,10 @@ export default async function cartLinesRemove({
   customFragments,
   gqlClient,
   lineIds,
+  shopifyShopId,
   language,
-  country
+  country,
+  locale
 }: CartLinesRemoveParams): Promise<void | CartResponse> {
   try {
     const shopifyResponse = await gqlClient<
@@ -56,7 +60,9 @@ export default async function cartLinesRemove({
     return formatCartResponse({
       cart,
       userErrors: shopifyResponse.data?.cartLinesRemove.userErrors,
-      errors: shopifyResponse.errors
+      errors: shopifyResponse.errors,
+      shopifyShopId,
+      locale
     });
   } catch (err) {
     throw new Error(String(err));
