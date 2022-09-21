@@ -121,7 +121,6 @@ export default {
       this.selectedVariant = variant ? { ...variant } : null;
     },
     handleAddItem() {
-      console.log('A', this.quantity);
       const variant = getCartVariant({
         product: this.product,
         variant: this.selectedVariant
