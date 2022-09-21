@@ -215,6 +215,7 @@ export const actions = {
         ]
       }
     );
+    console.log('UPDATE', { cart, userErrors, errors });
 
     if (cart) {
       commit('setCart', {
@@ -223,6 +224,16 @@ export const actions = {
       });
     }
     commit('setErrors', { userErrors, errors });
+    const line = cart.lines.find((line) => line.id === payload.cartLineId);
+    if (line && line.quantity !== payload.quantity) {
+      commit('setErrors', {
+        errors: [
+          {
+            message: `Sorry! More ${line.merchandise.product.title} (${line.merchandise.title})  cannot be added to your cart`
+          }
+        ]
+      });
+    }
   },
   async incrementItem({ state, commit, dispatch }, payload) {
     const index = state.lineItems.findIndex(
