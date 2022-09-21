@@ -8,6 +8,7 @@
           :key="lineItem.variantId"
           class="cart__item"
         >
+          <pre>{{ JSON.stringify(lineItem, null, 2) }}</pre>
           <div class="cart__item-media">
             <nuxt-img
               v-if="lineItem.featuredMedia"
@@ -18,9 +19,9 @@
           </div>
           <div class="cart__item-main">
             <h2 class="cart__item-title">
-              {{ lineItem.title }}
+              {{ lineItem.productTitle }}
             </h2>
-            <p class="cart__item-subtitle">{{ lineItem.title }}</p>
+            <p class="cart__item-subtitle">{{ lineItem.productTitle }}</p>
             <p class="cart__item-price">${{ lineItem.price }}</p>
             <p class="cart__item-quantity">
               <strong>Quantity:</strong> {{ lineItem.quantity }}

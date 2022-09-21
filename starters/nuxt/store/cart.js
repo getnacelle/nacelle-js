@@ -209,7 +209,7 @@ export const actions = {
         lines: [
           {
             id: payload.cartLineId,
-            nacelleEntryId: payload.nacelleEntryId,
+            nacelleEntryId: payload.nacelleEntryId || null,
             quantity: payload.quantity
           }
         ]
@@ -237,7 +237,6 @@ export const actions = {
       commit('setOptimisticCart', { lines: items });
       await dispatch('updateItemQuantity', {
         cartLineId: state.lineItems[index].cartLineId,
-        nacelleEntryId: state.lineItems[index].nacelleEntryId,
         quantity: state.lineItems[index].quantity
       });
     }
@@ -258,7 +257,6 @@ export const actions = {
         commit('setOptimisticCart', { lines: items });
         await dispatch('updateItemQuantity', {
           cartLineId: state.lineItems[index].cartLineId,
-          nacelleEntryId: state.lineItems[index].nacelleEntryId,
           quantity: state.lineItems[index].quantity
         });
       }
