@@ -10,7 +10,6 @@ import {
   cartNoteUpdate
 } from './actions';
 import { createGqlClient, sanitizeFragments } from '../utils';
-import fragments from '../graphql/fragments';
 import type {
   CartResponse,
   NacelleCartInput,
@@ -23,9 +22,7 @@ import type {
   CountryCode,
   LanguageCode
 } from '../types/shopify.type';
-
-export type UserSuppliedFragmentType = Exclude<keyof typeof fragments, 'CART'>;
-export type CustomFragments = Partial<Record<UserSuppliedFragmentType, string>>;
+import type { CustomFragments } from '../graphql/fragments';
 
 export interface CreateClientParams {
   shopifyStorefrontAccessToken: string;
@@ -75,6 +72,18 @@ type CartNoteUpdate = (params: {
   cartId: string;
   note: string;
 }) => Promise<CartResponse | void>;
+
+type CartClientConfig = {
+  language: LanguageCode;
+  country: CountryCode;
+};
+
+type SetConfig = (configParams: {
+  language?: LanguageCode;
+  country?: CountryCode;
+}) => void;
+
+type GetConfig = () => CartClientConfig;
 
 export interface CartClient {
   /**
@@ -141,6 +150,20 @@ export interface CartClient {
    * @returns {object} Shopify cart object
    */
   cartNoteUpdate: CartNoteUpdate;
+
+  /**
+   * Update the editable global config values used to make requests to Shopify.
+   * @param {string} language - Shopify Language Code
+   * @param {string} country - Shopify Country Code
+   */
+  setConfig: SetConfig;
+
+  /**
+   * Retrieve the language and country info used to make requests to Shopify.
+   * To edit values, use setConfig
+   * @returns {object} Cart Client Config
+   */
+  getConfig: GetConfig;
 }
 
 /**
@@ -166,13 +189,17 @@ export default function createShopifyCartClient({
     fetchClient
   });
   const sanitizedCustomFragments = sanitizeFragments(customFragments);
+  const config = {
+    language,
+    country
+  };
   return {
     cart: (params: { cartId: string }): Promise<CartResponse | void> =>
       cart({
         customFragments,
         gqlClient,
-        language,
-        country,
+        language: config.language,
+        country: config.country,
         ...params
       }),
     cartAttributesUpdate: (params: {
@@ -182,8 +209,8 @@ export default function createShopifyCartClient({
       cartAttributesUpdate({
         customFragments: sanitizedCustomFragments,
         gqlClient,
-        language,
-        country,
+        language: config.language,
+        country: config.country,
         ...params
       }),
     cartBuyerIdentityUpdate: (params: {
@@ -193,16 +220,16 @@ export default function createShopifyCartClient({
       cartBuyerIdentityUpdate({
         customFragments: sanitizedCustomFragments,
         gqlClient,
-        language: language,
-        country: country,
+        language: config.language,
+        country: config.country,
         ...params
       }),
     cartCreate: (params: NacelleCartInput): Promise<CartResponse | void> =>
       cartCreate({
         customFragments: sanitizedCustomFragments,
         gqlClient,
-        language,
-        country,
+        language: config.language,
+        country: config.country,
         params
       }),
     cartDiscountCodesUpdate: (params: {
@@ -212,8 +239,8 @@ export default function createShopifyCartClient({
       cartDiscountCodesUpdate({
         customFragments: sanitizedCustomFragments,
         gqlClient,
-        language,
-        country,
+        language: config.language,
+        country: config.country,
         ...params
       }),
     cartLinesAdd: (params: {
@@ -223,8 +250,8 @@ export default function createShopifyCartClient({
       cartLinesAdd({
         customFragments: sanitizedCustomFragments,
         gqlClient,
-        language,
-        country,
+        language: config.language,
+        country: config.country,
         ...params
       }),
     cartLinesUpdate: (params: {
@@ -234,8 +261,8 @@ export default function createShopifyCartClient({
       cartLinesUpdate({
         customFragments,
         gqlClient,
-        language,
-        country,
+        language: config.language,
+        country: config.country,
         ...params
       }),
     cartLinesRemove: (params: {
@@ -245,8 +272,8 @@ export default function createShopifyCartClient({
       cartLinesRemove({
         customFragments: sanitizedCustomFragments,
         gqlClient,
-        language,
-        country,
+        language: config.language,
+        country: config.country,
         ...params
       }),
     cartNoteUpdate: (params: {
@@ -256,9 +283,20 @@ export default function createShopifyCartClient({
       cartNoteUpdate({
         customFragments,
         gqlClient,
-        language,
-        country,
+        language: config.language,
+        country: config.country,
         ...params
-      })
+      }),
+    getConfig: (): CartClientConfig => ({ ...config }),
+    setConfig: ({
+      language,
+      country
+    }: {
+      language?: LanguageCode;
+      country?: CountryCode;
+    }): void => {
+      config.language = language ?? config.language;
+      config.country = country ?? config.country;
+    }
   };
 }
