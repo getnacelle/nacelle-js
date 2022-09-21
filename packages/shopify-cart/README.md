@@ -83,7 +83,7 @@ If you'd like to query for additional fields on the [`Cart`][shopify-cart-object
 
 Every method on the `cartClient` returns an object with the following keys.
 
-1. `cart` - a Shopify [`Cart`][shopify-cart-object] object with the addition of `nacelleEntryIds`
+1. `cart` - a Nacelle-oriented Shopify cart object. The `cart` matches the Shopify [`Cart`][shopify-cart-object] object, with one exception: `cart.lines[idx].merchandise` contains a `nacelleEntryId`, and its `id` is renamed to `sourceEntryId`. This more closely aligns your `cart` data with the commerce data in your Nacelle-powered headless storefront.
 2. `userErrors` - an array of Shopify [`CartUserError`][shopify-cart-user-error] objects.
 3. `errors` - an array of top-level Shopify [API Errors][shopify-api-error]
 
