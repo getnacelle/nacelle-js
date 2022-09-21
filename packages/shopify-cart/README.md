@@ -135,8 +135,10 @@ The cart client exposes the following methods:
 - [`cartLinesRemove`](#cartLinesRemove)
 - [`cartLinesUpdate`](#cartLinesUpdate)
 - [`cartNoteUpdate`](#cartNoteUpdate)
+- [`getConfig`](#getConfig)
+- [`setConfig`](#setConfig)
 
-#### <a id="cart">`cart({ cartId })`</a>
+#### <a id="cart" href="#cart">`cart({ cartId })`</a>
 
 _Retrieves an existing Shopify cart._
 
@@ -150,7 +152,7 @@ const { cart, userErrors, errors } = await cartClient.cart({
 });
 ```
 
-#### <a id="cartAttributesUpdate">`cartAttributesUpdate({ cartId, attributes })`</a>
+#### <a id="cartAttributesUpdate" href="#cartAttributesUpdate">`cartAttributesUpdate({ cartId, attributes })`</a>
 
 _Updates an existing Shopify cart's attributes._
 
@@ -180,11 +182,11 @@ const { cart, userErrors, errors } = await cartClient.cartBuyerIdentityUpdate({
 });
 ```
 
-#### <a id="cartCreate">`cartCreate(cartInput)`</a>
+#### <a id="cartCreate" href="#cartCreate">`cartCreate(cartInput)`</a>
 
 _Creates a new Shopify cart._
 
-**Accepts**: params - an optional object containing the following optional values: `attributes` (`array`), `buyerIdentity` (`object`), `discountCodes` (`array`), `lines` (`array`), `note` (`string`). To initialize an empty cart, exclude all parameters. For more information on the cart optional values, checkout Shopify's [`CartInput`][shopify-cart-input]
+**Accepts**: params - an optional object containing the following optional values: `attributes` (`array`), `buyerIdentity` (`object`), `discountCodes` (`array`), `lines` (`array`), `note` (`string`). To initialize an empty cart, exclude all parameters. For more information on the cart optional values, checkout Shopify's [`CartInput`][shopify-cart-input].Note that the `lines` parameter differs from Shopify [`CartLineInput`][shopify-cart-line-input] in that it expects the variant's `nacelleEntryId` instead of a Shopify `merchandiseId`.
 
 ##### Example
 
@@ -192,7 +194,7 @@ _Creates a new Shopify cart._
 const { cart, userErrors, errors } = await cartClient.cartCreate({
   lines: [
     {
-      merchandiseId: 'gid://shopify/ProductVariant/33894120718471',
+      nacelleEntryId: '<nacelle-entry-id>',
       quantity: 1
     }
   ],
@@ -201,7 +203,7 @@ const { cart, userErrors, errors } = await cartClient.cartCreate({
 });
 ```
 
-#### <a id="cartDiscountCodesUpdate">`cartDiscountCodesUpdate({ cartId, discountCodes })`</a>
+#### <a id="cartDiscountCodesUpdate" href="#cartDiscountCodesUpdate">`cartDiscountCodesUpdate({ cartId, discountCodes })`</a>
 
 _Updates an existing Shopify cart's discount codes._
 
@@ -216,11 +218,11 @@ const { cart, userErrors, errors } = await cartClient.cartDiscountCodesUpdate({
 });
 ```
 
-#### <a id="cartLinesAdd">`cartLinesAdd({ cartId, lines })`</a>
+#### <a id="cartLinesAdd" href="#cartLinesAdd">`cartLinesAdd({ cartId, lines })`</a>
 
 _Adds lines to an existing Shopify cart._
 
-**Accepts**: params - an object containing the `cartId` (`string`) of interest, and the `lines` (`array`) to add. For more information on the cart `lines`, checkout Shopify's [`CartLineInput`][shopify-cart-line-input]
+**Accepts**: params - an object containing the `cartId` (`string`) of interest, and the `lines` (`array`) to add. For more information on the cart `lines`, checkout Shopify's [`CartLineInput`][shopify-cart-line-input]. Note that the `lines` parameter differs from Shopify [`CartLineInput`][shopify-cart-line-input] in that it expects the variant's `nacelleEntryId` instead of a Shopify `merchandiseId`.
 
 ##### Example
 
@@ -229,14 +231,14 @@ const { cart, userErrors, errors } = await cartClient.cartLinesAdd({
   cartId: 'gid://shopify/Cart/112233',
   lines: [
     {
-      merchandiseId: 'gid://shopify/ProductVariant/33894120718471',
+      nacelleEntryId: '<nacelle-entry-id>',
       quantity: 1
     }
   ]
 });
 ```
 
-#### <a id="cartLinesRemove">`cartLinesRemove({ cartId, lineIds })`</a>
+#### <a id="cartLinesRemove" href="#cartLinesRemove">`cartLinesRemove({ cartId, lineIds })`</a>
 
 _Removes lines from an existing Shopify cart._
 
@@ -253,27 +255,28 @@ const { cart, userErrors, errors } = await cartClient.cartLinesRemove({
 });
 ```
 
-#### <a id="cartLinesUpdate">`cartLinesUpdate({ cartId, lines })`</a>
+#### <a id="cartLinesUpdate" href="#cartLinesUpdate">`cartLinesUpdate({ cartId, lines })`</a>
 
 _Updates lines on an existing Shopify cart._
 
-**Accepts**: params - an object containing the `cartId` (`string`) of interest, and the `lines` (`array`) to update. For more information on the cart `lines`, checkout Shopify's [`CartLineUpdateInput`][shopify-cart-line-update-input]
+**Accepts**: params - an object containing the `cartId` (`string`) of interest, and the `lines` (`array`) to update. For more information on the cart `lines`, checkout Shopify's [`CartLineUpdateInput`][shopify-cart-line-update-input]. Note that the `lines` parameter differs from Shopify [`CartLineInput`][shopify-cart-line-input] in that it expects the variant's `nacelleEntryId` instead of a Shopify `merchandiseId`.
 
 ##### Example
 
 ```js
-const { cart, userErrors, errors } = await cartClient.cartLinesAdd({
+const { cart, userErrors, errors } = await cartClient.cartLinesUpdate({
   cartId: 'gid://shopify/Cart/112233',
   lines: [
     {
-      id: 'gid://shopify/CartLine/e543caf96fa645b54d07ab2035ef9dba?cart=a7aad2fb1e6611422c946f6827710550',
+      id: 'gid://shopify/CartLine/e543caf96fa645b54d07ab2035ef9dba?cart=a7aad2fb1e6611422c946f6827710550'
+      nacelleEntryId: '<nacelle-entry-id>',
       quantity: 3
     }
   ]
 });
 ```
 
-#### <a id="cartNoteUpdate">`cartNoteUpdate({ cartId, note })`</a>
+#### <a id="cartNoteUpdate" href="#cartNoteUpdate">`cartNoteUpdate({ cartId, note })`</a>
 
 _Updates note on an existing Shopify cart._
 
@@ -286,6 +289,33 @@ const { cart, userErrors, errors } = await cartClient.cartNoteUpdate({
   cartId: 'gid://shopify/Cart/112233',
   note: 'Please use a red ribbon for the bow, if possible :)'
 });
+```
+
+#### <a id="getConfig" href="#getConfig">`getConfig()`</a>
+
+_Gets language and country values used to make requests to Shopify._
+
+#### <a id="setConfig" href="#setConfig">`setConfig({language, country})`</a>
+
+_Updates the language and country settings used to make requests to Shopify._
+
+**Accepts**: config - an object containing optional values for the `language` (`string`) and `country` (`string`). These values should be a `LanguageCode` and `CountryCode` respectively.
+
+##### `setConfig` Example
+
+```js
+// update the language
+cartClient.setConfig({ language: 'FR' });
+```
+
+```js
+// update country
+cartClient.setConfig({ country: 'CA' });
+```
+
+```js
+// update the language & country
+cartClient.setConfig({ country: 'CA', language: 'FR' });
 ```
 
 <!-- LINKS -->
