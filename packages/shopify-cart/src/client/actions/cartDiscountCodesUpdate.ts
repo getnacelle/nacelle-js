@@ -46,7 +46,7 @@ export default async function cartDiscountCodesUpdate({
     });
 
     const cart = await depaginateLines({
-      cart: shopifyResponse.data?.cartDiscountCodesUpdate.cart,
+      cart: shopifyResponse.data?.cartDiscountCodesUpdate?.cart,
       customFragments,
       gqlClient,
       language,
@@ -55,7 +55,7 @@ export default async function cartDiscountCodesUpdate({
 
     return formatCartResponse({
       cart,
-      userErrors: shopifyResponse.data?.cartDiscountCodesUpdate.userErrors,
+      userErrors: shopifyResponse.data?.cartDiscountCodesUpdate?.userErrors,
       errors: shopifyResponse.errors
     });
   } catch (err) {
