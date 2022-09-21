@@ -2,4 +2,4 @@
 '@nacelle/shopify-cart': minor
 ---
 
-fix: check existense of Shopify response keys before accessing children `cart` & `userErrors`
+fix: check existence of Shopify response keys before accessing children `cart` & `userErrors`
