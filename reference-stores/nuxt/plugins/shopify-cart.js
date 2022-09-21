@@ -1,13 +1,13 @@
 import createShopifyCartClient from '@nacelle/shopify-cart';
 
 const customFragments = {
-  EXTEND_CART: /* GraphQL */ `
+  EXTEND_CART: `
     fragment Cart_extendCart on Cart {
       id
       checkoutUrl
     }
   `,
-  EXTEND_CART_LINE: /* GraphQL */ `
+  EXTEND_CART_LINE: `
     fragment CartLine_extendCartLine on CartLine {
       id
       quantity
@@ -23,7 +23,7 @@ const customFragments = {
       }
     }
   `,
-  MERCHANDISE: /* GraphQL */ `
+  MERCHANDISE: `
     fragment Merchandise_merchandise on ProductVariant {
       availableForSale
       compareAtPriceV2 {

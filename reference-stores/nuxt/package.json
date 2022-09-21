@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@contentful/rich-text-html-renderer": "^15.11.1",
+    "@nacelle/shopify-cart": "^0.2.1",
     "@nacelle/storefront-sdk": "^1.0.3",
     "core-js": "^3.19.3",
     "fuse.js": "^6.5.3",
