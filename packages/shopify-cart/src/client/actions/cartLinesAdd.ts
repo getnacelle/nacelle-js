@@ -54,7 +54,7 @@ export default async function cartLinesAdd({
     });
 
     const cart = await depaginateLines({
-      cart: shopifyResponse.data?.cartLinesAdd.cart,
+      cart: shopifyResponse.data?.cartLinesAdd?.cart,
       customFragments,
       gqlClient,
       language,
@@ -63,7 +63,7 @@ export default async function cartLinesAdd({
 
     return formatCartResponse({
       cart,
-      userErrors: shopifyResponse.data?.cartLinesAdd.userErrors,
+      userErrors: shopifyResponse.data?.cartLinesAdd?.userErrors,
       errors: shopifyResponse.errors
     });
   } catch (err) {

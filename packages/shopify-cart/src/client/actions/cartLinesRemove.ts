@@ -46,7 +46,7 @@ export default async function cartLinesRemove({
     });
 
     const cart = await depaginateLines({
-      cart: shopifyResponse.data?.cartLinesRemove.cart,
+      cart: shopifyResponse.data?.cartLinesRemove?.cart,
       customFragments,
       gqlClient,
       language,
@@ -55,7 +55,7 @@ export default async function cartLinesRemove({
 
     return formatCartResponse({
       cart,
-      userErrors: shopifyResponse.data?.cartLinesRemove.userErrors,
+      userErrors: shopifyResponse.data?.cartLinesRemove?.userErrors,
       errors: shopifyResponse.errors
     });
   } catch (err) {
