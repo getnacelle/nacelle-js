@@ -1,5 +1,5 @@
 import sanitizeFragments, { sanitizeFragment } from './sanitizeFragments';
-import type { CustomFragments } from '../client';
+import type { CustomFragments } from '../graphql/fragments';
 
 describe('sanitizeFragment', () => {
   it("changes the fragment name to the corresponding default fragment's name", () => {
@@ -62,6 +62,25 @@ describe('sanitizeFragments', () => {
       ] as CustomFragments)
     ).toThrow(
       "`customFragments` must be an object. Please refer to `@nacelle/shopify-cart`'s README."
+    );
+  });
+
+  it('throws an error when the provided `customFragments` contain an invalid fragment key', () => {
+    const customFragments = {
+      MONEY: `
+        fragment Cost on MoneyV2 {
+          amount
+        }
+      `,
+      NURCHENDICE: `
+        fragment Merchandise_merchandise on ProductVariant {
+          availableForSale
+        }
+      `
+    };
+
+    expect(() => sanitizeFragments(customFragments)).toThrow(
+      "Invalid custom fragment 'NURCHENDICE' provided."
     );
   });
 });

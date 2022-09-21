@@ -1,12 +1,13 @@
 {
   "name": "@nacelle/nuxt-3-starter-example",
   "private": true,
+  "version": "0.0.1",
   "scripts": {
     "build": "nuxt build",
     "dev": "nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
-    "prepare": "nuxt prepare",
+    "nuxt-prepare": "nuxt prepare",
     "typecheck": "nuxt typecheck"
   },
   "devDependencies": {
