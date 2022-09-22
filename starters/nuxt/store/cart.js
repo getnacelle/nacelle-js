@@ -8,7 +8,8 @@ export const state = () => ({
   cartCheckoutUrl: null,
   checkoutProcessing: false,
   lineItems: [],
-  cartErrors: []
+  cartErrors: [],
+  isLoading: true
 });
 
 const lineTransformer = (line) => {
@@ -50,6 +51,9 @@ export const getters = {
 };
 
 export const mutations = {
+  setLoadingStatus(state, payload) {
+    state.isLoading = payload;
+  },
   setCartId(state, payload) {
     state.cartId = payload;
     set(state.cacheKeyCartId, payload);
@@ -121,6 +125,7 @@ export const actions = {
     commit('setErrors', { userErrors, errors });
   },
   async retrieveCart({ commit }, payload) {
+    commit('setLoadingStatus', true);
     commit('setCartId', payload);
     const { cart, userErrors, errors } = await this.$cartClient.cart({
       cartId: payload
@@ -132,6 +137,7 @@ export const actions = {
       });
     }
     commit('setErrors', { userErrors, errors });
+    commit('setLoadingStatus', false);
   },
   async addItem({ state, commit, dispatch }, payload) {
     const index = state.lineItems.findIndex((lineItem) => {

@@ -57,6 +57,7 @@
       >
         {{ buttonText }}
       </button>
+      <nuxt-link to="/cart">View Cart</nuxt-link>
     </div>
   </div>
 </template>
@@ -95,7 +96,7 @@ export default {
     buttonText() {
       return this.selectedVariant
         ? this.selectedVariant.availableForSale
-          ? 'Add To cart'
+          ? 'Add to Cart'
           : 'Sold Out'
         : 'Select Option';
     }
