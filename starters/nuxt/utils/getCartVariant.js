@@ -4,21 +4,33 @@ export const getCartVariant = ({ product, variant }) => {
       handle: productHandle,
       title: productTitle,
       featuredMedia: productFeaturedMedia
-    } = product.content;
-    const { availableForSale, compareAtPrice, sourceEntryId, price, sku } =
-      variant;
-    const { featuredMedia, selectedOptions, title } = variant.content;
+    } = product.content || {};
+    const {
+      availableForSale,
+      compareAtPrice,
+      sourceEntryId,
+      price,
+      sku,
+      nacelleEntryId
+    } = variant;
+    const {
+      featuredMedia,
+      selectedOptions,
+      title: variantTitle
+    } = variant.content || {};
     return {
       availableForSale,
       compareAtPrice,
-      id: sourceEntryId,
+      variantId: sourceEntryId,
+      variantTitle,
       price,
       sku,
       featuredMedia: featuredMedia || productFeaturedMedia,
       selectedOptions,
-      title,
       productHandle,
-      productTitle
+      productTitle,
+      nacelleEntryId,
+      metafields: []
     };
   }
 };
