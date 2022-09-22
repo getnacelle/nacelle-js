@@ -23,7 +23,11 @@ export default {
   css: [],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: ['~/plugins/nacelle-sdk.js', '~/plugins/nuxt-client-init.client.js'],
+  plugins: [
+    '~/plugins/nacelle-sdk.js',
+    '~/plugins/shopify-cart.js',
+    '~/plugins/nuxt-client-init.client.js'
+  ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
@@ -43,9 +47,8 @@ export default {
       token: process.env.NACELLE_STOREFRONT_TOKEN
     },
     shopify: {
-      myshopifyDomain: process.env.MYSHOPIFY_DOMAIN,
-      storefrontCheckoutToken: process.env.SHOPIFY_STOREFRONT_CHECKOUT_TOKEN,
-      storefrontApiVersion: process.env.SHOPIFY_STOREFRONT_API_VERSION
+      shopifyShopId: process.env.SHOPIFY_SHOP_ID,
+      shopifyStorefrontAccessToken: process.env.SHOPIFY_STOREFRONT_ACCESS_TOKEN
     }
   },
 
