@@ -169,7 +169,8 @@ export const actions = {
       commit('setErrors', { userErrors, errors });
     } else {
       const items = [...state.lineItems];
-      const quantity = state.lineItems[index].quantity + payload.quantity;
+      const quantity =
+        parseInt(state.lineItems[index].quantity) + payload.quantity;
       items.splice(index, 1, {
         ...state.lineItems[index],
         quantity

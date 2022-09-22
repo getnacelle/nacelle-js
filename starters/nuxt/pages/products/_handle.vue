@@ -44,7 +44,7 @@
       <div class="product__quantity">
         <label class="product__label">Quantity:</label>
         <input
-          v-model="quantity"
+          v-model.number="quantity"
           type="number"
           min="1"
           class="product__input"
@@ -129,7 +129,7 @@ export default {
       if (variant) {
         this.addItem({
           ...variant,
-          quantity: parseInt(this.quantity)
+          quantity: this.quantity
         });
       }
     }
