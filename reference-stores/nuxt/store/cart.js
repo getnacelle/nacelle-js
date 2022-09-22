@@ -2,9 +2,37 @@ import { get, set } from 'idb-keyval';
 import { v4 as uuid } from 'uuid';
 
 export const state = () => ({
-  cacheKey: 'cart',
-  lineItems: []
+  cartClient: null,
+  cartId: null,
+  cacheKeyCartId: 'cartId',
+  cartCheckoutUrl: null,
+  checkoutProcessing: false,
+  lineItems: [],
+  cartErrors: []
 });
+
+const lineTransformer = (line) => {
+  const { merchandise, cost } = line;
+  return {
+    availableForSale: merchandise.availableForSale,
+    compareAtPrice: merchandise.compareAtPriceV2,
+    featuredMedia: {
+      altText: merchandise.image.altText,
+      src: merchandise.image.url,
+      thumbnailSrc: merchandise.image.url
+    },
+    cartLineId: line.id,
+    nacelleEntryId: merchandise.nacelleEntryId,
+    price: cost.amountPerQuantity.amount,
+    productHandle: merchandise.product.handle,
+    productTitle: merchandise.product.title,
+    quantity: line.quantity,
+    selectedOptions: merchandise.selectedOptions,
+    variantId: merchandise.sourceEntryId,
+    variantTitle: merchandise.title,
+    metafields: line.attributes
+  };
+};
 
 export const getters = {
   cartItems(state) {
@@ -22,81 +50,254 @@ export const getters = {
 };
 
 export const mutations = {
-  setLineItems(state, payload) {
-    state.lineItems = payload;
-    set(state.cacheKey, state.lineItems);
+  setCartId(state, payload) {
+    state.cartId = payload;
+    set(state.cacheKeyCartId, payload);
   },
-  addItem(state, payload) {
-    const index = state.lineItems.findIndex((lineItem) => {
-      if (lineItem.variantId === payload.variantId) {
-        return (
-          JSON.stringify(payload.metafields) ===
-          JSON.stringify(lineItem.metafields)
-        );
+  setOptimisticCart(state, payload) {
+    state.lineItems = payload.lines;
+    if (payload.checkoutUrl) {
+      state.cartCheckoutUrl = payload.checkoutUrl;
+    }
+  },
+  setCart(state, payload) {
+    const lineItemsFromCart = [...payload.lines];
+    let array = [];
+    state.lineItems.forEach((lineItem) => {
+      const index = lineItemsFromCart.findIndex((cartItem) => {
+        if (
+          lineItem.cartLineId &&
+          !lineItem.cartLineId.includes('placeholder')
+        ) {
+          return lineItem.cartLineId === cartItem.id;
+        } else {
+          return lineItem.variantId === cartItem.merchandise.sourceEntryId;
+        }
+      });
+      if (index > -1) {
+        array.push(lineTransformer(lineItemsFromCart.splice(index, 1)[0]));
       }
-      return false;
     });
-    if (index === -1) {
-      payload.id = `${payload.variantId}::${uuid()}`;
-      state.lineItems.push(payload);
-    } else {
-      state.lineItems.splice(index, 1, {
-        ...state.lineItems[index],
-        quantity: state.lineItems[index].quantity + payload.quantity
-      });
+    array = [
+      ...array,
+      ...lineItemsFromCart.map((line) => lineTransformer(line))
+    ];
+    state.lineItems = array;
+    if (payload.checkoutUrl) {
+      state.cartCheckoutUrl = payload.checkoutUrl;
     }
-    set(state.cacheKey, state.lineItems);
   },
-  removeItem(state, payload) {
-    const index = state.lineItems.findIndex((item) => item.id === payload);
-    if (index > -1) {
-      state.lineItems.splice(index, 1);
+
+  checkoutProcessing(state) {
+    state.checkoutProcessing = true;
+  },
+  setErrors(state, payload) {
+    state.cartErrors = [];
+    if (payload.errors) {
+      payload.errors.forEach((error) => state.cartErrors.push(error.message));
     }
-    set(state.cacheKey, state.lineItems);
-  },
-  updateItem(state, payload) {
-    const index = state.lineItems.findIndex((item) => item.id === payload.id);
-    if (index > -1) {
-      state.lineItems.splice(index, 1, {
-        ...state.lineItems[index],
-        ...payload
-      });
+    if (payload.userErrors) {
+      payload.userErrors.forEach((error) =>
+        state.cartErrors.push(error.message)
+      );
     }
-    set(state.cacheKey, state.lineItems);
-  },
-  incrementItem(state, payload) {
-    const index = state.lineItems.findIndex((item) => item.id === payload);
-    if (index > -1) {
-      state.lineItems.splice(index, 1, {
-        ...state.lineItems[index],
-        quantity: state.lineItems[index].quantity + 1
-      });
-    }
-    set(state.cacheKey, state.lineItems);
-  },
-  decrementItem(state, payload) {
-    const index = state.lineItems.findIndex((item) => item.id === payload);
-    if (index > -1) {
-      if (state.lineItems[index].quantity === 1) {
-        state.lineItems.splice(index, 1);
-      } else {
-        state.lineItems.splice(index, 1, {
-          ...state.lineItems[index],
-          quantity: state.lineItems[index].quantity - 1
-        });
-      }
-    }
-    set(state.cacheKey, state.lineItems);
-  },
-  clearCart(state) {
-    state.lineItems = [];
-    set(state.cacheKey, state.lineItems);
   }
 };
 
 export const actions = {
-  async initCart({ state, commit }) {
-    const cachedCart = await get(state.cacheKey);
-    commit('setLineItems', cachedCart || []);
+  async initCart({ state, dispatch }) {
+    const cachedCartId = await get(state.cacheKeyCartId);
+    if (cachedCartId) {
+      await dispatch('retrieveCart', cachedCartId);
+    } else {
+      await dispatch('createCart');
+    }
+  },
+  async createCart({ commit }) {
+    const { cart, userErrors, errors } = await this.$cartClient.cartCreate();
+    if (cart) {
+      commit('setCartId', cart.id);
+    }
+    commit('setErrors', { userErrors, errors });
+  },
+  async retrieveCart({ commit }, payload) {
+    commit('setCartId', payload);
+    const { cart, userErrors, errors } = await this.$cartClient.cart({
+      cartId: payload
+    });
+    if (cart) {
+      commit('setOptimisticCart', {
+        lines: cart.lines.map((line) => lineTransformer(line)),
+        checkoutUrl: cart.checkoutUrl
+      });
+    }
+    commit('setErrors', { userErrors, errors });
+  },
+  async addItem({ state, commit, dispatch }, payload) {
+    const index = state.lineItems.findIndex((lineItem) => {
+      if (payload.cartLineId) {
+        return payload.cartLineId === lineItem.cartLineId;
+      } else {
+        return lineItem.variantId === payload.variantId;
+      }
+    });
+    if (index === -1) {
+      const cartLineId = `placeholder-${uuid()}`;
+      const items = [...state.lineItems, { ...payload, cartLineId }];
+      commit('setOptimisticCart', { lines: items });
+      const { cart, userErrors, errors } = await this.$cartClient.cartLinesAdd({
+        cartId: state.cartId,
+        lines: [
+          {
+            nacelleEntryId: payload.nacelleEntryId,
+            quantity: payload.quantity || 1
+          }
+        ]
+      });
+      if (cart) {
+        commit('setCart', {
+          lines: cart.lines,
+          checkoutUrl: cart.checkoutUrl
+        });
+      }
+      commit('setErrors', { userErrors, errors });
+    } else {
+      const items = [...state.lineItems];
+      const quantity = state.lineItems[index].quantity + payload.quantity;
+      items.splice(index, 1, {
+        ...state.lineItems[index],
+        quantity
+      });
+      commit('setOptimisticCart', { lines: items });
+
+      await dispatch('updateItemQuantity', {
+        cartLineId: state.lineItems[index].cartLineId,
+        nacelleEntryId: state.lineItems[index].nacelleEntryId,
+        quantity
+      });
+    }
+  },
+  async removeItem({ state, commit }, payload) {
+    const index = state.lineItems.findIndex(
+      (item) => item.cartLineId === payload
+    );
+    const items = [...state.lineItems];
+    if (index > -1) {
+      const cartLineId = state.lineItems[index].cartLineId;
+      items.splice(index, 1);
+      commit('setOptimisticCart', { lines: items });
+      const { cart, userErrors, errors } =
+        await this.$cartClient.cartLinesRemove({
+          cartId: state.cartId,
+          lineIds: [cartLineId]
+        });
+
+      if (cart) {
+        commit('setCart', {
+          lines: cart.lines,
+          checkoutUrl: cart.checkoutUrl
+        });
+      }
+
+      commit('setErrors', { userErrors, errors });
+    }
+  },
+  async updateItemQuantity({ state, commit }, payload) {
+    const { cart, userErrors, errors } = await this.$cartClient.cartLinesUpdate(
+      {
+        cartId: state.cartId,
+        lines: [
+          {
+            id: payload.cartLineId,
+            nacelleEntryId: payload.nacelleEntryId || null,
+            quantity: payload.quantity
+          }
+        ]
+      }
+    );
+    console.log('UPDATE', { cart, userErrors, errors });
+
+    if (cart) {
+      commit('setCart', {
+        lines: cart.lines,
+        checkoutUrl: cart.checkoutUrl
+      });
+    }
+    commit('setErrors', { userErrors, errors });
+    const line = cart.lines.find((line) => line.id === payload.cartLineId);
+    if (line && line.quantity !== payload.quantity) {
+      commit('setErrors', {
+        errors: [
+          {
+            message: `Sorry! More ${line.merchandise.product.title} (${line.merchandise.title})  cannot be added to your cart`
+          }
+        ]
+      });
+    }
+  },
+  async incrementItem({ state, commit, dispatch }, payload) {
+    const index = state.lineItems.findIndex(
+      (item) => item.cartLineId === payload
+    );
+    if (index > -1) {
+      const items = [...state.lineItems];
+      items.splice(index, 1, {
+        ...state.lineItems[index],
+        quantity: state.lineItems[index].quantity + 1
+      });
+      commit('setOptimisticCart', { lines: items });
+      await dispatch('updateItemQuantity', {
+        cartLineId: state.lineItems[index].cartLineId,
+        quantity: state.lineItems[index].quantity
+      });
+    }
+  },
+  async decrementItem({ state, commit, dispatch }, payload) {
+    const index = state.lineItems.findIndex(
+      (item) => item.cartLineId === payload
+    );
+    if (index > -1) {
+      if (state.lineItems[index].quantity === 1) {
+        await dispatch('removeItem', payload);
+      } else {
+        const items = [...state.lineItems];
+        items.splice(index, 1, {
+          ...state.lineItems[index],
+          quantity: state.lineItems[index].quantity - 1
+        });
+        commit('setOptimisticCart', { lines: items });
+        await dispatch('updateItemQuantity', {
+          cartLineId: state.lineItems[index].cartLineId,
+          quantity: state.lineItems[index].quantity
+        });
+      }
+    }
+  },
+  async clearCart({ state, commit }) {
+    const items = [...state.lineItems];
+    commit('setOptimisticCart', { lines: [] });
+    const { cart, userErrors, errors } = await this.$cartClient.cartLinesRemove(
+      {
+        cartId: state.cartId,
+        lineIds: items.map((item) => item.cartLineId)
+      }
+    );
+
+    if (cart) {
+      commit('setCart', {
+        lines: [],
+        checkoutUrl: cart.checkoutUrl
+      });
+    }
+
+    commit('setErrors', { userErrors, errors });
+  },
+  checkout({ state, commit }) {
+    if (state.cartCheckoutUrl) {
+      commit('checkoutProcessing');
+      window.location.href = state.cartCheckoutUrl;
+    } else {
+      alert('There was an issue with your checkout.');
+    }
   }
 };
