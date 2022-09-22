@@ -78,7 +78,7 @@
 </template>
 
 <script>
-import { mapGetters, mapMutations } from 'vuex';
+import { mapGetters, mapActions, mapState } from 'vuex';
 
 import { formatPrice } from '~/utils/formatPrice';
 import { getCartVariant } from '~/utils/getCartVariant';
@@ -94,7 +94,7 @@ export default {
   },
   computed: {
     ...mapGetters('cart', ['cartItems']),
-    ...mapGetters('checkout', ['checkoutProcessing']),
+    ...mapState('cart', ['checkoutProcessing']),
     crossSellItems() {
       return this.content?.items
         ?.filter((item) => {
@@ -117,7 +117,7 @@ export default {
     }
   },
   methods: {
-    ...mapMutations('cart', ['addItem']),
+    ...mapActions('cart', ['addItem']),
     handleAdd(item) {
       this.addItem({
         ...getCartVariant({

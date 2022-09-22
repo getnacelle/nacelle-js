@@ -68,7 +68,7 @@ export default async function cartCreate({
     });
 
     const cart = await depaginateLines({
-      cart: shopifyResponse.data?.cartCreate.cart,
+      cart: shopifyResponse.data?.cartCreate?.cart,
       customFragments,
       gqlClient,
       language,
@@ -77,7 +77,7 @@ export default async function cartCreate({
 
     return formatCartResponse({
       cart,
-      userErrors: shopifyResponse.data?.cartCreate.userErrors,
+      userErrors: shopifyResponse.data?.cartCreate?.userErrors,
       errors: shopifyResponse.errors,
       shopifyShopId,
       locale

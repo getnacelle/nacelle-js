@@ -102,7 +102,7 @@
 </template>
 
 <script>
-import { mapMutations } from 'vuex';
+import { mapActions } from 'vuex';
 
 import { formatPrice } from '~/utils/formatPrice';
 import { getSelectedVariant } from '~/utils/getSelectedVariant';
@@ -142,7 +142,7 @@ export default {
     ];
   },
   methods: {
-    ...mapMutations('cart', ['addItem']),
+    ...mapActions('cart', ['addItem']),
     handleHover(value) {
       this.isHovered = value;
     },

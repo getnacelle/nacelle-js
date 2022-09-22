@@ -51,7 +51,7 @@ export default async function CartBuyerIdentityUpdate({
     });
 
     const cart = await depaginateLines({
-      cart: shopifyResponse.data?.cartBuyerIdentityUpdate.cart,
+      cart: shopifyResponse.data?.cartBuyerIdentityUpdate?.cart,
       customFragments,
       gqlClient,
       language,
@@ -60,7 +60,7 @@ export default async function CartBuyerIdentityUpdate({
 
     return formatCartResponse({
       cart,
-      userErrors: shopifyResponse.data?.cartBuyerIdentityUpdate.userErrors,
+      userErrors: shopifyResponse.data?.cartBuyerIdentityUpdate?.userErrors,
       errors: shopifyResponse.errors,
       shopifyShopId,
       locale
