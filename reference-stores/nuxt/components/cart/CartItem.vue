@@ -63,7 +63,7 @@
 </template>
 
 <script>
-import { mapGetters, mapMutations } from 'vuex';
+import { mapActions, mapState } from 'vuex';
 
 import { formatPrice } from '~/utils/formatPrice';
 
@@ -80,15 +80,15 @@ export default {
     }
   },
   computed: {
-    ...mapGetters('checkout', ['checkoutProcessing']),
+    ...mapState('cart', ['checkoutProcessing']),
     price() {
       return formatPrice({ price: this.item.price });
     }
   },
   methods: {
-    ...mapMutations('cart', ['removeItem']),
+    ...mapActions('cart', ['removeItem']),
     handleRemove() {
-      this.removeItem(this.item.id);
+      this.removeItem(this.item.cartLineId);
     }
   }
 };

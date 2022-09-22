@@ -6,6 +6,7 @@
     <nuxt class="layout-default__nuxt" />
     <site-newsletter :content="siteComponents.newsletter" />
     <site-footer :content="siteComponents.footer" />
+    <site-error :content="siteComponents.error" />
   </div>
 </template>
 
@@ -18,6 +19,7 @@ import SiteNav from '~/components/nav/Nav.vue';
 import SiteCart from '~/components/cart/Cart.vue';
 import SiteNewsletter from '~/components/newsletter/Newsletter.vue';
 import SiteFooter from '~/components/footer/Footer.vue';
+import SiteError from '~/components/error/ErrorModal.vue';
 
 export default {
   name: 'DefaultLayout',
@@ -26,7 +28,8 @@ export default {
     SiteNav,
     SiteCart,
     SiteNewsletter,
-    SiteFooter
+    SiteFooter,
+    SiteError
   },
   head() {
     return buildMeta({});
