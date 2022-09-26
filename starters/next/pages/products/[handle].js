@@ -1,13 +1,11 @@
 import { useState } from 'react';
 import Image from 'next/image';
-import { useCart } from '@nacelle/react-hooks';
 import { nacelleClient } from 'services';
 import { getSelectedVariant } from 'utils/getSelectedVariant';
 import { getCartVariant } from 'utils/getCartVariant';
 import styles from 'styles/Product.module.css';
 
 function Product({ product }) {
-  const [, { addToCart }] = useCart();
   const [selectedVariant, setSelectedVariant] = useState(product.variants[0]);
   const [selectedOptions, setSelectedOptions] = useState(
     selectedVariant.content.selectedOptions
@@ -57,10 +55,10 @@ function Product({ product }) {
       product,
       variant: selectedVariant
     });
-    addToCart({
-      variant,
-      quantity
-    });
+    // addToCart({
+    //   variant,
+    //   quantity
+    // });
   };
 
   return (
