@@ -46,8 +46,43 @@ export const CartProvider = ({ children, cacheKey = 'cartId' }) => {
     [lineItems]
   );
 
+  const setCartIdWithCache = (cartId) => {
+    setCartIdWithCache(cartId);
+    set(cacheKey, cartId);
+  };
+
   const setOptimisticCart = ({ lines, checkoutUrl }) => {
     setLineItems(lines);
+    if (checkoutUrl) {
+      setCartCheckoutUrl(checkoutUrl);
+    }
+  };
+
+  const setCart = ({ lines, checkoutUrl }) => {
+    const lineItemsFromCart = [...lines];
+    let linesArray = [];
+    lineItems.forEach((lineItem) => {
+      const index = lineItemsFromCart.findIndex((lineItemFromCart) => {
+        if (
+          lineItem.cartLineId &&
+          !lineItem.cartLineId.includes('placeholder')
+        ) {
+          return lineItem.cartLineId === lineItemFromCart.id;
+        } else {
+          return (
+            lineItem.variantId === lineItemFromCart.merchandise.sourceEntryId
+          );
+        }
+      });
+      if (index > -1) {
+        linesArray.push(lineTransformer(lineItemsFromCart.splice(index, 1)[0]));
+      }
+    });
+    linesArray = [
+      ...linesArray,
+      ...lineItemsFromCart.map((line) => lineTransformer(line))
+    ];
+    setLineItems(linesArray);
     if (checkoutUrl) {
       setCartCheckoutUrl(checkoutUrl);
     }
@@ -67,7 +102,7 @@ export const CartProvider = ({ children, cacheKey = 'cartId' }) => {
 
   const retrieveCart = async (cartId) => {
     setIsLoading(true);
-    setCartId(cartId);
+    setCartIdWithCache(cartId);
     const { cart, userErrors, errors } = await cartClient.cart({
       cartId
     });
@@ -84,17 +119,145 @@ export const CartProvider = ({ children, cacheKey = 'cartId' }) => {
   const createCart = async () => {
     const { cart, userErrors, errors } = await cartClient.cartCreate();
     if (cart) {
-      setCartId(cart.id);
+      setCartIdWithCache(cart.id);
     }
     setErrors({ userErrors, errors });
   };
 
   const initCart = async () => {
-    const cachedCartId = await get(state.cacheKey);
+    const cachedCartId = await get(cacheKey);
     if (cachedCartId) {
       await createCart();
     } else {
       await retrieveCart();
+    }
+  };
+
+  const addItem = async (line) => {
+    const index = lineItems.findIndex((lineItem) => {
+      return line.cartLineId === lineItem.cartLineId;
+    });
+    if (index === -1) {
+      const cartLineId = `placeholder-${uuid()}`;
+      const items = [...lineItems, { ...line, cartLineId }];
+      setOptimisticCart({ lines: items });
+      const { cart, userErrors, errors } = await cartClient.cartLinesAdd({
+        cartId: cartId,
+        lines: [
+          {
+            nacelleEntryId: line.nacelleEntryId,
+            quantity: line.quantity || 1
+          }
+        ]
+      });
+      if (cart) {
+        setCart({ lines: cart.lines, checkoutUrl: cart.checkoutUrl });
+      }
+      setErrors({ userErrors, errors });
+    }
+  };
+
+  const updateItemQuantity = async (line) => {
+    const { cart, userErrors, errors } = await cartClient.cartLinesUpdate({
+      cartId: cartId,
+      lines: [
+        {
+          id: line.cartLineId,
+          nacelleEntryId: line.nacelleEntryId || null,
+          quantity: line.quantity
+        }
+      ]
+    });
+    if (cart) {
+      setCart({ lines: cart.lines, checkoutUrl: cart.checkoutUrl });
+    }
+    setErrors({ userErrors, errors });
+  };
+
+  const incrementItem = async (lineId) => {
+    const index = lineItems.findIndex(
+      (lineItem) => lineItem.cartLineId === lineId
+    );
+    if (index > -1) {
+      const items = [...lineItems];
+      items.splice(index, 1, {
+        ...lineItems[index],
+        quantity: lineItems[index].quantity + 1
+      });
+      setOptimisticCart({
+        lines: items.map((line) => lineTransformer(line)),
+        cartCheckoutUrl
+      });
+      updateItemQuantity({
+        cartLineId: lineItems[index].cartLineId,
+        quantity: lineItems[index].quantity
+      });
+    }
+  };
+
+  const decrementItem = async (lineId) => {
+    const index = lineItems.findIndex(
+      (lineItem) => lineItem.cartLineId === lineId
+    );
+    if (index > -1) {
+      if (lineItems[index].quantity === 1) {
+        await removeItem(lineId);
+      } else {
+        const items = [...lineItems];
+        items.splice(index, 1, {
+          ...lineItems[index],
+          quantity: lineItems[index].quantity - 1
+        });
+        setOptimisticCart({
+          lines: items.map((line) => lineTransformer(line)),
+          cartCheckoutUrl
+        });
+        updateItemQuantity({
+          cartLineId: lineItems[index].cartLineId,
+          quantity: lineItems[index].quantity
+        });
+      }
+    }
+  };
+
+  const removeItem = async (lineId) => {
+    const index = lineItems.findIndex(
+      (lineItem) => lineItem.cartLineId === lineId
+    );
+    const items = [...lineItems];
+    if (index > -1) {
+      items.splice(index, 1);
+      setOptimisticCart({ lines: items });
+      const { cart, userErrors, errors } = await cartClient.cartLinesRemove({
+        cartId: cartId,
+        lineIds: [lineId]
+      });
+      if (cart) {
+        setCart({ lines: cart.lines, checkoutUrl: cart.checkoutUrl });
+      }
+      setErrors({ userErrors, errors });
+    }
+  };
+
+  const clearCart = async () => {
+    const items = [...lineItems];
+    setOptimisticCart({ lines: [] });
+    const { cart, userErrors, errors } = await cartClient.cartLinesRemove({
+      cartId: cartId,
+      lineIds: items.map((item) => item.cartLineId)
+    });
+    if (cart) {
+      setCart({ lines: cart.lines, checkoutUrl: cart.checkoutUrl });
+    }
+    setErrors({ userErrors, errors });
+  };
+
+  const checkout = () => {
+    if (cartCheckoutUrl) {
+      setCheckoutProcessing(true);
+      window.location.href = cartCheckoutUrl;
+    } else {
+      alert('There was an issue with your checkout.');
     }
   };
 
@@ -107,7 +270,13 @@ export const CartProvider = ({ children, cacheKey = 'cartId' }) => {
       value={{
         cartItems: lineItems,
         cartCount,
-        cartSubtotal
+        cartSubtotal,
+        addItem,
+        incrementItem,
+        decrementItem,
+        removeItem,
+        clearCart,
+        checkout
       }}
     >
       {children}
