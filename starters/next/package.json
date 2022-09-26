@@ -9,7 +9,6 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@nacelle/react-hooks": "^6.1.0",
     "@nacelle/shopify-cart": "^0.2.1",
     "@nacelle/storefront-sdk": "^1.0.3",
     "idb-keyval": "^6.2.0",
