@@ -1,16 +1,27 @@
 import Image from 'next/image';
+import { useCart } from 'hooks/useCart';
 import styles from 'styles/Cart.module.css';
 
-const cart = [];
-
 function Cart() {
+  const {
+    cartItems,
+    cartCount,
+    cartSubtotal,
+    isLoading,
+    incrementItem,
+    decrementItem,
+    removeItem,
+    clearCart,
+    checkout
+  } = useCart();
+
   return (
     <div>
       <h1>Cart</h1>
-      {cart.length ? (
+      {cartCount > 0 && (
         <div>
           <ul>
-            {cart.map((lineItem, index) => (
+            {cartItems.map((lineItem, index) => (
               <li
                 className={styles.item}
                 key={`${lineItem.variant.id}-${index}`}
@@ -24,17 +35,19 @@ function Cart() {
                   />
                 </div>
                 <div>
-                  <h2 className={styles.title}>
-                    {lineItem.variant.productTitle}
-                  </h2>
-                  <p className={styles.subtitle}>{lineItem.variant.title}</p>
+                  <h2 className={styles.title}>{lineItem.title}</h2>
+                  <p className={styles.subtitle}>{lineItem.variantTitle}</p>
                   <p className={styles.price}>${lineItem.variant.price}</p>
                   <p>
                     <strong>Quantity:</strong> {lineItem.quantity}
                   </p>
-                  <button onClick={() => decrementItem(lineItem)}>-</button>
-                  <button onClick={() => incrementItem(lineItem)}>+</button>
-                  <button onClick={() => removeFromCart(lineItem)}>
+                  <button onClick={() => decrementItem(lineItem.cartLineId)}>
+                    -
+                  </button>
+                  <button onClick={() => incrementItem(lineItem.cartLineId)}>
+                    +
+                  </button>
+                  <button onClick={() => removeItem(lineItem.cartLineId)}>
                     Remove
                   </button>
                 </div>
@@ -45,11 +58,11 @@ function Cart() {
             <strong>Subtotal:</strong> ${cartSubtotal}
           </p>
           <button onClick={clearCart}>Clear Cart</button>
-          <button onClick={handleProcessCheckout}>Proceed to Checkout</button>
+          <button onClick={checkout}>Proceed to Checkout</button>
         </div>
-      ) : (
-        <h2>Empty Cart</h2>
       )}
+      {isLoading && <h2>Loading...</h2>}
+      {!cartCount && !isLoading && <h2>Empty Cart</h2>}
     </div>
   );
 }
