@@ -47,7 +47,7 @@ export const CartProvider = ({ children, cacheKey = 'cartId' }) => {
   );
 
   const setCartIdWithCache = (cartId) => {
-    setCartIdWithCache(cartId);
+    setCartId(cartId);
     set(cacheKey, cartId);
   };
 
@@ -271,12 +271,15 @@ export const CartProvider = ({ children, cacheKey = 'cartId' }) => {
         cartItems: lineItems,
         cartCount,
         cartSubtotal,
+        cartErrors,
+        isLoading,
         addItem,
         incrementItem,
         decrementItem,
         removeItem,
         clearCart,
-        checkout
+        checkout,
+        checkoutProcessing
       }}
     >
       {children}
