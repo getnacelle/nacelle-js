@@ -22,14 +22,11 @@ function Cart() {
         <div>
           <ul>
             {cartItems.map((lineItem, index) => (
-              <li
-                className={styles.item}
-                key={`${lineItem.variant.id}-${index}`}
-              >
+              <li className={styles.item} key={`${lineItem.id}-${index}`}>
                 <div className={styles.image}>
                   <Image
-                    src={lineItem.variant.featuredMedia.src}
-                    alt={lineItem.variant.featuredMedia.altText}
+                    src={lineItem.featuredMedia.src}
+                    alt={lineItem.featuredMedia.altText}
                     width={200}
                     height={200}
                   />
@@ -37,7 +34,7 @@ function Cart() {
                 <div>
                   <h2 className={styles.title}>{lineItem.title}</h2>
                   <p className={styles.subtitle}>{lineItem.variantTitle}</p>
-                  <p className={styles.price}>${lineItem.variant.price}</p>
+                  <p className={styles.price}>${lineItem.price}</p>
                   <p>
                     <strong>Quantity:</strong> {lineItem.quantity}
                   </p>

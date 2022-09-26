@@ -100,11 +100,11 @@ export const CartProvider = ({ children, cacheKey = 'cartId' }) => {
     setCartErrors(errorsArray);
   };
 
-  const retrieveCart = async (cartId) => {
+  const retrieveCart = async (cachedCartId) => {
     setIsLoading(true);
-    setCartIdWithCache(cartId);
+    setCartIdWithCache(cachedCartId);
     const { cart, userErrors, errors } = await cartClient.cart({
-      cartId
+      cartId: cachedCartId
     });
     if (cart) {
       setOptimisticCart({
@@ -127,9 +127,9 @@ export const CartProvider = ({ children, cacheKey = 'cartId' }) => {
   const initCart = async () => {
     const cachedCartId = await get(cacheKey);
     if (cachedCartId) {
-      await createCart();
+      await retrieveCart(cachedCartId);
     } else {
-      await retrieveCart();
+      await createCart();
     }
   };
 
@@ -145,7 +145,7 @@ export const CartProvider = ({ children, cacheKey = 'cartId' }) => {
         cartId: cartId,
         lines: [
           {
-            nacelleEntryId: line.nacelleEntryId,
+            nacelleEntryId: line.variant.nacelleEntryId,
             quantity: line.quantity || 1
           }
         ]
@@ -185,12 +185,12 @@ export const CartProvider = ({ children, cacheKey = 'cartId' }) => {
         quantity: lineItems[index].quantity + 1
       });
       setOptimisticCart({
-        lines: items.map((line) => lineTransformer(line)),
+        lines: items,
         cartCheckoutUrl
       });
       updateItemQuantity({
-        cartLineId: lineItems[index].cartLineId,
-        quantity: lineItems[index].quantity
+        cartLineId: items[index].cartLineId,
+        quantity: items[index].quantity
       });
     }
   };
@@ -209,12 +209,12 @@ export const CartProvider = ({ children, cacheKey = 'cartId' }) => {
           quantity: lineItems[index].quantity - 1
         });
         setOptimisticCart({
-          lines: items.map((line) => lineTransformer(line)),
+          lines: items,
           cartCheckoutUrl
         });
         updateItemQuantity({
-          cartLineId: lineItems[index].cartLineId,
-          quantity: lineItems[index].quantity
+          cartLineId: items[index].cartLineId,
+          quantity: items[index].quantity
         });
       }
     }

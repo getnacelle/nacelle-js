@@ -44,9 +44,6 @@ function ProductCard({ product }) {
     setSelectedVariant(variant ? { ...variant } : null);
   };
 
-  // Get product data and add it to the cart by using `addToCart`
-  // from the `useCart` hook provided by `@nacelle/react-hooks`.
-  // (https://github.com/getnacelle/nacelle-react/tree/main/packages/react-hooks)
   const handleAddItem = () => {
     const variant = getCartVariant({
       product,
