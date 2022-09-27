@@ -14,9 +14,11 @@ export interface UpdateCartNoteParams {
   cartId: string;
   gqlClient: GqlClient;
   note: string;
+  shopifyShopId: string;
   customFragments?: CustomFragments;
   language: LanguageCode;
   country: CountryCode;
+  locale: string;
 }
 
 export type CartNoteUpdateResponse = CartNoteUpdatePayload &
@@ -31,8 +33,10 @@ export default async function cartNoteUpdate({
   customFragments,
   gqlClient,
   note,
+  shopifyShopId,
   language,
-  country
+  country,
+  locale
 }: UpdateCartNoteParams): Promise<void | CartResponse> {
   try {
     const shopifyResponse = await gqlClient<
@@ -56,7 +60,9 @@ export default async function cartNoteUpdate({
     return formatCartResponse({
       cart,
       userErrors: shopifyResponse.data?.cartNoteUpdate?.userErrors,
-      errors: shopifyResponse.errors
+      errors: shopifyResponse.errors,
+      shopifyShopId,
+      locale
     });
   } catch (err) {
     throw new Error(String(err));

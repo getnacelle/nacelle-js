@@ -15,9 +15,11 @@ export interface UpdateCartAttributesParams {
   attributes: AttributeInput[];
   cartId: string;
   gqlClient: GqlClient;
+  shopifyShopId: string;
   customFragments?: CustomFragments;
   language: LanguageCode;
   country: CountryCode;
+  locale: string;
 }
 
 export type CartAttributesUpdateResponse = CartAttributesUpdatePayload &
@@ -32,8 +34,10 @@ export default async function cartAttributesUpdate({
   cartId,
   customFragments,
   gqlClient,
+  shopifyShopId,
   language,
-  country
+  country,
+  locale
 }: UpdateCartAttributesParams): Promise<void | CartResponse> {
   try {
     const shopifyResponse = await gqlClient<
@@ -57,7 +61,9 @@ export default async function cartAttributesUpdate({
     return formatCartResponse({
       cart,
       userErrors: shopifyResponse.data?.cartAttributesUpdate?.userErrors,
-      errors: shopifyResponse.errors
+      errors: shopifyResponse.errors,
+      shopifyShopId,
+      locale
     });
   } catch (err) {
     throw new Error(String(err));

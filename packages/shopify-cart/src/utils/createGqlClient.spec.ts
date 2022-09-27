@@ -1,8 +1,8 @@
 import createGqlClient, {
   missingAccessTokenMessage,
-  missingParametersErrorMessage,
-  sanitizeShopId
+  missingParametersErrorMessage
 } from './createGqlClient';
+import sanitizeShopId from './sanitizeShopId';
 
 describe('createGqlClient', () => {
   it("throws an error if `shopifyStorefrontAccessToken` isn't provided", () => {

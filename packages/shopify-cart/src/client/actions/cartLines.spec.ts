@@ -20,8 +20,8 @@ import {
 import { CountryCode, LanguageCode } from '../../types/shopify.type';
 import type {
   CartLineAddMutation,
-  CartLineUpdateMutation,
-  CartLineRemoveMutation
+  CartLineRemoveMutation,
+  CartLineUpdateMutation
 } from '../../types/shopify.type';
 
 jest.mock('cross-fetch');
@@ -32,6 +32,10 @@ const mockedFetchClient = jest.mocked(fetchClient, true);
 const mockedFormatCartResponse = jest.mocked(formatCartResponse, true);
 const defaultLanguage: LanguageCode = 'EN';
 const defaultCountry: CountryCode = 'ZZ';
+const defaultLocale = 'en-US';
+const defaultShopId = 'shop-id';
+const defaultEntryId =
+  'aWQ6Ly9TSE9QSUZZL3Rlc3QvZGVmYXVsdC9QUk9EVUNUX1ZBUklBTlQvMDAwMC9lbi1VUw==';
 
 describe('cartLinesAdd', () => {
   afterEach(() => {
@@ -49,12 +53,13 @@ describe('cartLinesAdd', () => {
       cartId,
       lines: [
         {
-          nacelleEntryId: cartWithLineResponse.cart.lines.nodes[0].attributes[0]
-            .value as string
+          nacelleEntryId: defaultEntryId
         }
       ],
+      shopifyShopId: defaultShopId,
       language: defaultLanguage,
-      country: defaultCountry
+      country: defaultCountry,
+      locale: defaultLocale
     });
 
     expect(fetchClient).toHaveBeenCalledTimes(1);
@@ -83,7 +88,9 @@ describe('cartLinesAdd', () => {
       cart: responses.mutations.cartLinesAdd.data?.cartLinesAdd?.cart,
       userErrors:
         responses.mutations.cartLinesAdd.data?.cartLinesAdd?.userErrors,
-      errors: undefined
+      errors: undefined,
+      locale: defaultLocale,
+      shopifyShopId: defaultShopId
     });
   });
 
@@ -101,12 +108,13 @@ describe('cartLinesAdd', () => {
         cartId,
         lines: [
           {
-            nacelleEntryId: cartWithLineResponse.cart.lines.nodes[0]
-              .attributes[0].value as string
+            nacelleEntryId: defaultEntryId
           }
         ],
+        shopifyShopId: defaultShopId,
         language: defaultLanguage,
-        country: defaultCountry
+        country: defaultCountry,
+        locale: defaultLocale
       })
     ).rejects.toThrow(networkErrorMessage);
   });
@@ -134,13 +142,14 @@ describe('cartLinesUpdate', () => {
       lines: [
         {
           quantity: 2,
-          nacelleEntryId: updatedCart.cart.lines.nodes[0].attributes[0]
-            .value as string,
+          nacelleEntryId: defaultEntryId,
           id: updatedCart.cart.lines.nodes[0].id
         }
       ],
+      shopifyShopId: defaultShopId,
       language: defaultLanguage,
-      country: defaultCountry
+      country: defaultCountry,
+      locale: defaultLocale
     });
 
     expect(fetchClient).toHaveBeenCalledTimes(1);
@@ -170,7 +179,9 @@ describe('cartLinesUpdate', () => {
       cart: responses.mutations.cartLinesUpdate.data?.cartLinesUpdate?.cart,
       userErrors:
         responses.mutations.cartLinesUpdate.data?.cartLinesUpdate?.userErrors,
-      errors: undefined
+      errors: undefined,
+      locale: defaultLocale,
+      shopifyShopId: defaultShopId
     });
   });
 
@@ -189,13 +200,14 @@ describe('cartLinesUpdate', () => {
         lines: [
           {
             id: cartWithLineResponse.cart.lines.nodes[0].id,
-            nacelleEntryId: cartWithLineResponse.cart.lines.nodes[0]
-              .attributes[0].value as string,
+            nacelleEntryId: defaultEntryId,
             quantity: 2
           }
         ],
+        shopifyShopId: defaultShopId,
         language: defaultLanguage,
-        country: defaultCountry
+        country: defaultCountry,
+        locale: defaultLocale
       })
     ).rejects.toThrow(networkErrorMessage);
   });
@@ -218,8 +230,10 @@ describe('cartLinesRemove', () => {
       gqlClient,
       cartId,
       lineIds: [cartWithLineResponse.cart.lines.nodes[0].id],
+      shopifyShopId: defaultShopId,
       language: defaultLanguage,
-      country: defaultCountry
+      country: defaultCountry,
+      locale: defaultLocale
     });
 
     expect(fetchClient).toHaveBeenCalledTimes(1);
@@ -242,7 +256,9 @@ describe('cartLinesRemove', () => {
       cart: responses.mutations.cartLinesRemove.data?.cartLinesRemove?.cart,
       userErrors:
         responses.mutations.cartLinesRemove.data?.cartLinesRemove?.userErrors,
-      errors: undefined
+      errors: undefined,
+      locale: defaultLocale,
+      shopifyShopId: defaultShopId
     });
   });
 
@@ -259,8 +275,10 @@ describe('cartLinesRemove', () => {
         gqlClient,
         cartId,
         lineIds: [cartWithLineResponse.cart.lines.nodes[0].id],
+        shopifyShopId: defaultShopId,
         language: defaultLanguage,
-        country: defaultCountry
+        country: defaultCountry,
+        locale: defaultLocale
       })
     ).rejects.toThrow(networkErrorMessage);
   });

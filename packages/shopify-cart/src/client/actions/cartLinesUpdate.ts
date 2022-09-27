@@ -22,9 +22,11 @@ export interface CartLinesUpdateParams {
   cartId: string;
   gqlClient: GqlClient;
   lines: Array<NacelleCartLineItemUpdateInput>;
+  shopifyShopId: string;
   customFragments?: CustomFragments;
   language: LanguageCode;
   country: CountryCode;
+  locale: string;
 }
 
 export type CartLinesUpdateResponse = CartLinesUpdatePayload &
@@ -39,8 +41,10 @@ export default async function cartLinesUpdate({
   customFragments,
   gqlClient,
   lines,
+  shopifyShopId,
   language,
-  country
+  country,
+  locale
 }: CartLinesUpdateParams): Promise<void | CartResponse> {
   try {
     const formattedLines = transformNacelleLineItemToShopifyLineItem(lines);
@@ -65,7 +69,9 @@ export default async function cartLinesUpdate({
     return formatCartResponse({
       cart,
       userErrors: shopifyResponse.data?.cartLinesUpdate?.userErrors,
-      errors: shopifyResponse.errors
+      errors: shopifyResponse.errors,
+      shopifyShopId,
+      locale
     });
   } catch (err) {
     throw new Error(String(err));
