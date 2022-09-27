@@ -16,6 +16,8 @@
     "test": "jest --watch",
     "test:ci": "jest --silent --runInBand --collectCoverage",
     "changeset": "changeset",
+    "tsc": "tsc",
+    "tsc:production": "tsc --project tsconfig.production.json",
     "build": "vite build && tsc --project tsconfig.production.json && mv dist/src dist/types",
     "release": "npm run build && changeset publish"
   },
