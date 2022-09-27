@@ -21,7 +21,7 @@ export default function ({
     if (typeof window !== 'undefined') {
       nacelleEntryId = globalThis.btoa(nacelleEntryId);
     } else {
-      nacelleEntryId = new Buffer(nacelleEntryId).toString('base64');
+      nacelleEntryId = Buffer.from(nacelleEntryId).toString('base64');
     }
 
     return {
