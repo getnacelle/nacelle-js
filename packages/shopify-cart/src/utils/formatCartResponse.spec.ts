@@ -24,6 +24,24 @@ describe('formatCartResponse', () => {
 
     expect(
       formatCartResponse({
+        cart: cartWithoutLine,
+        userErrors: [],
+        errors: [],
+        shopifyShopId: 'shop-id',
+        locale: 'fr-FR'
+      })
+    ).toMatchObject({
+      cart: cartFromGql({
+        cart: cartWithoutLine,
+        shopifyShopId: 'shop-id',
+        locale: 'fr-FR'
+      }),
+      userErrors: null,
+      errors: null
+    });
+
+    expect(
+      formatCartResponse({
         cart: null,
         userErrors: [{ message: 'error message ' }],
         errors: [shopifyErrors.cartIdNotValid('123')],

@@ -16,13 +16,19 @@ export default function ({
       .split('gid://shopify/ProductVariant/')[1]
       .replace('/', '');
 
+    let nacelleEntryId = `id://SHOPIFY/${shopifyShopId}/default/PRODUCT_VARIANT/${shopifyVariantId}/${locale}`;
+
+    if (typeof window !== 'undefined') {
+      nacelleEntryId = globalThis.btoa(nacelleEntryId);
+    } else {
+      nacelleEntryId = new Buffer(nacelleEntryId).toString('base64');
+    }
+
     return {
       ...line,
       merchandise: {
         ...line.merchandise,
-        nacelleEntryId: btoa(
-          `id://SHOPIFY/${shopifyShopId}/default/PRODUCT_VARIANT/${shopifyVariantId}/${locale}`
-        )
+        nacelleEntryId
       }
     };
   });

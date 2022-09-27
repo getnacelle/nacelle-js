@@ -2,6 +2,7 @@
 import createShopifyCartClient from './index';
 import mutations from '../graphql/mutations';
 import { mockJsonResponse } from '../../__tests__/utils';
+import * as utilFunctions from '../utils';
 import {
   clientSettings,
   responses,
@@ -154,6 +155,29 @@ describe('createShopifyCartClient', () => {
       })
     });
   });
+
+  it('makes a request with provided locale when locale is passed to createCart', async () => {
+    const windowFetch = jest.fn(
+      (): Promise<any> =>
+        mockJsonResponse<{ cart: Cart_CartFragment }>(responses.queries.cart)
+    );
+    window.fetch = windowFetch;
+    const formatSpy = jest.spyOn(utilFunctions, 'formatCartResponse');
+
+    const cartClient = createShopifyCartClient({
+      ...clientSettings,
+      locale: 'fr-FR'
+    });
+
+    await cartClient.cart({ cartId });
+
+    expect(formatSpy).toHaveBeenCalledWith(
+      expect.objectContaining({
+        locale: 'fr-FR'
+      })
+    );
+  });
+
   it('makes the expected request when adding line item to cart', async () => {
     const windowFetch = jest.fn(
       (): Promise<any> =>
