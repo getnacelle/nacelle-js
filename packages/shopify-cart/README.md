@@ -61,6 +61,7 @@ The cart client accepts the following parameters:
 - `fetchClient` (`function`) - optional Fetch API-compatible request function
 - `country` (`string`) - optional [Shopify Country Code][shopify-cart-country-code] used for cart queries/responses. Defaults to `ZZ` (unknown region) if not supplied.
 - `language` (`string`) - optional [Shopify Language Code][shopify-cart-language-code] used for cart queries/responses. Defaults to `EN` if not supplied.
+- `locale` (`string`) - optional [Nacelle Locale Code]used to assign `NacelleCartMerchandise` the correct `nacelleEntryId`. Defaults to `en-US` if not supplied.
 
 _You must provide a `shopifyShopId` or a `shopifyCustomEndpoint`_
 
