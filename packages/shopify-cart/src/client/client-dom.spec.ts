@@ -2,6 +2,7 @@
 import createShopifyCartClient from './index';
 import mutations from '../graphql/mutations';
 import { mockJsonResponse } from '../../__tests__/utils';
+import * as utilFunctions from '../utils';
 import {
   clientSettings,
   responses,
@@ -27,6 +28,9 @@ import type {
 
 const defaultLanguage: LanguageCode = 'EN';
 const defaultCountry: CountryCode = 'ZZ';
+const defaultLocale = 'en-US';
+const defaultEntryId =
+  'aWQ6Ly9TSE9QSUZZL3Rlc3QvZGVmYXVsdC9QUk9EVUNUX1ZBUklBTlQvMDAwMC9lbi1VUw==';
 
 describe('createShopifyCartClient', () => {
   afterEach(() => {
@@ -151,6 +155,29 @@ describe('createShopifyCartClient', () => {
       })
     });
   });
+
+  it('makes a request with provided locale when locale is passed to createCart', async () => {
+    const windowFetch = jest.fn(
+      (): Promise<any> =>
+        mockJsonResponse<{ cart: Cart_CartFragment }>(responses.queries.cart)
+    );
+    window.fetch = windowFetch;
+    const formatSpy = jest.spyOn(utilFunctions, 'formatCartResponse');
+
+    const cartClient = createShopifyCartClient({
+      ...clientSettings,
+      locale: 'fr-FR'
+    });
+
+    await cartClient.cart({ cartId });
+
+    expect(formatSpy).toHaveBeenCalledWith(
+      expect.objectContaining({
+        locale: 'fr-FR'
+      })
+    );
+  });
+
   it('makes the expected request when adding line item to cart', async () => {
     const windowFetch = jest.fn(
       (): Promise<any> =>
@@ -200,8 +227,7 @@ describe('createShopifyCartClient', () => {
         {
           quantity: 2,
           id: updatedCart.cart.lines.nodes[0].id,
-          nacelleEntryId: updatedCart.cart.lines.nodes[0].attributes[0]
-            .value as string
+          nacelleEntryId: defaultEntryId
         }
       ]
     });
@@ -512,38 +538,47 @@ describe('createShopifyCartClient', () => {
     );
   });
 
-  it('returns the editable config options passed in when you call getConfig', () => {
+  it('returns the config options passed in when you call getConfig', () => {
     const cartClientWithNonDefaultCountryAndLanguage = createShopifyCartClient({
       ...clientSettings,
       country: 'CA',
-      language: 'FR'
+      language: 'FR',
+      locale: 'en-US'
     });
     expect(cartClientWithNonDefaultCountryAndLanguage.getConfig()).toEqual({
+      ...clientSettings,
       country: 'CA',
-      language: 'FR'
+      language: 'FR',
+      locale: 'en-US'
     });
     const cartClientWithDefaultLanguageAndCountry = createShopifyCartClient({
       ...clientSettings
     });
     expect(cartClientWithDefaultLanguageAndCountry.getConfig()).toEqual({
+      ...clientSettings,
       country: defaultCountry,
-      language: defaultLanguage
+      language: defaultLanguage,
+      locale: defaultLocale
     });
   });
   it('updates the language setting in the config if you set a new language with setConfig', () => {
     const cartClient = createShopifyCartClient({ ...clientSettings });
     cartClient.setConfig({ language: 'FR' });
     expect(cartClient.getConfig()).toEqual({
+      ...clientSettings,
       country: defaultCountry,
-      language: 'FR'
+      language: 'FR',
+      locale: 'en-US'
     });
   });
   it('updates the country setting in the config if you set a new language with setConfig', () => {
     const cartClient = createShopifyCartClient({ ...clientSettings });
     cartClient.setConfig({ country: 'CA' });
     expect(cartClient.getConfig()).toEqual({
+      ...clientSettings,
       language: defaultLanguage,
-      country: 'CA'
+      country: 'CA',
+      locale: 'en-US'
     });
   });
   it('uses the updated settings in the cart request if you update the config with setConfig', async () => {
@@ -622,8 +657,7 @@ describe('createShopifyCartClient', () => {
         {
           quantity: 2,
           id: updatedCart.cart.lines.nodes[0].id,
-          nacelleEntryId: updatedCart.cart.lines.nodes[0].attributes[0]
-            .value as string
+          nacelleEntryId: defaultEntryId
         }
       ]
     });

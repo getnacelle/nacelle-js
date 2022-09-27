@@ -15,8 +15,10 @@ export interface CreateDiscountCodesUpdateParams {
   gqlClient: GqlClient;
   customFragments?: CustomFragments;
   discountCodes?: string[];
+  shopifyShopId: string;
   language: LanguageCode;
   country: CountryCode;
+  locale: string;
 }
 
 export type CartDiscountCodesUpdateResponse = CartDiscountCodesUpdatePayload &
@@ -31,8 +33,10 @@ export default async function cartDiscountCodesUpdate({
   customFragments,
   discountCodes,
   gqlClient,
+  shopifyShopId,
   language,
-  country
+  country,
+  locale
 }: CreateDiscountCodesUpdateParams): Promise<void | CartResponse> {
   try {
     const shopifyResponse = await gqlClient<
@@ -56,7 +60,9 @@ export default async function cartDiscountCodesUpdate({
     return formatCartResponse({
       cart,
       userErrors: shopifyResponse.data?.cartDiscountCodesUpdate?.userErrors,
-      errors: shopifyResponse.errors
+      errors: shopifyResponse.errors,
+      shopifyShopId,
+      locale
     });
   } catch (err) {
     throw new Error(String(err));

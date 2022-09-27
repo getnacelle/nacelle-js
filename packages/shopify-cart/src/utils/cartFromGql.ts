@@ -4,18 +4,30 @@ import transformShopifyLineToNacelleLine from './transformShopifyLineToNacelleLi
 
 export interface CartFromGqlParams {
   cart: Cart_CartFragment;
+  shopifyShopId: string;
+  locale: string;
 }
 
 /**
  * Convert a `cart` from a Shopify Storefront GraphQL response to a `Cart`
  * @param params
  * @param params.cart - the `cart` from a Shopify Storefront GraphQL response
+ * @param params.shopifyShopId - the `shopifyShopId` associated with cart
+ * @param params.locale - the `locale` associated with cart
  * @returns Formatted `Cart` object
  */
-export default function cartFromGql({ cart }: CartFromGqlParams): Cart {
+export default function cartFromGql({
+  cart,
+  shopifyShopId,
+  locale
+}: CartFromGqlParams): Cart {
   return {
     ...cart,
-    lines: transformShopifyLineToNacelleLine(cart.lines.nodes),
+    lines: transformShopifyLineToNacelleLine({
+      lines: cart.lines.nodes,
+      shopifyShopId,
+      locale
+    }),
     note: cart.note ?? undefined
   };
 }

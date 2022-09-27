@@ -14,9 +14,11 @@ import type { ShopifyError } from '../../types/errors.type';
 export interface CartParams {
   cartId: string;
   gqlClient: GqlClient;
+  shopifyShopId: string;
   customFragments?: CustomFragments;
   language: LanguageCode;
   country: CountryCode;
+  locale: string;
 }
 
 export interface ShopifyCartResponse {
@@ -28,8 +30,10 @@ export default async function cart({
   cartId,
   customFragments,
   gqlClient,
+  shopifyShopId,
   language,
-  country
+  country,
+  locale
 }: CartParams): Promise<void | CartResponse> {
   try {
     const shopifyResponse = await gqlClient<
@@ -53,7 +57,9 @@ export default async function cart({
     return formatCartResponse({
       cart,
       userErrors: null,
-      errors: shopifyResponse.errors
+      errors: shopifyResponse.errors,
+      shopifyShopId,
+      locale
     });
   } catch (err) {
     throw new Error(String(err));

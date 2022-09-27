@@ -11,5 +11,6 @@ export { default as depaginateLines } from './depaginateLines';
 export { default as formatCartResponse } from './formatCartResponse';
 export { default as getShopifyIdFromNacelleId } from './getShopifyIdFromNacelleId';
 export { default as sanitizeFragments } from './sanitizeFragments';
+export { default as sanitizeShopId } from './sanitizeShopId';
 export { default as transformNacelleLineItemToShopifyLineItem } from './transformNacelleLineItemToShopifyLineItem';
 // @endindex

@@ -7,6 +7,8 @@ export type FormatCartResponseParams = Pick<
   'errors' | 'userErrors'
 > & {
   cart: Cart_CartFragment | undefined | null;
+  shopifyShopId: string;
+  locale: string;
 };
 
 /**
@@ -17,7 +19,9 @@ export type FormatCartResponseParams = Pick<
 export default function formatCartResponse({
   cart,
   userErrors,
-  errors
+  errors,
+  shopifyShopId,
+  locale
 }: FormatCartResponseParams): CartResponse {
   const cartResponse: CartResponse = {
     cart: null,
@@ -34,7 +38,11 @@ export default function formatCartResponse({
   }
 
   if (cart) {
-    cartResponse.cart = cartFromGql({ cart });
+    cartResponse.cart = cartFromGql({
+      cart,
+      shopifyShopId,
+      locale
+    });
   }
 
   return cartResponse;

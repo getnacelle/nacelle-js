@@ -1,20 +1,6 @@
 import { GqlClient } from '../cart-client.types';
 import { CreateClientParams } from '../client';
-
-/**
- * Sanitize `(brand).myshopify.com` domains.
- */
-export function sanitizeShopId(shopId: string): string {
-  const sanitizedDomain = shopId
-    .split('.myshopify')
-    .shift()
-    ?.split('//')
-    .pop()
-    ?.split('.')
-    .pop();
-
-  return sanitizedDomain || shopId;
-}
+import sanitizeShopId from './sanitizeShopId';
 
 export const fetchClientError =
   '[@nacelle/shopify-checkout] in order to create a checkout server-side, ' +
