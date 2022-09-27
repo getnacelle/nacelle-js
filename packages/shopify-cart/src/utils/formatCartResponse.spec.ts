@@ -8,10 +8,34 @@ describe('formatCartResponse', () => {
       formatCartResponse({
         cart: cartWithoutLine,
         userErrors: [],
-        errors: []
+        errors: [],
+        shopifyShopId: 'shop-id',
+        locale: 'en-US'
       })
     ).toMatchObject({
-      cart: cartFromGql({ cart: cartWithoutLine }),
+      cart: cartFromGql({
+        cart: cartWithoutLine,
+        shopifyShopId: 'shop-id',
+        locale: 'en-US'
+      }),
+      userErrors: null,
+      errors: null
+    });
+
+    expect(
+      formatCartResponse({
+        cart: cartWithoutLine,
+        userErrors: [],
+        errors: [],
+        shopifyShopId: 'shop-id',
+        locale: 'fr-FR'
+      })
+    ).toMatchObject({
+      cart: cartFromGql({
+        cart: cartWithoutLine,
+        shopifyShopId: 'shop-id',
+        locale: 'fr-FR'
+      }),
       userErrors: null,
       errors: null
     });
@@ -20,7 +44,9 @@ describe('formatCartResponse', () => {
       formatCartResponse({
         cart: null,
         userErrors: [{ message: 'error message ' }],
-        errors: [shopifyErrors.cartIdNotValid('123')]
+        errors: [shopifyErrors.cartIdNotValid('123')],
+        shopifyShopId: 'shop-id',
+        locale: 'en-US'
       })
     ).toMatchObject({
       cart: null,

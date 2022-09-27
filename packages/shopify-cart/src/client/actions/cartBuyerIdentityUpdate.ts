@@ -15,9 +15,11 @@ export interface CartBuyerIdentityUpdateParams {
   gqlClient: GqlClient;
   cartId: string;
   buyerIdentity: CartBuyerIdentityInput;
+  shopifyShopId: string;
   customFragments?: CustomFragments;
   language: LanguageCode;
   country: CountryCode;
+  locale: string;
 }
 
 export type CartBuyerIdentityUpdateResponse = CartBuyerIdentityUpdatePayload &
@@ -32,8 +34,10 @@ export default async function CartBuyerIdentityUpdate({
   cartId,
   customFragments,
   gqlClient,
+  shopifyShopId,
   language,
-  country
+  country,
+  locale
 }: CartBuyerIdentityUpdateParams): Promise<void | CartResponse> {
   try {
     const shopifyResponse = await gqlClient<
@@ -57,7 +61,9 @@ export default async function CartBuyerIdentityUpdate({
     return formatCartResponse({
       cart,
       userErrors: shopifyResponse.data?.cartBuyerIdentityUpdate?.userErrors,
-      errors: shopifyResponse.errors
+      errors: shopifyResponse.errors,
+      shopifyShopId,
+      locale
     });
   } catch (err) {
     throw new Error(String(err));

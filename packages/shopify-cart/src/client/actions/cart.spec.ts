@@ -26,6 +26,8 @@ const mockedFetchClient = jest.mocked(fetchClient, true);
 const mockedFormatCartResponse = jest.mocked(formatCartResponse, true);
 const defaultLanguage: LanguageCode = 'EN';
 const defaultCountry: CountryCode = 'ZZ';
+const defaultLocale = 'en-US';
+const defaultShopId = 'shop-id';
 
 describe('fetch cart', () => {
   afterEach(() => {
@@ -42,7 +44,9 @@ describe('fetch cart', () => {
       gqlClient,
       cartId,
       language: defaultLanguage,
-      country: defaultCountry
+      country: defaultCountry,
+      locale: defaultLocale,
+      shopifyShopId: defaultShopId
     });
 
     expect(fetchClient).toHaveBeenCalledTimes(1);
@@ -63,7 +67,9 @@ describe('fetch cart', () => {
     expect(mockedFormatCartResponse).toHaveBeenCalledWith({
       cart: responses.queries.cart.data?.cart,
       userErrors: null,
-      errors: undefined
+      errors: undefined,
+      shopifyShopId: defaultShopId,
+      locale: defaultLocale
     });
   });
 
@@ -80,7 +86,9 @@ describe('fetch cart', () => {
         gqlClient,
         cartId,
         language: defaultLanguage,
-        country: defaultCountry
+        country: defaultCountry,
+        locale: defaultLocale,
+        shopifyShopId: defaultShopId
       })
     ).rejects.toThrow(networkErrorMessage);
   });

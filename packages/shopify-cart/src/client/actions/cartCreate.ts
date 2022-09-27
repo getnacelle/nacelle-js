@@ -23,8 +23,10 @@ export interface CreateCartParams {
   gqlClient: GqlClient;
   customFragments?: CustomFragments;
   params?: NacelleCartInput;
+  shopifyShopId: string;
   language: LanguageCode;
   country: CountryCode;
+  locale: string;
 }
 
 export type CartCreateResponse = CartCreatePayload & CartFragmentResponse;
@@ -37,8 +39,10 @@ export default async function cartCreate({
   customFragments,
   gqlClient,
   params,
+  shopifyShopId,
   language,
-  country
+  country,
+  locale
 }: CreateCartParams): Promise<void | CartResponse> {
   let shopifyParams: CartInput = {};
 
@@ -74,7 +78,9 @@ export default async function cartCreate({
     return formatCartResponse({
       cart,
       userErrors: shopifyResponse.data?.cartCreate?.userErrors,
-      errors: shopifyResponse.errors
+      errors: shopifyResponse.errors,
+      shopifyShopId,
+      locale
     });
   } catch (err) {
     throw new Error(String(err));
