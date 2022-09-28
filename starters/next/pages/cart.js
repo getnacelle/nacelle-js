@@ -34,7 +34,7 @@ function Cart() {
                 <div>
                   <h2 className={styles.title}>{lineItem.title}</h2>
                   <p className={styles.subtitle}>{lineItem.variantTitle}</p>
-                  <p className={styles.price}>${lineItem.price}</p>
+                  <p className={styles.price}>${parseFloat(lineItem.price)}</p>
                   <p>
                     <strong>Quantity:</strong> {lineItem.quantity}
                   </p>

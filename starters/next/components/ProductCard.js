@@ -71,6 +71,7 @@ function ProductCard({ product }) {
                 alt={product.content.featuredMedia.altText}
                 width={530}
                 height={350}
+                objectFit="contain"
                 className={styles.image}
               />
             ) : (

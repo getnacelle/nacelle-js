@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { nacelleClient } from 'services';
 import { useCart } from 'hooks/useCart';
 import { getSelectedVariant } from 'utils/getSelectedVariant';
@@ -71,6 +72,7 @@ function Product({ product }) {
             alt={product.content.featuredMedia.altText}
             width={530}
             height={350}
+            objectFit="contain"
             className={styles.image}
           />
         </div>
@@ -122,6 +124,9 @@ function Product({ product }) {
           <button type="button" onClick={handleAddItem}>
             {buttonText}
           </button>
+          <Link href="/cart">
+            <a>View Cart</a>
+          </Link>
         </div>
       </div>
     )
