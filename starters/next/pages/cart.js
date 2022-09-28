@@ -32,8 +32,10 @@ function Cart() {
                   />
                 </div>
                 <div>
-                  <h2 className={styles.title}>{lineItem.title}</h2>
-                  <p className={styles.subtitle}>{lineItem.variantTitle}</p>
+                  <h2 className={styles.title}>{lineItem.productTitle}</h2>
+                  {lineItem.variantTitle !== 'Default Title' && (
+                    <p className={styles.subtitle}>{lineItem.variantTitle}</p>
+                  )}
                   <p className={styles.price}>${parseFloat(lineItem.price)}</p>
                   <p>
                     <strong>Quantity:</strong> {lineItem.quantity}
