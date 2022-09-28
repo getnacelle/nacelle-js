@@ -1,9 +1,8 @@
 {
   "name": "@nacelle/shopify-cart",
-  "version": "0.2.1",
+  "version": "1.0.0-beta.0",
   "author": "Nacelle Inc.",
   "license": "Apache-2.0",
-  "private": true,
   "files": [
     "src",
     "dist"
@@ -16,7 +15,9 @@
     "test": "jest --watch",
     "test:ci": "jest --silent --runInBand --collectCoverage",
     "changeset": "changeset",
-    "build": "vite build && tsc && mv dist/src dist/types",
+    "tsc": "tsc",
+    "tsc:production": "tsc --project tsconfig.production.json",
+    "build": "vite build && tsc --project tsconfig.production.json && mv dist/src dist/types",
     "release": "npm run build && changeset publish"
   },
   "homepage": "https://github.com/getnacelle/nacelle-js/tree/main/packages/shopify-cart#readme",

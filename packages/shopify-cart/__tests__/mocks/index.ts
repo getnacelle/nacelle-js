@@ -116,17 +116,7 @@ export const cartWithoutLine: Cart_CartFragment = {
 export const cartLine: CartLine = {
   id: 'gid://shopify/CartLine/e543caf96fa645b54d07ab2035ef9dba?cart=a7aad2fb1e6611422c946f6827710550',
   quantity: 1,
-  attributes: [
-    {
-      key: 'nacelleEntryId',
-      value:
-        'aWQ6Ly9TSE9QSUZZL3BlcHBlci13b29kcy1hcHBhcmVsL2RlZmF1bHQvUFJPRFVDVF9WQVJJQU5ULzMzODk0MTIwNzE4NDcxL2VuLVVT'
-    }
-  ],
-  nacelleEntryId: {
-    value:
-      'aWQ6Ly9TSE9QSUZZL3BlcHBlci13b29kcy1hcHBhcmVsL2RlZmF1bHQvUFJPRFVDVF9WQVJJQU5ULzMzODk0MTIwNzE4NDcxL2VuLVVT'
-  },
+  attributes: [],
   cost: {
     subtotalAmount: {
       amount: '265.0',
@@ -144,7 +134,7 @@ export const cartLine: CartLine = {
   },
   discountAllocations: [],
   merchandise: {
-    sourceEntryId: 'gid://shopify/ProductVariant/33894120718471',
+    sourceEntryId: 'gid://shopify/ProductVariant/0000',
     availableForSale: true,
     compareAtPriceV2: {
       currencyCode: 'USD',
@@ -380,8 +370,16 @@ export const responses: Responses = {
 };
 
 export const carts: Carts = {
-  withoutLine: cartFromGql({ cart: cartWithoutLine as Cart_CartFragment }),
-  withLine: cartFromGql({ cart: cartWithLine as Cart_CartFragment })
+  withoutLine: cartFromGql({
+    cart: cartWithoutLine as Cart_CartFragment,
+    shopifyShopId: 'shop-id',
+    locale: 'en-US'
+  }),
+  withLine: cartFromGql({
+    cart: cartWithLine as Cart_CartFragment,
+    shopifyShopId: 'shop-id',
+    locale: 'en-US'
+  })
 };
 
 export const shopifyErrors = {

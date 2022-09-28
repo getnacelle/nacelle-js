@@ -28,9 +28,6 @@ export default (customFragments?: CustomFragments) => /* GraphQL */ `
       nodes {
         ...CartLine_extendCartLine
         id
-        nacelleEntryId: attribute(key: "nacelleEntryId") {
-          value
-        }
         quantity
         attributes {
           key

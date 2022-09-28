@@ -26,6 +26,8 @@ const mockedFetchClient = jest.mocked(fetchClient, true);
 const mockedFormatCartResponse = jest.mocked(formatCartResponse, true);
 const defaultLanguage: LanguageCode = 'EN';
 const defaultCountry: CountryCode = 'ZZ';
+const defaultLocale = 'en-US';
+const defaultShopId = 'shop-id';
 
 describe('cartBuyerIdentityUpdate', () => {
   afterEach(() => {
@@ -46,8 +48,10 @@ describe('cartBuyerIdentityUpdate', () => {
       buyerIdentity: {
         email: 'email@email.com'
       },
+      shopifyShopId: defaultShopId,
       language: defaultLanguage,
-      country: defaultCountry
+      country: defaultCountry,
+      locale: defaultLocale
     });
 
     expect(fetchClient).toHaveBeenCalledTimes(1);
@@ -74,7 +78,9 @@ describe('cartBuyerIdentityUpdate', () => {
       userErrors:
         responses.mutations.cartBuyerIdentityUpdate.withoutBuyer.data
           ?.cartBuyerIdentityUpdate?.userErrors,
-      errors: undefined
+      errors: undefined,
+      locale: defaultLocale,
+      shopifyShopId: defaultShopId
     });
   });
 
@@ -94,7 +100,9 @@ describe('cartBuyerIdentityUpdate', () => {
           email: 'email@email.com'
         },
         language: defaultLanguage,
-        country: defaultCountry
+        country: defaultCountry,
+        locale: defaultLocale,
+        shopifyShopId: defaultShopId
       })
     ).rejects.toThrow(networkErrorMessage);
   });
