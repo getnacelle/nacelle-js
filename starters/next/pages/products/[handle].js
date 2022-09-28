@@ -117,6 +117,7 @@ function Product({ product }) {
               id={`quantity-${product.nacelleEntryId}`}
               type="number"
               min="1"
+              max="10"
               value={quantity}
               onChange={handleQuantityChange}
             />
