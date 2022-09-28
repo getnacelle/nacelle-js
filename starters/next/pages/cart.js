@@ -8,8 +8,7 @@ function Cart() {
     cartCount,
     cartSubtotal,
     isLoading,
-    incrementItem,
-    decrementItem,
+    updateItem,
     removeItem,
     clearCart,
     checkout
@@ -37,15 +36,29 @@ function Cart() {
                     <p className={styles.subtitle}>{lineItem.variantTitle}</p>
                   )}
                   <p className={styles.price}>${parseFloat(lineItem.price)}</p>
-                  <p>
-                    <strong>Quantity:</strong> {lineItem.quantity}
-                  </p>
-                  <button onClick={() => decrementItem(lineItem.cartLineId)}>
-                    -
-                  </button>
-                  <button onClick={() => incrementItem(lineItem.cartLineId)}>
-                    +
-                  </button>
+                  <div>
+                    <strong>Quantity:</strong>
+                    <select
+                      onChange={(e) =>
+                        updateItem({
+                          id: lineItem.cartLineId,
+                          quantity: parseInt(e.target.value)
+                        })
+                      }
+                      value={lineItem.quantity}
+                    >
+                      {[...Array(10)].map((_, index) => (
+                        <option key={index + 1} value={index + 1}>
+                          {index + 1}
+                        </option>
+                      ))}
+                      {lineItem.quantity > 10 && (
+                        <option value={lineItem.quantity}>
+                          {lineItem.quantity}
+                        </option>
+                      )}
+                    </select>
+                  </div>
                   <button onClick={() => removeItem(lineItem.cartLineId)}>
                     Remove
                   </button>

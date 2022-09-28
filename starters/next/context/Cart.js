@@ -157,65 +157,31 @@ export const CartProvider = ({ children, cacheKey = 'cartId' }) => {
     }
   };
 
-  const updateItemQuantity = async (line) => {
-    const { cart, userErrors, errors } = await cartClient.cartLinesUpdate({
-      cartId: cartId,
-      lines: [
-        {
-          id: line.cartLineId,
-          nacelleEntryId: line.nacelleEntryId || null,
-          quantity: line.quantity
-        }
-      ]
-    });
-    if (cart) {
-      setCart({ lines: cart.lines, checkoutUrl: cart.checkoutUrl });
-    }
-    setErrors({ userErrors, errors });
-  };
-
-  const incrementItem = async (lineId) => {
+  const updateItem = async (line) => {
     const index = lineItems.findIndex(
-      (lineItem) => lineItem.cartLineId === lineId
+      (lineItem) => lineItem.cartLineId === line.id
     );
     if (index > -1) {
-      const items = [...lineItems];
-      items.splice(index, 1, {
-        ...lineItems[index],
-        quantity: lineItems[index].quantity + 1
-      });
-      setOptimisticCart({
-        lines: items,
-        cartCheckoutUrl
-      });
-      updateItemQuantity({
-        cartLineId: items[index].cartLineId,
-        quantity: items[index].quantity
-      });
-    }
-  };
-
-  const decrementItem = async (lineId) => {
-    const index = lineItems.findIndex(
-      (lineItem) => lineItem.cartLineId === lineId
-    );
-    if (index > -1) {
-      if (lineItems[index].quantity === 1) {
-        await removeItem(lineId);
+      if (line.quantity < 1) {
+        await removeItem(line.id);
       } else {
         const items = [...lineItems];
         items.splice(index, 1, {
           ...lineItems[index],
-          quantity: lineItems[index].quantity - 1
+          ...line
         });
         setOptimisticCart({
           lines: items,
           cartCheckoutUrl
         });
-        updateItemQuantity({
-          cartLineId: items[index].cartLineId,
-          quantity: items[index].quantity
+        const { cart, userErrors, errors } = await cartClient.cartLinesUpdate({
+          cartId: cartId,
+          lines: [line]
         });
+        if (cart) {
+          setCart({ lines: cart.lines, checkoutUrl: cart.checkoutUrl });
+        }
+        setErrors({ userErrors, errors });
       }
     }
   };
@@ -274,8 +240,7 @@ export const CartProvider = ({ children, cacheKey = 'cartId' }) => {
         cartErrors,
         isLoading,
         addItem,
-        incrementItem,
-        decrementItem,
+        updateItem,
         removeItem,
         clearCart,
         checkout,
