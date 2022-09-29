@@ -139,7 +139,14 @@ export const CartProvider = ({ children, cacheKey = 'cartId' }) => {
     });
     if (index === -1) {
       const cartLineId = `placeholder-${uuid()}`;
-      const items = [...lineItems, { ...line, cartLineId }];
+      const items = [
+        ...lineItems,
+        {
+          quantity: line.quantity,
+          ...line.variant,
+          cartLineId
+        }
+      ];
       setOptimisticCart({ lines: items });
       const { cart, userErrors, errors } = await cartClient.cartLinesAdd({
         cartId,
