@@ -122,7 +122,11 @@ function Product({ product }) {
               onChange={handleQuantityChange}
             />
           </div>
-          <button type="button" onClick={handleAddItem}>
+          <button
+            type="button"
+            disabled={!selectedVariant.availableForSale}
+            onClick={handleAddItem}
+          >
             {buttonText}
           </button>
           <Link href="/cart">

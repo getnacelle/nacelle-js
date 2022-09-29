@@ -14,13 +14,15 @@ function Cart() {
     checkout
   } = useCart();
 
+  const filteredCartItems = cartItems.filter((cartItem) => cartItem.quantity);
+
   return (
     <div>
       <h1>Cart</h1>
       {cartCount > 0 && (
         <div>
           <ul>
-            {cartItems.map((lineItem, index) => (
+            {filteredCartItems.map((lineItem, index) => (
               <li className={styles.item} key={`${lineItem.id}-${index}`}>
                 <div className={styles.image}>
                   <Image
