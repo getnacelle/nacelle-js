@@ -107,12 +107,11 @@ export const CartProvider = ({ children, cacheKey = 'cartId' }) => {
       cartId: cachedCartId
     });
     if (cart) {
-      setOptimisticCart({
-        lines: cart.lines.map((line) => lineTransformer(line)),
-        checkoutUrl: cart.checkoutUrl
-      });
+      setCart({ lines: cart.lines, checkoutUrl: cart.checkoutUrl });
+      setCartErrors({ userErrors, errors });
+    } else {
+      await createCart();
     }
-    setCartErrors({ userErrors, errors });
     setIsLoading(false);
   };
 
@@ -120,6 +119,7 @@ export const CartProvider = ({ children, cacheKey = 'cartId' }) => {
     const { cart, userErrors, errors } = await cartClient.cartCreate();
     if (cart) {
       setCartIdWithCache(cart.id);
+      setCart({ lines: cart.lines, checkoutUrl: cart.checkoutUrl });
     }
     setErrors({ userErrors, errors });
   };
