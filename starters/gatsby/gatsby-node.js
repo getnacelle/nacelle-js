@@ -1,4 +1,4 @@
-const path = require("path");
+const path = require('path');
 
 exports.createPages = async ({ graphql, actions: { createPage } }) => {
   // Product Loading Pages (PLPs) for each ProductCollection
@@ -44,13 +44,13 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
               i === 0
                 ? `/collections/${handle}`
                 : `/collections/${handle}/${i + 1}`,
-            component: path.resolve("./src/templates/ProductCollection.js"),
+            component: path.resolve('./src/templates/ProductCollection.js'),
             context: {
               productCollectionHandle: handle,
               productHandles,
               numPages,
-              currentPage: i + 1,
-            },
+              currentPage: i + 1
+            }
           });
         });
       }
