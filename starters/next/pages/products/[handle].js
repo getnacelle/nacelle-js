@@ -1,13 +1,14 @@
 import { useState } from 'react';
 import Image from 'next/image';
-import { useCart } from '@nacelle/react-hooks';
+import Link from 'next/link';
 import { nacelleClient } from 'services';
+import { useCart } from 'hooks/useCart';
 import { getSelectedVariant } from 'utils/getSelectedVariant';
 import { getCartVariant } from 'utils/getCartVariant';
 import styles from 'styles/Product.module.css';
 
 function Product({ product }) {
-  const [, { addToCart }] = useCart();
+  const { addItem } = useCart();
   const [selectedVariant, setSelectedVariant] = useState(product.variants[0]);
   const [selectedOptions, setSelectedOptions] = useState(
     selectedVariant.content.selectedOptions
@@ -49,18 +50,17 @@ function Product({ product }) {
     setQuantity(+event.target.value);
   };
 
-  // Get product data and add it to the cart by using `addToCart`
-  // from the `useCart` hook provided by `@nacelle/react-hooks`.
-  // (https://github.com/getnacelle/nacelle-react/tree/main/packages/react-hooks)
   const handleAddItem = () => {
     const variant = getCartVariant({
       product,
       variant: selectedVariant
     });
-    addToCart({
-      variant,
-      quantity
-    });
+    if (variant) {
+      addItem({
+        variant,
+        quantity
+      });
+    }
   };
 
   return (
@@ -72,6 +72,7 @@ function Product({ product }) {
             alt={product.content.featuredMedia.altText}
             width={530}
             height={350}
+            objectFit="contain"
             className={styles.image}
           />
         </div>
@@ -116,13 +117,21 @@ function Product({ product }) {
               id={`quantity-${product.nacelleEntryId}`}
               type="number"
               min="1"
+              max="10"
               value={quantity}
               onChange={handleQuantityChange}
             />
           </div>
-          <button type="button" onClick={handleAddItem}>
+          <button
+            type="button"
+            disabled={!selectedVariant.availableForSale}
+            onClick={handleAddItem}
+          >
             {buttonText}
           </button>
+          <Link href="/cart">
+            <a>View Cart</a>
+          </Link>
         </div>
       </div>
     )
