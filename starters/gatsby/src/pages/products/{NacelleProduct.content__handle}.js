@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
-import { graphql } from 'gatsby';
+import { graphql, Link } from 'gatsby';
 import { GatsbyImage, getImage } from 'gatsby-plugin-image';
-import { useCart } from '@nacelle/react-hooks';
+import { useCart } from '../../hooks/useCart';
 import { getSelectedVariant } from '../../utils/getSelectedVariant';
 import { getCartVariant } from '../../utils/getCartVariant';
 import * as styles from '../../styles/Product.module.css';
 
 export default function Product({ data }) {
   const product = data.nacelleProduct;
-  const [, { addToCart }] = useCart();
+  const { addItem } = useCart();
   const [selectedVariant, setSelectedVariant] = useState(product.variants[0]);
   const [selectedOptions, setSelectedOptions] = useState(
     selectedVariant.content.selectedOptions
@@ -50,18 +50,17 @@ export default function Product({ data }) {
     setQuantity(+event.target.value);
   };
 
-  // Get product data and add it to the cart by using `addToCart`
-  // from the `useCart` hook provided by `@nacelle/react-hooks`.
-  // (https://github.com/getnacelle/nacelle-react/tree/main/packages/react-hooks)
   const handleAddItem = () => {
     const variant = getCartVariant({
       product,
       variant: selectedVariant
     });
-    addToCart({
-      variant,
-      quantity
-    });
+    if (variant) {
+      addItem({
+        variant,
+        quantity
+      });
+    }
   };
 
   return (
@@ -73,6 +72,7 @@ export default function Product({ data }) {
             alt={product.content.featuredMedia.altText}
             width={530}
             height={350}
+            objectFit="contain"
             className={styles.image}
           />
         </div>
@@ -115,13 +115,21 @@ export default function Product({ data }) {
               id={`quantity-${product.nacelleEntryId}`}
               type="number"
               min="1"
+              max="10"
               value={quantity}
               onChange={handleQuantityChange}
             />
           </div>
-          <button type="button" onClick={handleAddItem}>
+          <button
+            type="button"
+            disabled={!selectedVariant.availableForSale}
+            onClick={handleAddItem}
+          >
             {buttonText}
           </button>
+          <Link to="/cart">
+            <a>View Cart</a>
+          </Link>
         </div>
       </div>
     )

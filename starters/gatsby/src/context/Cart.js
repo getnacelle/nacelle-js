@@ -1,7 +1,7 @@
-import { createContext, useState, useMemo, useEffect } from 'react';
+import React, { createContext, useState, useMemo, useEffect } from 'react';
 import { get, set } from 'idb-keyval';
 import { v4 as uuid } from 'uuid';
-import { cartClient } from 'services';
+import { cartClient } from '../services';
 
 export const CartContext = createContext({});
 
@@ -149,7 +149,7 @@ export const CartProvider = ({ children, cacheKey = 'cartId' }) => {
       ];
       setOptimisticCart({ lines: items });
       const { cart, userErrors, errors } = await cartClient.cartLinesAdd({
-        cartId: cartId,
+        cartId,
         lines: [
           {
             nacelleEntryId: line.variant.nacelleEntryId,
@@ -182,7 +182,7 @@ export const CartProvider = ({ children, cacheKey = 'cartId' }) => {
           cartCheckoutUrl
         });
         const { cart, userErrors, errors } = await cartClient.cartLinesUpdate({
-          cartId: cartId,
+          cartId,
           lines: [line]
         });
         if (cart) {
@@ -202,7 +202,7 @@ export const CartProvider = ({ children, cacheKey = 'cartId' }) => {
       items.splice(index, 1);
       setOptimisticCart({ lines: items });
       const { cart, userErrors, errors } = await cartClient.cartLinesRemove({
-        cartId: cartId,
+        cartId,
         lineIds: [lineId]
       });
       if (cart) {
@@ -216,7 +216,7 @@ export const CartProvider = ({ children, cacheKey = 'cartId' }) => {
     const items = [...lineItems];
     setOptimisticCart({ lines: [] });
     const { cart, userErrors, errors } = await cartClient.cartLinesRemove({
-      cartId: cartId,
+      cartId,
       lineIds: items.map((item) => item.cartLineId)
     });
     if (cart) {

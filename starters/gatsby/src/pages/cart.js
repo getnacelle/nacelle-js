@@ -1,83 +1,67 @@
 import React from 'react';
-import { useCart, useCheckout } from '@nacelle/react-hooks';
+import { useCart } from '../hooks/useCart';
 import * as styles from '../styles/Cart.module.css';
 
 function Cart() {
-  // A `cart` object, containing the line items of the cart,
-  // and various cart methods that can be used to manipulate
-  // the line items in the cart, are provided by the
-  // `useCart` hook from `@nacelle/react-hooks`.
-  // (https://github.com/getnacelle/nacelle-react/tree/main/packages/react-hooks)
-  const [
-    { cart },
-    { incrementItem, decrementItem, removeFromCart, clearCart }
-  ] = useCart();
+  const {
+    cartItems,
+    cartCount,
+    cartSubtotal,
+    isLoading,
+    updateItem,
+    removeItem,
+    clearCart,
+    checkout
+  } = useCart();
 
-  // The `processCheckout` method, which allows for cart data
-  // to be passed to the checkout client, is provided by the
-  // `useCheckout` hook from `@nacelle/react-hooks`.
-  // (https://github.com/getnacelle/nacelle-react/tree/main/packages/react-hooks)
-  const [, { processCheckout }] = useCheckout();
-
-  const cartSubtotal = cart.reduce((sum, lineItem) => {
-    return sum + lineItem.variant.price * lineItem.quantity;
-  }, 0);
-
-  const handleProcessCheckout = async () => {
-    // Maps the cart line items into a new array with Shopify
-    // required properties: `variantId` and `quantity`.
-    const cartItems = cart.map((lineItem) => ({
-      variantId: lineItem.variant.id,
-      quantity: lineItem.quantity
-    }));
-
-    // `processCheckout` utilizes the Shopify Checkout client to create
-    // a checkout using the provided `cartItems` array. If successful,
-    // a URL and completed state are returned, which can then be used to
-    // redirect the user to the Shopify checkout.
-    // (https://github.com/getnacelle/nacelle-js/tree/main/packages/shopify-checkout)
-    await processCheckout({ cartItems })
-      .then(({ url, completed }) => {
-        if (url && !completed) {
-          window.location = url;
-        }
-      })
-      .catch((err) => {
-        console.error(err);
-      });
-  };
+  const filteredCartItems = cartItems.filter((cartItem) => cartItem.quantity);
 
   return (
     <div>
       <h1>Cart</h1>
-      {cart.length ? (
+      {cartCount > 0 && (
         <div>
           <ul>
-            {cart.map((lineItem, index) => (
-              <li
-                className={styles.item}
-                key={`${lineItem.variant.id}-${index}`}
-              >
+            {filteredCartItems.map((lineItem, index) => (
+              <li className={styles.item} key={`${lineItem.id}-${index}`}>
                 <div className={styles.image}>
                   <img
-                    src={lineItem.variant.featuredMedia.src}
-                    alt={lineItem.variant.featuredMedia.altText}
+                    src={lineItem.featuredMedia.src}
+                    alt={lineItem.featuredMedia.altText}
                     width={200}
                     height={200}
                   />
                 </div>
                 <div>
-                  <h2 className={styles.title}>
-                    {lineItem.variant.productTitle}
-                  </h2>
-                  <p className={styles.subtitle}>{lineItem.variant.title}</p>
-                  <p className={styles.price}>${lineItem.variant.price}</p>
-                  <p>
-                    <strong>Quantity:</strong> {lineItem.quantity}
-                  </p>
-                  <button onClick={() => decrementItem(lineItem)}>-</button>
-                  <button onClick={() => incrementItem(lineItem)}>+</button>
-                  <button onClick={() => removeFromCart(lineItem)}>
+                  <h2 className={styles.title}>{lineItem.productTitle}</h2>
+                  {lineItem.variantTitle !== 'Default Title' && (
+                    <p className={styles.subtitle}>{lineItem.variantTitle}</p>
+                  )}
+                  <p className={styles.price}>${parseFloat(lineItem.price)}</p>
+                  <div>
+                    <strong>Quantity:</strong>
+                    <select
+                      onChange={(e) =>
+                        updateItem({
+                          id: lineItem.cartLineId,
+                          quantity: parseInt(e.target.value)
+                        })
+                      }
+                      value={lineItem.quantity}
+                    >
+                      {[...Array(10)].map((_, index) => (
+                        <option key={index + 1} value={index + 1}>
+                          {index + 1}
+                        </option>
+                      ))}
+                      {lineItem.quantity > 10 && (
+                        <option value={lineItem.quantity}>
+                          {lineItem.quantity}
+                        </option>
+                      )}
+                    </select>
+                  </div>
+                  <button onClick={() => removeItem(lineItem.cartLineId)}>
                     Remove
                   </button>
                 </div>
@@ -88,11 +72,11 @@ function Cart() {
             <strong>Subtotal:</strong> ${cartSubtotal}
           </p>
           <button onClick={clearCart}>Clear Cart</button>
-          <button onClick={handleProcessCheckout}>Proceed to Checkout</button>
+          <button onClick={checkout}>Proceed to Checkout</button>
         </div>
-      ) : (
-        <h2>Empty Cart</h2>
       )}
+      {isLoading && <h2>Loading...</h2>}
+      {!cartCount && !isLoading && <h2>Empty Cart</h2>}
     </div>
   );
 }
