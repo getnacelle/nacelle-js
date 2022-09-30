@@ -119,7 +119,7 @@ export default {
       });
       if (variant) {
         this.addItem({
-          variant,
+          ...variant,
           quantity: 1
         });
       }
