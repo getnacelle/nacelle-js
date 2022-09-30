@@ -22,21 +22,22 @@
             </h2>
             <p class="cart__item-subtitle">{{ lineItem.title }}</p>
             <p class="cart__item-price">${{ lineItem.price }}</p>
-            <p class="cart__item-quantity">
-              <strong>Quantity:</strong> {{ lineItem.quantity }}
-            </p>
-            <button
-              class="cart__item-action"
-              @click="decrementItem(lineItem.cartLineId)"
-            >
-              -
-            </button>
-            <button
-              class="cart__item-action"
-              @click="incrementItem(lineItem.cartLineId)"
-            >
-              +
-            </button>
+            <div class="cart__item-quantity">
+              <strong>Quantity: </strong>
+              <select
+                :value="lineItem.quantity"
+                @change="
+                  updateItemQuantity({
+                    cartLineId: lineItem.cartLineId,
+                    quantity: parseInt($event.target.value)
+                  })
+                "
+              >
+                <option v-for="n in 10" :key="n" :value="n">
+                  {{ n }}
+                </option>
+              </select>
+            </div>
             <button
               class="cart__item-action"
               @click="removeItem(lineItem.cartLineId)"
@@ -74,8 +75,7 @@ export default {
     ...mapActions('cart', [
       'checkout',
       'removeItem',
-      'incrementItem',
-      'decrementItem',
+      'updateItemQuantity',
       'clearCart'
     ])
   }

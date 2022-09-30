@@ -47,6 +47,7 @@
           v-model.number="quantity"
           type="number"
           min="1"
+          max="10"
           class="product__input"
         />
       </div>
