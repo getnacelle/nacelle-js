@@ -109,7 +109,7 @@ The custom input component will store a reference object with the following form
   type: 'NacelleReference',
   referenceType: 'PRODUCT', // PRODUCT or COLLECTION
   nacelledEntryId: '123455',
-  handle: 'blue-shirt'
+  handle: 'blue-shirt',
   locale: 'en-US'
 }
 ```
