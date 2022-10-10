@@ -16,7 +16,7 @@
   },
   "dependencies": {
     "@contentful/rich-text-html-renderer": "^15.13.1",
-    "@nacelle/gatsby-source-nacelle": "^9.0.0-rc.3",
+    "@nacelle/gatsby-source-nacelle": "^9.0.0",
     "@nacelle/shopify-checkout": "^0.0.11",
     "@nacelle/storefront-sdk": "^1.5.1",
     "@tailwindcss/aspect-ratio": "^0.4.0",
