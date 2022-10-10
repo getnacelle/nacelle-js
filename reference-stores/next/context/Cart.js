@@ -30,7 +30,9 @@ export const CartProvider = ({ children, cacheKey = 'cart' }) => {
   useEffect(() => {
     if (cartReady) {
       set(cacheKey, cartItems);
-      setCartVisible(true);
+      if (cartItems.length > 0) {
+        setCartVisible(true);
+      }
     }
   }, [cartItems]);
 
@@ -172,7 +174,6 @@ export const CartProvider = ({ children, cacheKey = 'cart' }) => {
           id: checkoutId
         });
         if (checkout?.completed) {
-          console.log('in here');
           await del('checkoutId');
           await del(cacheKey);
         }
