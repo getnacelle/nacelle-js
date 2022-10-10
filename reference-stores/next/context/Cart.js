@@ -30,7 +30,9 @@ export const CartProvider = ({ children, cacheKey = 'cart' }) => {
   useEffect(() => {
     if (cartReady) {
       set(cacheKey, cartItems);
-      setCartVisible(true);
+      if (cartItems.length > 0) {
+        setCartVisible(true);
+      }
     }
   }, [cartItems]);
 

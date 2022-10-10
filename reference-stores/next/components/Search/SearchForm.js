@@ -15,18 +15,18 @@ const SearchForm = () => {
     let isMounted = true;
     if (router.isReady && !ready && isMounted) {
       setReady(true);
-      setQuery({ query: router.query.q || '' });
+      setQuery({ query: router.query.q ?? '' });
     }
     return () => {
       isMounted = false;
     };
   }, [router.query.q, router.isReady, ready, setQuery]);
 
-  const handleQuery = ({ query }) => {
-    setQuery({ query });
+  const handleQuery = (val) => {
+    setQuery({ query: val });
     router.push(
       {
-        query: { q: query }
+        query: { q: val }
       },
       undefined,
       { scroll: false }
@@ -100,7 +100,7 @@ const SearchForm = () => {
               placeholder="Search"
               type="search"
               value={query}
-              onInput={(e) => handleQuery({ query: e.target.value })}
+              onInput={(e) => handleQuery(e.target.value)}
             />
           </div>
         </div>
