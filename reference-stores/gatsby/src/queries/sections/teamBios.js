@@ -23,16 +23,7 @@ module.exports = `
         imageAlt
         name
         role
-        text {
-          nodeType
-          content {
-            nodeType
-            content {
-              nodeType
-              value
-            }
-          }
-        }
+        text
       }
     }
   }

@@ -21,16 +21,7 @@ module.exports = `
     imageSide
     heading
     subheading
-    text {
-      nodeType
-      content {
-        nodeType
-        content {
-          nodeType
-          value
-        }
-      }
-    }
+    text
     linkText
     linkUrl
   }

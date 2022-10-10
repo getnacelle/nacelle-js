@@ -12,16 +12,7 @@ const NewsletterQuery = () =>
           handle
           heading
           successText
-          text {
-            nodeType
-            content {
-              nodeType
-              content {
-                nodeType
-                value
-              }
-            }
-          }
+          text
         }
       }
     }

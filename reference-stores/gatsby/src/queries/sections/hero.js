@@ -19,16 +19,7 @@ module.exports = `
     }
     imageAlt
     heading
-    text {
-      nodeType
-      content {
-        nodeType
-        content {
-          nodeType
-          value
-        }
-      }
-    }
+    text
     linkText
     linkUrl
   }
