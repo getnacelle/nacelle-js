@@ -1,203 +1,281 @@
 import { createContext, useState, useMemo, useEffect } from 'react';
-import { useRouter } from 'next/router';
 import { get, set } from 'idb-keyval';
 import { v4 as uuid } from 'uuid';
-import checkoutClient from 'services/shopifyCheckout';
+import { cartClient } from 'services';
 
 export const CartContext = createContext({});
 
 export const CartProvider = ({ children, cacheKey = 'cart' }) => {
-  const [cartReady, setCartReady] = useState(false);
+  const [cartId, setCartId] = useState(null);
   const [cartVisible, setCartVisible] = useState(false);
-  const [cartItems, setCartItems] = useState([]);
+  const [lineItems, setLineItems] = useState([]);
   const [checkoutProcessing, setCheckoutProcessing] = useState(false);
+  const [cartCheckoutUrl, setCartCheckoutUrl] = useState(null);
+  const [cartErrors, setCartErrors] = useState([]);
+
+  const lineTransformer = (line) => {
+    const { merchandise, cost } = line;
+    return {
+      availableForSale: merchandise.availableForSale,
+      compareAtPrice: merchandise.compareAtPriceV2,
+      featuredMedia: {
+        altText: merchandise.image.altText,
+        src: merchandise.image.url,
+        thumbnailSrc: merchandise.image.url
+      },
+      cartLineId: line.id,
+      nacelleEntryId: merchandise.nacelleEntryId,
+      price: cost.amountPerQuantity.amount,
+      productHandle: merchandise.product.handle,
+      productTitle: merchandise.product.title,
+      quantity: line.quantity,
+      selectedOptions: merchandise.selectedOptions,
+      variantId: merchandise.sourceEntryId,
+      variantTitle: merchandise.title,
+      metafields: line.attributes
+    };
+  };
 
   const cartCount = useMemo(
-    () => cartItems.reduce((acc, item) => acc + item.quantity, 0),
-    [cartItems]
+    () => lineItems.reduce((acc, item) => acc + item.quantity, 0),
+    [lineItems]
   );
   const cartSubtotal = useMemo(
-    () => cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0),
-    [cartItems]
+    () => lineItems.reduce((acc, item) => acc + item.price * item.quantity, 0),
+    [lineItems]
   );
-
-  const router = useRouter();
 
   useEffect(() => {
     initCart();
   }, []);
 
-  useEffect(() => {
-    if (cartReady) {
-      set(cacheKey, cartItems);
-      setCartVisible(true);
-    }
-  }, [cartItems]);
-
-  useEffect(() => {
-    setCartVisible(false);
-  }, [router.asPath]);
-
-  const addItem = (payload) => {
-    const index = cartItems.findIndex((lineItem) => {
-      if (lineItem.variantId === payload.variantId) {
-        return (
-          JSON.stringify(payload.metafields) ===
-          JSON.stringify(lineItem.metafields)
-        );
+  const setCart = ({ lines, checkoutUrl }) => {
+    const lineItemsFromCart = [...lines];
+    let linesArray = [];
+    lineItems.forEach((lineItem) => {
+      const index = lineItemsFromCart.findIndex((lineItemFromCart) => {
+        if (
+          lineItem.cartLineId &&
+          !lineItem.cartLineId.includes('placeholder')
+        ) {
+          return lineItem.cartLineId === lineItemFromCart.id;
+        } else {
+          return (
+            lineItem.variantId === lineItemFromCart.merchandise.sourceEntryId
+          );
+        }
+      });
+      if (index > -1) {
+        linesArray.push(lineTransformer(lineItemsFromCart.splice(index, 1)[0]));
       }
-      return false;
+    });
+    linesArray = [
+      ...linesArray,
+      ...lineItemsFromCart.map((line) => lineTransformer(line))
+    ];
+    setLineItems(linesArray);
+    if (checkoutUrl) {
+      setCartCheckoutUrl(checkoutUrl);
+    }
+  };
+
+  const setOptimisticCart = ({ lines, checkoutUrl }) => {
+    setLineItems(lines);
+    if (checkoutUrl) {
+      setCartCheckoutUrl(checkoutUrl);
+    }
+  };
+
+  const setErrors = ({ errors, userErrors }) => {
+    setCartErrors([]);
+    const errorsArray = [];
+    if (errors) {
+      errors.forEach((error) => errorsArray.push(error.message));
+    }
+    if (userErrors) {
+      userErrors.forEach((error) => errorsArray.push(error.message));
+    }
+    setCartErrors(errorsArray);
+  };
+
+  const addItem = async (line) => {
+    const index = lineItems.findIndex((lineItem) => {
+      if (line.cartLineId) {
+        return line.cartLineId === lineItem.cartLineId;
+      } else {
+        return lineItem.variantId === line.variantId;
+      }
     });
     if (index === -1) {
-      payload.id = `${payload.variantId}::${uuid()}`;
-      setCartItems([...cartItems, payload]);
+      const cartLineId = `placeholder-${uuid()}`;
+      const items = [
+        ...lineItems,
+        {
+          ...line,
+          cartLineId
+        }
+      ];
+      setOptimisticCart({ lines: items });
+      setCartVisible(true);
+      const { cart, userErrors, errors } = await cartClient.cartLinesAdd({
+        cartId: cartId,
+        lines: [
+          {
+            nacelleEntryId: line.nacelleEntryId,
+            quantity: line.quantity || 1
+          }
+        ]
+      });
+      if (cart) {
+        setCart({ lines: cart.lines, checkoutUrl: cart.checkoutUrl });
+      }
+      setErrors({ userErrors, errors });
     } else {
-      setCartItems(
-        cartItems.map((cartItem, itemIndex) => {
-          if (index === itemIndex) {
-            return {
-              ...cartItem,
-              quantity: cartItem.quantity + payload.quantity
-            };
+      const items = [...lineItems];
+      const quantity = lineItems[index].quantity + line.quantity;
+      items.splice(index, 1, {
+        ...lineItems[index],
+        quantity
+      });
+      setOptimisticCart({ lines: items });
+      setCartVisible(true);
+      const { cart, userErrors, errors } = await cartClient.cartLinesAdd({
+        cartId: cartId,
+        lines: [
+          {
+            nacelleEntryId: line.nacelleEntryId,
+            quantity: line.quantity
           }
-          return cartItem;
-        })
-      );
-    }
-  };
-
-  const removeItem = (payload) => {
-    const index = cartItems.findIndex((item) => item.id === payload);
-    if (index > -1) {
-      setCartItems(
-        cartItems.filter((_, itemIndex) => {
-          return index !== itemIndex;
-        })
-      );
-    }
-  };
-
-  const updateItem = (payload) => {
-    const index = cartItems.findIndex((item) => item.id === payload.id);
-    if (index > -1) {
-      setCartItems(
-        cartItems.map((cartItem, itemIndex) => {
-          if (index === itemIndex) {
-            return {
-              ...cartItem,
-              ...payload
-            };
-          }
-          return cartItem;
-        })
-      );
-    }
-  };
-
-  const incrementItem = (payload) => {
-    const index = cartItems.findIndex((item) => item.id === payload);
-    if (index > -1) {
-      if (cartItems[index].quantity === 1) {
-        setCartItems(
-          cartItems.filter((_, itemIndex) => {
-            return index !== itemIndex;
-          })
-        );
+        ]
+      });
+      if (cart) {
+        setCart({ lines: cart.lines, checkoutUrl: cart.checkoutUrl });
       }
-      setCartItems(
-        cartItems.map((cartItem, itemIndex) => {
-          if (index === itemIndex) {
-            return {
-              ...cartItem,
-              quantity: cartItem.quantity - 1
-            };
-          }
-          return cartItem;
-        })
-      );
+      setErrors({ userErrors, errors });
     }
   };
 
-  const decrementItem = (payload) => {
-    const index = cartItems.findIndex((item) => item.id === payload);
+  const removeItem = async (lineId) => {
+    const index = lineItems.findIndex(
+      (lineItem) => lineItem.cartLineId === lineId
+    );
+    const items = [...lineItems];
     if (index > -1) {
-      setCartItems(
-        cartItems.map((cartItem, itemIndex) => {
-          if (index === itemIndex) {
-            return {
-              ...cartItem,
-              quantity: cartItem.quantity + 1
-            };
-          }
-          return cartItem;
-        })
-      );
-    }
-  };
-
-  const clearCart = () => {
-    setCartItems([]);
-  };
-
-  const processCheckout = async () => {
-    try {
-      setCheckoutProcessing(true);
-      const items = cartItems.map((lineItem) => ({
-        quantity: lineItem.quantity,
-        variantId: lineItem.variantId
-      }));
-      const checkoutData = await checkoutClient.process({ cartItems: items });
-      // await set('checkoutId', checkoutData.id);
-      if (checkoutData.url) {
-        window.location.href = checkoutData.url;
+      items.splice(index, 1);
+      setOptimisticCart({ lines: items });
+      const { cart, userErrors, errors } = await cartClient.cartLinesRemove({
+        cartId: cartId,
+        lineIds: [lineId]
+      });
+      if (cart) {
+        setCart({ lines: cart.lines, checkoutUrl: cart.checkoutUrl });
       }
-    } catch (err) {
-      setCheckoutProcessing(false);
-      console.error(err);
+      setErrors({ userErrors, errors });
     }
+  };
+
+  const updateItem = async (line) => {
+    const index = lineItems.findIndex(
+      (lineItem) => lineItem.cartLineId === line.cartLineId
+    );
+    if (index > -1) {
+      if (line.quantity < 1) {
+        await removeItem(line.cartLineId);
+      } else {
+        const items = [...lineItems];
+        items.splice(index, 1, {
+          ...lineItems[index],
+          ...line
+        });
+        setOptimisticCart({
+          lines: items,
+          cartCheckoutUrl
+        });
+        const { cart, userErrors, errors } = await cartClient.cartLinesUpdate({
+          cartId: cartId,
+          lines: [line]
+        });
+        if (cart) {
+          setCart({ lines: cart.lines, checkoutUrl: cart.checkoutUrl });
+        }
+        setErrors({ userErrors, errors });
+      }
+    }
+  };
+
+  const clearCart = async () => {
+    const items = [...lineItems];
+    setOptimisticCart({ lines: [] });
+    const { cart, userErrors, errors } = await cartClient.cartLinesRemove({
+      cartId: cartId,
+      lineIds: items.map((item) => item.cartLineId)
+    });
+    if (cart) {
+      setCart({ lines: cart.lines, checkoutUrl: cart.checkoutUrl });
+    }
+    setErrors({ userErrors, errors });
+  };
+
+  const setCartIdWithCache = (cartId) => {
+    setCartId(cartId);
+    set(cacheKey, cartId);
   };
 
   const initCart = async () => {
-    await initCheckout();
-    const cachedCart = await get(cacheKey);
-    if (cachedCart) setCartItems(cachedCart);
-    setCartReady(true);
+    const cachedCartId = await get(cacheKey);
+    if (cachedCartId) {
+      await retrieveCart(cachedCartId);
+    } else {
+      await createCart();
+    }
   };
 
-  const initCheckout = async () => {
-    try {
-      const checkoutId = await get('checkoutId');
-      if (checkoutId) {
-        const checkout = await checkoutClient.get({
-          id: checkoutId
-        });
-        if (checkout?.completed) {
-          await del('checkoutId');
-          await del(cacheKey);
-        }
-      }
-    } catch (err) {
-      console.error(err);
+  const createCart = async () => {
+    const { cart, userErrors, errors } = await cartClient.cartCreate();
+    if (cart) {
+      setCartIdWithCache(cart.id);
+      setCart({ lines: cart.lines, checkoutUrl: cart.checkoutUrl });
+    }
+    setErrors({ userErrors, errors });
+  };
+
+  const retrieveCart = async (cachedCartId) => {
+    setCartIdWithCache(cachedCartId);
+    const { cart, userErrors, errors } = await cartClient.cart({
+      cartId: cachedCartId
+    });
+    if (cart) {
+      setCart({ lines: cart.lines, checkoutUrl: cart.checkoutUrl });
+      setCartErrors({ userErrors, errors });
+    } else {
+      await createCart();
+    }
+  };
+
+  const checkout = () => {
+    if (cartCheckoutUrl) {
+      setCheckoutProcessing(true);
+      window.location.href = cartCheckoutUrl;
+    } else {
+      alert('There was an issue with your checkout.');
     }
   };
 
   return (
     <CartContext.Provider
       value={{
-        cartReady,
         cartVisible,
         setCartVisible,
-        cartItems,
+        lineItems,
         checkoutProcessing,
         cartCount,
         cartSubtotal,
         addItem,
         removeItem,
         updateItem,
-        incrementItem,
-        decrementItem,
         clearCart,
-        processCheckout
+        checkout,
+        cartErrors
       }}
     >
       {children}

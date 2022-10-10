@@ -5,13 +5,13 @@ import { formatPrice } from 'utils/formatPrice';
 import { getCartVariant } from 'utils/getCartVariant';
 
 const CartCrossSells = ({ content }) => {
-  const { cartItems, checkoutProcessing, addItem } = useCart();
+  const { lineItems, checkoutProcessing, addItem } = useCart();
 
   const crossSellItems = content?.items
     ?.filter((item) => {
       return (
         item.availableForSale &&
-        !cartItems.some((cartItem) => {
+        !lineItems.some((cartItem) => {
           return cartItem.productHandle === item.content.handle;
         })
       );
