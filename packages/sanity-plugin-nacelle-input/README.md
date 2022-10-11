@@ -108,8 +108,8 @@ The custom input component will store a reference object with the following form
 {
   type: 'NacelleReference',
   referenceType: 'PRODUCT', // PRODUCT or COLLECTION
-  nacelledEntryId: '123455'
-  handle: 'blue-shirt'
+  nacelledEntryId: '123455',
+  handle: 'blue-shirt',
   locale: 'en-US'
 }
 ```
@@ -150,11 +150,11 @@ Instructions for working on the repo directly.
 
 The best way to test changes to this plugin is by using `npm link` to use it from a Sanity project with the plugin installed. The instructions for doing that should be below:
 
-1. Open your local fork of this project in your terminal
+1. Open your local fork of this project in your terminal.
 2. Run `npm run build` to generate the dist files for this project locally.
-3. Run `npm link` to setup an npm symlink for this project
+3. Run `npm link` to setup an npm symlink for this project.
 4. (Optional) Run `npm run build -- --watch`, this will automatically rebuild whenever you make any local changes
-5. In another terminal, navigate to an existing Sanity project which has this plugin installed. (If you don't have one, you can follow the instructions above to create one)
+5. In another terminal, navigate to an existing Sanity project which has this plugin installed. (If you don't have one, you can follow the instructions above to create one).
 6. Run `npm link @nacelle/sanity-plugin-nacelle-input` - this will link the version of the `@nacelle/sanity-plugin-nacelle-input` in your local Sanity Project to your local clone of this repo.
 7. Run your command to start Sanity Studio, e.g. `npm run start`. You should see any changes you've made locally to this repo in your studio.
    - If you used the watch command in step 4, you should be able to make changes to this repo and then reload the page to see them reflected in the studio.
