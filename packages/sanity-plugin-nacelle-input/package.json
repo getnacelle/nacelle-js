@@ -1,6 +1,6 @@
 {
   "name": "@nacelle/sanity-plugin-nacelle-input",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Link product & collection data from Nacelle v2 in Sanity Studio",
   "main": "dist/index.js",
   "engines": {
