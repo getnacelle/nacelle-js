@@ -67,6 +67,7 @@ export default {
   },
   data: () => ({
     products: null,
+    after: null,
     canFetch: false,
     isFetching: false
   }),
@@ -80,23 +81,26 @@ export default {
   created() {
     const products =
       this.collection?.products?.edges.map((product) => product.node) || [];
+    const pageInfo = this.collection?.products?.pageInfo;
     this.products = [...products];
-    this.canFetch = products?.length > 12;
+    this.canFetch = pageInfo?.hasNextPage;
+    this.after = pageInfo?.endCursor;
   },
   methods: {
     async handleFetch() {
       this.isFetching = true;
-      const after = this.products[this.products?.length - 1].nacelleEntryId;
       const { collections } = await this.$nacelle.query({
         query: COLLECTION_PRODUCTS_QUERY,
-        variables: { handle: this.$route.params.handle, after }
+        variables: { handle: this.$route.params.handle, after: this.after }
       });
       const products = collections.edges[0].node?.products?.edges.map(
         (product) => product.node
       );
+      const pageInfo = collections.edges[0].node?.products?.pageInfo;
       if (products) {
-        this.canFetch = products.length === 12;
         this.products = [...this.products, ...products];
+        this.canFetch = pageInfo?.hasNextPage;
+        this.after = pageInfo?.endCursor;
       }
       this.isFetching = false;
     }

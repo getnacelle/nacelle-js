@@ -6,6 +6,10 @@ export const COLLECTION_PRODUCTS_QUERY = `
       edges {
 				node {
           products: productConnection(first: 12, after: $after){
+            pageInfo {
+              endCursor
+              hasNextPage
+            }      
             ${PRODUCT_QUERY_FRAGMENT}
           }
         }

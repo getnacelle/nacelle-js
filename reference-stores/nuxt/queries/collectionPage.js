@@ -13,6 +13,10 @@ export const COLLECTION_PAGE_QUERY = `
             title
           }
           products: productConnection(first: 13){
+            pageInfo {
+              endCursor
+              hasNextPage
+            }      
             ${PRODUCT_QUERY_FRAGMENT}
           }
         }
