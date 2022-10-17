@@ -19,7 +19,7 @@ export default {
       query: SEARCH_PAGE_QUERY
     });
     return {
-      products
+      products: products.edges.map((product) => product.node)
     };
   },
   head() {

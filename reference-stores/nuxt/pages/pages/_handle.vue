@@ -23,7 +23,7 @@ export default {
       variables: { handle: `page-${params.handle}` }
     });
     return {
-      page: pages[0]
+      page: pages.edges[0]?.node
     };
   },
   head() {

@@ -78,7 +78,8 @@ export default {
     }
   },
   created() {
-    const products = this.collection?.products || [];
+    const products =
+      this.collection?.products?.edges.map((product) => product.node) || [];
     this.products = [...products];
     this.canFetch = products?.length > 12;
   },
@@ -90,7 +91,9 @@ export default {
         query: COLLECTION_PRODUCTS_QUERY,
         variables: { handle: this.$route.params.handle, after }
       });
-      const products = collections[0]?.products;
+      const products = collections.edges[0].node?.products?.edges.map(
+        (product) => product.node
+      );
       if (products) {
         this.canFetch = products.length === 12;
         this.products = [...this.products, ...products];
