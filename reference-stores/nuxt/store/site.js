@@ -31,14 +31,14 @@ export const mutations = {
   },
   setComponents(state, payload) {
     state.components = {
-      header: payload.header[0],
-      cart: payload.cart[0],
-      newsletter: payload.newsletter[0],
-      footer: payload.footer[0]
+      header: payload.header?.edges[0].node,
+      cart: payload.cart,
+      newsletter: payload.newsletter?.edges[0].node,
+      footer: payload.footer?.edges[0].node
     };
   },
   setProducts(state, payload) {
-    state.products = [...payload];
+    state.products = payload?.edges.map((product) => product.node);
   }
 };
 

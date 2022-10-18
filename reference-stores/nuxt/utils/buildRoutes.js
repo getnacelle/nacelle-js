@@ -8,18 +8,30 @@ export const buildRoutes = async () => {
   });
   const QUERY = `
   {
-    products: products {
-      content {
-        handle
+    products: allProducts {
+      edges {
+        node {
+          content {
+            handle
+          }
+        }
       }
     }
-    collections: productCollections {
-      content {
-        handle
+    collections: allProductCollections {
+      edges {
+        node {
+          content {
+            handle
+          }
+        }
       }
     }
-    pages: content(filter: { type: "pageSections"  }) {
-      handle
+    pages: allContent(filter: { type: "pageSections"  }) {
+      edges {
+        node {
+          handle
+        }
+      }
     }
   }`;
   const { products, collections, pages } = await client.query({
@@ -27,12 +39,14 @@ export const buildRoutes = async () => {
   });
 
   return [
-    ...products.map((product) => `/products/${product.content.handle}`),
-    ...collections.map(
-      (collection) => `/collections/${collection.content.handle}`
+    ...products.edges.map(
+      (product) => `/products/${product.node.content.handle}`
     ),
-    ...pages
-      .filter((page) => page.handle !== 'page-homepage')
-      .map((page) => `/pages/${page.handle.replace('page-', '')}`)
+    ...collections.edges.map(
+      (collection) => `/collections/${collection.node.content.handle}`
+    ),
+    ...pages.edges
+      .filter((page) => page.node.handle !== 'page-homepage')
+      .map((page) => `/pages/${page.node.handle.replace('page-', '')}`)
   ];
 };
