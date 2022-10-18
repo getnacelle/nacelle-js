@@ -11,7 +11,7 @@
   "dependencies": {
     "@contentful/rich-text-html-renderer": "^15.11.1",
     "@nacelle/shopify-checkout": "^0.1.0",
-    "@nacelle/storefront-sdk": "^1.1.1",
+    "@nacelle/storefront-sdk": "^1.7.8",
     "fuse.js": "^6.5.3",
     "idb-keyval": "^6.1.0",
     "next": "^12.1.6",
