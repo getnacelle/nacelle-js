@@ -20,7 +20,7 @@ export const SITE_QUERY = `
     footer: allContent(filter: { type: "componentFooter", handles: ["component-footer"] }) {
       ${CONTENT_QUERY_FRAGMENT} 
     }
-    cart: allContent(filter: { type: "componentCart",  handles: ["component-cart"] }){
+    cart: allContent(filter: { type: "componentCart",  handles: ["component-cart"] }) {
       ${CONTENT_QUERY_FRAGMENT}
     }
     products: allProducts{
