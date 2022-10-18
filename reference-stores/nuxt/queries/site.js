@@ -23,23 +23,23 @@ export const SITE_QUERY = `
     cart: allContent(filter: { type: "componentCart",  handles: ["component-cart"] }) {
       ${CONTENT_QUERY_FRAGMENT}
     }
-    products: allProducts{
+    products: allProducts {
       edges {
         node {
           nacelleEntryId
-          content{
+          content {
             handle
             title
-            featuredMedia{
+            featuredMedia {
               src
               thumbnailSrc
               altText
             }
           }
-          variants{
+          variants {
             price
             compareAtPrice
-          }    
+          }
         }
       }
     }
