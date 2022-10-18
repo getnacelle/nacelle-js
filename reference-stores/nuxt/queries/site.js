@@ -14,7 +14,7 @@ export const SITE_QUERY = `
     header: allContent(filter: { type: "componentHeader", handles: ["component-header"] }) {
       ${CONTENT_QUERY_FRAGMENT}
     }
-    newsletter: allContent(filter: { type: "componentNewsletter", handles: ["component-newsletter"] }){
+    newsletter: allContent(filter: { type: "componentNewsletter", handles: ["component-newsletter"] }) {
       ${CONTENT_QUERY_FRAGMENT}
     }
     footer: allContent(filter: { type: "componentFooter", handles: ["component-footer"] }){
