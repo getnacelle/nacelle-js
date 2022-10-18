@@ -11,35 +11,35 @@ export const SITE_QUERY = `
         }
       }
     }
-    header: allContent(filter: { type: "componentHeader", handles: ["component-header"] }){
+    header: allContent(filter: { type: "componentHeader", handles: ["component-header"] }) {
       ${CONTENT_QUERY_FRAGMENT}
     }
-    newsletter: allContent(filter: { type: "componentNewsletter", handles: ["component-newsletter"] }){
+    newsletter: allContent(filter: { type: "componentNewsletter", handles: ["component-newsletter"] }) {
       ${CONTENT_QUERY_FRAGMENT}
     }
-    footer: allContent(filter: { type: "componentFooter", handles: ["component-footer"] }){
+    footer: allContent(filter: { type: "componentFooter", handles: ["component-footer"] }) {
       ${CONTENT_QUERY_FRAGMENT} 
     }
-    cart: allContent(filter: { type: "componentCart",  handles: ["component-cart"] }){
+    cart: allContent(filter: { type: "componentCart",  handles: ["component-cart"] }) {
       ${CONTENT_QUERY_FRAGMENT}
     }
-    products: allProducts{
+    products: allProducts {
       edges {
         node {
           nacelleEntryId
-          content{
+          content {
             handle
             title
-            featuredMedia{
+            featuredMedia {
               src
               thumbnailSrc
               altText
             }
           }
-          variants{
+          variants {
             price
             compareAtPrice
-          }    
+          }
         }
       }
     }

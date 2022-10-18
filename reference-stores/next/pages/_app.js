@@ -15,7 +15,7 @@ const MyApp = ({ Component, pageProps, products, components }) => {
     <>
       <Head {...pageProps} />
       <CartProvider>
-        <SearchProvider catalog={products}>
+        <SearchProvider catalog={products.edges.map((product) => product.node)}>
           <UiProvider>
             <Layout components={components}>
               <Component {...pageProps} />

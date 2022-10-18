@@ -21,7 +21,7 @@ export async function getStaticProps() {
   });
   return {
     props: {
-      products
+      products: products.edges.map((product) => product.node)
     }
   };
 }

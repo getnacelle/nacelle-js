@@ -5,8 +5,13 @@ import { ProductProvider } from 'context/Product';
 import ProductCard from 'components/Product/ProductCard';
 
 const CollectionGrid = ({ collection }) => {
-  const [products, setProducts] = useState(collection?.products || []);
-  const [canFetch, setCanFetch] = useState(products.length > 12);
+  const [products, setProducts] = useState(
+    collection?.products?.edges.map((product) => product.node) || []
+  );
+  const [canFetch, setCanFetch] = useState(
+    collection?.products?.pageInfo?.hasNextPage
+  );
+  const [after, setAfter] = useState(collection?.products?.pageInfo?.endCursor);
   const [activeProducts, setActiveProducts] = useState(
     canFetch ? products?.slice(0, products.length - 1) : products
   );
@@ -22,15 +27,17 @@ const CollectionGrid = ({ collection }) => {
 
   const handleFetch = async () => {
     setIsFetching(true);
-    const after = products[products?.length - 1].nacelleEntryId;
     const { collections } = await nacelleClient.query({
       query: COLLECTION_PRODUCTS_QUERY,
       variables: { handle: collection.content?.handle, after }
     });
-    const collectionProducts = collections[0]?.products;
+    const collectionProducts = collections.edges[0].node?.products?.edges.map(
+      (product) => product.node
+    );
 
     if (collectionProducts) {
-      setCanFetch(collectionProducts.length === 12);
+      setCanFetch(collections.edges[0].node?.products?.pageInfo?.hasNextPage);
+      setAfter(collections.edges[0].node?.products?.pageInfo?.endCursor);
       const allProducts = [...products, ...collectionProducts];
       setProducts(allProducts);
     }

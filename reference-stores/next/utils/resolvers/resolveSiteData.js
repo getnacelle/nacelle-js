@@ -2,8 +2,8 @@ import { PRODUCTS_QUERY } from 'queries/product';
 
 export const resolveSiteData = async ({ client, site }) => {
   try {
-    const { cart } = site;
-    let cartObject = cart[0];
+    let { cart, header, newsletter, footer } = site;
+    let cartObject = cart.edges[0].node;
     if (cartObject) {
       const crossSellHandles = cartObject?.fields?.crosssellItems?.map(
         (crosssell) => crosssell.fields.handle?.split('::')[0]
@@ -16,7 +16,7 @@ export const resolveSiteData = async ({ client, site }) => {
             handles: crossSellHandles
           }
         });
-        productList = products;
+        productList = products.edges.map((product) => product.node);
       }
       cartObject = {
         ...cartObject,
@@ -26,8 +26,21 @@ export const resolveSiteData = async ({ client, site }) => {
         }
       };
     }
+    if (header) {
+      header = [header.edges[0].node];
+    }
+    if (newsletter) {
+      newsletter = [newsletter.edges[0].node];
+    }
+    if (footer) {
+      footer = [footer.edges[0].node];
+    }
+
     return {
       ...site,
+      header,
+      newsletter,
+      footer,
       cart: [cartObject]
     };
   } catch {

@@ -28,9 +28,11 @@ export async function getStaticPaths() {
     query: COLLECTION_ROUTES_QUERY
   });
 
-  const paths = collections
-    .filter((collection) => collection.content?.handle)
-    .map((collection) => ({ params: { handle: collection.content.handle } }));
+  const paths = collections.edges
+    .filter((collection) => collection.node.content?.handle)
+    .map((collection) => ({
+      params: { handle: collection.node.content.handle }
+    }));
 
   return {
     paths,
@@ -48,11 +50,11 @@ export async function getStaticProps({ params: { handle } }) {
   });
   const { page } = await resolvePageData({
     client: nacelleClient,
-    page: pages[0]
+    page: pages.edges[0]?.node
   });
   return {
     props: {
-      collection: collections[0] || null,
+      collection: collections.edges[0].node || null,
       page: page || null
     }
   };

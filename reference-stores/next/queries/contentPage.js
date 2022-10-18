@@ -2,7 +2,7 @@ import { CONTENT_QUERY_FRAGMENT } from './content';
 
 export const CONTENT_ROUTES_QUERY = `
 {
-  pages: allContent(filter: { type: "pageSections"  }) {
+  pages: allContent(filter: { type: "pageSections"  }){
     edges {
       node {
         handle
