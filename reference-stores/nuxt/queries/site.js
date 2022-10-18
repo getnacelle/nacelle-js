@@ -11,7 +11,7 @@ export const SITE_QUERY = `
         }
       }
     }
-    header: allContent(filter: { type: "componentHeader", handles: ["component-header"] }){
+    header: allContent(filter: { type: "componentHeader", handles: ["component-header"] }) {
       ${CONTENT_QUERY_FRAGMENT}
     }
     newsletter: allContent(filter: { type: "componentNewsletter", handles: ["component-newsletter"] }){
