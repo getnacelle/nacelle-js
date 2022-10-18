@@ -13,7 +13,7 @@
   },
   "dependencies": {
     "@nacelle/shopify-cart": "^1.0.0-beta.0",
-    "@nacelle/storefront-sdk": "^1.7.8",
+    "@nacelle/storefront-sdk": "^1.0.3",
     "core-js": "^3.19.3",
     "fuse.js": "^6.5.3",
     "idb-keyval": "^6.1.0",
