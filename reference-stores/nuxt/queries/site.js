@@ -17,7 +17,7 @@ export const SITE_QUERY = `
     newsletter: allContent(filter: { type: "componentNewsletter", handles: ["component-newsletter"] }) {
       ${CONTENT_QUERY_FRAGMENT}
     }
-    footer: allContent(filter: { type: "componentFooter", handles: ["component-footer"] }){
+    footer: allContent(filter: { type: "componentFooter", handles: ["component-footer"] }) {
       ${CONTENT_QUERY_FRAGMENT} 
     }
     cart: allContent(filter: { type: "componentCart",  handles: ["component-cart"] }){
