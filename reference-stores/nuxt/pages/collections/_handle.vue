@@ -33,11 +33,10 @@ export default {
     });
     const { page } = await resolvePageData({
       client: app.$nacelle,
-      page: pages[0]
+      page: pages.edges[0]?.node
     });
-
     return {
-      collection: collections[0],
+      collection: collections.edges[0].node,
       page
     };
   },
