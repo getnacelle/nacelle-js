@@ -13,7 +13,7 @@ export const buildRoutes = async () => {
         node {
           content {
             handle
-          }    
+          }
         }
       }
     }
