@@ -58,7 +58,7 @@ export const PRODUCT_PAGE_QUERY = `
         }
       }
     }
-    pages: allContent(filter: { type: "pageProduct", handles: [$pageHandle] }){
+    pages: allContent(filter: { type: "pageProduct", handles: [$pageHandle] }) {
       ${CONTENT_QUERY_FRAGMENT}
     }
   }
