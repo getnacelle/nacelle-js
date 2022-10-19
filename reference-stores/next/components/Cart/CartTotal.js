@@ -7,7 +7,7 @@ const CartTotal = ({ content }) => {
     cartCount,
     cartSubtotal,
     checkoutProcessing,
-    processCheckout
+    checkout
   } = useCart();
 
   const total = formatPrice({ price: cartSubtotal });
@@ -30,7 +30,7 @@ const CartTotal = ({ content }) => {
           <button
             disabled={checkoutProcessing}
             className="w-full flex justify-center items-center px-6 py-3 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700 transition duration-300 ease-in-out"
-            onClick={processCheckout}
+            onClick={checkout}
           >
             {checkoutButtonText}
           </button>
