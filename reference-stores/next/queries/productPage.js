@@ -48,7 +48,7 @@ export const PRODUCT_PAGE_QUERY = `
                 name
                 value
               }
-              featuredMedia{
+              featuredMedia {
                 src
                 thumbnailSrc
                 altText
