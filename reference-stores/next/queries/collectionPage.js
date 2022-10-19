@@ -22,7 +22,7 @@ export const COLLECTION_PAGE_QUERY = `
         node {
           nacelleEntryId
           sourceEntryId
-          content{
+          content {
             handle
             title
           }
