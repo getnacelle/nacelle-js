@@ -108,7 +108,7 @@ export const CartProvider = ({ children, cacheKey = 'cart' }) => {
       if (line.cartLineId) {
         return line.cartLineId === lineItem.cartLineId;
       } else {
-        return (lineItem.variantId = line.variantId);
+        return lineItem.variantId === line.variantId;
       }
     });
     if (index === -1) {

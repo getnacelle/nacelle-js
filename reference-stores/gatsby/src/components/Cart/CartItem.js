@@ -18,11 +18,19 @@ const CartItem = ({ item, content }) => {
     content && (
       <li className="py-6 flex">
         <div className="relative flex-shrink-0 w-24 h-24 border border-gray-200 rounded-md overflow-hidden">
-          <img
-            src={item.featuredMedia.src}
-            alt={item.featuredMedia.altText}
-            className="w-full h-full object-cover"
-          />
+          {item?.featuredMedia?.remoteImage ? (
+            <GatsbyImage
+              alt={item.featuredMedia.altText}
+              image={getImage(item.featuredMedia.remoteImage.childImageSharp)}
+              className="w-full h-full object-cover"
+            />
+          ) : (
+            <img
+              src={item.featuredMedia.src}
+              alt={item.featuredMedia.altText}
+              className="w-full h-full object-cover"
+            />
+          )}
         </div>
         <div className="ml-4 flex-1 flex flex-col">
           <div>
