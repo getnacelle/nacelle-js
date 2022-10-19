@@ -42,7 +42,7 @@ export const PRODUCT_PAGE_QUERY = `
             availableForSale
             price
             compareAtPrice
-            content{
+            content {
               title
               selectedOptions{
                 name
