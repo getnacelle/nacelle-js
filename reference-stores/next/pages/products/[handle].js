@@ -25,13 +25,12 @@ const ProductHandle = ({ product, page }) => {
 };
 
 export async function getStaticPaths() {
-  const { products } = await nacelleClient.query({
+  let { products } = await nacelleClient.query({
     query: PRODUCT_ROUTES_QUERY
   });
-
-  const paths = products
-    .filter((product) => product.content?.handle)
-    .map((product) => ({ params: { handle: product.content.handle } }));
+  const paths = products.edges
+    .filter((product) => product.node.content?.handle)
+    .map((product) => ({ params: { handle: product.node.content?.handle } }));
 
   return {
     paths,
@@ -49,11 +48,11 @@ export async function getStaticProps({ params: { handle } }) {
   });
   const { page } = await resolvePageData({
     client: nacelleClient,
-    page: pages[0]
+    page: pages.edges[0]?.node
   });
   return {
     props: {
-      product: products[0] || null,
+      product: products.edges[0].node || null,
       page: page || null
     }
   };

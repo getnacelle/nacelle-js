@@ -23,10 +23,10 @@ export async function getStaticPaths() {
     query: CONTENT_ROUTES_QUERY
   });
 
-  const paths = pages
-    .filter((page) => page.handle)
-    .filter((page) => page.handle !== 'page-homepage')
-    .map((page) => ({ params: { handle: page.handle } }));
+  const paths = pages.edges
+    .filter((page) => page.node.handle)
+    .filter((page) => page.node.handle !== 'page-homepage')
+    .map((page) => ({ params: { handle: page.node.handle } }));
 
   return {
     paths,
@@ -41,7 +41,7 @@ export async function getStaticProps({ params }) {
   });
   const { page } = await resolvePageData({
     client: nacelleClient,
-    page: pages[0]
+    page: pages.edges[0]?.node
   });
   return {
     props: {
