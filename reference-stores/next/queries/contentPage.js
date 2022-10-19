@@ -14,7 +14,7 @@ export const CONTENT_ROUTES_QUERY = `
 
 export const CONTENT_PAGE_QUERY = `
   query ContentPage($handle: String!){
-    pages: allContent(filter: { type: "pageSections", handles: [$handle] }){
+    pages: allContent(filter: { type: "pageSections", handles: [$handle] }) {
       ${CONTENT_QUERY_FRAGMENT}
     }
   }
