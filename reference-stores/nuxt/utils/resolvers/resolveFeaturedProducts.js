@@ -19,7 +19,7 @@ export const resolveFeaturedProducts = async ({ client, section }) => {
       ...section,
       fields: {
         ...section?.fields,
-        products: productList
+        products: productList.edges.map((product) => product.node)
       }
     };
   } catch {

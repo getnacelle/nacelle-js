@@ -21,8 +21,11 @@ export default {
     const { pages } = await app.$nacelle.query({
       query: CONTENT_PAGE_QUERY,
       variables: { handle: 'page-homepage' }
-    })
-    const { page } = await resolvePageData({ client: app.$nacelle, page: pages[0] })
+    });
+    const { page } = await resolvePageData({
+      client: app.$nacelle,
+      page: pages.edges[0]?.node
+    });
     return {
       page
     };
