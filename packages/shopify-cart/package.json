@@ -18,7 +18,8 @@
     "tsc": "tsc",
     "tsc:production": "tsc --project tsconfig.production.json",
     "build": "vite build && tsc --project tsconfig.production.json && mv dist/src dist/types",
-    "release": "npm run build && changeset publish"
+    "release": "npm run build && changeset publish",
+    "lockfile:update": "npm i --package-lock-only"
   },
   "homepage": "https://github.com/getnacelle/nacelle-js/tree/main/packages/shopify-cart#readme",
   "repository": {
