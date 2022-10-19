@@ -17,7 +17,7 @@ export const COLLECTION_ROUTES_QUERY = `
 
 export const COLLECTION_PAGE_QUERY = `
   query CollectionPage($handle: String!, $pageHandle: String!){
-    collections: allProductCollections(filter: { handles: [$handle] }){
+    collections: allProductCollections(filter: { handles: [$handle] }) {
       edges {
         node {
           nacelleEntryId
