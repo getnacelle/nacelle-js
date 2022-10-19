@@ -26,7 +26,7 @@ export const COLLECTION_PAGE_QUERY = `
             handle
             title
           }
-          products: productConnection(first: 13){
+          products: productConnection(first: 13) {
             pageInfo {
               endCursor
               hasNextPage
