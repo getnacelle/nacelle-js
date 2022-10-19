@@ -41,7 +41,8 @@
     "precommit": "lint-staged",
     "test": "jest",
     "test:ci": "jest --silent --runInBand --collectCoverage",
-    "test:watch": "jest --watch"
+    "test:watch": "jest --watch",
+    "lockfile:update": "npm i --package-lock-only"
   },
   "dependencies": {
     "@nacelle/client-js-sdk": "^3.5.0",

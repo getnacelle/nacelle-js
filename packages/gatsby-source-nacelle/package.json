@@ -16,7 +16,8 @@
   "main": "gatsby-node.js",
   "scripts": {
     "precommit": "lint-staged",
-    "lint": "eslint ./"
+    "lint": "eslint ./",
+    "lockfile:update": "npm i --package-lock-only"
   },
   "author": "Nacelle Inc. (getnacelle.com)",
   "license": "Apache-2.0",
