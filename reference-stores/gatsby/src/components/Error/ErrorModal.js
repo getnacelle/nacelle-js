@@ -30,30 +30,6 @@ const ErrorModal = () => {
   "
     >
       {/* For supporting older versions of Safari suggest using https://a11y-dialog.netlify.app/ or https://github.com/KittyGiraudel/react-a11y-dialog */}
-      {/* <div
-        className="
-              flex
-              min-h-full
-              items-end
-              justify-center
-              p-4
-              text-center
-              sm:items-center sm:p-0
-            "
-      >
-        <div
-          className="
-            relative
-            transform
-            overflow-hidden
-            rounded-lg
-            bg-white
-            text-left
-            shadow-xl
-            transition-all
-            sm:my-8 sm:w-full sm:max-w-lg
-          "
-        > */}
       <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
         <div className="sm:flex sm:items-start">
           <div
@@ -131,8 +107,6 @@ const ErrorModal = () => {
           Close
         </button>
       </div>
-      {/* </div>
-      </div> */}
     </dialog>
   );
 };
