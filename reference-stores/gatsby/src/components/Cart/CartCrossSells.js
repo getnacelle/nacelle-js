@@ -6,14 +6,14 @@ import { formatPrice } from 'utils/formatPrice';
 import { getCartVariant } from 'utils/getCartVariant';
 
 const CartCrossSells = ({ content }) => {
-  const { cartItems, checkoutProcessing, addItem } = useCart();
+  const { lineItems, checkoutProcessing, addItem } = useCart();
 
   const crossSellItems = content?.items
     ?.filter(({ remoteProduct }) => {
       return (
         remoteProduct.availableForSale &&
-        !cartItems.some((cartItem) => {
-          return cartItem.productHandle === remoteProduct.content.handle;
+        !lineItems.some((lineItem) => {
+          return lineItem.productHandle === remoteProduct.content.handle;
         })
       );
     })
@@ -49,12 +49,12 @@ const CartCrossSells = ({ content }) => {
           {crossSellItems.map((crossSell) => (
             <li key={crossSell.nacelleEntryId} className="py-6 flex">
               <div className="relative flex-shrink-0 w-24 h-24 border border-gray-200 rounded-md overflow-hidden">
-              <GatsbyImage
-                image={getImage(crossSell.image.remoteImage.childImageSharp)}
-                alt={crossSell.content.title}
-                className="w-full h-full"
-                fit="cover"
-              />
+                <GatsbyImage
+                  image={getImage(crossSell.image.remoteImage.childImageSharp)}
+                  alt={crossSell.content.title}
+                  className="w-full h-full"
+                  fit="cover"
+                />
               </div>
               <div className="ml-4 flex-1 flex flex-col">
                 <div>

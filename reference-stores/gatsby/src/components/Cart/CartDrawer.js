@@ -8,7 +8,7 @@ import closeIcon from 'assets/svgs/close';
 import * as styles from './CartDrawer.module.css';
 
 const CartDrawer = ({ content }) => {
-  const { cartVisible, cartItems, setCartVisible } = useCart();
+  const { cartVisible, lineItems, setCartVisible } = useCart();
 
   const fields = content?.remoteFields;
 
@@ -70,18 +70,18 @@ const CartDrawer = ({ content }) => {
               </div>
               <div className="mt-8">
                 <div className="flow-root">
-                  {cartItems.length > 0 && (
+                  {lineItems.length > 0 && (
                     <ul role="list" className="-my-6 divide-y divide-gray-200">
-                      {cartItems.map((item) => (
+                      {lineItems.map((item) => (
                         <CartItem
-                          key={item.id}
+                          key={item.nacelleEntryId}
                           item={item}
                           content={itemContent}
                         />
                       ))}
                     </ul>
                   )}
-                  {!cartItems.length && content.remoteFields.emptyText && (
+                  {!lineItems.length && content.remoteFields.emptyText && (
                     <p className="text-gray-400 text-center">
                       {content.remoteFields.emptyText}
                     </p>
