@@ -3,30 +3,30 @@ import { CartContext } from 'context/Cart';
 
 export const useCart = () => {
   const {
-    cartReady,
     cartVisible,
     setCartVisible,
-    cartItems,
+    lineItems,
     checkoutProcessing,
     cartCount,
     cartSubtotal,
     addItem,
     removeItem,
     clearCart,
-    processCheckout
+    checkout,
+    cartErrors
   } = useContext(CartContext);
 
   return {
-    cartReady,
     cartVisible,
     setCartVisible,
-    cartItems,
+    lineItems,
     checkoutProcessing,
     cartCount,
     cartSubtotal,
     addItem,
     removeItem,
     clearCart,
-    processCheckout
+    checkout,
+    cartErrors
   };
 };
