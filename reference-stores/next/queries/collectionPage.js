@@ -16,8 +16,8 @@ export const COLLECTION_ROUTES_QUERY = `
 `;
 
 export const COLLECTION_PAGE_QUERY = `
-  query CollectionPage($handle: String!, $pageHandle: String!){
-    collections: allProductCollections(filter: { handles: [$handle] }){
+  query CollectionPage($handle: String!, $pageHandle: String!) {
+    collections: allProductCollections(filter: { handles: [$handle] }) {
       edges {
         node {
           nacelleEntryId
@@ -26,7 +26,7 @@ export const COLLECTION_PAGE_QUERY = `
             handle
             title
           }
-          products: productConnection(first: 13){
+          products: productConnection(first: 13) {
             pageInfo {
               endCursor
               hasNextPage
@@ -36,7 +36,7 @@ export const COLLECTION_PAGE_QUERY = `
         }
       }
     }
-    pages: allContent(filter: { type: "pageCollection", handles: [$pageHandle] }){
+    pages: allContent(filter: { type: "pageCollection", handles: [$pageHandle] }) {
       ${CONTENT_QUERY_FRAGMENT}
     }
   }

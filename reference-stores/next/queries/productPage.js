@@ -15,36 +15,36 @@ export const PRODUCT_ROUTES_QUERY = `
 `;
 
 export const PRODUCT_PAGE_QUERY = `
-  query ProductPage($handle: String!, $pageHandle: String!){
-    products: allProducts(filter: { handles: [$handle] }){
+  query ProductPage($handle: String!, $pageHandle: String!) {
+    products: allProducts(filter: { handles: [$handle] }) {
       edges {
         node {
           nacelleEntryId
           sourceEntryId
-          content{
+          content {
             handle
             title
             description
-            options{
+            options {
               name
               values
             }
-            media{
+            media {
               type
               src
               altText
             }
           }
-          variants{
+          variants {
             nacelleEntryId
             sourceEntryId
             sku
             availableForSale
             price
             compareAtPrice
-            content{
+            content {
               title
-              selectedOptions{
+              selectedOptions {
                 name
                 value
               }
@@ -58,7 +58,7 @@ export const PRODUCT_PAGE_QUERY = `
         }
       }
     }
-    pages: allContent(filter: { type: "pageProduct", handles: [$pageHandle] }){
+    pages: allContent(filter: { type: "pageProduct", handles: [$pageHandle] }) {
       ${CONTENT_QUERY_FRAGMENT}
     }
   }

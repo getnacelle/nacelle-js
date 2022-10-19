@@ -2,10 +2,10 @@ import { CONTENT_QUERY_FRAGMENT } from './content';
 
 export const SITE_QUERY = `
   {
-    space: spaceProperties{
-      properties{
+    space: spaceProperties {
+      properties {
         namespace
-        items{
+        items {
           key
           value
         }

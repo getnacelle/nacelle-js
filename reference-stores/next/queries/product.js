@@ -5,29 +5,29 @@ edges {
     sourceEntryId
     availableForSale
     productType
-    content{
+    content {
       handle
       title
-      options{
+      options {
         name
         values
       }
-      featuredMedia{
+      featuredMedia {
         src
         thumbnailSrc
         altText
       }
     }
-    variants{
+    variants {
       nacelleEntryId
       sourceEntryId
       availableForSale
       price
       compareAtPrice
-      content{
+      content {
         title
         locale
-        featuredMedia{
+        featuredMedia {
           src
           thumbnailSrc
           altText
@@ -43,8 +43,8 @@ edges {
 `;
 
 export const PRODUCTS_QUERY = `
-  query Products($handles: [String!]){
-    products: allProducts(filter: { handles: $handles }){
+  query Products($handles: [String!]) {
+    products: allProducts(filter: { handles: $handles }) {
       ${PRODUCT_QUERY_FRAGMENT}
     }
   }
