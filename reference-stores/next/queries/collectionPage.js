@@ -36,7 +36,7 @@ export const COLLECTION_PAGE_QUERY = `
         }
       }
     }
-    pages: allContent(filter: { type: "pageCollection", handles: [$pageHandle] }){
+    pages: allContent(filter: { type: "pageCollection", handles: [$pageHandle] }) {
       ${CONTENT_QUERY_FRAGMENT}
     }
   }
