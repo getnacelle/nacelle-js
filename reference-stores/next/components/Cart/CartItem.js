@@ -9,7 +9,7 @@ const CartItem = ({ item, content }) => {
   const price = formatPrice({ price: item.price });
 
   const handleRemove = () => {
-    removeItem(item.id);
+    removeItem(item.cartLineId);
   };
 
   return (
