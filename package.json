@@ -15,6 +15,7 @@
     "test:ci": "jest --clearCache && lerna run test:ci",
     "changeset": "changeset",
     "postinstall": "lerna bootstrap",
+    "version": "changeset version && lerna run --parallel lockfile:update",
     "release": "npm run build && changeset publish"
   },
   "engines": {
