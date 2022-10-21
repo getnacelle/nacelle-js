@@ -1,6 +1,6 @@
 overwrite: true
 schema:
-  - https://${SHOPIFY_SHOP_ID}.myshopify.com/api/2022-07/graphql:
+  - https://${SHOPIFY_SHOP_ID}.myshopify.com/api/2022-10/graphql:
       headers:
         X-Shopify-Storefront-Access-Token: ${SHOPIFY_STOREFRONT_ACCESS_TOKEN}
 documents: 'src/graphql/**/*.ts'
