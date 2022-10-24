@@ -1,11 +1,5 @@
 # @nacelle/sanity-plugin-nacelle-input
 
-## 0.1.2-beta.0
-
-### Patch Changes
-
-- c4548c4: Move documentation for `@nacelle/sanity-plugin-nacelle-input` from `README` to documentation website
-
 ## 0.1.1
 
 ### Patch Changes
