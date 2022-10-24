@@ -136,11 +136,11 @@ export const cartLine: CartLine = {
   merchandise: {
     sourceEntryId: 'gid://shopify/ProductVariant/0000',
     availableForSale: true,
-    compareAtPriceV2: {
+    compareAtPrice: {
       currencyCode: 'USD',
       amount: '300.0'
     },
-    priceV2: {
+    price: {
       currencyCode: 'USD',
       amount: '265.0'
     },

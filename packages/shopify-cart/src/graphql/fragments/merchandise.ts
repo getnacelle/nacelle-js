@@ -1,10 +1,10 @@
 export default () => /* GraphQL */ `
   fragment Merchandise_merchandise on ProductVariant {
     availableForSale
-    compareAtPriceV2 {
+    compareAtPrice {
       ...Money_money
     }
-    priceV2 {
+    price {
       ...Money_money
     }
     requiresShipping
