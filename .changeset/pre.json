@@ -18,14 +18,17 @@
     "nuxt-reference-store": "1.0.5",
     "gatsby-starter": "0.2.1",
     "next-starter": "0.1.3",
-    "nuxt-starter": "1.0.7"
+    "nuxt-starter": "1.0.7",
+    "nacelle-reference-store-gatsby": "1.0.0"
   },
   "changesets": [
     "cold-oranges-study",
+    "cool-queens-eat",
     "fifty-masks-teach",
     "giant-chefs-smoke",
     "gorgeous-gifts-sip",
     "lucky-monkeys-glow",
+    "ninety-spies-attend",
     "old-colts-attend",
     "old-monkeys-reply",
     "slow-peaches-happen",
@@ -35,6 +38,7 @@
     "ten-students-sneeze",
     "tidy-dryers-decide",
     "tricky-melons-fry",
+    "twenty-ducks-vanish",
     "violet-forks-jam",
     "witty-hairs-bake"
   ]
