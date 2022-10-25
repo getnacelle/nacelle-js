@@ -1,5 +1,12 @@
 # @nacelle/shopify-cart
 
+## 1.0.0-beta.1
+
+### Patch Changes
+
+- c973886: Documentation for `@nacelle/shopify-cart` is now available at nacelle.com/docs.
+- e081dd7: Updates the Shopify Storefront API version to `2022-10`.
+
 ## 1.0.0-beta.0
 
 ### Major Changes
