@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import fetchClient from 'cross-fetch';
 import {
-  CartCreateMutation,
+  CartSelectedDeliveryOptionsUpdateMutation,
   CountryCode,
   LanguageCode
 } from '../../types/shopify.type';
@@ -9,12 +9,13 @@ import { createGqlClient } from '../../utils';
 import formatCartResponse from '../../utils/formatCartResponse';
 import { mockJsonResponse } from '../../../__tests__/utils';
 import {
+  cartId,
   clientSettings,
-  responses,
   graphqlEndpoint,
-  headers
+  headers,
+  responses
 } from '../../../__tests__/mocks';
-import cartCreate from './cartCreate';
+import cartSelectedDeliveryOptionsUpdate from './cartSelectedDeliveryOptionsUpdate';
 import mutations from '../../graphql/mutations';
 
 jest.mock('cross-fetch');
@@ -28,53 +29,27 @@ const defaultCountry: CountryCode = 'ZZ';
 const defaultLocale = 'en-US';
 const defaultShopId = 'shop-id';
 
-describe('cartCreate', () => {
+describe('cartSelectedDeliveryOptionsUpdate', () => {
   afterEach(() => {
     jest.clearAllMocks();
-  });
-
-  it('make a request with the expected query and variables when params empty', async () => {
-    mockedFetchClient.mockImplementationOnce(
-      (): Promise<any> =>
-        mockJsonResponse<CartCreateMutation>(
-          responses.mutations.cartCreate.withoutLine
-        )
-    );
-
-    await cartCreate({
-      gqlClient,
-      shopifyShopId: defaultShopId,
-      language: defaultLanguage,
-      country: defaultCountry,
-      locale: defaultLocale
-    });
-
-    expect(fetchClient).toHaveBeenCalledTimes(1);
-    expect(fetchClient).toHaveBeenCalledWith(graphqlEndpoint, {
-      method: 'POST',
-      headers,
-      body: JSON.stringify({
-        query: mutations.CART_CREATE(),
-        variables: {
-          input: {},
-          language: defaultLanguage,
-          country: defaultCountry
-        }
-      })
-    });
   });
 
   it('make a request with the expected query and variables', async () => {
     mockedFetchClient.mockImplementationOnce(
       (): Promise<any> =>
-        mockJsonResponse<CartCreateMutation>(
-          responses.mutations.cartCreate.withoutLine
+        mockJsonResponse<CartSelectedDeliveryOptionsUpdateMutation>(
+          responses.mutations.cartSelectedDeliveryOptionsUpdate
         )
     );
-
-    await cartCreate({
+    await cartSelectedDeliveryOptionsUpdate({
       gqlClient,
-      params: { lines: [] },
+      cartId,
+      selectedDeliveryOptions: [
+        {
+          deliveryGroupId: '123',
+          deliveryOptionHandle: 'option-a'
+        }
+      ],
       shopifyShopId: defaultShopId,
       language: defaultLanguage,
       country: defaultCountry,
@@ -86,9 +61,15 @@ describe('cartCreate', () => {
       method: 'POST',
       headers,
       body: JSON.stringify({
-        query: mutations.CART_CREATE(),
+        query: mutations.CART_SELECTED_DELIVERY_OPTIONS_UPDATE(),
         variables: {
-          input: { lines: [] },
+          cartId,
+          selectedDeliveryOptions: [
+            {
+              deliveryGroupId: '123',
+              deliveryOptionHandle: 'option-a'
+            }
+          ],
           language: defaultLanguage,
           country: defaultCountry
         }
@@ -97,12 +78,14 @@ describe('cartCreate', () => {
 
     expect(mockedFormatCartResponse).toHaveBeenCalledTimes(1);
     expect(mockedFormatCartResponse).toHaveBeenCalledWith({
-      cart: responses.mutations.cartCreate.withoutLine.data?.cartCreate?.cart,
+      cart: responses.mutations.cartSelectedDeliveryOptionsUpdate.data
+        ?.cartSelectedDeliveryOptionsUpdate?.cart,
       userErrors:
-        responses.mutations.cartCreate.withoutLine.data?.cartCreate?.userErrors,
+        responses.mutations.cartSelectedDeliveryOptionsUpdate.data
+          ?.cartSelectedDeliveryOptionsUpdate?.userErrors,
       errors: undefined,
-      shopifyShopId: defaultShopId,
-      locale: defaultLocale
+      locale: defaultLocale,
+      shopifyShopId: defaultShopId
     });
   });
 
@@ -115,9 +98,15 @@ describe('cartCreate', () => {
 
     expect.assertions(1);
     await expect(
-      cartCreate({
+      cartSelectedDeliveryOptionsUpdate({
         gqlClient,
-        params: { lines: [] },
+        cartId,
+        selectedDeliveryOptions: [
+          {
+            deliveryGroupId: '123',
+            deliveryOptionHandle: 'option-a'
+          }
+        ],
         shopifyShopId: defaultShopId,
         language: defaultLanguage,
         country: defaultCountry,

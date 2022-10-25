@@ -7,7 +7,8 @@ import {
   cartLinesAdd,
   cartLinesUpdate,
   cartLinesRemove,
-  cartNoteUpdate
+  cartNoteUpdate,
+  cartSelectedDeliveryOptionsUpdate
 } from './actions';
 import { createGqlClient, sanitizeFragments, sanitizeShopId } from '../utils';
 import type {
@@ -19,6 +20,7 @@ import type {
 import type {
   AttributeInput,
   CartBuyerIdentityInput,
+  CartSelectedDeliveryOptionInput,
   CountryCode,
   LanguageCode
 } from '../types/shopify.type';
@@ -74,6 +76,11 @@ type CartNoteUpdate = (params: {
   note: string;
 }) => Promise<CartResponse | void>;
 
+type CartSelectedDeliveryOptionsUpdate = (params: {
+  cartId: string;
+  selectedDeliveryOptions: CartSelectedDeliveryOptionInput[];
+}) => Promise<CartResponse | void>;
+
 type CartClientConfig = {
   language: LanguageCode;
   country: CountryCode;
@@ -95,6 +102,7 @@ export interface CartClient {
    * @returns {object} Shopify cart object
    */
   cart: FetchCart;
+
   /**
    * Update attributes on an existing Shopify Cart.
    * @param {string} cartId Shopify cart id
@@ -102,6 +110,7 @@ export interface CartClient {
    * @returns {object} Shopify cart object
    */
   cartAttributesUpdate: CartAttributesUpdate;
+
   /**
    * Update buyer on an existing Shopify Cart.
    * @param {string} cartId Shopify cart id
@@ -118,6 +127,7 @@ export interface CartClient {
    * @returns {object} Shopify cart object
    */
   cartCreate: CartCreate;
+
   /**
    * Update discounts on an existing Shopify Cart.
    * @param {string} cartId Shopify cart id
@@ -125,6 +135,7 @@ export interface CartClient {
    * @returns {object} Shopify cart object
    */
   cartDiscountCodesUpdate: CartDiscountCodesUpdate;
+
   /**
    * Add line items to cart.
    * @param {string} cartId Shopify cart id
@@ -139,6 +150,7 @@ export interface CartClient {
    * @returns {object} Shopify cart object
    */
   cartLinesUpdate: CartLinesUpdate;
+
   /**
    * Remove line items from cart.
    * @param {string} cartId Shopify cart id
@@ -146,6 +158,7 @@ export interface CartClient {
    * @returns {object} Shopify cart object
    */
   cartLinesRemove: CartLinesRemove;
+
   /**
    * Update note on a Shopify Cart.
    * @param {string} cartId Shopify cart id
@@ -153,6 +166,14 @@ export interface CartClient {
    * @returns {object} Shopify cart object
    */
   cartNoteUpdate: CartNoteUpdate;
+
+  /**
+   * Update note on a Shopify Cart.
+   * @param {string} cartId Shopify cart id
+   * @param {string} note Note to set on cart
+   * @returns {object} Shopify cart object
+   */
+  cartSelectedDeliveryOptionsUpdate: CartSelectedDeliveryOptionsUpdate;
 
   /**
    * Update the editable global config values used to make requests to Shopify.
@@ -203,15 +224,19 @@ export default function createShopifyCartClient({
     country,
     locale
   };
+  const methodConfig = () => ({
+    shopifyShopId: config.shopifyShopId,
+    language: config.language,
+    country: config.country,
+    locale: config.locale
+  });
+
   return {
     cart: (params: { cartId: string }): Promise<CartResponse | void> =>
       cart({
         customFragments,
         gqlClient,
-        shopifyShopId: config.shopifyShopId,
-        language: config.language,
-        country: config.country,
-        locale: config.locale,
+        ...methodConfig(),
         ...params
       }),
     cartAttributesUpdate: (params: {
@@ -221,10 +246,7 @@ export default function createShopifyCartClient({
       cartAttributesUpdate({
         customFragments: sanitizedCustomFragments,
         gqlClient,
-        shopifyShopId: config.shopifyShopId,
-        language: config.language,
-        country: config.country,
-        locale: config.locale,
+        ...methodConfig(),
         ...params
       }),
     cartBuyerIdentityUpdate: (params: {
@@ -234,20 +256,14 @@ export default function createShopifyCartClient({
       cartBuyerIdentityUpdate({
         customFragments: sanitizedCustomFragments,
         gqlClient,
-        shopifyShopId: config.shopifyShopId,
-        language: config.language,
-        country: config.country,
-        locale: config.locale,
+        ...methodConfig(),
         ...params
       }),
     cartCreate: (params: NacelleCartInput): Promise<CartResponse | void> =>
       cartCreate({
         customFragments: sanitizedCustomFragments,
         gqlClient,
-        shopifyShopId: config.shopifyShopId,
-        language: config.language,
-        country: config.country,
-        locale: config.locale,
+        ...methodConfig(),
         params
       }),
     cartDiscountCodesUpdate: (params: {
@@ -257,10 +273,7 @@ export default function createShopifyCartClient({
       cartDiscountCodesUpdate({
         customFragments: sanitizedCustomFragments,
         gqlClient,
-        shopifyShopId: config.shopifyShopId,
-        language: config.language,
-        country: config.country,
-        locale: config.locale,
+        ...methodConfig(),
         ...params
       }),
     cartLinesAdd: (params: {
@@ -270,10 +283,7 @@ export default function createShopifyCartClient({
       cartLinesAdd({
         customFragments: sanitizedCustomFragments,
         gqlClient,
-        shopifyShopId: config.shopifyShopId,
-        language: config.language,
-        country: config.country,
-        locale: config.locale,
+        ...methodConfig(),
         ...params
       }),
     cartLinesUpdate: (params: {
@@ -283,10 +293,7 @@ export default function createShopifyCartClient({
       cartLinesUpdate({
         customFragments,
         gqlClient,
-        shopifyShopId: config.shopifyShopId,
-        language: config.language,
-        country: config.country,
-        locale: config.locale,
+        ...methodConfig(),
         ...params
       }),
     cartLinesRemove: (params: {
@@ -309,10 +316,17 @@ export default function createShopifyCartClient({
       cartNoteUpdate({
         customFragments,
         gqlClient,
-        shopifyShopId: config.shopifyShopId,
-        language: config.language,
-        country: config.country,
-        locale: config.locale,
+        ...methodConfig(),
+        ...params
+      }),
+    cartSelectedDeliveryOptionsUpdate: (params: {
+      cartId: string;
+      selectedDeliveryOptions: CartSelectedDeliveryOptionInput[];
+    }): Promise<CartResponse | void> =>
+      cartSelectedDeliveryOptionsUpdate({
+        customFragments,
+        gqlClient,
+        ...methodConfig(),
         ...params
       }),
     getConfig: (): CartClientConfig => ({ ...config }),
