@@ -7,27 +7,27 @@ runs:
     - name: Preview Data - npm ci
       shell: bash
       run: npm ci
-      working-directory: services/shopify-checkout
+      working-directory: packages/shopify-checkout
     - name: Preview Data - npm run test
       shell: bash
       run: npm run test
-      working-directory: services/shopify-checkout
+      working-directory: packages/shopify-checkout
     - name: Preview Data - npm run build
       shell: bash
       run: npm run build
-      working-directory: services/shopify-checkout
+      working-directory: packages/shopify-checkout
     - name: Preview Data - npm run test:coverage
       shell: bash
       run: npm run test:coverage
-      working-directory: services/shopify-checkout
+      working-directory: packages/shopify-checkout
     - name: Analyze with SonarCloud
       shell: bash
       uses: sonarsource/sonarcloud-github-action@master
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        GITHUB_TOKEN: ${{ inputs.GITHUB_TOKEN }}
+        SONAR_TOKEN: ${{ inputs.SONAR_TOKEN }}
       with:
-        projectBaseDir: services/shopify-checkout
+        projectBaseDir: packages/shopify-checkout
         args: >
           -Dsonar.organization=getnacelle
           -Dsonar.projectKey=getnacelle_nacelle-js_package_shopify_checkout
