@@ -55,7 +55,7 @@ jobs:
           projectBaseDir: packages/shopify-checkout
           args: >
             -Dsonar.organization=getnacelle
-            -Dsonar.projectKey=getnacelle_preview-data_service_shopify-checkout
+            -Dsonar.projectKey=getnacelle_nacelle-js_package_shopify_checkout
             -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info
             -Dsonar.sources=src
             -Dsonar.exclusions=src/**/*.test.ts
