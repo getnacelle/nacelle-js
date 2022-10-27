@@ -1,0 +1,27 @@
+name: Nacelle-JS - Pull Request
+
+on:
+  pull_request:
+    branches: [main]
+
+jobs:
+  PR:
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '16.x'
+          registry-url: 'https://npm.pkg.github.com/'
+      - uses: dorny/paths-filter@v2
+        id: changes
+        with:
+          filters: |
+            shopify-checkout:
+              - 'packages/shopify-checkout/**'
+      - name: SonarCloud Scan
+        if: steps.changes.outputs.shopify-checkout == 'true'
+        uses: ./.github/actions/packages/shopify-checkout
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
