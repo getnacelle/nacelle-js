@@ -29,11 +29,6 @@ jobs:
         run: npm ci
         working-directory: packages/shopify-checkout
 
-      - name: Shopify Checkout - npm run test:ci
-        if: steps.changes.outputs.shopify-checkout == 'true'
-        run: npm run test
-        working-directory: packages/shopify-checkout
-
       - name: Shopify Checkout - npm run build
         if: steps.changes.outputs.shopify-checkout == 'true'
         run: npm run build
