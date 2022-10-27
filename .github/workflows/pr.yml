@@ -19,9 +19,44 @@ jobs:
           filters: |
             shopify-checkout:
               - 'packages/shopify-checkout/**'
-      - name: SonarCloud Scan
+
+      ################################
+      # Shopify Checkout PR CICD     #
+      ################################
+
+      - name: Preview Data - npm ci
         if: steps.changes.outputs.shopify-checkout == 'true'
-        uses: ./.github/actions/packages/shopify-checkout/build
-        with:
+        run: npm ci
+        working-directory: packages/shopify-checkout
+
+      - name: Preview Data - npm run test
+        if: steps.changes.outputs.shopify-checkout == 'true'
+        run: npm run test
+        working-directory: packages/shopify-checkout
+
+      - name: Preview Data - npm run build
+        if: steps.changes.outputs.shopify-checkout == 'true'
+        run: npm run build
+        working-directory: packages/shopify-checkout
+
+      - name: Preview Data - npm run test:coverage
+        if: steps.changes.outputs.shopify-checkout == 'true'
+        run: npm run test:coverage
+        working-directory: packages/shopify-checkout
+
+      - name: Analyze with SonarCloud
+        if: steps.changes.outputs.shopify-checkout == 'true'
+        uses: sonarsource/sonarcloud-github-action@master
+        env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        with:
+          projectBaseDir: packages/shopify-checkout
+          args: >
+            -Dsonar.organization=getnacelle
+            -Dsonar.projectKey=getnacelle_preview-data_service_shopify-checkout
+            -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info
+            -Dsonar.sources=src
+            -Dsonar.exclusions=src/**/*.test.ts
+            -Dsonar.tests=src
+            -Dsonar.test.inclusions=src/**/*.test.ts
