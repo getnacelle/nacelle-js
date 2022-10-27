@@ -21,7 +21,7 @@ jobs:
               - 'packages/shopify-checkout/**'
       - name: SonarCloud Scan
         if: steps.changes.outputs.shopify-checkout == 'true'
-        uses: ./.github/actions/packages/shopify-checkout
+        uses: ./.github/actions/packages/shopify-checkout/build
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
