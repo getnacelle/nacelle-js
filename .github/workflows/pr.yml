@@ -24,22 +24,22 @@ jobs:
       # Shopify Checkout PR CICD     #
       ################################
 
-      - name: Preview Data - npm ci
+      - name: Shopify Checkout - npm ci
         if: steps.changes.outputs.shopify-checkout == 'true'
         run: npm ci
         working-directory: packages/shopify-checkout
 
-      - name: Preview Data - npm run test
+      - name: Shopify Checkout - npm run test:ci
         if: steps.changes.outputs.shopify-checkout == 'true'
         run: npm run test
         working-directory: packages/shopify-checkout
 
-      - name: Preview Data - npm run build
+      - name: Shopify Checkout - npm run build
         if: steps.changes.outputs.shopify-checkout == 'true'
         run: npm run build
         working-directory: packages/shopify-checkout
 
-      - name: Preview Data - npm run test:coverage
+      - name: Shopify Checkout - npm run test:coverage
         if: steps.changes.outputs.shopify-checkout == 'true'
         run: npm run test:coverage
         working-directory: packages/shopify-checkout
