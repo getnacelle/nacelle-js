@@ -20,9 +20,16 @@ jobs:
           fetch-depth: 0
 
       - name: Setup Node.js 16.x
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
           node-version: 16.x
+
+      - uses: dorny/paths-filter@v2
+        id: changes
+        with:
+          filters: |
+            shopify-checkout:
+              - 'packages/shopify-checkout/**'
 
       - name: Install Dependencies
         run: npm ci
@@ -39,3 +46,25 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NACELLE_NPMJS_TOKEN }}
+
+      - name: Shopify Checkout - npm run test:coverage
+        if: steps.changes.outputs.shopify-checkout == 'true'
+        run: npm run test:coverage
+        working-directory: packages/shopify-checkout
+
+      - name: Analyze with SonarCloud
+        if: steps.changes.outputs.shopify-checkout == 'true'
+        uses: sonarsource/sonarcloud-github-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        with:
+          projectBaseDir: packages/shopify-checkout
+          args: >
+            -Dsonar.organization=getnacelle
+            -Dsonar.projectKey=getnacelle_nacelle-js_package_shopify_checkout
+            -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info
+            -Dsonar.sources=src
+            -Dsonar.exclusions=src/**/*.test.ts
+            -Dsonar.tests=src
+            -Dsonar.test.inclusions=src/**/*.test.ts
