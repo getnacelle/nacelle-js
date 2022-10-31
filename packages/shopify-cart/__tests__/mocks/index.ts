@@ -11,7 +11,8 @@ import {
   CartLineRemoveMutation,
   CartNoteUpdateMutation,
   Cart_CartFragment,
-  CartUserError_UserErrorsFragment
+  CartUserError_UserErrorsFragment,
+  CartSelectedDeliveryOptionsUpdateMutation
 } from '../../src/types/shopify.type';
 
 export const clientSettings = {
@@ -61,6 +62,7 @@ interface Responses {
     cartNoteUpdate: {
       noNote: ShopifyResponse<CartNoteUpdateMutation>;
     };
+    cartSelectedDeliveryOptionsUpdate: ShopifyResponse<CartSelectedDeliveryOptionsUpdateMutation>;
   };
 }
 
@@ -363,6 +365,13 @@ export const responses: Responses = {
           cartNoteUpdate: {
             ...cartWithoutLineResponse
           }
+        }
+      }
+    },
+    cartSelectedDeliveryOptionsUpdate: {
+      data: {
+        cartSelectedDeliveryOptionsUpdate: {
+          ...cartWithLineResponse
         }
       }
     }

@@ -15,7 +15,7 @@ import {
   headers,
   responses
 } from '../../../__tests__/mocks';
-import cartNoteUpdate from '../../client/actions/cartNoteUpdate';
+import cartNoteUpdate from './cartNoteUpdate';
 import mutations from '../../graphql/mutations';
 
 jest.mock('cross-fetch');
