@@ -1,5 +1,11 @@
 # @nacelle/shopify-cart
 
+## 1.0.0-beta.2
+
+### Patch Changes
+
+- 9ab1f63: Adds a new `cartSelectedDeliveryOptionsUpdate` method to the client. This method corresponds to the `cartSelectedDeliveryOptionsUpdate` mutation added in the `2022-10` version of the Shopify Storefront API.
+
 ## 1.0.0-beta.1
 
 ### Patch Changes
