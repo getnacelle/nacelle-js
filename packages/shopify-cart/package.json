@@ -14,6 +14,7 @@
     "codegen": "graphql-codegen --config codegen.yml -r dotenv/config",
     "test": "jest --watch",
     "test:ci": "jest --silent --runInBand --collectCoverage",
+    "test:coverage": "jest --coverage --coverageDirectory='./coverage' --silent",
     "changeset": "changeset",
     "tsc": "tsc",
     "tsc:production": "tsc --project tsconfig.production.json",

@@ -1,29 +1,18 @@
-name: Release
+name: Nacelle-JS - Pull Request
 
 on:
-  workflow_dispatch:
-  push:
-    branches:
-      - main
-    paths:
-      - 'packages/**'
+  pull_request:
+    branches: [main]
 
 jobs:
-  release:
-    name: Release
-    runs-on: ubuntu-latest
+  PR:
+    runs-on: ubuntu-20.04
     steps:
-      - name: Checkout Repo
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
         with:
-          # This makes Actions fetch all Git history so that Changesets can generate changelogs with the correct commits
-          fetch-depth: 0
-
-      - name: Setup Node.js 16.x
-        uses: actions/setup-node@v3
-        with:
-          node-version: 16.x
-
+          node-version: '16.x'
+          registry-url: 'https://npm.pkg.github.com/'
       - uses: dorny/paths-filter@v2
         id: changes
         with:
@@ -33,21 +22,19 @@ jobs:
             shopify-cart:
               - 'packages/shopify-cart/**'
 
-      - name: Install Dependencies
-        run: npm ci
+      ################################
+      # Shopify Checkout PR CICD     #
+      ################################
 
-      - name: Create Release Pull Request or Publish to npm
-        id: changesets
-        uses: changesets/action@v1.2.0
-        with:
-          commit: 'build: version packages'
-          title: 'build: version packages'
-          version: npm run version
-          # This expects you to have a script called release which does a build for your packages and calls changeset publish
-          publish: npm run release
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NACELLE_NPMJS_TOKEN }}
+      - name: Shopify Checkout - npm ci
+        if: steps.changes.outputs.shopify-checkout == 'true'
+        run: npm ci
+        working-directory: packages/shopify-checkout
+
+      - name: Shopify Checkout - npm run build
+        if: steps.changes.outputs.shopify-checkout == 'true'
+        run: npm run build
+        working-directory: packages/shopify-checkout
 
       - name: Shopify Checkout - npm run test:coverage
         if: steps.changes.outputs.shopify-checkout == 'true'
@@ -70,6 +57,20 @@ jobs:
             -Dsonar.exclusions=src/**/*.test.ts
             -Dsonar.tests=src
             -Dsonar.test.inclusions=src/**/*.test.ts
+
+      ################################
+      # Shopify Cart PR CICD     #
+      ################################
+
+      - name: Shopify Cart - npm ci
+        if: steps.changes.outputs.shopify-cart == 'true'
+        run: npm ci
+        working-directory: packages/shopify-cart
+
+      - name: Shopify Cart - npm run build
+        if: steps.changes.outputs.shopify-cart == 'true'
+        run: npm run build
+        working-directory: packages/shopify-cart
 
       - name: Shopify Cart - npm run test:coverage
         if: steps.changes.outputs.shopify-cart == 'true'
