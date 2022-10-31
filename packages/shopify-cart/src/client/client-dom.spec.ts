@@ -23,7 +23,9 @@ import type {
   CartNoteUpdateMutation,
   Cart_CartFragment,
   LanguageCode,
-  CountryCode
+  CountryCode,
+  CartSelectedDeliveryOptionsUpdateMutation,
+  CartSelectedDeliveryOptionInput
 } from '../types/shopify.type';
 
 const defaultLanguage: LanguageCode = 'EN';
@@ -49,16 +51,19 @@ describe('createShopifyCartClient', () => {
     expect(cartClient.cartBuyerIdentityUpdate).toBeInstanceOf(Function);
     expect(cartClient.cartAttributesUpdate).toBeInstanceOf(Function);
     expect(cartClient.cartNoteUpdate).toBeInstanceOf(Function);
+    expect(cartClient.cartSelectedDeliveryOptionsUpdate).toBeInstanceOf(
+      Function
+    );
   });
 
-  it("uses `window.fetch` when `typeof window !== 'undefined'` and an isomorphic fetch client hasn't been supplied", async () => {
+  it("uses `globalThis.fetch` when `typeof window !== 'undefined'` and an isomorphic fetch client hasn't been supplied", async () => {
     const windowFetch = jest.fn(
       (): Promise<any> =>
         mockJsonResponse<CartCreateMutation>(
           responses.mutations.cartCreate.withLine
         )
     );
-    window.fetch = windowFetch;
+    globalThis.fetch = windowFetch;
 
     const cartClient = createShopifyCartClient(clientSettings);
     const note = 'hi!';
@@ -83,7 +88,7 @@ describe('createShopifyCartClient', () => {
       (): Promise<any> =>
         mockJsonResponse<{ cart: Cart_CartFragment }>(responses.queries.cart)
     );
-    window.fetch = windowFetch;
+    globalThis.fetch = windowFetch;
 
     const cartClient = createShopifyCartClient(clientSettings);
 
@@ -109,7 +114,7 @@ describe('createShopifyCartClient', () => {
       (): Promise<any> =>
         mockJsonResponse<{ cart: Cart_CartFragment }>(responses.queries.cart)
     );
-    window.fetch = windowFetch;
+    globalThis.fetch = windowFetch;
     const cartClient = createShopifyCartClient({
       ...clientSettings,
       language: 'FR'
@@ -135,7 +140,7 @@ describe('createShopifyCartClient', () => {
       (): Promise<any> =>
         mockJsonResponse<{ cart: Cart_CartFragment }>(responses.queries.cart)
     );
-    window.fetch = windowFetch;
+    globalThis.fetch = windowFetch;
     const cartClient = createShopifyCartClient({
       ...clientSettings,
       country: 'US'
@@ -161,7 +166,7 @@ describe('createShopifyCartClient', () => {
       (): Promise<any> =>
         mockJsonResponse<{ cart: Cart_CartFragment }>(responses.queries.cart)
     );
-    window.fetch = windowFetch;
+    globalThis.fetch = windowFetch;
     const formatSpy = jest.spyOn(utilFunctions, 'formatCartResponse');
 
     const cartClient = createShopifyCartClient({
@@ -183,7 +188,7 @@ describe('createShopifyCartClient', () => {
       (): Promise<any> =>
         mockJsonResponse<CartLineAddMutation>(responses.mutations.cartLinesAdd)
     );
-    window.fetch = windowFetch;
+    globalThis.fetch = windowFetch;
 
     const cartClient = createShopifyCartClient(clientSettings);
 
@@ -215,7 +220,7 @@ describe('createShopifyCartClient', () => {
           responses.mutations.cartLinesUpdate
         )
     );
-    window.fetch = windowFetch;
+    globalThis.fetch = windowFetch;
 
     const cartClient = createShopifyCartClient(clientSettings);
     const updatedCart = cartWithLineResponse;
@@ -262,7 +267,7 @@ describe('createShopifyCartClient', () => {
           responses.mutations.cartLinesRemove
         )
     );
-    window.fetch = windowFetch;
+    globalThis.fetch = windowFetch;
 
     const cartClient = createShopifyCartClient(clientSettings);
 
@@ -294,7 +299,7 @@ describe('createShopifyCartClient', () => {
           responses.mutations.cartBuyerIdentityUpdate.withoutBuyer
         )
     );
-    window.fetch = windowFetch;
+    globalThis.fetch = windowFetch;
 
     const cartClient = createShopifyCartClient(clientSettings);
 
@@ -330,7 +335,7 @@ describe('createShopifyCartClient', () => {
           responses.mutations.cartDiscountCodesUpdate.withoutCodes
         )
     );
-    window.fetch = windowFetch;
+    globalThis.fetch = windowFetch;
 
     const cartClient = createShopifyCartClient(clientSettings);
 
@@ -362,7 +367,7 @@ describe('createShopifyCartClient', () => {
           responses.mutations.cartNoteUpdate.noNote
         )
     );
-    window.fetch = windowFetch;
+    globalThis.fetch = windowFetch;
 
     const cartClient = createShopifyCartClient(clientSettings);
     const note = 'Cart Note';
@@ -391,7 +396,7 @@ describe('createShopifyCartClient', () => {
           responses.mutations.cartAttributesUpdate.noAttributes
         )
     );
-    window.fetch = windowFetch;
+    globalThis.fetch = windowFetch;
 
     const cartClient = createShopifyCartClient(clientSettings);
     const attributes = [{ key: 'testKey', value: 'testValue' }];
@@ -414,6 +419,41 @@ describe('createShopifyCartClient', () => {
     });
   });
 
+  it('makes the expected request when updating a note on the cart', async () => {
+    const windowFetch = jest.fn(
+      (): Promise<any> =>
+        mockJsonResponse<CartSelectedDeliveryOptionsUpdateMutation>(
+          responses.mutations.cartSelectedDeliveryOptionsUpdate
+        )
+    );
+    globalThis.fetch = windowFetch;
+
+    const cartClient = createShopifyCartClient(clientSettings);
+    const selectedDeliveryOptions: CartSelectedDeliveryOptionInput[] = [
+      { deliveryGroupId: '112233', deliveryOptionHandle: 'option-a' },
+      { deliveryGroupId: '445566', deliveryOptionHandle: 'option-b' }
+    ];
+    await cartClient.cartSelectedDeliveryOptionsUpdate({
+      cartId,
+      selectedDeliveryOptions
+    });
+
+    expect(windowFetch).toHaveBeenCalledTimes(1);
+    expect(windowFetch).toHaveBeenCalledWith(graphqlEndpoint, {
+      method: 'POST',
+      headers,
+      body: JSON.stringify({
+        query: mutations.CART_SELECTED_DELIVERY_OPTIONS_UPDATE(),
+        variables: {
+          cartId,
+          selectedDeliveryOptions,
+          language: defaultLanguage,
+          country: defaultCountry
+        }
+      })
+    });
+  });
+
   it('makes requests using user-supplied `customFragments`', async () => {
     const windowFetch = jest.fn(
       (): Promise<any> =>
@@ -421,7 +461,7 @@ describe('createShopifyCartClient', () => {
           responses.mutations.cartCreate.withLine
         )
     );
-    window.fetch = windowFetch;
+    globalThis.fetch = windowFetch;
 
     const cartClient = createShopifyCartClient({
       ...clientSettings,
@@ -494,7 +534,7 @@ describe('createShopifyCartClient', () => {
       (): Promise<any> =>
         mockJsonResponse<{ cart: Cart_CartFragment }>(responses.queries.cart)
     );
-    window.fetch = windowFetch;
+    globalThis.fetch = windowFetch;
 
     const cartClient = createShopifyCartClient({
       ...clientSettings,
@@ -545,15 +585,18 @@ describe('createShopifyCartClient', () => {
       language: 'FR',
       locale: 'en-US'
     });
+
     expect(cartClientWithNonDefaultCountryAndLanguage.getConfig()).toEqual({
       ...clientSettings,
       country: 'CA',
       language: 'FR',
       locale: 'en-US'
     });
+
     const cartClientWithDefaultLanguageAndCountry = createShopifyCartClient({
       ...clientSettings
     });
+
     expect(cartClientWithDefaultLanguageAndCountry.getConfig()).toEqual({
       ...clientSettings,
       country: defaultCountry,
@@ -561,6 +604,7 @@ describe('createShopifyCartClient', () => {
       locale: defaultLocale
     });
   });
+
   it('updates the language setting in the config if you set a new language with setConfig', () => {
     const cartClient = createShopifyCartClient({ ...clientSettings });
     cartClient.setConfig({ language: 'FR' });
@@ -571,6 +615,7 @@ describe('createShopifyCartClient', () => {
       locale: 'en-US'
     });
   });
+
   it('updates the country setting in the config if you set a new language with setConfig', () => {
     const cartClient = createShopifyCartClient({ ...clientSettings });
     cartClient.setConfig({ country: 'CA' });
@@ -581,12 +626,13 @@ describe('createShopifyCartClient', () => {
       locale: 'en-US'
     });
   });
+
   it('uses the updated settings in the cart request if you update the config with setConfig', async () => {
     const windowFetch = jest.fn(
       (): Promise<any> =>
         mockJsonResponse<{ cart: Cart_CartFragment }>(responses.queries.cart)
     );
-    window.fetch = windowFetch;
+    globalThis.fetch = windowFetch;
 
     const cartClient = createShopifyCartClient(clientSettings);
     cartClient.setConfig({ language: 'FR', country: 'CA' });
@@ -606,12 +652,13 @@ describe('createShopifyCartClient', () => {
       })
     });
   });
+
   it('uses the updated client settings in the cartLinesAdd request if you update the config with setConfig', async () => {
     const windowFetch = jest.fn(
       (): Promise<any> =>
         mockJsonResponse<CartLineAddMutation>(responses.mutations.cartLinesAdd)
     );
-    window.fetch = windowFetch;
+    globalThis.fetch = windowFetch;
 
     const cartClient = createShopifyCartClient(clientSettings);
 
@@ -637,6 +684,7 @@ describe('createShopifyCartClient', () => {
       })
     });
   });
+
   it('uses the updated client settings in the cartLinesUpdate request if you update the config with setConfig', async () => {
     const windowFetch = jest.fn(
       (): Promise<any> =>
@@ -644,7 +692,7 @@ describe('createShopifyCartClient', () => {
           responses.mutations.cartLinesUpdate
         )
     );
-    window.fetch = windowFetch;
+    globalThis.fetch = windowFetch;
 
     const cartClient = createShopifyCartClient(clientSettings);
     cartClient.setConfig({ language: 'FR', country: 'CA' });
@@ -692,7 +740,7 @@ describe('createShopifyCartClient', () => {
           responses.mutations.cartLinesRemove
         )
     );
-    window.fetch = windowFetch;
+    globalThis.fetch = windowFetch;
 
     const cartClient = createShopifyCartClient(clientSettings);
     cartClient.setConfig({ language: 'FR', country: 'CA' });
@@ -725,7 +773,7 @@ describe('createShopifyCartClient', () => {
           responses.mutations.cartBuyerIdentityUpdate.withoutBuyer
         )
     );
-    window.fetch = windowFetch;
+    globalThis.fetch = windowFetch;
 
     const cartClient = createShopifyCartClient(clientSettings);
     cartClient.setConfig({ language: 'FR', country: 'CA' });
@@ -762,7 +810,7 @@ describe('createShopifyCartClient', () => {
           responses.mutations.cartDiscountCodesUpdate.withoutCodes
         )
     );
-    window.fetch = windowFetch;
+    globalThis.fetch = windowFetch;
 
     const cartClient = createShopifyCartClient(clientSettings);
     cartClient.setConfig({ language: 'FR', country: 'CA' });
@@ -795,7 +843,7 @@ describe('createShopifyCartClient', () => {
           responses.mutations.cartNoteUpdate.noNote
         )
     );
-    window.fetch = windowFetch;
+    globalThis.fetch = windowFetch;
 
     const cartClient = createShopifyCartClient(clientSettings);
     const note = 'Cart Note';
@@ -826,7 +874,7 @@ describe('createShopifyCartClient', () => {
           responses.mutations.cartAttributesUpdate.noAttributes
         )
     );
-    window.fetch = windowFetch;
+    globalThis.fetch = windowFetch;
 
     const cartClient = createShopifyCartClient(clientSettings);
     cartClient.setConfig({ language: 'FR', country: 'CA' });

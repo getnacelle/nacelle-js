@@ -14,4 +14,5 @@ export { default as cartLinesAdd } from './cartLinesAdd';
 export { default as cartLinesRemove } from './cartLinesRemove';
 export { default as cartLinesUpdate } from './cartLinesUpdate';
 export { default as cartNoteUpdate } from './cartNoteUpdate';
+export { default as cartSelectedDeliveryOptionsUpdate } from './cartSelectedDeliveryOptionsUpdate';
 // @endindex
