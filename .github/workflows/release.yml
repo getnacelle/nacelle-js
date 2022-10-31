@@ -31,6 +31,8 @@ jobs:
           filters: |
             shopify-checkout:
               - 'packages/shopify-checkout/**'
+            shopify-cart:
+              - 'packages/shopify-cart/**'
 
       - name: Install Dependencies
         run: npm ci
@@ -64,6 +66,28 @@ jobs:
           args: >
             -Dsonar.organization=getnacelle
             -Dsonar.projectKey=getnacelle_nacelle-js_package_shopify_checkout
+            -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info
+            -Dsonar.sources=src
+            -Dsonar.exclusions=src/**/*.test.ts
+            -Dsonar.tests=src
+            -Dsonar.test.inclusions=src/**/*.test.ts
+
+      - name: Shopify Cart - npm run test:coverage
+        if: steps.changes.outputs.shopify-cart == 'true'
+        run: npm run test:coverage
+        working-directory: packages/shopify-cart
+
+      - name: Analyze with SonarCloud
+        if: steps.changes.outputs.shopify-cart == 'true'
+        uses: sonarsource/sonarcloud-github-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        with:
+          projectBaseDir: packages/shopify-cart
+          args: >
+            -Dsonar.organization=getnacelle
+            -Dsonar.projectKey=getnacelle_nacelle-js_package_shopify_cart
             -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info
             -Dsonar.sources=src
             -Dsonar.exclusions=src/**/*.test.ts
