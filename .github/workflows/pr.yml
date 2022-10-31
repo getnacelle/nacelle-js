@@ -2,9 +2,7 @@ name: Nacelle-JS - Pull Request
 
 on:
   pull_request:
-    branches:
-      - main
-      - ENG-6843/shopify-cart-1.0.0
+    branches: [main]
 
 jobs:
   PR:
