@@ -44,6 +44,7 @@
     "precommit": "lint-staged",
     "test": "jest --watch",
     "test:ci": "jest --silent --runInBand --collectCoverage",
+    "test:coverage": "jest --coverage --coverageDirectory='./coverage' --silent",
     "lockfile:update": "npm i --package-lock-only"
   },
   "bugs": {
