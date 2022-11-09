@@ -7,12 +7,10 @@ function findNestedReferences(contentObject = {}, parent = null, key) {
     if (contentObject[0]?.nacelleEntryId) {
       // filter out any unresolvable nacelle references since these won't exist in the Gatsby Node system and break builds.
       let filteredContent = contentObject.filter((entry) => {
-        return (
-          !isUnresolvableNacelleReference(entry) && !entry.type === 'asset'
-        );
+        return !isUnresolvableNacelleReference(entry);
       });
-      // if there are n
-      if (filteredContent.length !== contentObject.length) {
+      // if there are assets, don't try to link to prevent assets from being included in Node linking
+      if (filteredContent.some((entry) => entry.type === 'asset')) {
         return;
       }
       parent[`${key}___NODE`] = filteredContent.map(
