@@ -48,6 +48,7 @@ const discountApplication = gql`
 const checkout = gql`
   fragment Checkout_checkout on Checkout {
     id
+    completedAt
     webUrl
     lineItems(first: 100) {
       edges {
