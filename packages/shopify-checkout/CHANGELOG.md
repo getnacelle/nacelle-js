@@ -1,5 +1,11 @@
 # @nacelle/shopify-checkout
 
+## 0.1.1
+
+### Patch Changes
+
+- 3cf6e7b: Fixes an issue with the checkout `completed` value being returned as `false` when a checkout was in fact completed.
+
 ## 0.1.0
 
 ### Minor Changes
