@@ -24,16 +24,15 @@ const checkoutUuids = {
 export const checkoutIds = {
   encoded: {
     beginsWithLetter: Buffer.from(
-      'gid://shopify/Checkout/' + checkoutUuids.beginsWithLetter
+      `gid://shopify/Checkout/${checkoutUuids.beginsWithLetter}`
     ).toString('base64'),
     beginsWithNumber: Buffer.from(
-      'gid://shopify/Checkout/' + checkoutUuids.beginsWithNumber
+      `gid://shopify/Checkout/${checkoutUuids.beginsWithNumber}`
     ).toString('base64')
   },
   plaintext: {
-    beginsWithLetter:
-      'gid://shopify/Checkout/' + checkoutUuids.beginsWithLetter,
-    beginsWithNumber: 'gid://shopify/Checkout/' + checkoutUuids.beginsWithNumber
+    beginsWithLetter: `gid://shopify/Checkout/${checkoutUuids.beginsWithLetter}`,
+    beginsWithNumber: `gid://shopify/Checkout/${checkoutUuids.beginsWithNumber}`
   }
 };
 
