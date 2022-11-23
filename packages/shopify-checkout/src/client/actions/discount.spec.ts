@@ -35,7 +35,7 @@ describe('discount', () => {
     await expect(
       applyDiscount({
         gqlClient,
-        id: checkoutIds.beginsWithLetter,
+        id: checkoutIds.encoded.beginsWithLetter,
         discountCode
       }).then((checkout) => checkout)
     ).resolves.toMatchObject(
@@ -58,7 +58,7 @@ describe('discount', () => {
     await expect(
       removeDiscount({
         gqlClient,
-        id: checkoutIds.beginsWithLetter
+        id: checkoutIds.encoded.beginsWithLetter
       }).then((checkout) => checkout)
     ).resolves.toMatchObject(
       buildCheckout(
@@ -78,12 +78,12 @@ describe('discount', () => {
 
     // [1/2] `applyDiscount`
     await expect(
-      applyDiscount({ gqlClient, id: checkoutIds.beginsWithLetter })
+      applyDiscount({ gqlClient, id: checkoutIds.encoded.beginsWithLetter })
     ).rejects.toThrow(networkErrorMessage);
 
     // [2/2] `removeDiscount`
     await expect(
-      removeDiscount({ gqlClient, id: checkoutIds.beginsWithLetter })
+      removeDiscount({ gqlClient, id: checkoutIds.encoded.beginsWithLetter })
     ).rejects.toThrow(networkErrorMessage);
   });
 
@@ -128,7 +128,7 @@ describe('discount', () => {
 
     applyDiscount({
       gqlClient,
-      id: checkoutIds.beginsWithLetter,
+      id: checkoutIds.encoded.beginsWithLetter,
       discountCode
     }).catch((e) =>
       expect(String(e).includes(checkoutDoesNotExistError.message)).toBe(true)
@@ -144,7 +144,7 @@ describe('discount', () => {
 
     removeDiscount({
       gqlClient,
-      id: checkoutIds.beginsWithLetter
+      id: checkoutIds.encoded.beginsWithLetter
     }).catch((e) =>
       expect(String(e).includes(checkoutDoesNotExistError.message)).toBe(true)
     );

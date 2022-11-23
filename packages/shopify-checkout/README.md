@@ -232,6 +232,7 @@ Other example mutations from Shopify docs:
 
 - [`checkoutShippingAddressUpdateV2`][shopify-mutation-checkout-shipping-address-update-v2]
 - [`checkoutCustomerAssociateV2`][shopify-mutation-checkout-customer-associate-v2]
+
 ### Advanced Usage
 
 #### Using a custom `fetchClient`
@@ -253,7 +254,7 @@ The only requirement of the `fetchClient` is that it implements the [`Fetch API`
 
 #### Using a custom Shopify endpoint
 
-If you'd prefer to specify a Shopify Storefront GraphQL API endpoint directly, without supplying a `myshopifyDomain` or `storefrontApiVersion`, you may do so by specifying a `customEndpoint` when initializing the checkout client. For example:
+If you'd prefer to specify a Shopify Storefront GraphQL API endpoint directly, without supplying a `myshopifyDomain`, you may do so by specifying a `customEndpoint` when initializing the checkout client. For example:
 
 ```js
 const checkoutClient = createShopifyCheckoutClient({
