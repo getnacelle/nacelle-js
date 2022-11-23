@@ -33,7 +33,7 @@ export default async function removeDiscount({
   try {
     if (!isVerifiedCheckoutId(id)) {
       throw new Error(
-        `Invalid checkout ID. Expected a Base64-encoded Shopify Global ID. Received: ${id}`
+        `Invalid checkout ID. Expected a Shopify Global ID. Received: ${id}`
       );
     }
 

@@ -148,7 +148,7 @@ describe('putCheckout', () => {
     const note = 'Happy Birthday!';
 
     const checkoutUpdate = checkouts.checkoutUpdate({
-      checkoutId: checkoutIds.beginsWithLetter,
+      checkoutId: checkoutIds.encoded.beginsWithLetter,
       input: { customAttributes, note }
     });
 
@@ -167,7 +167,7 @@ describe('putCheckout', () => {
     await expect(
       putCheckout({
         gqlClient,
-        id: checkoutIds.beginsWithLetter,
+        id: checkoutIds.encoded.beginsWithLetter,
         customAttributes,
         note
       }).then((checkout) => checkout)
@@ -182,7 +182,7 @@ describe('putCheckout', () => {
       body: JSON.stringify({
         query: mutations.checkoutAttributesUpdate,
         variables: {
-          checkoutId: checkoutIds.beginsWithLetter,
+          checkoutId: checkoutIds.encoded.beginsWithLetter,
           input: {
             customAttributes,
             note
@@ -194,7 +194,7 @@ describe('putCheckout', () => {
 
   it("updates an existing checkout's line items", async () => {
     const checkoutLineItemsReplace = checkouts.checkoutLineItemsReplace({
-      checkoutId: checkoutIds.beginsWithLetter,
+      checkoutId: checkoutIds.encoded.beginsWithLetter,
       lineItems: newCartItems
     });
 
@@ -212,7 +212,7 @@ describe('putCheckout', () => {
     await expect(
       putCheckout({
         gqlClient,
-        id: checkoutIds.beginsWithLetter,
+        id: checkoutIds.encoded.beginsWithLetter,
         lineItems: newCartItems
       }).then((checkout) => checkout)
     ).resolves.toMatchObject(
@@ -228,7 +228,7 @@ describe('putCheckout', () => {
       body: JSON.stringify({
         query: mutations.checkoutLineItemsReplace,
         variables: {
-          checkoutId: checkoutIds.beginsWithLetter,
+          checkoutId: checkoutIds.encoded.beginsWithLetter,
           lineItems: newCartItems
         }
       })
@@ -258,7 +258,7 @@ describe('putCheckout', () => {
     await expect(
       putCheckout({
         gqlClient,
-        id: checkoutIds.beginsWithLetter,
+        id: checkoutIds.encoded.beginsWithLetter,
         note: 'Happy Birthday!'
       })
     ).rejects.toThrow(networkErrorMessage);
@@ -267,7 +267,7 @@ describe('putCheckout', () => {
     await expect(
       putCheckout({
         gqlClient,
-        id: checkoutIds.beginsWithLetter,
+        id: checkoutIds.encoded.beginsWithLetter,
         lineItems: newCartItems
       })
     ).rejects.toThrow(networkErrorMessage);
@@ -290,7 +290,7 @@ describe('putCheckout', () => {
     );
     await putCheckout({
       gqlClient,
-      id: checkoutIds.beginsWithLetter,
+      id: checkoutIds.encoded.beginsWithLetter,
       note: noteText
     }).catch((e) => expect(String(e).includes(mockErrorMesssage)).toBe(true));
   });
@@ -315,7 +315,7 @@ describe('putCheckout', () => {
     );
     await putCheckout({
       gqlClient,
-      id: checkoutIds.beginsWithLetter,
+      id: checkoutIds.encoded.beginsWithLetter,
       note: noteText
     }).catch((e) => expect(String(e).includes(mockErrorMessage)).toBe(true));
   });
@@ -359,7 +359,7 @@ describe('putCheckout', () => {
     );
     await putCheckout({
       gqlClient,
-      id: checkoutIds.beginsWithLetter,
+      id: checkoutIds.encoded.beginsWithLetter,
       lineItems: newCartItems
     }).catch((e) => expect(String(e).includes(mockErrorMessage)).toBe(true));
   });
@@ -383,7 +383,7 @@ describe('putCheckout', () => {
     );
     await putCheckout({
       gqlClient,
-      id: checkoutIds.beginsWithLetter,
+      id: checkoutIds.encoded.beginsWithLetter,
       lineItems: newCartItems
     }).catch((e) => expect(String(e).includes(mockErrorMessage)).toBe(true));
   });
@@ -498,7 +498,7 @@ describe('putCheckout', () => {
     await expect(
       putCheckout({
         gqlClient,
-        id: checkoutIds.beginsWithLetter,
+        id: checkoutIds.encoded.beginsWithLetter,
         note: 'Happy Birthday!'
       }).catch((e) =>
         expect(String(e).includes(doesNotExistMessage)).toBe(true)
@@ -516,7 +516,7 @@ describe('putCheckout', () => {
     await expect(
       putCheckout({
         gqlClient,
-        id: checkoutIds.beginsWithLetter,
+        id: checkoutIds.encoded.beginsWithLetter,
         lineItems: newCartItems
       }).catch((e) =>
         expect(String(e).includes(doesNotExistMessage)).toBe(true)
@@ -545,7 +545,7 @@ describe('putCheckout', () => {
 
     await putCheckout({
       gqlClient,
-      id: checkoutIds.beginsWithLetter,
+      id: checkoutIds.encoded.beginsWithLetter,
       note: 'Happy Birthday!'
     }).catch((e) => expect(String(e).includes(problemMessage)).toBe(true));
 
@@ -559,7 +559,7 @@ describe('putCheckout', () => {
 
     await putCheckout({
       gqlClient,
-      id: checkoutIds.beginsWithLetter,
+      id: checkoutIds.encoded.beginsWithLetter,
       lineItems: newCartItems
     }).catch((e) => expect(String(e).includes(problemMessage)).toBe(true));
   });

@@ -22,12 +22,18 @@ const checkoutUuids = {
   beginsWithNumber: '998877?key=123123'
 };
 export const checkoutIds = {
-  beginsWithLetter: Buffer.from(
-    'gid://shopify/Checkout/' + checkoutUuids.beginsWithLetter
-  ).toString('base64'),
-  beginsWithNumber: Buffer.from(
-    'gid://shopify/Checkout/' + checkoutUuids.beginsWithNumber
-  ).toString('base64')
+  encoded: {
+    beginsWithLetter: Buffer.from(
+      `gid://shopify/Checkout/${checkoutUuids.beginsWithLetter}`
+    ).toString('base64'),
+    beginsWithNumber: Buffer.from(
+      `gid://shopify/Checkout/${checkoutUuids.beginsWithNumber}`
+    ).toString('base64')
+  },
+  plaintext: {
+    beginsWithLetter: `gid://shopify/Checkout/${checkoutUuids.beginsWithLetter}`,
+    beginsWithNumber: `gid://shopify/Checkout/${checkoutUuids.beginsWithNumber}`
+  }
 };
 
 export const webUrl =
@@ -84,7 +90,7 @@ interface Checkouts {
 }
 
 export const emptyCheckout: ShopifyCheckoutResponseProperties = {
-  id: checkoutIds.beginsWithLetter,
+  id: checkoutIds.encoded.beginsWithLetter,
   webUrl,
   completedAt: null,
   lineItems: { edges: [] },
@@ -133,7 +139,7 @@ export const checkouts: Checkouts = {
     data: {
       checkoutShippingAddressUpdateV2: {
         checkout: {
-          id: checkoutIds.beginsWithLetter,
+          id: checkoutIds.encoded.beginsWithLetter,
           webUrl
         },
         checkoutUserErrors: []

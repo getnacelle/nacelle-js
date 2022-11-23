@@ -31,11 +31,12 @@ describe('findCheckout', () => {
     );
 
     await expect(
-      findCheckout({ gqlClient, id: checkoutIds.beginsWithLetter }).then(
-        (checkout) => checkout
-      )
+      findCheckout({
+        gqlClient,
+        id: checkoutIds.encoded.beginsWithLetter
+      }).then((checkout) => checkout)
     ).resolves.toMatchObject({
-      id: checkoutIds.beginsWithLetter,
+      id: checkoutIds.encoded.beginsWithLetter,
       url: webUrl,
       lines: [],
       discounts: []
@@ -47,7 +48,7 @@ describe('findCheckout', () => {
       headers,
       body: JSON.stringify({
         query: queries.getCheckout,
-        variables: { id: checkoutIds.beginsWithLetter }
+        variables: { id: checkoutIds.encoded.beginsWithLetter }
       })
     });
   });
@@ -64,9 +65,10 @@ describe('findCheckout', () => {
     );
 
     await expect(
-      findCheckout({ gqlClient, id: checkoutIds.beginsWithLetter }).then(
-        (checkout) => (checkout as ShopifyCheckout)?.completed
-      )
+      findCheckout({
+        gqlClient,
+        id: checkoutIds.encoded.beginsWithLetter
+      }).then((checkout) => (checkout as ShopifyCheckout)?.completed)
     ).resolves.toBe(false);
   });
 
@@ -81,9 +83,10 @@ describe('findCheckout', () => {
         mockJsonResponse<queries.GetCheckoutData>(checkoutResponse)
     );
     await expect(
-      findCheckout({ gqlClient, id: checkoutIds.beginsWithLetter }).then(
-        (checkout) => (checkout as ShopifyCheckout)?.completed
-      )
+      findCheckout({
+        gqlClient,
+        id: checkoutIds.encoded.beginsWithLetter
+      }).then((checkout) => (checkout as ShopifyCheckout)?.completed)
     ).resolves.toBe(true);
   });
 
@@ -96,7 +99,7 @@ describe('findCheckout', () => {
 
     expect.assertions(1);
     await expect(
-      findCheckout({ gqlClient, id: checkoutIds.beginsWithLetter })
+      findCheckout({ gqlClient, id: checkoutIds.encoded.beginsWithLetter })
     ).rejects.toThrow(networkErrorMessage);
   });
 
@@ -111,11 +114,13 @@ describe('findCheckout', () => {
     );
 
     expect.assertions(1);
-    await findCheckout({ gqlClient, id: checkoutIds.beginsWithLetter }).catch(
-      (e) =>
-        expect(
-          String(e).includes('[findCheckout] Checkout response has no data')
-        ).toBe(true)
+    await findCheckout({
+      gqlClient,
+      id: checkoutIds.encoded.beginsWithLetter
+    }).catch((e) =>
+      expect(
+        String(e).includes('[findCheckout] Checkout response has no data')
+      ).toBe(true)
     );
   });
 
@@ -134,8 +139,9 @@ describe('findCheckout', () => {
     );
 
     expect.assertions(1);
-    await findCheckout({ gqlClient, id: checkoutIds.beginsWithLetter }).catch(
-      (e) => expect(String(e).includes(problemMessage)).toBe(true)
-    );
+    await findCheckout({
+      gqlClient,
+      id: checkoutIds.encoded.beginsWithLetter
+    }).catch((e) => expect(String(e).includes(problemMessage)).toBe(true));
   });
 });
