@@ -1,6 +1,6 @@
 # `@nacelle/shopify-cart`
 
-A minimal Shopify cart client for headless storefronts.
+A Shopify Cart client for Nacelle-powered headless storefronts.
 
 [![npm version](https://img.shields.io/npm/v/@nacelle/shopify-cart?style=for-the-badge)](https://npmjs.org/package/@nacelle/shopify-cart)
 
