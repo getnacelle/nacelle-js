@@ -187,7 +187,7 @@ const { cart, userErrors, errors } = await cartClient.cartBuyerIdentityUpdate({
 
 _Creates a new Shopify cart._
 
-**Accepts**: params - an optional object containing the following optional values: `attributes` (`array`), `buyerIdentity` (`object`), `discountCodes` (`array`), `lines` (`array`), `note` (`string`). To initialize an empty cart, exclude all parameters. For more information on the cart optional values, checkout Shopify's [`CartInput`][shopify-cart-input].Note that the `lines` parameter differs from Shopify [`CartLineInput`][shopify-cart-line-input] in that it expects the variant's `nacelleEntryId` instead of a Shopify `merchandiseId`.
+**Accepts**: params - an optional object containing the following optional values: `attributes` (`array`), `buyerIdentity` (`object`), `discountCodes` (`array`), `lines` (`array`), `note` (`string`). To initialize an empty cart, exclude all parameters. For more information on the cart optional values, checkout Shopify's [`CartInput`][shopify-cart-input]. Note that the `lines` parameter differs from Shopify [`CartLineInput`][shopify-cart-line-input] in that it expects the variant's `nacelleEntryId` instead of a Shopify `merchandiseId`.
 
 ##### Example
 
