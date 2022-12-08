@@ -4,32 +4,28 @@ A Shopify Cart client for Nacelle-powered headless storefronts.
 
 [![npm version](https://img.shields.io/npm/v/@nacelle/shopify-cart?style=for-the-badge)](https://npmjs.org/package/@nacelle/shopify-cart)
 
-## Overview
-
-`@nacelle/shopify-cart` adds Shopify cart functionality to headless commerce projects.
-
 ## Features
 
-- zero dependencies
-- full [TypeScript](https://www.typescriptlang.org) support
-- ships in ESM, UMD & IIFE formats for maximum portability
+- Zero dependencies
+- Full [TypeScript](https://www.typescriptlang.org) support
+- Ships in ESM, UMD & IIFE formats for maximum portability
 - 100% code coverage
 
 ## Versioning
 
-`@nacelle/shopify-cart` will release quarterly updates that coincide with the Shopify Storefront API's [release schedule][shopify-release-schedule], such that the `@latest` version of `@nacelle/shopify-cart` uses the latest version of the Shopify Storefront API. Features in the Project Roadmap will be added in quarterly releases. Minor updates & patches will be released on an as-needed basis.
+Per the **Project Roadmap** below, `@nacelle/shopify-cart` will release quarterly updates that coincide with the Shopify Storefront API's [release schedule][shopify-release-schedule], such that the `@latest` version of `@nacelle/shopify-cart` uses the latest version of the Shopify Storefront API. Features in the Project Roadmap will be added in quarterly releases. Minor updates & patches will be released on an as-needed basis.
 
 ## Project Roadmap
 
 We welcome [feature & enhancement suggestions](https://github.com/getnacelle/nacelle-js/issues/new?labels=enhancement%2Ctriage&template=feature_request.yml&title=%5BEnhancement%5D%3A+) via GitHub Issues.
 
-### October 2022
-
-- Update to use the `2022-10` version of the Shopify Storefront API.
-
 ### January 2023
 
 - Update to use the `2023-01` version of the Shopify Storefront API.
+
+### April 2023
+
+- Update to use the `2023-04` version of the Shopify Storefront API.
 
 ## Usage
 
