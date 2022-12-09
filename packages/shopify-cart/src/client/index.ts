@@ -26,6 +26,16 @@ import type {
 } from '../types/shopify.type';
 import type { CustomFragments } from '../graphql/fragments';
 
+/**
+ * @param {string} shopifyStorefrontAccessToken - required Shopify Storefront API access token
+ * @param {CustomFragments} customFragments - optional GraphQL fragments for data customization
+ * @param fetchClient - optional Fetch API-compatible request function
+ * @param {string} shopifyCustomEndpoint - optional Shopify custom API endpoint
+ * @param {string} shopifyShopId - optional Shopify shop id
+ * @param {LanguageCode} language - optional Shopify Language Code used for cart queries/responses. Defaults to `EN` if not supplied
+ * @param {CountryCode} country - optional Shopify Country Code used for cart queries/responses. Defaults to `ZZ` (unknown region) if not supplied
+ * @param {string} locale - optional Nacelle `locale` used to assign `NacelleCartMerchandise` the correct `nacelleEntryId`. Defaults to `en-US` if not supplied.
+ */
 export interface CreateClientParams {
   shopifyStorefrontAccessToken: string;
   customFragments?: CustomFragments;

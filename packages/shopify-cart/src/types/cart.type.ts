@@ -46,14 +46,15 @@ export interface CartFragmentResponse {
 
 export interface NacelleCartLineItemInput
   extends Omit<CartLineInput, 'merchandiseId'> {
+  /** The variant's `nacelleEntryId`. */
   nacelleEntryId: string;
 }
 
 export interface NacelleCartInput extends Omit<CartInput, 'lines'> {
-  lines?: Maybe<NacelleCartLineItemInput[]> | undefined;
+  lines?: Maybe<NacelleCartLineItemInput[]>;
 }
 
 export interface NacelleCartLineItemUpdateInput
   extends Omit<CartLineUpdateInput, 'merchandiseId'> {
-  nacelleEntryId?: Maybe<string> | undefined;
+  nacelleEntryId?: Maybe<string>;
 }
