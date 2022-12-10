@@ -50,22 +50,22 @@
     "test": "__tests__"
   },
   "devDependencies": {
-    "@graphql-codegen/cli": "^2.6.2",
-    "@graphql-codegen/typescript": "^2.5.1",
-    "@graphql-codegen/typescript-operations": "^2.4.2",
+    "@graphql-codegen/cli": "^2.16.1",
+    "@graphql-codegen/typescript": "^2.8.5",
+    "@graphql-codegen/typescript-operations": "^2.5.10",
     "@types/jest": "^27.5.2",
-    "@typescript-eslint/eslint-plugin": "^5.10.2",
-    "@typescript-eslint/parser": "^5.10.2",
+    "@typescript-eslint/eslint-plugin": "^5.46.0",
+    "@typescript-eslint/parser": "^5.46.0",
     "cross-fetch": "^3.1.5",
-    "eslint": "^8.8.0",
+    "eslint": "^8.29.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-import": "^2.25.4",
     "graphql": "^16.3.0",
     "jest": "^27.5.1",
-    "prettier": "^2.7.1",
-    "rollup-plugin-visualizer": "^5.5.4",
+    "prettier": "^2.8.1",
+    "rollup-plugin-visualizer": "^5.8.3",
     "ts-jest": "^27.1.5",
-    "typescript": "^4.7.4",
-    "vite": "^3.0.9"
+    "typescript": "^4.9.4",
+    "vite": "^3.2.5"
   }
 }
