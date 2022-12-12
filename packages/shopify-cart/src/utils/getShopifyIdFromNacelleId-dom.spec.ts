@@ -6,7 +6,7 @@ describe('getShopifyIdFromNacelleId', () => {
   it('returns a shopify gid if a nacelle entry id is passed', () => {
     const unencodedNacelleEntryId =
       'id://shopify/pepper-wood-apparel/default/PRODUCT_VARIANT/33894120718471/en-US';
-    const nacelleEntryId = btoa(unencodedNacelleEntryId);
+    const nacelleEntryId = window.btoa(unencodedNacelleEntryId);
     expect(getShopifyIdFromNacelleId(nacelleEntryId)).toStrictEqual(
       decodedShopifyGid
     );
@@ -22,7 +22,7 @@ describe('getShopifyIdFromNacelleId', () => {
   it('throws an error if a non PRODUCT_VARIANT NacelleEntryId is passed in', () => {
     const unencodedNacelleEntryId =
       'id://shopify/pepper-wood-apparel/default/PRODUCT/33894120718471/en-US';
-    const nacelleEntryId = btoa(unencodedNacelleEntryId);
+    const nacelleEntryId = window.btoa(unencodedNacelleEntryId);
     expect(() => getShopifyIdFromNacelleId(nacelleEntryId)).toThrow();
   });
 });

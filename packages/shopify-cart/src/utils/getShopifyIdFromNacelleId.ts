@@ -15,7 +15,7 @@ export default function getShopifyVariantFromNacelleId(
       nacelleEntryIdParts.dataType
     );
     return `gid://shopify/${dataType}/${nacelleEntryIdParts.sourceEntryId}`;
-  } catch (e) {
+  } catch {
     throw new Error(
       'Invalid Nacelle Entry Id for Cart - must be a Product Variant Nacelle Entry Id'
     );
