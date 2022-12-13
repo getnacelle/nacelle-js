@@ -1,21 +1,26 @@
 {
-	"name": "nuxt-2-composition-api",
-	"version": "0.0.18",
-	"private": true,
-	"dependencies": {
-		"@nacelle/shopify-checkout": "^0.1.2",
-		"@nacelle/vue": "^0.0.16",
-		"@nuxtjs/composition-api": "^0.29.0",
-		"core-js": "^3.19.3",
-		"isomorphic-unfetch": "^3.1.0",
-		"nuxt": "^2.15.8"
-	},
-	"devDependencies": {
-		"@nuxt/image": "^0.6.0",
-		"@nuxtjs/pwa": "^3.3.5",
-		"fibers": "^5.0.0",
-		"sass": "^1.53.0",
-		"sass-loader": "^10.2.0",
-		"serve": "^12.0.1"
-	}
+  "name": "nuxt-2-composition-api",
+  "version": "0.0.18",
+  "private": true,
+  "scripts": {
+    "dev": "nuxt",
+    "generate": "nuxt generate",
+    "serve": "serve dist -p 4000"
+  },
+  "dependencies": {
+    "@nacelle/shopify-checkout": "^0.1.2",
+    "@nacelle/vue": "^0.0.16",
+    "@nuxtjs/composition-api": "^0.29.0",
+    "core-js": "^3.19.3",
+    "isomorphic-unfetch": "^3.1.0",
+    "nuxt": "^2.15.8"
+  },
+  "devDependencies": {
+    "@nuxt/image": "^0.6.0",
+    "@nuxtjs/pwa": "^3.3.5",
+    "fibers": "^5.0.0",
+    "sass": "^1.53.0",
+    "sass-loader": "^10.2.0",
+    "serve": "^12.0.1"
+  }
 }
