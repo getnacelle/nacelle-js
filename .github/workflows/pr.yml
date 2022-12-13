@@ -8,7 +8,11 @@ jobs:
   PR:
     runs-on: ubuntu-20.04
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout Repo
+        uses: actions/checkout@v3
+        with:
+          # This makes Actions fetch all git history to prevent issues with SonarCloud analysis
+          fetch-depth: 0
       - uses: actions/setup-node@v3
         with:
           node-version: '16.x'
