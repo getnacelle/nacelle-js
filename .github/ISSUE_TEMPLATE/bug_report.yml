@@ -9,8 +9,16 @@ body:
       label: Project
       description: Which project is this bug report for?
       options:
+        - 'packages/gatsby-source-nacelle'
+        - 'packages/sanity-plugin-nacelle-input'
+        - 'packages/shopify-cart'
         - 'packages/shopify-checkout'
         - 'packages/vue'
+        - 'reference-stores/gatsby'
+        - 'reference-stores/next'
+        - 'reference-stores/nuxt'
+        - 'starters/gatsby'
+        - 'starters/next'
         - 'starters/nuxt'
     validations:
       required: true
@@ -78,7 +86,7 @@ body:
     attributes:
       label: Relevant log output
       description: Please copy and paste any relevant log output. This will be automatically formatted into code, so no need for backticks.
-      render: shell
+      render: Shell
   - type: checkboxes
     id: terms
     attributes:

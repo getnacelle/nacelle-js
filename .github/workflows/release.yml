@@ -5,7 +5,6 @@ on:
   push:
     branches:
       - main
-      - ENG-6843/shopify-cart-1.0.0
     paths:
       - 'packages/**'
 
