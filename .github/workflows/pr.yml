@@ -58,9 +58,9 @@ jobs:
             -Dsonar.projectKey=getnacelle_nacelle-js_package_shopify_checkout
             -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info
             -Dsonar.sources=src
-            -Dsonar.exclusions=src/**/*.test.ts
+            -Dsonar.exclusions=src/**/*.test.ts,src/**/*.spec.ts
             -Dsonar.tests=src
-            -Dsonar.test.inclusions=src/**/*.test.ts
+            -Dsonar.test.inclusions=src/**/*.test.ts,src/**/*.spec.ts
 
       ################################
       # Shopify Cart PR CICD     #
@@ -94,6 +94,6 @@ jobs:
             -Dsonar.projectKey=getnacelle_nacelle-js_package_shopify_cart
             -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info
             -Dsonar.sources=src
-            -Dsonar.exclusions=src/**/*.test.ts
+            -Dsonar.exclusions=src/**/*.test.ts,src/**/*.spec.ts
             -Dsonar.tests=src
-            -Dsonar.test.inclusions=src/**/*.test.ts
+            -Dsonar.test.inclusions=src/**/*.test.ts,src/**/*.spec.ts
