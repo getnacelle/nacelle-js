@@ -1,5 +1,11 @@
 # @nacelle/shopify-cart
 
+## 1.0.0-beta.3
+
+### Patch Changes
+
+- f2b2238: Reverts documentation to be included in the package README
+
 ## 1.0.0-beta.2
 
 ### Patch Changes
