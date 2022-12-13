@@ -1,4 +1,4 @@
-import { CartLine, NacelleCartLine } from '../types/cart.type';
+import type { CartLine, NacelleCartLine } from '../types/cart.type';
 
 export interface TransformShopifyCartLineParams {
   lines: CartLine[];

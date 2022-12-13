@@ -1,6 +1,6 @@
-import { CartResponse } from '../types/cart.type';
-import { Cart_CartFragment } from '../types/shopify.type';
 import { cartFromGql } from './';
+import type { CartResponse } from '../types/cart.type';
+import type { Cart_CartFragment } from '../types/shopify.type';
 
 export type FormatCartResponseParams = Pick<
   CartResponse,

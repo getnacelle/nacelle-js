@@ -1,7 +1,11 @@
 import { cartFromGql } from '../../src/utils';
-import { ShopifyResponse } from '../../src/cart-client.types';
-import { Cart, CartLine, NacelleCartLine } from '../../src/types/cart.type';
-import {
+import type { ShopifyResponse } from '../../src/cart-client.types';
+import type {
+  Cart,
+  CartLine,
+  NacelleCartLine
+} from '../../src/types/cart.type';
+import type {
   CartAttributesUpdateMutation,
   CartBuyerIdentityUpdateMutation,
   CartCreateMutation,
@@ -19,7 +23,7 @@ export const clientSettings = {
   shopifyShopId: '1122334455',
   shopifyStorefrontAccessToken: 'nacelle-swag-store'
 };
-import { ShopifyError } from '../../src/types/errors.type';
+import type { ShopifyError } from '../../src/types/errors.type';
 
 export const graphqlEndpoint = `https://${clientSettings.shopifyShopId}.myshopify.com/api/2022-10/graphql`;
 export const cartId = 'gid://shopify/Cart/112233';

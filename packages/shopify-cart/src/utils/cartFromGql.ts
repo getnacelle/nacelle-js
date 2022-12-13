@@ -1,5 +1,5 @@
-import { Cart } from '../types/cart.type';
-import { Cart_CartFragment } from '../types/shopify.type';
+import type { Cart } from '../types/cart.type';
+import type { Cart_CartFragment } from '../types/shopify.type';
 import transformShopifyLineToNacelleLine from './transformShopifyLineToNacelleLine';
 
 export interface CartFromGqlParams {

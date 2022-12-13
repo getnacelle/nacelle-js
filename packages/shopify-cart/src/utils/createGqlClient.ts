@@ -1,5 +1,5 @@
-import { GqlClient } from '../cart-client.types';
-import { CreateClientParams } from '../client';
+import type { GqlClient } from '../cart-client.types';
+import type { CreateClientParams } from '../client';
 import sanitizeShopId from './sanitizeShopId';
 
 export const fetchClientError =

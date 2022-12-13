@@ -1,4 +1,4 @@
-import { ShopifyError } from '../../src/types/errors.type';
+import type { ShopifyError } from '../../src/types/errors.type';
 
 type MockJsonResponseParams<D> = {
   data?: D;

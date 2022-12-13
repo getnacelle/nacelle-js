@@ -2,7 +2,7 @@ import mutations from '../../graphql/mutations';
 import { formatCartResponse, depaginateLines } from '../../utils';
 import type { CustomFragments } from '../../graphql/fragments';
 import type { CartResponse, CartFragmentResponse } from '../../types/cart.type';
-import {
+import type {
   CartLinesRemovePayload,
   CartLineRemoveMutationVariables,
   LanguageCode,

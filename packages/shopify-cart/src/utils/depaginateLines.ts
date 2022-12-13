@@ -1,5 +1,5 @@
 import queries from '../graphql/queries';
-import {
+import type {
   QueryRootCartArgs,
   Cart_CartFragment,
   LanguageCode,
