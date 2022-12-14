@@ -4,7 +4,7 @@
 
 ### Major Changes
 
-- c89e5c2: feat (breaking): Adds options for language and country codes to cart create.
+- c89e5c2: feat(breaking!): adds options for language and country codes to cart create.
 
   - Now defaults to setting the language to `EN` in all queries and mutations if no language is passed to the `createCart` function.
 
@@ -13,7 +13,7 @@
   As part of this, renames merchandiseId to variantId to limit confusion of shopify merchandiseId and Nacelle's Variant Id.
 
 - c89e5c2: feat: return `cart`, `userErrors` and `errors` from all client methods
-- c89e5c2: - feat(breaking!): Exports `esm` builds as `nacelle-shopify-cart.mjs`
+- c89e5c2: feat(breaking!): Exports `esm` builds as `nacelle-shopify-cart.mjs`
   - feat(breaking!): Uses `es2018` instead of `es2015`.
   - chore: removes some rollup `vite.config.js` configuration to use `vite 3.x` defaults
   - chore: uses `esbuild` for building/minifying
@@ -65,7 +65,7 @@
 
 ### Major Changes
 
-- 3acc646: feat (breaking): Adds options for language and country codes to cart create.
+- 3acc646: feat(breaking!): Adds options for language and country codes to cart create.
 
   - Now defaults to setting the language to `EN` in all queries and mutations if no language is passed to the `createCart` function.
 
@@ -74,7 +74,7 @@
   As part of this, renames merchandiseId to variantId to limit confusion of shopify merchandiseId and Nacelle's Variant Id.
 
 - 78e4c27: feat: return `cart`, `userErrors` and `errors` from all client methods
-- 901cbd9: - feat(breaking!): Exports `esm` builds as `nacelle-shopify-cart.mjs`
+- 901cbd9: feat(breaking!): Exports `esm` builds as `nacelle-shopify-cart.mjs`
   - feat(breaking!): Uses `es2018` instead of `es2015`.
   - chore: removes some rollup `vite.config.js` configuration to use `vite 3.x` defaults
   - chore: uses `esbuild` for building/minifying
