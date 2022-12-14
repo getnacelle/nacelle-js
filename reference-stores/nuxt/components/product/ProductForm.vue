@@ -104,7 +104,7 @@
 </template>
 
 <script>
-import { mapMutations } from 'vuex';
+import { mapActions } from 'vuex';
 
 import ProductExpandable from './ProductExpandable.vue';
 import { formatPrice } from '~/utils/formatPrice';
@@ -154,7 +154,7 @@ export default {
     ];
   },
   methods: {
-    ...mapMutations('cart', ['addItem']),
+    ...mapActions('cart', ['addItem']),
     handleOptionChange($event, option) {
       const newOption = { name: option.name, value: $event.target.value };
       const optionIndex = this.selectedOptions.findIndex((selectedOption) => {

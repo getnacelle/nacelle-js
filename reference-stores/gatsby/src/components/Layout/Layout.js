@@ -4,6 +4,7 @@ import Nav from 'components/Nav/Nav';
 import Cart from 'components/Cart/Cart';
 import Newsletter from '../Newsletter/Newsletter';
 import Footer from '../Footer/Footer';
+import ErrorModal from '../Error/ErrorModal'
 
 const Layout = ({ children }) => {
   return (
@@ -14,6 +15,7 @@ const Layout = ({ children }) => {
       {children}
       <Newsletter />
       <Footer />
+      <ErrorModal />
     </>
   );
 };

@@ -1,0 +1,11 @@
+node_modules
+.DS_Store
+dist
+*.local
+.env
+
+# test outputs
+coverage
+
+# bundle analysis
+stats.html

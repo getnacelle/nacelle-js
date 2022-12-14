@@ -8,7 +8,7 @@
     "serve": "serve dist -p 4000"
   },
   "dependencies": {
-    "@nacelle/shopify-checkout": "^0.1.0",
+    "@nacelle/shopify-checkout": "^0.1.2",
     "@nacelle/vue": "^0.0.16",
     "@nuxtjs/composition-api": "^0.29.0",
     "core-js": "^3.19.3",

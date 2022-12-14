@@ -3,6 +3,7 @@ import Nav from 'components/Nav/Nav';
 import Cart from 'components/Cart/Cart';
 import Newsletter from 'components/Newsletter/Newsletter';
 import Footer from 'components/Footer/Footer';
+import ErrorModal from 'components/Error/ErrorModal';
 
 const Layout = ({ children, components }) => {
   return (
@@ -13,6 +14,7 @@ const Layout = ({ children, components }) => {
       {children}
       <Newsletter content={components.newsletter[0]} />
       <Footer content={components.footer[0]} />
+      <ErrorModal />
     </>
   );
 };

@@ -1,5 +1,5 @@
 {
-  "name": "next",
+  "name": "nacelle-next-reference-store",
   "version": "0.1.3",
   "private": true,
   "scripts": {
@@ -10,15 +10,16 @@
   },
   "dependencies": {
     "@contentful/rich-text-html-renderer": "^15.11.1",
+    "@nacelle/shopify-cart": "^1.0.0-beta.2",
     "@nacelle/shopify-checkout": "^0.1.0",
     "@nacelle/storefront-sdk": "^1.1.1",
     "fuse.js": "^6.5.3",
     "idb-keyval": "^6.1.0",
-    "next": "^12.1.6",
+    "next": "^12.3.1",
     "next-pwa": "^5.5.2",
     "pascal-case": "^3.1.2",
-    "react": "^18.1.0",
-    "react-dom": "^18.1.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
     "react-transition-group": "^4.4.2",
     "uuid": "^8.3.2"
   },
