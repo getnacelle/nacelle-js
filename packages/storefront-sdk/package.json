@@ -1,0 +1,61 @@
+{
+	"name": "@nacelle/storefront-sdk-v2",
+	"version": "2.0.0",
+	"type": "module",
+	"author": "Nacelle Inc.",
+	"license": "Apache-2.0",
+	"files": [
+		"src",
+		"dist"
+	],
+	"scripts": {
+		"dev": "vite",
+		"build": "vite build && tsc --project tsconfig.production.json && mv dist/src dist/types",
+		"preview": "vite preview",
+		"precommit": "lint-staged",
+		"test": "vitest",
+		"coverage": "vitest run --coverage"
+	},
+	"homepage": "https://github.com/getnacelle/nacelle-js/tree/main/packages/sorefront-sdk#readme",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/getnacelle/sorefront-sdk.git"
+	},
+	"bugs": {
+		"url": "https://github.com/getnacelle/sorefront-sdk/issues"
+	},
+	"engines": {
+		"node": ">=14.14 <19",
+		"npm": ">=7"
+	},
+	"main": "./dist/nacelle-sorefront-sdk.umd.js",
+	"module": "./dist/nacelle-sorefront-sdk.mjs",
+	"unpkg": "./dist/nacelle-sorefront-sdk.iife.js",
+	"jsdelivr": "./dist/nacelle-sorefront-sdk.iife.js",
+	"exports": {
+		".": {
+			"import": "./dist/nacelle-sorefront-sdk.mjs",
+			"require": "./dist/nacelle-sorefront-sdk.umd.js"
+		}
+	},
+	"types": "./dist/types/index.d.ts",
+	"sideEffects": false,
+	"directories": {
+		"src": "src",
+		"test": "__tests__"
+	},
+	"devDependencies": {
+		"@typescript-eslint/eslint-plugin": "^5.47.0",
+		"@typescript-eslint/parser": "^5.47.0",
+		"@vitest/coverage-c8": "^0.26.0",
+		"eslint": "^8.30.0",
+		"eslint-config-prettier": "^8.5.0",
+		"eslint-import-resolver-typescript": "^3.5.2",
+		"eslint-plugin-import": "^2.26.0",
+		"eslint-plugin-jest-formatting": "^3.1.0",
+		"prettier": "2.8.1",
+		"typescript": "^4.9.3",
+		"vite": "^4.0.0",
+		"vitest": "^0.26.1"
+	}
+}
