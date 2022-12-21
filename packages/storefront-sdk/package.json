@@ -1,5 +1,5 @@
 {
-	"name": "@nacelle/storefront-sdk-v2",
+	"name": "@nacelle/storefront-sdk",
 	"version": "2.0.0",
 	"type": "module",
 	"author": "Nacelle Inc.",
@@ -16,26 +16,25 @@
 		"test": "vitest",
 		"coverage": "vitest run --coverage"
 	},
-	"homepage": "https://github.com/getnacelle/nacelle-js/tree/main/packages/sorefront-sdk#readme",
+	"homepage": "https://github.com/getnacelle/nacelle-js/tree/main/packages/storefront-sdk#readme",
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/getnacelle/sorefront-sdk.git"
+		"url": "git+https://github.com/getnacelle/nacelle-js.git",
+		"directory": "packages/storefront-sdk"
 	},
 	"bugs": {
-		"url": "https://github.com/getnacelle/sorefront-sdk/issues"
+		"url": "https://github.com/getnacelle/nacelle-js/issues"
 	},
 	"engines": {
-		"node": ">=14.14 <19",
+		"node": ">=16.11",
 		"npm": ">=7"
 	},
-	"main": "./dist/nacelle-sorefront-sdk.umd.js",
-	"module": "./dist/nacelle-sorefront-sdk.mjs",
-	"unpkg": "./dist/nacelle-sorefront-sdk.iife.js",
-	"jsdelivr": "./dist/nacelle-sorefront-sdk.iife.js",
+	"main": "./dist/nacelle-storefront-sdk.umd.cjs",
+	"module": "./dist/nacelle-storefront-sdk.js",
 	"exports": {
 		".": {
-			"import": "./dist/nacelle-sorefront-sdk.mjs",
-			"require": "./dist/nacelle-sorefront-sdk.umd.js"
+			"import": "./dist/nacelle-storefront-sdk.cjs",
+			"require": "./dist/nacelle-storefront-sdk.umd.cjs"
 		}
 	},
 	"types": "./dist/types/index.d.ts",

@@ -21,7 +21,9 @@ module.exports = {
 		tsconfigRootDir: __dirname,
 		project: ['./tsconfig.json']
 	},
-	rules: {},
+	rules: {
+		'@typescript-eslint/consistent-type-imports': 'warn'
+	},
 	settings: {
 		'import/parsers': {
 			'@typescript-eslint/parser': ['.ts']

@@ -1,7 +1,8 @@
 import path from 'path';
 
 /// <reference types="vitest" />
-import { defineConfig, UserConfig } from 'vite';
+import { defineConfig } from 'vite';
+import type { UserConfig } from 'vite';
 
 // https://vitejs.dev/config/
 export const config: UserConfig = {
@@ -9,11 +10,10 @@ export const config: UserConfig = {
 		lib: {
 			entry: path.resolve(__dirname, 'src', 'index.ts'),
 			fileName: 'nacelle-storefront-sdk',
-			formats: ['es', 'umd', 'iife'],
 			name: 'NacelleStorefrontSdk'
 		},
 		sourcemap: true,
-		target: 'es2018'
+		target: 'es2021'
 	},
 	plugins: [],
 	test: {
