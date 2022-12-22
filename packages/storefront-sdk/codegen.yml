@@ -1,0 +1,9 @@
+overwrite: true
+schema: 'https://storefront.api.nacelle.com/graphql/v1/spaces/${NACELLE_SPACE_ID}'
+generates:
+  src/types/storefront.ts:
+    plugins:
+      - typescript
+      - typescript-operations
+    config:
+      enumsAsTypes: true

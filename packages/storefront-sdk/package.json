@@ -14,7 +14,8 @@
 		"preview": "vite preview",
 		"precommit": "lint-staged",
 		"test": "vitest",
-		"coverage": "vitest run --coverage"
+		"coverage": "vitest run --coverage",
+		"codegen": "graphql-codegen-esm --config codegen.yml"
 	},
 	"homepage": "https://github.com/getnacelle/nacelle-js/tree/main/packages/storefront-sdk#readme",
 	"repository": {
@@ -44,6 +45,9 @@
 		"test": "__tests__"
 	},
 	"devDependencies": {
+		"@graphql-codegen/cli": "2.16.1",
+		"@graphql-codegen/typescript": "2.8.5",
+		"@graphql-codegen/typescript-operations": "^2.5.10",
 		"@typescript-eslint/eslint-plugin": "^5.47.0",
 		"@typescript-eslint/parser": "^5.47.0",
 		"@vitest/coverage-c8": "^0.26.0",
@@ -56,5 +60,8 @@
 		"typescript": "^4.9.3",
 		"vite": "^4.0.2",
 		"vitest": "^0.26.1"
+	},
+	"dependencies": {
+		"graphql": "^16.6.0"
 	}
 }
