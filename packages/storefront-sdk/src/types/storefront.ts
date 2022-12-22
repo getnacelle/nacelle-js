@@ -807,3 +807,109 @@ export type VariantContent = Node & {
 	/** [sys] Reference to parent variant by Nacelle ID. */
 	variantEntryId?: Maybe<Scalars['ID']>;
 };
+
+export type NavigationItem_NavigationItemFragment = {
+	__typename?: 'NavigationGroupItem';
+	title: string;
+	type?: NavigationPropertyType | null;
+	url: string;
+	media?: Array<{
+		__typename?: 'NavigationMediaItem';
+		url?: string | null;
+	}> | null;
+	properties?: Array<{
+		__typename?: 'NavigationPropertyItem';
+		key: string;
+		value: string;
+	}> | null;
+};
+
+export type NavigationQueryVariables = Exact<{
+	filter?: InputMaybe<NavigationFilterInput>;
+}>;
+
+export type NavigationQuery = {
+	__typename?: 'Query';
+	navigation: Array<{
+		__typename?: 'NavigationGroup';
+		groupId: string;
+		title?: string | null;
+		updatedAt?: string | null;
+		updatedBy?: string | null;
+		items?: Array<{
+			__typename?: 'NavigationGroupItem';
+			title: string;
+			type?: NavigationPropertyType | null;
+			url: string;
+			items?: Array<{
+				__typename?: 'NavigationGroupItem';
+				title: string;
+				type?: NavigationPropertyType | null;
+				url: string;
+				items?: Array<{
+					__typename?: 'NavigationGroupItem';
+					title: string;
+					type?: NavigationPropertyType | null;
+					url: string;
+					items?: Array<{
+						__typename?: 'NavigationGroupItem';
+						title: string;
+						type?: NavigationPropertyType | null;
+						url: string;
+						items?: Array<{
+							__typename?: 'NavigationGroupItem';
+							title: string;
+							type?: NavigationPropertyType | null;
+							url: string;
+							media?: Array<{
+								__typename?: 'NavigationMediaItem';
+								url?: string | null;
+							}> | null;
+							properties?: Array<{
+								__typename?: 'NavigationPropertyItem';
+								key: string;
+								value: string;
+							}> | null;
+						}> | null;
+						media?: Array<{
+							__typename?: 'NavigationMediaItem';
+							url?: string | null;
+						}> | null;
+						properties?: Array<{
+							__typename?: 'NavigationPropertyItem';
+							key: string;
+							value: string;
+						}> | null;
+					}> | null;
+					media?: Array<{
+						__typename?: 'NavigationMediaItem';
+						url?: string | null;
+					}> | null;
+					properties?: Array<{
+						__typename?: 'NavigationPropertyItem';
+						key: string;
+						value: string;
+					}> | null;
+				}> | null;
+				media?: Array<{
+					__typename?: 'NavigationMediaItem';
+					url?: string | null;
+				}> | null;
+				properties?: Array<{
+					__typename?: 'NavigationPropertyItem';
+					key: string;
+					value: string;
+				}> | null;
+			}> | null;
+			media?: Array<{
+				__typename?: 'NavigationMediaItem';
+				url?: string | null;
+			}> | null;
+			properties?: Array<{
+				__typename?: 'NavigationPropertyItem';
+				key: string;
+				value: string;
+			}> | null;
+		}> | null;
+	}>;
+};

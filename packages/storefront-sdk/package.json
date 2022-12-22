@@ -15,7 +15,7 @@
 		"precommit": "lint-staged",
 		"test": "vitest",
 		"coverage": "vitest run --coverage",
-		"codegen": "graphql-codegen-esm --config codegen.yml"
+		"codegen": "graphql-codegen-esm --config codegen.yml && prettier --write src/types/storefront.ts"
 	},
 	"homepage": "https://github.com/getnacelle/nacelle-js/tree/main/packages/storefront-sdk#readme",
 	"repository": {
