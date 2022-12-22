@@ -1,0 +1,26 @@
+{
+	"compilerOptions": {
+		"rootDir": ".",
+		"strict": true,
+		"target": "ES2021",
+		"allowJs": true,
+		"module": "ES2021",
+		"lib": ["ESNext", "DOM"],
+		"moduleResolution": "Node",
+		"isolatedModules": true,
+		"resolveJsonModule": true,
+		"esModuleInterop": true,
+		"sourceMap": true,
+		"declaration": true,
+		"declarationDir": "dist",
+		"emitDeclarationOnly": true,
+		"useDefineForClassFields": true,
+		"noUnusedLocals": true,
+		"noUnusedParameters": true,
+		"noImplicitReturns": true,
+		"forceConsistentCasingInFileNames": true,
+		"skipLibCheck": true
+	},
+	"include": ["src", "vite.config.ts"],
+	"exclude": ["node_modules", "dist"]
+}
