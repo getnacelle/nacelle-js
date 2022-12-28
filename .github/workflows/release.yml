@@ -5,6 +5,7 @@ on:
   push:
     branches:
       - main
+      - ENG-8179/storefront-sdk-2.0
     paths:
       - 'packages/**'
 
