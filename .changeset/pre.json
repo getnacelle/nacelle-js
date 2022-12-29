@@ -22,5 +22,7 @@
     "next-starter": "0.1.4",
     "nuxt-starter": "1.0.8"
   },
-  "changesets": []
+  "changesets": [
+    "proud-starfishes-explain"
+  ]
 }
