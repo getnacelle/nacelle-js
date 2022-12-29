@@ -27,6 +27,13 @@ module.exports = {
 	settings: {
 		'import/parsers': {
 			'@typescript-eslint/parser': ['.ts']
+		},
+		'import/resolver': {
+			typescript: {
+				extensionAlias: {
+					'.js': ['.ts', '.js']
+				}
+			}
 		}
 	},
 	ignorePatterns: [
