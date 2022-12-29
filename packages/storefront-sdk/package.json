@@ -1,6 +1,6 @@
 {
 	"name": "@nacelle/storefront-sdk",
-	"version": "1.8.0",
+	"version": "2.0.0-beta.0",
 	"type": "module",
 	"author": "Nacelle Inc.",
 	"license": "Apache-2.0",
@@ -15,7 +15,8 @@
 		"precommit": "lint-staged",
 		"test": "vitest",
 		"coverage": "vitest run --coverage",
-		"codegen": "graphql-codegen-esm --config codegen.yml && prettier --write src/types/storefront.ts"
+		"codegen": "graphql-codegen-esm --config codegen.yml && prettier --write src/types/storefront.ts",
+		"lockfile:update": "npm i --package-lock-only"
 	},
 	"homepage": "https://github.com/getnacelle/nacelle-js/tree/main/packages/storefront-sdk#readme",
 	"repository": {
