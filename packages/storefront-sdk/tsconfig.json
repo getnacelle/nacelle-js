@@ -2,7 +2,7 @@
 	"compilerOptions": {
 		"rootDir": ".",
 		"strict": true,
-		"target": "ES2021",
+		"target": "ES2022",
 		"allowJs": true,
 		"lib": ["ESNext", "DOM"],
 		"module": "Node16",
