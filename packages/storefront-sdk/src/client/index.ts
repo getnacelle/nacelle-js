@@ -3,10 +3,10 @@ import type { Client as UrqlClient } from '@urql/core';
 import type { StorefrontClientParams } from '../index.js';
 
 export class StorefrontClient {
-	private readonly graphqlClient: UrqlClient;
+	readonly #graphqlClient: UrqlClient;
 
 	constructor(params: StorefrontClientParams) {
-		this.graphqlClient = createClient({
+		this.#graphqlClient = createClient({
 			url: params.storefrontEndpoint,
 			fetch: params.fetchClient ?? globalThis.fetch
 		});
@@ -14,6 +14,6 @@ export class StorefrontClient {
 
 	// NEW METHODS GO HERE :)
 	placeholder() {
-		return this.graphqlClient.query('', {}).toPromise();
+		return this.#graphqlClient.query('', {}).toPromise();
 	}
 }

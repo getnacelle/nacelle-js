@@ -13,7 +13,7 @@ export const config: UserConfig = {
 			name: 'NacelleStorefrontSdk'
 		},
 		sourcemap: true,
-		target: 'es2021'
+		target: 'es2022'
 	},
 	plugins: [],
 	test: {
