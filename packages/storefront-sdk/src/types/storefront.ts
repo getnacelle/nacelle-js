@@ -1,3 +1,4 @@
+import type { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/core';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = {
@@ -913,3 +914,183 @@ export type NavigationQuery = {
 		}> | null;
 	}>;
 };
+
+export const NavigationItem_NavigationItemFragmentDoc = {
+	kind: 'Document',
+	definitions: [
+		{
+			kind: 'FragmentDefinition',
+			name: { kind: 'Name', value: 'NavigationItem_navigationItem' },
+			typeCondition: {
+				kind: 'NamedType',
+				name: { kind: 'Name', value: 'NavigationGroupItem' }
+			},
+			selectionSet: {
+				kind: 'SelectionSet',
+				selections: [
+					{ kind: 'Field', name: { kind: 'Name', value: 'title' } },
+					{ kind: 'Field', name: { kind: 'Name', value: 'type' } },
+					{ kind: 'Field', name: { kind: 'Name', value: 'url' } },
+					{
+						kind: 'Field',
+						name: { kind: 'Name', value: 'media' },
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [
+								{ kind: 'Field', name: { kind: 'Name', value: 'url' } }
+							]
+						}
+					},
+					{
+						kind: 'Field',
+						name: { kind: 'Name', value: 'properties' },
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [
+								{ kind: 'Field', name: { kind: 'Name', value: 'key' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'value' } }
+							]
+						}
+					}
+				]
+			}
+		}
+	]
+} as unknown as DocumentNode<NavigationItem_NavigationItemFragment, unknown>;
+export const NavigationDocument = {
+	kind: 'Document',
+	definitions: [
+		{
+			kind: 'OperationDefinition',
+			operation: 'query',
+			name: { kind: 'Name', value: 'Navigation' },
+			variableDefinitions: [
+				{
+					kind: 'VariableDefinition',
+					variable: {
+						kind: 'Variable',
+						name: { kind: 'Name', value: 'filter' }
+					},
+					type: {
+						kind: 'NamedType',
+						name: { kind: 'Name', value: 'NavigationFilterInput' }
+					}
+				}
+			],
+			selectionSet: {
+				kind: 'SelectionSet',
+				selections: [
+					{
+						kind: 'Field',
+						name: { kind: 'Name', value: 'navigation' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'filter' },
+								value: {
+									kind: 'Variable',
+									name: { kind: 'Name', value: 'filter' }
+								}
+							}
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [
+								{ kind: 'Field', name: { kind: 'Name', value: 'groupId' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'title' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'updatedBy' } },
+								{
+									kind: 'Field',
+									name: { kind: 'Name', value: 'items' },
+									selectionSet: {
+										kind: 'SelectionSet',
+										selections: [
+											{
+												kind: 'FragmentSpread',
+												name: {
+													kind: 'Name',
+													value: 'NavigationItem_navigationItem'
+												}
+											},
+											{
+												kind: 'Field',
+												name: { kind: 'Name', value: 'items' },
+												selectionSet: {
+													kind: 'SelectionSet',
+													selections: [
+														{
+															kind: 'FragmentSpread',
+															name: {
+																kind: 'Name',
+																value: 'NavigationItem_navigationItem'
+															}
+														},
+														{
+															kind: 'Field',
+															name: { kind: 'Name', value: 'items' },
+															selectionSet: {
+																kind: 'SelectionSet',
+																selections: [
+																	{
+																		kind: 'FragmentSpread',
+																		name: {
+																			kind: 'Name',
+																			value: 'NavigationItem_navigationItem'
+																		}
+																	},
+																	{
+																		kind: 'Field',
+																		name: { kind: 'Name', value: 'items' },
+																		selectionSet: {
+																			kind: 'SelectionSet',
+																			selections: [
+																				{
+																					kind: 'FragmentSpread',
+																					name: {
+																						kind: 'Name',
+																						value:
+																							'NavigationItem_navigationItem'
+																					}
+																				},
+																				{
+																					kind: 'Field',
+																					name: {
+																						kind: 'Name',
+																						value: 'items'
+																					},
+																					selectionSet: {
+																						kind: 'SelectionSet',
+																						selections: [
+																							{
+																								kind: 'FragmentSpread',
+																								name: {
+																									kind: 'Name',
+																									value:
+																										'NavigationItem_navigationItem'
+																								}
+																							}
+																						]
+																					}
+																				}
+																			]
+																		}
+																	}
+																]
+															}
+														}
+													]
+												}
+											}
+										]
+									}
+								}
+							]
+						}
+					}
+				]
+			}
+		},
+		...NavigationItem_NavigationItemFragmentDoc.definitions
+	]
+} as unknown as DocumentNode<NavigationQuery, NavigationQueryVariables>;
