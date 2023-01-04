@@ -35,7 +35,7 @@
 	"module": "./dist/nacelle-storefront-sdk.js",
 	"exports": {
 		".": {
-			"import": "./dist/nacelle-storefront-sdk.cjs",
+			"import": "./dist/nacelle-storefront-sdk.js",
 			"require": "./dist/nacelle-storefront-sdk.umd.cjs"
 		}
 	},
