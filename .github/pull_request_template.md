@@ -27,13 +27,8 @@ Addresses [ENG-0000](https://nacelle.atlassian.net/browse/ENG-0000) <!-- link to
 
 ## Checklist
 
-- [ ] This Pull Request aligns with `nacelle-js`' [Code of Conduct][code-of-conduct].
+- [ ] This Pull Request aligns with `nacelle-js`' [Code of Conduct](https://github.com/getnacelle/nacelle-js/blob/main/CODE_OF_CONDUCT.md#code-of-conduct).
 - [ ] You can follow your own "How to Test" instructions and get the expected result.
 - [ ] Screenshots, videos, etc. in the PR description are free of brand names and sensitive details.
-- [ ] Created a [changeset][changesets-docs] (if the change should appear in a changelog).
+- [ ] Created a [changeset](https://github.com/changesets/changesets) (if the change should appear in a changelog).
 - [ ] Updated the `README.md` with documentation changes (if applicable).
-
-<!-- LINKS -->
-
-[code-of-conduct]: https://github.com/getnacelle/nacelle-js/blob/main/CODE_OF_CONDUCT.md#code-of-conduct
-[changesets-docs]: https://github.com/changesets/changesets
