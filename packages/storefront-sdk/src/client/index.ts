@@ -15,11 +15,18 @@ import type {
 	DataFetchingMethodName,
 	MethodData
 } from '../types/after.js';
-import type { Content } from '../types/storefront.js';
 
 export interface StorefrontResponse<QueryDocumentType> {
 	error?: CombinedError;
 	data?: QueryDocumentType;
+}
+
+export interface QueryParams<QData, QVariables extends AnyVariables> {
+	/** GraphQL query */
+	query: TypedDocumentNode<QData, QVariables> | DocumentNode | string;
+
+	/** GraphQL query variables */
+	variables?: QVariables | string;
 }
 
 export class StorefrontClient {
@@ -121,14 +128,10 @@ export class StorefrontClient {
 	query<QData = any, QVariables extends AnyVariables = any>({
 		query,
 		variables
-	}: {
-		query: TypedDocumentNode<QData, QVariables> | DocumentNode | string;
-		variables?: QVariables | string;
-	}): Promise<StorefrontResponse<QData>> {
+	}: QueryParams<QData, QVariables>): Promise<StorefrontResponse<QData>> {
 		return this.#graphqlClient
 			.query(query, variables as QVariables)
 			.toPromise()
-			.then(({ data, error }) => ({ data, error }));
+			.then(({ data, error }) => this.applyAfter('query', { data, error }));
 	}
-	/* c8 ignore stop */
 }

@@ -9,6 +9,7 @@ import type {
 	ProductCollectionEdge
 } from './storefront.js';
 import type { dataFetchingMethods } from '../utils/index.js';
+import type { StorefrontResponse } from '../client/index.js';
 
 export type DataFetchingMethodName = typeof dataFetchingMethods[number];
 
@@ -21,7 +22,8 @@ export type MethodData = {
 	content: Content[] | ContentEdge[];
 	navigation: NavigationGroup[];
 	spaceProperties: SpaceProperties;
-	query: Record<string, unknown> | Array<Record<string, unknown>>;
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	query: StorefrontResponse<any>;
 };
 
 export type AfterCallbackWithId<MethodName extends DataFetchingMethodName> = {
