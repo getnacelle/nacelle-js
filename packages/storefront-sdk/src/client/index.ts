@@ -34,6 +34,6 @@ export class StorefrontClient {
 		return this.#graphqlClient
 			.query(query, variables as QVariables)
 			.toPromise()
-			.then((res) => ({ data: res.data, error: res.error }));
+			.then(({ data, error }) => ({ data, error }));
 	}
 }
