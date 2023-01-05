@@ -16,8 +16,7 @@ describe('`createClient`', () => {
 	it('calls `createClient` with the expected params', () => {
 		const client = new StorefrontClient({
 			storefrontEndpoint,
-			locale: 'en-US',
-			currencyCode: 'USD'
+			locale: 'en-US'
 		});
 		client.setConfig({});
 
@@ -35,7 +34,6 @@ describe('`createClient`', () => {
 		const client = new StorefrontClient({
 			storefrontEndpoint,
 			locale: 'en-US',
-			currencyCode: 'USD',
 			previewToken
 		});
 		client.setConfig({ previewToken });
@@ -45,7 +43,7 @@ describe('`createClient`', () => {
 			url: storefrontEndpoint + '?preview=true',
 			fetch: globalThis.fetch,
 			fetchOptions: {
-				headers: { X_NACELLE_PREVIEW_TOKEN: previewToken }
+				headers: { 'x-nacelle-space-token': previewToken }
 			}
 		});
 	});

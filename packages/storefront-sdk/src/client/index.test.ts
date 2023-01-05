@@ -21,8 +21,7 @@ it('can initialize with preview token', () => {
 it('`setConfig` sets preview data', () => {
 	const client = new StorefrontClient({
 		storefrontEndpoint,
-		locale: 'en-US',
-		currencyCode: 'USD'
+		locale: 'en-US'
 	});
 
 	expect(client.setConfig({ previewToken: 'xxx' })).toStrictEqual({
@@ -40,15 +39,13 @@ it('`setConfig` sets preview data', () => {
 it('`getConfig` retrieves config', () => {
 	const client = new StorefrontClient({
 		storefrontEndpoint,
-		locale: 'en-US',
-		currencyCode: 'USD'
+		locale: 'en-US'
 	});
 
 	expect(client.getConfig()).toStrictEqual({
 		storefrontEndpoint:
 			'https://storefront.api.nacelle.com/graphql/v1/spaces/my-space-id',
 		previewToken: undefined,
-		locale: 'en-US',
-		currencyCode: 'USD'
+		locale: 'en-US'
 	});
 });

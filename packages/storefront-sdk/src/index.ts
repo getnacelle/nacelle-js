@@ -8,10 +8,7 @@ export interface StorefrontClientParams {
 	/** Nacelle Preview Token. This can be retrieved from the Nacelle Dashboard. */
 	previewToken?: string;
 
-	/** Currency Code string. e.g: "USD" */
-	currencyCode?: string;
-
-	/** Locale string. e.g: en-US  */
+	/** An IETF locale string, e.g. 'en-US'.  */
 	locale?: string;
 
 	/** Optional fetch implementation. If not supplied, the Storefront SDK will use `globalThis.fetch`. */

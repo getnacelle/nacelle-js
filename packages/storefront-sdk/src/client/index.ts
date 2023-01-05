@@ -11,20 +11,18 @@ export class StorefrontClient {
 	#graphqlClient: UrqlClient;
 	#storefrontEndpoint: string;
 	#previewToken: string | undefined;
-	#currencyCode: string | undefined;
-	#locale: string | undefined;
+	#locale: string;
 	#fetchClient: typeof globalThis.fetch;
 
 	constructor(params: StorefrontClientParams) {
 		this.#storefrontEndpoint = params.storefrontEndpoint;
 		this.#previewToken = params.previewToken;
 		this.#fetchClient = params.fetchClient ?? globalThis.fetch;
-		this.#currencyCode = params.currencyCode;
-		this.#locale = params.locale;
+		this.#locale = params.locale || 'en-US';
 
 		let headers = {};
 		if (this.#previewToken) {
-			headers = { X_NACELLE_PREVIEW_TOKEN: this.#previewToken };
+			headers = { 'x-nacelle-space-token': this.#previewToken };
 		}
 
 		this.#graphqlClient = createClient({
@@ -40,8 +38,7 @@ export class StorefrontClient {
 		return {
 			storefrontEndpoint: this.#storefrontEndpoint,
 			previewToken: this.#previewToken,
-			locale: this.#locale,
-			currencyCode: this.#currencyCode
+			locale: this.#locale
 		};
 	}
 
@@ -53,7 +50,7 @@ export class StorefrontClient {
 		if (setConfigParams.previewToken) {
 			this.#previewToken = setConfigParams.previewToken;
 			currentEndpoint.searchParams.set('preview', 'true');
-			headers = { X_NACELLE_PREVIEW_TOKEN: this.#previewToken };
+			headers = { 'x-nacelle-space-token': this.#previewToken };
 		} else {
 			this.#previewToken = undefined;
 			currentEndpoint.searchParams.delete('preview');
