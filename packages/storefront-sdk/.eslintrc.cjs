@@ -42,6 +42,7 @@ module.exports = {
 		'node_modules',
 		'.prettierrc',
 		'build',
-		'dist'
+		'dist',
+		'coverage'
 	]
 };
