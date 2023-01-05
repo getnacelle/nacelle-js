@@ -1,6 +1,17 @@
 import { createClient } from '@urql/core';
-import type { Client as UrqlClient } from '@urql/core';
+import type {
+	Client as UrqlClient,
+	TypedDocumentNode,
+	AnyVariables,
+	CombinedError
+} from '@urql/core';
+import type { DocumentNode } from 'graphql';
 import type { StorefrontClientParams } from '../index.js';
+
+export interface StorefrontResponse<QueryDocumentType> {
+	error?: CombinedError;
+	data?: QueryDocumentType;
+}
 
 export class StorefrontClient {
 	readonly #graphqlClient: UrqlClient;
@@ -12,8 +23,17 @@ export class StorefrontClient {
 		});
 	}
 
-	// NEW METHODS GO HERE :)
-	placeholder() {
-		return this.#graphqlClient.query('', {}).toPromise();
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	query<QData = any, QVariables extends AnyVariables = any>({
+		query,
+		variables
+	}: {
+		query: TypedDocumentNode<QData, QVariables> | DocumentNode | string;
+		variables?: QVariables | string;
+	}): Promise<StorefrontResponse<QData>> {
+		return this.#graphqlClient
+			.query(query, variables as QVariables)
+			.toPromise()
+			.then(({ data, error }) => ({ data, error }));
 	}
 }

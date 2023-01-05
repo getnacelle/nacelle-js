@@ -23,7 +23,10 @@ export const config: UserConfig = {
 			reportsDirectory: 'coverage',
 			reporter: ['text', 'lcov']
 		},
-		environment: 'jsdom'
+		environment: 'jsdom',
+		typecheck: {
+			include: ['**/*.test.ts']
+		}
 	}
 };
 
