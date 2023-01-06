@@ -9,6 +9,11 @@ import type {
 import type { DocumentNode } from 'graphql';
 import type { StorefrontClientParams } from '../index.js';
 import type {
+	SetConfigParams,
+	SetConfigResponse,
+	StorefrontConfig
+} from '../types/config.js';
+import type {
 	AfterCallback,
 	AfterCallbackWithId,
 	AfterSubscriptions,
@@ -30,26 +35,74 @@ export interface QueryParams<QData, QVariables extends AnyVariables> {
 }
 
 export class StorefrontClient {
-	readonly #graphqlClient: UrqlClient;
+	#graphqlClient: UrqlClient;
+	#config: {
+		fetchClient: typeof globalThis.fetch;
+		storefrontEndpoint: string;
+		previewToken: string | undefined;
+		locale: string;
+	};
 	readonly #afterSubscriptions: AfterSubscriptions<DataFetchingMethodName>;
 
 	constructor(params: StorefrontClientParams) {
+		this.#config = {
+			fetchClient: params.fetchClient ?? globalThis.fetch,
+			storefrontEndpoint: params.storefrontEndpoint,
+			previewToken: params.previewToken,
+			locale: params.locale ?? 'en-US'
+		};
+
+		let headers = {};
+		if (this.#config.previewToken) {
+			headers = { 'x-nacelle-space-token': this.#config.previewToken };
+		}
+
 		this.#graphqlClient = createClient({
-			url: params.storefrontEndpoint,
-			fetch: params.fetchClient ?? globalThis.fetch
+			url: this.#config.storefrontEndpoint,
+			fetch: this.#config.fetchClient,
+			fetchOptions: {
+				headers
+			}
 		});
 		this.#afterSubscriptions = {};
 	}
 
-	/**
-	 * TODO: Remove this and refactor `.after` tests once the `.getConfig` method is available.
-	 * Once we have access to `.getConfig`, we can just:
-	 * ```
-	 * const { afterSubscriptions } = client.getConfig();
-	 * ```
-	 */
-	get afterSubscriptions() {
-		return this.#afterSubscriptions;
+	getConfig(): StorefrontConfig {
+		// eslint-disable-next-line @typescript-eslint/no-unused-vars
+		const { fetchClient, ...rest } = this.#config;
+		return {
+			...rest,
+			afterSubscriptions: this.#afterSubscriptions
+		};
+	}
+
+	setConfig(setConfigParams: SetConfigParams): SetConfigResponse {
+		const currentEndpoint = new URL(this.#config.storefrontEndpoint);
+
+		let headers = {};
+
+		if (setConfigParams.previewToken) {
+			this.#config.previewToken = setConfigParams.previewToken;
+			currentEndpoint.searchParams.set('preview', 'true');
+			headers = { 'x-nacelle-space-token': this.#config.previewToken };
+		} else {
+			this.#config.previewToken = undefined;
+			currentEndpoint.searchParams.delete('preview');
+		}
+
+		this.#config.storefrontEndpoint = currentEndpoint.toString();
+
+		this.#graphqlClient = createClient({
+			url: this.#config.storefrontEndpoint,
+			fetch: this.#config.fetchClient,
+			fetchOptions: {
+				headers
+			}
+		});
+		return {
+			endpoint: this.#config.storefrontEndpoint,
+			previewToken: this.#config.previewToken
+		};
 	}
 
 	/**
