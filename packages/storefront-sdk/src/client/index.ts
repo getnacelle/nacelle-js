@@ -36,26 +36,30 @@ export interface QueryParams<QData, QVariables extends AnyVariables> {
 
 export class StorefrontClient {
 	#graphqlClient: UrqlClient;
+	#config: {
+		fetchClient: typeof globalThis.fetch;
+		storefrontEndpoint: string;
+		previewToken: string | undefined;
+		locale: string;
+	};
 	readonly #afterSubscriptions: AfterSubscriptions<DataFetchingMethodName>;
-	#storefrontEndpoint: string;
-	#previewToken: string | undefined;
-	#locale: string;
-	#fetchClient: typeof globalThis.fetch;
 
 	constructor(params: StorefrontClientParams) {
-		this.#storefrontEndpoint = params.storefrontEndpoint;
-		this.#previewToken = params.previewToken;
-		this.#fetchClient = params.fetchClient ?? globalThis.fetch;
-		this.#locale = params.locale || 'en-US';
+		this.#config = {
+			fetchClient: params.fetchClient ?? globalThis.fetch,
+			storefrontEndpoint: params.storefrontEndpoint,
+			previewToken: params.previewToken,
+			locale: params.locale ?? 'en-US'
+		};
 
 		let headers = {};
-		if (this.#previewToken) {
-			headers = { 'x-nacelle-space-token': this.#previewToken };
+		if (this.#config.previewToken) {
+			headers = { 'x-nacelle-space-token': this.#config.previewToken };
 		}
 
 		this.#graphqlClient = createClient({
-			url: this.#storefrontEndpoint,
-			fetch: this.#fetchClient,
+			url: this.#config.storefrontEndpoint,
+			fetch: this.#config.fetchClient,
 			fetchOptions: {
 				headers
 			}
@@ -64,40 +68,40 @@ export class StorefrontClient {
 	}
 
 	getConfig(): StorefrontConfig {
+		// eslint-disable-next-line @typescript-eslint/no-unused-vars
+		const { fetchClient, ...rest } = this.#config;
 		return {
-			storefrontEndpoint: this.#storefrontEndpoint,
-			previewToken: this.#previewToken,
-			locale: this.#locale,
+			...rest,
 			afterSubscriptions: this.#afterSubscriptions
 		};
 	}
 
 	setConfig(setConfigParams: SetConfigParams): SetConfigResponse {
-		const currentEndpoint = new URL(this.#storefrontEndpoint);
+		const currentEndpoint = new URL(this.#config.storefrontEndpoint);
 
 		let headers = {};
 
 		if (setConfigParams.previewToken) {
-			this.#previewToken = setConfigParams.previewToken;
+			this.#config.previewToken = setConfigParams.previewToken;
 			currentEndpoint.searchParams.set('preview', 'true');
-			headers = { 'x-nacelle-space-token': this.#previewToken };
+			headers = { 'x-nacelle-space-token': this.#config.previewToken };
 		} else {
-			this.#previewToken = undefined;
+			this.#config.previewToken = undefined;
 			currentEndpoint.searchParams.delete('preview');
 		}
 
-		this.#storefrontEndpoint = currentEndpoint.toString();
+		this.#config.storefrontEndpoint = currentEndpoint.toString();
 
 		this.#graphqlClient = createClient({
-			url: this.#storefrontEndpoint,
-			fetch: this.#fetchClient,
+			url: this.#config.storefrontEndpoint,
+			fetch: this.#config.fetchClient,
 			fetchOptions: {
 				headers
 			}
 		});
 		return {
-			endpoint: this.#storefrontEndpoint,
-			previewToken: this.#previewToken
+			endpoint: this.#config.storefrontEndpoint,
+			previewToken: this.#config.previewToken
 		};
 	}
 
