@@ -93,8 +93,8 @@ describe('the `after` method', () => {
 	it('adds a callback to `this.#afterSubscriptions`', () => {
 		const callback = (x: SpaceProperties) => x;
 		client.after('spaceProperties', callback);
-
-		expect(client.afterSubscriptions).toStrictEqual({
+		const { afterSubscriptions } = client.getConfig();
+		expect(afterSubscriptions).toStrictEqual({
 			spaceProperties: {
 				'spaceProperties::0': callback
 			}
@@ -116,8 +116,9 @@ describe('the `after` method', () => {
 		};
 
 		client.after('navigation', navigationCallback);
+		const { afterSubscriptions } = client.getConfig();
 
-		expect(client.afterSubscriptions).toStrictEqual({
+		expect(afterSubscriptions).toStrictEqual({
 			navigation: {
 				'navigation::0': navigationCallback
 			}
@@ -128,7 +129,8 @@ describe('the `after` method', () => {
 		const callback = (x: SpaceProperties) => x;
 		client.after('spaceProperties', callback, 'mySpacePropertiesCallback');
 
-		expect(client.afterSubscriptions).toStrictEqual({
+		const { afterSubscriptions } = client.getConfig();
+		expect(afterSubscriptions).toStrictEqual({
 			spaceProperties: {
 				mySpacePropertiesCallback: callback
 			}
@@ -160,8 +162,9 @@ describe('the `after` method', () => {
 		client.after('products', callbackA, 'cb');
 		client.after('productCollectionEntries', callbackA, 'cb');
 		client.after('products', callbackB, 'cb');
+		const { afterSubscriptions } = client.getConfig();
 
-		expect(client.afterSubscriptions).toStrictEqual({
+		expect(afterSubscriptions).toStrictEqual({
 			products: {
 				cb: callbackB
 			},
@@ -176,8 +179,9 @@ describe('the `after` method', () => {
 		client.after('navigation', callback, 'temporary-callback');
 		client.after('navigation', callback, 'persistent-callback');
 		client.after('spaceProperties', callback, 'persistent-callback');
+		let { afterSubscriptions } = client.getConfig();
 
-		expect(client.afterSubscriptions).toStrictEqual({
+		expect(afterSubscriptions).toStrictEqual({
 			navigation: {
 				'temporary-callback': callback,
 				'persistent-callback': callback
@@ -188,8 +192,9 @@ describe('the `after` method', () => {
 		});
 
 		client.after('navigation', null, 'temporary-callback');
+		afterSubscriptions = client.getConfig().afterSubscriptions;
 
-		expect(client.afterSubscriptions).toStrictEqual({
+		expect(afterSubscriptions).toStrictEqual({
 			navigation: {
 				'persistent-callback': callback
 			},
@@ -200,16 +205,13 @@ describe('the `after` method', () => {
 	});
 
 	it('does not allow `this.#afterSubscriptions` to be mutated outside of the `after` method', () => {
-		expect(() => {
-			(
-				client as { afterSubscriptions: typeof client.afterSubscriptions }
-			).afterSubscriptions = {
-				spaceProperties: {
-					// eslint-disable-next-line @typescript-eslint/no-unused-vars
-					'nefarious-callback': <T>(_x: T) => '🥸' as unknown as T
-				}
-			};
-		}).toThrow();
+		client.getConfig().afterSubscriptions = {
+			spaceProperties: {
+				// eslint-disable-next-line @typescript-eslint/no-unused-vars
+				'nefarious-callback': <T>(_x: T) => '🥸' as unknown as T
+			}
+		};
+		expect(client.getConfig().afterSubscriptions).toEqual({});
 	});
 });
 
@@ -337,8 +339,8 @@ describe('the `query` method', () => {
 				StorefrontResponse<{ navigation: NavigationGroup[] }>
 			>
 		);
-
-		expect(client.afterSubscriptions).toStrictEqual({
+		const { afterSubscriptions } = client.getConfig();
+		expect(afterSubscriptions).toStrictEqual({
 			query: {
 				'query::0': queryCallback
 			}
@@ -401,8 +403,9 @@ describe('the `query` method', () => {
 			'query',
 			queryCallback as AfterCallback<StorefrontResponse<unknown>>
 		);
+		const { afterSubscriptions } = client.getConfig();
 
-		expect(client.afterSubscriptions).toStrictEqual({
+		expect(afterSubscriptions).toStrictEqual({
 			query: {
 				'query::0': queryCallback
 			}

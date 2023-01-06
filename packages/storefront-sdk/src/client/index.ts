@@ -36,7 +36,7 @@ export interface QueryParams<QData, QVariables extends AnyVariables> {
 
 export class StorefrontClient {
 	#graphqlClient: UrqlClient;
-	#afterSubscriptions: AfterSubscriptions<DataFetchingMethodName>;
+	readonly #afterSubscriptions: AfterSubscriptions<DataFetchingMethodName>;
 	#storefrontEndpoint: string;
 	#previewToken: string | undefined;
 	#locale: string;
@@ -99,17 +99,6 @@ export class StorefrontClient {
 			endpoint: this.#storefrontEndpoint,
 			previewToken: this.#previewToken
 		};
-	}
-
-	/**
-	 * TODO: Remove this and refactor `.after` tests once the `.getConfig` method is available.
-	 * Once we have access to `.getConfig`, we can just:
-	 * ```
-	 * const { afterSubscriptions } = client.getConfig();
-	 * ```
-	 */
-	get afterSubscriptions() {
-		return this.#afterSubscriptions;
 	}
 
 	/**
