@@ -1,6 +1,6 @@
 import { expect, it } from 'vitest';
 import { Storefront } from './index.js';
-import errorMessages from './utils/errorMessages.js';
+import { errorMessages } from './utils/index.js';
 import type { StorefrontClientParams } from './index.js';
 
 const storefrontEndpoint =
