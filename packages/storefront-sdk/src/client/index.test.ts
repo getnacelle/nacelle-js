@@ -8,7 +8,7 @@ import {
 	it,
 	vi
 } from 'vitest';
-import { StorefrontClient } from './index.js';
+import { StorefrontClient, retryStatusCodes } from './index.js';
 import { NavigationDocument } from '../types/storefront.js';
 import getFetchPayload from '../../__mocks__/utils/getFetchPayload.js';
 import NavigationResult from '../../__mocks__/gql/navigation.js';
@@ -212,6 +212,70 @@ describe('the `after` method', () => {
 			}
 		};
 		expect(client.getConfig().afterSubscriptions).toEqual({});
+	});
+});
+
+describe('retry logic', () => {
+	beforeEach(() => mockedFetch.mockRestore());
+
+	it('retries if response includes a valid error status', async () => {
+		for (const status of retryStatusCodes) {
+			mockedFetch.mockRestore();
+			mockedFetch
+				.mockImplementationOnce(() =>
+					Promise.resolve(
+						getFetchPayload({ message: 'this is an error' }, { status })
+					)
+				)
+				.mockImplementation(() =>
+					// return a valid response so we don't loop forever
+					Promise.resolve(getFetchPayload({ data: NavigationResult }))
+				);
+			await client.query({ query: NavigationDocument });
+			expect(mockedFetch).toBeCalledTimes(2);
+		}
+	}, 10_000);
+
+	it('retries if response includes an INTERNAL_SERVER_ERROR in the gql error', async () => {
+		mockedFetch
+			.mockImplementationOnce(() =>
+				Promise.resolve(
+					getFetchPayload({
+						errors: [
+							{
+								message: 'INTERNAL_SERVER_ERROR'
+							}
+						]
+					})
+				)
+			)
+			.mockImplementation(() =>
+				// return a valid response so we don't loop forever
+				Promise.resolve(getFetchPayload({ data: NavigationResult }))
+			);
+		await client.query({ query: NavigationDocument });
+		expect(mockedFetch).toBeCalledTimes(2);
+	});
+
+	it("doesn't retry if not an internal server gql error", async () => {
+		mockedFetch
+			.mockImplementationOnce(() =>
+				Promise.resolve(
+					getFetchPayload({
+						errors: [
+							{
+								message: 'Request error - your query is invalid'
+							}
+						]
+					})
+				)
+			)
+			.mockImplementation(() =>
+				// return a valid response so we don't loop forever
+				Promise.resolve(getFetchPayload({ data: NavigationResult }))
+			);
+		await client.query({ query: NavigationDocument });
+		expect(mockedFetch).toBeCalledTimes(1);
 	});
 });
 
