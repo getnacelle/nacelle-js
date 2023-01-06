@@ -14,8 +14,9 @@
 		"preview": "vite preview",
 		"precommit": "lint-staged",
 		"test": "vitest",
-		"coverage": "vitest run --coverage",
-		"codegen": "graphql-codegen-esm --config codegen.yml && prettier --write src/types/storefront.ts",
+		"coverage": "vitest typecheck --run && vitest --run",
+		"test:typecheck": "vitest typecheck",
+		"codegen": "graphql-codegen-esm --config codegen.yml && prettier --write src/types/storefront.ts && eslint src/types/storefront.ts --fix",
 		"lockfile:update": "npm i --package-lock-only"
 	},
 	"homepage": "https://github.com/getnacelle/nacelle-js/tree/main/packages/storefront-sdk#readme",
@@ -47,8 +48,10 @@
 	},
 	"devDependencies": {
 		"@graphql-codegen/cli": "2.16.1",
+		"@graphql-codegen/typed-document-node": "^2.3.11",
 		"@graphql-codegen/typescript": "2.8.5",
 		"@graphql-codegen/typescript-operations": "^2.5.10",
+		"@graphql-typed-document-node/core": "^3.1.1",
 		"@typescript-eslint/eslint-plugin": "^5.47.0",
 		"@typescript-eslint/parser": "^5.47.0",
 		"@vitest/coverage-c8": "^0.26.0",
@@ -60,10 +63,13 @@
 		"prettier": "2.8.1",
 		"typescript": "^4.9.3",
 		"vite": "^4.0.2",
-		"vitest": "^0.26.1"
+		"vitest": "^0.26.3"
 	},
 	"dependencies": {
 		"@urql/core": "^3.1.1",
 		"graphql": "^16.6.0"
+	},
+	"volta": {
+		"node": "18.12.1"
 	}
 }
