@@ -332,6 +332,19 @@ describe('the `query` method', () => {
 	});
 
 	it('takes a stringified object for variables', async () => {
+		// mock a persisted query not found error so we can get a post request  sent
+		mockedFetch.mockImplementationOnce(() =>
+			Promise.resolve(
+				getFetchPayload({
+					errors: [
+						{
+							message: 'PersistedQueryNotFound',
+							extensions: { code: 'PERSISTED_QUERY_NOT_FOUND' }
+						}
+					]
+				})
+			)
+		);
 		mockedFetch.mockImplementationOnce(() =>
 			Promise.resolve(getFetchPayload({ data: NavigationResult }))
 		);
@@ -354,6 +367,19 @@ describe('the `query` method', () => {
 	});
 
 	it('takes an object for variables', async () => {
+		// mock a persisted query not found error so we can get a post request  sent so it's easier to inspect
+		mockedFetch.mockImplementationOnce(() =>
+			Promise.resolve(
+				getFetchPayload({
+					errors: [
+						{
+							message: 'PersistedQueryNotFound',
+							extensions: { code: 'PERSISTED_QUERY_NOT_FOUND' }
+						}
+					]
+				})
+			)
+		);
 		mockedFetch.mockImplementationOnce(() =>
 			Promise.resolve(getFetchPayload({ data: NavigationResult }))
 		);
@@ -531,4 +557,22 @@ it('`getConfig` retrieves config', () => {
 		previewToken: undefined,
 		locale: 'en-US'
 	});
+});
+
+it('makes requests with APQ enabled', async () => {
+	mockedFetch.mockRestore();
+	mockedFetch.mockImplementationOnce(() =>
+		Promise.resolve(getFetchPayload({ data: NavigationResult }))
+	);
+	const variables = { filter: { groupId: 'abc' } };
+	await client.query({
+		query: NavigationDocument,
+		variables
+	});
+
+	const lastFetch: mockRequestArgs = mockedFetch.mock.lastCall;
+	expect(lastFetch[1]?.body).toBeUndefined();
+	expect(lastFetch[1]?.method).toEqual('GET');
+	const requestUrl = new URL(lastFetch[0]);
+	expect(requestUrl.searchParams.get('operationName')).toEqual('Navigation');
 });
