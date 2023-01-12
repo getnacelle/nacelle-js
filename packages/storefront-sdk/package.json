@@ -32,14 +32,15 @@
 		"node": ">=16.11",
 		"npm": ">=7"
 	},
-	"main": "./dist/nacelle-storefront-sdk.umd.cjs",
-	"module": "./dist/nacelle-storefront-sdk.js",
 	"exports": {
 		".": {
+			"types": "./dist/types/index.d.ts",
 			"import": "./dist/nacelle-storefront-sdk.js",
 			"require": "./dist/nacelle-storefront-sdk.umd.cjs"
 		}
 	},
+	"main": "./dist/nacelle-storefront-sdk.umd.cjs",
+	"module": "./dist/nacelle-storefront-sdk.js",
 	"types": "./dist/types/index.d.ts",
 	"sideEffects": false,
 	"directories": {
