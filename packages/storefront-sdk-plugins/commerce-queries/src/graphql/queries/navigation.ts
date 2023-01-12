@@ -1,19 +1,6 @@
-import type { NavigationQuery } from './operations.js';
+import fragments from '../fragments/index.js';
 
-export const navigationQuery = /* GraphQL */ `
-	fragment NavigationItem_navigationItem on NavigationGroupItem {
-		title
-		type
-		url
-		media {
-			url
-		}
-		properties {
-			key
-			value
-		}
-	}
-
+export default /* GraphQL */ `
 	query Navigation($filter: NavigationFilterInput) {
 		navigation(filter: $filter) {
 			groupId
@@ -36,15 +23,6 @@ export const navigationQuery = /* GraphQL */ `
 				}
 			}
 		}
+    ${fragments.NAVIGATION_ITEM}
 	}
 `;
-
-const NavigationResult: NavigationQuery = {
-	navigation: [
-		{
-			groupId: 'group-id'
-		}
-	]
-};
-
-export default NavigationResult;

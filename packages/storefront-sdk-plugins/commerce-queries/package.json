@@ -1,6 +1,7 @@
 {
-	"name": "@nacelle/storefront-sdk",
-	"version": "2.0.0-beta.0",
+	"name": "@nacelle/storefront-sdk-plugin-commerce-queries",
+	"version": "0.1.0-beta.0",
+	"description": "A Nacelle Storefront SDK plugin that provides REST-style methods for fetching commerce data",
 	"type": "module",
 	"author": "Nacelle Inc.",
 	"license": "Apache-2.0",
@@ -9,7 +10,6 @@
 		"dist"
 	],
 	"scripts": {
-		"dev": "vite",
 		"build": "vite build && tsc --project tsconfig.production.json && mv dist/src dist/types",
 		"preview": "vite preview",
 		"precommit": "lint-staged",
@@ -19,11 +19,11 @@
 		"codegen": "graphql-codegen-esm --config codegen.yml && prettier --write src/types/storefront.ts && eslint src/types/storefront.ts --fix",
 		"lockfile:update": "npm i --package-lock-only"
 	},
-	"homepage": "https://github.com/getnacelle/nacelle-js/tree/main/packages/storefront-sdk#readme",
+	"homepage": "https://github.com/getnacelle/nacelle-js/tree/main/packages/storefront-sdk-plugins/commerce-queries#readme",
 	"repository": {
 		"type": "git",
 		"url": "git+https://github.com/getnacelle/nacelle-js.git",
-		"directory": "packages/storefront-sdk"
+		"directory": "packages/storefront-sdk-plugins/commerce-queries"
 	},
 	"bugs": {
 		"url": "https://github.com/getnacelle/nacelle-js/issues"
@@ -35,12 +35,12 @@
 	"exports": {
 		".": {
 			"types": "./dist/types/index.d.ts",
-			"import": "./dist/nacelle-storefront-sdk.js",
-			"require": "./dist/nacelle-storefront-sdk.umd.cjs"
+			"import": "./dist/nacelle-storefront-sdk-plugin-commerce-queries.js",
+			"require": "./dist/nacelle-storefront-sdk-plugin-commerce-queries.umd.cjs"
 		}
 	},
-	"main": "./dist/nacelle-storefront-sdk.umd.cjs",
-	"module": "./dist/nacelle-storefront-sdk.js",
+	"main": "./dist/nacelle-storefront-sdk-plugin-commerce-queries.umd.cjs",
+	"module": "./dist/nacelle-storefront-sdk-plugin-commerce-queries.js",
 	"types": "./dist/types/index.d.ts",
 	"sideEffects": false,
 	"directories": {
@@ -51,8 +51,9 @@
 		"@graphql-codegen/cli": "2.16.1",
 		"@graphql-codegen/typed-document-node": "^2.3.11",
 		"@graphql-codegen/typescript": "2.8.5",
-		"@graphql-codegen/typescript-operations": "^2.5.12",
+		"@graphql-codegen/typescript-operations": "^2.5.10",
 		"@graphql-typed-document-node/core": "^3.1.1",
+		"@nacelle/storefront-sdk": "^2.0.0-beta.0",
 		"@typescript-eslint/eslint-plugin": "^5.47.0",
 		"@typescript-eslint/parser": "^5.47.0",
 		"@vitest/coverage-c8": "^0.26.0",
@@ -66,10 +67,8 @@
 		"vite": "^4.0.2",
 		"vitest": "^0.26.3"
 	},
-	"dependencies": {
-		"@urql/core": "^3.1.1",
-		"@urql/exchange-persisted-fetch": "^2.0.0",
-		"@urql/exchange-retry": "^1.0.0",
+	"peerDependencies": {
+		"@nacelle/storefront-sdk": "^2.0.0-beta.0",
 		"graphql": "^16.6.0"
 	},
 	"volta": {
