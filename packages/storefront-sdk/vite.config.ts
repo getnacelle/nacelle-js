@@ -26,7 +26,8 @@ export const config: UserConfig = {
 		environment: 'jsdom',
 		typecheck: {
 			include: ['**/*.test.ts']
-		}
+		},
+		setupFiles: ['vitest.setup.ts']
 	}
 };
 
