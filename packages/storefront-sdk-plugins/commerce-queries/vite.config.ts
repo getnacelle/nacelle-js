@@ -17,6 +17,7 @@ export const config: UserConfig = {
 	test: {
 		coverage: {
 			enabled: true,
+			include: ['src/**/*.ts'],
 			provider: 'c8',
 			reportsDirectory: 'coverage',
 			reporter: ['text', 'lcov']
