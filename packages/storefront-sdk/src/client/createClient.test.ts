@@ -21,13 +21,15 @@ describe('`createClient`', () => {
 		client.setConfig({});
 
 		expect(createClient).toHaveBeenCalledTimes(2);
-		expect(createClient).toHaveBeenCalledWith({
-			url: storefrontEndpoint,
-			fetch: globalThis.fetch,
-			fetchOptions: {
-				headers: {}
-			}
-		});
+		expect(createClient).toHaveBeenCalledWith(
+			expect.objectContaining({
+				url: storefrontEndpoint,
+				fetch: globalThis.fetch,
+				fetchOptions: {
+					headers: {}
+				}
+			})
+		);
 	});
 
 	it('calls `createClient` with the expected params when `preview` is true', () => {
@@ -39,12 +41,14 @@ describe('`createClient`', () => {
 		client.setConfig({ previewToken });
 
 		expect(createClient).toHaveBeenCalledTimes(2);
-		expect(createClient).toHaveBeenCalledWith({
-			url: storefrontEndpoint + '?preview=true',
-			fetch: globalThis.fetch,
-			fetchOptions: {
-				headers: { 'x-nacelle-space-token': previewToken }
-			}
-		});
+		expect(createClient).toHaveBeenCalledWith(
+			expect.objectContaining({
+				url: storefrontEndpoint + '?preview=true',
+				fetch: globalThis.fetch,
+				fetchOptions: {
+					headers: { 'x-nacelle-space-token': previewToken }
+				}
+			})
+		);
 	});
 });

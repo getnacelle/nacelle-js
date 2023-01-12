@@ -1,12 +1,15 @@
-import { createClient } from '@urql/core';
-import { errorMessages, dataFetchingMethods } from '../utils/index.js';
+import { createClient, dedupExchange, fetchExchange } from '@urql/core';
 import type {
 	Client as UrqlClient,
 	TypedDocumentNode,
 	AnyVariables,
-	CombinedError
+	CombinedError,
+	Exchange
 } from '@urql/core';
 import type { DocumentNode } from 'graphql';
+import { retryExchange } from '@urql/exchange-retry';
+import { persistedFetchExchange } from '@urql/exchange-persisted-fetch';
+import { errorMessages, dataFetchingMethods } from '../utils/index.js';
 import type { StorefrontClientParams } from '../index.js';
 import type {
 	SetConfigParams,
@@ -34,6 +37,14 @@ export interface QueryParams<QData, QVariables extends AnyVariables> {
 	variables?: QVariables | string;
 }
 
+export const retryStatusCodes = [
+	429, // Too Many Requests
+	500, // Internal Server Error
+	502, // Bad Gateway
+	503, // Service Unavailable
+	504 // Gateway Timeout
+];
+
 export class StorefrontClient {
 	#graphqlClient: UrqlClient;
 	#config: {
@@ -43,7 +54,23 @@ export class StorefrontClient {
 		locale: string;
 	};
 	readonly #afterSubscriptions: AfterSubscriptions<DataFetchingMethodName>;
-
+	readonly #retryExchange: Exchange = retryExchange({
+		maxDelayMs: 5000,
+		maxNumberAttempts: 5,
+		initialDelayMs: 500,
+		retryIf: (error) => {
+			// if it's a network error, retry if specific error codes
+			if (error.networkError) {
+				const statusCode = (error.response as globalThis.Response)?.status;
+				return retryStatusCodes.includes(statusCode);
+			} else {
+				// only retry if graphQL error is related to internal error
+				return error.graphQLErrors.some((err) =>
+					err.message.includes('INTERNAL_SERVER_ERROR')
+				);
+			}
+		}
+	});
 	constructor(params: StorefrontClientParams) {
 		this.#config = {
 			fetchClient: params.fetchClient ?? globalThis.fetch,
@@ -62,7 +89,14 @@ export class StorefrontClient {
 			fetch: this.#config.fetchClient,
 			fetchOptions: {
 				headers
-			}
+			},
+			exchanges: [
+				dedupExchange,
+				this.#retryExchange,
+				persistedFetchExchange({ preferGetForPersistedQueries: true }),
+				fetchExchange
+			],
+			requestPolicy: 'network-only'
 		});
 		this.#afterSubscriptions = {};
 	}
@@ -97,7 +131,14 @@ export class StorefrontClient {
 			fetch: this.#config.fetchClient,
 			fetchOptions: {
 				headers
-			}
+			},
+			exchanges: [
+				dedupExchange,
+				this.#retryExchange,
+				persistedFetchExchange({ preferGetForPersistedQueries: true }),
+				fetchExchange
+			],
+			requestPolicy: 'network-only'
 		});
 		return {
 			endpoint: this.#config.storefrontEndpoint,
