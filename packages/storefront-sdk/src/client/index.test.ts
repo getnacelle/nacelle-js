@@ -570,9 +570,9 @@ it('makes requests with APQ enabled', async () => {
 		variables
 	});
 
-	const lastFetch: mockRequestArgs = mockedFetch.mock.lastCall;
+	const lastFetch = mockedFetch.mock.lastCall as mockRequestArgs;
 	expect(lastFetch[1]?.body).toBeUndefined();
 	expect(lastFetch[1]?.method).toEqual('GET');
-	const requestUrl = new URL(lastFetch[0]);
+	const requestUrl = new URL(lastFetch[0].toString());
 	expect(requestUrl.searchParams.get('operationName')).toEqual('Navigation');
 });
