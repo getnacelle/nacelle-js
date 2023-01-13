@@ -1305,6 +1305,8 @@ export type CheckoutErrorCode =
   | 'CUSTOMER_ALREADY_USED_ONCE_PER_CUSTOMER_DISCOUNT_NOTICE'
   /** Discount already applied. */
   | 'DISCOUNT_ALREADY_APPLIED'
+  /** Discount code isn't working right now. Please contact us for help. */
+  | 'DISCOUNT_CODE_APPLICATION_FAILED'
   /** Discount disabled. */
   | 'DISCOUNT_DISABLED'
   /** Discount expired. */
@@ -4311,7 +4313,7 @@ export type MetafieldParentResource = Article | Blog | Collection | Customer | O
  * Returns the resource which is being referred to by a metafield.
  *
  */
-export type MetafieldReference = Collection | GenericFile | MediaImage | Page | Product | ProductVariant | Video;
+export type MetafieldReference = Collection | GenericFile | MediaImage | Metaobject | Page | Product | ProductVariant | Video;
 
 /**
  * An auto-generated type for paginating through multiple MetafieldReferences.
@@ -4337,6 +4339,95 @@ export type MetafieldReferenceEdge = {
   cursor: Scalars['String'];
   /** The item at the end of MetafieldReferenceEdge. */
   node: MetafieldReference;
+};
+
+/** An instance of a user-defined model based on a MetaobjectDefinition. */
+export type Metaobject = Node & {
+  __typename?: 'Metaobject';
+  /** Accesses a field of the object by key. */
+  field?: Maybe<MetaobjectField>;
+  /**
+   * All object fields with defined values.
+   * Omitted object keys can be assumed null, and no guarantees are made about field order.
+   *
+   */
+  fields: Array<MetaobjectField>;
+  /** The unique handle of the metaobject. Useful as a custom ID. */
+  handle: Scalars['String'];
+  /** A globally-unique identifier. */
+  id: Scalars['ID'];
+  /** The type of the metaobject. Defines the namespace of its associated metafields. */
+  type: Scalars['String'];
+  /** The date and time when the metaobject was last updated. */
+  updatedAt: Scalars['DateTime'];
+};
+
+
+/** An instance of a user-defined model based on a MetaobjectDefinition. */
+export type MetaobjectFieldArgs = {
+  key: Scalars['String'];
+};
+
+/**
+ * An auto-generated type for paginating through multiple Metaobjects.
+ *
+ */
+export type MetaobjectConnection = {
+  __typename?: 'MetaobjectConnection';
+  /** A list of edges. */
+  edges: Array<MetaobjectEdge>;
+  /** A list of the nodes contained in MetaobjectEdge. */
+  nodes: Array<Metaobject>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+};
+
+/**
+ * An auto-generated type which holds one Metaobject and a cursor during pagination.
+ *
+ */
+export type MetaobjectEdge = {
+  __typename?: 'MetaobjectEdge';
+  /** A cursor for use in pagination. */
+  cursor: Scalars['String'];
+  /** The item at the end of MetaobjectEdge. */
+  node: Metaobject;
+};
+
+/** Provides the value of a Metaobject field. */
+export type MetaobjectField = {
+  __typename?: 'MetaobjectField';
+  /** The field key. */
+  key: Scalars['String'];
+  /** A referenced object if the field type is a resource reference. */
+  reference?: Maybe<MetafieldReference>;
+  /** A list of referenced objects if the field type is a resource reference list. */
+  references?: Maybe<MetafieldReferenceConnection>;
+  /**
+   * The type name of the field.
+   * See the list of [supported types](https://shopify.dev/apps/metafields/definitions/types).
+   *
+   */
+  type: Scalars['String'];
+  /** The field value. */
+  value?: Maybe<Scalars['String']>;
+};
+
+
+/** Provides the value of a Metaobject field. */
+export type MetaobjectFieldReferencesArgs = {
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
+};
+
+/** The input fields used to retrieve a metaobject by handle. */
+export type MetaobjectHandleInput = {
+  /** The handle of the metaobject. */
+  handle: Scalars['String'];
+  /** The type of the metaobject. */
+  type: Scalars['String'];
 };
 
 /** Represents a Shopify hosted 3D model. */
@@ -4837,6 +4928,8 @@ export type Order = HasMetafields & Node & {
   currentTotalPrice: MoneyV2;
   /** The total of all taxes applied to the order, excluding taxes for returned line items. */
   currentTotalTax: MoneyV2;
+  /** A list of the custom attributes added to the order. */
+  customAttributes: Array<Attribute>;
   /** The locale code in which this specific order happened. */
   customerLocale?: Maybe<Scalars['String']>;
   /** The unique URL that the customer can use to access the order. */
@@ -5569,6 +5662,8 @@ export type ProductFilter = {
   productType?: InputMaybe<Scalars['String']>;
   /** The product vendor to filter on. */
   productVendor?: InputMaybe<Scalars['String']>;
+  /** A product tag to filter on. */
+  tag?: InputMaybe<Scalars['String']>;
   /** A variant metafield to filter on. */
   variantMetafield?: InputMaybe<MetafieldFilter>;
   /** A variant option to filter on. */
@@ -5746,6 +5841,7 @@ export type ProductVariantStoreAvailabilityArgs = {
   before?: InputMaybe<Scalars['String']>;
   first?: InputMaybe<Scalars['Int']>;
   last?: InputMaybe<Scalars['Int']>;
+  near?: InputMaybe<GeoCoordinateInput>;
   reverse?: InputMaybe<Scalars['Boolean']>;
 };
 
@@ -5834,6 +5930,10 @@ export type QueryRoot = {
   locations: LocationConnection;
   /** A storefront menu. */
   menu?: Maybe<Menu>;
+  /** Fetch a specific Metaobject by one of its unique identifiers. */
+  metaobject?: Maybe<Metaobject>;
+  /** All active metaobjects for the shop. */
+  metaobjects: MetaobjectConnection;
   /** Returns a specific node by ID. */
   node?: Maybe<Node>;
   /** Returns the list of nodes with the given IDs. */
@@ -5973,6 +6073,25 @@ export type QueryRootMenuArgs = {
 
 
 /** The schema’s entry-point for queries. This acts as the public, top-level API from which all queries must start. */
+export type QueryRootMetaobjectArgs = {
+  handle?: InputMaybe<MetaobjectHandleInput>;
+  id?: InputMaybe<Scalars['ID']>;
+};
+
+
+/** The schema’s entry-point for queries. This acts as the public, top-level API from which all queries must start. */
+export type QueryRootMetaobjectsArgs = {
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
+  reverse?: InputMaybe<Scalars['Boolean']>;
+  sortKey?: InputMaybe<Scalars['String']>;
+  type: Scalars['String'];
+};
+
+
+/** The schema’s entry-point for queries. This acts as the public, top-level API from which all queries must start. */
 export type QueryRootNodeArgs = {
   id: Scalars['ID'];
 };
@@ -6058,6 +6177,7 @@ export type QueryRootUrlRedirectsArgs = {
   before?: InputMaybe<Scalars['String']>;
   first?: InputMaybe<Scalars['Int']>;
   last?: InputMaybe<Scalars['Int']>;
+  query?: InputMaybe<Scalars['String']>;
   reverse?: InputMaybe<Scalars['Boolean']>;
 };
 
