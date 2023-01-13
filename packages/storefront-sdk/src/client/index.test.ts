@@ -9,7 +9,7 @@ import {
 	vi
 } from 'vitest';
 import { StorefrontClient, retryStatusCodes } from './index.js';
-import { NavigationDocument } from '../types/storefront.js';
+import { NavigationDocument } from '../../__mocks__/gql/operations.js';
 import getFetchPayload from '../../__mocks__/utils/getFetchPayload.js';
 import NavigationResult from '../../__mocks__/gql/navigation.js';
 import { errorMessages, isProductArray } from '../utils/index.js';
@@ -328,6 +328,7 @@ describe('the `query` method', () => {
 
 		expect(data).toBeTruthy();
 		expect(error).toBeFalsy();
+		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 		expectTypeOf(data!).toMatchTypeOf(NavigationResult);
 	});
 
