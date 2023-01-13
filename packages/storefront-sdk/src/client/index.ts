@@ -115,7 +115,7 @@ export class StorefrontClient {
 
 	/**
 	 * Turn preview mode on or off by setting a `previewToken` to the SDK config. The `previewToken` can be found in the dashboard .
-	 * @param setConfigParams an object containing the `previewToken` property, supply a dashboard preview token to turn preview mode on, or `null` to turn it off.
+	 * @param setConfigParams an object containing the `previewToken` property, supply a dashboard preview token to turn preview mode on and `null` or an empty object to turn it off.
 	 */
 	setConfig(setConfigParams: SetConfigParams): SetConfigResponse {
 		const currentEndpoint = new URL(this.#config.storefrontEndpoint);
