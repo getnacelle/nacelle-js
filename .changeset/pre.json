@@ -14,6 +14,7 @@
     "@nacelle/shopify-cart": "1.0.0",
     "@nacelle/shopify-checkout": "0.1.2",
     "@nacelle/storefront-sdk": "1.8.0",
+    "@nacelle/storefront-sdk-plugin-commerce-queries": "0.0.0",
     "@nacelle/vue": "0.0.16",
     "nacelle-reference-store-gatsby": "1.0.1",
     "nacelle-next-reference-store": "0.1.4",
@@ -22,7 +23,5 @@
     "next-starter": "0.1.4",
     "nuxt-starter": "1.0.8"
   },
-  "changesets": [
-    "proud-starfishes-explain"
-  ]
+  "changesets": ["proud-starfishes-explain"]
 }

@@ -1,3 +1,4 @@
+import type { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/core';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = {
@@ -807,3 +808,289 @@ export type VariantContent = Node & {
 	/** [sys] Reference to parent variant by Nacelle ID. */
 	variantEntryId?: Maybe<Scalars['ID']>;
 };
+
+export type NavigationItem_NavigationItemFragment = {
+	__typename?: 'NavigationGroupItem';
+	title: string;
+	type?: NavigationPropertyType | null;
+	url: string;
+	media?: Array<{
+		__typename?: 'NavigationMediaItem';
+		url?: string | null;
+	}> | null;
+	properties?: Array<{
+		__typename?: 'NavigationPropertyItem';
+		key: string;
+		value: string;
+	}> | null;
+};
+
+export type NavigationQueryVariables = Exact<{
+	filter?: InputMaybe<NavigationFilterInput>;
+}>;
+
+export type NavigationQuery = {
+	__typename?: 'Query';
+	navigation: Array<{
+		__typename?: 'NavigationGroup';
+		groupId: string;
+		title?: string | null;
+		updatedAt?: string | null;
+		updatedBy?: string | null;
+		items?: Array<{
+			__typename?: 'NavigationGroupItem';
+			title: string;
+			type?: NavigationPropertyType | null;
+			url: string;
+			items?: Array<{
+				__typename?: 'NavigationGroupItem';
+				title: string;
+				type?: NavigationPropertyType | null;
+				url: string;
+				items?: Array<{
+					__typename?: 'NavigationGroupItem';
+					title: string;
+					type?: NavigationPropertyType | null;
+					url: string;
+					items?: Array<{
+						__typename?: 'NavigationGroupItem';
+						title: string;
+						type?: NavigationPropertyType | null;
+						url: string;
+						items?: Array<{
+							__typename?: 'NavigationGroupItem';
+							title: string;
+							type?: NavigationPropertyType | null;
+							url: string;
+							media?: Array<{
+								__typename?: 'NavigationMediaItem';
+								url?: string | null;
+							}> | null;
+							properties?: Array<{
+								__typename?: 'NavigationPropertyItem';
+								key: string;
+								value: string;
+							}> | null;
+						}> | null;
+						media?: Array<{
+							__typename?: 'NavigationMediaItem';
+							url?: string | null;
+						}> | null;
+						properties?: Array<{
+							__typename?: 'NavigationPropertyItem';
+							key: string;
+							value: string;
+						}> | null;
+					}> | null;
+					media?: Array<{
+						__typename?: 'NavigationMediaItem';
+						url?: string | null;
+					}> | null;
+					properties?: Array<{
+						__typename?: 'NavigationPropertyItem';
+						key: string;
+						value: string;
+					}> | null;
+				}> | null;
+				media?: Array<{
+					__typename?: 'NavigationMediaItem';
+					url?: string | null;
+				}> | null;
+				properties?: Array<{
+					__typename?: 'NavigationPropertyItem';
+					key: string;
+					value: string;
+				}> | null;
+			}> | null;
+			media?: Array<{
+				__typename?: 'NavigationMediaItem';
+				url?: string | null;
+			}> | null;
+			properties?: Array<{
+				__typename?: 'NavigationPropertyItem';
+				key: string;
+				value: string;
+			}> | null;
+		}> | null;
+	}>;
+};
+
+export const NavigationItem_NavigationItemFragmentDoc = {
+	kind: 'Document',
+	definitions: [
+		{
+			kind: 'FragmentDefinition',
+			name: { kind: 'Name', value: 'NavigationItem_navigationItem' },
+			typeCondition: {
+				kind: 'NamedType',
+				name: { kind: 'Name', value: 'NavigationGroupItem' }
+			},
+			selectionSet: {
+				kind: 'SelectionSet',
+				selections: [
+					{ kind: 'Field', name: { kind: 'Name', value: 'title' } },
+					{ kind: 'Field', name: { kind: 'Name', value: 'type' } },
+					{ kind: 'Field', name: { kind: 'Name', value: 'url' } },
+					{
+						kind: 'Field',
+						name: { kind: 'Name', value: 'media' },
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [
+								{ kind: 'Field', name: { kind: 'Name', value: 'url' } }
+							]
+						}
+					},
+					{
+						kind: 'Field',
+						name: { kind: 'Name', value: 'properties' },
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [
+								{ kind: 'Field', name: { kind: 'Name', value: 'key' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'value' } }
+							]
+						}
+					}
+				]
+			}
+		}
+	]
+} as unknown as DocumentNode<NavigationItem_NavigationItemFragment, unknown>;
+export const NavigationDocument = {
+	kind: 'Document',
+	definitions: [
+		{
+			kind: 'OperationDefinition',
+			operation: 'query',
+			name: { kind: 'Name', value: 'Navigation' },
+			variableDefinitions: [
+				{
+					kind: 'VariableDefinition',
+					variable: {
+						kind: 'Variable',
+						name: { kind: 'Name', value: 'filter' }
+					},
+					type: {
+						kind: 'NamedType',
+						name: { kind: 'Name', value: 'NavigationFilterInput' }
+					}
+				}
+			],
+			selectionSet: {
+				kind: 'SelectionSet',
+				selections: [
+					{
+						kind: 'Field',
+						name: { kind: 'Name', value: 'navigation' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'filter' },
+								value: {
+									kind: 'Variable',
+									name: { kind: 'Name', value: 'filter' }
+								}
+							}
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [
+								{ kind: 'Field', name: { kind: 'Name', value: 'groupId' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'title' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'updatedBy' } },
+								{
+									kind: 'Field',
+									name: { kind: 'Name', value: 'items' },
+									selectionSet: {
+										kind: 'SelectionSet',
+										selections: [
+											{
+												kind: 'FragmentSpread',
+												name: {
+													kind: 'Name',
+													value: 'NavigationItem_navigationItem'
+												}
+											},
+											{
+												kind: 'Field',
+												name: { kind: 'Name', value: 'items' },
+												selectionSet: {
+													kind: 'SelectionSet',
+													selections: [
+														{
+															kind: 'FragmentSpread',
+															name: {
+																kind: 'Name',
+																value: 'NavigationItem_navigationItem'
+															}
+														},
+														{
+															kind: 'Field',
+															name: { kind: 'Name', value: 'items' },
+															selectionSet: {
+																kind: 'SelectionSet',
+																selections: [
+																	{
+																		kind: 'FragmentSpread',
+																		name: {
+																			kind: 'Name',
+																			value: 'NavigationItem_navigationItem'
+																		}
+																	},
+																	{
+																		kind: 'Field',
+																		name: { kind: 'Name', value: 'items' },
+																		selectionSet: {
+																			kind: 'SelectionSet',
+																			selections: [
+																				{
+																					kind: 'FragmentSpread',
+																					name: {
+																						kind: 'Name',
+																						value:
+																							'NavigationItem_navigationItem'
+																					}
+																				},
+																				{
+																					kind: 'Field',
+																					name: {
+																						kind: 'Name',
+																						value: 'items'
+																					},
+																					selectionSet: {
+																						kind: 'SelectionSet',
+																						selections: [
+																							{
+																								kind: 'FragmentSpread',
+																								name: {
+																									kind: 'Name',
+																									value:
+																										'NavigationItem_navigationItem'
+																								}
+																							}
+																						]
+																					}
+																				}
+																			]
+																		}
+																	}
+																]
+															}
+														}
+													]
+												}
+											}
+										]
+									}
+								}
+							]
+						}
+					}
+				]
+			}
+		},
+		...NavigationItem_NavigationItemFragmentDoc.definitions
+	]
+} as unknown as DocumentNode<NavigationQuery, NavigationQueryVariables>;
