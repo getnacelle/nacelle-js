@@ -101,6 +101,9 @@ export class StorefrontClient {
 		this.#afterSubscriptions = {};
 	}
 
+	/**
+	 * @returns an object containing the configuration properties: `storefrontEndpoint`, `previewToken`, `locale` and `afterSubscriptions`
+	 */
 	getConfig(): StorefrontConfig {
 		// eslint-disable-next-line @typescript-eslint/no-unused-vars
 		const { fetchClient, ...rest } = this.#config;
@@ -110,6 +113,10 @@ export class StorefrontClient {
 		};
 	}
 
+	/**
+	 * Turn preview mode on or off by setting a `previewToken` to the SDK config. The `previewToken` can be found in the dashboard .
+	 * @param setConfigParams an object containing the `previewToken` property, supply a dashboard preview token to turn preview mode on, or `null` to turn it off.
+	 */
 	setConfig(setConfigParams: SetConfigParams): SetConfigResponse {
 		const currentEndpoint = new URL(this.#config.storefrontEndpoint);
 
