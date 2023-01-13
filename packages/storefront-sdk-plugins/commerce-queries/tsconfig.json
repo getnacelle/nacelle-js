@@ -1,0 +1,31 @@
+{
+	"compilerOptions": {
+		"rootDir": ".",
+		"baseUrl": ".",
+		"paths": {
+			"@nacelle/storefront-sdk": ["../../storefront-sdk/dist/types/index.d.ts"]
+		},
+		"strict": true,
+		"target": "ES2022",
+		"allowJs": true,
+		"lib": ["ESNext", "DOM"],
+		"module": "Node16",
+		"moduleResolution": "Node16",
+		"isolatedModules": true,
+		"resolveJsonModule": true,
+		"esModuleInterop": true,
+		"sourceMap": true,
+		"declaration": true,
+		"declarationDir": "dist",
+		"preserveSymlinks": true,
+		"emitDeclarationOnly": true,
+		"useDefineForClassFields": true,
+		"noUnusedLocals": true,
+		"noUnusedParameters": true,
+		"noImplicitReturns": true,
+		"forceConsistentCasingInFileNames": true,
+		"skipLibCheck": true
+	},
+	"include": ["**/*.ts", "vite.config.ts"],
+	"exclude": ["dist"]
+}
