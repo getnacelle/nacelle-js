@@ -22,3 +22,6 @@ export function Storefront(params: StorefrontClientParams) {
 
 	return new StorefrontClient(params);
 }
+
+export { StorefrontClient };
+export * from './types/plugins.js';

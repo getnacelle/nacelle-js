@@ -1,14 +1,11 @@
 overwrite: true
 schema: 'https://storefront.api.nacelle.com/graphql/v1/spaces/${NACELLE_SPACE_ID}'
-documents: '__mocks__/gql/**/*.ts'
+documents: 'src/graphql/**/*.ts'
 generates:
   src/types/storefront.ts:
     plugins:
       - typescript
+      - typescript-operations
+      - typed-document-node
     config:
       enumsAsTypes: true
-  __mocks__/gql/operations.ts:
-    plugins:
-      - typescript
-      - typed-document-node
-      - typescript-operations
