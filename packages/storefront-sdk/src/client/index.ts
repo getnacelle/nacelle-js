@@ -101,6 +101,9 @@ export class StorefrontClient {
 		this.#afterSubscriptions = {};
 	}
 
+	/**
+	 * @returns an object containing the Storefront SDK configuration parameters: `storefrontEndpoint`, `previewToken`, `locale` and `afterSubscriptions`.
+	 */
 	getConfig(): StorefrontConfig {
 		// eslint-disable-next-line @typescript-eslint/no-unused-vars
 		const { fetchClient, ...rest } = this.#config;
@@ -110,6 +113,22 @@ export class StorefrontClient {
 		};
 	}
 
+	/**
+	 * Turn preview mode on or off on-the-fly by setting a `previewToken` in the SDK config. The `previewToken` can be generated in the Nacelle Dashboard.
+	 * @param setConfigParams an object containing the `previewToken` property. Providing a value of `null`, `undefined`, or an empty string will disable preview mode.
+	 *
+	 * @example
+	 * Enable preview mode by providing a `previewToken`:
+	 * ```
+	 * client.setConfig({ previewToken: '<my-nacelle-preview-token>' });
+	 * ```
+	 *
+	 * @example
+	 * Disable preview mode by providing `previewToken: null`:
+	 * ```
+	 * client.setConfig({ previewToken: null });
+	 * ```
+	 */
 	setConfig(setConfigParams: SetConfigParams): SetConfigResponse {
 		const currentEndpoint = new URL(this.#config.storefrontEndpoint);
 
