@@ -24,8 +24,17 @@ import type {
 	MethodData
 } from '../types/after.js';
 
+/**
+ * Response from Nacelle's Storefront API.
+ */
 export interface StorefrontResponse<QueryDocumentType> {
+	/**
+	 * Errors returned during the request. This could be Network Errors or GraphQL Errors. Based on urql's {@link https://formidable.com/open-source/urql/docs/api/core/#combinederror CombinedError} type.
+	 */
 	error?: CombinedError;
+	/**
+	 * Response of a successful request.
+	 */
 	data?: QueryDocumentType;
 }
 
@@ -237,6 +246,16 @@ export class StorefrontClient {
 		return result;
 	}
 
+	/**
+	 * @param {QueryParams} queryParams - The arguments for your GraphQL query. The `query` field accepts strings, GraphQL ASTs, or TypedDocumentNodes. If using TypeScript, you can use {@link https://github.com/dotansimha/graphql-typed-document-node#how-to-use TypedDocumentNode} to get typed responses on your queries.
+	 * @returns {Promise<StorefrontResponse>} storefrontResponse - the results of your query. If the query succeeds, the data will be on the `data` field. If there are errors, they will be contained within the `error` field.
+	 *
+	 * @example
+	 * const { data, error } = await client.query({
+	 * 	query: myQuery,
+	 * 	variables: queryVariables
+	 * });
+	 */
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	query<QData = any, QVariables extends AnyVariables = any>({
 		query,
