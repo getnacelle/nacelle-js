@@ -7,8 +7,8 @@ function commerceQueriesPlugin<TBase extends WithStorefrontQuery>(Base: TBase) {
 		// methods will go here
 
 		async spaceProperties(): Promise<SpaceProperties> {
-			const spaceObject = await this.query({ query: spaceProperties });
-			return spaceObject as SpaceProperties;
+			const results = await this.query({ query: spaceProperties });
+			return results as SpaceProperties;
 		}
 
 		placeholder() {
