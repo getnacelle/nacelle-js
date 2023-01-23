@@ -227,7 +227,7 @@ export class StorefrontClient {
 	 * const navigationData = await this.query({ query: navigationQuery });
 	 * const navigationDataResult = await this.applyAfter('navigation', navigationData);
 	 */
-	private async applyAfter<
+	protected async applyAfter<
 		M extends DataFetchingMethodName,
 		T extends MethodData[M]
 	>(method: M, response: T): Promise<T> {

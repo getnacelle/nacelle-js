@@ -5,3 +5,6 @@ export type StorefrontClientDerivative<T extends Partial<StorefrontClient>> =
 export type WithStorefrontQuery = StorefrontClientDerivative<
 	Pick<StorefrontClient, 'query'>
 >;
+export type WithConfig = StorefrontClientDerivative<
+	Pick<StorefrontClient, 'getConfig'>
+>;
