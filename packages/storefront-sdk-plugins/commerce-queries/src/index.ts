@@ -1,3 +1,4 @@
+// import { applyAfter } from '@nacelle/storefront-sdk';
 import type { WithStorefrontQuery } from '@nacelle/storefront-sdk';
 import type { SpaceProperties } from './types/storefront.js';
 import spaceProperties from './graphql/queries/spaceProperties.js';
@@ -7,8 +8,10 @@ function commerceQueriesPlugin<TBase extends WithStorefrontQuery>(Base: TBase) {
 		// methods will go here
 
 		async spaceProperties(): Promise<SpaceProperties> {
-			const results = await this.query({ query: spaceProperties });
-			return results as SpaceProperties;
+			const { data, error }: { data?: SpaceProperties; error?: object } =
+				await this.query({ query: spaceProperties });
+
+			return error ? error : data || {};
 		}
 
 		placeholder() {
