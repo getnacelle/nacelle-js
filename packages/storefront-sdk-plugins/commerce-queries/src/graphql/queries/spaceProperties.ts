@@ -1,4 +1,4 @@
-const spaceQuery = `{query {
+const spaceQuery = `query {
   spaceProperties {
     properties {
       items {
@@ -10,7 +10,6 @@ const spaceQuery = `{query {
     updatedAt
     updatedBy
   }
-}
 }
 `;
 

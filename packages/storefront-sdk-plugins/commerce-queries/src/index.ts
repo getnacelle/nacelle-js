@@ -7,11 +7,14 @@ function commerceQueriesPlugin<TBase extends WithStorefrontQuery>(Base: TBase) {
 	return class CommerceQueries extends Base {
 		// methods will go here
 
-		async spaceProperties(): Promise<SpaceProperties> {
-			const { data, error }: { data?: SpaceProperties; error?: object } =
+		async spaceProperties(): Promise<SpaceProperties | object> {
+			const {
+				data,
+				error
+			}: { data?: { spaceProperty: SpaceProperties }; error?: object } =
 				await this.query({ query: spaceProperties });
 
-			return error ? error : data || {};
+			return error ? error : data?.spaceProperty || {};
 		}
 
 		placeholder() {
