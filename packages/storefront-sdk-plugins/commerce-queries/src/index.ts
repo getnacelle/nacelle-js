@@ -1,4 +1,3 @@
-// import { applyAfter } from '@nacelle/storefront-sdk';
 import type { WithStorefrontQuery } from '@nacelle/storefront-sdk';
 import type { SpaceProperties } from './types/storefront.js';
 import spaceProperties from './graphql/queries/spaceProperties.js';
