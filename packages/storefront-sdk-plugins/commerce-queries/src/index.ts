@@ -17,11 +17,13 @@ function commerceQueriesPlugin<TBase extends WithStorefrontQuery>(Base: TBase) {
 				return queryResponse as StorefrontResponse<SpaceProperties>;
 			}
 
+			const spaceProperties = queryResponse.data?.spaceProperties || {};
+
 			return {
 				// eslint-disable-next-line @typescript-eslint/no-unsafe-call
 				data: await (this as unknown as StorefrontClient)['applyAfter'](
 					'spaceProperties',
-					queryResponse.data || {}
+					spaceProperties
 				)
 			} as StorefrontResponse<SpaceProperties>;
 		}
