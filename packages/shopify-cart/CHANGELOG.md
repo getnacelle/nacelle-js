@@ -1,5 +1,11 @@
 # @nacelle/shopify-cart
 
+## 1.1.0
+
+### Minor Changes
+
+- 35c31db: Upgraded the Shopify Storefront API version from 2022-10 to 2023-01.
+
 ## 1.0.0
 
 ### Major Changes
