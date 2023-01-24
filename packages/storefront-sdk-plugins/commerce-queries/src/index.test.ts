@@ -33,7 +33,7 @@ describe('spaceProperties', () => {
 
 	it('fetches `spaceProperties` with the appropriate query', async () => {
 		mockedFetch.mockImplementationOnce(() =>
-			Promise.resolve(getFetchPayload(SpacePropertiesResult))
+			Promise.resolve(getFetchPayload({ data: SpacePropertiesResult }))
 		);
 		await client.spaceProperties();
 
@@ -44,5 +44,23 @@ describe('spaceProperties', () => {
 				body: expect.stringContaining('spaceProperties') as string
 			})
 		);
+	});
+
+	it('returns an error', async () => {
+		mockedFetch.mockImplementationOnce(() =>
+			Promise.resolve(
+				getFetchPayload({
+					errors: [
+						{
+							message: 'xxx',
+							extensions: { code: 'xxx' }
+						}
+					]
+				})
+			)
+		);
+		const response = await client.spaceProperties();
+		expect(response.error).toBeDefined();
+		expect(response.data).toBeUndefined();
 	});
 });
