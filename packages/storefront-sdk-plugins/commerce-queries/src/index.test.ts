@@ -1,6 +1,8 @@
 import { expect, it, beforeEach, describe, vi } from 'vitest';
 import commerceQueriesPlugin from './index.js';
 import { StorefrontClient } from '@nacelle/storefront-sdk';
+import getFetchPayload from '../__mocks__/utils/getFetchPayload.js';
+import SpacePropertiesResult from '../__mocks__/gql/spaceProperties.js';
 
 const storefrontEndpoint =
 	'https://storefront.api.nacelle.com/graphql/v1/spaces/my-space-id';
@@ -30,7 +32,9 @@ describe('spaceProperties', () => {
 	beforeEach(() => mockedFetch.mockRestore());
 
 	it('fetches `spaceProperties` with the appropriate query', async () => {
-		mockedFetch.mockImplementationOnce(() => Promise.resolve({ data: null }));
+		mockedFetch.mockImplementationOnce(() =>
+			Promise.resolve(getFetchPayload(SpacePropertiesResult))
+		);
 		await client.spaceProperties();
 
 		expect(mockedFetch).toHaveBeenCalledOnce();
