@@ -18,6 +18,8 @@ import type {
 	ContentEdge
 } from './types/storefront.js';
 
+import { requestPaginatedData } from './utils/requestPaginatedData.js';
+
 export interface CommerceQueriesParams {
 	nacelleEntryIds?: string[];
 	handles?: string[];
@@ -34,14 +36,6 @@ export interface FetchMethodAdvancedParams {
 export interface FetchContentMethodParams extends CommerceQueriesParams {
 	entryDepth?: number;
 	type?: string;
-}
-
-function dataIsNodeOrEdge<NodeType, EdgeType>(
-	data: NodeType[] | EdgeType[],
-	edgesToNodes: boolean
-): data is NodeType[] {
-	//use Array.isArray here to keep TS happy about data being defined but never used. Issue where eslint is okay with it but TS is not
-	return Array.isArray(data) && edgesToNodes;
 }
 
 function commerceQueriesPlugin<TBase extends WithStorefrontQuery & WithConfig>(
@@ -135,61 +129,20 @@ function commerceQueriesPlugin<TBase extends WithStorefrontQuery & WithConfig>(
 				filter.handles = handles;
 			}
 
-			// const responseData = await requestPaginatedData<
-			// 	this,
-			// 	Content,
-			// 	ContentEdge,
-			// 	ContentFilterInput
-			// >(
-			// 	this,
-			// 	AllContentDocument,
-			// 	'allContent',
-			// 	filter,
-			// 	maxReturnedEntries,
-			// 	edgesToNodes
-			// );
+			const responseData = await requestPaginatedData<
+				this,
+				Content,
+				ContentEdge,
+				ContentFilterInput
+			>(this, 'allContent', filter, maxReturnedEntries, edgesToNodes);
 
-			// if (responseData?.error) {
-			// 	return responseData;
-			// }
-
-			let shouldKeepFetching = true;
-			const data: Content[] | ContentEdge[] = [];
-			do {
-				const queryResponse = await this.query({
-					query: AllContentDocument,
-					variables: { filter }
-				});
-				if (queryResponse.error) {
-					// cast here because queryResponse.data should be undefined os the type doesn't actually  matter
-					return queryResponse as StorefrontResponse<ContentEdge[]>;
-				}
-				if (queryResponse.data) {
-					if (dataIsNodeOrEdge<Content, ContentEdge>(data, edgesToNodes)) {
-						data.push(
-							...queryResponse.data.allContent.edges.map((edge) => edge.node)
-						);
-					} else {
-						data.push(
-							...(queryResponse.data.allContent.edges as ContentEdge[])
-						);
-					}
-					if (
-						queryResponse.data.allContent.pageInfo.hasNextPage &&
-						(maxReturnedEntries === -1 || data.length < maxReturnedEntries)
-					) {
-						filter.after = queryResponse.data?.allContent.pageInfo.endCursor;
-					} else {
-						shouldKeepFetching = false;
-					}
-				}
-			} while (shouldKeepFetching);
-
+			if (responseData?.error) {
+				return responseData;
+			}
 			return {
-				// eslint-disable-next-line @typescript-eslint/no-unsafe-call
 				data: await (this as unknown as StorefrontClient)['applyAfter'](
 					'content',
-					data
+					responseData.data!
 				)
 			} as StorefrontResponse<ContentEdge[] | Content[]>;
 		}
