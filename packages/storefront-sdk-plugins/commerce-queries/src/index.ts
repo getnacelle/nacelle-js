@@ -17,7 +17,8 @@ function commerceQueriesPlugin<TBase extends WithStorefrontQuery>(Base: TBase) {
 				return queryResponse as StorefrontResponse<SpaceProperties>;
 			}
 
-			const spaceProperties = queryResponse.data?.spaceProperties || {};
+			const spaceProperties = queryResponse.data
+				?.spaceProperties as SpaceProperties;
 
 			return {
 				// eslint-disable-next-line @typescript-eslint/no-unsafe-call

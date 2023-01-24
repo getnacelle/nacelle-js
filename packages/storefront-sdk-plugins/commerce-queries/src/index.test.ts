@@ -63,4 +63,22 @@ describe('spaceProperties', () => {
 		expect(response.error).toBeDefined();
 		expect(response.data).toBeUndefined();
 	});
+
+	it('should return the error if one of the requests errors', async () => {
+		mockedFetch.mockImplementationOnce(() =>
+			Promise.resolve(
+				getFetchPayload({
+					errors: [
+						{
+							message: 'xxx',
+							extensions: { code: 'xxx' }
+						}
+					]
+				})
+			)
+		);
+		const response = await client.spaceProperties();
+		expect(response.error).toBeDefined();
+		expect(response.data).toBeUndefined();
+	});
 });
