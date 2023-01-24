@@ -1,23 +1,29 @@
-import type { WithStorefrontQuery } from '@nacelle/storefront-sdk';
+import type {
+	WithStorefrontQuery,
+	StorefrontClient
+} from '@nacelle/storefront-sdk';
+import { SpacePropertiesDocument } from './types/storefront.js';
 import type { SpaceProperties } from './types/storefront.js';
-import spaceProperties from './graphql/queries/spaceProperties.js';
+import type { StorefrontResponse } from 'node_modules/@nacelle/storefront-sdk/dist/types/client/index.js';
 
 function commerceQueriesPlugin<TBase extends WithStorefrontQuery>(Base: TBase) {
 	return class CommerceQueries extends Base {
-		// methods will go here
+		async spaceProperties(): Promise<StorefrontResponse<SpaceProperties>> {
+			const queryResponse = await this.query({
+				query: SpacePropertiesDocument
+			});
 
-		async spaceProperties(): Promise<SpaceProperties | object> {
-			const {
-				data,
-				error
-			}: { data?: { spaceProperty: SpaceProperties }; error?: object } =
-				await this.query({ query: spaceProperties });
+			if (queryResponse.error) {
+				return queryResponse as StorefrontResponse<SpaceProperties>;
+			}
 
-			return error ? error : data?.spaceProperty || {};
-		}
-
-		placeholder() {
-			return null;
+			return {
+				// eslint-disable-next-line @typescript-eslint/no-unsafe-call
+				data: await (this as unknown as StorefrontClient)['applyAfter'](
+					'spaceProperties',
+					queryResponse.data || {}
+				)
+			} as StorefrontResponse<SpaceProperties>;
 		}
 	};
 }

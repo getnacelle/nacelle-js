@@ -23,7 +23,6 @@ it('does not error when composed with the `StorefrontClient` class', () => {
 });
 
 it('adds the expected methods to the `StorefrontClient` class', () => {
-	expect(typeof client.placeholder).toBe('function');
 	expect(typeof client.spaceProperties).toBe('function');
 });
 
