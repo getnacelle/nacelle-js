@@ -3,8 +3,7 @@ import type { StorefrontResponse } from 'node_modules/@nacelle/storefront-sdk/di
 import type { InputMaybe, Content, ContentEdge } from 'src/types/storefront.js';
 import { AllContentDocument } from '../types/storefront.js';
 
-/** These are concrete unions of the different queries  */
-
+/** These are concrete unions of the different query names. As new paginated queries are added, they should be added to this union.*/
 type PaginatedQueryName = 'allContent';
 
 interface QueryData<EdgeType> {
@@ -16,7 +15,9 @@ type PaginatedQueryType<EdgeType> = {
 	[Property in PaginatedQueryName]?: QueryData<EdgeType>;
 };
 
+/** Kinds of Node types that the paginated methods can return. As new queries are added, their corresponding Node types should be added here. */
 type DataNodeType = Content;
+/** Kinds of Node types that the paginated methods can return. As new queries are added, their corresponding Node types should be added here. */
 type DataEdgeType = ContentEdge;
 
 interface paginatedFilter {
@@ -32,6 +33,7 @@ function dataIsNodeOrEdge<NodeType, EdgeType>(
 	return Array.isArray(data) && edgesToNodes;
 }
 
+/** Returns the query based on the queryName. As new queries are added, they should be added to this switch case block. This helps us be confident that the query will have the correct key based on the queryName passed to the pagination function */
 function queryFromName(queryName: PaginatedQueryName) {
 	switch (queryName) {
 		case 'allContent':
@@ -39,6 +41,7 @@ function queryFromName(queryName: PaginatedQueryName) {
 	}
 }
 
+/** Makes paginated requests to the storefront api so that the method can return multiple "pages" of data in a single method call.  */
 export const requestPaginatedData = async <
 	TBase extends Pick<StorefrontClient, 'query'>,
 	NodeType extends DataNodeType,
