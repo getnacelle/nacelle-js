@@ -3,8 +3,15 @@ import type {
 	StorefrontClient,
 	StorefrontResponse
 } from '@nacelle/storefront-sdk';
-import { SpacePropertiesDocument } from './types/storefront.js';
-import type { SpaceProperties } from './types/storefront.js';
+import {
+	SpacePropertiesDocument,
+	NavigationDocument
+} from './types/storefront.js';
+import type {
+	SpaceProperties,
+	NavigationGroup,
+	NavigationFilterInput
+} from './types/storefront.js';
 
 function commerceQueriesPlugin<TBase extends WithStorefrontQuery>(Base: TBase) {
 	return class CommerceQueries extends Base {
@@ -27,6 +34,30 @@ function commerceQueriesPlugin<TBase extends WithStorefrontQuery>(Base: TBase) {
 					spaceProperties
 				)
 			} as StorefrontResponse<SpaceProperties>;
+		}
+
+		async navigation(
+			params?: NavigationFilterInput
+		): Promise<StorefrontResponse<Array<NavigationGroup>>> {
+			const queryResponse = await this.query({
+				query: NavigationDocument,
+				variables: { filter: params }
+			});
+
+			if (queryResponse.error) {
+				return { ...queryResponse } as StorefrontResponse<NavigationGroup[]>;
+			}
+
+			const navigation = queryResponse.data
+				?.navigation as Array<NavigationGroup>;
+
+			return {
+				// eslint-disable-next-line @typescript-eslint/no-unsafe-call
+				data: await (this as unknown as StorefrontClient)['applyAfter'](
+					'navigation',
+					navigation
+				)
+			} as StorefrontResponse<Array<NavigationGroup>>;
 		}
 	};
 }
