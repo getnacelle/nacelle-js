@@ -1,5 +1,7 @@
-import type { StorefrontClient } from '@nacelle/storefront-sdk';
-import type { StorefrontResponse } from 'node_modules/@nacelle/storefront-sdk/dist/types/client/index.js';
+import type {
+	StorefrontClient,
+	StorefrontResponse
+} from '@nacelle/storefront-sdk';
 import type { InputMaybe, Content, ContentEdge } from 'src/types/storefront.js';
 import { AllContentDocument } from '../types/storefront.js';
 
@@ -64,8 +66,7 @@ export const requestPaginatedData = async <
 			variables: { filter }
 		})) as unknown as StorefrontResponse<PaginatedQueryType<EdgeType>>;
 		if (queryResponse.error) {
-			// cast here because queryResponse.data should be undefined so the type of data doesn't actually  matter
-			return queryResponse as StorefrontResponse<EdgeType[]>;
+			return { error: queryResponse.error };
 		}
 		if (queryResponse.data) {
 			// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
