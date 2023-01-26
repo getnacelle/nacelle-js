@@ -1,10 +1,10 @@
 import type {
 	WithStorefrontQuery,
-	StorefrontClient
+	StorefrontClient,
+	StorefrontResponse
 } from '@nacelle/storefront-sdk';
 import { SpacePropertiesDocument } from './types/storefront.js';
 import type { SpaceProperties } from './types/storefront.js';
-import type { StorefrontResponse } from 'node_modules/@nacelle/storefront-sdk/dist/types/client/index.js';
 
 function commerceQueriesPlugin<TBase extends WithStorefrontQuery>(Base: TBase) {
 	return class CommerceQueries extends Base {
