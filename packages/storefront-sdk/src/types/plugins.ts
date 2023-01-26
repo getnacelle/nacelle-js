@@ -1,4 +1,4 @@
-import type { StorefrontClient } from '../index.js';
+import type { StorefrontClient } from '../client/index.js';
 
 export type StorefrontClientDerivative<T extends Partial<StorefrontClient>> =
 	new (...args: any[]) => T;
