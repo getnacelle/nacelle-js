@@ -65,6 +65,7 @@ export const requestPaginatedData = async <
 			return queryResponse as StorefrontResponse<EdgeType[]>;
 		}
 		if (queryResponse.data) {
+			// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 			const responseData: QueryData<EdgeType> = queryResponse.data[queryName]!;
 			if (dataIsNodeOrEdge<NodeType, EdgeType>(data, edgesToNodes)) {
 				data.push(

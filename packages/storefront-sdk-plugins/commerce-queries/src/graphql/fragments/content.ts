@@ -1,5 +1,5 @@
 export default /* GraphQL */ `
-	fragment content_content on Content {
+	fragment Content_content on Content {
 		createdAt
 		fields
 		handle

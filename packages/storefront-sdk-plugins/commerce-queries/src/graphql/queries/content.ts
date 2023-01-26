@@ -9,7 +9,7 @@ export default /* GraphQL */ `
 			edges {
 				cursor
 				node {
-					...content_content
+					...Content_content
 				}
 			}
 		}
