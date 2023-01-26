@@ -6,8 +6,7 @@ import type {
 } from '@nacelle/storefront-sdk';
 import {
 	SpacePropertiesDocument,
-	NavigationDocument,
-	AllContentDocument
+	NavigationDocument
 } from './types/storefront.js';
 import type {
 	SpaceProperties,
@@ -142,6 +141,7 @@ function commerceQueriesPlugin<TBase extends WithStorefrontQuery & WithConfig>(
 			return {
 				data: await (this as unknown as StorefrontClient)['applyAfter'](
 					'content',
+					// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 					responseData.data!
 				)
 			} as StorefrontResponse<ContentEdge[] | Content[]>;
