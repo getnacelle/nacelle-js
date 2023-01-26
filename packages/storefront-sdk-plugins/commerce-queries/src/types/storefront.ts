@@ -809,6 +809,23 @@ export type VariantContent = Node & {
 	variantEntryId?: Maybe<Scalars['ID']>;
 };
 
+export type Content_ContentFragment = {
+	__typename?: 'Content';
+	createdAt?: number | null;
+	fields?: any | null;
+	handle?: string | null;
+	indexedAt?: number | null;
+	locale?: string | null;
+	nacelleEntryId: string;
+	published?: boolean | null;
+	sourceEntryId: string;
+	sourceId: string;
+	tags: Array<string>;
+	title?: string | null;
+	type?: string | null;
+	updatedAt?: number | null;
+};
+
 export type NavigationItem_NavigationItemFragment = {
 	__typename?: 'NavigationGroupItem';
 	title: string;
@@ -823,6 +840,42 @@ export type NavigationItem_NavigationItemFragment = {
 		key: string;
 		value: string;
 	}> | null;
+};
+
+export type AllContentQueryVariables = Exact<{
+	filter?: InputMaybe<ContentFilterInput>;
+}>;
+
+export type AllContentQuery = {
+	__typename?: 'Query';
+	allContent: {
+		__typename?: 'ContentConnection';
+		pageInfo: {
+			__typename?: 'PageInfo';
+			hasNextPage: boolean;
+			endCursor: string;
+		};
+		edges: Array<{
+			__typename?: 'ContentEdge';
+			cursor: string;
+			node: {
+				__typename?: 'Content';
+				createdAt?: number | null;
+				fields?: any | null;
+				handle?: string | null;
+				indexedAt?: number | null;
+				locale?: string | null;
+				nacelleEntryId: string;
+				published?: boolean | null;
+				sourceEntryId: string;
+				sourceId: string;
+				tags: Array<string>;
+				title?: string | null;
+				type?: string | null;
+				updatedAt?: number | null;
+			};
+		}>;
+	};
 };
 
 export type NavigationQueryVariables = Exact<{
@@ -935,6 +988,37 @@ export type SpacePropertiesQuery = {
 	};
 };
 
+export const Content_ContentFragmentDoc = {
+	kind: 'Document',
+	definitions: [
+		{
+			kind: 'FragmentDefinition',
+			name: { kind: 'Name', value: 'content_content' },
+			typeCondition: {
+				kind: 'NamedType',
+				name: { kind: 'Name', value: 'Content' }
+			},
+			selectionSet: {
+				kind: 'SelectionSet',
+				selections: [
+					{ kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+					{ kind: 'Field', name: { kind: 'Name', value: 'fields' } },
+					{ kind: 'Field', name: { kind: 'Name', value: 'handle' } },
+					{ kind: 'Field', name: { kind: 'Name', value: 'indexedAt' } },
+					{ kind: 'Field', name: { kind: 'Name', value: 'locale' } },
+					{ kind: 'Field', name: { kind: 'Name', value: 'nacelleEntryId' } },
+					{ kind: 'Field', name: { kind: 'Name', value: 'published' } },
+					{ kind: 'Field', name: { kind: 'Name', value: 'sourceEntryId' } },
+					{ kind: 'Field', name: { kind: 'Name', value: 'sourceId' } },
+					{ kind: 'Field', name: { kind: 'Name', value: 'tags' } },
+					{ kind: 'Field', name: { kind: 'Name', value: 'title' } },
+					{ kind: 'Field', name: { kind: 'Name', value: 'type' } },
+					{ kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
+				]
+			}
+		}
+	]
+} as unknown as DocumentNode<Content_ContentFragment, unknown>;
 export const NavigationItem_NavigationItemFragmentDoc = {
 	kind: 'Document',
 	definitions: [
@@ -977,6 +1061,97 @@ export const NavigationItem_NavigationItemFragmentDoc = {
 		}
 	]
 } as unknown as DocumentNode<NavigationItem_NavigationItemFragment, unknown>;
+export const AllContentDocument = {
+	kind: 'Document',
+	definitions: [
+		{
+			kind: 'OperationDefinition',
+			operation: 'query',
+			name: { kind: 'Name', value: 'allContent' },
+			variableDefinitions: [
+				{
+					kind: 'VariableDefinition',
+					variable: {
+						kind: 'Variable',
+						name: { kind: 'Name', value: 'filter' }
+					},
+					type: {
+						kind: 'NamedType',
+						name: { kind: 'Name', value: 'ContentFilterInput' }
+					}
+				}
+			],
+			selectionSet: {
+				kind: 'SelectionSet',
+				selections: [
+					{
+						kind: 'Field',
+						name: { kind: 'Name', value: 'allContent' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'filter' },
+								value: {
+									kind: 'Variable',
+									name: { kind: 'Name', value: 'filter' }
+								}
+							}
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [
+								{
+									kind: 'Field',
+									name: { kind: 'Name', value: 'pageInfo' },
+									selectionSet: {
+										kind: 'SelectionSet',
+										selections: [
+											{
+												kind: 'Field',
+												name: { kind: 'Name', value: 'hasNextPage' }
+											},
+											{
+												kind: 'Field',
+												name: { kind: 'Name', value: 'endCursor' }
+											}
+										]
+									}
+								},
+								{
+									kind: 'Field',
+									name: { kind: 'Name', value: 'edges' },
+									selectionSet: {
+										kind: 'SelectionSet',
+										selections: [
+											{
+												kind: 'Field',
+												name: { kind: 'Name', value: 'cursor' }
+											},
+											{
+												kind: 'Field',
+												name: { kind: 'Name', value: 'node' },
+												selectionSet: {
+													kind: 'SelectionSet',
+													selections: [
+														{
+															kind: 'FragmentSpread',
+															name: { kind: 'Name', value: 'content_content' }
+														}
+													]
+												}
+											}
+										]
+									}
+								}
+							]
+						}
+					}
+				]
+			}
+		},
+		...Content_ContentFragmentDoc.definitions
+	]
+} as unknown as DocumentNode<AllContentQuery, AllContentQueryVariables>;
 export const NavigationDocument = {
 	kind: 'Document',
 	definitions: [
