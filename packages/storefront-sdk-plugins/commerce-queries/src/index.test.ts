@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import { expect, it, afterEach, beforeEach, describe, vi } from 'vitest';
+import { expect, it, beforeEach, describe, vi } from 'vitest';
 import type { Mock } from 'vitest';
 import commerceQueriesPlugin from './index.js';
 import { StorefrontClient } from '@nacelle/storefront-sdk';
@@ -17,7 +17,7 @@ type mockRequestArgs = [RequestInfo | URL, RequestInit | undefined];
 const storefrontEndpoint =
 	'https://storefront.api.nacelle.com/graphql/v1/spaces/my-space-id';
 
-const mockedFetch = vi.fn();
+const mockedFetch: Mock<mockRequestArgs, Promise<Response>> = vi.fn();
 
 const ClientWithCommerceQueries = commerceQueriesPlugin(StorefrontClient);
 const client = new ClientWithCommerceQueries({
@@ -44,12 +44,25 @@ describe('spaceProperties', () => {
 	beforeEach(() => mockedFetch.mockRestore());
 
 	it('fetches `spaceProperties` with the appropriate query', async () => {
+		// mock a persisted query not found error so we can get a post request  sent so it's easier to inspect
+		mockedFetch.mockImplementationOnce(() =>
+			Promise.resolve(
+				getFetchPayload({
+					errors: [
+						{
+							message: 'PersistedQueryNotFound',
+							extensions: { code: 'PERSISTED_QUERY_NOT_FOUND' }
+						}
+					]
+				})
+			)
+		);
 		mockedFetch.mockImplementationOnce(() =>
 			Promise.resolve(getFetchPayload({ data: SpacePropertiesResult }))
 		);
 		await client.spaceProperties();
 
-		expect(mockedFetch).toHaveBeenCalledOnce();
+		expect(mockedFetch).toHaveBeenCalledTimes(2);
 		expect(mockedFetch).toHaveBeenCalledWith(
 			storefrontEndpoint,
 			expect.objectContaining({
@@ -81,12 +94,25 @@ describe('navigation', () => {
 	beforeEach(() => mockedFetch.mockRestore());
 
 	it('fetches `navigation` with the appropriate query', async () => {
+		// mock a persisted query not found error so we can get a post request  sent so it's easier to inspect
+		mockedFetch.mockImplementationOnce(() =>
+			Promise.resolve(
+				getFetchPayload({
+					errors: [
+						{
+							message: 'PersistedQueryNotFound',
+							extensions: { code: 'PERSISTED_QUERY_NOT_FOUND' }
+						}
+					]
+				})
+			)
+		);
 		mockedFetch.mockImplementationOnce(() =>
 			Promise.resolve(getFetchPayload({ data: NavigationResult }))
 		);
 		await client.navigation({ groupId: 'groupId' });
 
-		expect(mockedFetch).toHaveBeenCalledOnce();
+		expect(mockedFetch).toHaveBeenCalledTimes(2);
 		expect(mockedFetch).toHaveBeenCalledWith(
 			storefrontEndpoint,
 			expect.objectContaining({
@@ -115,21 +141,11 @@ describe('navigation', () => {
 });
 
 describe('content', () => {
-	const mockedFetch: Mock<mockRequestArgs, Promise<Response>> = vi.fn(
-		// eslint-disable-next-line @typescript-eslint/no-unused-vars
-		(..._args) => Promise.resolve(getFetchPayload(mockUnpaginatedContent))
-	);
-	const testClientClass = commerceQueriesPlugin(StorefrontClient);
-	const testCient = new testClientClass({
-		storefrontEndpoint,
-		fetchClient: mockedFetch as (
-			input: RequestInfo | URL,
-			init?: RequestInit | undefined
-		) => Promise<Response>
-	});
-
-	afterEach(() => {
+	beforeEach(() => {
 		mockedFetch.mockRestore();
+		mockedFetch.mockImplementation(() =>
+			Promise.resolve(getFetchPayload(mockUnpaginatedContent))
+		);
 	});
 
 	it('should pass parameters including the nacelleEntryId as variables', async () => {
@@ -139,14 +155,14 @@ describe('content', () => {
 				getFetchPayload({
 					errors: [
 						{
-							message: 'xxx',
-							extensions: { code: 'xxx' }
+							message: 'PersistedQueryNotFound',
+							extensions: { code: 'PERSISTED_QUERY_NOT_FOUND' }
 						}
 					]
 				})
 			)
 		);
-		await testCient.content({
+		await client.content({
 			advancedOptions: {
 				entriesPerPage: 5
 			},
@@ -166,7 +182,19 @@ describe('content', () => {
 
 	it('should pass parameters including the handles as variables', async () => {
 		// mock a persisted query not found error so we can get a post request  sent so it's easier to inspect
-		await testCient.content({
+		mockedFetch.mockImplementationOnce(() =>
+			Promise.resolve(
+				getFetchPayload({
+					errors: [
+						{
+							message: 'PersistedQueryNotFound',
+							extensions: { code: 'PERSISTED_QUERY_NOT_FOUND' }
+						}
+					]
+				})
+			)
+		);
+		await client.content({
 			advancedOptions: {
 				entriesPerPage: 5
 			},
@@ -198,7 +226,7 @@ describe('content', () => {
 				})
 			)
 		);
-		await testCient.content({
+		await client.content({
 			advancedOptions: {
 				entriesPerPage: 5
 			},
@@ -223,12 +251,13 @@ describe('content', () => {
 	});
 
 	it('should set first based on entriesPerPage and maxReturnedEntries', async () => {
-		await testCient.content({
+		await client.content({
 			advancedOptions: {
 				entriesPerPage: 5
 			},
 			maxReturnedEntries: 2
 		});
+		// since apq doesn't hash variables, can just get variables param off the url instead of mocking an apq error and getting it from the body.
 		expect(
 			JSON.parse(
 				new URL(mockedFetch.mock.lastCall![0] as URL | string).searchParams.get(
@@ -237,7 +266,7 @@ describe('content', () => {
 			)
 		).toMatchObject({ filter: { first: 2 } });
 		mockedFetch.mockClear();
-		await testCient.content({
+		await client.content({
 			advancedOptions: {
 				entriesPerPage: 5
 			},
@@ -254,7 +283,7 @@ describe('content', () => {
 	});
 
 	it('should return edges if edgesToNodes is false', async () => {
-		const response = await testCient.content({
+		const response = await client.content({
 			edgesToNodes: false
 		});
 
@@ -274,7 +303,7 @@ describe('content', () => {
 			Promise.resolve(getFetchPayload(mockPaginatedContent))
 		);
 
-		const response = await testCient.content({ maxReturnedEntries: -1 });
+		const response = await client.content({ maxReturnedEntries: -1 });
 
 		expect(mockedFetch).toBeCalledTimes(4);
 		// number of edges should be equal to 3 paginated responses + 1 unpaginated responses
@@ -293,7 +322,7 @@ describe('content', () => {
 			)
 		);
 
-		const response = await testCient.content({
+		const response = await client.content({
 			maxReturnedEntries: 15
 		});
 		expect(mockedFetch).toBeCalledTimes(3);
@@ -310,7 +339,7 @@ describe('content', () => {
 					getFetchPayload({ error: { message: 'GraphQL error' } })
 				)
 			);
-		const response = await testCient.content();
+		const response = await client.content();
 		expect(mockedFetch).toBeCalledTimes(2);
 		expect(response.error).toBeDefined();
 		expect(response.data).toBeUndefined();
