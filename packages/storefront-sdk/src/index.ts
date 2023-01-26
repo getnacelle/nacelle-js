@@ -1,5 +1,6 @@
 import { StorefrontClient } from './client/index.js';
 import { errorMessages } from './utils/index.js';
+import type { StorefrontResponse } from './client/index.js';
 
 export interface StorefrontClientParams {
 	/** Nacelle Storefront GraphQL Endpoint. This can be retrieved from the Nacelle Dashboard. */
@@ -23,5 +24,5 @@ export function Storefront(params: StorefrontClientParams) {
 	return new StorefrontClient(params);
 }
 
-export { StorefrontClient };
+export { StorefrontClient, StorefrontResponse };
 export * from './types/plugins.js';
