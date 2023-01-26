@@ -915,6 +915,26 @@ export type NavigationQuery = {
 	}>;
 };
 
+export type SpacePropertiesQueryVariables = Exact<{ [key: string]: never }>;
+
+export type SpacePropertiesQuery = {
+	__typename?: 'Query';
+	spaceProperties: {
+		__typename?: 'SpaceProperties';
+		updatedAt?: string | null;
+		updatedBy?: string | null;
+		properties?: Array<{
+			__typename?: 'SpacePropertyNamespace';
+			namespace?: string | null;
+			items?: Array<{
+				__typename?: 'SpacePropertyItem';
+				key: string;
+				value: string;
+			} | null> | null;
+		} | null> | null;
+	};
+};
+
 export const NavigationItem_NavigationItemFragmentDoc = {
 	kind: 'Document',
 	definitions: [
@@ -1094,3 +1114,62 @@ export const NavigationDocument = {
 		...NavigationItem_NavigationItemFragmentDoc.definitions
 	]
 } as unknown as DocumentNode<NavigationQuery, NavigationQueryVariables>;
+export const SpacePropertiesDocument = {
+	kind: 'Document',
+	definitions: [
+		{
+			kind: 'OperationDefinition',
+			operation: 'query',
+			name: { kind: 'Name', value: 'SpaceProperties' },
+			selectionSet: {
+				kind: 'SelectionSet',
+				selections: [
+					{
+						kind: 'Field',
+						name: { kind: 'Name', value: 'spaceProperties' },
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [
+								{
+									kind: 'Field',
+									name: { kind: 'Name', value: 'properties' },
+									selectionSet: {
+										kind: 'SelectionSet',
+										selections: [
+											{
+												kind: 'Field',
+												name: { kind: 'Name', value: 'items' },
+												selectionSet: {
+													kind: 'SelectionSet',
+													selections: [
+														{
+															kind: 'Field',
+															name: { kind: 'Name', value: 'key' }
+														},
+														{
+															kind: 'Field',
+															name: { kind: 'Name', value: 'value' }
+														}
+													]
+												}
+											},
+											{
+												kind: 'Field',
+												name: { kind: 'Name', value: 'namespace' }
+											}
+										]
+									}
+								},
+								{ kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'updatedBy' } }
+							]
+						}
+					}
+				]
+			}
+		}
+	]
+} as unknown as DocumentNode<
+	SpacePropertiesQuery,
+	SpacePropertiesQueryVariables
+>;
