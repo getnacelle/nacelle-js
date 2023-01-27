@@ -826,6 +826,24 @@ export type Content_ContentFragment = {
 	updatedAt?: number | null;
 };
 
+export type Media_MediaFragment = {
+	__typename?: 'Media';
+	altText?: string | null;
+	id?: string | null;
+	mimeType?: string | null;
+	src: string;
+	thumbnailSrc?: string | null;
+	type: string;
+};
+
+export type Metafield_MetafieldFragment = {
+	__typename?: 'Metafield';
+	id?: string | null;
+	key: string;
+	namespace?: string | null;
+	value: string;
+};
+
 export type NavigationItem_NavigationItemFragment = {
 	__typename?: 'NavigationGroupItem';
 	title: string;
@@ -840,6 +858,437 @@ export type NavigationItem_NavigationItemFragment = {
 		key: string;
 		value: string;
 	}> | null;
+};
+
+export type Product_ProductFragment = {
+	__typename?: 'Product';
+	availableForSale?: boolean | null;
+	createdAt?: number | null;
+	indexedAt?: number | null;
+	nacelleEntryId: string;
+	productType?: string | null;
+	sourceEntryId: string;
+	sourceId: string;
+	tags: Array<string>;
+	updatedAt?: number | null;
+	vendor?: string | null;
+	metafields: Array<{
+		__typename?: 'Metafield';
+		id?: string | null;
+		key: string;
+		namespace?: string | null;
+		value: string;
+	}>;
+	variants: Array<{
+		__typename?: 'Variant';
+		availableForSale?: boolean | null;
+		compareAtPrice?: any | null;
+		createdAt?: number | null;
+		indexedAt?: number | null;
+		nacelleEntryId: string;
+		price?: any | null;
+		priceCurrency?: string | null;
+		productEntryId?: string | null;
+		productHandle?: string | null;
+		quantityAvailable?: number | null;
+		sku?: string | null;
+		sourceEntryId: string;
+		sourceId: string;
+		updatedAt?: number | null;
+		weight?: number | null;
+		weightUnit?: string | null;
+		content?: {
+			__typename?: 'VariantContent';
+			createdAt?: number | null;
+			description?: string | null;
+			fields?: any | null;
+			indexedAt?: number | null;
+			locale?: string | null;
+			nacelleEntryId: string;
+			productEntryId?: string | null;
+			productHandle?: string | null;
+			published?: boolean | null;
+			sourceEntryId: string;
+			sourceId: string;
+			swatchSrc?: string | null;
+			title?: string | null;
+			updatedAt?: number | null;
+			variantEntryId?: string | null;
+			featuredMedia?: {
+				__typename?: 'Media';
+				altText?: string | null;
+				id?: string | null;
+				mimeType?: string | null;
+				src: string;
+				thumbnailSrc?: string | null;
+				type: string;
+			} | null;
+			media: Array<{
+				__typename?: 'Media';
+				altText?: string | null;
+				id?: string | null;
+				mimeType?: string | null;
+				src: string;
+				thumbnailSrc?: string | null;
+				type: string;
+			}>;
+			metafields: Array<{
+				__typename?: 'Metafield';
+				id?: string | null;
+				key: string;
+				namespace?: string | null;
+				value: string;
+			}>;
+			selectedOptions: Array<{
+				__typename?: 'SelectedOption';
+				label?: string | null;
+				name: string;
+				value: string;
+			}>;
+		} | null;
+		metafields: Array<{
+			__typename?: 'Metafield';
+			id?: string | null;
+			key: string;
+			namespace?: string | null;
+			value: string;
+		}>;
+		priceRules: Array<{
+			__typename?: 'PriceRule';
+			comparedAtPrice?: any | null;
+			country?: string | null;
+			id?: string | null;
+			price: any;
+			priceCurrency: string;
+			title: string;
+			metafields: Array<{
+				__typename?: 'Metafield';
+				id?: string | null;
+				key: string;
+				namespace?: string | null;
+				value: string;
+			}>;
+			priceBreaks: Array<{
+				__typename?: 'PriceBreak';
+				price?: any | null;
+				quantityMax?: number | null;
+				quantityMin?: number | null;
+				metafields: Array<{
+					__typename?: 'Metafield';
+					id?: string | null;
+					key: string;
+					namespace?: string | null;
+					value: string;
+				}>;
+			}>;
+		}>;
+	}>;
+	content?: {
+		__typename?: 'ProductContent';
+		createdAt?: number | null;
+		description?: string | null;
+		fields?: any | null;
+		handle?: string | null;
+		indexedAt?: number | null;
+		locale?: string | null;
+		nacelleEntryId: string;
+		productEntryId?: string | null;
+		published?: boolean | null;
+		sourceEntryId: string;
+		sourceId: string;
+		title?: string | null;
+		updatedAt?: number | null;
+		featuredMedia?: {
+			__typename?: 'Media';
+			altText?: string | null;
+			id?: string | null;
+			mimeType?: string | null;
+			src: string;
+			thumbnailSrc?: string | null;
+			type: string;
+		} | null;
+		media: Array<{
+			__typename?: 'Media';
+			altText?: string | null;
+			id?: string | null;
+			mimeType?: string | null;
+			src: string;
+			thumbnailSrc?: string | null;
+			type: string;
+		}>;
+		metafields: Array<{
+			__typename?: 'Metafield';
+			id?: string | null;
+			key: string;
+			namespace?: string | null;
+			value: string;
+		}>;
+		options: Array<{
+			__typename?: 'ProductOption';
+			name: string;
+			values: Array<string>;
+		}>;
+		seo?: { __typename?: 'SEO'; title: string; description: string } | null;
+	} | null;
+};
+
+export type ProductContent_ProductContentFragment = {
+	__typename?: 'ProductContent';
+	createdAt?: number | null;
+	description?: string | null;
+	fields?: any | null;
+	handle?: string | null;
+	indexedAt?: number | null;
+	locale?: string | null;
+	nacelleEntryId: string;
+	productEntryId?: string | null;
+	published?: boolean | null;
+	sourceEntryId: string;
+	sourceId: string;
+	title?: string | null;
+	updatedAt?: number | null;
+	featuredMedia?: {
+		__typename?: 'Media';
+		altText?: string | null;
+		id?: string | null;
+		mimeType?: string | null;
+		src: string;
+		thumbnailSrc?: string | null;
+		type: string;
+	} | null;
+	media: Array<{
+		__typename?: 'Media';
+		altText?: string | null;
+		id?: string | null;
+		mimeType?: string | null;
+		src: string;
+		thumbnailSrc?: string | null;
+		type: string;
+	}>;
+	metafields: Array<{
+		__typename?: 'Metafield';
+		id?: string | null;
+		key: string;
+		namespace?: string | null;
+		value: string;
+	}>;
+	options: Array<{
+		__typename?: 'ProductOption';
+		name: string;
+		values: Array<string>;
+	}>;
+	seo?: { __typename?: 'SEO'; title: string; description: string } | null;
+};
+
+export type ProductOption_ProductOptionFragment = {
+	__typename?: 'ProductOption';
+	name: string;
+	values: Array<string>;
+};
+
+export type ProductPriceBreak_ProductPriceBreakFragment = {
+	__typename?: 'PriceBreak';
+	price?: any | null;
+	quantityMax?: number | null;
+	quantityMin?: number | null;
+	metafields: Array<{
+		__typename?: 'Metafield';
+		id?: string | null;
+		key: string;
+		namespace?: string | null;
+		value: string;
+	}>;
+};
+
+export type ProductPriceRules_ProductPriceRulesFragment = {
+	__typename?: 'PriceRule';
+	comparedAtPrice?: any | null;
+	country?: string | null;
+	id?: string | null;
+	price: any;
+	priceCurrency: string;
+	title: string;
+	metafields: Array<{
+		__typename?: 'Metafield';
+		id?: string | null;
+		key: string;
+		namespace?: string | null;
+		value: string;
+	}>;
+	priceBreaks: Array<{
+		__typename?: 'PriceBreak';
+		price?: any | null;
+		quantityMax?: number | null;
+		quantityMin?: number | null;
+		metafields: Array<{
+			__typename?: 'Metafield';
+			id?: string | null;
+			key: string;
+			namespace?: string | null;
+			value: string;
+		}>;
+	}>;
+};
+
+export type Seo_SeoFragment = {
+	__typename?: 'SEO';
+	title: string;
+	description: string;
+};
+
+export type Variant_VariantFragment = {
+	__typename?: 'Variant';
+	availableForSale?: boolean | null;
+	compareAtPrice?: any | null;
+	createdAt?: number | null;
+	indexedAt?: number | null;
+	nacelleEntryId: string;
+	price?: any | null;
+	priceCurrency?: string | null;
+	productEntryId?: string | null;
+	productHandle?: string | null;
+	quantityAvailable?: number | null;
+	sku?: string | null;
+	sourceEntryId: string;
+	sourceId: string;
+	updatedAt?: number | null;
+	weight?: number | null;
+	weightUnit?: string | null;
+	content?: {
+		__typename?: 'VariantContent';
+		createdAt?: number | null;
+		description?: string | null;
+		fields?: any | null;
+		indexedAt?: number | null;
+		locale?: string | null;
+		nacelleEntryId: string;
+		productEntryId?: string | null;
+		productHandle?: string | null;
+		published?: boolean | null;
+		sourceEntryId: string;
+		sourceId: string;
+		swatchSrc?: string | null;
+		title?: string | null;
+		updatedAt?: number | null;
+		variantEntryId?: string | null;
+		featuredMedia?: {
+			__typename?: 'Media';
+			altText?: string | null;
+			id?: string | null;
+			mimeType?: string | null;
+			src: string;
+			thumbnailSrc?: string | null;
+			type: string;
+		} | null;
+		media: Array<{
+			__typename?: 'Media';
+			altText?: string | null;
+			id?: string | null;
+			mimeType?: string | null;
+			src: string;
+			thumbnailSrc?: string | null;
+			type: string;
+		}>;
+		metafields: Array<{
+			__typename?: 'Metafield';
+			id?: string | null;
+			key: string;
+			namespace?: string | null;
+			value: string;
+		}>;
+		selectedOptions: Array<{
+			__typename?: 'SelectedOption';
+			label?: string | null;
+			name: string;
+			value: string;
+		}>;
+	} | null;
+	metafields: Array<{
+		__typename?: 'Metafield';
+		id?: string | null;
+		key: string;
+		namespace?: string | null;
+		value: string;
+	}>;
+	priceRules: Array<{
+		__typename?: 'PriceRule';
+		comparedAtPrice?: any | null;
+		country?: string | null;
+		id?: string | null;
+		price: any;
+		priceCurrency: string;
+		title: string;
+		metafields: Array<{
+			__typename?: 'Metafield';
+			id?: string | null;
+			key: string;
+			namespace?: string | null;
+			value: string;
+		}>;
+		priceBreaks: Array<{
+			__typename?: 'PriceBreak';
+			price?: any | null;
+			quantityMax?: number | null;
+			quantityMin?: number | null;
+			metafields: Array<{
+				__typename?: 'Metafield';
+				id?: string | null;
+				key: string;
+				namespace?: string | null;
+				value: string;
+			}>;
+		}>;
+	}>;
+};
+
+export type VariantContent_VariantContentFragment = {
+	__typename?: 'VariantContent';
+	createdAt?: number | null;
+	description?: string | null;
+	fields?: any | null;
+	indexedAt?: number | null;
+	locale?: string | null;
+	nacelleEntryId: string;
+	productEntryId?: string | null;
+	productHandle?: string | null;
+	published?: boolean | null;
+	sourceEntryId: string;
+	sourceId: string;
+	swatchSrc?: string | null;
+	title?: string | null;
+	updatedAt?: number | null;
+	variantEntryId?: string | null;
+	featuredMedia?: {
+		__typename?: 'Media';
+		altText?: string | null;
+		id?: string | null;
+		mimeType?: string | null;
+		src: string;
+		thumbnailSrc?: string | null;
+		type: string;
+	} | null;
+	media: Array<{
+		__typename?: 'Media';
+		altText?: string | null;
+		id?: string | null;
+		mimeType?: string | null;
+		src: string;
+		thumbnailSrc?: string | null;
+		type: string;
+	}>;
+	metafields: Array<{
+		__typename?: 'Metafield';
+		id?: string | null;
+		key: string;
+		namespace?: string | null;
+		value: string;
+	}>;
+	selectedOptions: Array<{
+		__typename?: 'SelectedOption';
+		label?: string | null;
+		name: string;
+		value: string;
+	}>;
 };
 
 export type AllContentQueryVariables = Exact<{
@@ -968,6 +1417,201 @@ export type NavigationQuery = {
 	}>;
 };
 
+export type AllProductsQueryVariables = Exact<{
+	filter?: InputMaybe<ProductFilterInput>;
+}>;
+
+export type AllProductsQuery = {
+	__typename?: 'Query';
+	allProducts: {
+		__typename?: 'ProductConnection';
+		pageInfo: {
+			__typename?: 'PageInfo';
+			hasNextPage: boolean;
+			endCursor: string;
+		};
+		edges: Array<{
+			__typename?: 'ProductEdge';
+			cursor: string;
+			node: {
+				__typename?: 'Product';
+				availableForSale?: boolean | null;
+				createdAt?: number | null;
+				indexedAt?: number | null;
+				nacelleEntryId: string;
+				productType?: string | null;
+				sourceEntryId: string;
+				sourceId: string;
+				tags: Array<string>;
+				updatedAt?: number | null;
+				vendor?: string | null;
+				metafields: Array<{
+					__typename?: 'Metafield';
+					id?: string | null;
+					key: string;
+					namespace?: string | null;
+					value: string;
+				}>;
+				variants: Array<{
+					__typename?: 'Variant';
+					availableForSale?: boolean | null;
+					compareAtPrice?: any | null;
+					createdAt?: number | null;
+					indexedAt?: number | null;
+					nacelleEntryId: string;
+					price?: any | null;
+					priceCurrency?: string | null;
+					productEntryId?: string | null;
+					productHandle?: string | null;
+					quantityAvailable?: number | null;
+					sku?: string | null;
+					sourceEntryId: string;
+					sourceId: string;
+					updatedAt?: number | null;
+					weight?: number | null;
+					weightUnit?: string | null;
+					content?: {
+						__typename?: 'VariantContent';
+						createdAt?: number | null;
+						description?: string | null;
+						fields?: any | null;
+						indexedAt?: number | null;
+						locale?: string | null;
+						nacelleEntryId: string;
+						productEntryId?: string | null;
+						productHandle?: string | null;
+						published?: boolean | null;
+						sourceEntryId: string;
+						sourceId: string;
+						swatchSrc?: string | null;
+						title?: string | null;
+						updatedAt?: number | null;
+						variantEntryId?: string | null;
+						featuredMedia?: {
+							__typename?: 'Media';
+							altText?: string | null;
+							id?: string | null;
+							mimeType?: string | null;
+							src: string;
+							thumbnailSrc?: string | null;
+							type: string;
+						} | null;
+						media: Array<{
+							__typename?: 'Media';
+							altText?: string | null;
+							id?: string | null;
+							mimeType?: string | null;
+							src: string;
+							thumbnailSrc?: string | null;
+							type: string;
+						}>;
+						metafields: Array<{
+							__typename?: 'Metafield';
+							id?: string | null;
+							key: string;
+							namespace?: string | null;
+							value: string;
+						}>;
+						selectedOptions: Array<{
+							__typename?: 'SelectedOption';
+							label?: string | null;
+							name: string;
+							value: string;
+						}>;
+					} | null;
+					metafields: Array<{
+						__typename?: 'Metafield';
+						id?: string | null;
+						key: string;
+						namespace?: string | null;
+						value: string;
+					}>;
+					priceRules: Array<{
+						__typename?: 'PriceRule';
+						comparedAtPrice?: any | null;
+						country?: string | null;
+						id?: string | null;
+						price: any;
+						priceCurrency: string;
+						title: string;
+						metafields: Array<{
+							__typename?: 'Metafield';
+							id?: string | null;
+							key: string;
+							namespace?: string | null;
+							value: string;
+						}>;
+						priceBreaks: Array<{
+							__typename?: 'PriceBreak';
+							price?: any | null;
+							quantityMax?: number | null;
+							quantityMin?: number | null;
+							metafields: Array<{
+								__typename?: 'Metafield';
+								id?: string | null;
+								key: string;
+								namespace?: string | null;
+								value: string;
+							}>;
+						}>;
+					}>;
+				}>;
+				content?: {
+					__typename?: 'ProductContent';
+					createdAt?: number | null;
+					description?: string | null;
+					fields?: any | null;
+					handle?: string | null;
+					indexedAt?: number | null;
+					locale?: string | null;
+					nacelleEntryId: string;
+					productEntryId?: string | null;
+					published?: boolean | null;
+					sourceEntryId: string;
+					sourceId: string;
+					title?: string | null;
+					updatedAt?: number | null;
+					featuredMedia?: {
+						__typename?: 'Media';
+						altText?: string | null;
+						id?: string | null;
+						mimeType?: string | null;
+						src: string;
+						thumbnailSrc?: string | null;
+						type: string;
+					} | null;
+					media: Array<{
+						__typename?: 'Media';
+						altText?: string | null;
+						id?: string | null;
+						mimeType?: string | null;
+						src: string;
+						thumbnailSrc?: string | null;
+						type: string;
+					}>;
+					metafields: Array<{
+						__typename?: 'Metafield';
+						id?: string | null;
+						key: string;
+						namespace?: string | null;
+						value: string;
+					}>;
+					options: Array<{
+						__typename?: 'ProductOption';
+						name: string;
+						values: Array<string>;
+					}>;
+					seo?: {
+						__typename?: 'SEO';
+						title: string;
+						description: string;
+					} | null;
+				} | null;
+			};
+		}>;
+	};
+};
+
 export type SpacePropertiesQueryVariables = Exact<{ [key: string]: never }>;
 
 export type SpacePropertiesQuery = {
@@ -993,7 +1637,7 @@ export const Content_ContentFragmentDoc = {
 	definitions: [
 		{
 			kind: 'FragmentDefinition',
-			name: { kind: 'Name', value: 'content_content' },
+			name: { kind: 'Name', value: 'Content_content' },
 			typeCondition: {
 				kind: 'NamedType',
 				name: { kind: 'Name', value: 'Content' }
@@ -1061,6 +1705,523 @@ export const NavigationItem_NavigationItemFragmentDoc = {
 		}
 	]
 } as unknown as DocumentNode<NavigationItem_NavigationItemFragment, unknown>;
+export const Metafield_MetafieldFragmentDoc = {
+	kind: 'Document',
+	definitions: [
+		{
+			kind: 'FragmentDefinition',
+			name: { kind: 'Name', value: 'Metafield_metafield' },
+			typeCondition: {
+				kind: 'NamedType',
+				name: { kind: 'Name', value: 'Metafield' }
+			},
+			selectionSet: {
+				kind: 'SelectionSet',
+				selections: [
+					{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+					{ kind: 'Field', name: { kind: 'Name', value: 'key' } },
+					{ kind: 'Field', name: { kind: 'Name', value: 'namespace' } },
+					{ kind: 'Field', name: { kind: 'Name', value: 'value' } }
+				]
+			}
+		}
+	]
+} as unknown as DocumentNode<Metafield_MetafieldFragment, unknown>;
+export const Media_MediaFragmentDoc = {
+	kind: 'Document',
+	definitions: [
+		{
+			kind: 'FragmentDefinition',
+			name: { kind: 'Name', value: 'Media_media' },
+			typeCondition: {
+				kind: 'NamedType',
+				name: { kind: 'Name', value: 'Media' }
+			},
+			selectionSet: {
+				kind: 'SelectionSet',
+				selections: [
+					{ kind: 'Field', name: { kind: 'Name', value: 'altText' } },
+					{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+					{ kind: 'Field', name: { kind: 'Name', value: 'mimeType' } },
+					{ kind: 'Field', name: { kind: 'Name', value: 'src' } },
+					{ kind: 'Field', name: { kind: 'Name', value: 'thumbnailSrc' } },
+					{ kind: 'Field', name: { kind: 'Name', value: 'type' } }
+				]
+			}
+		}
+	]
+} as unknown as DocumentNode<Media_MediaFragment, unknown>;
+export const VariantContent_VariantContentFragmentDoc = {
+	kind: 'Document',
+	definitions: [
+		{
+			kind: 'FragmentDefinition',
+			name: { kind: 'Name', value: 'VariantContent_variantContent' },
+			typeCondition: {
+				kind: 'NamedType',
+				name: { kind: 'Name', value: 'VariantContent' }
+			},
+			selectionSet: {
+				kind: 'SelectionSet',
+				selections: [
+					{ kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+					{ kind: 'Field', name: { kind: 'Name', value: 'description' } },
+					{
+						kind: 'Field',
+						name: { kind: 'Name', value: 'featuredMedia' },
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [
+								{
+									kind: 'FragmentSpread',
+									name: { kind: 'Name', value: 'Media_media' }
+								}
+							]
+						}
+					},
+					{ kind: 'Field', name: { kind: 'Name', value: 'fields' } },
+					{ kind: 'Field', name: { kind: 'Name', value: 'indexedAt' } },
+					{ kind: 'Field', name: { kind: 'Name', value: 'locale' } },
+					{
+						kind: 'Field',
+						name: { kind: 'Name', value: 'media' },
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [
+								{
+									kind: 'FragmentSpread',
+									name: { kind: 'Name', value: 'Media_media' }
+								}
+							]
+						}
+					},
+					{
+						kind: 'Field',
+						name: { kind: 'Name', value: 'metafields' },
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [
+								{
+									kind: 'FragmentSpread',
+									name: { kind: 'Name', value: 'Metafield_metafield' }
+								}
+							]
+						}
+					},
+					{ kind: 'Field', name: { kind: 'Name', value: 'nacelleEntryId' } },
+					{ kind: 'Field', name: { kind: 'Name', value: 'productEntryId' } },
+					{ kind: 'Field', name: { kind: 'Name', value: 'productHandle' } },
+					{ kind: 'Field', name: { kind: 'Name', value: 'published' } },
+					{
+						kind: 'Field',
+						name: { kind: 'Name', value: 'selectedOptions' },
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [
+								{ kind: 'Field', name: { kind: 'Name', value: 'label' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'name' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'value' } }
+							]
+						}
+					},
+					{ kind: 'Field', name: { kind: 'Name', value: 'sourceEntryId' } },
+					{ kind: 'Field', name: { kind: 'Name', value: 'sourceId' } },
+					{ kind: 'Field', name: { kind: 'Name', value: 'swatchSrc' } },
+					{ kind: 'Field', name: { kind: 'Name', value: 'title' } },
+					{ kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
+					{ kind: 'Field', name: { kind: 'Name', value: 'variantEntryId' } }
+				]
+			}
+		},
+		...Media_MediaFragmentDoc.definitions,
+		...Metafield_MetafieldFragmentDoc.definitions
+	]
+} as unknown as DocumentNode<VariantContent_VariantContentFragment, unknown>;
+export const ProductPriceBreak_ProductPriceBreakFragmentDoc = {
+	kind: 'Document',
+	definitions: [
+		{
+			kind: 'FragmentDefinition',
+			name: { kind: 'Name', value: 'ProductPriceBreak_productPriceBreak' },
+			typeCondition: {
+				kind: 'NamedType',
+				name: { kind: 'Name', value: 'PriceBreak' }
+			},
+			selectionSet: {
+				kind: 'SelectionSet',
+				selections: [
+					{
+						kind: 'Field',
+						name: { kind: 'Name', value: 'metafields' },
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [
+								{
+									kind: 'FragmentSpread',
+									name: { kind: 'Name', value: 'Metafield_metafield' }
+								}
+							]
+						}
+					},
+					{ kind: 'Field', name: { kind: 'Name', value: 'price' } },
+					{ kind: 'Field', name: { kind: 'Name', value: 'quantityMax' } },
+					{ kind: 'Field', name: { kind: 'Name', value: 'quantityMin' } }
+				]
+			}
+		},
+		...Metafield_MetafieldFragmentDoc.definitions
+	]
+} as unknown as DocumentNode<
+	ProductPriceBreak_ProductPriceBreakFragment,
+	unknown
+>;
+export const ProductPriceRules_ProductPriceRulesFragmentDoc = {
+	kind: 'Document',
+	definitions: [
+		{
+			kind: 'FragmentDefinition',
+			name: { kind: 'Name', value: 'ProductPriceRules_productPriceRules' },
+			typeCondition: {
+				kind: 'NamedType',
+				name: { kind: 'Name', value: 'PriceRule' }
+			},
+			selectionSet: {
+				kind: 'SelectionSet',
+				selections: [
+					{ kind: 'Field', name: { kind: 'Name', value: 'comparedAtPrice' } },
+					{ kind: 'Field', name: { kind: 'Name', value: 'country' } },
+					{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+					{
+						kind: 'Field',
+						name: { kind: 'Name', value: 'metafields' },
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [
+								{
+									kind: 'FragmentSpread',
+									name: { kind: 'Name', value: 'Metafield_metafield' }
+								}
+							]
+						}
+					},
+					{ kind: 'Field', name: { kind: 'Name', value: 'price' } },
+					{
+						kind: 'Field',
+						name: { kind: 'Name', value: 'priceBreaks' },
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [
+								{
+									kind: 'FragmentSpread',
+									name: {
+										kind: 'Name',
+										value: 'ProductPriceBreak_productPriceBreak'
+									}
+								}
+							]
+						}
+					},
+					{ kind: 'Field', name: { kind: 'Name', value: 'priceCurrency' } },
+					{ kind: 'Field', name: { kind: 'Name', value: 'title' } }
+				]
+			}
+		},
+		...Metafield_MetafieldFragmentDoc.definitions,
+		...ProductPriceBreak_ProductPriceBreakFragmentDoc.definitions
+	]
+} as unknown as DocumentNode<
+	ProductPriceRules_ProductPriceRulesFragment,
+	unknown
+>;
+export const Variant_VariantFragmentDoc = {
+	kind: 'Document',
+	definitions: [
+		{
+			kind: 'FragmentDefinition',
+			name: { kind: 'Name', value: 'Variant_variant' },
+			typeCondition: {
+				kind: 'NamedType',
+				name: { kind: 'Name', value: 'Variant' }
+			},
+			selectionSet: {
+				kind: 'SelectionSet',
+				selections: [
+					{ kind: 'Field', name: { kind: 'Name', value: 'availableForSale' } },
+					{ kind: 'Field', name: { kind: 'Name', value: 'compareAtPrice' } },
+					{
+						kind: 'Field',
+						name: { kind: 'Name', value: 'content' },
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [
+								{
+									kind: 'FragmentSpread',
+									name: { kind: 'Name', value: 'VariantContent_variantContent' }
+								}
+							]
+						}
+					},
+					{ kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+					{ kind: 'Field', name: { kind: 'Name', value: 'indexedAt' } },
+					{
+						kind: 'Field',
+						name: { kind: 'Name', value: 'metafields' },
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [
+								{
+									kind: 'FragmentSpread',
+									name: { kind: 'Name', value: 'Metafield_metafield' }
+								}
+							]
+						}
+					},
+					{ kind: 'Field', name: { kind: 'Name', value: 'nacelleEntryId' } },
+					{ kind: 'Field', name: { kind: 'Name', value: 'price' } },
+					{ kind: 'Field', name: { kind: 'Name', value: 'priceCurrency' } },
+					{
+						kind: 'Field',
+						name: { kind: 'Name', value: 'priceRules' },
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [
+								{
+									kind: 'FragmentSpread',
+									name: {
+										kind: 'Name',
+										value: 'ProductPriceRules_productPriceRules'
+									}
+								}
+							]
+						}
+					},
+					{ kind: 'Field', name: { kind: 'Name', value: 'productEntryId' } },
+					{ kind: 'Field', name: { kind: 'Name', value: 'productHandle' } },
+					{ kind: 'Field', name: { kind: 'Name', value: 'quantityAvailable' } },
+					{ kind: 'Field', name: { kind: 'Name', value: 'sku' } },
+					{ kind: 'Field', name: { kind: 'Name', value: 'sourceEntryId' } },
+					{ kind: 'Field', name: { kind: 'Name', value: 'sourceId' } },
+					{ kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
+					{ kind: 'Field', name: { kind: 'Name', value: 'weight' } },
+					{ kind: 'Field', name: { kind: 'Name', value: 'weightUnit' } }
+				]
+			}
+		},
+		...VariantContent_VariantContentFragmentDoc.definitions,
+		...Metafield_MetafieldFragmentDoc.definitions,
+		...ProductPriceRules_ProductPriceRulesFragmentDoc.definitions
+	]
+} as unknown as DocumentNode<Variant_VariantFragment, unknown>;
+export const ProductOption_ProductOptionFragmentDoc = {
+	kind: 'Document',
+	definitions: [
+		{
+			kind: 'FragmentDefinition',
+			name: { kind: 'Name', value: 'ProductOption_productOption' },
+			typeCondition: {
+				kind: 'NamedType',
+				name: { kind: 'Name', value: 'ProductOption' }
+			},
+			selectionSet: {
+				kind: 'SelectionSet',
+				selections: [
+					{ kind: 'Field', name: { kind: 'Name', value: 'name' } },
+					{ kind: 'Field', name: { kind: 'Name', value: 'values' } }
+				]
+			}
+		}
+	]
+} as unknown as DocumentNode<ProductOption_ProductOptionFragment, unknown>;
+export const Seo_SeoFragmentDoc = {
+	kind: 'Document',
+	definitions: [
+		{
+			kind: 'FragmentDefinition',
+			name: { kind: 'Name', value: 'SEO_seo' },
+			typeCondition: {
+				kind: 'NamedType',
+				name: { kind: 'Name', value: 'SEO' }
+			},
+			selectionSet: {
+				kind: 'SelectionSet',
+				selections: [
+					{ kind: 'Field', name: { kind: 'Name', value: 'title' } },
+					{ kind: 'Field', name: { kind: 'Name', value: 'description' } }
+				]
+			}
+		}
+	]
+} as unknown as DocumentNode<Seo_SeoFragment, unknown>;
+export const ProductContent_ProductContentFragmentDoc = {
+	kind: 'Document',
+	definitions: [
+		{
+			kind: 'FragmentDefinition',
+			name: { kind: 'Name', value: 'ProductContent_productContent' },
+			typeCondition: {
+				kind: 'NamedType',
+				name: { kind: 'Name', value: 'ProductContent' }
+			},
+			selectionSet: {
+				kind: 'SelectionSet',
+				selections: [
+					{ kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+					{ kind: 'Field', name: { kind: 'Name', value: 'description' } },
+					{
+						kind: 'Field',
+						name: { kind: 'Name', value: 'featuredMedia' },
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [
+								{
+									kind: 'FragmentSpread',
+									name: { kind: 'Name', value: 'Media_media' }
+								}
+							]
+						}
+					},
+					{ kind: 'Field', name: { kind: 'Name', value: 'fields' } },
+					{ kind: 'Field', name: { kind: 'Name', value: 'handle' } },
+					{ kind: 'Field', name: { kind: 'Name', value: 'indexedAt' } },
+					{ kind: 'Field', name: { kind: 'Name', value: 'locale' } },
+					{
+						kind: 'Field',
+						name: { kind: 'Name', value: 'media' },
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [
+								{
+									kind: 'FragmentSpread',
+									name: { kind: 'Name', value: 'Media_media' }
+								}
+							]
+						}
+					},
+					{
+						kind: 'Field',
+						name: { kind: 'Name', value: 'metafields' },
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [
+								{
+									kind: 'FragmentSpread',
+									name: { kind: 'Name', value: 'Metafield_metafield' }
+								}
+							]
+						}
+					},
+					{ kind: 'Field', name: { kind: 'Name', value: 'nacelleEntryId' } },
+					{
+						kind: 'Field',
+						name: { kind: 'Name', value: 'options' },
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [
+								{
+									kind: 'FragmentSpread',
+									name: { kind: 'Name', value: 'ProductOption_productOption' }
+								}
+							]
+						}
+					},
+					{ kind: 'Field', name: { kind: 'Name', value: 'productEntryId' } },
+					{ kind: 'Field', name: { kind: 'Name', value: 'published' } },
+					{
+						kind: 'Field',
+						name: { kind: 'Name', value: 'seo' },
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [
+								{
+									kind: 'FragmentSpread',
+									name: { kind: 'Name', value: 'SEO_seo' }
+								}
+							]
+						}
+					},
+					{ kind: 'Field', name: { kind: 'Name', value: 'sourceEntryId' } },
+					{ kind: 'Field', name: { kind: 'Name', value: 'sourceId' } },
+					{ kind: 'Field', name: { kind: 'Name', value: 'title' } },
+					{ kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
+				]
+			}
+		},
+		...Media_MediaFragmentDoc.definitions,
+		...Metafield_MetafieldFragmentDoc.definitions,
+		...ProductOption_ProductOptionFragmentDoc.definitions,
+		...Seo_SeoFragmentDoc.definitions
+	]
+} as unknown as DocumentNode<ProductContent_ProductContentFragment, unknown>;
+export const Product_ProductFragmentDoc = {
+	kind: 'Document',
+	definitions: [
+		{
+			kind: 'FragmentDefinition',
+			name: { kind: 'Name', value: 'Product_product' },
+			typeCondition: {
+				kind: 'NamedType',
+				name: { kind: 'Name', value: 'Product' }
+			},
+			selectionSet: {
+				kind: 'SelectionSet',
+				selections: [
+					{ kind: 'Field', name: { kind: 'Name', value: 'availableForSale' } },
+					{ kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+					{ kind: 'Field', name: { kind: 'Name', value: 'indexedAt' } },
+					{
+						kind: 'Field',
+						name: { kind: 'Name', value: 'metafields' },
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [
+								{
+									kind: 'FragmentSpread',
+									name: { kind: 'Name', value: 'Metafield_metafield' }
+								}
+							]
+						}
+					},
+					{ kind: 'Field', name: { kind: 'Name', value: 'nacelleEntryId' } },
+					{ kind: 'Field', name: { kind: 'Name', value: 'productType' } },
+					{ kind: 'Field', name: { kind: 'Name', value: 'sourceEntryId' } },
+					{ kind: 'Field', name: { kind: 'Name', value: 'sourceId' } },
+					{ kind: 'Field', name: { kind: 'Name', value: 'tags' } },
+					{ kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
+					{ kind: 'Field', name: { kind: 'Name', value: 'vendor' } },
+					{
+						kind: 'Field',
+						name: { kind: 'Name', value: 'variants' },
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [
+								{
+									kind: 'FragmentSpread',
+									name: { kind: 'Name', value: 'Variant_variant' }
+								}
+							]
+						}
+					},
+					{
+						kind: 'Field',
+						name: { kind: 'Name', value: 'content' },
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [
+								{
+									kind: 'FragmentSpread',
+									name: { kind: 'Name', value: 'ProductContent_productContent' }
+								}
+							]
+						}
+					}
+				]
+			}
+		},
+		...Metafield_MetafieldFragmentDoc.definitions,
+		...Variant_VariantFragmentDoc.definitions,
+		...ProductContent_ProductContentFragmentDoc.definitions
+	]
+} as unknown as DocumentNode<Product_ProductFragment, unknown>;
 export const AllContentDocument = {
 	kind: 'Document',
 	definitions: [
@@ -1135,7 +2296,7 @@ export const AllContentDocument = {
 													selections: [
 														{
 															kind: 'FragmentSpread',
-															name: { kind: 'Name', value: 'content_content' }
+															name: { kind: 'Name', value: 'Content_content' }
 														}
 													]
 												}
@@ -1289,6 +2450,97 @@ export const NavigationDocument = {
 		...NavigationItem_NavigationItemFragmentDoc.definitions
 	]
 } as unknown as DocumentNode<NavigationQuery, NavigationQueryVariables>;
+export const AllProductsDocument = {
+	kind: 'Document',
+	definitions: [
+		{
+			kind: 'OperationDefinition',
+			operation: 'query',
+			name: { kind: 'Name', value: 'allProducts' },
+			variableDefinitions: [
+				{
+					kind: 'VariableDefinition',
+					variable: {
+						kind: 'Variable',
+						name: { kind: 'Name', value: 'filter' }
+					},
+					type: {
+						kind: 'NamedType',
+						name: { kind: 'Name', value: 'ProductFilterInput' }
+					}
+				}
+			],
+			selectionSet: {
+				kind: 'SelectionSet',
+				selections: [
+					{
+						kind: 'Field',
+						name: { kind: 'Name', value: 'allProducts' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'filter' },
+								value: {
+									kind: 'Variable',
+									name: { kind: 'Name', value: 'filter' }
+								}
+							}
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [
+								{
+									kind: 'Field',
+									name: { kind: 'Name', value: 'pageInfo' },
+									selectionSet: {
+										kind: 'SelectionSet',
+										selections: [
+											{
+												kind: 'Field',
+												name: { kind: 'Name', value: 'hasNextPage' }
+											},
+											{
+												kind: 'Field',
+												name: { kind: 'Name', value: 'endCursor' }
+											}
+										]
+									}
+								},
+								{
+									kind: 'Field',
+									name: { kind: 'Name', value: 'edges' },
+									selectionSet: {
+										kind: 'SelectionSet',
+										selections: [
+											{
+												kind: 'Field',
+												name: { kind: 'Name', value: 'cursor' }
+											},
+											{
+												kind: 'Field',
+												name: { kind: 'Name', value: 'node' },
+												selectionSet: {
+													kind: 'SelectionSet',
+													selections: [
+														{
+															kind: 'FragmentSpread',
+															name: { kind: 'Name', value: 'Product_product' }
+														}
+													]
+												}
+											}
+										]
+									}
+								}
+							]
+						}
+					}
+				]
+			}
+		},
+		...Product_ProductFragmentDoc.definitions
+	]
+} as unknown as DocumentNode<AllProductsQuery, AllProductsQueryVariables>;
 export const SpacePropertiesDocument = {
 	kind: 'Document',
 	definitions: [

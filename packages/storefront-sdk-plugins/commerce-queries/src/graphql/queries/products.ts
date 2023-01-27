@@ -3,6 +3,7 @@ export default /* GraphQL */ `
 		allProducts(filter: $filter) {
 			pageInfo {
 				hasNextPage
+				endCursor
 			}
 			edges {
 				cursor
