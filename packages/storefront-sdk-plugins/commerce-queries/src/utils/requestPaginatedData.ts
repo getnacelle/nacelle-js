@@ -1,3 +1,7 @@
+import {
+	AllContentDocument,
+	AllProductsDocument
+} from '../graphql/documents.js';
 import type {
 	StorefrontClient,
 	StorefrontResponse
@@ -9,10 +13,6 @@ import type {
 	Product,
 	ProductEdge
 } from 'src/types/storefront.js';
-import {
-	AllContentDocument,
-	AllProductsDocument
-} from '../types/storefront.js';
 
 /** These are concrete unions of the different query names. As new paginated queries are added, they should be added to this union.*/
 type PaginatedQueryName = 'allContent' | 'allProducts';

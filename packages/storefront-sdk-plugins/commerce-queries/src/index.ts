@@ -1,13 +1,14 @@
+import { requestPaginatedData } from './utils/requestPaginatedData.js';
+import {
+	SpacePropertiesDocument,
+	NavigationDocument
+} from './graphql/documents.js';
 import type {
 	WithStorefrontQuery,
 	WithConfig,
 	StorefrontClient,
 	StorefrontResponse
 } from '@nacelle/storefront-sdk';
-import {
-	SpacePropertiesDocument,
-	NavigationDocument
-} from './types/storefront.js';
 import type {
 	SpaceProperties,
 	NavigationGroup,
@@ -19,8 +20,6 @@ import type {
 	Product,
 	ProductEdge
 } from './types/storefront.js';
-
-import { requestPaginatedData } from './utils/requestPaginatedData.js';
 
 export interface CommerceQueriesParams {
 	nacelleEntryIds?: string[];

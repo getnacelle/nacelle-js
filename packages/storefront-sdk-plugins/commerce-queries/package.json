@@ -18,8 +18,8 @@
 		"test:typecheck": "vitest typecheck",
 		"codegen": "graphql-codegen-esm --config codegen.yml",
 		"codegen:all": "npm run codegen && npm run codegen:format && npm run codegen:lint",
-		"codegen:format": "prettier --write src/types/storefront.ts",
-		"codegen:lint": "eslint src/types/storefront.ts --fix",
+		"codegen:format": "prettier --write src/types/storefront.ts src/graphql/documents.ts",
+		"codegen:lint": "eslint src/types/storefront.ts src/graphql/documents.ts --fix",
 		"lockfile:update": "npm i --package-lock-only"
 	},
 	"homepage": "https://github.com/getnacelle/nacelle-js/tree/main/packages/storefront-sdk-plugins/commerce-queries#readme",
