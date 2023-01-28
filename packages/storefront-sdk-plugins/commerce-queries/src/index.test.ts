@@ -11,6 +11,11 @@ import {
 	mockPaginatedContent,
 	mockUnpaginatedContent
 } from '../__mocks__/gql/content.js';
+import {
+	buildProductResponse,
+	mockPaginatedProduct,
+	mockUnpaginatedProduct
+} from '../__mocks__/gql/product.js';
 
 type mockRequestArgs = [RequestInfo | URL, RequestInit | undefined];
 
@@ -38,6 +43,7 @@ it('adds the expected methods to the `StorefrontClient` class', () => {
 	expect(typeof client.spaceProperties).toBe('function');
 	expect(typeof client.navigation).toBe('function');
 	expect(typeof client.content).toBe('function');
+	expect(typeof client.products).toBe('function');
 });
 
 describe('spaceProperties', () => {
@@ -340,6 +346,212 @@ describe('content', () => {
 				)
 			);
 		const response = await client.content();
+		expect(mockedFetch).toBeCalledTimes(2);
+		expect(response.error).toBeDefined();
+		expect(response.data).toBeUndefined();
+	});
+});
+
+describe('products', () => {
+	beforeEach(() => {
+		mockedFetch.mockRestore();
+		mockedFetch.mockImplementation(() =>
+			Promise.resolve(getFetchPayload(mockUnpaginatedProduct))
+		);
+	});
+
+	it('should pass parameters including the nacelleEntryId as variables', async () => {
+		// mock a persisted query not found error so we can get a post request  sent so it's easier to inspect
+		mockedFetch.mockImplementationOnce(() =>
+			Promise.resolve(
+				getFetchPayload({
+					errors: [
+						{
+							message: 'PersistedQueryNotFound',
+							extensions: { code: 'PERSISTED_QUERY_NOT_FOUND' }
+						}
+					]
+				})
+			)
+		);
+		await client.products({
+			advancedOptions: {
+				entriesPerPage: 5
+			},
+			cursor: 'abc',
+			nacelleEntryIds: ['abcdefg_1']
+		});
+		const [url, argRequestInit]: mockRequestArgs = mockedFetch.mock.lastCall!;
+		expect(url).toBe(storefrontEndpoint);
+		expect(JSON.parse(argRequestInit?.body?.toString() ?? '')).toMatchObject({
+			// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+			query: expect.stringContaining('allProducts'),
+			variables: {
+				filter: { after: 'abc', first: 5, nacelleEntryIds: ['abcdefg_1'] }
+			}
+		});
+	});
+
+	it('should pass parameters including the handles as variables', async () => {
+		// mock a persisted query not found error so we can get a post request  sent so it's easier to inspect
+		mockedFetch.mockImplementationOnce(() =>
+			Promise.resolve(
+				getFetchPayload({
+					errors: [
+						{
+							message: 'PersistedQueryNotFound',
+							extensions: { code: 'PERSISTED_QUERY_NOT_FOUND' }
+						}
+					]
+				})
+			)
+		);
+		await client.products({
+			advancedOptions: {
+				entriesPerPage: 5
+			},
+			cursor: 'abc',
+			handles: ['abcdefg']
+		});
+		const [url, argRequestInit]: mockRequestArgs = mockedFetch.mock.lastCall!;
+		expect(url).toBe(storefrontEndpoint);
+		expect(JSON.parse(argRequestInit?.body?.toString() ?? '')).toMatchObject({
+			// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+			query: expect.stringContaining('allProducts'),
+			variables: {
+				filter: { after: 'abc', first: 5, handles: ['abcdefg'] }
+			}
+		});
+	});
+
+	it('should only include nacelleEntryIds if both nacelleEntryIds & handles are passed', async () => {
+		// mock a persisted query not found error so we can get a post request  sent so it's easier to inspect
+		mockedFetch.mockImplementationOnce(() =>
+			Promise.resolve(
+				getFetchPayload({
+					errors: [
+						{
+							message: 'PersistedQueryNotFound',
+							extensions: { code: 'PERSISTED_QUERY_NOT_FOUND' }
+						}
+					]
+				})
+			)
+		);
+		await client.products({
+			advancedOptions: {
+				entriesPerPage: 5
+			},
+			cursor: 'abc',
+			handles: ['abcdefg'],
+			nacelleEntryIds: ['abcdefg_1']
+		});
+		const [url, argRequestInit]: mockRequestArgs = mockedFetch.mock.lastCall!;
+		// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+		const requestBody = JSON.parse(argRequestInit?.body?.toString() ?? '');
+		expect(url).toBe(storefrontEndpoint);
+		expect(requestBody).toMatchObject({
+			// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+			query: expect.stringContaining('allProducts'),
+			variables: {
+				filter: { after: 'abc', first: 5, nacelleEntryIds: ['abcdefg_1'] }
+			}
+		});
+		expect(requestBody).not.toMatchObject({
+			variables: { filter: { handles: ['abcdefg'] } }
+		});
+	});
+
+	it('should set first based on entriesPerPage and maxReturnedEntries', async () => {
+		await client.products({
+			advancedOptions: {
+				entriesPerPage: 5
+			},
+			maxReturnedEntries: 2
+		});
+		// since apq doesn't hash variables, can just get variables param off the url instead of mocking an apq error and getting it from the body.
+		expect(
+			JSON.parse(
+				new URL(mockedFetch.mock.lastCall![0] as URL | string).searchParams.get(
+					'variables'
+				) ?? ''
+			)
+		).toMatchObject({ filter: { first: 2 } });
+		mockedFetch.mockClear();
+		await client.products({
+			advancedOptions: {
+				entriesPerPage: 5
+			},
+			maxReturnedEntries: 10
+		});
+		expect(
+			JSON.parse(
+				new URL(mockedFetch.mock.lastCall![0] as URL | string).searchParams.get(
+					'variables'
+				) ?? ''
+			)
+		).toMatchObject({ filter: { first: 5 } });
+		expect(mockedFetch).toBeCalledTimes(1);
+	});
+
+	it('should return edges if edgesToNodes is false', async () => {
+		const response = await client.products({
+			edgesToNodes: false
+		});
+
+		expect(response.data).toMatchObject(
+			mockUnpaginatedProduct.data.allProducts.edges
+		);
+	});
+
+	it('should fetch until hasNextPage = false if maxReturnedEntries=-1', async () => {
+		mockedFetch.mockImplementationOnce(() =>
+			Promise.resolve(getFetchPayload(mockPaginatedProduct))
+		);
+		mockedFetch.mockImplementationOnce(() =>
+			Promise.resolve(getFetchPayload(mockPaginatedProduct))
+		);
+		mockedFetch.mockImplementationOnce(() =>
+			Promise.resolve(getFetchPayload(mockPaginatedProduct))
+		);
+
+		const response = await client.products({ maxReturnedEntries: -1 });
+
+		expect(mockedFetch).toBeCalledTimes(4);
+		// number of edges should be equal to 3 paginated responses + 1 unpaginated responses
+		expect(response.data!.length).toBe(
+			3 * mockPaginatedProduct.data.allProducts.edges.length +
+				mockUnpaginatedProduct.data.allProducts.edges.length
+		);
+	});
+
+	it('should stop paginating when the length is the value of maxReturnedEntries', async () => {
+		mockedFetch.mockImplementation(() =>
+			Promise.resolve(
+				getFetchPayload(
+					buildProductResponse({ nodeCount: 5, hasNextPage: true })
+				)
+			)
+		);
+
+		const response = await client.products({
+			maxReturnedEntries: 15
+		});
+		expect(mockedFetch).toBeCalledTimes(3);
+		expect(response.data!.length).toBe(15);
+	});
+
+	it('should return the error if one of the requests errors', async () => {
+		mockedFetch
+			.mockImplementationOnce(() =>
+				Promise.resolve(getFetchPayload(mockPaginatedProduct))
+			)
+			.mockImplementationOnce(() =>
+				Promise.resolve(
+					getFetchPayload({ error: { message: 'GraphQL error' } })
+				)
+			);
+		const response = await client.products();
 		expect(mockedFetch).toBeCalledTimes(2);
 		expect(response.error).toBeDefined();
 		expect(response.data).toBeUndefined();
