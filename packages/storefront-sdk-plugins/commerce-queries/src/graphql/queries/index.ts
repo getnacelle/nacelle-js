@@ -7,6 +7,7 @@
 // @index('./!(*.spec|test).ts', (f, _) => `import { default as ${_.camelCase(f.name)} } from '${f.path}.js';`)
 import { default as content } from './content.js';
 import { default as navigation } from './navigation.js';
+import { default as productCollections } from './productCollections.js';
 import { default as products } from './products.js';
 import { default as spaceProperties } from './spaceProperties.js';
 // @endindex
@@ -15,6 +16,7 @@ export default {
 	// @index('./!(*.spec|test).ts', (f, _) => `${_.constantCase(f.name)}: ${f.name},`)
 	CONTENT: content,
 	NAVIGATION: navigation,
+	PRODUCT_COLLECTIONS: productCollections,
 	PRODUCTS: products,
 	SPACE_PROPERTIES: spaceProperties
 	// @endindex

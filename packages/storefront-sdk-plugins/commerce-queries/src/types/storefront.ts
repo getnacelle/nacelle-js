@@ -808,6 +808,40 @@ export type VariantContent = Node & {
 	variantEntryId?: Maybe<Scalars['ID']>;
 };
 
+export type CollectionContent_CollectionContentFragment = {
+	__typename?: 'CollectionContent';
+	collectionEntryId: string;
+	createdAt?: number | null;
+	description?: string | null;
+	fields?: any | null;
+	handle?: string | null;
+	indexedAt?: number | null;
+	locale?: string | null;
+	nacelleEntryId: string;
+	published?: boolean | null;
+	sourceEntryId: string;
+	sourceId: string;
+	title?: string | null;
+	updatedAt?: number | null;
+	featuredMedia?: {
+		__typename?: 'Media';
+		altText?: string | null;
+		id?: string | null;
+		mimeType?: string | null;
+		src: string;
+		thumbnailSrc?: string | null;
+		type: string;
+	} | null;
+	metafields: Array<{
+		__typename?: 'Metafield';
+		id?: string | null;
+		key: string;
+		namespace?: string | null;
+		value: string;
+	}>;
+	seo?: { __typename?: 'SEO'; title: string; description: string } | null;
+};
+
 export type Content_ContentFragment = {
 	__typename?: 'Content';
 	createdAt?: number | null;
@@ -1414,6 +1448,268 @@ export type NavigationQuery = {
 			}> | null;
 		}> | null;
 	}>;
+};
+
+export type AllProductCollectionsQueryVariables = Exact<{
+	filter?: InputMaybe<ProductCollectionFilterInput>;
+	maxReturnedEntriesPerCollection?: InputMaybe<Scalars['Int']>;
+}>;
+
+export type AllProductCollectionsQuery = {
+	__typename?: 'Query';
+	allProductCollections: {
+		__typename?: 'ProductCollectionConnection';
+		pageInfo: {
+			__typename?: 'PageInfo';
+			hasNextPage: boolean;
+			endCursor: string;
+		};
+		edges: Array<{
+			__typename?: 'ProductCollectionEdge';
+			cursor: string;
+			node: {
+				__typename?: 'ProductCollection';
+				createdAt?: number | null;
+				indexedAt?: number | null;
+				nacelleEntryId: string;
+				sourceEntryId: string;
+				sourceId: string;
+				tags: Array<string>;
+				updatedAt?: number | null;
+				content?: {
+					__typename?: 'CollectionContent';
+					collectionEntryId: string;
+					createdAt?: number | null;
+					description?: string | null;
+					fields?: any | null;
+					handle?: string | null;
+					indexedAt?: number | null;
+					locale?: string | null;
+					nacelleEntryId: string;
+					published?: boolean | null;
+					sourceEntryId: string;
+					sourceId: string;
+					title?: string | null;
+					updatedAt?: number | null;
+					featuredMedia?: {
+						__typename?: 'Media';
+						altText?: string | null;
+						id?: string | null;
+						mimeType?: string | null;
+						src: string;
+						thumbnailSrc?: string | null;
+						type: string;
+					} | null;
+					metafields: Array<{
+						__typename?: 'Metafield';
+						id?: string | null;
+						key: string;
+						namespace?: string | null;
+						value: string;
+					}>;
+					seo?: {
+						__typename?: 'SEO';
+						title: string;
+						description: string;
+					} | null;
+				} | null;
+				metafields: Array<{
+					__typename?: 'Metafield';
+					id?: string | null;
+					key: string;
+					namespace?: string | null;
+					value: string;
+				}>;
+				productConnection: {
+					__typename?: 'ProductConnection';
+					totalCount?: number | null;
+					pageInfo: {
+						__typename?: 'PageInfo';
+						hasNextPage: boolean;
+						endCursor: string;
+					};
+					edges: Array<{
+						__typename?: 'ProductEdge';
+						node: {
+							__typename?: 'Product';
+							availableForSale?: boolean | null;
+							createdAt?: number | null;
+							indexedAt?: number | null;
+							nacelleEntryId: string;
+							productType?: string | null;
+							sourceEntryId: string;
+							sourceId: string;
+							tags: Array<string>;
+							updatedAt?: number | null;
+							vendor?: string | null;
+							metafields: Array<{
+								__typename?: 'Metafield';
+								id?: string | null;
+								key: string;
+								namespace?: string | null;
+								value: string;
+							}>;
+							variants: Array<{
+								__typename?: 'Variant';
+								availableForSale?: boolean | null;
+								compareAtPrice?: any | null;
+								createdAt?: number | null;
+								indexedAt?: number | null;
+								nacelleEntryId: string;
+								price?: any | null;
+								priceCurrency?: string | null;
+								productEntryId?: string | null;
+								productHandle?: string | null;
+								quantityAvailable?: number | null;
+								sku?: string | null;
+								sourceEntryId: string;
+								sourceId: string;
+								updatedAt?: number | null;
+								weight?: number | null;
+								weightUnit?: string | null;
+								content?: {
+									__typename?: 'VariantContent';
+									createdAt?: number | null;
+									description?: string | null;
+									fields?: any | null;
+									indexedAt?: number | null;
+									locale?: string | null;
+									nacelleEntryId: string;
+									productEntryId?: string | null;
+									productHandle?: string | null;
+									published?: boolean | null;
+									sourceEntryId: string;
+									sourceId: string;
+									swatchSrc?: string | null;
+									title?: string | null;
+									updatedAt?: number | null;
+									variantEntryId?: string | null;
+									featuredMedia?: {
+										__typename?: 'Media';
+										altText?: string | null;
+										id?: string | null;
+										mimeType?: string | null;
+										src: string;
+										thumbnailSrc?: string | null;
+										type: string;
+									} | null;
+									media: Array<{
+										__typename?: 'Media';
+										altText?: string | null;
+										id?: string | null;
+										mimeType?: string | null;
+										src: string;
+										thumbnailSrc?: string | null;
+										type: string;
+									}>;
+									metafields: Array<{
+										__typename?: 'Metafield';
+										id?: string | null;
+										key: string;
+										namespace?: string | null;
+										value: string;
+									}>;
+									selectedOptions: Array<{
+										__typename?: 'SelectedOption';
+										label?: string | null;
+										name: string;
+										value: string;
+									}>;
+								} | null;
+								metafields: Array<{
+									__typename?: 'Metafield';
+									id?: string | null;
+									key: string;
+									namespace?: string | null;
+									value: string;
+								}>;
+								priceRules: Array<{
+									__typename?: 'PriceRule';
+									comparedAtPrice?: any | null;
+									country?: string | null;
+									id?: string | null;
+									price: any;
+									priceCurrency: string;
+									title: string;
+									metafields: Array<{
+										__typename?: 'Metafield';
+										id?: string | null;
+										key: string;
+										namespace?: string | null;
+										value: string;
+									}>;
+									priceBreaks: Array<{
+										__typename?: 'PriceBreak';
+										price?: any | null;
+										quantityMax?: number | null;
+										quantityMin?: number | null;
+										metafields: Array<{
+											__typename?: 'Metafield';
+											id?: string | null;
+											key: string;
+											namespace?: string | null;
+											value: string;
+										}>;
+									}>;
+								}>;
+							}>;
+							content?: {
+								__typename?: 'ProductContent';
+								createdAt?: number | null;
+								description?: string | null;
+								fields?: any | null;
+								handle?: string | null;
+								indexedAt?: number | null;
+								locale?: string | null;
+								nacelleEntryId: string;
+								productEntryId?: string | null;
+								published?: boolean | null;
+								sourceEntryId: string;
+								sourceId: string;
+								title?: string | null;
+								updatedAt?: number | null;
+								featuredMedia?: {
+									__typename?: 'Media';
+									altText?: string | null;
+									id?: string | null;
+									mimeType?: string | null;
+									src: string;
+									thumbnailSrc?: string | null;
+									type: string;
+								} | null;
+								media: Array<{
+									__typename?: 'Media';
+									altText?: string | null;
+									id?: string | null;
+									mimeType?: string | null;
+									src: string;
+									thumbnailSrc?: string | null;
+									type: string;
+								}>;
+								metafields: Array<{
+									__typename?: 'Metafield';
+									id?: string | null;
+									key: string;
+									namespace?: string | null;
+									value: string;
+								}>;
+								options: Array<{
+									__typename?: 'ProductOption';
+									name: string;
+									values: Array<string>;
+								}>;
+								seo?: {
+									__typename?: 'SEO';
+									title: string;
+									description: string;
+								} | null;
+							} | null;
+						};
+					}>;
+				};
+			};
+		}>;
+	};
 };
 
 export type AllProductsQueryVariables = Exact<{

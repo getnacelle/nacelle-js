@@ -1,6 +1,7 @@
 import {
 	AllContentDocument,
-	AllProductsDocument
+	AllProductsDocument,
+	AllProductCollectionsDocument
 } from '../graphql/documents.js';
 import type {
 	StorefrontClient,
@@ -11,11 +12,16 @@ import type {
 	Content,
 	ContentEdge,
 	Product,
-	ProductEdge
-} from 'src/types/storefront.js';
+	ProductCollection,
+	ProductEdge,
+	ProductCollectionEdge
+} from '../types/storefront.js';
 
 /** These are concrete unions of the different query names. As new paginated queries are added, they should be added to this union.*/
-type PaginatedQueryName = 'allContent' | 'allProducts';
+type PaginatedQueryName =
+	| 'allContent'
+	| 'allProducts'
+	| 'allProductCollections';
 
 interface QueryData<EdgeType> {
 	pageInfo: { hasNextPage: boolean; endCursor: string };
@@ -27,9 +33,9 @@ type PaginatedQueryType<EdgeType> = {
 };
 
 /** Kinds of Node types that the paginated methods can return. As new queries are added, their corresponding Node types should be added here. */
-type DataNodeType = Content | Product;
+type DataNodeType = Content | Product | ProductCollection;
 /** Kinds of Node types that the paginated methods can return. As new queries are added, their corresponding Node types should be added here. */
-type DataEdgeType = ContentEdge | ProductEdge;
+type DataEdgeType = ContentEdge | ProductEdge | ProductCollectionEdge;
 
 interface paginatedFilter {
 	first?: InputMaybe<number>;
@@ -51,6 +57,8 @@ function queryFromName(queryName: PaginatedQueryName) {
 			return AllContentDocument;
 		case 'allProducts':
 			return AllProductsDocument;
+		case 'allProductCollections':
+			return AllProductCollectionsDocument;
 	}
 }
 
