@@ -1832,9 +1832,7 @@ export const VariantContent_VariantContentFragmentDoc = {
 					{ kind: 'Field', name: { kind: 'Name', value: 'variantEntryId' } }
 				]
 			}
-		},
-		...Media_MediaFragmentDoc.definitions,
-		...Metafield_MetafieldFragmentDoc.definitions
+		}
 	]
 } as unknown as DocumentNode<VariantContent_VariantContentFragment, unknown>;
 export const ProductPriceBreak_ProductPriceBreakFragmentDoc = {
@@ -1868,8 +1866,7 @@ export const ProductPriceBreak_ProductPriceBreakFragmentDoc = {
 					{ kind: 'Field', name: { kind: 'Name', value: 'quantityMin' } }
 				]
 			}
-		},
-		...Metafield_MetafieldFragmentDoc.definitions
+		}
 	]
 } as unknown as DocumentNode<
 	ProductPriceBreak_ProductPriceBreakFragment,
@@ -1925,9 +1922,7 @@ export const ProductPriceRules_ProductPriceRulesFragmentDoc = {
 					{ kind: 'Field', name: { kind: 'Name', value: 'title' } }
 				]
 			}
-		},
-		...Metafield_MetafieldFragmentDoc.definitions,
-		...ProductPriceBreak_ProductPriceBreakFragmentDoc.definitions
+		}
 	]
 } as unknown as DocumentNode<
 	ProductPriceRules_ProductPriceRulesFragment,
@@ -2006,10 +2001,7 @@ export const Variant_VariantFragmentDoc = {
 					{ kind: 'Field', name: { kind: 'Name', value: 'weightUnit' } }
 				]
 			}
-		},
-		...VariantContent_VariantContentFragmentDoc.definitions,
-		...Metafield_MetafieldFragmentDoc.definitions,
-		...ProductPriceRules_ProductPriceRulesFragmentDoc.definitions
+		}
 	]
 } as unknown as DocumentNode<Variant_VariantFragment, unknown>;
 export const ProductOption_ProductOptionFragmentDoc = {
@@ -2145,11 +2137,7 @@ export const ProductContent_ProductContentFragmentDoc = {
 					{ kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
 				]
 			}
-		},
-		...Media_MediaFragmentDoc.definitions,
-		...Metafield_MetafieldFragmentDoc.definitions,
-		...ProductOption_ProductOptionFragmentDoc.definitions,
-		...Seo_SeoFragmentDoc.definitions
+		}
 	]
 } as unknown as DocumentNode<ProductContent_ProductContentFragment, unknown>;
 export const Product_ProductFragmentDoc = {
@@ -2216,10 +2204,7 @@ export const Product_ProductFragmentDoc = {
 					}
 				]
 			}
-		},
-		...Metafield_MetafieldFragmentDoc.definitions,
-		...Variant_VariantFragmentDoc.definitions,
-		...ProductContent_ProductContentFragmentDoc.definitions
+		}
 	]
 } as unknown as DocumentNode<Product_ProductFragment, unknown>;
 export const AllContentDocument = {
@@ -2538,7 +2523,16 @@ export const AllProductsDocument = {
 				]
 			}
 		},
-		...Product_ProductFragmentDoc.definitions
+		...Product_ProductFragmentDoc.definitions,
+		...Metafield_MetafieldFragmentDoc.definitions,
+		...Variant_VariantFragmentDoc.definitions,
+		...VariantContent_VariantContentFragmentDoc.definitions,
+		...Media_MediaFragmentDoc.definitions,
+		...ProductPriceRules_ProductPriceRulesFragmentDoc.definitions,
+		...ProductPriceBreak_ProductPriceBreakFragmentDoc.definitions,
+		...ProductContent_ProductContentFragmentDoc.definitions,
+		...ProductOption_ProductOptionFragmentDoc.definitions,
+		...Seo_SeoFragmentDoc.definitions
 	]
 } as unknown as DocumentNode<AllProductsQuery, AllProductsQueryVariables>;
 export const SpacePropertiesDocument = {
