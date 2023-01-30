@@ -252,6 +252,7 @@ function commerceQueriesPlugin<TBase extends WithStorefrontQuery & WithConfig>(
 			if (nacelleEntryIds && handles) {
 				console.warn(entryIdsAndHandlesMessage('productCollections'));
 			}
+
 			if (nacelleEntryIds) {
 				filter.nacelleEntryIds = nacelleEntryIds;
 			} else {
@@ -274,6 +275,7 @@ function commerceQueriesPlugin<TBase extends WithStorefrontQuery & WithConfig>(
 			if (responseData?.error) {
 				return responseData;
 			}
+
 			return {
 				data: await (this as unknown as StorefrontClient)['applyAfter'](
 					'productCollections',
