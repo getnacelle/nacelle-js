@@ -14,7 +14,10 @@ import type {
 	NavigationFilterInput,
 	ContentFilterInput,
 	Content,
-	ContentEdge
+	ContentEdge,
+	ProductFilterInput,
+	Product,
+	ProductEdge
 } from './types/storefront.js';
 
 import { requestPaginatedData } from './utils/requestPaginatedData.js';
@@ -145,6 +148,60 @@ function commerceQueriesPlugin<TBase extends WithStorefrontQuery & WithConfig>(
 					responseData.data!
 				)
 			} as StorefrontResponse<ContentEdge[] | Content[]>;
+		}
+
+		async products(params?: CommerceQueriesParams) {
+			const {
+				cursor,
+				nacelleEntryIds,
+				handles,
+				locale = this.getConfig()?.locale,
+				maxReturnedEntries = this.#defaultMaxReturnedEntries,
+				advancedOptions,
+				edgesToNodes = true
+			} = params ?? {};
+			const first = Math.min(
+				...[
+					advancedOptions?.entriesPerPage ?? this.#defaultPageFetchLimit,
+					maxReturnedEntries
+				].filter((n) => n > 0)
+			);
+
+			const filter: ProductFilterInput = {
+				after: cursor,
+				first,
+				locale
+			};
+
+			// keeping with v1 sdk, only use nacelleEntryIds if both handles and nacelleEntryIds are provided
+			if (nacelleEntryIds && handles) {
+				console.warn(
+					'You have supplied both a nacelleEntryIds and handles. This method will use nacelleEntryIds for querying.'
+				);
+			}
+			if (nacelleEntryIds) {
+				filter.nacelleEntryIds = nacelleEntryIds;
+			} else {
+				filter.handles = handles;
+			}
+
+			const responseData = await requestPaginatedData<
+				this,
+				Product,
+				ProductEdge,
+				ProductFilterInput
+			>(this, 'allProducts', filter, maxReturnedEntries, edgesToNodes);
+
+			if (responseData?.error) {
+				return responseData;
+			}
+			return {
+				data: await (this as unknown as StorefrontClient)['applyAfter'](
+					'products',
+					// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+					responseData.data!
+				)
+			} as StorefrontResponse<ProductEdge[] | Product[]>;
 		}
 	};
 }
