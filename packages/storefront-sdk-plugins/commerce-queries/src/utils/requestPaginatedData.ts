@@ -2,11 +2,20 @@ import type {
 	StorefrontClient,
 	StorefrontResponse
 } from '@nacelle/storefront-sdk';
-import type { InputMaybe, Content, ContentEdge } from 'src/types/storefront.js';
-import { AllContentDocument } from '../types/storefront.js';
+import type {
+	InputMaybe,
+	Content,
+	ContentEdge,
+	Product,
+	ProductEdge
+} from 'src/types/storefront.js';
+import {
+	AllContentDocument,
+	AllProductsDocument
+} from '../types/storefront.js';
 
 /** These are concrete unions of the different query names. As new paginated queries are added, they should be added to this union.*/
-type PaginatedQueryName = 'allContent';
+type PaginatedQueryName = 'allContent' | 'allProducts';
 
 interface QueryData<EdgeType> {
 	pageInfo: { hasNextPage: boolean; endCursor: string };
@@ -18,9 +27,9 @@ type PaginatedQueryType<EdgeType> = {
 };
 
 /** Kinds of Node types that the paginated methods can return. As new queries are added, their corresponding Node types should be added here. */
-type DataNodeType = Content;
+type DataNodeType = Content | Product;
 /** Kinds of Node types that the paginated methods can return. As new queries are added, their corresponding Node types should be added here. */
-type DataEdgeType = ContentEdge;
+type DataEdgeType = ContentEdge | ProductEdge;
 
 interface paginatedFilter {
 	first?: InputMaybe<number>;
@@ -40,6 +49,8 @@ function queryFromName(queryName: PaginatedQueryName) {
 	switch (queryName) {
 		case 'allContent':
 			return AllContentDocument;
+		case 'allProducts':
+			return AllProductsDocument;
 	}
 }
 
