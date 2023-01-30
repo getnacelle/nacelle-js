@@ -9,3 +9,4 @@ generates:
       - typed-document-node
     config:
       enumsAsTypes: true
+      dedupeFragments: true
