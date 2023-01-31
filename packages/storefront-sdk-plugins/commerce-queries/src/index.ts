@@ -227,6 +227,7 @@ function commerceQueriesPlugin<TBase extends WithStorefrontQuery & WithConfig>(
 				handles,
 				locale = this.getConfig()?.locale,
 				maxReturnedEntries = this.#defaultMaxReturnedEntries,
+				maxReturnedEntriesPerCollection,
 				advancedOptions,
 				edgesToNodes = true
 			} = params ?? {};
@@ -269,7 +270,8 @@ function commerceQueriesPlugin<TBase extends WithStorefrontQuery & WithConfig>(
 				'allProductCollections',
 				filter,
 				maxReturnedEntries,
-				edgesToNodes
+				edgesToNodes,
+				maxReturnedEntriesPerCollection
 			);
 
 			if (responseData?.error) {

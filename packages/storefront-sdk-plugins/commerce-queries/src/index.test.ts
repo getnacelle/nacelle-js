@@ -628,6 +628,35 @@ describe('productCollections', () => {
 		});
 	});
 
+	it('should pass parameters including the `maxReturnedEntriesPerCollection` as variables', async () => {
+		// mock a persisted query not found error so we can get a post request sent so it's easier to inspect
+		mockedFetch.mockResolvedValueOnce(
+			getFetchPayload({
+				errors: [
+					{
+						message: 'PersistedQueryNotFound',
+						extensions: { code: 'PERSISTED_QUERY_NOT_FOUND' }
+					}
+				]
+			})
+		);
+
+		await client.productCollections({
+			maxReturnedEntries: 2,
+			maxReturnedEntriesPerCollection: 5
+		});
+		const [url, argRequestInit]: mockRequestArgs = mockedFetch.mock.lastCall!;
+		expect(url).toBe(storefrontEndpoint);
+		expect(JSON.parse(argRequestInit?.body?.toString() ?? '')).toMatchObject({
+			// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+			query: expect.stringContaining('allProductCollections'),
+			variables: {
+				filter: { first: 2 },
+				maxReturnedEntriesPerCollection: 5
+			}
+		});
+	});
+
 	it('should only include `nacelleEntryIds` if both `nacelleEntryIds` & `handles` are passed', async () => {
 		// mock a persisted query not found error so we can get a post request sent so it's easier to inspect
 		mockedFetch.mockResolvedValueOnce(

@@ -73,16 +73,27 @@ export const requestPaginatedData = async <
 	queryName: PaginatedQueryName,
 	filter: TFilter,
 	maxReturnedEntries: number,
-	edgesToNodes: boolean
+	edgesToNodes: boolean,
+	maxReturnedEntriesPerCollection?: number
 ) => {
 	let shouldKeepFetching = true;
 	const queryToUse = queryFromName(queryName);
 	const data: NodeType[] | EdgeType[] = [];
 	do {
+		const variables: {
+			filter: TFilter;
+			maxReturnedEntriesPerCollection?: number;
+		} = { filter };
+
+		if (Number.isInteger(maxReturnedEntriesPerCollection)) {
+			variables.maxReturnedEntriesPerCollection =
+				maxReturnedEntriesPerCollection;
+		}
+
 		// cast to an abstract type to make TS happy with access via queryResponse.data[queryName] since we know that the query chosen is guaranteed to have a field `queryName` but there's not a good way to handle that.
 		const queryResponse = (await storefrontInstance.query({
 			query: queryToUse,
-			variables: { filter }
+			variables
 		})) as unknown as StorefrontResponse<PaginatedQueryType<EdgeType>>;
 		if (queryResponse.error) {
 			return { error: queryResponse.error };
