@@ -1,4 +1,4 @@
-import { h, ref, provide, onMounted } from '@vue/composition-api';
+import { h, ref, provide, onMounted } from 'vue';
 
 export default {
   name: 'SearchProvider',

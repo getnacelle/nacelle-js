@@ -15,11 +15,11 @@ const InjectedComponent = {
     'setSelectedOptions',
     'setSelectedVariant'
   ],
-  render: h => h('div')
+  render: (h) => h('div')
 };
 
 const ProductProviderContainer = ({ props } = {}) => ({
-  render: h =>
+  render: (h) =>
     h(SpaceProvider, {}, [
       h(ProductProvider, { props }, [h(InjectedComponent)])
     ])
@@ -32,8 +32,8 @@ describe('Product Provider', () => {
       name: 'InjectedWithProduct'
     });
 
-    expect(injectedProductComponent.vm.product.value).toBe(null);
-    expect(injectedProductComponent.vm.isFetching.value).toBe(false);
+    expect(injectedProductComponent.vm.product).toBe(null);
+    expect(injectedProductComponent.vm.isFetching).toBe(false);
     expect(typeof injectedProductComponent.vm.setProduct).toEqual('function');
     expect(typeof injectedProductComponent.vm.setSelectedOptions).toEqual(
       'function'
@@ -50,7 +50,7 @@ describe('Product Provider', () => {
     const injectedProductComponent = productProvider.findComponent({
       name: 'InjectedWithProduct'
     });
-    expect(injectedProductComponent.vm.product.value.handle).toEqual(
+    expect(injectedProductComponent.vm.product.handle).toEqual(
       productData.handle
     );
   });
@@ -67,8 +67,8 @@ describe('Product Provider', () => {
     const injectedProductComponent = productProvider.findComponent({
       name: 'InjectedWithProduct'
     });
-    await new Promise(resolve => setTimeout(() => resolve(true)));
-    expect(injectedProductComponent.vm.product.value.handle).toEqual(
+    await new Promise((resolve) => setTimeout(() => resolve(true)));
+    expect(injectedProductComponent.vm.product.handle).toEqual(
       productData.handle
     );
   });
@@ -81,7 +81,7 @@ describe('Product Provider', () => {
     jest.spyOn(injectedProductComponent.vm, 'setProduct');
     injectedProductComponent.vm.setProduct({ product: productData });
     expect(injectedProductComponent.vm.setProduct).toHaveBeenCalledTimes(1);
-    expect(injectedProductComponent.vm.product.value.handle).toEqual(
+    expect(injectedProductComponent.vm.product.handle).toEqual(
       productData.handle
     );
   });
@@ -99,7 +99,7 @@ describe('Product Provider', () => {
       handle: productData.handle
     });
     expect(injectedProductComponent.vm.setProduct).toHaveBeenCalledTimes(1);
-    expect(injectedProductComponent.vm.product.value.handle).toEqual(
+    expect(injectedProductComponent.vm.product.handle).toEqual(
       productData.handle
     );
   });
@@ -118,10 +118,10 @@ describe('Product Provider', () => {
     expect(
       injectedProductComponent.vm.setSelectedOptions
     ).toHaveBeenCalledTimes(1);
-    expect(injectedProductComponent.vm.product.value.selectedOptions).toEqual(
+    expect(injectedProductComponent.vm.product.selectedOptions).toEqual(
       productData.variants[0].selectedOptions
     );
-    expect(injectedProductComponent.vm.product.value.handle).toEqual(
+    expect(injectedProductComponent.vm.product.handle).toEqual(
       productData.handle
     );
   });
@@ -140,9 +140,9 @@ describe('Product Provider', () => {
     expect(
       injectedProductComponent.vm.setSelectedVariant
     ).toHaveBeenCalledTimes(1);
-    expect(
-      injectedProductComponent.vm.product.value.selectedVariant.handle
-    ).toEqual(productData.variants[0].handle);
+    expect(injectedProductComponent.vm.product.selectedVariant.handle).toEqual(
+      productData.variants[0].handle
+    );
   });
 
   it('it calls setSelectedVariant with variant id', () => {
@@ -159,8 +159,8 @@ describe('Product Provider', () => {
     expect(
       injectedProductComponent.vm.setSelectedVariant
     ).toHaveBeenCalledTimes(1);
-    expect(
-      injectedProductComponent.vm.product.value.selectedVariant.handle
-    ).toEqual(productData.variants[0].handle);
+    expect(injectedProductComponent.vm.product.selectedVariant.handle).toEqual(
+      productData.variants[0].handle
+    );
   });
 });
