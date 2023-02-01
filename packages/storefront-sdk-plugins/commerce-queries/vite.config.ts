@@ -21,7 +21,12 @@ export const config: UserConfig = {
 			provider: 'c8',
 			reportsDirectory: 'coverage',
 			reporter: ['text', 'lcov'],
-			exclude: ['src/types/storefront.ts', '**/*.test.ts', 'node_modules/**']
+			exclude: [
+				'src/types/**.ts',
+				'src/graphql/documents.ts',
+				'**/*.test.ts',
+				'node_modules/**'
+			]
 		},
 		environment: 'jsdom',
 		typecheck: {

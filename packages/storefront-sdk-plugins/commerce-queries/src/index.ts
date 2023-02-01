@@ -1,26 +1,32 @@
+import { requestPaginatedData } from './utils/requestPaginatedData.js';
+import {
+	SpacePropertiesDocument,
+	NavigationDocument
+} from './graphql/documents.js';
+import {
+	entryIdsAndHandlesMessage,
+	highEntriesPerPageMessage
+} from './utils/messages.js';
 import type {
 	WithStorefrontQuery,
 	WithConfig,
 	StorefrontClient,
 	StorefrontResponse
 } from '@nacelle/storefront-sdk';
-import {
-	SpacePropertiesDocument,
-	NavigationDocument
-} from './types/storefront.js';
 import type {
-	SpaceProperties,
-	NavigationGroup,
-	NavigationFilterInput,
-	ContentFilterInput,
 	Content,
 	ContentEdge,
-	ProductFilterInput,
+	ContentFilterInput,
+	NavigationGroup,
+	NavigationFilterInput,
 	Product,
-	ProductEdge
+	ProductCollection,
+	ProductCollectionEdge,
+	ProductCollectionFilterInput,
+	ProductEdge,
+	ProductFilterInput,
+	SpaceProperties
 } from './types/storefront.js';
-
-import { requestPaginatedData } from './utils/requestPaginatedData.js';
 
 export interface CommerceQueriesParams {
 	nacelleEntryIds?: string[];
@@ -38,6 +44,11 @@ export interface FetchMethodAdvancedParams {
 export interface FetchContentMethodParams extends CommerceQueriesParams {
 	entryDepth?: number;
 	type?: string;
+}
+
+export interface FetchProductCollectionsMethodParams
+	extends CommerceQueriesParams {
+	maxReturnedEntriesPerCollection?: number;
 }
 
 function commerceQueriesPlugin<TBase extends WithStorefrontQuery & WithConfig>(
@@ -106,6 +117,10 @@ function commerceQueriesPlugin<TBase extends WithStorefrontQuery & WithConfig>(
 				type
 			} = params ?? {};
 
+			if (Number(advancedOptions?.entriesPerPage) > 100) {
+				console.warn(highEntriesPerPageMessage);
+			}
+
 			const first = Math.min(
 				...[
 					advancedOptions?.entriesPerPage ?? this.#defaultPageFetchLimit,
@@ -121,9 +136,7 @@ function commerceQueriesPlugin<TBase extends WithStorefrontQuery & WithConfig>(
 			};
 			// keeping with v1 sdk, only use nacelleEntryIds if both handles and nacelleEntryIds are provided
 			if (nacelleEntryIds && handles) {
-				console.warn(
-					'You have supplied both a nacelleEntryIds and handles. This method will use nacelleEntryIds for querying.'
-				);
+				console.warn(entryIdsAndHandlesMessage('content'));
 			}
 			if (nacelleEntryIds) {
 				filter.nacelleEntryIds = nacelleEntryIds;
@@ -160,6 +173,11 @@ function commerceQueriesPlugin<TBase extends WithStorefrontQuery & WithConfig>(
 				advancedOptions,
 				edgesToNodes = true
 			} = params ?? {};
+
+			if (Number(advancedOptions?.entriesPerPage) > 100) {
+				console.warn(highEntriesPerPageMessage);
+			}
+
 			const first = Math.min(
 				...[
 					advancedOptions?.entriesPerPage ?? this.#defaultPageFetchLimit,
@@ -175,9 +193,7 @@ function commerceQueriesPlugin<TBase extends WithStorefrontQuery & WithConfig>(
 
 			// keeping with v1 sdk, only use nacelleEntryIds if both handles and nacelleEntryIds are provided
 			if (nacelleEntryIds && handles) {
-				console.warn(
-					'You have supplied both a nacelleEntryIds and handles. This method will use nacelleEntryIds for querying.'
-				);
+				console.warn(entryIdsAndHandlesMessage('products'));
 			}
 			if (nacelleEntryIds) {
 				filter.nacelleEntryIds = nacelleEntryIds;
@@ -202,6 +218,73 @@ function commerceQueriesPlugin<TBase extends WithStorefrontQuery & WithConfig>(
 					responseData.data!
 				)
 			} as StorefrontResponse<ProductEdge[] | Product[]>;
+		}
+
+		async productCollections(params?: FetchProductCollectionsMethodParams) {
+			const {
+				cursor,
+				nacelleEntryIds,
+				handles,
+				locale = this.getConfig()?.locale,
+				maxReturnedEntries = this.#defaultMaxReturnedEntries,
+				maxReturnedEntriesPerCollection,
+				advancedOptions,
+				edgesToNodes = true
+			} = params ?? {};
+
+			if (Number(advancedOptions?.entriesPerPage) > 100) {
+				console.warn(highEntriesPerPageMessage);
+			}
+
+			const first = Math.min(
+				...[
+					advancedOptions?.entriesPerPage ?? this.#defaultPageFetchLimit,
+					maxReturnedEntries
+				].filter((n) => n > 0)
+			);
+
+			const filter: ProductCollectionFilterInput = {
+				after: cursor,
+				locale,
+				first
+			};
+
+			// keeping with v1 sdk, only use nacelleEntryIds if both handles and nacelleEntryIds are provided
+			if (nacelleEntryIds && handles) {
+				console.warn(entryIdsAndHandlesMessage('productCollections'));
+			}
+
+			if (nacelleEntryIds) {
+				filter.nacelleEntryIds = nacelleEntryIds;
+			} else {
+				filter.handles = handles;
+			}
+
+			const responseData = await requestPaginatedData<
+				this,
+				ProductCollection,
+				ProductCollectionEdge,
+				ProductCollectionFilterInput
+			>(
+				this,
+				'allProductCollections',
+				filter,
+				maxReturnedEntries,
+				edgesToNodes,
+				maxReturnedEntriesPerCollection
+			);
+
+			if (responseData?.error) {
+				return responseData;
+			}
+
+			return {
+				data: await (this as unknown as StorefrontClient)['applyAfter'](
+					'productCollections',
+					// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+					responseData.data!
+				)
+			} as StorefrontResponse<ProductCollection[] | ProductCollectionEdge[]>;
 		}
 	};
 }

@@ -1,3 +1,8 @@
+import {
+	AllContentDocument,
+	AllProductsDocument,
+	AllProductCollectionsDocument
+} from '../graphql/documents.js';
 import type {
 	StorefrontClient,
 	StorefrontResponse
@@ -7,15 +12,16 @@ import type {
 	Content,
 	ContentEdge,
 	Product,
-	ProductEdge
-} from 'src/types/storefront.js';
-import {
-	AllContentDocument,
-	AllProductsDocument
+	ProductCollection,
+	ProductEdge,
+	ProductCollectionEdge
 } from '../types/storefront.js';
 
 /** These are concrete unions of the different query names. As new paginated queries are added, they should be added to this union.*/
-type PaginatedQueryName = 'allContent' | 'allProducts';
+type PaginatedQueryName =
+	| 'allContent'
+	| 'allProducts'
+	| 'allProductCollections';
 
 interface QueryData<EdgeType> {
 	pageInfo: { hasNextPage: boolean; endCursor: string };
@@ -27,9 +33,9 @@ type PaginatedQueryType<EdgeType> = {
 };
 
 /** Kinds of Node types that the paginated methods can return. As new queries are added, their corresponding Node types should be added here. */
-type DataNodeType = Content | Product;
+type DataNodeType = Content | Product | ProductCollection;
 /** Kinds of Node types that the paginated methods can return. As new queries are added, their corresponding Node types should be added here. */
-type DataEdgeType = ContentEdge | ProductEdge;
+type DataEdgeType = ContentEdge | ProductEdge | ProductCollectionEdge;
 
 interface paginatedFilter {
 	first?: InputMaybe<number>;
@@ -51,6 +57,8 @@ function queryFromName(queryName: PaginatedQueryName) {
 			return AllContentDocument;
 		case 'allProducts':
 			return AllProductsDocument;
+		case 'allProductCollections':
+			return AllProductCollectionsDocument;
 	}
 }
 
@@ -65,16 +73,27 @@ export const requestPaginatedData = async <
 	queryName: PaginatedQueryName,
 	filter: TFilter,
 	maxReturnedEntries: number,
-	edgesToNodes: boolean
+	edgesToNodes: boolean,
+	maxReturnedEntriesPerCollection?: number
 ) => {
 	let shouldKeepFetching = true;
 	const queryToUse = queryFromName(queryName);
 	const data: NodeType[] | EdgeType[] = [];
 	do {
+		const variables: {
+			filter: TFilter;
+			maxReturnedEntriesPerCollection?: number;
+		} = { filter };
+
+		if (Number.isInteger(maxReturnedEntriesPerCollection)) {
+			variables.maxReturnedEntriesPerCollection =
+				maxReturnedEntriesPerCollection;
+		}
+
 		// cast to an abstract type to make TS happy with access via queryResponse.data[queryName] since we know that the query chosen is guaranteed to have a field `queryName` but there's not a good way to handle that.
 		const queryResponse = (await storefrontInstance.query({
 			query: queryToUse,
-			variables: { filter }
+			variables
 		})) as unknown as StorefrontResponse<PaginatedQueryType<EdgeType>>;
 		if (queryResponse.error) {
 			return { error: queryResponse.error };

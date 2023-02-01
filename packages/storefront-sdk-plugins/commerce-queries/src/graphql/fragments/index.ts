@@ -5,6 +5,7 @@
 
 // EXPORT FRAGMENTS
 // @index('./!(*.spec).ts', (f, _) => `import { default as ${_.camelCase(f.name)} } from '${f.path}.js';`)
+import { default as collectionContent } from './collectionContent.js';
 import { default as content } from './content.js';
 import { default as media } from './media.js';
 import { default as metafield } from './metafield.js';
@@ -26,6 +27,7 @@ export type FragmentKey =
 	//  then search for & select 'Generate Index'
 
 	// @index('./!(*.spec|test).ts', (f, _, e) => `| '${_.constantCase(f.name)}'${e.isLast ? ';' : ''}`)
+	| 'COLLECTION_CONTENT'
 	| 'CONTENT'
 	| 'MEDIA'
 	| 'METAFIELD'
@@ -42,6 +44,7 @@ export type FragmentKey =
 
 const fragments: Record<FragmentKey, string> = {
 	// @index('./!(*.spec|test).ts', (f, _) => `${_.constantCase(f.name)}: ${f.name},`)
+	COLLECTION_CONTENT: collectionContent,
 	CONTENT: content,
 	MEDIA: media,
 	METAFIELD: metafield,
