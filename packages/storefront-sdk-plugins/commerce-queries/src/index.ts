@@ -6,7 +6,8 @@ import type {
 } from '@nacelle/storefront-sdk';
 import {
 	SpacePropertiesDocument,
-	NavigationDocument
+	NavigationDocument,
+	ProductCollectionEntriesDocument
 } from './types/storefront.js';
 import type {
 	SpaceProperties,
@@ -38,6 +39,16 @@ export interface FetchMethodAdvancedParams {
 export interface FetchContentMethodParams extends CommerceQueriesParams {
 	entryDepth?: number;
 	type?: string;
+}
+
+export interface FetchCollectionEntriesMethodParams {
+	collectionEntryId?: string;
+	handle?: string;
+	locale?: string;
+	maxReturnedEntries?: number;
+	cursor?: string;
+	edgesToNodes?: boolean;
+	advancedOptions?: FetchMethodAdvancedParams;
 }
 
 function commerceQueriesPlugin<TBase extends WithStorefrontQuery & WithConfig>(
@@ -200,6 +211,101 @@ function commerceQueriesPlugin<TBase extends WithStorefrontQuery & WithConfig>(
 					'products',
 					// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 					responseData.data!
+				)
+			} as StorefrontResponse<ProductEdge[] | Product[]>;
+		}
+
+		async productCollectionEntries(
+			params?: FetchCollectionEntriesMethodParams
+		): Promise<StorefrontResponse<Product[] | ProductEdge[]>> {
+			const {
+				collectionEntryId,
+				handle,
+				locale = this.getConfig()?.locale,
+				maxReturnedEntries = this.#defaultMaxReturnedEntries,
+				cursor,
+				edgesToNodes = true,
+				advancedOptions
+			} = params ?? {};
+			if (collectionEntryId && handle) {
+				console.warn(
+					'You have supplied both a collectionEntryId and handle. This method will use collectionEntryId for querying.'
+				);
+			}
+
+			if (!collectionEntryId && !handle) {
+				console.error('You must provide either a collectionEntryId or handle.');
+			}
+
+			const entriesFirst = Math.min(
+				...[
+					advancedOptions?.entriesPerPage ?? this.#defaultPageFetchLimit,
+					maxReturnedEntries
+				].filter((v) => v > 0)
+			);
+
+			let entriesAfter = cursor;
+			let allEntries: Product[] | ProductEdge[] = [];
+			let keepFetching = false;
+
+			do {
+				const queryResponse = await this.query({
+					query: ProductCollectionEntriesDocument,
+					variables: {
+						filter: {
+							...(collectionEntryId && {
+								nacelleEntryIds: [collectionEntryId]
+							}),
+							...(!collectionEntryId && handle ? { handles: [handle] } : {}),
+							locale
+						},
+						entriesFirst,
+						...(entriesAfter && { entriesAfter })
+					}
+				});
+
+				if (queryResponse.error) {
+					return { error: queryResponse.error };
+				}
+
+				if (queryResponse.data) {
+					const collectionEdges =
+						queryResponse.data.allProductCollections.edges;
+					if (collectionEdges.length === 0) {
+						console.warn('No collections matching query');
+					} else {
+						const entries = collectionEdges[0].node.productConnection;
+						if (entries) {
+							const { pageInfo, edges } = entries;
+							const { hasNextPage } = pageInfo;
+							const items = edgesToNodes
+								? edges.map(({ node }) => node)
+								: edges;
+							allEntries = [...allEntries, ...items] as
+								| Product[]
+								| ProductEdge[];
+							entriesAfter =
+								edges && edges.length > 0
+									? edges[edges.length - 1].cursor
+									: undefined;
+							if (
+								!hasNextPage ||
+								!(
+									maxReturnedEntries === -1 ||
+									allEntries.length < maxReturnedEntries
+								)
+							) {
+								keepFetching = false;
+							}
+						}
+					}
+				}
+			} while (keepFetching);
+
+			return {
+				data: await (this as unknown as StorefrontClient)['applyAfter'](
+					'products',
+					allEntries
 				)
 			} as StorefrontResponse<ProductEdge[] | Product[]>;
 		}

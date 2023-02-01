@@ -16,6 +16,10 @@ import {
 	mockPaginatedProduct,
 	mockUnpaginatedProduct
 } from '../__mocks__/gql/product.js';
+import {
+	mockPaginatedProductCollectionEntries,
+	mockUnpaginatedProductCollectionEntries
+} from '../__mocks__/gql/productCollectionEntries.js';
 
 type mockRequestArgs = [RequestInfo | URL, RequestInit | undefined];
 
@@ -555,5 +559,14 @@ describe('products', () => {
 		expect(mockedFetch).toBeCalledTimes(2);
 		expect(response.error).toBeDefined();
 		expect(response.data).toBeUndefined();
+	});
+});
+
+describe('productCollectionEntries', () => {
+	beforeEach(() => {
+		mockedFetch.mockRestore();
+		mockedFetch.mockImplementation(() =>
+			Promise.resolve(getFetchPayload(mockUnpaginatedProductCollectionEntries))
+		);
 	});
 });
