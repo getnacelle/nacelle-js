@@ -284,7 +284,7 @@ function commerceQueriesPlugin<TBase extends WithStorefrontQuery & WithConfig>(
 					// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 					responseData.data!
 				)
-			} as StorefrontResponse<ContentEdge[] | Content[]>;
+			} as StorefrontResponse<ProductCollection[] | ProductCollectionEdge[]>;
 		}
 	};
 }

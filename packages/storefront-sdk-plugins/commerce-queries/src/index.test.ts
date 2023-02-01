@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import { expect, it, beforeEach, describe, vi } from 'vitest';
+import { expect, it, beforeEach, describe, vi, expectTypeOf } from 'vitest';
 import commerceQueriesPlugin from './index.js';
 import { StorefrontClient } from '@nacelle/storefront-sdk';
 import getFetchPayload from '../__mocks__/utils/getFetchPayload.js';
@@ -22,6 +22,16 @@ import {
 } from '../__mocks__/gql/productCollections.js';
 import { highEntriesPerPageMessage } from './utils/messages.js';
 import type { Mock } from 'vitest';
+import type {
+	Content,
+	ContentEdge,
+	NavigationGroup,
+	Product,
+	ProductCollection,
+	ProductCollectionEdge,
+	ProductEdge,
+	SpaceProperties
+} from './types/storefront.js';
 
 type mockRequestArgs = [RequestInfo | URL, RequestInit | undefined];
 
@@ -55,6 +65,16 @@ it('adds the expected methods to the `StorefrontClient` class', () => {
 
 describe('spaceProperties', () => {
 	beforeEach(() => mockedFetch.mockRestore());
+
+	it('returns data of the expected type', async () => {
+		mockedFetch.mockResolvedValueOnce(
+			getFetchPayload({ data: SpacePropertiesResult })
+		);
+
+		const { data } = await client.spaceProperties();
+
+		expectTypeOf(data!).toMatchTypeOf<SpaceProperties>();
+	});
 
 	it('fetches `spaceProperties` with the appropriate query', async () => {
 		// mock a persisted query not found error so we can get a post request sent so it's easier to inspect
@@ -101,6 +121,15 @@ describe('spaceProperties', () => {
 
 describe('navigation', () => {
 	beforeEach(() => mockedFetch.mockRestore());
+
+	it('returns data of the expected type', async () => {
+		mockedFetch.mockResolvedValueOnce(
+			getFetchPayload({ data: NavigationResult })
+		);
+		const { data } = await client.navigation();
+
+		expectTypeOf(data!).toMatchTypeOf<NavigationGroup[]>();
+	});
 
 	it('fetches `navigation` with the appropriate query', async () => {
 		// mock a persisted query not found error so we can get a post request sent so it's easier to inspect
@@ -149,6 +178,12 @@ describe('content', () => {
 	beforeEach(() => {
 		mockedFetch.mockRestore();
 		mockedFetch.mockResolvedValue(getFetchPayload(mockUnpaginatedContent));
+	});
+
+	it('returns data of the expected type', async () => {
+		const { data } = await client.content();
+
+		expectTypeOf(data!).toMatchTypeOf<Content[] | ContentEdge[]>();
 	});
 
 	it('should pass parameters including the `nacelleEntryId` as variables', async () => {
@@ -354,6 +389,12 @@ describe('products', () => {
 	beforeEach(() => {
 		mockedFetch.mockRestore();
 		mockedFetch.mockResolvedValue(getFetchPayload(mockUnpaginatedProduct));
+	});
+
+	it('returns data of the expected type', async () => {
+		const { data } = await client.products();
+
+		expectTypeOf(data!).toMatchTypeOf<Product[] | ProductEdge[]>();
 	});
 
 	it('should pass parameters including the `nacelleEntryId` as variables', async () => {
@@ -564,6 +605,14 @@ describe('productCollections', () => {
 		mockedFetch.mockResolvedValue(
 			getFetchPayload(mockUnpaginatedProductCollection)
 		);
+	});
+
+	it('returns data of the expected type', async () => {
+		const { data } = await client.productCollections();
+
+		expectTypeOf(data!).toMatchTypeOf<
+			ProductCollection[] | ProductCollectionEdge[]
+		>();
 	});
 
 	it('should pass parameters including the `nacelleEntryId` as variables', async () => {
