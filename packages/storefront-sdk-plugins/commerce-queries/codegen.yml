@@ -6,6 +6,12 @@ generates:
     plugins:
       - typescript
       - typescript-operations
+    config:
+      enumsAsTypes: true
+  src/graphql/documents.ts:
+    plugins:
+      - typescript
+      - typescript-operations
       - typed-document-node
     config:
       enumsAsTypes: true
