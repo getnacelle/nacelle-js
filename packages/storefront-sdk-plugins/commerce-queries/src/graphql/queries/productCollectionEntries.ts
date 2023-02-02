@@ -10,9 +10,9 @@ export default /* GraphQL */ `
 					productConnection(first: $entriesFirst, after: $entriesAfter) {
 						pageInfo {
 							hasNextPage
+							endCursor
 						}
 						edges {
-							cursor
 							node {
 								...Product_product
 							}

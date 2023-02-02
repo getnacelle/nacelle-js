@@ -1433,10 +1433,13 @@ export type ProductCollectionEntriesQuery = {
 				__typename?: 'ProductCollection';
 				productConnection: {
 					__typename?: 'ProductConnection';
-					pageInfo: { __typename?: 'PageInfo'; hasNextPage: boolean };
+					pageInfo: {
+						__typename?: 'PageInfo';
+						hasNextPage: boolean;
+						endCursor: string;
+					};
 					edges: Array<{
 						__typename?: 'ProductEdge';
-						cursor: string;
 						node: {
 							__typename?: 'Product';
 							availableForSale?: boolean | null;
@@ -2749,6 +2752,13 @@ export const ProductCollectionEntriesDocument = {
 																						kind: 'Name',
 																						value: 'hasNextPage'
 																					}
+																				},
+																				{
+																					kind: 'Field',
+																					name: {
+																						kind: 'Name',
+																						value: 'endCursor'
+																					}
 																				}
 																			]
 																		}
@@ -2759,13 +2769,6 @@ export const ProductCollectionEntriesDocument = {
 																		selectionSet: {
 																			kind: 'SelectionSet',
 																			selections: [
-																				{
-																					kind: 'Field',
-																					name: {
-																						kind: 'Name',
-																						value: 'cursor'
-																					}
-																				},
 																				{
 																					kind: 'Field',
 																					name: { kind: 'Name', value: 'node' },

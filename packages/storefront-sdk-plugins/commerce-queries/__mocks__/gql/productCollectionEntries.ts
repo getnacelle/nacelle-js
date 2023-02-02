@@ -12,11 +12,11 @@ export const mockPaginatedProductCollectionEntries: {
 					node: {
 						productConnection: {
 							pageInfo: {
-								hasNextPage: true
+								hasNextPage: true,
+								endCursor: 'abcdefg'
 							},
 							edges: [
 								{
-									cursor: 'abcdefg',
 									node: mockProductNode
 								}
 							]
@@ -38,11 +38,11 @@ export const mockUnpaginatedProductCollectionEntries: {
 					node: {
 						productConnection: {
 							pageInfo: {
-								hasNextPage: true
+								hasNextPage: false,
+								endCursor: 'abcdefg'
 							},
 							edges: [
 								{
-									cursor: 'abcdefg',
 									node: mockProductNode
 								}
 							]
@@ -53,3 +53,41 @@ export const mockUnpaginatedProductCollectionEntries: {
 		}
 	}
 };
+
+export const mockEmptyProductCollectionEntries: {
+	data: ProductCollectionEntriesQuery;
+} = {
+	data: {
+		allProductCollections: {
+			edges: []
+		}
+	}
+};
+
+export function buildProductCollectionEntriesResponse(
+	{ nodeCount, hasNextPage } = { nodeCount: 2, hasNextPage: false }
+): { data: ProductCollectionEntriesQuery } {
+	const edges = [];
+	for (let i = 0; i < nodeCount; i++) {
+		edges.push({ cursor: `abcdefg_${i}`, node: mockProductNode });
+	}
+	return {
+		data: {
+			allProductCollections: {
+				edges: [
+					{
+						node: {
+							productConnection: {
+								pageInfo: {
+									hasNextPage,
+									endCursor: `abcdefg_${nodeCount - 1}`
+								},
+								edges
+							}
+						}
+					}
+				]
+			}
+		}
+	};
+}
