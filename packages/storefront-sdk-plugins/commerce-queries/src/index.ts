@@ -421,7 +421,7 @@ function commerceQueriesPlugin<TBase extends WithStorefrontQuery & WithConfig>(
 			}
 
 			if (!collectionEntryId && !handle) {
-				console.error('You must provide either a collectionEntryId or handle.');
+				console.warn('You must provide either a collectionEntryId or handle.');
 			}
 
 			const entriesFirst = Math.min(
@@ -433,7 +433,7 @@ function commerceQueriesPlugin<TBase extends WithStorefrontQuery & WithConfig>(
 
 			let entriesAfter = cursor;
 			let allEntries: Product[] | ProductEdge[] = [];
-			let keepFetching = false;
+			let keepFetching = true;
 
 			do {
 				const queryResponse = await this.query({
@@ -444,7 +444,7 @@ function commerceQueriesPlugin<TBase extends WithStorefrontQuery & WithConfig>(
 								nacelleEntryIds: [collectionEntryId]
 							}),
 							...(!collectionEntryId && handle ? { handles: [handle] } : {}),
-							locale
+							...(locale && { locale })
 						},
 						entriesFirst,
 						...(entriesAfter && { entriesAfter })
@@ -460,28 +460,30 @@ function commerceQueriesPlugin<TBase extends WithStorefrontQuery & WithConfig>(
 						queryResponse.data.allProductCollections.edges;
 					if (collectionEdges.length === 0) {
 						console.warn('No collections matching query');
+						keepFetching = false;
 					} else {
 						const entries = collectionEdges[0].node.productConnection;
 						if (entries) {
 							const { pageInfo, edges } = entries;
-							const { hasNextPage } = pageInfo;
+							const {
+								hasNextPage,
+								endCursor
+							}: { hasNextPage: boolean; endCursor: string } = pageInfo;
 							const items = edgesToNodes
 								? edges.map(({ node }) => node)
 								: edges;
+
 							allEntries = [...allEntries, ...items] as
 								| Product[]
 								| ProductEdge[];
-							entriesAfter =
-								edges && edges.length > 0
-									? edges[edges.length - 1].cursor
-									: undefined;
+
 							if (
-								!hasNextPage ||
-								!(
-									maxReturnedEntries === -1 ||
-									allEntries.length < maxReturnedEntries
-								)
+								hasNextPage &&
+								(maxReturnedEntries === -1 ||
+									allEntries.length < maxReturnedEntries)
 							) {
+								entriesAfter = endCursor;
+							} else {
 								keepFetching = false;
 							}
 						}
