@@ -2,6 +2,14 @@ import { StorefrontClient } from './client/index.js';
 import { errorMessages } from './utils/index.js';
 import type { StorefrontResponse } from './client/index.js';
 
+export interface StorefrontClientAdvancedOptions {
+	/**
+	 * Controls whether or not Automatic Persisted Queries should be enabled when making requests. This is enabled by default and allows Nacelle to provide improved performance for repeated queries.
+	 * @defaultvalue true
+	 */
+	enableApq?: boolean;
+}
+
 export interface StorefrontClientParams {
 	/** Nacelle Storefront GraphQL Endpoint. This can be retrieved from the Nacelle Dashboard. */
 	storefrontEndpoint: string;
@@ -14,6 +22,9 @@ export interface StorefrontClientParams {
 
 	/** Optional fetch implementation. If not supplied, the Storefront SDK will use `globalThis.fetch`. */
 	fetchClient?: typeof globalThis.fetch;
+
+	/** Advanced options for configuring the Storefront SDK. These default to the recommended settings for most users. */
+	advancedOptions?: StorefrontClientAdvancedOptions;
 }
 
 export function Storefront(params: StorefrontClientParams) {

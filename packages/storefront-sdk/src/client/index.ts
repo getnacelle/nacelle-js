@@ -10,7 +10,10 @@ import type { DocumentNode } from 'graphql';
 import { retryExchange } from '@urql/exchange-retry';
 import { persistedFetchExchange } from '@urql/exchange-persisted-fetch';
 import { errorMessages, dataFetchingMethods } from '../utils/index.js';
-import type { StorefrontClientParams } from '../index.js';
+import type {
+	StorefrontClientAdvancedOptions,
+	StorefrontClientParams
+} from '../index.js';
 import type {
 	SetConfigParams,
 	SetConfigResponse,
@@ -61,6 +64,7 @@ export class StorefrontClient {
 		storefrontEndpoint: string;
 		previewToken: string | undefined;
 		locale: string;
+		advancedOptions: StorefrontClientAdvancedOptions;
 	};
 	readonly #afterSubscriptions: AfterSubscriptions<DataFetchingMethodName>;
 	readonly #retryExchange: Exchange = retryExchange({
@@ -85,7 +89,8 @@ export class StorefrontClient {
 			fetchClient: params.fetchClient ?? globalThis.fetch,
 			storefrontEndpoint: params.storefrontEndpoint,
 			previewToken: params.previewToken,
-			locale: params.locale ?? 'en-US'
+			locale: params.locale ?? 'en-US',
+			advancedOptions: { enableApq: true, ...(params.advancedOptions ?? {}) }
 		};
 
 		let headers = {};
@@ -102,7 +107,10 @@ export class StorefrontClient {
 			exchanges: [
 				dedupExchange,
 				this.#retryExchange,
-				persistedFetchExchange({ preferGetForPersistedQueries: true }),
+				// only include persistedFetchExchange if `enableApq` is true
+				...(this.#config.advancedOptions.enableApq
+					? [persistedFetchExchange({ preferGetForPersistedQueries: true })]
+					: []),
 				fetchExchange
 			],
 			requestPolicy: 'network-only'
@@ -124,7 +132,7 @@ export class StorefrontClient {
 
 	/**
 	 * Turn preview mode on or off on-the-fly by setting a `previewToken` in the SDK config. The `previewToken` can be generated in the Nacelle Dashboard.
-	 * @param setConfigParams an object containing the `previewToken` property. Providing a value of `null`, `undefined`, or an empty string will disable preview mode.
+	 * @param setConfigParams an object containing the `previewToken` property  and/or the advancedOptions. Providing a value of `null`, `undefined`, or an empty string for the previewTokenValue will disable preview mode.
 	 *
 	 * @example
 	 * Enable preview mode by providing a `previewToken`:
@@ -152,6 +160,13 @@ export class StorefrontClient {
 			currentEndpoint.searchParams.delete('preview');
 		}
 
+		if (setConfigParams.advancedOptions) {
+			this.#config.advancedOptions = {
+				...this.#config.advancedOptions,
+				...setConfigParams.advancedOptions
+			};
+		}
+
 		this.#config.storefrontEndpoint = currentEndpoint.toString();
 
 		this.#graphqlClient = createClient({
@@ -163,7 +178,10 @@ export class StorefrontClient {
 			exchanges: [
 				dedupExchange,
 				this.#retryExchange,
-				persistedFetchExchange({ preferGetForPersistedQueries: true }),
+				// only include persistedFetchExchange if `enableApq` is true
+				...(this.#config.advancedOptions.enableApq
+					? [persistedFetchExchange({ preferGetForPersistedQueries: true })]
+					: []),
 				fetchExchange
 			],
 			requestPolicy: 'network-only'
