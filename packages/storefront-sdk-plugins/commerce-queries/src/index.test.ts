@@ -1100,4 +1100,10 @@ describe('productCollectionEntries', () => {
 		expect(response.error).toBeDefined();
 		expect(response.data).toBeUndefined();
 	});
+
+	it('returns data of the expected type', async () => {
+		const { data } = await client.productCollectionEntries();
+
+		expectTypeOf(data!).toMatchTypeOf<Product[] | ProductEdge[]>();
+	});
 });
