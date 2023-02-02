@@ -3015,7 +3015,7 @@ export const ProductCollectionEntriesDocument = {
 		{
 			kind: 'OperationDefinition',
 			operation: 'query',
-			name: { kind: 'Name', value: 'productCollectionEntries' },
+			name: { kind: 'Name', value: 'ProductCollectionEntries' },
 			variableDefinitions: [
 				{
 					kind: 'VariableDefinition',
