@@ -1,5 +1,5 @@
 export default /* GraphQL */ `
-	query productCollectionEntries(
+	query ProductCollectionEntries(
 		$filter: ProductCollectionFilterInput
 		$entriesFirst: Int
 		$entriesAfter: String

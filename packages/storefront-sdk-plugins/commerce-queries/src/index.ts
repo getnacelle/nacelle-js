@@ -387,7 +387,7 @@ function commerceQueriesPlugin<TBase extends WithStorefrontQuery & WithConfig>(
 
 			return {
 				data: await (this as unknown as StorefrontClient)['applyAfter'](
-					'products',
+					'productCollectionEntries',
 					allEntries
 				)
 			} as StorefrontResponse<ProductEdge[] | Product[]>;

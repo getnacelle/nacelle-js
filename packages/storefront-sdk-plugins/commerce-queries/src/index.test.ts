@@ -887,7 +887,7 @@ describe('productCollectionEntries', () => {
 		expect(url).toBe(storefrontEndpoint);
 		expect(JSON.parse(argRequestInit?.body?.toString() ?? '')).toMatchObject({
 			// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-			query: expect.stringContaining('allProductCollection'),
+			query: expect.stringContaining('allProductCollections'),
 			variables: {
 				entriesAfter: 'abc',
 				entriesFirst: 5,
@@ -923,7 +923,7 @@ describe('productCollectionEntries', () => {
 		expect(url).toBe(storefrontEndpoint);
 		expect(JSON.parse(argRequestInit?.body?.toString() ?? '')).toMatchObject({
 			// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-			query: expect.stringContaining('allProductCollection'),
+			query: expect.stringContaining('allProductCollections'),
 			variables: {
 				entriesAfter: 'abc',
 				entriesFirst: 5,
@@ -960,7 +960,7 @@ describe('productCollectionEntries', () => {
 		expect(url).toBe(storefrontEndpoint);
 		expect(requestBody).toMatchObject({
 			// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-			query: expect.stringContaining('allProductCollection'),
+			query: expect.stringContaining('allProductCollections'),
 			variables: {
 				entriesAfter: 'abc',
 				entriesFirst: 5,
@@ -971,7 +971,7 @@ describe('productCollectionEntries', () => {
 		});
 		expect(requestBody).not.toMatchObject({
 			// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-			query: expect.stringContaining('allProductCollection'),
+			query: expect.stringContaining('allProductCollections'),
 			variables: {
 				entriesAfter: 'abc',
 				entriesFirst: 5,
