@@ -19,10 +19,6 @@ import {
 	buildProductCollectionEntriesResponse,
 	mockPaginatedProductCollectionEntries,
 	mockUnpaginatedProductCollectionEntries,
-	mockEmptyProductCollectionEntries,
-	buildProductCollectionEntriesResponse,
-	mockPaginatedProductCollectionEntries,
-	mockUnpaginatedProductCollectionEntries,
 	mockEmptyProductCollectionEntries
 } from '../__mocks__/gql/productCollectionEntries.js';
 import {

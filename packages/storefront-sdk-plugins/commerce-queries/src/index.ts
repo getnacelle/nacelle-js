@@ -47,15 +47,6 @@ export interface FetchContentMethodParams extends CommerceQueriesParams {
 	type?: string;
 }
 
-export interface FetchCollectionEntriesMethodParams {
-	collectionEntryId?: string;
-	handle?: string;
-	locale?: string;
-	maxReturnedEntries?: number;
-	cursor?: string;
-	edgesToNodes?: boolean;
-	advancedOptions?: FetchMethodAdvancedParams;
-}
 export interface FetchProductCollectionsMethodParams
 	extends CommerceQueriesParams {
 	maxReturnedEntriesPerCollection?: number;
@@ -236,103 +227,6 @@ function commerceQueriesPlugin<TBase extends WithStorefrontQuery & WithConfig>(
 					'products',
 					// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 					responseData.data!
-				)
-			} as StorefrontResponse<ProductEdge[] | Product[]>;
-		}
-
-		async productCollectionEntries(
-			params?: FetchCollectionEntriesMethodParams
-		): Promise<StorefrontResponse<Product[] | ProductEdge[]>> {
-			const {
-				collectionEntryId,
-				handle,
-				locale = this.getConfig()?.locale,
-				maxReturnedEntries = this.#defaultMaxReturnedEntries,
-				cursor,
-				edgesToNodes = true,
-				advancedOptions
-			} = params ?? {};
-			if (collectionEntryId && handle) {
-				console.warn(
-					'You have supplied both a collectionEntryId and handle. This method will use collectionEntryId for querying.'
-				);
-			}
-
-			if (!collectionEntryId && !handle) {
-				console.warn('You must provide either a collectionEntryId or handle.');
-			}
-
-			const entriesFirst = Math.min(
-				...[
-					advancedOptions?.entriesPerPage ?? this.#defaultPageFetchLimit,
-					maxReturnedEntries
-				].filter((v) => v > 0)
-			);
-
-			let entriesAfter = cursor;
-			let allEntries: Product[] | ProductEdge[] = [];
-			let keepFetching = true;
-
-			do {
-				const queryResponse = await this.query({
-					query: ProductCollectionEntriesDocument,
-					variables: {
-						filter: {
-							...(collectionEntryId && {
-								nacelleEntryIds: [collectionEntryId]
-							}),
-							...(!collectionEntryId && handle ? { handles: [handle] } : {}),
-							...(locale && { locale })
-						},
-						entriesFirst,
-						...(entriesAfter && { entriesAfter })
-					}
-				});
-
-				if (queryResponse.error) {
-					return { error: queryResponse.error };
-				}
-
-				if (queryResponse.data) {
-					const collectionEdges =
-						queryResponse.data.allProductCollections.edges;
-					if (collectionEdges.length === 0) {
-						console.warn('No collections matching query');
-						keepFetching = false;
-					} else {
-						const entries = collectionEdges[0].node.productConnection;
-						if (entries) {
-							const { pageInfo, edges } = entries;
-							const {
-								hasNextPage,
-								endCursor
-							}: { hasNextPage: boolean; endCursor: string } = pageInfo;
-							const items = edgesToNodes
-								? edges.map(({ node }) => node)
-								: edges;
-
-							allEntries = [...allEntries, ...items] as
-								| Product[]
-								| ProductEdge[];
-
-							if (
-								hasNextPage &&
-								(maxReturnedEntries === -1 ||
-									allEntries.length < maxReturnedEntries)
-							) {
-								entriesAfter = endCursor;
-							} else {
-								keepFetching = false;
-							}
-						}
-					}
-				}
-			} while (keepFetching);
-
-			return {
-				data: await (this as unknown as StorefrontClient)['applyAfter'](
-					'products',
-					allEntries
 				)
 			} as StorefrontResponse<ProductEdge[] | Product[]>;
 		}
