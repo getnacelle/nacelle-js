@@ -1,11 +1,4 @@
-import {
-  h,
-  ref,
-  watch,
-  computed,
-  provide,
-  onUnmounted
-} from '@vue/composition-api';
+import { h, ref, watch, computed, provide, onUnmounted } from 'vue';
 
 export default {
   name: 'FilterProvider',
@@ -225,8 +218,9 @@ export default {
           .reduce((output, item) => {
             if (!item.facets) {
               console.warn(
-                `No facets have been generated for this item: ${item.handle ||
-                  item}`
+                `No facets have been generated for this item: ${
+                  item.handle || item
+                }`
               );
             } else {
               item.facets

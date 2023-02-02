@@ -10,12 +10,12 @@ const InjectedComponent = () => {
   return {
     name: 'InjectedWithCollection',
     inject: ['collection', 'isFetching', 'setCollection', 'loadProducts'],
-    render: h => h('div')
+    render: (h) => h('div')
   };
 };
 
 const CollectionProviderContainer = ({ props } = {}) => ({
-  render: h =>
+  render: (h) =>
     h(SpaceProvider, {}, [
       h(CollectionProvider, { props }, [h(InjectedComponent())])
     ])
@@ -28,8 +28,8 @@ describe('Collection Provider', () => {
       name: 'InjectedWithCollection'
     });
 
-    expect(injectedCollectionComponent.vm.collection.value).toBe(null);
-    expect(injectedCollectionComponent.vm.isFetching.value).toBe(false);
+    expect(injectedCollectionComponent.vm.collection).toBe(null);
+    expect(injectedCollectionComponent.vm.isFetching).toBe(false);
     expect(typeof injectedCollectionComponent.vm.setCollection).toEqual(
       'function'
     );
@@ -45,7 +45,7 @@ describe('Collection Provider', () => {
     const injectedCollectionComponent = collectionProvider.findComponent({
       name: 'InjectedWithCollection'
     });
-    expect(injectedCollectionComponent.vm.collection.value.handle).toEqual(
+    expect(injectedCollectionComponent.vm.collection.handle).toEqual(
       collectionData.handle
     );
   });
@@ -65,8 +65,8 @@ describe('Collection Provider', () => {
     const injectedCollectionComponent = collectionProvider.findComponent({
       name: 'InjectedWithCollection'
     });
-    await new Promise(resolve => setTimeout(() => resolve(true)));
-    expect(injectedCollectionComponent.vm.collection.value.handle).toEqual(
+    await new Promise((resolve) => setTimeout(() => resolve(true)));
+    expect(injectedCollectionComponent.vm.collection.handle).toEqual(
       collectionData.handle
     );
   });
@@ -83,7 +83,7 @@ describe('Collection Provider', () => {
     expect(injectedCollectionComponent.vm.setCollection).toHaveBeenCalledTimes(
       1
     );
-    expect(injectedCollectionComponent.vm.collection.value.handle).toEqual(
+    expect(injectedCollectionComponent.vm.collection.handle).toEqual(
       collectionData.handle
     );
   });
@@ -106,7 +106,7 @@ describe('Collection Provider', () => {
     expect(injectedCollectionComponent.vm.setCollection).toHaveBeenCalledTimes(
       1
     );
-    expect(injectedCollectionComponent.vm.collection.value.handle).toEqual(
+    expect(injectedCollectionComponent.vm.collection.handle).toEqual(
       collectionData.handle
     );
   });
@@ -130,7 +130,7 @@ describe('Collection Provider', () => {
     expect(injectedCollectionComponent.vm.loadProducts).toHaveBeenCalledTimes(
       1
     );
-    expect(injectedCollectionComponent.vm.collection.value.products).toEqual(
+    expect(injectedCollectionComponent.vm.collection.products).toEqual(
       collectionData.products
     );
   });

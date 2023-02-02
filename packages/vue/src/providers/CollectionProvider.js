@@ -1,4 +1,4 @@
-import { h, provide, ref, watch } from '@vue/composition-api';
+import { h, provide, ref, watch } from 'vue';
 import useSpaceProvider from '~/composables/useSpaceProvider';
 import useSdk from '~/composables/useSdk';
 

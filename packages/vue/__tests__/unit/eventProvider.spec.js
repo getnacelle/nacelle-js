@@ -32,8 +32,7 @@ describe('Event Bus', () => {
     const injectedEventsComponent = eventProvider.findComponent({
       name: 'InjectedWithEvents'
     });
-
-    expect(Array.isArray(injectedEventsComponent.vm.events.value)).toBe(true);
+    expect(Array.isArray(injectedEventsComponent.vm.events)).toBe(true);
     expect(typeof injectedEventsComponent.vm.onEvent).toEqual('function');
     expect(typeof injectedEventsComponent.vm.addEvent).toEqual('function');
   });
@@ -62,11 +61,9 @@ describe('Event Bus', () => {
     const button = injectedEventsComponent.find('button');
     await button.trigger('click');
 
-    expect(Array.isArray(injectedEventsComponent.vm.events.value)).toBe(true);
-    expect(injectedEventsComponent.vm.events.value.length).toBe(1);
-    expect(injectedEventsComponent.vm.events.value[0]).toMatchObject(
-      pageViewEvent
-    );
+    expect(Array.isArray(injectedEventsComponent.vm.events)).toBe(true);
+    expect(injectedEventsComponent.vm.events.length).toBe(1);
+    expect(injectedEventsComponent.vm.events[0]).toMatchObject(pageViewEvent);
     expect(pageViewEventHandler.callback).toHaveBeenCalledTimes(1);
   });
 
@@ -99,8 +96,8 @@ describe('Event Bus', () => {
 
     await button.trigger('click');
 
-    expect(Array.isArray(injectedEventsComponent.vm.events.value)).toBe(true);
-    expect(injectedEventsComponent.vm.events.value.length).toBe(1);
+    expect(Array.isArray(injectedEventsComponent.vm.events)).toBe(true);
+    expect(injectedEventsComponent.vm.events.length).toBe(1);
     expect(expectedCallback).toHaveBeenCalledTimes(1);
     expect(expectedCallback).toHaveBeenCalledWith(
       expect.objectContaining({
@@ -136,9 +133,9 @@ describe('Event Bus', () => {
       await button.trigger('click');
     }
 
-    expect(Array.isArray(injectedEventsComponent.vm.events.value)).toBe(true);
+    expect(Array.isArray(injectedEventsComponent.vm.events)).toBe(true);
     expect(callback).toHaveBeenCalledTimes(10);
-    expect(injectedEventsComponent.vm.events.value.length).toBe(5);
+    expect(injectedEventsComponent.vm.events.length).toBe(5);
     expect(callback).toHaveBeenCalledWith(
       expect.objectContaining({
         ...productViewEvent
