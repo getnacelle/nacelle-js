@@ -16,6 +16,12 @@ import {
 	mockUnpaginatedProduct
 } from '../__mocks__/gql/product.js';
 import {
+	buildProductCollectionEntriesResponse,
+	mockPaginatedProductCollectionEntries,
+	mockUnpaginatedProductCollectionEntries,
+	mockEmptyProductCollectionEntries
+} from '../__mocks__/gql/productCollectionEntries.js';
+import {
 	buildProductCollectionResponse,
 	mockPaginatedProductCollection,
 	mockUnpaginatedProductCollection
@@ -845,5 +851,259 @@ describe('productCollections', () => {
 		});
 		expect(warnSpy).toHaveBeenCalledTimes(1);
 		expect(warnSpy).toHaveBeenCalledWith(highEntriesPerPageMessage);
+	});
+});
+
+describe('productCollectionEntries', () => {
+	beforeEach(() => {
+		mockedFetch.mockRestore();
+		mockedFetch.mockImplementation(() =>
+			Promise.resolve(getFetchPayload(mockUnpaginatedProductCollectionEntries))
+		);
+	});
+
+	it('should pass parameters including the collectionEntry as variables', async () => {
+		// mock a persisted query not found error so we can get a post request  sent so it's easier to inspect
+		mockedFetch.mockImplementationOnce(() =>
+			Promise.resolve(
+				getFetchPayload({
+					errors: [
+						{
+							message: 'PersistedQueryNotFound',
+							extensions: { code: 'PERSISTED_QUERY_NOT_FOUND' }
+						}
+					]
+				})
+			)
+		);
+		await client.productCollectionEntries({
+			advancedOptions: {
+				entriesPerPage: 5
+			},
+			cursor: 'abc',
+			collectionEntryId: 'abcdefg_1'
+		});
+		const [url, argRequestInit]: mockRequestArgs = mockedFetch.mock.lastCall!;
+		expect(url).toBe(storefrontEndpoint);
+		expect(JSON.parse(argRequestInit?.body?.toString() ?? '')).toMatchObject({
+			// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+			query: expect.stringContaining('allProductCollections'),
+			variables: {
+				entriesAfter: 'abc',
+				entriesFirst: 5,
+				filter: {
+					nacelleEntryIds: ['abcdefg_1']
+				}
+			}
+		});
+	});
+
+	it('should pass parameters including the handle as variables', async () => {
+		// mock a persisted query not found error so we can get a post request  sent so it's easier to inspect
+		mockedFetch.mockImplementationOnce(() =>
+			Promise.resolve(
+				getFetchPayload({
+					errors: [
+						{
+							message: 'PersistedQueryNotFound',
+							extensions: { code: 'PERSISTED_QUERY_NOT_FOUND' }
+						}
+					]
+				})
+			)
+		);
+		await client.productCollectionEntries({
+			advancedOptions: {
+				entriesPerPage: 5
+			},
+			cursor: 'abc',
+			handle: 'abcdefg'
+		});
+		const [url, argRequestInit]: mockRequestArgs = mockedFetch.mock.lastCall!;
+		expect(url).toBe(storefrontEndpoint);
+		expect(JSON.parse(argRequestInit?.body?.toString() ?? '')).toMatchObject({
+			// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+			query: expect.stringContaining('allProductCollections'),
+			variables: {
+				entriesAfter: 'abc',
+				entriesFirst: 5,
+				filter: { handles: ['abcdefg'] }
+			}
+		});
+	});
+
+	it('should only include nacelleEntryIds if both collectionEntryId & handle are passed', async () => {
+		// mock a persisted query not found error so we can get a post request  sent so it's easier to inspect
+		mockedFetch.mockImplementationOnce(() =>
+			Promise.resolve(
+				getFetchPayload({
+					errors: [
+						{
+							message: 'PersistedQueryNotFound',
+							extensions: { code: 'PERSISTED_QUERY_NOT_FOUND' }
+						}
+					]
+				})
+			)
+		);
+		await client.productCollectionEntries({
+			advancedOptions: {
+				entriesPerPage: 5
+			},
+			cursor: 'abc',
+			handle: 'abcdefg',
+			collectionEntryId: 'abcdefg_1'
+		});
+		const [url, argRequestInit]: mockRequestArgs = mockedFetch.mock.lastCall!;
+		// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+		const requestBody = JSON.parse(argRequestInit?.body?.toString() ?? '');
+		expect(url).toBe(storefrontEndpoint);
+		expect(requestBody).toMatchObject({
+			// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+			query: expect.stringContaining('allProductCollections'),
+			variables: {
+				entriesAfter: 'abc',
+				entriesFirst: 5,
+				filter: {
+					nacelleEntryIds: ['abcdefg_1']
+				}
+			}
+		});
+		expect(requestBody).not.toMatchObject({
+			// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+			query: expect.stringContaining('allProductCollections'),
+			variables: {
+				entriesAfter: 'abc',
+				entriesFirst: 5,
+				filter: { handles: ['abcdefg'] }
+			}
+		});
+	});
+
+	it('should set first based on entriesPerPage and maxReturnedEntries', async () => {
+		await client.productCollectionEntries({
+			collectionEntryId: 'abcdefg_1',
+			advancedOptions: {
+				entriesPerPage: 5
+			},
+			maxReturnedEntries: 2
+		});
+		// since apq doesn't hash variables, can just get variables param off the url instead of mocking an apq error and getting it from the body.
+		expect(
+			JSON.parse(
+				new URL(mockedFetch.mock.lastCall![0] as URL | string).searchParams.get(
+					'variables'
+				) ?? ''
+			)
+		).toMatchObject({ entriesFirst: 2 });
+		mockedFetch.mockClear();
+		await client.productCollectionEntries({
+			collectionEntryId: 'abcdefg_1',
+			advancedOptions: {
+				entriesPerPage: 5
+			},
+			maxReturnedEntries: 10
+		});
+		expect(
+			JSON.parse(
+				new URL(mockedFetch.mock.lastCall![0] as URL | string).searchParams.get(
+					'variables'
+				) ?? ''
+			)
+		).toMatchObject({ entriesFirst: 5 });
+		expect(mockedFetch).toBeCalledTimes(1);
+	});
+
+	it('should return edges if edgesToNodes is false', async () => {
+		const response = await client.productCollectionEntries({
+			collectionEntryId: 'abcdefg_1',
+			edgesToNodes: false
+		});
+
+		expect(response.data).toMatchObject(
+			mockPaginatedProductCollectionEntries.data.allProductCollections.edges[0]
+				.node.productConnection.edges
+		);
+	});
+
+	it('should return empty array if no collection is found', async () => {
+		mockedFetch.mockImplementation(() =>
+			Promise.resolve(getFetchPayload(mockEmptyProductCollectionEntries))
+		);
+
+		const response = await client.productCollectionEntries();
+
+		expect(response.data).toMatchObject([]);
+	});
+
+	it('should fetch until hasNextPage = false if maxReturnedEntries=-1', async () => {
+		mockedFetch.mockImplementationOnce(() =>
+			Promise.resolve(getFetchPayload(mockPaginatedProductCollectionEntries))
+		);
+		mockedFetch.mockImplementationOnce(() =>
+			Promise.resolve(getFetchPayload(mockPaginatedProductCollectionEntries))
+		);
+		mockedFetch.mockImplementationOnce(() =>
+			Promise.resolve(getFetchPayload(mockPaginatedProductCollectionEntries))
+		);
+
+		const response = await client.productCollectionEntries({
+			collectionEntryId: 'abcdefg_1',
+			maxReturnedEntries: -1
+		});
+
+		expect(mockedFetch).toBeCalledTimes(4);
+		// number of edges should be equal to 3 paginated responses + 1 unpaginated responses
+		expect(response.data!.length).toBe(
+			3 *
+				mockPaginatedProductCollectionEntries.data.allProductCollections
+					.edges[0].node.productConnection.edges.length +
+				mockUnpaginatedProductCollectionEntries.data.allProductCollections
+					.edges[0].node.productConnection.edges.length
+		);
+	});
+
+	it('should stop paginating when the length is the value of maxReturnedEntries', async () => {
+		mockedFetch.mockImplementation(() =>
+			Promise.resolve(
+				getFetchPayload(
+					buildProductCollectionEntriesResponse({
+						nodeCount: 5,
+						hasNextPage: true
+					})
+				)
+			)
+		);
+
+		const response = await client.productCollectionEntries({
+			collectionEntryId: 'abcdefg_1',
+			maxReturnedEntries: 15
+		});
+		expect(mockedFetch).toBeCalledTimes(3);
+		expect(response.data!.length).toBe(15);
+	});
+
+	it('should return the error if one of the requests errors', async () => {
+		mockedFetch
+			.mockImplementationOnce(() =>
+				Promise.resolve(getFetchPayload(mockPaginatedProductCollectionEntries))
+			)
+			.mockImplementationOnce(() =>
+				Promise.resolve(
+					getFetchPayload({ error: { message: 'GraphQL error' } })
+				)
+			);
+		const response = await client.productCollectionEntries({
+			collectionEntryId: 'abcdefg_1'
+		});
+		expect(mockedFetch).toBeCalledTimes(2);
+		expect(response.error).toBeDefined();
+		expect(response.data).toBeUndefined();
+	});
+
+	it('returns data of the expected type', async () => {
+		const { data } = await client.productCollectionEntries();
+
+		expectTypeOf(data!).toMatchTypeOf<Product[] | ProductEdge[]>();
 	});
 });
