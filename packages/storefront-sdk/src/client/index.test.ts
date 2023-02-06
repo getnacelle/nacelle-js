@@ -21,6 +21,7 @@ import type {
 	ProductEdge,
 	SpaceProperties
 } from '../types/storefront.js';
+import type { StorefrontConfig } from '../types/config.js';
 
 const storefrontEndpoint =
 	'https://storefront.api.nacelle.com/graphql/v1/spaces/my-space-id';
@@ -28,11 +29,13 @@ const storefrontEndpoint =
 const mockedFetch = vi.fn();
 type mockRequestArgs = [RequestInfo | URL, RequestInit | undefined];
 const client = new StorefrontClient({
-	storefrontEndpoint: 'http://localhost:5000',
+	storefrontEndpoint,
 	fetchClient: mockedFetch as (
 		input: RequestInfo | URL,
 		init?: RequestInit | undefined
-	) => Promise<Response>
+	) => Promise<Response>,
+	// disable apq since most tests don't need it.
+	advancedOptions: { enableApq: false }
 });
 
 describe('create client', () => {
@@ -333,19 +336,6 @@ describe('the `query` method', () => {
 	});
 
 	it('takes a stringified object for variables', async () => {
-		// mock a persisted query not found error so we can get a post request  sent
-		mockedFetch.mockImplementationOnce(() =>
-			Promise.resolve(
-				getFetchPayload({
-					errors: [
-						{
-							message: 'PersistedQueryNotFound',
-							extensions: { code: 'PERSISTED_QUERY_NOT_FOUND' }
-						}
-					]
-				})
-			)
-		);
 		mockedFetch.mockImplementationOnce(() =>
 			Promise.resolve(getFetchPayload({ data: NavigationResult }))
 		);
@@ -368,19 +358,6 @@ describe('the `query` method', () => {
 	});
 
 	it('takes an object for variables', async () => {
-		// mock a persisted query not found error so we can get a post request  sent so it's easier to inspect
-		mockedFetch.mockImplementationOnce(() =>
-			Promise.resolve(
-				getFetchPayload({
-					errors: [
-						{
-							message: 'PersistedQueryNotFound',
-							extensions: { code: 'PERSISTED_QUERY_NOT_FOUND' }
-						}
-					]
-				})
-			)
-		);
 		mockedFetch.mockImplementationOnce(() =>
 			Promise.resolve(getFetchPayload({ data: NavigationResult }))
 		);
@@ -551,16 +528,26 @@ it('`getConfig` retrieves config', () => {
 		locale: 'en-US'
 	});
 
-	expect(client.getConfig()).toStrictEqual({
+	expect(client.getConfig()).toStrictEqual<StorefrontConfig>({
 		afterSubscriptions: {},
 		storefrontEndpoint:
 			'https://storefront.api.nacelle.com/graphql/v1/spaces/my-space-id',
 		previewToken: undefined,
-		locale: 'en-US'
+		locale: 'en-US',
+		advancedOptions: {
+			enableApq: true
+		}
 	});
 });
 
-it('makes requests with APQ enabled', async () => {
+it('makes requests with APQ enabled when `advancedOptions.enableApq is unset', async () => {
+	const client = new StorefrontClient({
+		storefrontEndpoint,
+		fetchClient: mockedFetch as (
+			input: RequestInfo | URL,
+			init?: RequestInit | undefined
+		) => Promise<Response>
+	});
 	mockedFetch.mockRestore();
 	mockedFetch.mockImplementationOnce(() =>
 		Promise.resolve(getFetchPayload({ data: NavigationResult }))
@@ -576,4 +563,84 @@ it('makes requests with APQ enabled', async () => {
 	expect(lastFetch[1]?.method).toEqual('GET');
 	const requestUrl = new URL(lastFetch[0].toString());
 	expect(requestUrl.searchParams.get('operationName')).toEqual('Navigation');
+});
+
+it('makes requests with APQ disabled when `advancedOptions.enableApq` is false', async () => {
+	mockedFetch.mockRestore();
+	mockedFetch.mockImplementationOnce(() =>
+		Promise.resolve(getFetchPayload({ data: NavigationResult }))
+	);
+	const variables = { filter: { groupId: 'abc' } };
+	await client.query({
+		query: NavigationDocument,
+		variables
+	});
+
+	const lastFetch = mockedFetch.mock.lastCall as mockRequestArgs;
+	expect(lastFetch[0]).toEqual(storefrontEndpoint);
+	expect(JSON.parse(lastFetch[1]!.body!.toString())).toMatchObject(
+		expect.objectContaining({
+			// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+			query: expect.stringContaining('query Navigation'),
+			variables
+		})
+	);
+});
+
+it('enables APQ when `advancedOptions.enableApq` is set to true in `setConfig`', async () => {
+	const client = new StorefrontClient({
+		storefrontEndpoint,
+		fetchClient: mockedFetch as (
+			input: RequestInfo | URL,
+			init?: RequestInit | undefined
+		) => Promise<Response>,
+		advancedOptions: { enableApq: false }
+	});
+	client.setConfig({ advancedOptions: { enableApq: true } });
+	mockedFetch.mockRestore();
+	mockedFetch.mockImplementationOnce(() =>
+		Promise.resolve(getFetchPayload({ data: NavigationResult }))
+	);
+	const variables = { filter: { groupId: 'abc' } };
+	await client.query({
+		query: NavigationDocument,
+		variables
+	});
+	expect(mockedFetch).toHaveBeenCalledOnce();
+	const lastFetch = mockedFetch.mock.lastCall as mockRequestArgs;
+	expect(lastFetch[1]?.body).toBeUndefined();
+	expect(lastFetch[1]?.method).toEqual('GET');
+	const requestUrl = new URL(lastFetch[0].toString());
+	expect(requestUrl.searchParams.get('operationName')).toEqual('Navigation');
+});
+
+it('disables APQ when `advancedOptions.enableAPQ` is set to false in `setConfig`', async () => {
+	const client = new StorefrontClient({
+		storefrontEndpoint,
+		fetchClient: mockedFetch as (
+			input: RequestInfo | URL,
+			init?: RequestInit | undefined
+		) => Promise<Response>,
+		advancedOptions: { enableApq: true }
+	});
+	client.setConfig({ advancedOptions: { enableApq: false } });
+	mockedFetch.mockRestore();
+	mockedFetch.mockImplementationOnce(() =>
+		Promise.resolve(getFetchPayload({ data: NavigationResult }))
+	);
+	const variables = { filter: { groupId: 'abc' } };
+	await client.query({
+		query: NavigationDocument,
+		variables
+	});
+
+	const lastFetch = mockedFetch.mock.lastCall as mockRequestArgs;
+	expect(lastFetch[0]).toEqual(storefrontEndpoint);
+	expect(JSON.parse(lastFetch[1]!.body!.toString())).toMatchObject(
+		expect.objectContaining({
+			// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+			query: expect.stringContaining('query Navigation'),
+			variables
+		})
+	);
 });
