@@ -23,5 +23,20 @@
     "next-starter": "0.1.4",
     "nuxt-starter": "1.0.8"
   },
-  "changesets": ["proud-starfishes-explain"]
+  "changesets": [
+    "chilled-timers-repair",
+    "curvy-horses-cheer",
+    "fuzzy-pumpkins-shout",
+    "gold-pants-whisper",
+    "mean-weeks-begin",
+    "polite-bikes-invent",
+    "proud-starfishes-explain",
+    "quick-balloons-return",
+    "short-roses-search",
+    "silver-dolphins-promise",
+    "sour-rivers-jam",
+    "swift-snails-appear",
+    "twenty-timers-taste",
+    "young-scissors-wash"
+  ]
 }
