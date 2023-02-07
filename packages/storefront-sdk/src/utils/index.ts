@@ -8,4 +8,5 @@
 export * from './constants.js';
 export * from './errorMessages.js';
 export * from './identity.js';
+export * from './shouldRetryByResponseError.js';
 // @endindex

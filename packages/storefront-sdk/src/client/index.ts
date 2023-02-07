@@ -9,7 +9,12 @@ import type {
 import type { DocumentNode } from 'graphql';
 import { retryExchange } from '@urql/exchange-retry';
 import { persistedFetchExchange } from '@urql/exchange-persisted-fetch';
-import { errorMessages, dataFetchingMethods } from '../utils/index.js';
+import {
+	errorMessages,
+	dataFetchingMethods,
+	FIRST_VARIABLE_OPTIMIZATION_VALUE,
+	shouldRetryByResponseError
+} from '../utils/index.js';
 import type { StorefrontClientParams } from '../index.js';
 import type {
 	SetConfigParams,
@@ -71,13 +76,29 @@ export class StorefrontClient {
 			// if it's a network error, retry if specific error codes
 			if (error.networkError) {
 				const statusCode = (error.response as globalThis.Response)?.status;
-				return retryStatusCodes.includes(statusCode);
+				return (
+					retryStatusCodes.includes(statusCode) ||
+					shouldRetryByResponseError(error)
+				);
 			} else {
 				// only retry if graphQL error is related to internal error
 				return error.graphQLErrors.some((err) =>
 					err.message.includes('INTERNAL_SERVER_ERROR')
 				);
 			}
+		},
+		retryWith: (error, operation) => {
+			if (
+				shouldRetryByResponseError(error) &&
+				operation.variables?.filter &&
+				'first' in operation.variables.filter
+			) {
+				// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+				operation.variables.filter.first =
+					// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+					operation.variables.filter.first / FIRST_VARIABLE_OPTIMIZATION_VALUE;
+			}
+			return { ...operation };
 		}
 	});
 	constructor(params: StorefrontClientParams) {
