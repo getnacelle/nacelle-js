@@ -242,8 +242,10 @@ describe('content', () => {
 		expect(
 			JSON.parse(mockedFetch.mock.lastCall![1]?.body?.toString() ?? '')
 		).toMatchObject({ variables: { filter: { first: 2 } } });
-		mockedFetch.mockRestore();
+    
+    mockedFetch.mockRestore();
 		mockedFetch.mockResolvedValue(getFetchPayload(mockUnpaginatedContent));
+
 		await client.content({
 			advancedOptions: {
 				entriesPerPage: 5
@@ -611,7 +613,7 @@ describe('productCollections', () => {
 		mockedFetch.mockResolvedValue(
 			getFetchPayload(mockUnpaginatedProductCollection)
 		);
-		await client.productCollections({
+    await client.productCollections({
 			advancedOptions: {
 				entriesPerPage: 5
 			},
