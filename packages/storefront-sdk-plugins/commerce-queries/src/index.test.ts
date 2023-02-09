@@ -52,7 +52,8 @@ const client = new ClientWithCommerceQueries({
 	fetchClient: mockedFetch as (
 		input: RequestInfo | URL,
 		init?: RequestInit | undefined
-	) => Promise<Response>
+	) => Promise<Response>,
+	advancedOptions: { enableApq: false }
 });
 
 it('does not error when composed with the `StorefrontClient` class', () => {
@@ -83,23 +84,13 @@ describe('spaceProperties', () => {
 	});
 
 	it('fetches `spaceProperties` with the appropriate query', async () => {
-		// mock a persisted query not found error so we can get a post request sent so it's easier to inspect
-		mockedFetch
-			.mockResolvedValueOnce(
-				getFetchPayload({
-					errors: [
-						{
-							message: 'PersistedQueryNotFound',
-							extensions: { code: 'PERSISTED_QUERY_NOT_FOUND' }
-						}
-					]
-				})
-			)
-			.mockResolvedValueOnce(getFetchPayload({ data: SpacePropertiesResult }));
+		mockedFetch.mockResolvedValueOnce(
+			getFetchPayload({ data: SpacePropertiesResult })
+		);
 
 		await client.spaceProperties();
 
-		expect(mockedFetch).toHaveBeenCalledTimes(2);
+		expect(mockedFetch).toHaveBeenCalledOnce();
 		expect(mockedFetch).toHaveBeenCalledWith(
 			storefrontEndpoint,
 			expect.objectContaining({
@@ -136,23 +127,13 @@ describe('navigation', () => {
 	});
 
 	it('fetches `navigation` with the appropriate query', async () => {
-		// mock a persisted query not found error so we can get a post request sent so it's easier to inspect
-		mockedFetch
-			.mockResolvedValueOnce(
-				getFetchPayload({
-					errors: [
-						{
-							message: 'PersistedQueryNotFound',
-							extensions: { code: 'PERSISTED_QUERY_NOT_FOUND' }
-						}
-					]
-				})
-			)
-			.mockResolvedValueOnce(getFetchPayload({ data: NavigationResult }));
+		mockedFetch.mockResolvedValueOnce(
+			getFetchPayload({ data: NavigationResult })
+		);
 
 		await client.navigation({ groupId: 'groupId' });
 
-		expect(mockedFetch).toHaveBeenCalledTimes(2);
+		expect(mockedFetch).toHaveBeenCalledOnce();
 		expect(mockedFetch).toHaveBeenCalledWith(
 			storefrontEndpoint,
 			expect.objectContaining({
@@ -189,17 +170,6 @@ describe('content', () => {
 	});
 
 	it('should pass parameters including the `nacelleEntryId` as variables', async () => {
-		// mock a persisted query not found error so we can get a post request sent so it's easier to inspect
-		mockedFetch.mockResolvedValueOnce(
-			getFetchPayload({
-				errors: [
-					{
-						message: 'PersistedQueryNotFound',
-						extensions: { code: 'PERSISTED_QUERY_NOT_FOUND' }
-					}
-				]
-			})
-		);
 		await client.content({
 			advancedOptions: {
 				entriesPerPage: 5
@@ -219,18 +189,6 @@ describe('content', () => {
 	});
 
 	it('should pass parameters including the `handles` as variables', async () => {
-		// mock a persisted query not found error so we can get a post request sent so it's easier to inspect
-		mockedFetch.mockResolvedValueOnce(
-			getFetchPayload({
-				errors: [
-					{
-						message: 'PersistedQueryNotFound',
-						extensions: { code: 'PERSISTED_QUERY_NOT_FOUND' }
-					}
-				]
-			})
-		);
-
 		await client.content({
 			advancedOptions: {
 				entriesPerPage: 5
@@ -250,17 +208,6 @@ describe('content', () => {
 	});
 
 	it('should only include `nacelleEntryIds` if both `nacelleEntryIds` & `handles` are passed', async () => {
-		// mock a persisted query not found error so we can get a post request sent so it's easier to inspect
-		mockedFetch.mockResolvedValueOnce(
-			getFetchPayload({
-				errors: [
-					{
-						message: 'PersistedQueryNotFound',
-						extensions: { code: 'PERSISTED_QUERY_NOT_FOUND' }
-					}
-				]
-			})
-		);
 		await client.content({
 			advancedOptions: {
 				entriesPerPage: 5
@@ -292,14 +239,9 @@ describe('content', () => {
 			},
 			maxReturnedEntries: 2
 		});
-		// since apq doesn't hash variables, can just get variables param off the url instead of mocking an apq error and getting it from the body.
 		expect(
-			JSON.parse(
-				new URL(mockedFetch.mock.lastCall![0] as URL | string).searchParams.get(
-					'variables'
-				) ?? ''
-			)
-		).toMatchObject({ filter: { first: 2 } });
+			JSON.parse(mockedFetch.mock.lastCall![1]?.body?.toString() ?? '')
+		).toMatchObject({ variables: { filter: { first: 2 } } });
 		mockedFetch.mockRestore();
 		mockedFetch.mockResolvedValue(getFetchPayload(mockUnpaginatedContent));
 		await client.content({
@@ -309,12 +251,12 @@ describe('content', () => {
 			maxReturnedEntries: 10
 		});
 		expect(
-			JSON.parse(
-				new URL(mockedFetch.mock.lastCall![0] as URL | string).searchParams.get(
-					'variables'
-				) ?? ''
-			)
-		).toMatchObject({ filter: { first: 5 } });
+			JSON.parse(mockedFetch.mock.lastCall![1]?.body?.toString() ?? '')
+		).toMatchObject({
+			variables: {
+				filter: { first: 5 }
+			}
+		});
 		expect(mockedFetch).toBeCalledTimes(1);
 	});
 
@@ -400,18 +342,6 @@ describe('products', () => {
 	});
 
 	it('should pass parameters including the `nacelleEntryId` as variables', async () => {
-		// mock a persisted query not found error so we can get a post request sent so it's easier to inspect
-		mockedFetch.mockResolvedValueOnce(
-			getFetchPayload({
-				errors: [
-					{
-						message: 'PersistedQueryNotFound',
-						extensions: { code: 'PERSISTED_QUERY_NOT_FOUND' }
-					}
-				]
-			})
-		);
-
 		await client.products({
 			advancedOptions: {
 				entriesPerPage: 5
@@ -431,18 +361,6 @@ describe('products', () => {
 	});
 
 	it('should pass parameters including the `handles` as variables', async () => {
-		// mock a persisted query not found error so we can get a post request sent so it's easier to inspect
-		mockedFetch.mockResolvedValueOnce(
-			getFetchPayload({
-				errors: [
-					{
-						message: 'PersistedQueryNotFound',
-						extensions: { code: 'PERSISTED_QUERY_NOT_FOUND' }
-					}
-				]
-			})
-		);
-
 		await client.products({
 			advancedOptions: {
 				entriesPerPage: 5
@@ -462,18 +380,6 @@ describe('products', () => {
 	});
 
 	it('should only include `nacelleEntryIds` if both `nacelleEntryIds` & `handles` are passed', async () => {
-		// mock a persisted query not found error so we can get a post request sent so it's easier to inspect
-		mockedFetch.mockResolvedValueOnce(
-			getFetchPayload({
-				errors: [
-					{
-						message: 'PersistedQueryNotFound',
-						extensions: { code: 'PERSISTED_QUERY_NOT_FOUND' }
-					}
-				]
-			})
-		);
-
 		await client.products({
 			advancedOptions: {
 				entriesPerPage: 5
@@ -507,12 +413,8 @@ describe('products', () => {
 		});
 		// since apq doesn't hash variables, can just get variables param off the url instead of mocking an apq error and getting it from the body.
 		expect(
-			JSON.parse(
-				new URL(mockedFetch.mock.lastCall![0] as URL | string).searchParams.get(
-					'variables'
-				) ?? ''
-			)
-		).toMatchObject({ filter: { first: 2 } });
+			JSON.parse(mockedFetch.mock.lastCall![1]?.body?.toString() ?? '')
+		).toMatchObject({ variables: { filter: { first: 2 } } });
 		mockedFetch.mockRestore();
 		mockedFetch.mockResolvedValue(getFetchPayload(mockUnpaginatedProduct));
 		await client.products({
@@ -522,13 +424,9 @@ describe('products', () => {
 			maxReturnedEntries: 10
 		});
 		expect(
-			JSON.parse(
-				new URL(mockedFetch.mock.lastCall![0] as URL | string).searchParams.get(
-					'variables'
-				) ?? ''
-			)
-		).toMatchObject({ filter: { first: 5 } });
-		expect(mockedFetch).toBeCalledTimes(1);
+			JSON.parse(mockedFetch.mock.lastCall![1]?.body?.toString() ?? '')
+		).toMatchObject({ variables: { filter: { first: 5 } } });
+		expect(mockedFetch).toHaveBeenCalledOnce();
 	});
 
 	it('should return edges if `edgesToNodes` is `false`', async () => {
@@ -620,18 +518,6 @@ describe('productCollections', () => {
 	});
 
 	it('should pass parameters including the `nacelleEntryId` as variables', async () => {
-		// mock a persisted query not found error so we can get a post request sent so it's easier to inspect
-		mockedFetch.mockResolvedValueOnce(
-			getFetchPayload({
-				errors: [
-					{
-						message: 'PersistedQueryNotFound',
-						extensions: { code: 'PERSISTED_QUERY_NOT_FOUND' }
-					}
-				]
-			})
-		);
-
 		await client.productCollections({
 			advancedOptions: {
 				entriesPerPage: 5
@@ -651,18 +537,6 @@ describe('productCollections', () => {
 	});
 
 	it('should pass parameters including the `handles` as variables', async () => {
-		// mock a persisted query not found error so we can get a post request sent so it's easier to inspect
-		mockedFetch.mockResolvedValueOnce(
-			getFetchPayload({
-				errors: [
-					{
-						message: 'PersistedQueryNotFound',
-						extensions: { code: 'PERSISTED_QUERY_NOT_FOUND' }
-					}
-				]
-			})
-		);
-
 		await client.productCollections({
 			advancedOptions: {
 				entriesPerPage: 5
@@ -682,18 +556,6 @@ describe('productCollections', () => {
 	});
 
 	it('should pass parameters including the `maxReturnedEntriesPerCollection` as variables', async () => {
-		// mock a persisted query not found error so we can get a post request sent so it's easier to inspect
-		mockedFetch.mockResolvedValueOnce(
-			getFetchPayload({
-				errors: [
-					{
-						message: 'PersistedQueryNotFound',
-						extensions: { code: 'PERSISTED_QUERY_NOT_FOUND' }
-					}
-				]
-			})
-		);
-
 		await client.productCollections({
 			maxReturnedEntries: 2,
 			maxReturnedEntriesPerCollection: 5
@@ -711,18 +573,6 @@ describe('productCollections', () => {
 	});
 
 	it('should only include `nacelleEntryIds` if both `nacelleEntryIds` & `handles` are passed', async () => {
-		// mock a persisted query not found error so we can get a post request sent so it's easier to inspect
-		mockedFetch.mockResolvedValueOnce(
-			getFetchPayload({
-				errors: [
-					{
-						message: 'PersistedQueryNotFound',
-						extensions: { code: 'PERSISTED_QUERY_NOT_FOUND' }
-					}
-				]
-			})
-		);
-
 		await client.productCollections({
 			advancedOptions: {
 				entriesPerPage: 5
@@ -754,14 +604,9 @@ describe('productCollections', () => {
 			},
 			maxReturnedEntries: 2
 		});
-		// since apq doesn't hash variables, can just get variables param off the url instead of mocking an apq error and getting it from the body.
 		expect(
-			JSON.parse(
-				new URL(mockedFetch.mock.lastCall![0] as URL | string).searchParams.get(
-					'variables'
-				) ?? ''
-			)
-		).toMatchObject({ filter: { first: 2 } });
+			JSON.parse(mockedFetch.mock.lastCall![1]?.body?.toString() ?? '')
+		).toMatchObject({ variables: { filter: { first: 2 } } });
 		mockedFetch.mockRestore();
 		mockedFetch.mockResolvedValue(
 			getFetchPayload(mockUnpaginatedProductCollection)
@@ -773,12 +618,8 @@ describe('productCollections', () => {
 			maxReturnedEntries: 10
 		});
 		expect(
-			JSON.parse(
-				new URL(mockedFetch.mock.lastCall![0] as URL | string).searchParams.get(
-					'variables'
-				) ?? ''
-			)
-		).toMatchObject({ filter: { first: 5 } });
+			JSON.parse(mockedFetch.mock.lastCall![1]?.body?.toString() ?? '')
+		).toMatchObject({ variables: { filter: { first: 5 } } });
 		expect(mockedFetch).toBeCalledTimes(1);
 	});
 
@@ -866,19 +707,6 @@ describe('productCollectionEntries', () => {
 	});
 
 	it('should pass parameters including the collectionEntry as variables', async () => {
-		// mock a persisted query not found error so we can get a post request  sent so it's easier to inspect
-		mockedFetch.mockImplementationOnce(() =>
-			Promise.resolve(
-				getFetchPayload({
-					errors: [
-						{
-							message: 'PersistedQueryNotFound',
-							extensions: { code: 'PERSISTED_QUERY_NOT_FOUND' }
-						}
-					]
-				})
-			)
-		);
 		await client.productCollectionEntries({
 			advancedOptions: {
 				entriesPerPage: 5
@@ -902,19 +730,6 @@ describe('productCollectionEntries', () => {
 	});
 
 	it('should pass parameters including the handle as variables', async () => {
-		// mock a persisted query not found error so we can get a post request  sent so it's easier to inspect
-		mockedFetch.mockImplementationOnce(() =>
-			Promise.resolve(
-				getFetchPayload({
-					errors: [
-						{
-							message: 'PersistedQueryNotFound',
-							extensions: { code: 'PERSISTED_QUERY_NOT_FOUND' }
-						}
-					]
-				})
-			)
-		);
 		await client.productCollectionEntries({
 			advancedOptions: {
 				entriesPerPage: 5
@@ -936,19 +751,6 @@ describe('productCollectionEntries', () => {
 	});
 
 	it('should only include nacelleEntryIds if both collectionEntryId & handle are passed', async () => {
-		// mock a persisted query not found error so we can get a post request  sent so it's easier to inspect
-		mockedFetch.mockImplementationOnce(() =>
-			Promise.resolve(
-				getFetchPayload({
-					errors: [
-						{
-							message: 'PersistedQueryNotFound',
-							extensions: { code: 'PERSISTED_QUERY_NOT_FOUND' }
-						}
-					]
-				})
-			)
-		);
 		await client.productCollectionEntries({
 			advancedOptions: {
 				entriesPerPage: 5
@@ -991,14 +793,9 @@ describe('productCollectionEntries', () => {
 			},
 			maxReturnedEntries: 2
 		});
-		// since apq doesn't hash variables, can just get variables param off the url instead of mocking an apq error and getting it from the body.
 		expect(
-			JSON.parse(
-				new URL(mockedFetch.mock.lastCall![0] as URL | string).searchParams.get(
-					'variables'
-				) ?? ''
-			)
-		).toMatchObject({ entriesFirst: 2 });
+			JSON.parse(mockedFetch.mock.lastCall![1]?.body?.toString() ?? '')
+		).toMatchObject({ variables: { entriesFirst: 2 } });
 		mockedFetch.mockClear();
 		await client.productCollectionEntries({
 			collectionEntryId: 'abcdefg_1',
@@ -1008,12 +805,8 @@ describe('productCollectionEntries', () => {
 			maxReturnedEntries: 10
 		});
 		expect(
-			JSON.parse(
-				new URL(mockedFetch.mock.lastCall![0] as URL | string).searchParams.get(
-					'variables'
-				) ?? ''
-			)
-		).toMatchObject({ entriesFirst: 5 });
+			JSON.parse(mockedFetch.mock.lastCall![1]?.body?.toString() ?? '')
+		).toMatchObject({ variables: { entriesFirst: 5 } });
 		expect(mockedFetch).toBeCalledTimes(1);
 	});
 
