@@ -1,5 +1,5 @@
 import { expect, it, describe } from 'vitest';
-import handleErrors from '../../src/utils/handle-errors.js';
+import handleErrors from './handle-errors.js';
 import { GraphQLError } from 'graphql';
 
 describe('StorefrontConnector Handle Errors', () => {
