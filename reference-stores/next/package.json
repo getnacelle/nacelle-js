@@ -9,7 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@contentful/rich-text-html-renderer": "^15.11.1",
+    "@contentful/rich-text-html-renderer": "^16.0.0",
     "@nacelle/shopify-cart": "^1.0.0",
     "@nacelle/shopify-checkout": "^0.1.0",
     "@nacelle/storefront-sdk": "^1.1.1",
