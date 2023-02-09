@@ -78,9 +78,9 @@ describe('spaceProperties', () => {
 			getFetchPayload({ data: SpacePropertiesResult })
 		);
 
-		const { data } = await client.spaceProperties();
+		const data = await client.spaceProperties();
 
-		expectTypeOf(data!).toMatchTypeOf<SpaceProperties>();
+		expectTypeOf(data).toMatchTypeOf<SpaceProperties>();
 	});
 
 	it('fetches `spaceProperties` with the appropriate query', async () => {
@@ -121,9 +121,9 @@ describe('navigation', () => {
 		mockedFetch.mockResolvedValueOnce(
 			getFetchPayload({ data: NavigationResult })
 		);
-		const { data } = await client.navigation();
+		const data = await client.navigation();
 
-		expectTypeOf(data!).toMatchTypeOf<NavigationGroup[]>();
+		expectTypeOf(data).toMatchTypeOf<NavigationGroup[]>();
 	});
 
 	it('fetches `navigation` with the appropriate query', async () => {
@@ -164,9 +164,9 @@ describe('content', () => {
 	});
 
 	it('returns data of the expected type', async () => {
-		const { data } = await client.content();
+		const data = await client.content();
 
-		expectTypeOf(data!).toMatchTypeOf<Content[] | ContentEdge[]>();
+		expectTypeOf(data).toMatchTypeOf<Content[] | ContentEdge[]>();
 	});
 
 	it('should pass parameters including the `nacelleEntryId` as variables', async () => {
@@ -267,7 +267,7 @@ describe('content', () => {
 			edgesToNodes: false
 		});
 
-		expect(response.data).toMatchObject(
+		expect(response).toMatchObject(
 			mockUnpaginatedContent.data.allContent.edges
 		);
 	});
@@ -282,7 +282,7 @@ describe('content', () => {
 
 		expect(mockedFetch).toBeCalledTimes(4);
 		// number of edges should be equal to 3 paginated responses + 1 unpaginated responses
-		expect(response.data!.length).toBe(
+		expect(response.length).toBe(
 			3 * mockPaginatedContent.data.allContent.edges.length +
 				mockUnpaginatedContent.data.allContent.edges.length
 		);
@@ -301,7 +301,7 @@ describe('content', () => {
 			maxReturnedEntries: 15
 		});
 		expect(mockedFetch).toBeCalledTimes(3);
-		expect(response.data!.length).toBe(15);
+		expect(response.length).toBe(15);
 	});
 
 	it('should return the error if one of the requests errors', async () => {
@@ -338,9 +338,9 @@ describe('products', () => {
 	});
 
 	it('returns data of the expected type', async () => {
-		const { data } = await client.products();
+		const data = await client.products();
 
-		expectTypeOf(data!).toMatchTypeOf<Product[] | ProductEdge[]>();
+		expectTypeOf(data).toMatchTypeOf<Product[] | ProductEdge[]>();
 	});
 
 	it('should pass parameters including the `nacelleEntryId` as variables', async () => {
@@ -436,7 +436,7 @@ describe('products', () => {
 			edgesToNodes: false
 		});
 
-		expect(response.data).toMatchObject(
+		expect(response).toMatchObject(
 			mockUnpaginatedProduct.data.allProducts.edges
 		);
 	});
@@ -453,7 +453,7 @@ describe('products', () => {
 
 		expect(mockedFetch).toBeCalledTimes(4);
 		// number of edges should be equal to 3 paginated responses + 1 unpaginated responses
-		expect(response.data!.length).toBe(
+		expect(response.length).toBe(
 			3 * mockPaginatedProduct.data.allProducts.edges.length +
 				mockUnpaginatedProduct.data.allProducts.edges.length
 		);
@@ -472,7 +472,7 @@ describe('products', () => {
 			maxReturnedEntries: 15
 		});
 		expect(mockedFetch).toBeCalledTimes(3);
-		expect(response.data!.length).toBe(15);
+		expect(response.length).toBe(15);
 	});
 
 	it('should return the error if one of the requests errors', async () => {
@@ -512,9 +512,9 @@ describe('productCollections', () => {
 	});
 
 	it('returns data of the expected type', async () => {
-		const { data } = await client.productCollections();
+		const data = await client.productCollections();
 
-		expectTypeOf(data!).toMatchTypeOf<
+		expectTypeOf(data).toMatchTypeOf<
 			ProductCollection[] | ProductCollectionEdge[]
 		>();
 	});
@@ -630,7 +630,7 @@ describe('productCollections', () => {
 			edgesToNodes: false
 		});
 
-		expect(response.data).toMatchObject(
+		expect(response).toMatchObject(
 			mockUnpaginatedProductCollection.data.allProductCollections.edges
 		);
 	});
@@ -648,7 +648,7 @@ describe('productCollections', () => {
 
 		expect(mockedFetch).toBeCalledTimes(4);
 		// number of edges should be equal to 3 paginated responses + 1 unpaginated responses
-		expect(response.data!.length).toBe(
+		expect(response.length).toBe(
 			3 *
 				mockPaginatedProductCollection.data.allProductCollections.edges.length +
 				mockUnpaginatedProductCollection.data.allProductCollections.edges.length
@@ -668,7 +668,7 @@ describe('productCollections', () => {
 			maxReturnedEntries: 15
 		});
 		expect(mockedFetch).toBeCalledTimes(3);
-		expect(response.data!.length).toBe(15);
+		expect(response.length).toBe(15);
 	});
 
 	it('should return the error if one of the requests errors', async () => {
@@ -818,7 +818,7 @@ describe('productCollectionEntries', () => {
 			edgesToNodes: false
 		});
 
-		expect(response.data).toMatchObject(
+		expect(response).toMatchObject(
 			mockPaginatedProductCollectionEntries.data.allProductCollections.edges[0]
 				.node.productConnection.edges
 		);
@@ -831,7 +831,7 @@ describe('productCollectionEntries', () => {
 
 		const response = await client.productCollectionEntries();
 
-		expect(response.data).toMatchObject([]);
+		expect(response).toMatchObject([]);
 	});
 
 	it('should fetch until hasNextPage = false if maxReturnedEntries=-1', async () => {
@@ -852,7 +852,7 @@ describe('productCollectionEntries', () => {
 
 		expect(mockedFetch).toBeCalledTimes(4);
 		// number of edges should be equal to 3 paginated responses + 1 unpaginated responses
-		expect(response.data!.length).toBe(
+		expect(response.length).toBe(
 			3 *
 				mockPaginatedProductCollectionEntries.data.allProductCollections
 					.edges[0].node.productConnection.edges.length +
@@ -878,7 +878,7 @@ describe('productCollectionEntries', () => {
 			maxReturnedEntries: 15
 		});
 		expect(mockedFetch).toBeCalledTimes(3);
-		expect(response.data!.length).toBe(15);
+		expect(response.length).toBe(15);
 	});
 
 	it('should return the error if one of the requests errors', async () => {
@@ -901,8 +901,8 @@ describe('productCollectionEntries', () => {
 	});
 
 	it('returns data of the expected type', async () => {
-		const { data } = await client.productCollectionEntries();
+		const data = await client.productCollectionEntries();
 
-		expectTypeOf(data!).toMatchTypeOf<Product[] | ProductEdge[]>();
+		expectTypeOf(data).toMatchTypeOf<Product[] | ProductEdge[]>();
 	});
 });

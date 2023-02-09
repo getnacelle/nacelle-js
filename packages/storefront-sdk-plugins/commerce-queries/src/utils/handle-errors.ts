@@ -1,11 +1,5 @@
-// import type { GraphQLResponseError } from '../types/graphql.js';
 import type { StorefrontResponse } from '@nacelle/storefront-sdk';
 import type { GraphQLError } from 'graphql';
-
-export type CommerceQueriesResponse<QueryDocumentType> = Pick<
-	StorefrontResponse<QueryDocumentType>,
-	'data'
->;
 
 type CombinedError = StorefrontResponse<unknown>['error'];
 

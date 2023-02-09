@@ -7,7 +7,6 @@ import type {
 	StorefrontClient,
 	StorefrontResponse
 } from '@nacelle/storefront-sdk';
-import type { CommerceQueriesResponse } from '../index.js';
 import type {
 	InputMaybe,
 	Content,
@@ -120,5 +119,5 @@ export const requestPaginatedData = async <
 			}
 		}
 	} while (shouldKeepFetching);
-	return { data } as CommerceQueriesResponse<typeof data>;
+	return data;
 };
