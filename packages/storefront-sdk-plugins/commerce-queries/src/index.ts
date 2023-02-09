@@ -12,8 +12,7 @@ import {
 import type {
 	WithStorefrontQuery,
 	WithConfig,
-	StorefrontClient,
-	StorefrontResponse
+	StorefrontClient
 } from '@nacelle/storefront-sdk';
 import type {
 	Content,
