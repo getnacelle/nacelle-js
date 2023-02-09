@@ -99,7 +99,7 @@ describe('spaceProperties', () => {
 		);
 	});
 
-	it('should throw the error if one of the requests errors', async () => {
+	it('should throw an error if one of the requests errors', async () => {
 		mockedFetch.mockResolvedValueOnce(
 			getFetchPayload({
 				errors: [
@@ -142,7 +142,7 @@ describe('navigation', () => {
 		);
 	});
 
-	it('should return the error if one of the requests errors', async () => {
+	it('should throw an error if one of the requests errors', async () => {
 		mockedFetch.mockResolvedValueOnce(
 			getFetchPayload({
 				errors: [
@@ -242,8 +242,8 @@ describe('content', () => {
 		expect(
 			JSON.parse(mockedFetch.mock.lastCall![1]?.body?.toString() ?? '')
 		).toMatchObject({ variables: { filter: { first: 2 } } });
-    
-    mockedFetch.mockRestore();
+
+		mockedFetch.mockRestore();
 		mockedFetch.mockResolvedValue(getFetchPayload(mockUnpaginatedContent));
 
 		await client.content({
@@ -304,7 +304,7 @@ describe('content', () => {
 		expect(response.length).toBe(15);
 	});
 
-	it('should return the error if one of the requests errors', async () => {
+	it('should throw an error if one of the requests errors', async () => {
 		mockedFetch
 			.mockResolvedValueOnce(getFetchPayload(mockPaginatedContent))
 			.mockResolvedValueOnce(
@@ -475,7 +475,7 @@ describe('products', () => {
 		expect(response.length).toBe(15);
 	});
 
-	it('should return the error if one of the requests errors', async () => {
+	it('should throw an error if one of the requests errors', async () => {
 		mockedFetch
 			.mockResolvedValueOnce(getFetchPayload(mockPaginatedProduct))
 			.mockResolvedValueOnce(
@@ -613,7 +613,7 @@ describe('productCollections', () => {
 		mockedFetch.mockResolvedValue(
 			getFetchPayload(mockUnpaginatedProductCollection)
 		);
-    await client.productCollections({
+		await client.productCollections({
 			advancedOptions: {
 				entriesPerPage: 5
 			},
@@ -671,7 +671,7 @@ describe('productCollections', () => {
 		expect(response.length).toBe(15);
 	});
 
-	it('should return the error if one of the requests errors', async () => {
+	it('should throw an error if one of the requests errors', async () => {
 		mockedFetch
 			.mockResolvedValueOnce(getFetchPayload(mockPaginatedProductCollection))
 			.mockResolvedValueOnce(
@@ -881,7 +881,7 @@ describe('productCollectionEntries', () => {
 		expect(response.length).toBe(15);
 	});
 
-	it('should return the error if one of the requests errors', async () => {
+	it('should throw an error if one of the requests errors', async () => {
 		mockedFetch
 			.mockImplementationOnce(() =>
 				Promise.resolve(getFetchPayload(mockPaginatedProductCollectionEntries))
