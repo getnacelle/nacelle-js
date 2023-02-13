@@ -1,4 +1,5 @@
 import { requestPaginatedData } from './utils/requestPaginatedData.js';
+import handleErrors from './utils/handle-errors.js';
 import {
 	SpacePropertiesDocument,
 	NavigationDocument,
@@ -11,8 +12,7 @@ import {
 import type {
 	WithStorefrontQuery,
 	WithConfig,
-	StorefrontClient,
-	StorefrontResponse
+	StorefrontClient
 } from '@nacelle/storefront-sdk';
 import type {
 	Content,
@@ -66,56 +66,50 @@ function commerceQueriesPlugin<TBase extends WithStorefrontQuery & WithConfig>(
 	Base: TBase
 ) {
 	return class CommerceQueries extends Base {
-		async spaceProperties(): Promise<StorefrontResponse<SpaceProperties>> {
+		async spaceProperties(): Promise<SpaceProperties> {
 			const queryResponse = await this.query({
 				query: SpacePropertiesDocument
 			});
 
 			if (queryResponse.error) {
-				return queryResponse as StorefrontResponse<SpaceProperties>;
+				handleErrors(queryResponse.error);
 			}
 
 			const spaceProperties = queryResponse.data
 				?.spaceProperties as SpaceProperties;
 
-			return {
-				// eslint-disable-next-line @typescript-eslint/no-unsafe-call
-				data: await (this as unknown as StorefrontClient)['applyAfter'](
-					'spaceProperties',
-					spaceProperties
-				)
-			} as StorefrontResponse<SpaceProperties>;
+			return await (this as unknown as StorefrontClient)['applyAfter'](
+				'spaceProperties',
+				spaceProperties
+			);
 		}
 
 		async navigation(
 			params?: NavigationFilterInput
-		): Promise<StorefrontResponse<Array<NavigationGroup>>> {
+		): Promise<Array<NavigationGroup>> {
 			const queryResponse = await this.query({
 				query: NavigationDocument,
 				variables: { filter: params }
 			});
 
 			if (queryResponse.error) {
-				return { ...queryResponse } as StorefrontResponse<NavigationGroup[]>;
+				handleErrors(queryResponse.error);
 			}
 
 			const navigation = queryResponse.data
 				?.navigation as Array<NavigationGroup>;
 
-			return {
-				// eslint-disable-next-line @typescript-eslint/no-unsafe-call
-				data: await (this as unknown as StorefrontClient)['applyAfter'](
-					'navigation',
-					navigation
-				)
-			} as StorefrontResponse<Array<NavigationGroup>>;
+			return await (this as unknown as StorefrontClient)['applyAfter'](
+				'navigation',
+				navigation
+			);
 		}
 		readonly #defaultMaxReturnedEntries = -1;
 		readonly #defaultPageFetchLimit = 50;
 
 		async content(
 			params?: FetchContentMethodParams
-		): Promise<StorefrontResponse<Content[] | ContentEdge[]>> {
+		): Promise<Content[] | ContentEdge[]> {
 			const {
 				cursor,
 				nacelleEntryIds,
@@ -162,16 +156,10 @@ function commerceQueriesPlugin<TBase extends WithStorefrontQuery & WithConfig>(
 				ContentFilterInput
 			>(this, 'allContent', filter, maxReturnedEntries, edgesToNodes);
 
-			if (responseData?.error) {
-				return responseData;
-			}
-			return {
-				data: await (this as unknown as StorefrontClient)['applyAfter'](
-					'content',
-					// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-					responseData.data!
-				)
-			} as StorefrontResponse<ContentEdge[] | Content[]>;
+			return await (this as unknown as StorefrontClient)['applyAfter'](
+				'content',
+				responseData
+			);
 		}
 
 		async products(params?: CommerceQueriesParams) {
@@ -219,16 +207,10 @@ function commerceQueriesPlugin<TBase extends WithStorefrontQuery & WithConfig>(
 				ProductFilterInput
 			>(this, 'allProducts', filter, maxReturnedEntries, edgesToNodes);
 
-			if (responseData?.error) {
-				return responseData;
-			}
-			return {
-				data: await (this as unknown as StorefrontClient)['applyAfter'](
-					'products',
-					// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-					responseData.data!
-				)
-			} as StorefrontResponse<ProductEdge[] | Product[]>;
+			return await (this as unknown as StorefrontClient)['applyAfter'](
+				'products',
+				responseData
+			);
 		}
 		async productCollections(params?: FetchProductCollectionsMethodParams) {
 			const {
@@ -284,21 +266,14 @@ function commerceQueriesPlugin<TBase extends WithStorefrontQuery & WithConfig>(
 				maxReturnedEntriesPerCollection
 			);
 
-			if (responseData?.error) {
-				return responseData;
-			}
-
-			return {
-				data: await (this as unknown as StorefrontClient)['applyAfter'](
-					'productCollections',
-					// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-					responseData.data!
-				)
-			} as StorefrontResponse<ProductCollection[] | ProductCollectionEdge[]>;
+			return await (this as unknown as StorefrontClient)['applyAfter'](
+				'productCollections',
+				responseData
+			);
 		}
 		async productCollectionEntries(
 			params?: FetchCollectionEntriesMethodParams
-		): Promise<StorefrontResponse<Product[] | ProductEdge[]>> {
+		): Promise<Product[] | ProductEdge[]> {
 			const {
 				collectionEntryId,
 				handle,
@@ -346,7 +321,7 @@ function commerceQueriesPlugin<TBase extends WithStorefrontQuery & WithConfig>(
 				});
 
 				if (queryResponse.error) {
-					return { error: queryResponse.error };
+					handleErrors(queryResponse.error);
 				}
 
 				if (queryResponse.data) {
@@ -385,12 +360,10 @@ function commerceQueriesPlugin<TBase extends WithStorefrontQuery & WithConfig>(
 				}
 			} while (keepFetching);
 
-			return {
-				data: await (this as unknown as StorefrontClient)['applyAfter'](
-					'productCollectionEntries',
-					allEntries
-				)
-			} as StorefrontResponse<ProductEdge[] | Product[]>;
+			return await (this as unknown as StorefrontClient)['applyAfter'](
+				'productCollectionEntries',
+				allEntries
+			);
 		}
 	};
 }
