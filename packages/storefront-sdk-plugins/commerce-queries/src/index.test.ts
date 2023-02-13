@@ -78,9 +78,9 @@ describe('spaceProperties', () => {
 			getFetchPayload({ data: SpacePropertiesResult })
 		);
 
-		const { data } = await client.spaceProperties();
+		const data = await client.spaceProperties();
 
-		expectTypeOf(data!).toMatchTypeOf<SpaceProperties>();
+		expectTypeOf(data).toMatchTypeOf<SpaceProperties>();
 	});
 
 	it('fetches `spaceProperties` with the appropriate query', async () => {
@@ -99,20 +99,18 @@ describe('spaceProperties', () => {
 		);
 	});
 
-	it('should return the error if one of the requests errors', async () => {
+	it('should throw an error if one of the requests errors', async () => {
 		mockedFetch.mockResolvedValueOnce(
 			getFetchPayload({
 				errors: [
 					{
 						message: 'xxx',
-						extensions: { code: 'xxx' }
+						extensions: { code: 'COMPLEXITY_ERROR' }
 					}
 				]
 			})
 		);
-		const response = await client.spaceProperties();
-		expect(response.error).toBeDefined();
-		expect(response.data).toBeUndefined();
+		await expect(client.spaceProperties()).rejects.toThrow('xxx');
 	});
 });
 
@@ -123,9 +121,9 @@ describe('navigation', () => {
 		mockedFetch.mockResolvedValueOnce(
 			getFetchPayload({ data: NavigationResult })
 		);
-		const { data } = await client.navigation();
+		const data = await client.navigation();
 
-		expectTypeOf(data!).toMatchTypeOf<NavigationGroup[]>();
+		expectTypeOf(data).toMatchTypeOf<NavigationGroup[]>();
 	});
 
 	it('fetches `navigation` with the appropriate query', async () => {
@@ -144,7 +142,7 @@ describe('navigation', () => {
 		);
 	});
 
-	it('should return the error if one of the requests errors', async () => {
+	it('should throw an error if one of the requests errors', async () => {
 		mockedFetch.mockResolvedValueOnce(
 			getFetchPayload({
 				errors: [
@@ -155,9 +153,7 @@ describe('navigation', () => {
 				]
 			})
 		);
-		const response = await client.navigation();
-		expect(response.error).toBeDefined();
-		expect(response.data).toBeUndefined();
+		await expect(client.navigation()).rejects.toThrow();
 	});
 });
 
@@ -168,9 +164,9 @@ describe('content', () => {
 	});
 
 	it('returns data of the expected type', async () => {
-		const { data } = await client.content();
+		const data = await client.content();
 
-		expectTypeOf(data!).toMatchTypeOf<Content[] | ContentEdge[]>();
+		expectTypeOf(data).toMatchTypeOf<Content[] | ContentEdge[]>();
 	});
 
 	it('should pass parameters including the `nacelleEntryId` as variables', async () => {
@@ -246,7 +242,10 @@ describe('content', () => {
 		expect(
 			JSON.parse(mockedFetch.mock.lastCall![1]?.body?.toString() ?? '')
 		).toMatchObject({ variables: { filter: { first: 2 } } });
-		mockedFetch.mockClear();
+
+		mockedFetch.mockRestore();
+		mockedFetch.mockResolvedValue(getFetchPayload(mockUnpaginatedContent));
+
 		await client.content({
 			advancedOptions: {
 				entriesPerPage: 5
@@ -268,7 +267,7 @@ describe('content', () => {
 			edgesToNodes: false
 		});
 
-		expect(response.data).toMatchObject(
+		expect(response).toMatchObject(
 			mockUnpaginatedContent.data.allContent.edges
 		);
 	});
@@ -283,7 +282,7 @@ describe('content', () => {
 
 		expect(mockedFetch).toBeCalledTimes(4);
 		// number of edges should be equal to 3 paginated responses + 1 unpaginated responses
-		expect(response.data!.length).toBe(
+		expect(response.length).toBe(
 			3 * mockPaginatedContent.data.allContent.edges.length +
 				mockUnpaginatedContent.data.allContent.edges.length
 		);
@@ -302,27 +301,26 @@ describe('content', () => {
 			maxReturnedEntries: 15
 		});
 		expect(mockedFetch).toBeCalledTimes(3);
-		expect(response.data!.length).toBe(15);
+		expect(response.length).toBe(15);
 	});
 
-	it('should return the error if one of the requests errors', async () => {
+	it('should throw an error if one of the requests errors', async () => {
 		mockedFetch
 			.mockResolvedValueOnce(getFetchPayload(mockPaginatedContent))
 			.mockResolvedValueOnce(
 				getFetchPayload({ error: { message: 'GraphQL error' } })
 			);
 
-		const response = await client.content();
+		await expect(client.content()).rejects.toThrow();
 		expect(mockedFetch).toBeCalledTimes(2);
-		expect(response.error).toBeDefined();
-		expect(response.data).toBeUndefined();
 	});
 
 	it('should issue a warning when an excessively high `entriesPerPage` value is provided', async () => {
 		const warnSpy = vi.spyOn(console, 'warn');
 		await client.content();
 		expect(warnSpy).toHaveBeenCalledTimes(0);
-
+		mockedFetch.mockRestore();
+		mockedFetch.mockResolvedValue(getFetchPayload(mockUnpaginatedContent));
 		await client.content({
 			advancedOptions: {
 				entriesPerPage: 101
@@ -340,9 +338,9 @@ describe('products', () => {
 	});
 
 	it('returns data of the expected type', async () => {
-		const { data } = await client.products();
+		const data = await client.products();
 
-		expectTypeOf(data!).toMatchTypeOf<Product[] | ProductEdge[]>();
+		expectTypeOf(data).toMatchTypeOf<Product[] | ProductEdge[]>();
 	});
 
 	it('should pass parameters including the `nacelleEntryId` as variables', async () => {
@@ -419,7 +417,8 @@ describe('products', () => {
 		expect(
 			JSON.parse(mockedFetch.mock.lastCall![1]?.body?.toString() ?? '')
 		).toMatchObject({ variables: { filter: { first: 2 } } });
-		mockedFetch.mockClear();
+		mockedFetch.mockRestore();
+		mockedFetch.mockResolvedValue(getFetchPayload(mockUnpaginatedProduct));
 		await client.products({
 			advancedOptions: {
 				entriesPerPage: 5
@@ -437,7 +436,7 @@ describe('products', () => {
 			edgesToNodes: false
 		});
 
-		expect(response.data).toMatchObject(
+		expect(response).toMatchObject(
 			mockUnpaginatedProduct.data.allProducts.edges
 		);
 	});
@@ -454,7 +453,7 @@ describe('products', () => {
 
 		expect(mockedFetch).toBeCalledTimes(4);
 		// number of edges should be equal to 3 paginated responses + 1 unpaginated responses
-		expect(response.data!.length).toBe(
+		expect(response.length).toBe(
 			3 * mockPaginatedProduct.data.allProducts.edges.length +
 				mockUnpaginatedProduct.data.allProducts.edges.length
 		);
@@ -473,25 +472,26 @@ describe('products', () => {
 			maxReturnedEntries: 15
 		});
 		expect(mockedFetch).toBeCalledTimes(3);
-		expect(response.data!.length).toBe(15);
+		expect(response.length).toBe(15);
 	});
 
-	it('should return the error if one of the requests errors', async () => {
+	it('should throw an error if one of the requests errors', async () => {
 		mockedFetch
 			.mockResolvedValueOnce(getFetchPayload(mockPaginatedProduct))
 			.mockResolvedValueOnce(
 				getFetchPayload({ error: { message: 'GraphQL error' } })
 			);
-		const response = await client.products();
+		await expect(client.products()).rejects.toThrow();
 		expect(mockedFetch).toBeCalledTimes(2);
-		expect(response.error).toBeDefined();
-		expect(response.data).toBeUndefined();
 	});
 
 	it('should issue a warning when an excessively high `entriesPerPage` value is provided', async () => {
 		const warnSpy = vi.spyOn(console, 'warn');
 		await client.products();
 		expect(warnSpy).toHaveBeenCalledTimes(0);
+
+		mockedFetch.mockRestore();
+		mockedFetch.mockResolvedValue(getFetchPayload(mockUnpaginatedProduct));
 
 		await client.products({
 			advancedOptions: {
@@ -512,9 +512,9 @@ describe('productCollections', () => {
 	});
 
 	it('returns data of the expected type', async () => {
-		const { data } = await client.productCollections();
+		const data = await client.productCollections();
 
-		expectTypeOf(data!).toMatchTypeOf<
+		expectTypeOf(data).toMatchTypeOf<
 			ProductCollection[] | ProductCollectionEdge[]
 		>();
 	});
@@ -609,7 +609,10 @@ describe('productCollections', () => {
 		expect(
 			JSON.parse(mockedFetch.mock.lastCall![1]?.body?.toString() ?? '')
 		).toMatchObject({ variables: { filter: { first: 2 } } });
-		mockedFetch.mockClear();
+		mockedFetch.mockRestore();
+		mockedFetch.mockResolvedValue(
+			getFetchPayload(mockUnpaginatedProductCollection)
+		);
 		await client.productCollections({
 			advancedOptions: {
 				entriesPerPage: 5
@@ -627,7 +630,7 @@ describe('productCollections', () => {
 			edgesToNodes: false
 		});
 
-		expect(response.data).toMatchObject(
+		expect(response).toMatchObject(
 			mockUnpaginatedProductCollection.data.allProductCollections.edges
 		);
 	});
@@ -645,7 +648,7 @@ describe('productCollections', () => {
 
 		expect(mockedFetch).toBeCalledTimes(4);
 		// number of edges should be equal to 3 paginated responses + 1 unpaginated responses
-		expect(response.data!.length).toBe(
+		expect(response.length).toBe(
 			3 *
 				mockPaginatedProductCollection.data.allProductCollections.edges.length +
 				mockUnpaginatedProductCollection.data.allProductCollections.edges.length
@@ -665,25 +668,27 @@ describe('productCollections', () => {
 			maxReturnedEntries: 15
 		});
 		expect(mockedFetch).toBeCalledTimes(3);
-		expect(response.data!.length).toBe(15);
+		expect(response.length).toBe(15);
 	});
 
-	it('should return the error if one of the requests errors', async () => {
+	it('should throw an error if one of the requests errors', async () => {
 		mockedFetch
 			.mockResolvedValueOnce(getFetchPayload(mockPaginatedProductCollection))
 			.mockResolvedValueOnce(
 				getFetchPayload({ error: { message: 'GraphQL error' } })
 			);
-		const response = await client.productCollections();
+		await expect(client.productCollections()).rejects.toThrow();
 		expect(mockedFetch).toBeCalledTimes(2);
-		expect(response.error).toBeDefined();
-		expect(response.data).toBeUndefined();
 	});
 
 	it('should issue a warning when an excessively high `entriesPerPage` value is provided', async () => {
 		const warnSpy = vi.spyOn(console, 'warn');
 		await client.productCollections();
 		expect(warnSpy).toHaveBeenCalledTimes(0);
+		mockedFetch.mockRestore();
+		mockedFetch.mockResolvedValue(
+			getFetchPayload(mockUnpaginatedProductCollection)
+		);
 
 		await client.productCollections({
 			advancedOptions: {
@@ -813,7 +818,7 @@ describe('productCollectionEntries', () => {
 			edgesToNodes: false
 		});
 
-		expect(response.data).toMatchObject(
+		expect(response).toMatchObject(
 			mockPaginatedProductCollectionEntries.data.allProductCollections.edges[0]
 				.node.productConnection.edges
 		);
@@ -826,7 +831,7 @@ describe('productCollectionEntries', () => {
 
 		const response = await client.productCollectionEntries();
 
-		expect(response.data).toMatchObject([]);
+		expect(response).toMatchObject([]);
 	});
 
 	it('should fetch until hasNextPage = false if maxReturnedEntries=-1', async () => {
@@ -847,7 +852,7 @@ describe('productCollectionEntries', () => {
 
 		expect(mockedFetch).toBeCalledTimes(4);
 		// number of edges should be equal to 3 paginated responses + 1 unpaginated responses
-		expect(response.data!.length).toBe(
+		expect(response.length).toBe(
 			3 *
 				mockPaginatedProductCollectionEntries.data.allProductCollections
 					.edges[0].node.productConnection.edges.length +
@@ -873,10 +878,10 @@ describe('productCollectionEntries', () => {
 			maxReturnedEntries: 15
 		});
 		expect(mockedFetch).toBeCalledTimes(3);
-		expect(response.data!.length).toBe(15);
+		expect(response.length).toBe(15);
 	});
 
-	it('should return the error if one of the requests errors', async () => {
+	it('should throw an error if one of the requests errors', async () => {
 		mockedFetch
 			.mockImplementationOnce(() =>
 				Promise.resolve(getFetchPayload(mockPaginatedProductCollectionEntries))
@@ -886,17 +891,18 @@ describe('productCollectionEntries', () => {
 					getFetchPayload({ error: { message: 'GraphQL error' } })
 				)
 			);
-		const response = await client.productCollectionEntries({
-			collectionEntryId: 'abcdefg_1'
-		});
+		await expect(
+			client.productCollectionEntries({
+				collectionEntryId: 'abcdefg_1'
+			})
+		).rejects.toThrow();
+
 		expect(mockedFetch).toBeCalledTimes(2);
-		expect(response.error).toBeDefined();
-		expect(response.data).toBeUndefined();
 	});
 
 	it('returns data of the expected type', async () => {
-		const { data } = await client.productCollectionEntries();
+		const data = await client.productCollectionEntries();
 
-		expectTypeOf(data!).toMatchTypeOf<Product[] | ProductEdge[]>();
+		expectTypeOf(data).toMatchTypeOf<Product[] | ProductEdge[]>();
 	});
 });
