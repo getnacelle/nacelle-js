@@ -16,6 +16,7 @@ import type {
 	ProductEdge,
 	ProductCollectionEdge
 } from '../types/storefront.js';
+import handleErrors from '../utils/handle-errors.js';
 
 /** These are concrete unions of the different query names. As new paginated queries are added, they should be added to this union.*/
 type PaginatedQueryName =
@@ -96,7 +97,7 @@ export const requestPaginatedData = async <
 			variables
 		})) as unknown as StorefrontResponse<PaginatedQueryType<EdgeType>>;
 		if (queryResponse.error) {
-			return { error: queryResponse.error };
+			handleErrors(queryResponse.error);
 		}
 		if (queryResponse.data) {
 			// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
@@ -118,5 +119,5 @@ export const requestPaginatedData = async <
 			}
 		}
 	} while (shouldKeepFetching);
-	return { data } as StorefrontResponse<typeof data>;
+	return data;
 };
