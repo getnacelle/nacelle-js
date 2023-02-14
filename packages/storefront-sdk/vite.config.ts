@@ -13,7 +13,16 @@ export const config: UserConfig = {
 			name: 'NacelleStorefrontSdk'
 		},
 		sourcemap: true,
-		target: 'es2022'
+		target: 'es2022',
+		rollupOptions: {
+			external: ['@urql/core', 'graphql'],
+			output: {
+				globals: {
+					'@urql/core': 'Urql',
+					graphql: 'Graphql'
+				}
+			}
+		}
 	},
 	plugins: [],
 	test: {
