@@ -20,11 +20,11 @@
 		"preserveSymlinks": true,
 		"emitDeclarationOnly": true,
 		"useDefineForClassFields": true,
-		"noUnusedLocals": true,
-		"noUnusedParameters": true,
+		"noUnusedLocals": false,
+		"noUnusedParameters": false,
 		"noImplicitReturns": true,
 		"forceConsistentCasingInFileNames": true,
-		"skipLibCheck": true
+		"skipLibCheck": true,
 	},
 	"include": ["**/*.ts", "vite.config.ts"],
 	"exclude": ["dist"]

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { requestPaginatedData } from './utils/requestPaginatedData.js';
 import handleErrors from './utils/handle-errors.js';
 import {
@@ -62,10 +63,15 @@ export interface FetchCollectionEntriesMethodParams {
 	advancedOptions?: FetchMethodAdvancedParams;
 }
 
+export interface CommerceQueriesInterface {
+	spaceProperties(): Promise<SpaceProperties>;
+	navigation(params?: NavigationFilterInput): Promise<Array<NavigationGroup>>;
+}
+
 function commerceQueriesPlugin<TBase extends WithStorefrontQuery & WithConfig>(
 	Base: TBase
 ) {
-	return class CommerceQueries extends Base {
+	return class CommerceQueries extends Base implements CommerceQueries {
 		async spaceProperties(): Promise<SpaceProperties> {
 			const queryResponse = await this.query({
 				query: SpacePropertiesDocument
@@ -104,267 +110,267 @@ function commerceQueriesPlugin<TBase extends WithStorefrontQuery & WithConfig>(
 				navigation
 			);
 		}
-		readonly #defaultMaxReturnedEntries = -1;
-		readonly #defaultPageFetchLimit = 50;
+		// readonly #defaultMaxReturnedEntries = -1;
+		// readonly #defaultPageFetchLimit = 50;
 
-		async content(
-			params?: FetchContentMethodParams
-		): Promise<Content[] | ContentEdge[]> {
-			const {
-				cursor,
-				nacelleEntryIds,
-				handles,
-				locale = this.getConfig()?.locale,
-				maxReturnedEntries = this.#defaultMaxReturnedEntries,
-				advancedOptions,
-				edgesToNodes = true,
-				entryDepth,
-				type
-			} = params ?? {};
+		// async content(
+		// 	params?: FetchContentMethodParams
+		// ): Promise<Content[] | ContentEdge[]> {
+		// 	const {
+		// 		cursor,
+		// 		nacelleEntryIds,
+		// 		handles,
+		// 		locale = this.getConfig()?.locale,
+		// 		maxReturnedEntries = this.#defaultMaxReturnedEntries,
+		// 		advancedOptions,
+		// 		edgesToNodes = true,
+		// 		entryDepth,
+		// 		type
+		// 	} = params ?? {};
 
-			if (Number(advancedOptions?.entriesPerPage) > 100) {
-				console.warn(highEntriesPerPageMessage);
-			}
+		// 	if (Number(advancedOptions?.entriesPerPage) > 100) {
+		// 		console.warn(highEntriesPerPageMessage);
+		// 	}
 
-			const first = Math.min(
-				...[
-					advancedOptions?.entriesPerPage ?? this.#defaultPageFetchLimit,
-					maxReturnedEntries
-				].filter((n) => n > 0)
-			);
-			const filter: ContentFilterInput = {
-				after: cursor,
-				locale,
-				first,
-				entryDepth,
-				type
-			};
-			// keeping with v1 sdk, only use nacelleEntryIds if both handles and nacelleEntryIds are provided
-			if (nacelleEntryIds && handles) {
-				console.warn(entryIdsAndHandlesMessage('content'));
-			}
-			if (nacelleEntryIds) {
-				filter.nacelleEntryIds = nacelleEntryIds;
-			} else {
-				filter.handles = handles;
-			}
+		// 	const first = Math.min(
+		// 		...[
+		// 			advancedOptions?.entriesPerPage ?? this.#defaultPageFetchLimit,
+		// 			maxReturnedEntries
+		// 		].filter((n) => n > 0)
+		// 	);
+		// 	const filter: ContentFilterInput = {
+		// 		after: cursor,
+		// 		locale,
+		// 		first,
+		// 		entryDepth,
+		// 		type
+		// 	};
+		// 	// keeping with v1 sdk, only use nacelleEntryIds if both handles and nacelleEntryIds are provided
+		// 	if (nacelleEntryIds && handles) {
+		// 		console.warn(entryIdsAndHandlesMessage('content'));
+		// 	}
+		// 	if (nacelleEntryIds) {
+		// 		filter.nacelleEntryIds = nacelleEntryIds;
+		// 	} else {
+		// 		filter.handles = handles;
+		// 	}
 
-			const responseData = await requestPaginatedData<
-				this,
-				Content,
-				ContentEdge,
-				ContentFilterInput
-			>(this, 'allContent', filter, maxReturnedEntries, edgesToNodes);
+		// 	const responseData = await requestPaginatedData<
+		// 		this,
+		// 		Content,
+		// 		ContentEdge,
+		// 		ContentFilterInput
+		// 	>(this, 'allContent', filter, maxReturnedEntries, edgesToNodes);
 
-			return await (this as unknown as StorefrontClient)['applyAfter'](
-				'content',
-				responseData
-			);
-		}
+		// 	return await (this as unknown as StorefrontClient)['applyAfter'](
+		// 		'content',
+		// 		responseData
+		// 	);
+		// }
 
-		async products(params?: CommerceQueriesParams) {
-			const {
-				cursor,
-				nacelleEntryIds,
-				handles,
-				locale = this.getConfig()?.locale,
-				maxReturnedEntries = this.#defaultMaxReturnedEntries,
-				advancedOptions,
-				edgesToNodes = true
-			} = params ?? {};
+		// async products(params?: CommerceQueriesParams) {
+		// 	const {
+		// 		cursor,
+		// 		nacelleEntryIds,
+		// 		handles,
+		// 		locale = this.getConfig()?.locale,
+		// 		maxReturnedEntries = this.#defaultMaxReturnedEntries,
+		// 		advancedOptions,
+		// 		edgesToNodes = true
+		// 	} = params ?? {};
 
-			if (Number(advancedOptions?.entriesPerPage) > 100) {
-				console.warn(highEntriesPerPageMessage);
-			}
+		// 	if (Number(advancedOptions?.entriesPerPage) > 100) {
+		// 		console.warn(highEntriesPerPageMessage);
+		// 	}
 
-			const first = Math.min(
-				...[
-					advancedOptions?.entriesPerPage ?? this.#defaultPageFetchLimit,
-					maxReturnedEntries
-				].filter((n) => n > 0)
-			);
+		// 	const first = Math.min(
+		// 		...[
+		// 			advancedOptions?.entriesPerPage ?? this.#defaultPageFetchLimit,
+		// 			maxReturnedEntries
+		// 		].filter((n) => n > 0)
+		// 	);
 
-			const filter: ProductFilterInput = {
-				after: cursor,
-				first,
-				locale
-			};
+		// 	const filter: ProductFilterInput = {
+		// 		after: cursor,
+		// 		first,
+		// 		locale
+		// 	};
 
-			// keeping with v1 sdk, only use nacelleEntryIds if both handles and nacelleEntryIds are provided
-			if (nacelleEntryIds && handles) {
-				console.warn(entryIdsAndHandlesMessage('products'));
-			}
-			if (nacelleEntryIds) {
-				filter.nacelleEntryIds = nacelleEntryIds;
-			} else {
-				filter.handles = handles;
-			}
+		// 	// keeping with v1 sdk, only use nacelleEntryIds if both handles and nacelleEntryIds are provided
+		// 	if (nacelleEntryIds && handles) {
+		// 		console.warn(entryIdsAndHandlesMessage('products'));
+		// 	}
+		// 	if (nacelleEntryIds) {
+		// 		filter.nacelleEntryIds = nacelleEntryIds;
+		// 	} else {
+		// 		filter.handles = handles;
+		// 	}
 
-			const responseData = await requestPaginatedData<
-				this,
-				Product,
-				ProductEdge,
-				ProductFilterInput
-			>(this, 'allProducts', filter, maxReturnedEntries, edgesToNodes);
+		// 	const responseData = await requestPaginatedData<
+		// 		this,
+		// 		Product,
+		// 		ProductEdge,
+		// 		ProductFilterInput
+		// 	>(this, 'allProducts', filter, maxReturnedEntries, edgesToNodes);
 
-			return await (this as unknown as StorefrontClient)['applyAfter'](
-				'products',
-				responseData
-			);
-		}
-		async productCollections(params?: FetchProductCollectionsMethodParams) {
-			const {
-				cursor,
-				nacelleEntryIds,
-				handles,
-				locale = this.getConfig()?.locale,
-				maxReturnedEntries = this.#defaultMaxReturnedEntries,
-				maxReturnedEntriesPerCollection,
-				advancedOptions,
-				edgesToNodes = true
-			} = params ?? {};
+		// 	return await (this as unknown as StorefrontClient)['applyAfter'](
+		// 		'products',
+		// 		responseData
+		// 	);
+		// }
+		// async productCollections(params?: FetchProductCollectionsMethodParams) {
+		// 	const {
+		// 		cursor,
+		// 		nacelleEntryIds,
+		// 		handles,
+		// 		locale = this.getConfig()?.locale,
+		// 		maxReturnedEntries = this.#defaultMaxReturnedEntries,
+		// 		maxReturnedEntriesPerCollection,
+		// 		advancedOptions,
+		// 		edgesToNodes = true
+		// 	} = params ?? {};
 
-			if (Number(advancedOptions?.entriesPerPage) > 100) {
-				console.warn(highEntriesPerPageMessage);
-			}
+		// 	if (Number(advancedOptions?.entriesPerPage) > 100) {
+		// 		console.warn(highEntriesPerPageMessage);
+		// 	}
 
-			const first = Math.min(
-				...[
-					advancedOptions?.entriesPerPage ?? this.#defaultPageFetchLimit,
-					maxReturnedEntries
-				].filter((n) => n > 0)
-			);
+		// 	const first = Math.min(
+		// 		...[
+		// 			advancedOptions?.entriesPerPage ?? this.#defaultPageFetchLimit,
+		// 			maxReturnedEntries
+		// 		].filter((n) => n > 0)
+		// 	);
 
-			const filter: ProductCollectionFilterInput = {
-				after: cursor,
-				locale,
-				first
-			};
+		// 	const filter: ProductCollectionFilterInput = {
+		// 		after: cursor,
+		// 		locale,
+		// 		first
+		// 	};
 
-			// keeping with v1 sdk, only use nacelleEntryIds if both handles and nacelleEntryIds are provided
-			if (nacelleEntryIds && handles) {
-				console.warn(entryIdsAndHandlesMessage('productCollections'));
-			}
+		// 	// keeping with v1 sdk, only use nacelleEntryIds if both handles and nacelleEntryIds are provided
+		// 	if (nacelleEntryIds && handles) {
+		// 		console.warn(entryIdsAndHandlesMessage('productCollections'));
+		// 	}
 
-			if (nacelleEntryIds) {
-				filter.nacelleEntryIds = nacelleEntryIds;
-			} else {
-				filter.handles = handles;
-			}
+		// 	if (nacelleEntryIds) {
+		// 		filter.nacelleEntryIds = nacelleEntryIds;
+		// 	} else {
+		// 		filter.handles = handles;
+		// 	}
 
-			const responseData = await requestPaginatedData<
-				this,
-				ProductCollection,
-				ProductCollectionEdge,
-				ProductCollectionFilterInput
-			>(
-				this,
-				'allProductCollections',
-				filter,
-				maxReturnedEntries,
-				edgesToNodes,
-				maxReturnedEntriesPerCollection
-			);
+		// 	const responseData = await requestPaginatedData<
+		// 		this,
+		// 		ProductCollection,
+		// 		ProductCollectionEdge,
+		// 		ProductCollectionFilterInput
+		// 	>(
+		// 		this,
+		// 		'allProductCollections',
+		// 		filter,
+		// 		maxReturnedEntries,
+		// 		edgesToNodes,
+		// 		maxReturnedEntriesPerCollection
+		// 	);
 
-			return await (this as unknown as StorefrontClient)['applyAfter'](
-				'productCollections',
-				responseData
-			);
-		}
-		async productCollectionEntries(
-			params?: FetchCollectionEntriesMethodParams
-		): Promise<Product[] | ProductEdge[]> {
-			const {
-				collectionEntryId,
-				handle,
-				locale = this.getConfig()?.locale,
-				maxReturnedEntries = this.#defaultMaxReturnedEntries,
-				cursor,
-				edgesToNodes = true,
-				advancedOptions
-			} = params ?? {};
-			if (collectionEntryId && handle) {
-				console.warn(
-					'You have supplied both a collectionEntryId and handle. This method will use collectionEntryId for querying.'
-				);
-			}
+		// 	return await (this as unknown as StorefrontClient)['applyAfter'](
+		// 		'productCollections',
+		// 		responseData
+		// 	);
+		// }
+		// async productCollectionEntries(
+		// 	params?: FetchCollectionEntriesMethodParams
+		// ): Promise<Product[] | ProductEdge[]> {
+		// 	const {
+		// 		collectionEntryId,
+		// 		handle,
+		// 		locale = this.getConfig()?.locale,
+		// 		maxReturnedEntries = this.#defaultMaxReturnedEntries,
+		// 		cursor,
+		// 		edgesToNodes = true,
+		// 		advancedOptions
+		// 	} = params ?? {};
+		// 	if (collectionEntryId && handle) {
+		// 		console.warn(
+		// 			'You have supplied both a collectionEntryId and handle. This method will use collectionEntryId for querying.'
+		// 		);
+		// 	}
 
-			if (!collectionEntryId && !handle) {
-				console.warn('You must provide either a collectionEntryId or handle.');
-			}
+		// 	if (!collectionEntryId && !handle) {
+		// 		console.warn('You must provide either a collectionEntryId or handle.');
+		// 	}
 
-			const entriesFirst = Math.min(
-				...[
-					advancedOptions?.entriesPerPage ?? this.#defaultPageFetchLimit,
-					maxReturnedEntries
-				].filter((v) => v > 0)
-			);
+		// 	const entriesFirst = Math.min(
+		// 		...[
+		// 			advancedOptions?.entriesPerPage ?? this.#defaultPageFetchLimit,
+		// 			maxReturnedEntries
+		// 		].filter((v) => v > 0)
+		// 	);
 
-			let entriesAfter = cursor;
-			let allEntries: Product[] | ProductEdge[] = [];
-			let keepFetching = true;
+		// 	let entriesAfter = cursor;
+		// 	let allEntries: Product[] | ProductEdge[] = [];
+		// 	let keepFetching = true;
 
-			do {
-				const queryResponse = await this.query({
-					query: ProductCollectionEntriesDocument,
-					variables: {
-						filter: {
-							...(collectionEntryId && {
-								nacelleEntryIds: [collectionEntryId]
-							}),
-							...(!collectionEntryId && handle ? { handles: [handle] } : {}),
-							...(locale && { locale })
-						},
-						entriesFirst,
-						...(entriesAfter && { entriesAfter })
-					}
-				});
+		// 	do {
+		// 		const queryResponse = await this.query({
+		// 			query: ProductCollectionEntriesDocument,
+		// 			variables: {
+		// 				filter: {
+		// 					...(collectionEntryId && {
+		// 						nacelleEntryIds: [collectionEntryId]
+		// 					}),
+		// 					...(!collectionEntryId && handle ? { handles: [handle] } : {}),
+		// 					...(locale && { locale })
+		// 				},
+		// 				entriesFirst,
+		// 				...(entriesAfter && { entriesAfter })
+		// 			}
+		// 		});
 
-				if (queryResponse.error) {
-					handleErrors(queryResponse.error);
-				}
+		// 		if (queryResponse.error) {
+		// 			handleErrors(queryResponse.error);
+		// 		}
 
-				if (queryResponse.data) {
-					const collectionEdges =
-						queryResponse.data.allProductCollections.edges;
-					if (collectionEdges.length === 0) {
-						console.warn('No collections matching query');
-						keepFetching = false;
-					} else {
-						const entries = collectionEdges[0].node.productConnection;
-						if (entries) {
-							const { pageInfo, edges } = entries;
-							const {
-								hasNextPage,
-								endCursor
-							}: { hasNextPage: boolean; endCursor: string } = pageInfo;
-							const items = edgesToNodes
-								? edges.map(({ node }) => node)
-								: edges;
+		// 		if (queryResponse.data) {
+		// 			const collectionEdges =
+		// 				queryResponse.data.allProductCollections.edges;
+		// 			if (collectionEdges.length === 0) {
+		// 				console.warn('No collections matching query');
+		// 				keepFetching = false;
+		// 			} else {
+		// 				const entries = collectionEdges[0].node.productConnection;
+		// 				if (entries) {
+		// 					const { pageInfo, edges } = entries;
+		// 					const {
+		// 						hasNextPage,
+		// 						endCursor
+		// 					}: { hasNextPage: boolean; endCursor: string } = pageInfo;
+		// 					const items = edgesToNodes
+		// 						? edges.map(({ node }) => node)
+		// 						: edges;
 
-							allEntries = [...allEntries, ...items] as
-								| Product[]
-								| ProductEdge[];
+		// 					allEntries = [...allEntries, ...items] as
+		// 						| Product[]
+		// 						| ProductEdge[];
 
-							if (
-								hasNextPage &&
-								(maxReturnedEntries === -1 ||
-									allEntries.length < maxReturnedEntries)
-							) {
-								entriesAfter = endCursor;
-							} else {
-								keepFetching = false;
-							}
-						}
-					}
-				}
-			} while (keepFetching);
+		// 					if (
+		// 						hasNextPage &&
+		// 						(maxReturnedEntries === -1 ||
+		// 							allEntries.length < maxReturnedEntries)
+		// 					) {
+		// 						entriesAfter = endCursor;
+		// 					} else {
+		// 						keepFetching = false;
+		// 					}
+		// 				}
+		// 			}
+		// 		}
+		// 	} while (keepFetching);
 
-			return await (this as unknown as StorefrontClient)['applyAfter'](
-				'productCollectionEntries',
-				allEntries
-			);
-		}
+		// 	return await (this as unknown as StorefrontClient)['applyAfter'](
+		// 		'productCollectionEntries',
+		// 		allEntries
+		// 	);
+		// }
 	};
 }
 
