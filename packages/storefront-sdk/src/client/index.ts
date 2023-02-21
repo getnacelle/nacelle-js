@@ -282,6 +282,17 @@ export class StorefrontClient {
 		return this.#graphqlClient
 			.query(query, variables as QVariables)
 			.toPromise()
+			.then(({ data, error }) => {
+				if (error) {
+					const traceHeader = (error.response as Response)?.headers?.get(
+						'x-amzn-trace-id'
+					);
+					if (traceHeader) {
+						error.message = `${error.message}\nTrace ID: ${traceHeader}. Please include this Trace ID in support requests.`;
+					}
+				}
+				return { data, error };
+			})
 			.then(({ data, error }) => this.applyAfter('query', { data, error }));
 	}
 }
