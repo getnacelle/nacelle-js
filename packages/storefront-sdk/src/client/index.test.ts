@@ -1,4 +1,5 @@
 import { gql } from '@urql/core';
+import { GraphQLError } from 'graphql';
 import {
 	afterEach,
 	beforeEach,
@@ -493,6 +494,35 @@ describe('the `query` method', () => {
 
 		// cleanup
 		client.after('query', null, 'query::0');
+	});
+
+	it('adds the trace id to the error.message if the response returns gql errors', async () => {
+		const traceId = 'abcd-123';
+		mockedFetch.mockResolvedValueOnce(
+			getFetchPayload(
+				{ errors: [new GraphQLError('This is a test error')] },
+				{ headers: { 'x-amzn-trace-id': traceId }, status: 200 }
+			)
+		);
+
+		const res = await client.query({ query: NavigationDocument });
+
+		expect(res.error?.message).toContain(traceId);
+	});
+
+	it('adds the trace id to the error.message if the response returns an error', async () => {
+		const traceId = 'abcd-123';
+		mockedFetch.mockResolvedValue(
+			getFetchPayload(
+				{
+					message: 'This is an error'
+				},
+				{ status: 501, headers: { 'x-amzn-trace-id': traceId } }
+			)
+		);
+		const res = await client.query({ query: NavigationDocument });
+
+		expect(res.error?.message).toContain(traceId);
 	});
 });
 
