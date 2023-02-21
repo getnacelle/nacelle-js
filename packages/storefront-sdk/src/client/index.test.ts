@@ -1,4 +1,5 @@
 import { gql } from '@urql/core';
+import { GraphQLError } from 'graphql';
 import {
 	afterEach,
 	beforeEach,
@@ -22,7 +23,6 @@ import type {
 	SpaceProperties
 } from '../types/storefront.js';
 import type { StorefrontConfig } from '../types/config.js';
-import { GraphQLError } from 'graphql';
 
 const storefrontEndpoint =
 	'https://storefront.api.nacelle.com/graphql/v1/spaces/my-space-id';

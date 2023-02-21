@@ -288,7 +288,7 @@ export class StorefrontClient {
 						'x-amzn-trace-id'
 					);
 					if (traceHeader) {
-						error.message = `${error.message}\nTrace ID: ${traceHeader}. Please include this Trace ID in support requests`;
+						error.message = `${error.message}\nTrace ID: ${traceHeader}. Please include this Trace ID in support requests.`;
 					}
 				}
 				return { data, error };

@@ -1,6 +1,6 @@
 function getFetchPayload(
 	data: object,
-	responseOptions: { status: number; headers?: { [key: string]: string } } = {
+	responseOptions: { status: number; headers?: Record<string, string> } = {
 		status: 200
 	}
 ): Response {
