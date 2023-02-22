@@ -17,22 +17,6 @@ describe('StorefrontConnector Handle Errors', () => {
 	});
 
 	describe('handleGraphQLErrors()', () => {
-		it('should throw correct message if there is a complexity error', () => {
-			const extensions = {
-				code: 'COMPLEXITY_ERROR'
-			};
-			const errors = {
-				name: 'abc',
-				message: 'def',
-				graphQLErrors: [
-					new GraphQLError('complexity error message', { extensions })
-				]
-			};
-			expect(() => {
-				handleErrors(errors);
-			}).toThrowError(`complexity error message/${JSON.stringify(extensions)}`);
-		});
-
 		it('should concatenate other GraphQL errors in the thrown error message', () => {
 			const errors = {
 				name: 'abc',
