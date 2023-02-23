@@ -65,6 +65,7 @@ it('does not error when composed with the `StorefrontClient` class', () => {
 it('adds the expected methods to the `StorefrontClient` class', () => {
 	expect(typeof client.content).toBe('function');
 	expect(typeof client.navigation).toBe('function');
+	expect(typeof client.productCollectionEntries).toBe('function');
 	expect(typeof client.productCollections).toBe('function');
 	expect(typeof client.products).toBe('function');
 	expect(typeof client.spaceProperties).toBe('function');
@@ -160,13 +161,19 @@ describe('navigation', () => {
 describe('content', () => {
 	beforeEach(() => {
 		mockedFetch.mockRestore();
-		mockedFetch.mockResolvedValue(getFetchPayload(mockUnpaginatedContent));
+		mockedFetch.mockImplementation(() =>
+			Promise.resolve(getFetchPayload(mockUnpaginatedContent))
+		);
 	});
 
 	it('returns data of the expected type', async () => {
-		const data = await client.content();
+		const defaultData = await client.content();
+		const explicitNodesData = await client.content({ edgesToNodes: true });
+		const explicitEdgesData = await client.content({ edgesToNodes: false });
 
-		expectTypeOf(data).toMatchTypeOf<Content[] | ContentEdge[]>();
+		expectTypeOf(defaultData).toMatchTypeOf<Content[]>();
+		expectTypeOf(explicitNodesData).toMatchTypeOf<Content[]>();
+		expectTypeOf(explicitEdgesData).toMatchTypeOf<ContentEdge[]>();
 	});
 
 	it('should pass parameters including the `nacelleEntryId` as variables', async () => {
@@ -334,13 +341,19 @@ describe('content', () => {
 describe('products', () => {
 	beforeEach(() => {
 		mockedFetch.mockRestore();
-		mockedFetch.mockResolvedValue(getFetchPayload(mockUnpaginatedProduct));
+		mockedFetch.mockImplementation(() =>
+			Promise.resolve(getFetchPayload(mockUnpaginatedProduct))
+		);
 	});
 
 	it('returns data of the expected type', async () => {
-		const data = await client.products();
+		const defaultData = await client.products();
+		const explicitNodesData = await client.products({ edgesToNodes: true });
+		const explicitEdgesData = await client.products({ edgesToNodes: false });
 
-		expectTypeOf(data).toMatchTypeOf<Product[] | ProductEdge[]>();
+		expectTypeOf(defaultData).toMatchTypeOf<Product[]>();
+		expectTypeOf(explicitNodesData).toMatchTypeOf<Product[]>();
+		expectTypeOf(explicitEdgesData).toMatchTypeOf<ProductEdge[]>();
 	});
 
 	it('should pass parameters including the `nacelleEntryId` as variables', async () => {
@@ -506,17 +519,23 @@ describe('products', () => {
 describe('productCollections', () => {
 	beforeEach(() => {
 		mockedFetch.mockRestore();
-		mockedFetch.mockResolvedValue(
-			getFetchPayload(mockUnpaginatedProductCollection)
+		mockedFetch.mockImplementation(() =>
+			Promise.resolve(getFetchPayload(mockUnpaginatedProductCollection))
 		);
 	});
 
 	it('returns data of the expected type', async () => {
-		const data = await client.productCollections();
+		const defaultData = await client.productCollections();
+		const explicitNodesData = await client.productCollections({
+			edgesToNodes: true
+		});
+		const explicitEdgesData = await client.productCollections({
+			edgesToNodes: false
+		});
 
-		expectTypeOf(data).toMatchTypeOf<
-			ProductCollection[] | ProductCollectionEdge[]
-		>();
+		expectTypeOf(defaultData).toMatchTypeOf<ProductCollection[]>();
+		expectTypeOf(explicitNodesData).toMatchTypeOf<ProductCollection[]>();
+		expectTypeOf(explicitEdgesData).toMatchTypeOf<ProductCollectionEdge[]>();
 	});
 
 	it('should pass parameters including the `nacelleEntryId` as variables', async () => {
@@ -825,8 +844,8 @@ describe('productCollectionEntries', () => {
 	});
 
 	it('should return empty array if no collection is found', async () => {
-		mockedFetch.mockImplementation(() =>
-			Promise.resolve(getFetchPayload(mockEmptyProductCollectionEntries))
+		mockedFetch.mockResolvedValueOnce(
+			getFetchPayload(mockEmptyProductCollectionEntries)
 		);
 
 		const response = await client.productCollectionEntries();
@@ -835,15 +854,16 @@ describe('productCollectionEntries', () => {
 	});
 
 	it('should fetch until hasNextPage = false if maxReturnedEntries=-1', async () => {
-		mockedFetch.mockImplementationOnce(() =>
-			Promise.resolve(getFetchPayload(mockPaginatedProductCollectionEntries))
-		);
-		mockedFetch.mockImplementationOnce(() =>
-			Promise.resolve(getFetchPayload(mockPaginatedProductCollectionEntries))
-		);
-		mockedFetch.mockImplementationOnce(() =>
-			Promise.resolve(getFetchPayload(mockPaginatedProductCollectionEntries))
-		);
+		mockedFetch
+			.mockResolvedValueOnce(
+				getFetchPayload(mockPaginatedProductCollectionEntries)
+			)
+			.mockResolvedValueOnce(
+				getFetchPayload(mockPaginatedProductCollectionEntries)
+			)
+			.mockResolvedValueOnce(
+				getFetchPayload(mockPaginatedProductCollectionEntries)
+			);
 
 		const response = await client.productCollectionEntries({
 			collectionEntryId: 'abcdefg_1',
@@ -883,13 +903,11 @@ describe('productCollectionEntries', () => {
 
 	it('should throw an error if one of the requests errors', async () => {
 		mockedFetch
-			.mockImplementationOnce(() =>
-				Promise.resolve(getFetchPayload(mockPaginatedProductCollectionEntries))
+			.mockResolvedValueOnce(
+				getFetchPayload(mockPaginatedProductCollectionEntries)
 			)
-			.mockImplementationOnce(() =>
-				Promise.resolve(
-					getFetchPayload({ error: { message: 'GraphQL error' } })
-				)
+			.mockResolvedValueOnce(
+				getFetchPayload({ error: { message: 'GraphQL error' } })
 			);
 		await expect(
 			client.productCollectionEntries({
@@ -901,8 +919,16 @@ describe('productCollectionEntries', () => {
 	});
 
 	it('returns data of the expected type', async () => {
-		const data = await client.productCollectionEntries();
+		const defaultData = await client.productCollectionEntries();
+		const explicitNodesData = await client.productCollectionEntries({
+			edgesToNodes: true
+		});
+		const explicitEdgesData = await client.productCollectionEntries({
+			edgesToNodes: false
+		});
 
-		expectTypeOf(data).toMatchTypeOf<Product[] | ProductEdge[]>();
+		expectTypeOf(defaultData).toMatchTypeOf<Product[]>();
+		expectTypeOf(explicitNodesData).toMatchTypeOf<Product[]>();
+		expectTypeOf(explicitEdgesData).toMatchTypeOf<ProductEdge[]>();
 	});
 });
