@@ -1,4 +1,4 @@
-# @nacelle/storefront-sdk-plugin-commerce-queries
+# @nacelle/commerce-queries-plugin
 
 ## 1.0.0-beta.1
 
