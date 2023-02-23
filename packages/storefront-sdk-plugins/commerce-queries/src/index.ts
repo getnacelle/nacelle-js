@@ -368,4 +368,18 @@ function commerceQueriesPlugin<TBase extends WithStorefrontQuery & WithConfig>(
 	};
 }
 
-export default commerceQueriesPlugin;
+export {
+	commerceQueriesPlugin,
+	Content,
+	ContentEdge,
+	ContentFilterInput,
+	NavigationGroup,
+	NavigationFilterInput,
+	Product,
+	ProductCollection,
+	ProductCollectionEdge,
+	ProductCollectionFilterInput,
+	ProductEdge,
+	ProductFilterInput,
+	SpaceProperties
+};
