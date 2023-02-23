@@ -28,6 +28,12 @@ import type {
 	ProductFilterInput,
 	SpaceProperties
 } from './types/storefront.js';
+import type {
+	ContentResponse,
+	ProductsResponse,
+	ProductCollectionsResponse,
+	ProductCollectionEntriesResponse
+} from './types/relay.js';
 
 export interface CommerceQueriesParams {
 	nacelleEntryIds?: string[];
@@ -107,9 +113,9 @@ function commerceQueriesPlugin<TBase extends WithStorefrontQuery & WithConfig>(
 		readonly #defaultMaxReturnedEntries = -1;
 		readonly #defaultPageFetchLimit = 50;
 
-		async content(
-			params?: FetchContentMethodParams
-		): Promise<Content[] | ContentEdge[]> {
+		async content<Params extends FetchContentMethodParams>(
+			params?: Params
+		): Promise<ContentResponse<Params>> {
 			const {
 				cursor,
 				nacelleEntryIds,
@@ -156,13 +162,15 @@ function commerceQueriesPlugin<TBase extends WithStorefrontQuery & WithConfig>(
 				ContentFilterInput
 			>(this, 'allContent', filter, maxReturnedEntries, edgesToNodes);
 
-			return await (this as unknown as StorefrontClient)['applyAfter'](
+			return (await (this as unknown as StorefrontClient)['applyAfter'](
 				'content',
 				responseData
-			);
+			)) as ContentResponse<Params>;
 		}
 
-		async products(params?: CommerceQueriesParams) {
+		async products<Params extends CommerceQueriesParams>(
+			params?: Params
+		): Promise<ProductsResponse<Params>> {
 			const {
 				cursor,
 				nacelleEntryIds,
@@ -207,12 +215,14 @@ function commerceQueriesPlugin<TBase extends WithStorefrontQuery & WithConfig>(
 				ProductFilterInput
 			>(this, 'allProducts', filter, maxReturnedEntries, edgesToNodes);
 
-			return await (this as unknown as StorefrontClient)['applyAfter'](
+			return (await (this as unknown as StorefrontClient)['applyAfter'](
 				'products',
 				responseData
-			);
+			)) as ProductsResponse<Params>;
 		}
-		async productCollections(params?: FetchProductCollectionsMethodParams) {
+		async productCollections<
+			Params extends FetchProductCollectionsMethodParams
+		>(params?: Params): Promise<ProductCollectionsResponse<Params>> {
 			const {
 				cursor,
 				nacelleEntryIds,
@@ -266,14 +276,14 @@ function commerceQueriesPlugin<TBase extends WithStorefrontQuery & WithConfig>(
 				maxReturnedEntriesPerCollection
 			);
 
-			return await (this as unknown as StorefrontClient)['applyAfter'](
+			return (await (this as unknown as StorefrontClient)['applyAfter'](
 				'productCollections',
 				responseData
-			);
+			)) as ProductCollectionsResponse<Params>;
 		}
-		async productCollectionEntries(
-			params?: FetchCollectionEntriesMethodParams
-		): Promise<Product[] | ProductEdge[]> {
+		async productCollectionEntries<
+			Params extends FetchCollectionEntriesMethodParams
+		>(params?: Params): Promise<ProductCollectionEntriesResponse<Params>> {
 			const {
 				collectionEntryId,
 				handle,
@@ -360,10 +370,10 @@ function commerceQueriesPlugin<TBase extends WithStorefrontQuery & WithConfig>(
 				}
 			} while (keepFetching);
 
-			return await (this as unknown as StorefrontClient)['applyAfter'](
+			return (await (this as unknown as StorefrontClient)['applyAfter'](
 				'productCollectionEntries',
 				allEntries
-			);
+			)) as ProductCollectionEntriesResponse<Params>;
 		}
 	};
 }
