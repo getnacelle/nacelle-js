@@ -1,5 +1,5 @@
 ---
-'@nacelle/storefront-sdk-plugin-commerce-queries': patch
+'@nacelle/commerce-queries-plugin': patch
 ---
 
 Add `spaceProperties` method to fetch space properties from a Nacelle space.
