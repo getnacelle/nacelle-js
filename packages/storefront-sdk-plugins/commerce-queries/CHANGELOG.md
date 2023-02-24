@@ -2,6 +2,15 @@
 
 ## 1.0.0-beta.1
 
+### Patch Changes
+
+- 0d3e3bd: In TypeScript projects, the `.content`, `.products`, `.productCollections`, and `.productCollectionEntries` methods no longer require type assertions on their return values. The type will be inferred based on the value of `params.edgesToNodes`.
+- bd174e5: Adds error handling to commerce queries & makes commerce queries return data directly instead of `{ data, error }`
+- Updated dependencies [5ae2891]
+  - @nacelle/storefront-sdk@2.0.0-beta.2
+
+## 1.0.0-beta.1
+
 ### Minor Changes
 
 - 02f15db: Adds a `content` method to fetch the `allContent` data. Unlike the `content` method in the `@nacelle/storefront-sdk@1.x`, this returns a result object with the signature `{ error, data }` similar to how the `query` method works in `@nacelle/storefront-sdk@2.x` to allow users more control over error handling.
