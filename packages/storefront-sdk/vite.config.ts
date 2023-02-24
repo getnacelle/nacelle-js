@@ -15,10 +15,17 @@ export const config: UserConfig = {
 		sourcemap: true,
 		target: 'es2022',
 		rollupOptions: {
-			external: ['@urql/core', 'graphql'],
+			external: [
+				'@urql/core',
+				'@urql/exchange-persisted-fetch',
+				'@urql/exchange-retry',
+				'graphql'
+			],
 			output: {
 				globals: {
 					'@urql/core': 'Urql',
+					'@urql/exchange-persisted-fetch': 'UrqlExchangePersistedFetch',
+					'@urql/exchange-retry': 'UrqlExchangeRetry',
 					graphql: 'Graphql'
 				}
 			}
