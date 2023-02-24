@@ -1,5 +1,11 @@
 # @nacelle/storefront-sdk
 
+## 2.0.0-beta.2
+
+### Minor Changes
+
+- 5ae2891: Adds a trace id to the `error` key in the response. This trace id should be included in any support requests.
+
 ## 2.0.0-beta.1
 
 ### Major Changes
