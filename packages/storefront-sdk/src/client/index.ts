@@ -85,6 +85,10 @@ export class StorefrontClient {
 		}
 	});
 	constructor(params: StorefrontClientParams) {
+		if (!params?.storefrontEndpoint) {
+			throw new Error(errorMessages.missingEndpoint);
+		}
+
 		this.#config = {
 			fetchClient: params.fetchClient ?? globalThis.fetch,
 			storefrontEndpoint: params.storefrontEndpoint,
