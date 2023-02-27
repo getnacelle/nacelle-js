@@ -1,5 +1,4 @@
 import { StorefrontClient } from './client/index.js';
-import { errorMessages } from './utils/index.js';
 import type { StorefrontResponse } from './client/index.js';
 
 export interface StorefrontClientAdvancedOptions {
@@ -25,14 +24,6 @@ export interface StorefrontClientParams {
 
 	/** Advanced options for configuring the Storefront SDK. These default to the recommended settings for most users. */
 	advancedOptions?: StorefrontClientAdvancedOptions;
-}
-
-export function Storefront(params: StorefrontClientParams) {
-	if (!params?.storefrontEndpoint) {
-		throw new Error(errorMessages.missingEndpoint);
-	}
-
-	return new StorefrontClient(params);
 }
 
 export { StorefrontClient, StorefrontResponse };
