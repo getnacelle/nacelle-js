@@ -2,4 +2,4 @@
 '@nacelle/storefront-sdk': patch
 ---
 
-Remove the storefront method as the default export for the SDK, a new instance of the `StorefrontClient` can be used instead.
+Removed the `Storefront` function that initialized the Storefront SDK. Instead, the SDK is initialized by creating a new instance of the `StorefrontClient` class.
