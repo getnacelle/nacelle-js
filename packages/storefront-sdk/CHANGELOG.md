@@ -1,5 +1,11 @@
 # @nacelle/storefront-sdk
 
+## 2.0.0-beta.3
+
+### Patch Changes
+
+- 7338444: Removed the `Storefront` function that initialized the Storefront SDK. Instead, the SDK is initialized by creating a new instance of the `StorefrontClient` class.
+
 ## 2.0.0-beta.2
 
 ### Minor Changes
