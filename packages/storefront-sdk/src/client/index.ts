@@ -116,8 +116,7 @@ export class StorefrontClient {
 					? [persistedFetchExchange({ preferGetForPersistedQueries: true })]
 					: []),
 				fetchExchange
-			],
-			requestPolicy: 'network-only'
+			]
 		});
 		this.#afterSubscriptions = {};
 	}
@@ -187,8 +186,7 @@ export class StorefrontClient {
 					? [persistedFetchExchange({ preferGetForPersistedQueries: true })]
 					: []),
 				fetchExchange
-			],
-			requestPolicy: 'network-only'
+			]
 		});
 		return {
 			endpoint: this.#config.storefrontEndpoint,
