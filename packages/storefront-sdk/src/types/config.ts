@@ -5,7 +5,7 @@ import type {
 import type { AfterSubscriptions, DataFetchingMethodName } from './after.js';
 
 export interface SetConfigParams {
-	previewToken?: string;
+	previewToken?: string | null;
 	advancedOptions?: StorefrontClientAdvancedOptions;
 }
 
