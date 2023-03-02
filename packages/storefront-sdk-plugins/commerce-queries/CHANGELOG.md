@@ -1,5 +1,13 @@
 # @nacelle/commerce-queries-plugin
 
+## 1.0.0-beta.3
+
+### Patch Changes
+
+- b166f21: Fixed a TypeScript issue that was creating an undesirable coupling between the Storefront SDK and Commerce Queries plugin.
+- Updated dependencies [b166f21]
+  - @nacelle/storefront-sdk@2.0.0-beta.4
+
 ## 1.0.0-beta.2
 
 ### Patch Changes
