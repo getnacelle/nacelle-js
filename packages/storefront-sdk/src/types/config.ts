@@ -1,4 +1,3 @@
-import type { Maybe } from './storefront.js';
 import type {
 	StorefrontClientAdvancedOptions,
 	StorefrontClientParams
@@ -6,9 +5,10 @@ import type {
 import type { AfterSubscriptions, DataFetchingMethodName } from './after.js';
 
 export interface SetConfigParams {
-	previewToken?: Maybe<string>;
-	advancedOptions?: Maybe<StorefrontClientAdvancedOptions>;
+	previewToken?: string;
+	advancedOptions?: StorefrontClientAdvancedOptions;
 }
+
 export interface SetConfigResponse {
 	endpoint: string;
 	previewToken: string | undefined;

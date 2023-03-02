@@ -1,5 +1,6 @@
 import { StorefrontClient } from './client/index.js';
 import type { StorefrontResponse, QueryParams } from './client/index.js';
+export type { StorefrontConfig } from './types/config.js';
 
 export interface StorefrontClientAdvancedOptions {
 	/**
