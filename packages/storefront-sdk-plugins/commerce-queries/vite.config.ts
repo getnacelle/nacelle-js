@@ -7,7 +7,7 @@ export const config: UserConfig = {
 	build: {
 		lib: {
 			entry: path.resolve(__dirname, 'src', 'index.ts'),
-			fileName: 'nacelle-storefront-sdk-plugin-commerce-queries',
+			fileName: 'nacelle-commerce-queries-plugin',
 			name: 'NacelleStorefrontSdkPluginCommerceQueries'
 		},
 		sourcemap: true,

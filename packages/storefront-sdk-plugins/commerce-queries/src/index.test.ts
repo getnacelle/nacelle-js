@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { expect, it, beforeEach, describe, vi, expectTypeOf } from 'vitest';
-import { commerceQueriesPlugin } from './index.js';
+import { CommerceQueries } from './index.js';
 import { StorefrontClient } from '@nacelle/storefront-sdk';
 import getFetchPayload from '../__mocks__/utils/getFetchPayload.js';
 import SpacePropertiesResult from '../__mocks__/gql/spaceProperties.js';
@@ -46,7 +46,7 @@ const storefrontEndpoint =
 
 const mockedFetch: Mock<mockRequestArgs, Promise<Response>> = vi.fn();
 
-const ClientWithCommerceQueries = commerceQueriesPlugin(StorefrontClient);
+const ClientWithCommerceQueries = CommerceQueries(StorefrontClient);
 const client = new ClientWithCommerceQueries({
 	storefrontEndpoint,
 	fetchClient: mockedFetch as (
