@@ -38,12 +38,12 @@
 	"exports": {
 		".": {
 			"types": "./dist/types/index.d.ts",
-			"import": "./dist/nacelle-storefront-sdk-plugin-commerce-queries.js",
-			"require": "./dist/nacelle-storefront-sdk-plugin-commerce-queries.umd.cjs"
+			"import": "./dist/nacelle-commerce-queries-plugin.js",
+			"require": "./dist/nacelle-commerce-queries-plugin.umd.cjs"
 		}
 	},
-	"main": "./dist/nacelle-storefront-sdk-plugin-commerce-queries.umd.cjs",
-	"module": "./dist/nacelle-storefront-sdk-plugin-commerce-queries.js",
+	"main": "./dist/nacelle-commerce-queries-plugin.umd.cjs",
+	"module": "./dist/nacelle-commerce-queries-plugin.js",
 	"types": "./dist/types/index.d.ts",
 	"sideEffects": false,
 	"directories": {
