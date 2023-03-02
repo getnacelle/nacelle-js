@@ -29,3 +29,5 @@ export interface StorefrontClientParams {
 export { StorefrontClient };
 export * from './types/plugins.js';
 export type { StorefrontResponse, QueryParams };
+export type { StorefrontConfig } from './types/config.js';
+export type { AnyVariables } from '@urql/core';
