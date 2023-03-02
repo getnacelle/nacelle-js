@@ -1,7 +1,6 @@
 {
 	"compilerOptions": {
 		"rootDir": ".",
-		"baseUrl": ".",
 		"strict": true,
 		"target": "ES2022",
 		"allowJs": true,
@@ -14,7 +13,6 @@
 		"sourceMap": true,
 		"declaration": true,
 		"declarationDir": "dist",
-		"preserveSymlinks": true,
 		"emitDeclarationOnly": true,
 		"useDefineForClassFields": true,
 		"noUnusedLocals": true,
