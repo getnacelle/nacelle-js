@@ -68,7 +68,7 @@ export interface FetchCollectionEntriesMethodParams {
 	advancedOptions?: FetchMethodAdvancedParams;
 }
 
-function commerceQueriesPlugin<TBase extends WithStorefrontQuery & WithConfig>(
+function CommerceQueries<TBase extends WithStorefrontQuery & WithConfig>(
 	Base: TBase
 ) {
 	return class CommerceQueries extends Base {
@@ -378,8 +378,8 @@ function commerceQueriesPlugin<TBase extends WithStorefrontQuery & WithConfig>(
 	};
 }
 
-export {
-	commerceQueriesPlugin,
+export { CommerceQueries };
+export type {
 	Content,
 	ContentEdge,
 	ContentFilterInput,
