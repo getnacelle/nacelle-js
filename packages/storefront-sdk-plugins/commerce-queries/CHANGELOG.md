@@ -1,5 +1,11 @@
 # @nacelle/commerce-queries-plugin
 
+## 1.0.0-beta.2
+
+### Patch Changes
+
+- cfb91d6: Updated the name of the plugin (named export) from `commerceQueriesPlugin` to `CommerceQueries`.
+
 ## 1.0.0-beta.1
 
 ### Patch Changes
