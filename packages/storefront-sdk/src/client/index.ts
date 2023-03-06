@@ -281,8 +281,18 @@ export class StorefrontClient {
 		query,
 		variables
 	}: QueryParams<QData, QVariables>): Promise<StorefrontResponse<QData>> {
+		let queryVars = variables;
+
+		try {
+			if (typeof variables === 'string') {
+				queryVars = JSON.parse(variables) as QVariables;
+			}
+		} catch (err) {
+			throw new Error(`Could not parse request variables: ${err as string}`);
+		}
+
 		return this.#graphqlClient
-			.query(query, variables as QVariables)
+			.query(query, queryVars as QVariables)
 			.toPromise()
 			.then(({ data, error }) => {
 				if (error) {

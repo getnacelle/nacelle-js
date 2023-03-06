@@ -347,15 +347,26 @@ describe('the `query` method', () => {
 				}
 			}
 		`;
-		const variables = JSON.stringify({ test: 'hi' });
-		const result = await client.query({ query, variables });
+		const variablesObject = { test: 'hi' };
+		const stringifiedVariables = JSON.stringify(variablesObject);
+		const result = await client.query({
+			query,
+			variables: stringifiedVariables
+		});
 		expect(result.data).toBeTruthy();
 		expect(result.error).toBeFalsy();
-		expect(
-			(mockedFetch.mock.lastCall as mockRequestArgs)[1]?.body
-				?.toString()
-				.includes(JSON.stringify(variables))
-		).toBeTruthy();
+		const requestBody = JSON.parse(
+			(
+				((mockedFetch.mock.lastCall as mockRequestArgs).at(1) as RequestInit)
+					?.body as BodyInit
+			).toString()
+		) as {
+			query: string;
+			operationName: string;
+			variables: Record<string, unknown>;
+		};
+
+		expect(requestBody.variables).toStrictEqual(variablesObject);
 	});
 
 	it('takes an object for variables', async () => {
@@ -378,6 +389,20 @@ describe('the `query` method', () => {
 				?.toString()
 				.includes(JSON.stringify(variables))
 		).toBeTruthy();
+	});
+
+	it('throws when stringified variables cannot be parsed', () => {
+		const query = gql`
+			query allContent {
+				allContent {
+					id
+				}
+			}
+		`;
+
+		expect(() => client.query({ query, variables: '{' })).toThrowError(
+			'Could not parse request variables'
+		);
 	});
 
 	it('applies callbacks registered with the `.after` method', async () => {
