@@ -1,5 +1,11 @@
 # @nacelle/commerce-queries-plugin
 
+## 1.0.0-beta.4
+
+### Minor Changes
+
+- a231548: Exports the generated types from the Storefront GraphQL for use in Typescript projects
+
 ## 1.0.0-beta.3
 
 ### Patch Changes
