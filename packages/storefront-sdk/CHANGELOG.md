@@ -1,5 +1,11 @@
 # @nacelle/storefront-sdk
 
+## 2.0.0-beta.5
+
+### Patch Changes
+
+- e62c21a: Updated the `query` method to always send variables to the Storefront GraphQL API as objects, even if they are supplied to the `query` method as a stringified object. This change circumvents issues related to using a combination of APQ and stringified variables in Nacelle's Storefront GraphQL.
+
 ## 2.0.0-beta.4
 
 ### Patch Changes

@@ -24,6 +24,7 @@
     "nuxt-starter": "1.0.8"
   },
   "changesets": [
+    "brown-dryers-refuse",
     "chilled-timers-repair",
     "curvy-horses-cheer",
     "early-pigs-move",
