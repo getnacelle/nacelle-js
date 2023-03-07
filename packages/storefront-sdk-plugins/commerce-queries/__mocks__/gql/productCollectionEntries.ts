@@ -1,4 +1,4 @@
-import type { ProductCollectionEntriesQuery } from '../../src/types/storefront.js';
+import type { ProductCollectionEntriesQuery } from '../../src/graphql/documents.js';
 
 import { mockProductNode } from './product.js';
 

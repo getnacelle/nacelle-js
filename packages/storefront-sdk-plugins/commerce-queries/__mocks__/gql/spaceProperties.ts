@@ -1,4 +1,4 @@
-import type { SpacePropertiesQuery } from '../../src/types/storefront.js';
+import type { SpacePropertiesQuery } from '../../src/graphql/documents.js';
 
 const SpacePropertiesResult: SpacePropertiesQuery = {
 	spaceProperties: {
