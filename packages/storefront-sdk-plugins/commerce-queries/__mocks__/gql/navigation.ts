@@ -1,4 +1,4 @@
-import type { NavigationQuery } from '../../src/types/storefront.js';
+import type { NavigationQuery } from '../../src/graphql/documents.js';
 
 const NavigationResult: NavigationQuery = {
 	navigation: [

@@ -1,4 +1,4 @@
-import type { Product, AllProductsQuery } from '../../src/types/storefront.js';
+import type { Product, AllProductsQuery } from '../../src/graphql/documents.js';
 
 export const mockProductNode: Product = {
 	nacelleEntryId: 'product-1',
