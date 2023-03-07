@@ -5,7 +5,6 @@ generates:
   src/types/storefront.ts:
     plugins:
       - typescript
-      - typescript-operations
     config:
       enumsAsTypes: true
   src/graphql/documents.ts:
