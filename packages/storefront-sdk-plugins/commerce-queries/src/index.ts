@@ -379,17 +379,4 @@ function CommerceQueries<TBase extends WithStorefrontQuery & WithConfig>(
 }
 
 export { CommerceQueries };
-export type {
-	Content,
-	ContentEdge,
-	ContentFilterInput,
-	NavigationGroup,
-	NavigationFilterInput,
-	Product,
-	ProductCollection,
-	ProductCollectionEdge,
-	ProductCollectionFilterInput,
-	ProductEdge,
-	ProductFilterInput,
-	SpaceProperties
-};
+export * from './types/storefront.js';
