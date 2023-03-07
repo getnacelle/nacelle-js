@@ -2,7 +2,7 @@ import { mockProductNode } from './product.js';
 import type {
 	ProductCollection,
 	AllProductCollectionsQuery
-} from '../../src/types/storefront.js';
+} from '../../src/graphql/documents.js';
 
 export const mockProductCollectionNode: ProductCollection = {
 	nacelleEntryId: 'product-collection-1',
