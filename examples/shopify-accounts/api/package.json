@@ -10,7 +10,7 @@
     "body-parser": "^1.19.0",
     "cookie-parser": "^1.4.5",
     "countrycitystatejson": "^20.8.9-a",
-    "dotenv": "^8.2.0",
+    "dotenv": "^16.0.0",
     "express": "^4.17.1",
     "jsonwebtoken": "^8.5.1",
     "multipassify": "^1.1.0",
