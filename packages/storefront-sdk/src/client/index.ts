@@ -241,7 +241,6 @@ export class StorefrontClient {
 	 * const navigationData = await this.query({ query: navigationQuery });
 	 * const navigationDataResult = await this.applyAfter('navigation', navigationData);
 	 */
-	// eslint-disable-next-line @typescript-eslint/ban-types
 	protected async applyAfter<M extends string, T>(
 		method: M,
 		response: T
