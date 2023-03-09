@@ -109,8 +109,6 @@ describe('the `after` method', () => {
 				true as unknown as string
 			)
 		).toThrowError(errorMessages.afterMethodCallbackIdInvalid(true));
-
-		client.after('spaceProperties', <T extends SpaceProperties>(x: T) => x);
 	});
 
 	it('adds a callback to `this.#afterSubscriptions`', () => {
