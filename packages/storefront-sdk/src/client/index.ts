@@ -1,4 +1,7 @@
 import { createClient, dedupExchange, fetchExchange } from '@urql/core';
+import { retryExchange } from '@urql/exchange-retry';
+import { persistedFetchExchange } from '@urql/exchange-persisted-fetch';
+import { errorMessages } from '../utils/index.js';
 import type {
 	Client as UrqlClient,
 	TypedDocumentNode,
@@ -7,9 +10,6 @@ import type {
 	Exchange
 } from '@urql/core';
 import type { DocumentNode } from 'graphql';
-import { retryExchange } from '@urql/exchange-retry';
-import { persistedFetchExchange } from '@urql/exchange-persisted-fetch';
-import { errorMessages, dataFetchingMethods } from '../utils/index.js';
 import type {
 	StorefrontClientAdvancedOptions,
 	StorefrontClientParams
@@ -19,13 +19,7 @@ import type {
 	SetConfigResponse,
 	StorefrontConfig
 } from '../types/config.js';
-import type {
-	AfterCallback,
-	AfterCallbackWithId,
-	AfterSubscriptions,
-	DataFetchingMethodName,
-	MethodData
-} from '../types/after.js';
+import type { AfterCallback, AfterSubscriptions } from '../types/after.js';
 
 /**
  * Response from Nacelle's Storefront API.
@@ -66,7 +60,7 @@ export class StorefrontClient {
 		locale: string;
 		advancedOptions: StorefrontClientAdvancedOptions;
 	};
-	readonly #afterSubscriptions: AfterSubscriptions<DataFetchingMethodName>;
+	readonly #afterSubscriptions: AfterSubscriptions;
 	readonly #retryExchange: Exchange = retryExchange({
 		maxDelayMs: 5000,
 		maxNumberAttempts: 5,
@@ -200,12 +194,13 @@ export class StorefrontClient {
 	 * @param callback The callback that gets applied to the data returned by the `method` of interest.
 	 * @param callbackId Optional ID. If not provided, an ID will be assigned. A `callback` will be overwritten if a new `callback` is registered to the same `method` with the same `callbackId`.
 	 */
-	after<MethodName extends DataFetchingMethodName>(
-		method: MethodName,
-		callback: AfterCallback<MethodData[MethodName]> | null,
+	after<M extends string>(
+		method: M,
+		// eslint-disable-next-line @typescript-eslint/ban-types
+		callback: AfterCallback<any> | null,
 		callbackId?: string
 	) {
-		if (!dataFetchingMethods.includes(method)) {
+		if (typeof this[method as keyof this] === 'undefined') {
 			throw new Error(errorMessages.afterMethodInvalid(method));
 		}
 
@@ -230,8 +225,7 @@ export class StorefrontClient {
 			callbackId ?? `${method}::${Object.values(methodSubscriptions).length}`;
 
 		if (typeof callback === 'function') {
-			(methodSubscriptions as unknown as AfterCallbackWithId<MethodName>)[id] =
-				callback;
+			methodSubscriptions[id] = callback;
 		} else if (callback === null) {
 			delete methodSubscriptions[id];
 		}
@@ -247,10 +241,11 @@ export class StorefrontClient {
 	 * const navigationData = await this.query({ query: navigationQuery });
 	 * const navigationDataResult = await this.applyAfter('navigation', navigationData);
 	 */
-	protected async applyAfter<
-		M extends DataFetchingMethodName,
-		T extends MethodData[M]
-	>(method: M, response: T): Promise<T> {
+	// eslint-disable-next-line @typescript-eslint/ban-types
+	protected async applyAfter<M extends string, T>(
+		method: M,
+		response: T
+	): Promise<T> {
 		const subscriptionsForMethod = this.#afterSubscriptions[method];
 
 		if (typeof subscriptionsForMethod === 'undefined') {
@@ -260,6 +255,7 @@ export class StorefrontClient {
 		let result = response;
 
 		for (const callback of Object.values(subscriptionsForMethod)) {
+			// eslint-disable-next-line @typescript-eslint/await-thenable
 			result = (await callback(result)) as T;
 		}
 

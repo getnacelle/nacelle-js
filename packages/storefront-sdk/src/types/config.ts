@@ -2,7 +2,7 @@ import type {
 	StorefrontClientAdvancedOptions,
 	StorefrontClientParams
 } from '../index.js';
-import type { AfterSubscriptions, DataFetchingMethodName } from './after.js';
+import type { AfterSubscriptions } from './after.js';
 
 export interface SetConfigParams {
 	previewToken?: string | null;
@@ -15,5 +15,5 @@ export interface SetConfigResponse {
 }
 
 export interface StorefrontConfig extends StorefrontClientParams {
-	afterSubscriptions?: AfterSubscriptions<DataFetchingMethodName>;
+	afterSubscriptions?: AfterSubscriptions;
 }
