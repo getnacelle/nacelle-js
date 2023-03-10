@@ -4,7 +4,7 @@ import type { StorefrontResponse, QueryParams } from './client/index.js';
 export interface StorefrontClientAdvancedOptions {
 	/**
 	 * Controls whether or not Automatic Persisted Queries should be enabled when making requests. This is enabled by default and allows Nacelle to provide improved performance for repeated queries.
-	 * @defaultvalue true
+	 * @defaultValue true
 	 */
 	enableApq?: boolean;
 }

@@ -13,22 +13,22 @@ import { StorefrontClient, retryStatusCodes } from './index.js';
 import { NavigationDocument } from '../../__mocks__/gql/operations.js';
 import getFetchPayload from '../../__mocks__/utils/getFetchPayload.js';
 import NavigationResult from '../../__mocks__/gql/navigation.js';
-import { errorMessages, isProductArray } from '../utils/index.js';
+import { errorMessages } from '../utils/index.js';
 import type { StorefrontResponse } from './index.js';
-import type { AfterCallback } from '../types/after.js';
 import type {
 	NavigationGroup,
 	Product,
-	ProductEdge,
 	SpaceProperties
 } from '../types/storefront.js';
 import type { StorefrontConfig } from '../types/config.js';
+import type { WithStorefrontQuery } from '../index.js';
 
 const storefrontEndpoint =
 	'https://storefront.api.nacelle.com/graphql/v1/spaces/my-space-id';
 
 const mockedFetch = vi.fn();
 type mockRequestArgs = [RequestInfo | URL, RequestInit | undefined];
+
 const client = new StorefrontClient({
 	storefrontEndpoint,
 	fetchClient: mockedFetch as (
@@ -48,10 +48,30 @@ describe('create client', () => {
 });
 
 describe('the `after` method', () => {
-	let client = new StorefrontClient({ storefrontEndpoint });
+	// For more robust `after` method tests, let's create
+	// a new Storefront SDK plugin that adds a couple
+	// of new data-fetching methods.
+	function NacelleSpaceQueriesPlugin<TBase extends WithStorefrontQuery>(
+		Base: TBase
+	) {
+		return class CommerceQueries extends Base {
+			spaceProperties(): SpaceProperties {
+				return {};
+			}
+
+			navigation(): NavigationGroup[] {
+				return [];
+			}
+		};
+	}
+
+	const ClientWithNacelleSpaceQueries =
+		NacelleSpaceQueriesPlugin(StorefrontClient);
+
+	let client = new ClientWithNacelleSpaceQueries({ storefrontEndpoint });
 
 	afterEach(() => {
-		client = new StorefrontClient({ storefrontEndpoint });
+		client = new ClientWithNacelleSpaceQueries({ storefrontEndpoint });
 	});
 
 	it('exists on the client instance', () => {
@@ -77,10 +97,7 @@ describe('the `after` method', () => {
 		const notCallback = { message: '🙀' };
 
 		expect(() =>
-			client.after(
-				'spaceProperties',
-				notCallback as unknown as typeof validCallback
-			)
+			client.after('query', notCallback as unknown as typeof validCallback)
 		).toThrowError(errorMessages.afterMethodCallbackInvalid(notCallback));
 	});
 
@@ -106,12 +123,6 @@ describe('the `after` method', () => {
 	});
 
 	it('allows callbacks to operate on arrays of data without type assertions', () => {
-		// NOTE: The noteable exception to "without type assertions" is when the
-		// method is capable of returning more than one type, as is the case for
-		// the `.products`, `.content`, etc. methods. To avoid errors when their
-		// `.after` callbacks run, users will need to either stick  to a single
-		// format (either edges or nodes) or write their `.after` callbacks to be
-		// capable of dealing with either edges or nodes.
 		const navigationCallback = (navigation: NavigationGroup[]) => {
 			return navigation.map((group, idx) => ({
 				...group,
@@ -142,38 +153,25 @@ describe('the `after` method', () => {
 	});
 
 	it('rewrites callbacks when supplied an already-registered combination of `method` + `callbackId`', () => {
-		const callbackA = (
-			input: Product[] | ProductEdge[]
-		): Product[] | ProductEdge[] => input;
-		const callbackB = (
-			input: Product[] | ProductEdge[]
-		): Product[] | ProductEdge[] => {
-			if (isProductArray(input)) {
-				return input.map((product) => ({
-					...product,
-					tags: ['On Sale']
-				}));
-			}
-
-			return input.map((edge) => ({
-				...edge,
-				node: {
-					...edge.node,
-					tags: ['On Sale']
-				}
+		const callbackA = (input: NavigationGroup[]): NavigationGroup[] => {
+			return input.map((navGroup) => ({
+				...navGroup,
+				updatedBy: '😇'
 			}));
 		};
-		client.after('products', callbackA, 'cb');
-		client.after('productCollectionEntries', callbackA, 'cb');
-		client.after('products', callbackB, 'cb');
+		const callbackB = (input: NavigationGroup[]): NavigationGroup[] => {
+			return input.map((navGroup) => ({
+				...navGroup,
+				updatedBy: '🥸'
+			}));
+		};
+		client.after('navigation', callbackA, 'cb');
+		client.after('navigation', callbackB, 'cb');
 		const { afterSubscriptions } = client.getConfig();
 
 		expect(afterSubscriptions).toStrictEqual({
-			products: {
+			navigation: {
 				cb: callbackB
-			},
-			productCollectionEntries: {
-				cb: callbackA
 			}
 		});
 	});
@@ -427,12 +425,7 @@ describe('the `query` method', () => {
 			}
 		);
 
-		client.after(
-			'query',
-			queryCallback as AfterCallback<
-				StorefrontResponse<{ navigation: NavigationGroup[] }>
-			>
-		);
+		client.after('query', queryCallback);
 		const { afterSubscriptions } = client.getConfig();
 		expect(afterSubscriptions).toStrictEqual({
 			query: {
@@ -485,18 +478,17 @@ describe('the `query` method', () => {
 			)
 		);
 
-		const queryCallback = vi.fn((response: StorefrontResponse<unknown>) => {
-			if (response.error) {
-				throw new Error(response.error.message);
+		const queryCallback = vi.fn(
+			(response: StorefrontResponse<Array<Product>>) => {
+				if (response.error) {
+					throw new Error(response.error.message);
+				}
+
+				return response.data;
 			}
-
-			return response.data;
-		});
-
-		client.after(
-			'query',
-			queryCallback as AfterCallback<StorefrontResponse<unknown>>
 		);
+
+		client.after('query', queryCallback);
 		const { afterSubscriptions } = client.getConfig();
 
 		expect(afterSubscriptions).toStrictEqual({
