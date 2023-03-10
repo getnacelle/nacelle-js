@@ -1,5 +1,3 @@
-import { dataFetchingMethods } from '../utils/index.js';
-
 function unexpectedInputMessage(
 	/** The name of the method where the unexpected input was provided */
 	methodName: string,
@@ -22,7 +20,7 @@ export const errorMessages = {
 	afterMethodInvalid: (received: unknown) =>
 		unexpectedInputMessage(
 			'after',
-			`valid 'method' names are: ${dataFetchingMethods.join(', ')}.`,
+			'only the `query` method and data-fetching methods added by Storefront SDK plugins can be used with the `after` method.',
 			received
 		),
 	afterMethodCallbackIdInvalid: (received: unknown) =>
