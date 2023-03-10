@@ -1,5 +1,11 @@
 # @nacelle/storefront-sdk
 
+## 2.0.0-beta.6
+
+### Patch Changes
+
+- 526702d: Refactored the `after` method to make it agnostic to the return types of methods defined by Storefront SDK plugins.
+
 ## 2.0.0-beta.5
 
 ### Patch Changes
