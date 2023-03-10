@@ -5,7 +5,5 @@
 
 // EXPORT UTILS
 // @index('./!(*.spec).ts', (f, _) => `export * from '${f.path}.js';`)
-export * from './constants.js';
 export * from './errorMessages.js';
-export * from './identity.js';
 // @endindex
