@@ -1,5 +1,11 @@
 # @nacelle/storefront-sdk
 
+## 2.0.0-beta.7
+
+### Patch Changes
+
+- 8e4273f: Fixed an issue that prevented the Storefront SDK from entering preview mode when initializing the client with a `previewToken`.
+
 ## 2.0.0-beta.6
 
 ### Patch Changes
