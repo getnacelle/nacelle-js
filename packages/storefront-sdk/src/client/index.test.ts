@@ -543,30 +543,18 @@ describe('the `query` method', () => {
 	});
 });
 
-it('can initialize with preview token', () => {
+it('sets the expected header and query param when initialized with a `previewToken`', () => {
+	const myPreviewToken = 'xxx';
 	const client = new StorefrontClient({
 		storefrontEndpoint,
-		previewToken: 'xxx'
-	});
-	expect(client).toBeInstanceOf(StorefrontClient);
-});
-
-it('`setConfig` sets preview data', () => {
-	const client = new StorefrontClient({
-		storefrontEndpoint,
-		locale: 'en-US'
+		previewToken: myPreviewToken
 	});
 
-	expect(client.setConfig({ previewToken: 'xxx' })).toStrictEqual({
-		endpoint:
-			'https://storefront.api.nacelle.com/graphql/v1/spaces/my-space-id?preview=true',
-		previewToken: 'xxx'
-	});
-	expect(client.setConfig({})).toStrictEqual({
-		endpoint:
-			'https://storefront.api.nacelle.com/graphql/v1/spaces/my-space-id',
-		previewToken: undefined
-	});
+	const { previewToken, storefrontEndpoint: endpoint } = client.getConfig();
+
+	expect(previewToken).toBe(myPreviewToken);
+	const storefrontEndpointUrl = new URL(endpoint);
+	expect(storefrontEndpointUrl.searchParams.get('preview')).toBe('true');
 });
 
 it('`getConfig` retrieves config', () => {
@@ -585,6 +573,35 @@ it('`getConfig` retrieves config', () => {
 			enableApq: true
 		}
 	});
+});
+
+it('sets the `previewToken` and query param when a `previewToken` is supplied to `setConfig`', () => {
+	const client = new StorefrontClient({
+		storefrontEndpoint,
+		locale: 'en-US'
+	});
+
+	const myPreviewToken = 'xxx';
+	client.setConfig({ previewToken: myPreviewToken });
+	const { previewToken, storefrontEndpoint: endpoint } = client.getConfig();
+
+	expect(previewToken).toBe(myPreviewToken);
+	expect(new URL(endpoint).searchParams.get('preview')).toBe('true');
+});
+
+it('unsets the `previewToken` and query param when `setConfig` is called with `previewToken: null`', () => {
+	const client = new StorefrontClient({
+		storefrontEndpoint,
+		locale: 'en-US'
+	});
+
+	const myPreviewToken = 'xxx';
+	client.setConfig({ previewToken: myPreviewToken });
+	client.setConfig({ previewToken: null });
+	const { previewToken, storefrontEndpoint: endpoint } = client.getConfig();
+
+	expect(previewToken).toBe(undefined);
+	expect(new URL(endpoint).searchParams.get('preview')).toBe(null);
 });
 
 it('makes requests with APQ enabled when `advancedOptions.enableApq is unset', async () => {
