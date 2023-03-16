@@ -83,18 +83,21 @@ export class StorefrontClient {
 			throw new Error(errorMessages.missingEndpoint);
 		}
 
+		const storefrontEndpointUrl = new URL(params.storefrontEndpoint);
+		let headers = {};
+
+		if (params.previewToken) {
+			headers = { 'x-nacelle-space-token': params.previewToken };
+			storefrontEndpointUrl.searchParams.set('preview', 'true');
+		}
+
 		this.#config = {
 			fetchClient: params.fetchClient ?? globalThis.fetch,
-			storefrontEndpoint: params.storefrontEndpoint,
+			storefrontEndpoint: storefrontEndpointUrl.toString(),
 			previewToken: params.previewToken,
 			locale: params.locale ?? 'en-US',
 			advancedOptions: { enableApq: true, ...(params.advancedOptions ?? {}) }
 		};
-
-		let headers = {};
-		if (this.#config.previewToken) {
-			headers = { 'x-nacelle-space-token': this.#config.previewToken };
-		}
 
 		this.#graphqlClient = createClient({
 			url: this.#config.storefrontEndpoint,
@@ -157,14 +160,14 @@ export class StorefrontClient {
 			currentEndpoint.searchParams.delete('preview');
 		}
 
+		this.#config.storefrontEndpoint = currentEndpoint.toString();
+
 		if (setConfigParams.advancedOptions) {
 			this.#config.advancedOptions = {
 				...this.#config.advancedOptions,
 				...setConfigParams.advancedOptions
 			};
 		}
-
-		this.#config.storefrontEndpoint = currentEndpoint.toString();
 
 		this.#graphqlClient = createClient({
 			url: this.#config.storefrontEndpoint,
