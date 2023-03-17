@@ -1,7 +1,7 @@
 import { createClient, dedupExchange, fetchExchange } from '@urql/core';
 import { retryExchange } from '@urql/exchange-retry';
 import { persistedFetchExchange } from '@urql/exchange-persisted-fetch';
-import { errorMessages } from '../utils/index.js';
+import { errorMessages, X_NACELLE_PREVIEW_TOKEN } from '../utils/index.js';
 import type {
 	Client as UrqlClient,
 	TypedDocumentNode,
@@ -87,7 +87,7 @@ export class StorefrontClient {
 		let headers = {};
 
 		if (params.previewToken) {
-			headers = { 'x-nacelle-space-token': params.previewToken };
+			headers = { [X_NACELLE_PREVIEW_TOKEN]: params.previewToken };
 			storefrontEndpointUrl.searchParams.set('preview', 'true');
 		}
 
@@ -154,7 +154,7 @@ export class StorefrontClient {
 		if (setConfigParams.previewToken) {
 			this.#config.previewToken = setConfigParams.previewToken;
 			currentEndpoint.searchParams.set('preview', 'true');
-			headers = { 'x-nacelle-space-token': this.#config.previewToken };
+			headers = { [X_NACELLE_PREVIEW_TOKEN]: this.#config.previewToken };
 		} else {
 			this.#config.previewToken = undefined;
 			currentEndpoint.searchParams.delete('preview');
