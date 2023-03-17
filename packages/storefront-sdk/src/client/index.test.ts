@@ -626,19 +626,19 @@ it('sets the `previewToken`, query param, and header when a `previewToken` is su
 });
 
 it('unsets the `previewToken`, query param, and header when `setConfig` is called with `previewToken: null`', async () => {
+	const myPreviewToken = 'xxx';
 	const client = new StorefrontClient({
 		storefrontEndpoint,
-		locale: 'en-US',
+		previewToken: myPreviewToken,
 		fetchClient: mockedFetch as (
 			input: RequestInfo | URL,
 			init?: RequestInit | undefined
 		) => Promise<Response>
 	});
+	expect(client.getConfig().previewToken).toBe(myPreviewToken);
 
-	client.setConfig({ previewToken: 'xxx' });
 	client.setConfig({ previewToken: null });
 	const { previewToken, storefrontEndpoint: endpoint } = client.getConfig();
-
 	expect(previewToken).toBe(undefined);
 	expect(new URL(endpoint).searchParams.get('preview')).toBe(null);
 
