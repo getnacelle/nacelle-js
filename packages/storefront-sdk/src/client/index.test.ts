@@ -13,7 +13,7 @@ import { StorefrontClient, retryStatusCodes } from './index.js';
 import { NavigationDocument } from '../../__mocks__/gql/operations.js';
 import getFetchPayload from '../../__mocks__/utils/getFetchPayload.js';
 import NavigationResult from '../../__mocks__/gql/navigation.js';
-import { errorMessages } from '../utils/index.js';
+import { errorMessages, X_NACELLE_PREVIEW_TOKEN } from '../utils/index.js';
 import type { StorefrontResponse } from './index.js';
 import type {
 	NavigationGroup,
@@ -543,18 +543,36 @@ describe('the `query` method', () => {
 	});
 });
 
-it('sets the expected header and query param when initialized with a `previewToken`', () => {
+it('sets the expected header and query param when initialized with a `previewToken`', async () => {
+	mockedFetch.mockImplementationOnce(() => {
+		return Promise.resolve(getFetchPayload({ data: { allContent: '{}' } }));
+	});
+
 	const myPreviewToken = 'xxx';
 	const client = new StorefrontClient({
 		storefrontEndpoint,
-		previewToken: myPreviewToken
+		previewToken: myPreviewToken,
+		fetchClient: mockedFetch as (
+			input: RequestInfo | URL,
+			init?: RequestInit | undefined
+		) => Promise<Response>
 	});
 
 	const { previewToken, storefrontEndpoint: endpoint } = client.getConfig();
-
 	expect(previewToken).toBe(myPreviewToken);
+
 	const storefrontEndpointUrl = new URL(endpoint);
 	expect(storefrontEndpointUrl.searchParams.get('preview')).toBe('true');
+
+	await client.query({
+		query: `query { allContent { edges { node { nacelleEntryId } } } }`
+	});
+	expect(mockedFetch.mock.lastCall).not.toBeUndefined();
+	const lastFetch = mockedFetch.mock.lastCall as mockRequestArgs;
+	const requestHeaders = lastFetch[1]?.headers as HeadersInit & {
+		[X_NACELLE_PREVIEW_TOKEN]?: string;
+	};
+	expect(requestHeaders[X_NACELLE_PREVIEW_TOKEN]).toBe(myPreviewToken);
 });
 
 it('`getConfig` retrieves config', () => {
@@ -575,33 +593,64 @@ it('`getConfig` retrieves config', () => {
 	});
 });
 
-it('sets the `previewToken` and query param when a `previewToken` is supplied to `setConfig`', () => {
-	const client = new StorefrontClient({
-		storefrontEndpoint,
-		locale: 'en-US'
+it('sets the `previewToken`, query param, and header when a `previewToken` is supplied to `setConfig`', async () => {
+	mockedFetch.mockImplementationOnce(() => {
+		return Promise.resolve(getFetchPayload({ data: { allContent: '{}' } }));
 	});
 
 	const myPreviewToken = 'xxx';
+	const client = new StorefrontClient({
+		storefrontEndpoint,
+		locale: 'en-US',
+		fetchClient: mockedFetch as (
+			input: RequestInfo | URL,
+			init?: RequestInit | undefined
+		) => Promise<Response>
+	});
+
 	client.setConfig({ previewToken: myPreviewToken });
 	const { previewToken, storefrontEndpoint: endpoint } = client.getConfig();
 
 	expect(previewToken).toBe(myPreviewToken);
 	expect(new URL(endpoint).searchParams.get('preview')).toBe('true');
+
+	await client.query({
+		query: `query { allContent { edges { node { nacelleEntryId } } } }`
+	});
+	expect(mockedFetch.mock.lastCall).not.toBeUndefined();
+	const lastFetch = mockedFetch.mock.lastCall as mockRequestArgs;
+	const requestHeaders = lastFetch[1]?.headers as HeadersInit & {
+		[X_NACELLE_PREVIEW_TOKEN]?: string;
+	};
+	expect(requestHeaders[X_NACELLE_PREVIEW_TOKEN]).toBe(myPreviewToken);
 });
 
-it('unsets the `previewToken` and query param when `setConfig` is called with `previewToken: null`', () => {
+it('unsets the `previewToken`, query param, and header when `setConfig` is called with `previewToken: null`', async () => {
+	const myPreviewToken = 'xxx';
 	const client = new StorefrontClient({
 		storefrontEndpoint,
-		locale: 'en-US'
+		previewToken: myPreviewToken,
+		fetchClient: mockedFetch as (
+			input: RequestInfo | URL,
+			init?: RequestInit | undefined
+		) => Promise<Response>
 	});
+	expect(client.getConfig().previewToken).toBe(myPreviewToken);
 
-	const myPreviewToken = 'xxx';
-	client.setConfig({ previewToken: myPreviewToken });
 	client.setConfig({ previewToken: null });
 	const { previewToken, storefrontEndpoint: endpoint } = client.getConfig();
-
 	expect(previewToken).toBe(undefined);
 	expect(new URL(endpoint).searchParams.get('preview')).toBe(null);
+
+	await client.query({
+		query: `query { allContent { edges { node { nacelleEntryId } } } }`
+	});
+	expect(mockedFetch.mock.lastCall).not.toBeUndefined();
+	const lastFetch = mockedFetch.mock.lastCall as mockRequestArgs;
+	const requestHeaders = lastFetch[1]?.headers as HeadersInit & {
+		[X_NACELLE_PREVIEW_TOKEN]?: string;
+	};
+	expect(requestHeaders[X_NACELLE_PREVIEW_TOKEN]).toBeUndefined();
 });
 
 it('makes requests with APQ enabled when `advancedOptions.enableApq is unset', async () => {
@@ -612,7 +661,6 @@ it('makes requests with APQ enabled when `advancedOptions.enableApq is unset', a
 			init?: RequestInit | undefined
 		) => Promise<Response>
 	});
-	mockedFetch.mockRestore();
 	mockedFetch.mockImplementationOnce(() =>
 		Promise.resolve(getFetchPayload({ data: NavigationResult }))
 	);
@@ -630,7 +678,6 @@ it('makes requests with APQ enabled when `advancedOptions.enableApq is unset', a
 });
 
 it('makes requests with APQ disabled when `advancedOptions.enableApq` is false', async () => {
-	mockedFetch.mockRestore();
 	mockedFetch.mockImplementationOnce(() =>
 		Promise.resolve(getFetchPayload({ data: NavigationResult }))
 	);
@@ -642,6 +689,7 @@ it('makes requests with APQ disabled when `advancedOptions.enableApq` is false',
 
 	const lastFetch = mockedFetch.mock.lastCall as mockRequestArgs;
 	expect(lastFetch[0]).toEqual(storefrontEndpoint);
+	// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 	expect(JSON.parse(lastFetch[1]!.body!.toString())).toMatchObject(
 		expect.objectContaining({
 			// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
@@ -688,7 +736,6 @@ it('disables APQ when `advancedOptions.enableAPQ` is set to false in `setConfig`
 		advancedOptions: { enableApq: true }
 	});
 	client.setConfig({ advancedOptions: { enableApq: false } });
-	mockedFetch.mockRestore();
 	mockedFetch.mockImplementationOnce(() =>
 		Promise.resolve(getFetchPayload({ data: NavigationResult }))
 	);
@@ -700,6 +747,7 @@ it('disables APQ when `advancedOptions.enableAPQ` is set to false in `setConfig`
 
 	const lastFetch = mockedFetch.mock.lastCall as mockRequestArgs;
 	expect(lastFetch[0]).toEqual(storefrontEndpoint);
+	// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 	expect(JSON.parse(lastFetch[1]!.body!.toString())).toMatchObject(
 		expect.objectContaining({
 			// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
