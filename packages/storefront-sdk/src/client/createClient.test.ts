@@ -6,7 +6,6 @@ vi.mock('@urql/core');
 
 const storefrontEndpoint =
 	'https://storefront.api.nacelle.com/graphql/v1/spaces/my-space-id';
-const previewToken = 'xxx';
 
 describe('`createClient`', () => {
 	beforeEach(() => {
@@ -14,12 +13,10 @@ describe('`createClient`', () => {
 	});
 
 	it('calls `createClient` with the expected params', () => {
-		const client = new StorefrontClient({
-			storefrontEndpoint,
-			locale: 'en-US'
-		});
-		client.setConfig({});
+		const client = new StorefrontClient({ storefrontEndpoint });
+		expect(createClient).toHaveBeenCalledTimes(1);
 
+		client.setConfig({});
 		expect(createClient).toHaveBeenCalledTimes(2);
 		expect(createClient).toHaveBeenCalledWith(
 			expect.objectContaining({
@@ -27,26 +24,6 @@ describe('`createClient`', () => {
 				fetch: globalThis.fetch,
 				fetchOptions: {
 					headers: {}
-				}
-			})
-		);
-	});
-
-	it('calls `createClient` with the expected params when `preview` is true', () => {
-		const client = new StorefrontClient({
-			storefrontEndpoint,
-			locale: 'en-US',
-			previewToken
-		});
-		client.setConfig({ previewToken });
-
-		expect(createClient).toHaveBeenCalledTimes(2);
-		expect(createClient).toHaveBeenCalledWith(
-			expect.objectContaining({
-				url: storefrontEndpoint + '?preview=true',
-				fetch: globalThis.fetch,
-				fetchOptions: {
-					headers: { 'x-nacelle-space-token': previewToken }
 				}
 			})
 		);
