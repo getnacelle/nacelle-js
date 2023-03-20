@@ -1,5 +1,11 @@
 # @nacelle/storefront-sdk
 
+## 2.0.0-beta.8
+
+### Patch Changes
+
+- e4f1944: Fixed an issue with header names that was preventing the Storefront SDK from entering preview mode.
+
 ## 2.0.0-beta.7
 
 ### Patch Changes
