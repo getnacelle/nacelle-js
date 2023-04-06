@@ -1,10 +1,11 @@
 {
   "name": "@nacelle/sanity-plugin-nacelle-input",
   "version": "0.1.1",
-  "description": "Link product & collection data from Nacelle v2 in Sanity Studio",
+  "description": "Create references to commerce data from Nacelle in Sanity Studio",
   "main": "dist/index.js",
   "engines": {
-    "node": "14.x || 16.x"
+    "node": ">=14",
+    "npm": ">=7"
   },
   "files": [
     "dist",
@@ -55,13 +56,12 @@
     "styled-components": "^5.2.1"
   },
   "peerDependencies": {
-    "@sanity/base": "^2.30.5",
     "@sanity/components": "^2.0.9",
     "@sanity/core": "^2.0.9",
     "@sanity/react-hooks": "^2.0.9",
     "@sanity/ui": "^0.32.6",
-    "react": "^17.0.1",
-    "react-dom": "^17.0.1",
+    "react": "^16.9 || ^17",
+    "react-dom": "^16.9 || ^17",
     "styled-components": "^5.2.1"
   },
   "lint-staged": {
