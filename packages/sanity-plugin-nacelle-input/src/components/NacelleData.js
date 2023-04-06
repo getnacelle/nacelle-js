@@ -96,7 +96,7 @@ const NacelleData = ({ type, onChange, value, markers, level, readOnly }) => {
     <ThemeProvider theme={studioTheme}>
       {interfaceOpen && (
         <Dialog
-          header="Indexed PIM Data"
+          header="Nacelle Commerce Data"
           id="dialog-example"
           onClose={onClose}
           width={1}
