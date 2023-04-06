@@ -6,6 +6,9 @@ dist
 build
 public
 
+# test outputs
+coverage
+
 # environment variables
 .env
 
