@@ -1,5 +1,11 @@
 # @nacelle/sanity-plugin-nacelle-input
 
+## 0.1.2
+
+### Patch Changes
+
+- 3ed07d8: Updated peer dependencies to reduce conflicts with React versions in Sanity Studio v2 projects.
+
 ## 0.1.1
 
 ### Patch Changes

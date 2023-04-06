@@ -1,6 +1,6 @@
 {
   "name": "@nacelle/sanity-plugin-nacelle-input",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Create references to commerce data from Nacelle in Sanity Studio",
   "main": "dist/index.js",
   "engines": {
