@@ -82,15 +82,18 @@ export const defaultExchanges: Exchange[] = [
 	fetchExchange
 ];
 
+interface StorefrontClientConfig {
+	exchanges: Exchange[];
+	fetchClient: typeof globalThis.fetch;
+	storefrontEndpoint: string;
+	previewToken: string | undefined;
+	locale: string;
+	advancedOptions: StorefrontClientAdvancedOptions;
+}
+
 export class StorefrontClient {
 	#graphqlClient: UrqlClient;
-	#config: {
-		fetchClient: typeof globalThis.fetch;
-		storefrontEndpoint: string;
-		previewToken: string | undefined;
-		locale: string;
-		advancedOptions: StorefrontClientAdvancedOptions;
-	};
+	#config: StorefrontClientConfig;
 	readonly #afterSubscriptions: AfterSubscriptions;
 	constructor(params: StorefrontClientParams) {
 		if (!params?.storefrontEndpoint) {
@@ -106,6 +109,7 @@ export class StorefrontClient {
 		}
 
 		this.#config = {
+			exchanges: params.exchanges ?? defaultExchanges,
 			fetchClient: params.fetchClient ?? globalThis.fetch,
 			storefrontEndpoint: storefrontEndpointUrl.toString(),
 			previewToken: params.previewToken,
@@ -119,7 +123,7 @@ export class StorefrontClient {
 			fetchOptions: {
 				headers
 			},
-			exchanges: defaultExchanges
+			exchanges: this.#config.exchanges
 		});
 		this.#afterSubscriptions = {};
 	}
@@ -128,11 +132,13 @@ export class StorefrontClient {
 	 * @returns an object containing the Storefront SDK configuration parameters: `storefrontEndpoint`, `previewToken`, `locale` and `afterSubscriptions`.
 	 */
 	getConfig(): StorefrontConfig {
-		// eslint-disable-next-line @typescript-eslint/no-unused-vars
-		const { fetchClient, ...rest } = this.#config;
+		const { locale, previewToken, storefrontEndpoint } = this.#config;
+
 		return {
-			...rest,
-			afterSubscriptions: this.#afterSubscriptions
+			afterSubscriptions: this.#afterSubscriptions,
+			locale,
+			previewToken,
+			storefrontEndpoint
 		};
 	}
 
@@ -181,7 +187,7 @@ export class StorefrontClient {
 			fetchOptions: {
 				headers
 			},
-			exchanges: defaultExchanges
+			exchanges: this.#config.exchanges
 		});
 		return {
 			endpoint: this.#config.storefrontEndpoint,

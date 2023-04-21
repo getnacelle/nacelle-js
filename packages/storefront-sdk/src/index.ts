@@ -1,3 +1,5 @@
+import type { Exchange } from '@urql/core';
+
 export interface StorefrontClientAdvancedOptions {
 	/**
 	 * Controls whether or not Automatic Persisted Queries should be enabled when making requests. This is enabled by default and allows Nacelle to provide improved performance for repeated queries.
@@ -18,6 +20,9 @@ export interface StorefrontClientParams {
 
 	/** A custom fetch implementation. If not supplied, the Storefront SDK will use `globalThis.fetch`. */
 	fetchClient?: typeof globalThis.fetch;
+
+	/** Custom urql exchanges. If not provided, the client will use the `defaultExchanges` exported by the Storefront SDK. */
+	exchanges?: Exchange[];
 
 	/** Advanced options for configuring the Storefront SDK. These default to the recommended settings for most users. */
 	advancedOptions?: StorefrontClientAdvancedOptions;
