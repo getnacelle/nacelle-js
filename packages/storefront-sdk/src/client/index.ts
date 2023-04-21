@@ -92,7 +92,6 @@ export class StorefrontClient {
 		advancedOptions: StorefrontClientAdvancedOptions;
 	};
 	readonly #afterSubscriptions: AfterSubscriptions;
-	readonly #retryExchange: Exchange = retryExchange;
 	constructor(params: StorefrontClientParams) {
 		if (!params?.storefrontEndpoint) {
 			throw new Error(errorMessages.missingEndpoint);
