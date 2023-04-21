@@ -1,5 +1,5 @@
 import { createClient, dedupExchange, fetchExchange } from '@urql/core';
-import { retryExchange } from '@urql/exchange-retry';
+import { retryExchange as urqlRetryExchange } from '@urql/exchange-retry';
 import { persistedFetchExchange } from '@urql/exchange-persisted-fetch';
 import { errorMessages, X_NACELLE_PREVIEW_TOKEN } from '../utils/index.js';
 import type {
@@ -51,6 +51,24 @@ export const retryStatusCodes = [
 	504 // Gateway Timeout
 ];
 
+export const retryExchange = urqlRetryExchange({
+	maxDelayMs: 5000,
+	maxNumberAttempts: 5,
+	initialDelayMs: 500,
+	retryIf: (error) => {
+		// if it's a network error, retry if specific error codes
+		if (error.networkError) {
+			const statusCode = (error.response as globalThis.Response)?.status;
+			return retryStatusCodes.includes(statusCode);
+		} else {
+			// only retry if graphQL error is related to internal error
+			return error.graphQLErrors.some((err) =>
+				err.message.includes('INTERNAL_SERVER_ERROR')
+			);
+		}
+	}
+});
+
 export class StorefrontClient {
 	#graphqlClient: UrqlClient;
 	#config: {
@@ -61,23 +79,7 @@ export class StorefrontClient {
 		advancedOptions: StorefrontClientAdvancedOptions;
 	};
 	readonly #afterSubscriptions: AfterSubscriptions;
-	readonly #retryExchange: Exchange = retryExchange({
-		maxDelayMs: 5000,
-		maxNumberAttempts: 5,
-		initialDelayMs: 500,
-		retryIf: (error) => {
-			// if it's a network error, retry if specific error codes
-			if (error.networkError) {
-				const statusCode = (error.response as globalThis.Response)?.status;
-				return retryStatusCodes.includes(statusCode);
-			} else {
-				// only retry if graphQL error is related to internal error
-				return error.graphQLErrors.some((err) =>
-					err.message.includes('INTERNAL_SERVER_ERROR')
-				);
-			}
-		}
-	});
+	readonly #retryExchange: Exchange = retryExchange;
 	constructor(params: StorefrontClientParams) {
 		if (!params?.storefrontEndpoint) {
 			throw new Error(errorMessages.missingEndpoint);

@@ -1,6 +1,3 @@
-import { StorefrontClient } from './client/index.js';
-import type { StorefrontResponse, QueryParams } from './client/index.js';
-
 export interface StorefrontClientAdvancedOptions {
 	/**
 	 * Controls whether or not Automatic Persisted Queries should be enabled when making requests. This is enabled by default and allows Nacelle to provide improved performance for repeated queries.
@@ -19,15 +16,17 @@ export interface StorefrontClientParams {
 	/** An IETF locale string, e.g. 'en-US'.  */
 	locale?: string;
 
-	/** Optional fetch implementation. If not supplied, the Storefront SDK will use `globalThis.fetch`. */
+	/** A custom fetch implementation. If not supplied, the Storefront SDK will use `globalThis.fetch`. */
 	fetchClient?: typeof globalThis.fetch;
 
 	/** Advanced options for configuring the Storefront SDK. These default to the recommended settings for most users. */
 	advancedOptions?: StorefrontClientAdvancedOptions;
 }
 
-export { StorefrontClient };
+export { StorefrontClient, retryExchange } from './client/index.js';
+export { dedupExchange, fetchExchange } from '@urql/core';
+export { persistedFetchExchange } from '@urql/exchange-persisted-fetch';
 export * from './types/plugins.js';
-export type { StorefrontResponse, QueryParams };
+export type { StorefrontResponse, QueryParams } from './client/index.js';
 export type { StorefrontConfig } from './types/config.js';
 export type { AnyVariables } from '@urql/core';
