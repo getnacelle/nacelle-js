@@ -1,6 +1,6 @@
 import { createClient, dedupExchange, fetchExchange } from '@urql/core';
 import { retryExchange as urqlRetryExchange } from '@urql/exchange-retry';
-import { persistedFetchExchange } from '@urql/exchange-persisted-fetch';
+import { persistedFetchExchange as urqlPersistedFetchExchange } from '@urql/exchange-persisted-fetch';
 import { errorMessages, X_NACELLE_PREVIEW_TOKEN } from '../utils/index.js';
 import type {
 	Client as UrqlClient,
@@ -69,6 +69,19 @@ export const retryExchange = urqlRetryExchange({
 	}
 });
 
+export const persistedFetchExchange = urqlPersistedFetchExchange({
+	preferGetForPersistedQueries: true
+});
+
+export const defaultExchanges: Exchange[] = [
+	// NOTE: the order of these exchanges matters!
+	// see the urql Exchanges docs for details.
+	dedupExchange,
+	retryExchange,
+	persistedFetchExchange,
+	fetchExchange
+];
+
 export class StorefrontClient {
 	#graphqlClient: UrqlClient;
 	#config: {
@@ -107,15 +120,7 @@ export class StorefrontClient {
 			fetchOptions: {
 				headers
 			},
-			exchanges: [
-				dedupExchange,
-				this.#retryExchange,
-				// only include persistedFetchExchange if `enableApq` is true
-				...(this.#config.advancedOptions.enableApq
-					? [persistedFetchExchange({ preferGetForPersistedQueries: true })]
-					: []),
-				fetchExchange
-			]
+			exchanges: defaultExchanges
 		});
 		this.#afterSubscriptions = {};
 	}
@@ -177,15 +182,7 @@ export class StorefrontClient {
 			fetchOptions: {
 				headers
 			},
-			exchanges: [
-				dedupExchange,
-				this.#retryExchange,
-				// only include persistedFetchExchange if `enableApq` is true
-				...(this.#config.advancedOptions.enableApq
-					? [persistedFetchExchange({ preferGetForPersistedQueries: true })]
-					: []),
-				fetchExchange
-			]
+			exchanges: defaultExchanges
 		});
 		return {
 			endpoint: this.#config.storefrontEndpoint,

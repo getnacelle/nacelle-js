@@ -23,9 +23,13 @@ export interface StorefrontClientParams {
 	advancedOptions?: StorefrontClientAdvancedOptions;
 }
 
-export { StorefrontClient, retryExchange } from './client/index.js';
+export {
+	defaultExchanges,
+	persistedFetchExchange,
+	retryExchange,
+	StorefrontClient
+} from './client/index.js';
 export { dedupExchange, fetchExchange } from '@urql/core';
-export { persistedFetchExchange } from '@urql/exchange-persisted-fetch';
 export * from './types/plugins.js';
 export type { StorefrontResponse, QueryParams } from './client/index.js';
 export type { StorefrontConfig } from './types/config.js';
