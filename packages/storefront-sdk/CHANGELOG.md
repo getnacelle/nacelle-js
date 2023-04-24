@@ -4,8 +4,8 @@
 
 ### Major Changes
 
-- 3dc75b3: Adds an `exchanges` property to the Storefront SDK's initialization parameters. This new parameter allows Storefront SDK users to explicitly specify custom urql exchanges. All exchanges used by the Storefront SDK's urql client are now exported individually and as a pre-configured array of `defaultExchanges`. The `setConfig` parameter no longer allows APQ functionality to be changed on-the-fly. APQ can only be disabled by explicitly excluding the `persistedFetchExchange` in the exchanges array provided to the `exchanges` initialization parameter.
-- a5347d7: Breaking change: `advancedOptions` and `enableAPQ` are removed from the `StorefrontClientParams`, and will be replaced with the ability for the SDK users to pass their own exchanges as params instead, including the `@urql/exchange-persisted` exchange which enables APQ. See `urql` documentation for more information about the persisted query exchange: https://formidable.com/open-source/urql/docs/advanced/persistence-and-uploads/
+- 3dc75b3: Adds an `exchanges` property to the Storefront SDK's initialization parameters. This new parameter allows Storefront SDK users to explicitly specify custom urql exchanges. All exchanges used by the Storefront SDK's urql client are now exported individually and as a pre-configured array of `defaultExchanges`. **BREAKING** The `setConfig` parameter no longer allows APQ functionality to be changed on-the-fly. APQ can only be disabled by explicitly excluding the `persistedFetchExchange` in the exchanges array provided to the `exchanges` initialization parameter.
+- a5347d7 **BREAKING**: `advancedOptions` and `enableAPQ` are removed from the `StorefrontClientParams`, and will be replaced with the ability for the SDK users to pass their own exchanges as params instead, including the `@urql/exchange-persisted` exchange which enables APQ. See `urql` documentation for more information about the persisted query exchange: https://formidable.com/open-source/urql/docs/advanced/persistence-and-uploads/
 
 ## 2.0.0-beta.8
 
@@ -53,9 +53,7 @@
 
 ### Major Changes
 
-- f2f221b: The Storefront SDK accepts a new `fetchClient` intialization parameter. You can use this to pass a custom [fetch](https://fetch.spec.whatwg.org) client to the Storefront SDK; it will be used in all Nacelle Storefront GraphQL requests.
-
-  **BREAKING**: The Storefront SDK no longer accepts `token`, `currencyCode`, `connector`, `debugMode`, `onDataError`,`subscriptionEndpoint`, `subscriptionToken`, nor `subscriptionSpaceId` in the client initialization parameters. These properties are also no longer included in the return value of the `getConfig` method.
+- f2f221b: The Storefront SDK accepts a new `fetchClient` intialization parameter. You can use this to pass a custom [fetch](https://fetch.spec.whatwg.org) client to the Storefront SDK; it will be used in all Nacelle Storefront GraphQL requests. **BREAKING**: The Storefront SDK no longer accepts `token`, `currencyCode`, `connector`, `debugMode`, `onDataError`,`subscriptionEndpoint`, `subscriptionToken`, nor `subscriptionSpaceId` in the client initialization parameters. These properties are also no longer included in the return value of the `getConfig` method.
 
 - dd081ef: **BREAKING**: Storefront SDK methods other than `.query`, `.after`, `.getConfig` and `.setConfig` are no longer included in `@nacelle/storefront-sdk`. Other methods from `@nacelle/storefront-sdk@1.x` such as `.products`, `.content` etc. will be provided by a Storefront SDK plugin.
 - a8b3a65: Improves the `.query` method.
