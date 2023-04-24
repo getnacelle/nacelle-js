@@ -28,12 +28,12 @@ const MyApp = ({ Component, pageProps, products, components }) => {
 };
 
 MyApp.getInitialProps = async (appContext) => {
-  const data = await nacelleClient.query({ query: SITE_QUERY }).then((site) => {
-    return resolveSiteData({ client: nacelleClient, site });
-  });
+  const { data } = await nacelleClient
+    .query({ query: SITE_QUERY })
+    .then((site) => resolveSiteData({ client: nacelleClient, site }));
+
   const { space, products, ...rest } = data;
   const appProps = await App.getInitialProps(appContext);
-
   return { ...appProps, space, products, components: rest };
 };
 

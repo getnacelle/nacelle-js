@@ -19,11 +19,11 @@ const ContentHandle = ({ page }) => {
 };
 
 export async function getStaticPaths() {
-  const { pages } = await nacelleClient.query({
+  const { data } = await nacelleClient.query({
     query: CONTENT_ROUTES_QUERY
   });
 
-  const paths = pages.edges
+  const paths = data.pages.edges
     .filter((page) => page.node.handle)
     .filter((page) => page.node.handle !== 'page-homepage')
     .map((page) => ({ params: { handle: page.node.handle } }));
@@ -35,13 +35,13 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps({ params }) {
-  const { pages } = await nacelleClient.query({
+  const { data } = await nacelleClient.query({
     query: CONTENT_PAGE_QUERY,
     variables: { handle: `page-${params.handle}` }
   });
   const { page } = await resolvePageData({
     client: nacelleClient,
-    page: pages.edges[0]?.node
+    page: data.pages.edges.at(0)?.node
   });
   return {
     props: {
