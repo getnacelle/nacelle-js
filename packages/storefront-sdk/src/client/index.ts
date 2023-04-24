@@ -1,6 +1,6 @@
 import { createClient, dedupExchange, fetchExchange } from '@urql/core';
 import { retryExchange as urqlRetryExchange } from '@urql/exchange-retry';
-import { persistedFetchExchange as urqlPersistedFetchExchange } from '@urql/exchange-persisted-fetch';
+import { persistedExchange as urqlPersistedExchange } from '@urql/exchange-persisted';
 import { errorMessages, X_NACELLE_PREVIEW_TOKEN } from '../utils/index.js';
 import type {
 	Client as UrqlClient,
@@ -66,7 +66,7 @@ export const retryExchange = urqlRetryExchange({
 	}
 });
 
-export const persistedFetchExchange = urqlPersistedFetchExchange({
+export const persistedFetchExchange = urqlPersistedExchange({
 	preferGetForPersistedQueries: true
 });
 
