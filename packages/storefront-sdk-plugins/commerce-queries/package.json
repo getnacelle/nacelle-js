@@ -71,8 +71,7 @@
 		"vitest": "^0.26.3"
 	},
 	"peerDependencies": {
-		"@nacelle/storefront-sdk": ">=2.0.0-beta",
-		"graphql": "^16.6.0"
+		"@nacelle/storefront-sdk": ">=2.0.0-beta"
 	},
 	"volta": {
 		"node": "18.12.1"
