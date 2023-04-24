@@ -48,11 +48,11 @@ export async function getStaticProps({ params: { handle } }) {
   });
   const { page } = await resolvePageData({
     client: nacelleClient,
-    page: data.pages.edges[0]?.node
+    page: data.pages.edges.at(0)?.node
   });
   return {
     props: {
-      product: data.products.edges[0].node || null,
+      product: data.products.edges.at(0)?.node || null,
       page: page || null
     }
   };

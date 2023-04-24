@@ -29,16 +29,20 @@ const CollectionGrid = ({ collection }) => {
     setIsFetching(true);
     const { data } = await nacelleClient.query({
       query: COLLECTION_PRODUCTS_QUERY,
-      variables: { handle: data.collection.content?.handle, after }
+      variables: { handle: collection.content?.handle, after }
     });
 
-    const collectionProducts = collections.edges[0].node?.products?.edges.map(
-      (product) => product.node
-    );
+    const collectionProducts = data.collections.edges
+      .at(0)
+      ?.node?.products?.edges.map((product) => product.node);
 
     if (collectionProducts) {
-      setCanFetch(collections.edges[0].node?.products?.pageInfo?.hasNextPage);
-      setAfter(collections.edges[0].node?.products?.pageInfo?.endCursor);
+      setCanFetch(
+        data.collections.edges.at(0)?.node?.products?.pageInfo?.hasNextPage
+      );
+      setAfter(
+        data.collections.edges.at(0)?.node?.products?.pageInfo?.endCursor
+      );
       const allProducts = [...products, ...collectionProducts];
       setProducts(allProducts);
     }

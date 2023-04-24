@@ -26,7 +26,7 @@ export async function getStaticProps() {
 
   const { page } = await resolvePageData({
     client: nacelleClient,
-    page: data.pages.edges[0]?.node
+    page: data.pages.edges.at(0)?.node
   });
 
   return {

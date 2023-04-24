@@ -8,12 +8,12 @@ import ErrorModal from 'components/Error/ErrorModal';
 const Layout = ({ children, components }) => {
   return (
     <>
-      <Header content={components.header.edges[0].node} />
-      <Nav content={components.header.edges[0].node} />
-      <Cart content={components.cart.edges[0].node} />
+      <Header content={components.header.edges.at(0)?.node} />
+      <Nav content={components.header.edges.at(0)?.node} />
+      <Cart content={components.cart.edges.at(0)?.node} />
       {children}
-      <Newsletter content={components.newsletter.edges[0].node} />
-      <Footer content={components.footer.edges[0].node} />
+      <Newsletter content={components.newsletter.edges.at(0)?.node} />
+      <Footer content={components.footer.edges.at(0)?.node} />
       <ErrorModal />
     </>
   );
