@@ -10,10 +10,7 @@ import type {
 	Exchange
 } from '@urql/core';
 import type { DocumentNode } from 'graphql';
-import type {
-	StorefrontClientAdvancedOptions,
-	StorefrontClientParams
-} from '../index.js';
+import type { StorefrontClientParams } from '../index.js';
 import type {
 	SetConfigParams,
 	SetConfigResponse,
@@ -88,7 +85,6 @@ interface StorefrontClientConfig {
 	storefrontEndpoint: string;
 	previewToken: string | undefined;
 	locale: string;
-	advancedOptions: StorefrontClientAdvancedOptions;
 }
 
 export class StorefrontClient {
@@ -113,8 +109,7 @@ export class StorefrontClient {
 			fetchClient: params.fetchClient ?? globalThis.fetch,
 			storefrontEndpoint: storefrontEndpointUrl.toString(),
 			previewToken: params.previewToken,
-			locale: params.locale ?? 'en-US',
-			advancedOptions: { enableApq: true, ...(params.advancedOptions ?? {}) }
+			locale: params.locale ?? 'en-US'
 		};
 
 		this.#graphqlClient = createClient({
@@ -144,7 +139,7 @@ export class StorefrontClient {
 
 	/**
 	 * Turn preview mode on or off on-the-fly by setting a `previewToken` in the SDK config. The `previewToken` can be generated in the Nacelle Dashboard.
-	 * @param setConfigParams an object containing the `previewToken` property  and/or the advancedOptions. Providing a value of `null`, `undefined`, or an empty string for the previewTokenValue will disable preview mode.
+	 * @param setConfigParams an object containing the `previewToken` property. Providing a value of `null`, `undefined`, or an empty string for the previewTokenValue will disable preview mode.
 	 *
 	 * @example
 	 * Enable preview mode by providing a `previewToken`:
