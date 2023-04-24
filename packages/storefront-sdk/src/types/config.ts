@@ -1,12 +1,8 @@
-import type {
-	StorefrontClientAdvancedOptions,
-	StorefrontClientParams
-} from '../index.js';
+import type { StorefrontClientParams } from '../index.js';
 import type { AfterSubscriptions } from './after.js';
 
 export interface SetConfigParams {
 	previewToken?: string | null;
-	advancedOptions?: StorefrontClientAdvancedOptions;
 }
 
 export interface SetConfigResponse {
