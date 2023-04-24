@@ -10,13 +10,13 @@ export const resolveSiteData = async ({ client, site }) => {
       );
       let productList = [];
       if (Array.isArray(crossSellHandles) && crossSellHandles.length) {
-        const { products } = await client.query({
+        const { data } = await client.query({
           query: PRODUCTS_QUERY,
           variables: {
             handles: crossSellHandles
           }
         });
-        productList = products.edges.map((product) => product.node);
+        productList = data.products.edges.map((product) => product.node);
       }
       cartObject = {
         ...cartObject,
