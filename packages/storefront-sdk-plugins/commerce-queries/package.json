@@ -1,6 +1,6 @@
 {
 	"name": "@nacelle/commerce-queries-plugin",
-	"version": "1.0.0-beta.4",
+	"version": "1.0.0-beta.5",
 	"description": "A Nacelle Storefront SDK plugin that provides REST-style methods for fetching commerce data",
 	"type": "module",
 	"author": "Nacelle Inc.",
