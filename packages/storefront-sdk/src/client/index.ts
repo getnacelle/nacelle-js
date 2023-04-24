@@ -173,22 +173,13 @@ export class StorefrontClient {
 		}
 
 		this.#config.storefrontEndpoint = currentEndpoint.toString();
-
-		if (setConfigParams.advancedOptions) {
-			this.#config.advancedOptions = {
-				...this.#config.advancedOptions,
-				...setConfigParams.advancedOptions
-			};
-		}
-
 		this.#graphqlClient = createClient({
 			url: this.#config.storefrontEndpoint,
 			fetch: this.#config.fetchClient,
-			fetchOptions: {
-				headers
-			},
+			fetchOptions: { headers },
 			exchanges: this.#config.exchanges
 		});
+
 		return {
 			endpoint: this.#config.storefrontEndpoint,
 			previewToken: this.#config.previewToken
