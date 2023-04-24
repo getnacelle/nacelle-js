@@ -1,5 +1,4 @@
-import { StorefrontClient } from './client/index.js';
-import type { StorefrontResponse, QueryParams } from './client/index.js';
+import type { Exchange } from '@urql/core';
 
 export interface StorefrontClientAdvancedOptions {
 	/**
@@ -19,15 +18,24 @@ export interface StorefrontClientParams {
 	/** An IETF locale string, e.g. 'en-US'.  */
 	locale?: string;
 
-	/** Optional fetch implementation. If not supplied, the Storefront SDK will use `globalThis.fetch`. */
+	/** A custom fetch implementation. If not supplied, the Storefront SDK will use `globalThis.fetch`. */
 	fetchClient?: typeof globalThis.fetch;
+
+	/** Custom urql exchanges. If not provided, the client will use the `defaultExchanges` exported by the Storefront SDK. */
+	exchanges?: Exchange[];
 
 	/** Advanced options for configuring the Storefront SDK. These default to the recommended settings for most users. */
 	advancedOptions?: StorefrontClientAdvancedOptions;
 }
 
-export { StorefrontClient };
+export {
+	defaultExchanges,
+	persistedFetchExchange,
+	retryExchange,
+	StorefrontClient
+} from './client/index.js';
+export { dedupExchange, fetchExchange } from '@urql/core';
 export * from './types/plugins.js';
-export type { StorefrontResponse, QueryParams };
+export type { StorefrontResponse, QueryParams } from './client/index.js';
 export type { StorefrontConfig } from './types/config.js';
 export type { AnyVariables } from '@urql/core';

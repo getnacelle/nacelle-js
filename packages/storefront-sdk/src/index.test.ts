@@ -1,5 +1,12 @@
 import { expect, it } from 'vitest';
-import { StorefrontClient } from './index.js';
+import {
+	StorefrontClient,
+	dedupExchange,
+	defaultExchanges,
+	fetchExchange,
+	persistedFetchExchange,
+	retryExchange
+} from './index.js';
 import { errorMessages } from './utils/index.js';
 import type { StorefrontClientParams } from './index.js';
 
@@ -20,4 +27,18 @@ it('returns a `StorefrontClient` instance', () => {
 	const client = new StorefrontClient({ storefrontEndpoint });
 
 	expect(client).toBeInstanceOf(StorefrontClient);
+});
+
+it('exports the expected exchanges', () => {
+	expect(typeof dedupExchange).toBe('function');
+	expect(typeof fetchExchange).toBe('function');
+	expect(typeof persistedFetchExchange).toBe('function');
+	expect(typeof retryExchange).toBe('function');
+	expect(Array.isArray(defaultExchanges)).toBe(true);
+	expect(defaultExchanges).toStrictEqual([
+		dedupExchange,
+		retryExchange,
+		persistedFetchExchange,
+		fetchExchange
+	]);
 });
