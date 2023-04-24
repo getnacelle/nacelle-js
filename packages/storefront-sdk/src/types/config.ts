@@ -14,6 +14,7 @@ export interface SetConfigResponse {
 	previewToken: string | undefined;
 }
 
-export interface StorefrontConfig extends StorefrontClientParams {
+export interface StorefrontConfig
+	extends Omit<StorefrontClientParams, 'exchanges'> {
 	afterSubscriptions?: AfterSubscriptions;
 }

@@ -1,6 +1,6 @@
 import { createClient, dedupExchange, fetchExchange } from '@urql/core';
-import { retryExchange } from '@urql/exchange-retry';
-import { persistedFetchExchange } from '@urql/exchange-persisted-fetch';
+import { retryExchange as urqlRetryExchange } from '@urql/exchange-retry';
+import { persistedFetchExchange as urqlPersistedFetchExchange } from '@urql/exchange-persisted-fetch';
 import { errorMessages, X_NACELLE_PREVIEW_TOKEN } from '../utils/index.js';
 import type {
 	Client as UrqlClient,
@@ -51,33 +51,50 @@ export const retryStatusCodes = [
 	504 // Gateway Timeout
 ];
 
+export const retryExchange = urqlRetryExchange({
+	maxDelayMs: 5000,
+	maxNumberAttempts: 5,
+	initialDelayMs: 500,
+	retryIf: (error) => {
+		// if it's a network error, retry if specific error codes
+		if (error.networkError) {
+			const statusCode = (error.response as globalThis.Response)?.status;
+			return retryStatusCodes.includes(statusCode);
+		} else {
+			// only retry if graphQL error is related to internal error
+			return error.graphQLErrors.some((err) =>
+				err.message.includes('INTERNAL_SERVER_ERROR')
+			);
+		}
+	}
+});
+
+export const persistedFetchExchange = urqlPersistedFetchExchange({
+	preferGetForPersistedQueries: true
+});
+
+export const defaultExchanges: Exchange[] = [
+	// NOTE: the order of these exchanges matters!
+	// see the urql Exchanges docs for details.
+	dedupExchange,
+	retryExchange,
+	persistedFetchExchange,
+	fetchExchange
+];
+
+interface StorefrontClientConfig {
+	exchanges: Exchange[];
+	fetchClient: typeof globalThis.fetch;
+	storefrontEndpoint: string;
+	previewToken: string | undefined;
+	locale: string;
+	advancedOptions: StorefrontClientAdvancedOptions;
+}
+
 export class StorefrontClient {
 	#graphqlClient: UrqlClient;
-	#config: {
-		fetchClient: typeof globalThis.fetch;
-		storefrontEndpoint: string;
-		previewToken: string | undefined;
-		locale: string;
-		advancedOptions: StorefrontClientAdvancedOptions;
-	};
+	#config: StorefrontClientConfig;
 	readonly #afterSubscriptions: AfterSubscriptions;
-	readonly #retryExchange: Exchange = retryExchange({
-		maxDelayMs: 5000,
-		maxNumberAttempts: 5,
-		initialDelayMs: 500,
-		retryIf: (error) => {
-			// if it's a network error, retry if specific error codes
-			if (error.networkError) {
-				const statusCode = (error.response as globalThis.Response)?.status;
-				return retryStatusCodes.includes(statusCode);
-			} else {
-				// only retry if graphQL error is related to internal error
-				return error.graphQLErrors.some((err) =>
-					err.message.includes('INTERNAL_SERVER_ERROR')
-				);
-			}
-		}
-	});
 	constructor(params: StorefrontClientParams) {
 		if (!params?.storefrontEndpoint) {
 			throw new Error(errorMessages.missingEndpoint);
@@ -92,6 +109,7 @@ export class StorefrontClient {
 		}
 
 		this.#config = {
+			exchanges: params.exchanges ?? defaultExchanges,
 			fetchClient: params.fetchClient ?? globalThis.fetch,
 			storefrontEndpoint: storefrontEndpointUrl.toString(),
 			previewToken: params.previewToken,
@@ -105,15 +123,7 @@ export class StorefrontClient {
 			fetchOptions: {
 				headers
 			},
-			exchanges: [
-				dedupExchange,
-				this.#retryExchange,
-				// only include persistedFetchExchange if `enableApq` is true
-				...(this.#config.advancedOptions.enableApq
-					? [persistedFetchExchange({ preferGetForPersistedQueries: true })]
-					: []),
-				fetchExchange
-			]
+			exchanges: this.#config.exchanges
 		});
 		this.#afterSubscriptions = {};
 	}
@@ -122,11 +132,13 @@ export class StorefrontClient {
 	 * @returns an object containing the Storefront SDK configuration parameters: `storefrontEndpoint`, `previewToken`, `locale` and `afterSubscriptions`.
 	 */
 	getConfig(): StorefrontConfig {
-		// eslint-disable-next-line @typescript-eslint/no-unused-vars
-		const { fetchClient, ...rest } = this.#config;
+		const { locale, previewToken, storefrontEndpoint } = this.#config;
+
 		return {
-			...rest,
-			afterSubscriptions: this.#afterSubscriptions
+			afterSubscriptions: this.#afterSubscriptions,
+			locale,
+			previewToken,
+			storefrontEndpoint
 		};
 	}
 
@@ -161,30 +173,13 @@ export class StorefrontClient {
 		}
 
 		this.#config.storefrontEndpoint = currentEndpoint.toString();
-
-		if (setConfigParams.advancedOptions) {
-			this.#config.advancedOptions = {
-				...this.#config.advancedOptions,
-				...setConfigParams.advancedOptions
-			};
-		}
-
 		this.#graphqlClient = createClient({
 			url: this.#config.storefrontEndpoint,
 			fetch: this.#config.fetchClient,
-			fetchOptions: {
-				headers
-			},
-			exchanges: [
-				dedupExchange,
-				this.#retryExchange,
-				// only include persistedFetchExchange if `enableApq` is true
-				...(this.#config.advancedOptions.enableApq
-					? [persistedFetchExchange({ preferGetForPersistedQueries: true })]
-					: []),
-				fetchExchange
-			]
+			fetchOptions: { headers },
+			exchanges: this.#config.exchanges
 		});
+
 		return {
 			endpoint: this.#config.storefrontEndpoint,
 			previewToken: this.#config.previewToken
