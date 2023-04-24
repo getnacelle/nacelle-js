@@ -1,5 +1,13 @@
 # @nacelle/commerce-queries-plugin
 
+## 1.0.0-beta.5
+
+### Patch Changes
+
+- Updated dependencies [3dc75b3]
+- Updated dependencies [a5347d7]
+  - @nacelle/storefront-sdk@2.0.0-beta.9
+
 ## 1.0.0-beta.4
 
 ### Minor Changes
