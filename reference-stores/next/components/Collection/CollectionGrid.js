@@ -27,10 +27,11 @@ const CollectionGrid = ({ collection }) => {
 
   const handleFetch = async () => {
     setIsFetching(true);
-    const { collections } = await nacelleClient.query({
+    const { data } = await nacelleClient.query({
       query: COLLECTION_PRODUCTS_QUERY,
-      variables: { handle: collection.content?.handle, after }
+      variables: { handle: data.collection.content?.handle, after }
     });
+
     const collectionProducts = collections.edges[0].node?.products?.edges.map(
       (product) => product.node
     );

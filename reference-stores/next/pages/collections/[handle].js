@@ -24,11 +24,11 @@ const CollectionHandle = ({ collection, page }) => {
 };
 
 export async function getStaticPaths() {
-  const { collections } = await nacelleClient.query({
+  const { data } = await nacelleClient.query({
     query: COLLECTION_ROUTES_QUERY
   });
 
-  const paths = collections.edges
+  const paths = data.collections.edges
     .filter((collection) => collection.node.content?.handle)
     .map((collection) => ({
       params: { handle: collection.node.content.handle }
@@ -41,7 +41,7 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps({ params: { handle } }) {
-  const { collections, pages } = await nacelleClient.query({
+  const { data } = await nacelleClient.query({
     query: COLLECTION_PAGE_QUERY,
     variables: {
       handle: handle,
@@ -50,11 +50,11 @@ export async function getStaticProps({ params: { handle } }) {
   });
   const { page } = await resolvePageData({
     client: nacelleClient,
-    page: pages.edges[0]?.node
+    page: data.pages.edges[0]?.node
   });
   return {
     props: {
-      collection: collections.edges[0].node || null,
+      collection: data.collections.edges[0].node || null,
       page: page || null
     }
   };
