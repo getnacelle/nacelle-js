@@ -1,4 +1,4 @@
-import { gql } from '@urql/core';
+import { dedupExchange, fetchExchange, gql } from '@urql/core';
 import { GraphQLError } from 'graphql';
 import {
 	afterEach,
@@ -9,7 +9,7 @@ import {
 	it,
 	vi
 } from 'vitest';
-import { StorefrontClient, retryStatusCodes } from './index.js';
+import { StorefrontClient, retryExchange, retryStatusCodes } from './index.js';
 import { NavigationDocument } from '../../__mocks__/gql/operations.js';
 import getFetchPayload from '../../__mocks__/utils/getFetchPayload.js';
 import NavigationResult from '../../__mocks__/gql/navigation.js';
@@ -35,8 +35,8 @@ const client = new StorefrontClient({
 		input: RequestInfo | URL,
 		init?: RequestInit | undefined
 	) => Promise<Response>,
-	// disable apq since most tests don't need it.
-	advancedOptions: { enableApq: false }
+	// disable APQ since most tests don't need it
+	exchanges: [dedupExchange, retryExchange, fetchExchange]
 });
 
 describe('create client', () => {
@@ -586,10 +586,7 @@ it('`getConfig` retrieves config', () => {
 		storefrontEndpoint:
 			'https://storefront.api.nacelle.com/graphql/v1/spaces/my-space-id',
 		previewToken: undefined,
-		locale: 'en-US',
-		advancedOptions: {
-			enableApq: true
-		}
+		locale: 'en-US'
 	});
 });
 
@@ -653,7 +650,7 @@ it('unsets the `previewToken`, query param, and header when `setConfig` is calle
 	expect(requestHeaders[X_NACELLE_PREVIEW_TOKEN]).toBeUndefined();
 });
 
-it('makes requests with APQ enabled when `advancedOptions.enableApq is unset', async () => {
+it("makes requests with APQ enabled when `exchanges` aren't set", async () => {
 	const client = new StorefrontClient({
 		storefrontEndpoint,
 		fetchClient: mockedFetch as (
@@ -677,65 +674,16 @@ it('makes requests with APQ enabled when `advancedOptions.enableApq is unset', a
 	expect(requestUrl.searchParams.get('operationName')).toEqual('Navigation');
 });
 
-it('makes requests with APQ disabled when `advancedOptions.enableApq` is false', async () => {
-	mockedFetch.mockImplementationOnce(() =>
-		Promise.resolve(getFetchPayload({ data: NavigationResult }))
-	);
-	const variables = { filter: { groupId: 'abc' } };
-	await client.query({
-		query: NavigationDocument,
-		variables
-	});
-
-	const lastFetch = mockedFetch.mock.lastCall as mockRequestArgs;
-	expect(lastFetch[0]).toEqual(storefrontEndpoint);
-	// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-	expect(JSON.parse(lastFetch[1]!.body!.toString())).toMatchObject(
-		expect.objectContaining({
-			// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-			query: expect.stringContaining('query Navigation'),
-			variables
-		})
-	);
-});
-
-it('enables APQ when `advancedOptions.enableApq` is set to true in `setConfig`', async () => {
+it('makes requests with APQ disabled', async () => {
 	const client = new StorefrontClient({
 		storefrontEndpoint,
 		fetchClient: mockedFetch as (
 			input: RequestInfo | URL,
 			init?: RequestInit | undefined
 		) => Promise<Response>,
-		advancedOptions: { enableApq: false }
+		// disable APQ since most tests don't need it
+		exchanges: [dedupExchange, retryExchange, fetchExchange]
 	});
-	client.setConfig({ advancedOptions: { enableApq: true } });
-	mockedFetch.mockRestore();
-	mockedFetch.mockImplementationOnce(() =>
-		Promise.resolve(getFetchPayload({ data: NavigationResult }))
-	);
-	const variables = { filter: { groupId: 'abc' } };
-	await client.query({
-		query: NavigationDocument,
-		variables
-	});
-	expect(mockedFetch).toHaveBeenCalledOnce();
-	const lastFetch = mockedFetch.mock.lastCall as mockRequestArgs;
-	expect(lastFetch[1]?.body).toBeUndefined();
-	expect(lastFetch[1]?.method).toEqual('GET');
-	const requestUrl = new URL(lastFetch[0].toString());
-	expect(requestUrl.searchParams.get('operationName')).toEqual('Navigation');
-});
-
-it('disables APQ when `advancedOptions.enableAPQ` is set to false in `setConfig`', async () => {
-	const client = new StorefrontClient({
-		storefrontEndpoint,
-		fetchClient: mockedFetch as (
-			input: RequestInfo | URL,
-			init?: RequestInit | undefined
-		) => Promise<Response>,
-		advancedOptions: { enableApq: true }
-	});
-	client.setConfig({ advancedOptions: { enableApq: false } });
 	mockedFetch.mockImplementationOnce(() =>
 		Promise.resolve(getFetchPayload({ data: NavigationResult }))
 	);
