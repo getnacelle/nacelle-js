@@ -16,12 +16,12 @@ const Search = ({ products }) => {
 };
 
 export async function getStaticProps() {
-  const { products } = await nacelleClient.query({
+  const { data } = await nacelleClient.query({
     query: SEARCH_PAGE_QUERY
   });
   return {
     props: {
-      products: products.edges.map((product) => product.node)
+      products: data.products.edges.map((product) => product.node)
     }
   };
 }

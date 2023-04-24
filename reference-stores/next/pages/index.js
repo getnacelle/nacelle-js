@@ -19,14 +19,16 @@ const Home = ({ page }) => {
 };
 
 export async function getStaticProps() {
-  const { pages } = await nacelleClient.query({
+  const { data } = await nacelleClient.query({
     query: CONTENT_PAGE_QUERY,
     variables: { handle: 'page-homepage' }
   });
+
   const { page } = await resolvePageData({
     client: nacelleClient,
-    page: pages.edges[0]?.node
+    page: data.pages.edges.at(0)?.node
   });
+
   return {
     props: {
       page: page || null
