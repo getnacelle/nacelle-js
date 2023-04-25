@@ -1,6 +1,6 @@
 # Nacelle Commerce Queries Plugin
 
-A Nacelle Storefront SDK plugin that provides REST-style methods for fetching commerce data.
+A Nacelle Storefront SDK plugin that provides REST-style methods for fetching commerce data
 
 [![npm version](https://img.shields.io/npm/v/@nacelle/commerce-queries-plugin?style=for-the-badge)](https://npmjs.org/package/@nacelle/commerce-queries-plugin) ![npm type definitions](https://img.shields.io/npm/types/@nacelle/commerce-queries-plugin?style=for-the-badge) ![NPM](https://img.shields.io/npm/l/@nacelle/commerce-queries-plugin?style=for-the-badge)
 
