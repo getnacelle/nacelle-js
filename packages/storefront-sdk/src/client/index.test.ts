@@ -1,4 +1,4 @@
-import { dedupExchange, fetchExchange, gql } from '@urql/core';
+import { fetchExchange, gql } from '@urql/core';
 import { GraphQLError } from 'graphql';
 import {
 	afterEach,
@@ -36,7 +36,7 @@ const client = new StorefrontClient({
 		init?: RequestInit | undefined
 	) => Promise<Response>,
 	// disable APQ since most tests don't need it
-	exchanges: [dedupExchange, retryExchange, fetchExchange]
+	exchanges: [retryExchange, fetchExchange]
 });
 
 describe('create client', () => {
@@ -681,8 +681,7 @@ it('makes requests with APQ disabled', async () => {
 			input: RequestInfo | URL,
 			init?: RequestInit | undefined
 		) => Promise<Response>,
-		// disable APQ since most tests don't need it
-		exchanges: [dedupExchange, retryExchange, fetchExchange]
+		exchanges: [retryExchange, fetchExchange]
 	});
 	mockedFetch.mockImplementationOnce(() =>
 		Promise.resolve(getFetchPayload({ data: NavigationResult }))
