@@ -5,7 +5,6 @@ import { errorMessages, X_NACELLE_PREVIEW_TOKEN } from '../utils/index.js';
 import type {
 	Client as UrqlClient,
 	TypedDocumentNode,
-	AnyVariables,
 	CombinedError,
 	Exchange
 } from '@urql/core';
@@ -32,7 +31,10 @@ export interface StorefrontResponse<QueryDocumentType> {
 	data?: QueryDocumentType;
 }
 
-export interface QueryParams<QData, QVariables extends AnyVariables> {
+export interface QueryParams<
+	QData,
+	QVariables extends Record<string, unknown> | undefined
+> {
 	/** GraphQL query */
 	query: TypedDocumentNode<QData, QVariables> | DocumentNode | string;
 
@@ -263,8 +265,12 @@ export class StorefrontClient {
 	 * 	variables: queryVariables
 	 * });
 	 */
-	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	query<QData = any, QVariables extends AnyVariables = any>({
+	query<
+		/* eslint-disable @typescript-eslint/no-explicit-any */
+		QData = any,
+		QVariables extends Record<string, unknown> | undefined = any
+		/* eslint-enable @typescript-eslint/no-explicit-any */
+	>({
 		query,
 		variables
 	}: QueryParams<QData, QVariables>): Promise<StorefrontResponse<QData>> {
