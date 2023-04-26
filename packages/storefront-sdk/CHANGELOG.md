@@ -1,5 +1,12 @@
 # @nacelle/storefront-sdk
 
+## 2.0.0-beta.10
+
+### Patch Changes
+
+- 6388dbf: Updated the README to advertise features and link to the Nacelle docs
+- 092c20f: Upgraded the package internals to use `@urql/core` major version 4. This removes the dependency on the `graphql` package.
+
 ## 2.0.0-beta.9
 
 ### Major Changes
