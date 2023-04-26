@@ -1,7 +1,11 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { expect, it, beforeEach, describe, vi, expectTypeOf } from 'vitest';
 import { CommerceQueries } from './index.js';
-import { StorefrontClient } from '@nacelle/storefront-sdk';
+import {
+	StorefrontClient,
+	fetchExchange,
+	retryExchange
+} from '@nacelle/storefront-sdk';
 import getFetchPayload from '../__mocks__/utils/getFetchPayload.js';
 import SpacePropertiesResult from '../__mocks__/gql/spaceProperties.js';
 import NavigationResult from '../__mocks__/gql/navigation.js';
@@ -53,7 +57,7 @@ const client = new ClientWithCommerceQueries({
 		input: RequestInfo | URL,
 		init?: RequestInit | undefined
 	) => Promise<Response>,
-	advancedOptions: { enableApq: false }
+	exchanges: [retryExchange, fetchExchange]
 });
 
 it('does not error when composed with the `StorefrontClient` class', () => {
