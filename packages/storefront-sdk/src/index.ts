@@ -27,4 +27,3 @@ export { fetchExchange } from '@urql/core';
 export * from './types/plugins.js';
 export type { StorefrontResponse, QueryParams } from './client/index.js';
 export type { StorefrontConfig } from './types/config.js';
-export type { AnyVariables } from '@urql/core';
