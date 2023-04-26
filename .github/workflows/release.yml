@@ -42,7 +42,6 @@ jobs:
         with:
           commit: 'build: version packages'
           title: 'build: version packages'
-          version: npm run version
           # This expects you to have a script called release which does a build for your packages and calls changeset publish
           publish: npm run release
         env:

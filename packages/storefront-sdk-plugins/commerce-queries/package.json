@@ -1,0 +1,79 @@
+{
+	"name": "@nacelle/commerce-queries-plugin",
+	"version": "1.0.0-beta.7",
+	"description": "A Nacelle Storefront SDK plugin that provides REST-style methods for fetching commerce data",
+	"type": "module",
+	"author": "Nacelle Inc.",
+	"license": "Apache-2.0",
+	"files": [
+		"src",
+		"dist"
+	],
+	"scripts": {
+		"build": "vite build && tsc --project tsconfig.production.json && mv dist/src dist/types",
+		"preview": "vite preview",
+		"precommit": "lint-staged",
+		"test": "vitest",
+		"coverage": "vitest typecheck --run && vitest --run",
+		"test:typecheck": "vitest typecheck",
+		"codegen": "graphql-codegen-esm --config codegen.yml",
+		"codegen:all": "npm run codegen && npm run codegen:format && npm run codegen:lint",
+		"codegen:format": "prettier --write src/types/storefront.ts src/graphql/documents.ts",
+		"codegen:lint": "eslint src/types/storefront.ts src/graphql/documents.ts --fix",
+		"lockfile:update": "npm i --package-lock-only"
+	},
+	"homepage": "https://github.com/getnacelle/nacelle-js/tree/main/packages/storefront-sdk-plugins/commerce-queries#readme",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/getnacelle/nacelle-js.git",
+		"directory": "packages/storefront-sdk-plugins/commerce-queries"
+	},
+	"bugs": {
+		"url": "https://github.com/getnacelle/nacelle-js/issues"
+	},
+	"engines": {
+		"node": ">=16.11",
+		"npm": ">=7"
+	},
+	"exports": {
+		".": {
+			"types": "./dist/types/index.d.ts",
+			"import": "./dist/nacelle-commerce-queries-plugin.js",
+			"require": "./dist/nacelle-commerce-queries-plugin.umd.cjs"
+		}
+	},
+	"main": "./dist/nacelle-commerce-queries-plugin.umd.cjs",
+	"module": "./dist/nacelle-commerce-queries-plugin.js",
+	"types": "./dist/types/index.d.ts",
+	"sideEffects": false,
+	"directories": {
+		"src": "src",
+		"test": "__tests__"
+	},
+	"devDependencies": {
+		"@graphql-codegen/cli": "2.16.1",
+		"@graphql-codegen/typed-document-node": "^2.3.11",
+		"@graphql-codegen/typescript": "2.8.5",
+		"@graphql-codegen/typescript-operations": "^2.5.10",
+		"@graphql-typed-document-node/core": "^3.1.1",
+		"@nacelle/storefront-sdk": ">=2.0.0-beta.9",
+		"@typescript-eslint/eslint-plugin": "^5.47.0",
+		"@typescript-eslint/parser": "^5.47.0",
+		"@vitest/coverage-c8": "^0.26.0",
+		"eslint": "^8.30.0",
+		"eslint-config-prettier": "^8.5.0",
+		"eslint-import-resolver-typescript": "^3.5.2",
+		"eslint-plugin-import": "^2.26.0",
+		"eslint-plugin-jest-formatting": "^3.1.0",
+		"prettier": "2.8.1",
+		"typescript": "^4.9.3",
+		"vite": "^4.0.2",
+		"vitest": "^0.26.3"
+	},
+	"peerDependencies": {
+		"@nacelle/storefront-sdk": ">=2.0.0-beta"
+	},
+	"volta": {
+		"node": "18.12.1"
+	}
+}

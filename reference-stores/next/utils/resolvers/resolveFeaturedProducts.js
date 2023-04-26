@@ -7,13 +7,13 @@ export const resolveFeaturedProducts = async ({ client, section }) => {
     );
     let productList = [];
     if (Array.isArray(productHandles) && productHandles.length) {
-      const { products } = await client.query({
+      const { data } = await client.query({
         query: PRODUCTS_QUERY,
         variables: {
           handles: productHandles
         }
       });
-      productList = products;
+      productList = data.products;
     }
     return {
       ...section,
