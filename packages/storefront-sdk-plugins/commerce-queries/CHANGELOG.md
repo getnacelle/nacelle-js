@@ -1,5 +1,15 @@
 # @nacelle/commerce-queries-plugin
 
+## 1.0.0-beta.6
+
+### Patch Changes
+
+- 6388dbf: Updated the README to advertise features and link to the Nacelle docs
+- 092c20f: Removes `graphql` as an explicit peer dependency.
+- Updated dependencies [6388dbf]
+- Updated dependencies [092c20f]
+  - @nacelle/storefront-sdk@2.0.0-beta.10
+
 ## 1.0.0-beta.5
 
 ### Patch Changes
