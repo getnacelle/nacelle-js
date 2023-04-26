@@ -1,5 +1,11 @@
 # @nacelle/commerce-queries-plugin
 
+## 1.0.0-beta.7
+
+### Patch Changes
+
+- 9ee3670: Updates types to avoid TypeScript errors during the build process
+
 ## 1.0.0-beta.6
 
 ### Patch Changes
