@@ -19,11 +19,11 @@ export interface StorefrontClientParams {
 
 export {
 	defaultExchanges,
-	persistedFetchExchange,
+	persistedExchange,
 	retryExchange,
 	StorefrontClient
 } from './client/index.js';
-export { dedupExchange, fetchExchange } from '@urql/core';
+export { fetchExchange } from '@urql/core';
 export * from './types/plugins.js';
 export type { StorefrontResponse, QueryParams } from './client/index.js';
 export type { StorefrontConfig } from './types/config.js';
