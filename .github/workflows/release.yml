@@ -57,11 +57,11 @@ jobs:
       #     git commit -a -m "chore(publish): [skip ci] Update lockfiles"
 
       # - name: Commit lockfile changes
-        if: steps.changesets.outputs.published == 'true'
-        uses: ad-m/github-push-action@v0.6.0
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          branch: ${{ github.ref }}
+      # if: steps.changesets.outputs.published == 'true'
+      # uses: ad-m/github-push-action@v0.6.0
+      # with:
+      #   github_token: ${{ secrets.GITHUB_TOKEN }}
+      #   branch: ${{ github.ref }}
 
       - name: Shopify Checkout - npm run test:coverage
         if: steps.changes.outputs.shopify-checkout == 'true'
