@@ -1,5 +1,48 @@
 # @nacelle/commerce-queries-plugin
 
+## 1.0.0
+
+### Minor Changes
+
+- 650c0ac: Adds a `content` method to fetch the `allContent` data. Unlike the `content` method in the `@nacelle/storefront-sdk@1.x`, this returns a result object with the signature `{ error, data }` similar to how the `query` method works in `@nacelle/storefront-sdk@2.x` to allow users more control over error handling.
+- 650c0ac: Adds the products method to fetch products from your Nacelle index
+- 650c0ac: Added the `productCollections` method, which fetches data from a Nacelle space's collections index.
+- 650c0ac: Exports the generated types from the Storefront GraphQL for use in Typescript projects
+
+### Patch Changes
+
+- 650c0ac: Added the `productCollectionEntries` method, which fetches product entries from a Nacelle space's collection.
+- 650c0ac: Updated the README to advertise features and link to the Nacelle docs
+- 650c0ac: In TypeScript projects, the `.content`, `.products`, `.productCollections`, and `.productCollectionEntries` methods no longer require type assertions on their return values. The type will be inferred based on the value of `params.edgesToNodes`.
+- 650c0ac: Adds error handling to commerce queries & makes commerce queries return data directly instead of `{ data, error }`
+- 650c0ac: Updates types to avoid TypeScript errors during the build process
+- 650c0ac: Updated the name of the plugin (named export) from `commerceQueriesPlugin` to `CommerceQueries`.
+- 650c0ac: Fixed a TypeScript issue that was creating an undesirable coupling between the Storefront SDK and Commerce Queries plugin.
+- 650c0ac: Add `navigation` method to fetch navigation data from a Nacelle space.
+- 650c0ac: Add `spaceProperties` method to fetch space properties from a Nacelle space.
+- 650c0ac: Removes `graphql` as an explicit peer dependency.
+- Updated dependencies [650c0ac]
+- Updated dependencies [650c0ac]
+- Updated dependencies [650c0ac]
+- Updated dependencies [650c0ac]
+- Updated dependencies [650c0ac]
+- Updated dependencies [650c0ac]
+- Updated dependencies [650c0ac]
+- Updated dependencies [650c0ac]
+- Updated dependencies [650c0ac]
+- Updated dependencies [650c0ac]
+- Updated dependencies [650c0ac]
+- Updated dependencies [650c0ac]
+- Updated dependencies [650c0ac]
+- Updated dependencies [650c0ac]
+- Updated dependencies [650c0ac]
+- Updated dependencies [650c0ac]
+- Updated dependencies [650c0ac]
+- Updated dependencies [74bbbaf]
+- Updated dependencies [650c0ac]
+- Updated dependencies [650c0ac]
+  - @nacelle/storefront-sdk@2.0.0
+
 ## 1.0.0-beta.7
 
 ### Patch Changes
