@@ -10,7 +10,7 @@
 		"dist"
 	],
 	"scripts": {
-		"postinstall": "patch-package",
+		"postinstall": "npx patch-package",
 		"dev": "vite",
 		"build": "vite build && tsc --project tsconfig.production.json && mv dist/src dist/types",
 		"preview": "vite preview",
