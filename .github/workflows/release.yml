@@ -48,20 +48,20 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NACELLE_NPMJS_TOKEN }}
 
-      - name: Update and commit lockfiles
-        if: steps.changesets.outputs.published == 'true'
-        run: |
-          lerna run --parallel lockfile:update
-          git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git config --local user.name "github-actions[bot]"
-          git commit -a -m "chore(publish): [skip ci] Update lockfiles"
+      # - name: Update and commit lockfiles
+      #   if: steps.changesets.outputs.published == 'true'
+      #   run: |
+      #     lerna run --parallel lockfile:update
+      #     git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
+      #     git config --local user.name "github-actions[bot]"
+      #     git commit -a -m "chore(publish): [skip ci] Update lockfiles"
 
-      - name: Commit lockfile changes
-        if: steps.changesets.outputs.published == 'true'
-        uses: ad-m/github-push-action@v0.6.0
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          branch: ${{ github.ref }}
+      # - name: Commit lockfile changes
+      #   if: steps.changesets.outputs.published == 'true'
+      #   uses: ad-m/github-push-action@v0.6.0
+      #   with:
+      #     github_token: ${{ secrets.GITHUB_TOKEN }}
+      #     branch: ${{ github.ref }}
 
       - name: Shopify Checkout - npm run test:coverage
         if: steps.changes.outputs.shopify-checkout == 'true'
