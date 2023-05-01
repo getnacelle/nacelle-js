@@ -1,7 +1,12 @@
 import { createClient, fetchExchange } from '@urql/core';
 import { retryExchange as urqlRetryExchange } from '@urql/exchange-retry';
 import { persistedExchange as urqlPersistedExchange } from '@urql/exchange-persisted';
-import { errorMessages, X_NACELLE_PREVIEW_TOKEN } from '../utils/index.js';
+import {
+	errorMessages,
+	X_NACELLE_SDK_VERSION,
+	X_NACELLE_PREVIEW_TOKEN
+} from '../utils/index.js';
+import { version as packageVersion } from '../../package.json';
 import type {
 	Client as UrqlClient,
 	TypedDocumentNode,
@@ -97,18 +102,13 @@ export class StorefrontClient {
 			throw new Error(errorMessages.missingEndpoint);
 		}
 
-		const storefrontEndpointUrl = new URL(params.storefrontEndpoint);
-		let headers = {};
-
-		if (params.previewToken) {
-			headers = { [X_NACELLE_PREVIEW_TOKEN]: params.previewToken };
-			storefrontEndpointUrl.searchParams.set('preview', 'true');
-		}
-
 		this.#config = {
 			exchanges: params.exchanges ?? defaultExchanges,
 			fetchClient: params.fetchClient ?? globalThis.fetch,
-			storefrontEndpoint: storefrontEndpointUrl.toString(),
+			storefrontEndpoint: StorefrontClient.getStorefrontEndpoint(
+				params.storefrontEndpoint,
+				params.previewToken
+			),
 			previewToken: params.previewToken,
 			locale: params.locale ?? 'en-US'
 		};
@@ -117,7 +117,7 @@ export class StorefrontClient {
 			url: this.#config.storefrontEndpoint,
 			fetch: this.#config.fetchClient,
 			fetchOptions: {
-				headers
+				headers: StorefrontClient.getHeaders(params.previewToken)
 			},
 			exchanges: this.#config.exchanges
 		});
@@ -155,24 +155,22 @@ export class StorefrontClient {
 	 * ```
 	 */
 	setConfig(setConfigParams: SetConfigParams): SetConfigResponse {
-		const currentEndpoint = new URL(this.#config.storefrontEndpoint);
+		this.#config.storefrontEndpoint = StorefrontClient.getStorefrontEndpoint(
+			this.#config.storefrontEndpoint,
+			setConfigParams.previewToken
+		);
 
-		let headers = {};
-
-		if (setConfigParams.previewToken) {
-			this.#config.previewToken = setConfigParams.previewToken;
-			currentEndpoint.searchParams.set('preview', 'true');
-			headers = { [X_NACELLE_PREVIEW_TOKEN]: this.#config.previewToken };
-		} else {
-			this.#config.previewToken = undefined;
-			currentEndpoint.searchParams.delete('preview');
+		if (typeof setConfigParams.previewToken !== 'undefined') {
+			// set to `undefined` if `null` or empty string
+			this.#config.previewToken = setConfigParams.previewToken || undefined;
 		}
 
-		this.#config.storefrontEndpoint = currentEndpoint.toString();
 		this.#graphqlClient = createClient({
 			url: this.#config.storefrontEndpoint,
 			fetch: this.#config.fetchClient,
-			fetchOptions: { headers },
+			fetchOptions: {
+				headers: StorefrontClient.getHeaders(setConfigParams.previewToken)
+			},
 			exchanges: this.#config.exchanges
 		});
 
@@ -299,5 +297,36 @@ export class StorefrontClient {
 				return { data, error };
 			})
 			.then(({ data, error }) => this.applyAfter('query', { data, error }));
+	}
+
+	private static getHeaders(
+		previewToken?: string | null
+	): Record<string, string> {
+		const headers: Record<string, string> = {
+			[X_NACELLE_SDK_VERSION]: packageVersion
+		};
+
+		if (previewToken) {
+			headers[X_NACELLE_PREVIEW_TOKEN] = previewToken;
+		}
+
+		return headers;
+	}
+
+	private static getStorefrontEndpoint(
+		endpoint: string,
+		previewToken?: string | null
+	): string {
+		const endpointUrl = new URL(endpoint);
+
+		if (previewToken) {
+			endpointUrl.searchParams.set('preview', 'true');
+		} else if (typeof previewToken !== 'undefined') {
+			// `previewToken` is `null`, an empty string,
+			// or some other falsey, non-`undefined` value
+			endpointUrl.searchParams.delete('preview');
+		}
+
+		return endpointUrl.toString();
 	}
 }

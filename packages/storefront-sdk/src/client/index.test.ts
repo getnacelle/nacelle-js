@@ -13,7 +13,11 @@ import { StorefrontClient, retryExchange, retryStatusCodes } from './index.js';
 import { NavigationDocument } from '../../__mocks__/gql/operations.js';
 import getFetchPayload from '../../__mocks__/utils/getFetchPayload.js';
 import NavigationResult from '../../__mocks__/gql/navigation.js';
-import { errorMessages, X_NACELLE_PREVIEW_TOKEN } from '../utils/index.js';
+import {
+	errorMessages,
+	X_NACELLE_SDK_VERSION,
+	X_NACELLE_PREVIEW_TOKEN
+} from '../utils/index.js';
 import type { StorefrontResponse } from './index.js';
 import type {
 	NavigationGroup,
@@ -573,6 +577,26 @@ it('sets the expected header and query param when initialized with a `previewTok
 		[X_NACELLE_PREVIEW_TOKEN]?: string;
 	};
 	expect(requestHeaders[X_NACELLE_PREVIEW_TOKEN]).toBe(myPreviewToken);
+});
+
+it("sends an 'x-nacelle-sdk-version' header", async () => {
+	mockedFetch.mockImplementationOnce(() =>
+		Promise.resolve(getFetchPayload({ data: NavigationResult }))
+	);
+	const variables = { filter: { groupId: 'abc' } };
+	await client.query({
+		query: NavigationDocument,
+		variables
+	});
+
+	const lastFetch = mockedFetch.mock.lastCall as mockRequestArgs;
+	const requestHeaders = lastFetch[1]?.headers as HeadersInit & {
+		[X_NACELLE_SDK_VERSION]?: string;
+	};
+
+	expect(requestHeaders[X_NACELLE_SDK_VERSION]).toMatch(
+		/\b\d{1,2}.\d{1,2}.\d{1,2}\b/ // three sequences of 1-2 digits separated by periods
+	);
 });
 
 it('`getConfig` retrieves config', () => {
