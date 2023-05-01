@@ -1,6 +1,7 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { createClient } from '@urql/core';
 import { StorefrontClient } from './index.js';
+import { version as packageVersion } from '../../package.json';
 
 vi.mock('@urql/core');
 
@@ -23,7 +24,9 @@ describe('`createClient`', () => {
 				url: storefrontEndpoint,
 				fetch: globalThis.fetch,
 				fetchOptions: {
-					headers: {}
+					headers: {
+						'x-nacelle-sdk-version': packageVersion
+					}
 				}
 			})
 		);
