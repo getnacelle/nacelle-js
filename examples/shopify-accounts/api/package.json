@@ -6,7 +6,7 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
-    "axios": "^0.21.1",
+    "axios": "^1.0.0",
     "body-parser": "^1.19.0",
     "cookie-parser": "^1.4.5",
     "countrycitystatejson": "^20.8.9-a",
