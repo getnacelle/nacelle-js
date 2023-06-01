@@ -18,13 +18,13 @@ export default {
   name: 'HomePage',
   components: { SiteSection },
   async asyncData({ app }) {
-    const { pages } = await app.$nacelle.query({
+    const { data } = await app.$nacelle.query({
       query: CONTENT_PAGE_QUERY,
       variables: { handle: 'page-homepage' }
     });
     const { page } = await resolvePageData({
       client: app.$nacelle,
-      page: pages.edges[0]?.node
+      page: data.pages.edges.at(0)?.node
     });
     return {
       page

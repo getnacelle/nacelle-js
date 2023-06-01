@@ -15,11 +15,11 @@ export default {
     SearchForm
   },
   async asyncData({ app }) {
-    const { products } = await app.$nacelle.query({
+    const { data } = await app.$nacelle.query({
       query: SEARCH_PAGE_QUERY
     });
     return {
-      products: products.edges.map((product) => product.node)
+      products: data.products.edges.map((product) => product.node)
     };
   },
   head() {

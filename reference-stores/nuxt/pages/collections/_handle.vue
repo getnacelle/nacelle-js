@@ -24,7 +24,7 @@ export default {
     SiteSection
   },
   async asyncData({ app, params }) {
-    const { collections, pages } = await app.$nacelle.query({
+    const { data } = await app.$nacelle.query({
       query: COLLECTION_PAGE_QUERY,
       variables: {
         handle: params.handle,
@@ -33,10 +33,10 @@ export default {
     });
     const { page } = await resolvePageData({
       client: app.$nacelle,
-      page: pages.edges[0]?.node
+      page: data.pages.edges.at(0)?.node
     });
     return {
-      collection: collections.edges[0].node,
+      collection: data.collections.edges.at(0)?.node,
       page
     };
   },

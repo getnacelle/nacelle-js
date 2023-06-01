@@ -31,10 +31,10 @@ export const mutations = {
   },
   setComponents(state, payload) {
     state.components = {
-      header: payload.header?.edges[0].node,
-      cart: payload.cart,
-      newsletter: payload.newsletter?.edges[0].node,
-      footer: payload.footer?.edges[0].node
+      header: payload.header.edges.at(0)?.node,
+      cart: payload.cart.edges.at(0)?.node,
+      newsletter: payload.newsletter.edges.at(0)?.node,
+      footer: payload.footer.edges.at(0)?.node
     };
   },
   setProducts(state, payload) {
@@ -46,12 +46,18 @@ export const actions = {
   async initSite({ commit }) {
     const { data } = await cachedFetch({
       key: 'site',
-      fetcher: () =>
-        this.$nacelle
+      fetcher: async () => {
+        return await this.$nacelle
           .query({ query: SITE_QUERY })
-          .then((site) => resolveSiteData({ client: this.$nacelle, site }))
+          .then((data) => resolveSiteData({ client: this.$nacelle, data }));
+      }
     });
+
+    // throw new Error('site', data);
     const { space, products, ...rest } = data;
+
+    console.log('site', data);
+
     commit('setSpace', space);
     commit('setComponents', rest);
     commit('setProducts', products);

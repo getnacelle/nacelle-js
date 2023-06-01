@@ -24,7 +24,7 @@ export default {
     SiteSection
   },
   async asyncData({ app, params }) {
-    const { products, pages } = await app.$nacelle.query({
+    const { data } = await app.$nacelle.query({
       query: PRODUCT_PAGE_QUERY,
       variables: {
         handle: params.handle,
@@ -33,11 +33,11 @@ export default {
     });
     const { page } = await resolvePageData({
       client: app.$nacelle,
-      page: pages.edges[0]?.node
+      page: data.pages.edges.at(0)?.node
     });
 
     return {
-      product: products.edges[0].node,
+      product: data.products.edges.at(0)?.node,
       page
     };
   },

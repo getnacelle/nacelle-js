@@ -89,14 +89,14 @@ export default {
   methods: {
     async handleFetch() {
       this.isFetching = true;
-      const { collections } = await this.$nacelle.query({
+      const { data } = await this.$nacelle.query({
         query: COLLECTION_PRODUCTS_QUERY,
         variables: { handle: this.$route.params.handle, after: this.after }
       });
-      const products = collections.edges[0].node?.products?.edges.map(
-        (product) => product.node
-      );
-      const pageInfo = collections.edges[0].node?.products?.pageInfo;
+      const products = data.collections.edges
+        .at(0)
+        ?.node?.products?.edges.map((product) => product.node);
+      const pageInfo = data.collections.edges.at(0)?.node?.products?.pageInfo;
       if (products) {
         this.products = [...this.products, ...products];
         this.canFetch = pageInfo?.hasNextPage;
