@@ -1,3 +1,7 @@
+---
+title: nacelle/storefront-sdk
+---
+
 # @nacelle/storefront-sdk
 
 ## 2.0.0-beta.10

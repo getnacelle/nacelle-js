@@ -5,7 +5,7 @@ on:
   push:
     branches:
       - main
-      - ENG-8179/storefront-sdk-2.0
+      - ENG-8736/rebase-to-prepare-for-2.0.0-ga-release
     paths:
       - 'packages/**'
 
@@ -107,3 +107,9 @@ jobs:
             -Dsonar.exclusions=src/**/*.test.ts
             -Dsonar.tests=src
             -Dsonar.test.inclusions=src/**/*.test.ts
+
+      - name: Sync SDK Changelogs to Readme
+        if: steps.changes.outputs.storefront-sdk == 'true'
+        uses: readmeio/rdme@v8
+        with:
+          rdme: changelogs packages/storefront-sdk/CHANGELOG.md --key=${{ secrets.README_API_KEY }}
