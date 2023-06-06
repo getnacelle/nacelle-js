@@ -43,6 +43,7 @@ module.exports = {
 		'.prettierrc',
 		'build',
 		'dist',
-		'coverage'
+		'coverage',
+		'*.js'
 	]
 };

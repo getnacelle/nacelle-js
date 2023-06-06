@@ -21,6 +21,6 @@
 		"forceConsistentCasingInFileNames": true,
 		"skipLibCheck": true
 	},
-	"include": ["**/*.ts", "vite.config.ts", "changelogFrontMatter.js"],
+	"include": ["**/*.ts", "vite.config.ts"],
 	"exclude": ["node_modules", "dist"]
 }
