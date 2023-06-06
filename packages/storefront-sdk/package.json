@@ -15,6 +15,7 @@
 		"preview": "vite preview",
 		"precommit": "lint-staged",
 		"test": "vitest",
+		"changelog:frontmatter": "node changelogFrontMatter.js",
 		"coverage": "vitest typecheck --run && vitest --run",
 		"test:typecheck": "vitest typecheck",
 		"codegen": "graphql-codegen-esm --config codegen.yml",

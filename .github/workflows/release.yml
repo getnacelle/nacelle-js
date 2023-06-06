@@ -108,6 +108,11 @@ jobs:
             -Dsonar.tests=src
             -Dsonar.test.inclusions=src/**/*.test.ts
 
+      - name: Add Front Matter to SDK Changelogs for Readme
+        if: steps.changes.outputs.storefront-sdk == 'true'
+        run: npm run changelog:frontmatter
+        working-directory: packages/storefront-sdk
+
       - name: Sync SDK Changelogs to Readme
         if: steps.changes.outputs.storefront-sdk == 'true'
         uses: readmeio/rdme@v8
