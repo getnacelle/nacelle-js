@@ -7,7 +7,9 @@ async function main() {
 	const changelog = await readFile(changelogFilePath, 'utf8');
 
 	const changelogWithFrontMatter = `---
-title: nacelle/storefront-sdk
+title: Changelog
+category: 6359e9ef3232d2000f56a312
+slug: storefront-sdk-changelog
 ---
 ${changelog}`;
 

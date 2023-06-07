@@ -116,4 +116,4 @@ jobs:
         if: steps.changes.outputs.storefront-sdk == 'true'
         uses: readmeio/rdme@v8
         with:
-          rdme: changelogs packages/storefront-sdk/changelog-readme.md --key=${{ secrets.README_API_KEY }}
+          rdme: docs packages/storefront-sdk/changelog-readme.md --key=${{ secrets.README_API_KEY }} --version=2.0
