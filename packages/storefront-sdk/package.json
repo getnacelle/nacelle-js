@@ -16,6 +16,7 @@
 		"precommit": "lint-staged",
 		"test": "vitest",
 		"coverage": "vitest typecheck --run && vitest --run",
+		"changelog:frontmatter": "ts-node-esm changelogFrontMatter.ts",
 		"test:typecheck": "vitest typecheck",
 		"codegen": "graphql-codegen-esm --config codegen.yml",
 		"codegen:all": "npm run codegen && npm run codegen:format && npm run codegen:lint",
@@ -66,6 +67,7 @@
 		"eslint-plugin-import": "^2.26.0",
 		"eslint-plugin-jest-formatting": "^3.1.0",
 		"prettier": "2.8.1",
+		"ts-node": "^10.9.1",
 		"typescript": "^4.9.3",
 		"vite": "^4.0.2",
 		"vitest": "^0.26.3"
