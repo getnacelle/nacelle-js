@@ -17,16 +17,14 @@ export const config: UserConfig = {
 		rollupOptions: {
 			external: [
 				'@urql/core',
-				'@urql/exchange-persisted-fetch',
-				'@urql/exchange-retry',
-				'graphql'
+				'@urql/exchange-persisted',
+				'@urql/exchange-retry'
 			],
 			output: {
 				globals: {
 					'@urql/core': 'Urql',
-					'@urql/exchange-persisted-fetch': 'UrqlExchangePersistedFetch',
-					'@urql/exchange-retry': 'UrqlExchangeRetry',
-					graphql: 'Graphql'
+					'@urql/exchange-persisted': 'UrqlExchangePersisted',
+					'@urql/exchange-retry': 'UrqlExchangeRetry'
 				}
 			}
 		}
