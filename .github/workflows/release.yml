@@ -32,6 +32,8 @@ jobs:
               - 'packages/shopify-checkout/**'
             shopify-cart:
               - 'packages/shopify-cart/**'
+            storefront-sdk:
+              - 'packages/storefront-sdk/**'
 
       - name: Install Dependencies
         run: npm ci
