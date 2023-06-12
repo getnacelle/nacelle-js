@@ -32,8 +32,8 @@ jobs:
               - 'packages/shopify-checkout/**'
             shopify-cart:
               - 'packages/shopify-cart/**'
-            storefront-sdk:
-              - 'packages/storefront-sdk/**'
+            storefront-sdk-changelog:
+              - 'packages/storefront-sdk/CHANGELOG.md'
 
       - name: Install Dependencies
         run: npm ci
@@ -110,12 +110,12 @@ jobs:
             -Dsonar.test.inclusions=src/**/*.test.ts
 
       - name: Add Front Matter to SDK Changelogs for Readme
-        if: steps.changes.outputs.storefront-sdk == 'true'
+        if: steps.changes.outputs.storefront-sdk-changelog == 'true'
         run: npm run changelog:frontmatter
         working-directory: packages/storefront-sdk
 
       - name: Sync SDK Changelogs to Readme
-        if: steps.changes.outputs.storefront-sdk == 'true'
+        if: steps.changes.outputs.storefront-sdk-changelog == 'true'
         uses: readmeio/rdme@v8
         with:
           rdme: docs packages/storefront-sdk/changelog-readme.md --key=${{ secrets.README_API_KEY }} --version=2.0
