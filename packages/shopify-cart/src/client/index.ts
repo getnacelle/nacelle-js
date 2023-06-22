@@ -223,6 +223,16 @@ export default function createShopifyCartClient({
   country = 'ZZ',
   locale = 'en-US'
 }: CreateClientParams): CartClient {
+  if (!shopifyShopId) {
+    throw new Error('@nacelle/shopify-cart: No `shopifyShopId` provided');
+  }
+
+  if (!shopifyStorefrontAccessToken) {
+    throw new Error(
+      '@nacelle/shopify-cart: No `shopifyStorefrontAccessToken` provided'
+    );
+  }
+
   const sanitizedShopId = sanitizeShopId(shopifyShopId as string);
   const gqlClient = createGqlClient({
     shopifyShopId: sanitizedShopId,
