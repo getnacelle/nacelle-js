@@ -1,5 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import createShopifyCartClient from './index';
+import createShopifyCartClient, {
+  shopifyShopIdTokenErrorMessage,
+  shopifyStorefrontAccessTokenErrorMessage
+} from './index';
 import mutations from '../graphql/mutations';
 import { mockJsonResponse } from '../../__tests__/utils';
 import * as utilFunctions from '../utils';
@@ -27,6 +30,7 @@ import type {
   CartSelectedDeliveryOptionsUpdateMutation,
   CartSelectedDeliveryOptionInput
 } from '../types/shopify.type';
+import type { CreateClientParams } from './index';
 
 const defaultLanguage: LanguageCode = 'EN';
 const defaultCountry: CountryCode = 'ZZ';
@@ -897,5 +901,17 @@ describe('createShopifyCartClient', () => {
         }
       })
     });
+  });
+
+  it('throws an error if required params are missing', () => {
+    const { shopifyShopId, shopifyStorefrontAccessToken } = clientSettings;
+    expect(() =>
+      createShopifyCartClient({ shopifyShopId } as CreateClientParams)
+    ).toThrow(shopifyStorefrontAccessTokenErrorMessage);
+    expect(() =>
+      createShopifyCartClient({
+        shopifyStorefrontAccessToken
+      } as CreateClientParams)
+    ).toThrow(shopifyShopIdTokenErrorMessage);
   });
 });

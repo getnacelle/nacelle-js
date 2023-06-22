@@ -206,6 +206,11 @@ export interface CartClient {
   getConfig: GetConfig;
 }
 
+export const shopifyShopIdTokenErrorMessage =
+  '@nacelle/shopify-cart: No `shopifyShopId` provided';
+export const shopifyStorefrontAccessTokenErrorMessage =
+  '@nacelle/shopify-cart: No `shopifyStorefrontAccessToken` provided';
+
 /**
  * Create a Shopify cart client that can:
  * - `cartBuyerIdentityUpdate`: update buyer on an existing Shopify Cart
@@ -223,6 +228,14 @@ export default function createShopifyCartClient({
   country = 'ZZ',
   locale = 'en-US'
 }: CreateClientParams): CartClient {
+  if (!shopifyShopId) {
+    throw new Error(shopifyShopIdTokenErrorMessage);
+  }
+
+  if (!shopifyStorefrontAccessToken) {
+    throw new Error(shopifyStorefrontAccessTokenErrorMessage);
+  }
+
   const sanitizedShopId = sanitizeShopId(shopifyShopId as string);
   const gqlClient = createGqlClient({
     shopifyShopId: sanitizedShopId,
