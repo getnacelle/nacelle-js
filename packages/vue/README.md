@@ -4,6 +4,10 @@ Providers and composables for your Vue.js + Nacelle-powered eCommerce storefront
 
 [![npm version](https://img.shields.io/npm/v/@nacelle/vue?style=for-the-badge)](https://npmjs.org/package/@nacelle/vue)
 
+## NOTICE
+
+This package is deprecated. For up-to-date information and examples related to building frontend projects powered by Nacelle, please see [`docs.nacelle.com`](https://docs.nacelle.com/docs/heads).
+
 ## Features
 
 - Supports Vue 2.7 projects

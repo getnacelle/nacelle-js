@@ -8,6 +8,10 @@ This plugin connects Gatsby to [Nacelle's](https://www.nacelle.com) v2 API, whic
 
 If you using Nacelle's v1 API, please use `@nacelle/gatsby-source-nacelle@nacelle-v1` instead.
 
+## NOTICE
+
+This package is deprecated. For up-to-date information and examples related to building frontend projects powered by Nacelle, please see [`docs.nacelle.com`](https://docs.nacelle.com/docs/heads). Please consider using this project as inspiration for your own custom Gatsby plugin that uses Nacelle as a data source.
+
 ## What is Nacelle?
 
 Nacelle is a headless eCommerce platform made for developers who want to create superior customer buying experiences. When you connect your Shopify, Magento, or custom eCommerce store to Nacelle, our proprietary indexing system supplies a high-performance connection to your back end.
@@ -71,18 +75,18 @@ To make rich text more useable, rich text is stringified. This makes it easier t
 
 ```jsx
 // sanity
-const RichTextComponent = ({richTextString}) => {
+const RichTextComponent = ({ richTextString }) => {
   const richText = JSON.parse(richTextString);
-  return <PortableText value={richText} />
-}
+  return <PortableText value={richText} />;
+};
 ```
 
 ```jsx
 //contentful
-const RichTextComponent = ({richTextString}) => {
+const RichTextComponent = ({ richTextString }) => {
   const richText = JSON.parse(richTextString);
   return documentToReactComponents(richText);
-}
+};
 ```
 
 ## Additional Features
