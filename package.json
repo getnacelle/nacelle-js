@@ -19,7 +19,7 @@
     "release": "npm run build && changeset publish"
   },
   "engines": {
-    "node": ">=14.14 <17",
+    "node": ">=14.14",
     "npm": ">=7"
   },
   "repository": {
@@ -71,6 +71,6 @@
     "@changesets/cli": "^2.24.0"
   },
   "volta": {
-    "node": "16.20.0"
+    "node": "18.16.1"
   }
 }
