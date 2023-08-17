@@ -1,10 +1,10 @@
 import { mockProductNode } from './product.js';
 import type {
-	ProductCollection,
+	ProductCollection_CollectionFragment,
 	AllProductCollectionsQuery
 } from '../../src/graphql/documents.js';
 
-export const mockProductCollectionNode: ProductCollection = {
+export const mockProductCollectionNode: ProductCollection_CollectionFragment = {
 	__typename: 'ProductCollection',
 	nacelleEntryId: 'product-collection-1',
 	sourceEntryId: 'test',
@@ -14,12 +14,9 @@ export const mockProductCollectionNode: ProductCollection = {
 		edges: [{ cursor: 'product-cursor-1', node: mockProductNode }],
 		pageInfo: {
 			endCursor: 'end-cursor-1',
-			hasNextPage: false,
-			hasPreviousPage: false,
-			startCursor: 'start-cursor-1'
+			hasNextPage: false
 		}
 	},
-	products: [],
 	tags: []
 };
 

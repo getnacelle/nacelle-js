@@ -1,6 +1,9 @@
-import type { Product, AllProductsQuery } from '../../src/graphql/documents.js';
+import type {
+	Product_ProductFragment,
+	AllProductsQuery
+} from '../../src/graphql/documents.js';
 
-export const mockProductNode: Product = {
+export const mockProductNode: Product_ProductFragment = {
 	__typename: 'Product',
 	nacelleEntryId: 'product-1',
 	metafields: [],

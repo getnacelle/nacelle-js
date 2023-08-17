@@ -51,11 +51,11 @@
 		"test": "__tests__"
 	},
 	"devDependencies": {
-		"@graphql-codegen/cli": "2.16.1",
-		"@graphql-codegen/typed-document-node": "^2.3.11",
-		"@graphql-codegen/typescript": "2.8.5",
-		"@graphql-codegen/typescript-operations": "^2.5.10",
-		"@graphql-typed-document-node/core": "^3.1.1",
+		"@graphql-codegen/cli": "^5.0.0",
+		"@graphql-codegen/typed-document-node": "^5.0.1",
+		"@graphql-codegen/typescript": "^4.0.1",
+		"@graphql-codegen/typescript-operations": "^4.0.1",
+		"@graphql-typed-document-node/core": "^3.2.0",
 		"@nacelle/storefront-sdk": ">=2.0.0-hotfix.1",
 		"@typescript-eslint/eslint-plugin": "^5.47.0",
 		"@typescript-eslint/parser": "^5.47.0",
