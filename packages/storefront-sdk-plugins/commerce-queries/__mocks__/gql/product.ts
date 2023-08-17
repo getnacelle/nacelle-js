@@ -1,6 +1,7 @@
 import type { Product, AllProductsQuery } from '../../src/graphql/documents.js';
 
 export const mockProductNode: Product = {
+	__typename: 'Product',
 	nacelleEntryId: 'product-1',
 	metafields: [],
 	sourceEntryId: 'test',

@@ -1,5 +1,6 @@
 export default /* GraphQL */ `
 	fragment VariantContent_variantContent on VariantContent {
+		__typename
 		createdAt
 		description
 		featuredMedia {

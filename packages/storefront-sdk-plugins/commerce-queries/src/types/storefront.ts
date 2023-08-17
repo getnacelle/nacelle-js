@@ -155,6 +155,8 @@ export type ContentCollectionFilterInput = {
 	locale?: InputMaybe<Scalars['String']>;
 	/** Filter content collection entries by Nacelle entry id. */
 	nacelleEntryIds?: InputMaybe<Array<Scalars['String']>>;
+	/** Filter content collection entries by source entry id. */
+	sourceEntryIds?: InputMaybe<Array<Scalars['String']>>;
 };
 
 /** Result of a Content Query with pagination info */
@@ -191,6 +193,8 @@ export type ContentFilterInput = {
 	nacelleEntryIds?: InputMaybe<Array<Scalars['String']>>;
 	/** The backend search filter */
 	searchFilter?: InputMaybe<ContentSearchOptions>;
+	/** Filter content entries by source entry id. */
+	sourceEntryIds?: InputMaybe<Array<Scalars['String']>>;
 	/** Filter content entries by content type (ie. 'article', 'page', etc.) */
 	type?: InputMaybe<Scalars['String']>;
 };
@@ -238,6 +242,18 @@ export type Metafield = {
 	value: Scalars['String'];
 };
 
+/** Represents a single price */
+export type Money = {
+	__typename?: 'Money';
+	/** [source] An amount for the money */
+	amount: Scalars['Int'];
+	/** [source] A currencyCode identifier for the amount */
+	currencyCode: Scalars['String'];
+	/** [source] (optional) The precision to which the currency amount should be displayed */
+	precisionDigits?: Maybe<Scalars['Int']>;
+};
+
+/** The mutation root. */
 export type Mutation = {
 	__typename?: 'Mutation';
 	root?: Maybe<Scalars['String']>;
@@ -368,6 +384,23 @@ export type PriceRule = {
 	title: Scalars['String'];
 };
 
+/** Fields available for standalone pricing */
+export type Pricing = {
+	__typename?: 'Pricing';
+	/** [source] List of metafields associated with the pricing */
+	metafields?: Maybe<Scalars['JSON']>;
+	/** [source] The default price */
+	price?: Maybe<Money>;
+	/** [source] The shipping price */
+	shipping?: Maybe<Money>;
+	/** [source] The discounted price */
+	strikeThroughPrice?: Maybe<Money>;
+	/** [source] The tax amount */
+	taxValue?: Maybe<Money>;
+	/** [sys] Reference to parent variant by Nacelle ID */
+	variantEntryId: Scalars['ID'];
+};
+
 /** A product represents an individual item for sale. Products are often physical, but they don't have to be. For example, a digital download (such as a movie, music or ebook file) also qualifies as a product, as do services (such as equipment rental, work for hire, customization of another product or an extended warranty). */
 export type Product = Node & {
 	__typename?: 'Product';
@@ -397,6 +430,11 @@ export type Product = Node & {
 	variants: Array<Variant>;
 	/** [source] Vendor name for product. */
 	vendor?: Maybe<Scalars['String']>;
+};
+
+/** A product represents an individual item for sale. Products are often physical, but they don't have to be. For example, a digital download (such as a movie, music or ebook file) also qualifies as a product, as do services (such as equipment rental, work for hire, customization of another product or an extended warranty). */
+export type ProductVariantsArgs = {
+	filter?: InputMaybe<ProductFilterInput>;
 };
 
 /** Represents a collection of products. */
@@ -473,12 +511,14 @@ export type ProductCollectionFilterInput = {
 	nacelleEntryIds?: InputMaybe<Array<Scalars['String']>>;
 	/** The backend search filter */
 	searchFilter?: InputMaybe<ProductCollectionSearchOptions>;
+	/** Filter product collection entries by source entry id. */
+	sourceEntryIds?: InputMaybe<Array<Scalars['String']>>;
 	/** Filter content entries by content type (ie. 'article', 'page', etc.) */
 	type?: InputMaybe<Scalars['String']>;
 };
 
 /** Searchable fields for product collection */
-export type ProductCollectionSearchFields = 'HANDLE' | 'TITLE';
+export type ProductCollectionSearchFields = 'HANDLE' | 'TAGS' | 'TITLE';
 
 /** Search options for Product Collection */
 export type ProductCollectionSearchOptions = {
@@ -566,8 +606,12 @@ export type ProductFilterInput = {
 	locale?: InputMaybe<Scalars['String']>;
 	/** Filter product entries by Nacelle entry id. */
 	nacelleEntryIds?: InputMaybe<Array<Scalars['String']>>;
+	/** Filter product variant standalone pricing by country code */
+	pricingCountryCode?: InputMaybe<Scalars['String']>;
 	/** The backend search filter */
 	searchFilter?: InputMaybe<ProductSearchOptions>;
+	/** Filter product entries by source entry id. */
+	sourceEntryIds?: InputMaybe<Array<Scalars['String']>>;
 };
 
 /** List of Product ids grouped for a specific purpose. */
@@ -602,9 +646,13 @@ export type ProductSearchOptions = {
 
 export type Query = {
 	__typename?: 'Query';
+	_service: _Service;
 	/** Query a list of content entries with Relay-style pagination */
 	allContent: ContentConnection;
-	/** Query a list of content collection entries with Relay-style pagination */
+	/**
+	 * Query a list of content collection entries with Relay-style pagination
+	 * @deprecated `allContent` should be used for paginated content queries.
+	 */
 	allContentCollections: ContentCollectionConnection;
 	/** Query a list of ProductCollection entries with Relay-style pagination */
 	allProductCollections: ProductCollectionConnection;
@@ -617,7 +665,7 @@ export type Query = {
 	content: Array<Content>;
 	/**
 	 * Query a collection of contents
-	 * @deprecated `allContentCollections` should be used for paginated content collection queries.
+	 * @deprecated `allContent` should be used for paginated content queries.
 	 */
 	contentCollections: Array<ContentCollection>;
 	/** Get navigation groups for a space */
@@ -743,6 +791,8 @@ export type Variant = Node & {
 	priceCurrency?: Maybe<Scalars['String']>;
 	/** [source] List of pricing rules associated with the variant */
 	priceRules: Array<PriceRule>;
+	/** [source] standalone pricing */
+	pricing?: Maybe<Array<Maybe<Pricing>>>;
 	/** [sys] Reference to parent product by Nacelle ID. */
 	productEntryId?: Maybe<Scalars['ID']>;
 	/** [sys] Reference to parent product by handle. */
@@ -806,4 +856,10 @@ export type VariantContent = Node & {
 	updatedAt?: Maybe<Scalars['Int']>;
 	/** [sys] Reference to parent variant by Nacelle ID. */
 	variantEntryId?: Maybe<Scalars['ID']>;
+};
+
+export type _Service = {
+	__typename?: '_Service';
+	/** The sdl representing the federated service capabilities. Includes federation directives, removes federation types, and includes rest of full schema after schema directives have been applied */
+	sdl?: Maybe<Scalars['String']>;
 };

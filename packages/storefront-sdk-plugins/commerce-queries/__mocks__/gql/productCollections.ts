@@ -5,6 +5,7 @@ import type {
 } from '../../src/graphql/documents.js';
 
 export const mockProductCollectionNode: ProductCollection = {
+	__typename: 'ProductCollection',
 	nacelleEntryId: 'product-collection-1',
 	sourceEntryId: 'test',
 	sourceId: 'abcd',

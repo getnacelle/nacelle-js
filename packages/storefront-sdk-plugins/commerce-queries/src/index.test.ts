@@ -178,6 +178,7 @@ describe('content', () => {
 		expectTypeOf(defaultData).toMatchTypeOf<Content[]>();
 		expectTypeOf(explicitNodesData).toMatchTypeOf<Content[]>();
 		expectTypeOf(explicitEdgesData).toMatchTypeOf<ContentEdge[]>();
+		expect(defaultData[0].__typename).toBe('Content');
 	});
 
 	it('should pass parameters including the `nacelleEntryId` as variables', async () => {
@@ -358,6 +359,7 @@ describe('products', () => {
 		expectTypeOf(defaultData).toMatchTypeOf<Product[]>();
 		expectTypeOf(explicitNodesData).toMatchTypeOf<Product[]>();
 		expectTypeOf(explicitEdgesData).toMatchTypeOf<ProductEdge[]>();
+		expect(defaultData[0].__typename).toBe('Product');
 	});
 
 	it('should pass parameters including the `nacelleEntryId` as variables', async () => {
@@ -540,6 +542,7 @@ describe('productCollections', () => {
 		expectTypeOf(defaultData).toMatchTypeOf<ProductCollection[]>();
 		expectTypeOf(explicitNodesData).toMatchTypeOf<ProductCollection[]>();
 		expectTypeOf(explicitEdgesData).toMatchTypeOf<ProductCollectionEdge[]>();
+		expect(defaultData[0].__typename).toBe('ProductCollection');
 	});
 
 	it('should pass parameters including the `nacelleEntryId` as variables', async () => {

@@ -1,5 +1,6 @@
 export default /* GraphQL */ `
 	fragment CollectionContent_collectionContent on CollectionContent {
+		__typename
 		collectionEntryId
 		createdAt
 		description
