@@ -1,5 +1,6 @@
 export default /* GraphQL */ `
 	fragment Product_product on Product {
+		__typename
 		availableForSale
 		createdAt
 		indexedAt

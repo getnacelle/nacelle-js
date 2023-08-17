@@ -10,6 +10,7 @@ export const mockPaginatedProductCollectionEntries: {
 			edges: [
 				{
 					node: {
+						__typename: 'ProductCollection',
 						productConnection: {
 							pageInfo: {
 								hasNextPage: true,
@@ -36,6 +37,7 @@ export const mockUnpaginatedProductCollectionEntries: {
 			edges: [
 				{
 					node: {
+						__typename: 'ProductCollection',
 						productConnection: {
 							pageInfo: {
 								hasNextPage: false,
@@ -77,6 +79,7 @@ export function buildProductCollectionEntriesResponse(
 				edges: [
 					{
 						node: {
+							__typename: 'ProductCollection',
 							productConnection: {
 								pageInfo: {
 									hasNextPage,

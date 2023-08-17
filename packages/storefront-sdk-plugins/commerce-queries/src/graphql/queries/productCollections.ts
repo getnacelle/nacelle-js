@@ -11,31 +11,7 @@ export default /* GraphQL */ `
 			edges {
 				cursor
 				node {
-					content {
-						...CollectionContent_collectionContent
-					}
-					createdAt
-					indexedAt
-					metafields {
-						...Metafield_metafield
-					}
-					nacelleEntryId
-					productConnection(first: $maxReturnedEntriesPerCollection) {
-						totalCount
-						pageInfo {
-							hasNextPage
-							endCursor
-						}
-						edges {
-							node {
-								...Product_product
-							}
-						}
-					}
-					sourceEntryId
-					sourceId
-					tags
-					updatedAt
+					...ProductCollection_collection
 				}
 			}
 		}

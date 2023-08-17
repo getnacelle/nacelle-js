@@ -1,5 +1,6 @@
 export default /* GraphQL */ `
 	fragment ProductContent_productContent on ProductContent {
+		__typename
 		createdAt
 		description
 		featuredMedia {

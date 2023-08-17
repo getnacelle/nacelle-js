@@ -1,4 +1,5 @@
 export const mockContentNode = {
+	__typename: 'Content',
 	createdAt: 1637098847,
 	fields: { customField: 'foobar' },
 	handle: 'nacelle-page',

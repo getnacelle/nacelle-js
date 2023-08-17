@@ -1,5 +1,6 @@
 export default /* GraphQL */ `
 	fragment Variant_variant on Variant {
+		__typename
 		availableForSale
 		compareAtPrice
 		content {

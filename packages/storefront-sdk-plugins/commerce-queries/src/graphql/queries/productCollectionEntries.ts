@@ -7,6 +7,7 @@ export default /* GraphQL */ `
 		allProductCollections(filter: $filter) {
 			edges {
 				node {
+					__typename
 					productConnection(first: $entriesFirst, after: $entriesAfter) {
 						pageInfo {
 							hasNextPage
