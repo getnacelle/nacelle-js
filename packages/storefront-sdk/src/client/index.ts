@@ -60,12 +60,9 @@ export const retryExchange = urqlRetryExchange({
 	maxNumberAttempts: 5,
 	initialDelayMs: 500,
 	retryIf: (error) => {
-		// if it's a network error, retry if specific error codes
 		if (error.networkError) {
-			const statusCode = (error.response as globalThis.Response)?.status;
-			return retryStatusCodes.includes(statusCode);
+			return true;
 		} else {
-			// only retry if graphQL error is related to internal error
 			return error.graphQLErrors.some((err) =>
 				err.message.includes('INTERNAL_SERVER_ERROR')
 			);
