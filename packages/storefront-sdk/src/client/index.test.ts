@@ -9,7 +9,12 @@ import {
 	it,
 	vi
 } from 'vitest';
-import { StorefrontClient, retryExchange, retryStatusCodes } from './index.js';
+import {
+	StorefrontClient,
+	defaultExchanges,
+	persistedExchange,
+	retryExchange
+} from './index.js';
 import { NavigationDocument } from '../../__mocks__/gql/operations.js';
 import getFetchPayload from '../../__mocks__/utils/getFetchPayload.js';
 import NavigationResult from '../../__mocks__/gql/navigation.js';
@@ -25,7 +30,7 @@ import type {
 	SpaceProperties
 } from '../types/storefront.js';
 import type { StorefrontConfig } from '../types/config.js';
-import type { WithStorefrontQuery } from '../index.js';
+import type { StorefrontClientParams, WithStorefrontQuery } from '../index.js';
 
 const storefrontEndpoint =
 	'https://storefront.api.nacelle.com/graphql/v1/spaces/my-space-id';
@@ -33,7 +38,7 @@ const storefrontEndpoint =
 const mockedFetch = vi.fn();
 type mockRequestArgs = [RequestInfo | URL, RequestInit | undefined];
 
-const client = new StorefrontClient({
+const clientConfig: StorefrontClientParams = {
 	storefrontEndpoint,
 	fetchClient: mockedFetch as (
 		input: RequestInfo | URL,
@@ -41,13 +46,31 @@ const client = new StorefrontClient({
 	) => Promise<Response>,
 	// disable APQ since most tests don't need it
 	exchanges: [retryExchange, fetchExchange]
-});
+};
+
+const client = new StorefrontClient(clientConfig);
 
 describe('create client', () => {
 	it('can initialize', () => {
 		expect(() => new StorefrontClient({ storefrontEndpoint })).not.toThrow();
 		const client = new StorefrontClient({ storefrontEndpoint });
 		expect(client).toBeInstanceOf(StorefrontClient);
+	});
+
+	it('throws when initialized without a `storefrontEndpoint`', () => {
+		expect(
+			() => new StorefrontClient({} as StorefrontClientParams)
+		).toThrowError(errorMessages.missingEndpoint);
+	});
+});
+
+describe('default exchanges', () => {
+	it('has exchanges in the expected order', () => {
+		expect(defaultExchanges).toStrictEqual([
+			retryExchange,
+			persistedExchange,
+			fetchExchange
+		]);
 	});
 });
 
@@ -225,21 +248,19 @@ describe('retry logic', () => {
 	beforeEach(() => mockedFetch.mockRestore());
 
 	it('retries if response includes a valid error status', async () => {
-		for (const status of retryStatusCodes) {
-			mockedFetch.mockRestore();
-			mockedFetch
-				.mockImplementationOnce(() =>
-					Promise.resolve(
-						getFetchPayload({ message: 'this is an error' }, { status })
-					)
+		mockedFetch.mockRestore();
+		mockedFetch
+			.mockImplementationOnce(() =>
+				Promise.resolve(
+					getFetchPayload({ message: 'this is an error' }, { status: 504 })
 				)
-				.mockImplementation(() =>
-					// return a valid response so we don't loop forever
-					Promise.resolve(getFetchPayload({ data: NavigationResult }))
-				);
-			await client.query({ query: NavigationDocument });
-			expect(mockedFetch).toBeCalledTimes(2);
-		}
+			)
+			.mockImplementation(() =>
+				// return a valid response so we don't loop forever
+				Promise.resolve(getFetchPayload({ data: NavigationResult }))
+			);
+		await client.query({ query: NavigationDocument });
+		expect(mockedFetch).toBeCalledTimes(2);
 	}, 10_000);
 
 	it('retries if response includes an INTERNAL_SERVER_ERROR in the gql error', async () => {
@@ -526,14 +547,18 @@ describe('the `query` method', () => {
 			)
 		);
 
-		const res = await client.query({ query: NavigationDocument });
+		const clientWithoutRetry = new StorefrontClient({
+			...clientConfig,
+			exchanges: [fetchExchange]
+		});
+		const res = await clientWithoutRetry.query({ query: NavigationDocument });
 
 		expect(res.error?.message).toContain(traceId);
 	});
 
-	it('adds the trace id to the error.message if the response returns an error', async () => {
+	it('adds the trace id to the error.message if the response returns a network error', async () => {
 		const traceId = 'abcd-123';
-		mockedFetch.mockResolvedValue(
+		mockedFetch.mockResolvedValueOnce(
 			getFetchPayload(
 				{
 					message: 'This is an error'
@@ -541,7 +566,12 @@ describe('the `query` method', () => {
 				{ status: 501, headers: { 'x-amzn-trace-id': traceId } }
 			)
 		);
-		const res = await client.query({ query: NavigationDocument });
+
+		const clientWithoutRetry = new StorefrontClient({
+			...clientConfig,
+			exchanges: [fetchExchange]
+		});
+		const res = await clientWithoutRetry.query({ query: NavigationDocument });
 
 		expect(res.error?.message).toContain(traceId);
 	});
@@ -663,6 +693,10 @@ it('unsets the `previewToken`, query param, and header when `setConfig` is calle
 	expect(previewToken).toBe(undefined);
 	expect(new URL(endpoint).searchParams.get('preview')).toBe(null);
 
+	mockedFetch.mockImplementationOnce(() =>
+		// return a valid response so we don't loop forever
+		Promise.resolve(getFetchPayload({ data: {} }))
+	);
 	await client.query({
 		query: `query { allContent { edges { node { nacelleEntryId } } } }`
 	});

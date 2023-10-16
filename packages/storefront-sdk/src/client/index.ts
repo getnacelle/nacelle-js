@@ -47,14 +47,6 @@ export interface QueryParams<
 	variables?: QVariables | string;
 }
 
-export const retryStatusCodes = [
-	429, // Too Many Requests
-	500, // Internal Server Error
-	502, // Bad Gateway
-	503, // Service Unavailable
-	504 // Gateway Timeout
-];
-
 export const retryExchange = urqlRetryExchange({
 	maxDelayMs: 5000,
 	maxNumberAttempts: 5,
