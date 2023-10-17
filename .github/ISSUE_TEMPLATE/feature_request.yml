@@ -9,12 +9,10 @@ body:
       label: Project
       description: Which project does this suggestion apply to?
       options:
-        - 'packages/gatsby-source-nacelle'
         - 'packages/sanity-plugin-nacelle-input'
         - 'packages/shopify-cart'
         - 'packages/shopify-checkout'
-        - 'packages/vue'
-        - 'Something else :)'
+        - 'Something else'
       multiple: true
     validations:
       required: true

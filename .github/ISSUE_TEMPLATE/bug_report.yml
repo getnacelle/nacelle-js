@@ -9,17 +9,10 @@ body:
       label: Project
       description: Which project is this bug report for?
       options:
-        - 'packages/gatsby-source-nacelle'
         - 'packages/sanity-plugin-nacelle-input'
         - 'packages/shopify-cart'
         - 'packages/shopify-checkout'
-        - 'packages/vue'
-        - 'reference-stores/gatsby'
-        - 'reference-stores/next'
-        - 'reference-stores/nuxt'
-        - 'starters/gatsby'
-        - 'starters/next'
-        - 'starters/nuxt'
+        - 'Something else'
     validations:
       required: true
   - type: input
