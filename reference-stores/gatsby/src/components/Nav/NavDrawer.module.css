@@ -1,9 +1,0 @@
-.enterActive,
-.exitActive {
-  transform: translateX(0%);
-}
-
-.enter,
-.exit {
-  transform: translateX(-100%);
-}

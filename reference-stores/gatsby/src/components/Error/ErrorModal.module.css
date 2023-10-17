@@ -1,3 +1,0 @@
-dialog::backdrop {
-  @apply bg-gray-500 bg-opacity-75 transition-opacity;
-}
