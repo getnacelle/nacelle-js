@@ -1,5 +1,13 @@
 # @nacelle/commerce-queries-plugin
 
+## 1.0.1
+
+### Patch Changes
+
+- c661342: Added `__typename` to fragments
+- Updated dependencies [6f2e5f1]
+  - @nacelle/storefront-sdk@2.0.3
+
 ## 1.0.0
 
 ### Minor Changes

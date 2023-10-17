@@ -1,5 +1,11 @@
 # @nacelle/storefront-sdk
 
+## 2.0.3
+
+### Patch Changes
+
+- 6f2e5f1: Updated the default request retry logic to retry in response to all network errors. To customize request retry logic, you can provide your own configured instance of `@urql/exchange-retry` to the Storefront SDK's [`exchanges`](https://docs.nacelle.com/docs/storefront-sdk-major-version-2#exchanges) parameter.
+
 ## 2.0.2
 
 ### Patch Changes
