@@ -1,4 +1,5 @@
-import { gql } from '@urql/core'
+import { gql } from '@urql/core';
+
 export const PRODUCTS_QUERY = gql`
   query {
     allProducts(filter: { first: 1000 }) {
@@ -23,4 +24,4 @@ export const PRODUCTS_QUERY = gql`
       }
     }
   }
-`
+`;
