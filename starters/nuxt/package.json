@@ -23,7 +23,7 @@
   },
   "devDependencies": {
     "@babel/eslint-parser": "^7.16.3",
-    "@nuxt/image": "^0.6.0",
+    "@nuxt/image": "^1.0.0",
     "@nuxtjs/eslint-config": "^8.0.0",
     "@nuxtjs/eslint-module": "^4.0.0",
     "@nuxtjs/pwa": "^3.3.5",
