@@ -1,4 +1,4 @@
-import type { TypedFieldsexampleprojectPageFields } from '@/gql/graphql';
+import type { TypedFieldsExamplePageFields } from '@/gql/graphql';
 import { PAGE_QUERY_BY_HANDLE } from '@/queries/pages';
 import nacelleClient from '@/services/nacelleClient';
 import Section from '@/components/Section';
@@ -21,12 +21,12 @@ export default async function HomePage(): Promise<JSX.Element> {
   );
 }
 
-async function getData(): Promise<TypedFieldsexampleprojectPageFields> {
+async function getData(): Promise<TypedFieldsExamplePageFields> {
   const { data } = await nacelleClient.query({
     query: PAGE_QUERY_BY_HANDLE,
     variables: { handle: 'homepage', type: 'page' }
   });
 
   return data?.allContent?.edges?.[0]?.node
-    ?.typedFields as TypedFieldsexampleprojectPageFields;
+    ?.typedFields as TypedFieldsExamplePageFields;
 }

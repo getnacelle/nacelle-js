@@ -1,4 +1,4 @@
-import type { TypedFieldsexampleprojectPageFields } from '@/gql/graphql';
+import type { TypedFieldsExamplePageFields } from '@/gql/graphql';
 import { CONTENT_ROUTES_QUERY, PAGE_QUERY_BY_HANDLE } from '@/queries/pages';
 import nacelleClient from '@/services/nacelleClient';
 import Section from '@/components/Section';
@@ -41,14 +41,12 @@ export async function generateStaticParams(): Promise<
   return handles;
 }
 
-async function getData(
-  handle: string
-): Promise<TypedFieldsexampleprojectPageFields> {
+async function getData(handle: string): Promise<TypedFieldsExamplePageFields> {
   const { data } = await nacelleClient.query({
     query: PAGE_QUERY_BY_HANDLE,
     variables: { handle, type: 'page' }
   });
 
   return data?.allContent?.edges?.[0]?.node
-    ?.typedFields as TypedFieldsexampleprojectPageFields;
+    ?.typedFields as TypedFieldsExamplePageFields;
 }

@@ -1,6 +1,6 @@
-import type { ContentTypedFields } from '@/gql/graphql';
-import dynamic from 'next/dynamic';
-import { pascalCase } from 'pascal-case';
+import { ContentTypedFields } from '@/gql/graphql';
+import Article from './Article';
+import Links from './Links';
 
 const Placeholder = () => <div>Component not found</div>;
 
@@ -8,21 +8,21 @@ interface Props {
   content: ContentTypedFields;
 }
 
-const Section = ({ content }: Props): JSX.Element | null => {
-  const sectionComponents = {
-    Article: dynamic(() => import('./Article')),
-    Links: dynamic(() => import('./Links')),
-    Placeholder
-  };
+const Section: React.FC<Props> = ({ content }) => {
+  let Component: JSX.Element | null = <Placeholder />;
 
-  const section = (
-    content?.__typename &&
-    pascalCase(content?.__typename).replace('TypedFieldsexampleproject', '')
-  )?.replace('Fields', '') as keyof typeof sectionComponents;
+  switch (content.__typename) {
+    case 'TypedFieldsExampleArticleFields':
+      Component = <Article content={content} />;
+      break;
+    case 'TypedFieldsExampleLinksFields':
+      Component = <Links content={content} />;
+      break;
+    default:
+      Component = <Placeholder />;
+  }
 
-  const Component = sectionComponents[section] || sectionComponents.Placeholder;
-
-  return content && <Component content={content} section={section} />;
+  return Component;
 };
 
 export default Section;

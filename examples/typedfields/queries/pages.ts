@@ -20,14 +20,14 @@ export const PAGE_QUERY_BY_HANDLE = graphql(/* GraphQL */ `
           handle
           nacelleEntryId
           typedFields {
-            ... on TypedFieldsexampleprojectPageFields {
+            ... on TypedFieldsExamplePageFields {
               __typename
               handle
               title
               sections {
                 edges {
                   node {
-                    ... on TypedFieldsexampleprojectArticle {
+                    ... on TypedFieldsExampleArticle {
                       typedFields {
                         __typename
                         haiku
@@ -40,7 +40,7 @@ export const PAGE_QUERY_BY_HANDLE = graphql(/* GraphQL */ `
                         }
                       }
                     }
-                    ... on TypedFieldsexampleprojectLinks {
+                    ... on TypedFieldsExampleLinks {
                       typedFields {
                         __typename
                         links {
