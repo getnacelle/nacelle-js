@@ -1,15 +1,11 @@
-import { ContentTypedFields } from '@/gql/graphql';
+import { TypedFieldsExampleArticleFields } from '@/gql/graphql';
 import React from 'react';
 
 interface ArticleProps {
-  content: ContentTypedFields;
-  section: string;
+  content: TypedFieldsExampleArticleFields;
 }
 
 const Article: React.FC<ArticleProps> = ({ content }) => {
-  if (content?.__typename !== 'TypedFieldsexampleprojectArticleFields')
-    return null;
-
   const author = content?.author?.typedFields;
   const { haiku, title } = content;
 

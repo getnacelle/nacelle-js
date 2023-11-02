@@ -213,6 +213,8 @@ export type CartInput = {
   shippingMethod?: InputMaybe<Scalars['String']['input']>;
   /** The shipping price of the cart, e.g. 10.00 */
   shippingPrice?: InputMaybe<Scalars['String']['input']>;
+  /** The shipping rate associated with this cart */
+  shippingRate?: InputMaybe<ShippingRateInput>;
   /** The tax rate of the cart, e.g. 0.10 */
   taxRate?: InputMaybe<Scalars['String']['input']>;
   /** The total discounts of the cart, e.g. 0.00 */
@@ -489,7 +491,7 @@ export type ContentSearchOptions = {
   term?: InputMaybe<Scalars['String']['input']>;
 };
 
-export type ContentTypedFields = TypedFieldsexampleprojectArticleFields | TypedFieldsexampleprojectAuthorFields | TypedFieldsexampleprojectLinksFields | TypedFieldsexampleprojectPageFields;
+export type ContentTypedFields = TypedFieldsExampleArticleFields | TypedFieldsExampleAuthorFields | TypedFieldsExampleLinksFields | TypedFieldsExamplePageFields;
 
 /** Represents a customer in the system */
 export type Customer = {
@@ -648,6 +650,69 @@ export type Genesis = {
   audienceSegment: Scalars['String']['output'];
   originalContentHandle?: Maybe<Scalars['String']['output']>;
   originalContentId: Scalars['String']['output'];
+};
+
+/** Fields available for inventory item */
+export type InventoryItem = {
+  __typename?: 'InventoryItem';
+  /** [source] An identifier associated with the item. */
+  key?: Maybe<Scalars['String']['output']>;
+  /** [source] List of inventory levels for the item. */
+  levels?: Maybe<Array<InventoryLevel>>;
+  /** [source] List of metafields associated with the item. */
+  metafields?: Maybe<Scalars['JSON']['output']>;
+  /** [sys] The Nacelle ID of the entry. */
+  nacelleEntryId: Scalars['ID']['output'];
+  /** [source] The SKU (stock keeping unit) associated with the item. */
+  sku?: Maybe<Scalars['String']['output']>;
+  /** [source] The ID for the item from its system of origin (i.e. Shopify). */
+  sourceEntryId: Scalars['ID']['output'];
+  /** [sys] Reference to parent variant by Nacelle ID. */
+  variantEntryId: Scalars['ID']['output'];
+};
+
+/** Fields available for inventory level */
+export type InventoryLevel = {
+  __typename?: 'InventoryLevel';
+  /** [source] Specifies if the item is available for pickup at the location. */
+  availableForPickup?: Maybe<Scalars['Boolean']['output']>;
+  /** [source] The location for the inventory item. */
+  location?: Maybe<InventoryLocation>;
+  /** [source] List of metafields associated with the level. */
+  metafields?: Maybe<Scalars['JSON']['output']>;
+  /** [sys] The Nacelle ID of the entry. */
+  nacelleEntryId: Scalars['ID']['output'];
+  /** [source] The total sellable quantity of the inventory item. */
+  quantityAvailable?: Maybe<Scalars['Int']['output']>;
+  /** [source] The ID for the level from its system of origin (i.e. Shopify). */
+  sourceEntryId: Scalars['ID']['output'];
+};
+
+/** Fields available for inventory location */
+export type InventoryLocation = {
+  __typename?: 'InventoryLocation';
+  /** [source] The country code of the location. */
+  countryCode?: Maybe<Scalars['String']['output']>;
+  /** [source] List of metafields associated with the item. */
+  metafields?: Maybe<Scalars['JSON']['output']>;
+  /** [sys] The Nacelle ID of the entry. */
+  nacelleEntryId: Scalars['ID']['output'];
+  /** [source] The name of the location. */
+  name?: Maybe<Scalars['String']['output']>;
+  /** [source] The region code of the location. */
+  regionCode?: Maybe<Scalars['String']['output']>;
+  /** [source] The ID for the location from its system of origin (i.e. Shopify). */
+  sourceEntryId: Scalars['ID']['output'];
+};
+
+/** Filter result for inventory */
+export type InventoryLocationFilterInput = {
+  /** Filter inventory by location country code */
+  countryCode?: InputMaybe<Scalars['String']['input']>;
+  /** Filter inventory by location name */
+  name?: InputMaybe<Scalars['String']['input']>;
+  /** Filter inventory by location region code */
+  regionCode?: InputMaybe<Scalars['String']['input']>;
 };
 
 /** An item represents a product variant in a cart */
@@ -889,10 +954,12 @@ export type Order = {
   promotion?: Maybe<Promotion>;
   /** [source] The shipping address for the order */
   shippingAddress?: Maybe<Address>;
-  /** The shipping method for the order */
+  /** @deprecated use shippingRate instead */
   shippingMethod?: Maybe<Scalars['String']['output']>;
-  /** The shipping price of the order */
+  /** @deprecated use shippingRate instead */
   shippingPrice?: Maybe<Money>;
+  /** [source] The shipping rate information for the order */
+  shippingRate?: Maybe<ShippingRate>;
   /** The external id of the orders source */
   sourceExternalId?: Maybe<Scalars['String']['output']>;
   /** The status of the order */
@@ -1627,29 +1694,52 @@ export type SelectedOption = {
   value: Scalars['String']['output'];
 };
 
-/** ShippingRate represents a shipping rate option for the cart */
+/** Represents a shipping rate in the system */
 export type ShippingRate = {
   __typename?: 'ShippingRate';
-  /** Price of the shipping rate in string-decimal format, e.g. 10.25 */
-  amount: Scalars['String']['output'];
-  /** Currency code in ISO 4217 three-letter format, e.g. USD */
-  currency: Scalars['String']['output'];
-  /** Value of the upper bound of the estimated range. If empty, represents no upper bound, e.g. 10 */
+  /** Price of the shipping rate */
+  amount: Money;
+  /** Value of the upper bound of the estimated range. If empty, represents no upper bound. */
   deliveryEstimateMax?: Maybe<Scalars['Uint']['output']>;
-  /** Value of the lower bound of the estimated range. If empty, represents no lower bound, e.g. 2 */
+  /** Value of the lower bound of the estimated range. If empty, represents no lower bound. */
   deliveryEstimateMin?: Maybe<Scalars['Uint']['output']>;
-  /** Unit of the delivery estimated range, e.g. hour / day / business_day / week / month */
+  /** Unit of the delivery estimated range */
   deliveryEstimateUnit?: Maybe<Scalars['String']['output']>;
-  /** Detailed description of the shipping rate, e.g. Ship orders within the U.S. that need to arrive in the afternoon of the next business day. */
+  /** Detailed description of the shipping rate */
   description?: Maybe<Scalars['String']['output']>;
-  /** The display name of the shipping rate, e.g. Ground shipping */
+  /** The display name of the shipping rate */
   displayName: Scalars['String']['output'];
-  /** External (non-nacelle) id of the ShippingRate object from the ShippingRate API service. */
+  /** The external id for the shipping rate */
   externalID: Scalars['String']['output'];
-  /** Name of the shipping company, e.g. UPS */
+  /** The unique shipping rate id */
+  id?: Maybe<Scalars['UUID']['output']>;
+  /** Name of the shipping company */
   serviceName?: Maybe<Scalars['String']['output']>;
-  /** Describes if shipping rate price includes taxes, e.g. unspecified / inclusive / exclusive */
+  /** Describes if shipping rate price includes taxes */
   taxBehavior: Scalars['String']['output'];
+};
+
+export type ShippingRateInput = {
+  /** Price of the shipping rate in string-decimal format, e.g. 10.25 */
+  amount: Scalars['String']['input'];
+  /** The currency of the shipping rate, e.g. USD */
+  currency: Scalars['String']['input'];
+  /** Value of the upper bound of the estimated range. If empty, represents no upper bound, e.g. 10 */
+  deliveryEstimateMax?: InputMaybe<Scalars['Uint']['input']>;
+  /** Value of the lower bound of the estimated range. If empty, represents no lower bound, e.g. 2 */
+  deliveryEstimateMin?: InputMaybe<Scalars['Uint']['input']>;
+  /** Unit of the delivery estimated range, e.g. hour / day / business_day / week / month */
+  deliveryEstimateUnit?: InputMaybe<Scalars['String']['input']>;
+  /** Detailed description of the shipping rate, e.g. Ship orders within the U.S. that need to arrive in the afternoon of the next business day. */
+  description?: InputMaybe<Scalars['String']['input']>;
+  /** The display name of the shipping rate, e.g. Ground shipping */
+  displayName: Scalars['String']['input'];
+  /** External (non-nacelle) id of the ShippingRate object from the ShippingRate API service. */
+  externalID: Scalars['String']['input'];
+  /** Name of the shipping company, e.g. UPS */
+  serviceName?: InputMaybe<Scalars['String']['input']>;
+  /** Describes if shipping rate price includes taxes, e.g. unspecified / inclusive / exclusive */
+  taxBehavior: Scalars['String']['input'];
 };
 
 /** ShippingRates result. */
@@ -1685,8 +1775,8 @@ export type SpacePropertyNamespace = {
   namespace?: Maybe<Scalars['String']['output']>;
 };
 
-export type TypedFieldsexampleprojectArticle = Node & {
-  __typename?: 'TypedFieldsexampleprojectArticle';
+export type TypedFieldsExampleArticle = Node & {
+  __typename?: 'TypedFieldsExampleArticle';
   /** [source] The Unix timestamp in seconds when the content was created. */
   createdAt?: Maybe<Scalars['Int']['output']>;
   /** [source] A human-friendly unique string for the content. */
@@ -1710,20 +1800,20 @@ export type TypedFieldsexampleprojectArticle = Node & {
   /** [source] The categorization for the content, often used for search and filter. */
   type?: Maybe<Scalars['String']['output']>;
   /** [source] Fields defined by the content model. */
-  typedFields?: Maybe<TypedFieldsexampleprojectArticleFields>;
+  typedFields?: Maybe<TypedFieldsExampleArticleFields>;
   /** [source] The Unix timestamp in seconds when the content was last modified. */
   updatedAt?: Maybe<Scalars['Int']['output']>;
 };
 
-export type TypedFieldsexampleprojectArticleFields = {
-  __typename?: 'TypedFieldsexampleprojectArticleFields';
-  author?: Maybe<TypedFieldsexampleprojectAuthor>;
+export type TypedFieldsExampleArticleFields = {
+  __typename?: 'TypedFieldsExampleArticleFields';
+  author?: Maybe<TypedFieldsExampleAuthor>;
   haiku?: Maybe<Scalars['String']['output']>;
   title?: Maybe<Scalars['String']['output']>;
 };
 
-export type TypedFieldsexampleprojectAuthor = Node & {
-  __typename?: 'TypedFieldsexampleprojectAuthor';
+export type TypedFieldsExampleAuthor = Node & {
+  __typename?: 'TypedFieldsExampleAuthor';
   /** [source] The Unix timestamp in seconds when the content was created. */
   createdAt?: Maybe<Scalars['Int']['output']>;
   /** [source] A human-friendly unique string for the content. */
@@ -1747,19 +1837,19 @@ export type TypedFieldsexampleprojectAuthor = Node & {
   /** [source] The categorization for the content, often used for search and filter. */
   type?: Maybe<Scalars['String']['output']>;
   /** [source] Fields defined by the content model. */
-  typedFields?: Maybe<TypedFieldsexampleprojectAuthorFields>;
+  typedFields?: Maybe<TypedFieldsExampleAuthorFields>;
   /** [source] The Unix timestamp in seconds when the content was last modified. */
   updatedAt?: Maybe<Scalars['Int']['output']>;
 };
 
-export type TypedFieldsexampleprojectAuthorFields = {
-  __typename?: 'TypedFieldsexampleprojectAuthorFields';
+export type TypedFieldsExampleAuthorFields = {
+  __typename?: 'TypedFieldsExampleAuthorFields';
   firstName?: Maybe<Scalars['String']['output']>;
   lastName?: Maybe<Scalars['String']['output']>;
 };
 
-export type TypedFieldsexampleprojectLinks = Node & {
-  __typename?: 'TypedFieldsexampleprojectLinks';
+export type TypedFieldsExampleLinks = Node & {
+  __typename?: 'TypedFieldsExampleLinks';
   /** [source] The Unix timestamp in seconds when the content was created. */
   createdAt?: Maybe<Scalars['Int']['output']>;
   /** [source] A human-friendly unique string for the content. */
@@ -1783,39 +1873,39 @@ export type TypedFieldsexampleprojectLinks = Node & {
   /** [source] The categorization for the content, often used for search and filter. */
   type?: Maybe<Scalars['String']['output']>;
   /** [source] Fields defined by the content model. */
-  typedFields?: Maybe<TypedFieldsexampleprojectLinksFields>;
+  typedFields?: Maybe<TypedFieldsExampleLinksFields>;
   /** [source] The Unix timestamp in seconds when the content was last modified. */
   updatedAt?: Maybe<Scalars['Int']['output']>;
 };
 
-export type TypedFieldsexampleprojectLinksFields = {
-  __typename?: 'TypedFieldsexampleprojectLinksFields';
-  links?: Maybe<TypedFieldsexampleprojectLinksFieldsLinksConnection>;
+export type TypedFieldsExampleLinksFields = {
+  __typename?: 'TypedFieldsExampleLinksFields';
+  links?: Maybe<TypedFieldsExampleLinksFieldsLinksConnection>;
   title?: Maybe<Scalars['String']['output']>;
 };
 
 
-export type TypedFieldsexampleprojectLinksFieldsLinksArgs = {
+export type TypedFieldsExampleLinksFieldsLinksArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
   first?: InputMaybe<Scalars['Int']['input']>;
 };
 
 /** A content connection with pagination info */
-export type TypedFieldsexampleprojectLinksFieldsLinksConnection = {
-  __typename?: 'TypedFieldsexampleprojectLinksFieldsLinksConnection';
-  edges: Array<TypedFieldsexampleprojectLinksFieldsLinksEdge>;
-  pageInfo: TypedFieldsexampleprojectPageInfo;
+export type TypedFieldsExampleLinksFieldsLinksConnection = {
+  __typename?: 'TypedFieldsExampleLinksFieldsLinksConnection';
+  edges: Array<TypedFieldsExampleLinksFieldsLinksEdge>;
+  pageInfo: TypedFieldsExamplePageInfo;
 };
 
 /** A content connection edge */
-export type TypedFieldsexampleprojectLinksFieldsLinksEdge = {
-  __typename?: 'TypedFieldsexampleprojectLinksFieldsLinksEdge';
+export type TypedFieldsExampleLinksFieldsLinksEdge = {
+  __typename?: 'TypedFieldsExampleLinksFieldsLinksEdge';
   cursor?: Maybe<Scalars['String']['output']>;
-  node?: Maybe<TypedFieldsexampleprojectPage>;
+  node?: Maybe<TypedFieldsExamplePage>;
 };
 
-export type TypedFieldsexampleprojectPage = Node & {
-  __typename?: 'TypedFieldsexampleprojectPage';
+export type TypedFieldsExamplePage = Node & {
+  __typename?: 'TypedFieldsExamplePage';
   /** [source] The Unix timestamp in seconds when the content was created. */
   createdAt?: Maybe<Scalars['Int']['output']>;
   /** [source] A human-friendly unique string for the content. */
@@ -1839,43 +1929,43 @@ export type TypedFieldsexampleprojectPage = Node & {
   /** [source] The categorization for the content, often used for search and filter. */
   type?: Maybe<Scalars['String']['output']>;
   /** [source] Fields defined by the content model. */
-  typedFields?: Maybe<TypedFieldsexampleprojectPageFields>;
+  typedFields?: Maybe<TypedFieldsExamplePageFields>;
   /** [source] The Unix timestamp in seconds when the content was last modified. */
   updatedAt?: Maybe<Scalars['Int']['output']>;
 };
 
-export type TypedFieldsexampleprojectPageFields = {
-  __typename?: 'TypedFieldsexampleprojectPageFields';
+export type TypedFieldsExamplePageFields = {
+  __typename?: 'TypedFieldsExamplePageFields';
   handle?: Maybe<Scalars['String']['output']>;
-  sections?: Maybe<TypedFieldsexampleprojectPageFieldsSectionsConnection>;
+  sections?: Maybe<TypedFieldsExamplePageFieldsSectionsConnection>;
   title?: Maybe<Scalars['String']['output']>;
 };
 
 
-export type TypedFieldsexampleprojectPageFieldsSectionsArgs = {
+export type TypedFieldsExamplePageFieldsSectionsArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
   first?: InputMaybe<Scalars['Int']['input']>;
 };
 
-export type TypedFieldsexampleprojectPageFieldsSections = TypedFieldsexampleprojectArticle | TypedFieldsexampleprojectLinks;
+export type TypedFieldsExamplePageFieldsSections = TypedFieldsExampleArticle | TypedFieldsExampleLinks;
 
 /** A content connection with pagination info */
-export type TypedFieldsexampleprojectPageFieldsSectionsConnection = {
-  __typename?: 'TypedFieldsexampleprojectPageFieldsSectionsConnection';
-  edges: Array<TypedFieldsexampleprojectPageFieldsSectionsEdge>;
-  pageInfo: TypedFieldsexampleprojectPageInfo;
+export type TypedFieldsExamplePageFieldsSectionsConnection = {
+  __typename?: 'TypedFieldsExamplePageFieldsSectionsConnection';
+  edges: Array<TypedFieldsExamplePageFieldsSectionsEdge>;
+  pageInfo: TypedFieldsExamplePageInfo;
 };
 
 /** A content connection edge */
-export type TypedFieldsexampleprojectPageFieldsSectionsEdge = {
-  __typename?: 'TypedFieldsexampleprojectPageFieldsSectionsEdge';
+export type TypedFieldsExamplePageFieldsSectionsEdge = {
+  __typename?: 'TypedFieldsExamplePageFieldsSectionsEdge';
   cursor?: Maybe<Scalars['String']['output']>;
-  node?: Maybe<TypedFieldsexampleprojectPageFieldsSections>;
+  node?: Maybe<TypedFieldsExamplePageFieldsSections>;
 };
 
 /** Pagination object indicating if there are more pages of data and where the next page starts. */
-export type TypedFieldsexampleprojectPageInfo = {
-  __typename?: 'TypedFieldsexampleprojectPageInfo';
+export type TypedFieldsExamplePageInfo = {
+  __typename?: 'TypedFieldsExamplePageInfo';
   endCursor: Scalars['String']['output'];
   hasNextPage: Scalars['Boolean']['output'];
   hasPreviousPage: Scalars['Boolean']['output'];
@@ -1895,6 +1985,8 @@ export type Variant = Node & {
   createdAt?: Maybe<Scalars['Int']['output']>;
   /** [sys] Timestamp of when Nacelle last indexed this entry. */
   indexedAt?: Maybe<Scalars['Int']['output']>;
+  /** [source] Standalone inventory */
+  inventory?: Maybe<InventoryItem>;
   /** [source] List of metafields associated with the variant. */
   metafields: Array<Metafield>;
   /** [sys] The Nacelle ID of the entry. */
@@ -1905,7 +1997,7 @@ export type Variant = Node & {
   priceCurrency?: Maybe<Scalars['String']['output']>;
   /** [source] List of pricing rules associated with the variant */
   priceRules: Array<PriceRule>;
-  /** [source] standalone pricing */
+  /** [source] Standalone pricing */
   pricing?: Maybe<Array<Maybe<Pricing>>>;
   /** [sys] Reference to parent product by Nacelle ID. */
   productEntryId?: Maybe<Scalars['ID']['output']>;
@@ -1927,6 +2019,12 @@ export type Variant = Node & {
   weight?: Maybe<Scalars['Float']['output']>;
   /** [source] The unit of measurement for weight. */
   weightUnit?: Maybe<Scalars['String']['output']>;
+};
+
+
+/** A product variant represents a different version of a product, such as differing sizes or differing colors. */
+export type VariantInventoryArgs = {
+  filter?: InputMaybe<InventoryLocationFilterInput>;
 };
 
 
@@ -1994,8 +2092,8 @@ export type AllContentQueryVariables = Exact<{
 }>;
 
 
-export type AllContentQuery = { __typename?: 'Query', allContent: { __typename?: 'ContentConnection', edges: Array<{ __typename?: 'ContentEdge', node: { __typename?: 'Content', handle?: string | null, nacelleEntryId: string, typedFields?: { __typename?: 'TypedFieldsexampleprojectArticleFields' } | { __typename?: 'TypedFieldsexampleprojectAuthorFields' } | { __typename?: 'TypedFieldsexampleprojectLinksFields' } | { __typename: 'TypedFieldsexampleprojectPageFields', handle?: string | null, title?: string | null, sections?: { __typename?: 'TypedFieldsexampleprojectPageFieldsSectionsConnection', edges: Array<{ __typename?: 'TypedFieldsexampleprojectPageFieldsSectionsEdge', node?: { __typename?: 'TypedFieldsexampleprojectArticle', typedFields?: { __typename: 'TypedFieldsexampleprojectArticleFields', haiku?: string | null, title?: string | null, author?: { __typename?: 'TypedFieldsexampleprojectAuthor', typedFields?: { __typename?: 'TypedFieldsexampleprojectAuthorFields', firstName?: string | null, lastName?: string | null } | null } | null } | null } | { __typename?: 'TypedFieldsexampleprojectLinks', typedFields?: { __typename: 'TypedFieldsexampleprojectLinksFields', links?: { __typename?: 'TypedFieldsexampleprojectLinksFieldsLinksConnection', edges: Array<{ __typename?: 'TypedFieldsexampleprojectLinksFieldsLinksEdge', node?: { __typename?: 'TypedFieldsexampleprojectPage', typedFields?: { __typename?: 'TypedFieldsexampleprojectPageFields', handle?: string | null } | null } | null }> } | null } | null } | null }> } | null } | null } }> } };
+export type AllContentQuery = { __typename?: 'Query', allContent: { __typename?: 'ContentConnection', edges: Array<{ __typename?: 'ContentEdge', node: { __typename?: 'Content', handle?: string | null, nacelleEntryId: string, typedFields?: { __typename?: 'TypedFieldsExampleArticleFields' } | { __typename?: 'TypedFieldsExampleAuthorFields' } | { __typename?: 'TypedFieldsExampleLinksFields' } | { __typename: 'TypedFieldsExamplePageFields', handle?: string | null, title?: string | null, sections?: { __typename?: 'TypedFieldsExamplePageFieldsSectionsConnection', edges: Array<{ __typename?: 'TypedFieldsExamplePageFieldsSectionsEdge', node?: { __typename?: 'TypedFieldsExampleArticle', nacelleEntryId: string, typedFields?: { __typename: 'TypedFieldsExampleArticleFields', haiku?: string | null, title?: string | null, author?: { __typename?: 'TypedFieldsExampleAuthor', typedFields?: { __typename?: 'TypedFieldsExampleAuthorFields', firstName?: string | null, lastName?: string | null } | null } | null } | null } | { __typename?: 'TypedFieldsExampleLinks', nacelleEntryId: string, typedFields?: { __typename: 'TypedFieldsExampleLinksFields', links?: { __typename?: 'TypedFieldsExampleLinksFieldsLinksConnection', edges: Array<{ __typename?: 'TypedFieldsExampleLinksFieldsLinksEdge', node?: { __typename?: 'TypedFieldsExamplePage', typedFields?: { __typename?: 'TypedFieldsExamplePageFields', handle?: string | null } | null } | null }> } | null } | null } | null }> } | null } | null } }> } };
 
 
 export const ContentRoutesDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"ContentRoutes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","alias":{"kind":"Name","value":"pages"},"name":{"kind":"Name","value":"allContent"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"filter"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"type"},"value":{"kind":"StringValue","value":"page","block":false}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"edges"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"node"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"handle"}}]}}]}}]}}]}}]} as unknown as DocumentNode<ContentRoutesQuery, ContentRoutesQueryVariables>;
-export const AllContentDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"allContent"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"handle"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"allContent"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"filter"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"type"},"value":{"kind":"StringValue","value":"page","block":false}},{"kind":"ObjectField","name":{"kind":"Name","value":"handles"},"value":{"kind":"ListValue","values":[{"kind":"Variable","name":{"kind":"Name","value":"handle"}}]}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"edges"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"node"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"handle"}},{"kind":"Field","name":{"kind":"Name","value":"nacelleEntryId"}},{"kind":"Field","name":{"kind":"Name","value":"typedFields"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"TypedFieldsexampleprojectPageFields"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"__typename"}},{"kind":"Field","name":{"kind":"Name","value":"handle"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"sections"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"edges"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"node"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"TypedFieldsexampleprojectArticle"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"typedFields"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"__typename"}},{"kind":"Field","name":{"kind":"Name","value":"haiku"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"author"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"typedFields"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"firstName"}},{"kind":"Field","name":{"kind":"Name","value":"lastName"}}]}}]}}]}}]}},{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"TypedFieldsexampleprojectLinks"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"typedFields"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"__typename"}},{"kind":"Field","name":{"kind":"Name","value":"links"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"edges"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"node"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"typedFields"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"handle"}}]}}]}}]}}]}}]}}]}}]}}]}}]}}]}}]}}]}}]}}]}}]}}]} as unknown as DocumentNode<AllContentQuery, AllContentQueryVariables>;
+export const AllContentDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"allContent"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"handle"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"allContent"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"filter"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"type"},"value":{"kind":"StringValue","value":"page","block":false}},{"kind":"ObjectField","name":{"kind":"Name","value":"handles"},"value":{"kind":"ListValue","values":[{"kind":"Variable","name":{"kind":"Name","value":"handle"}}]}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"edges"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"node"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"handle"}},{"kind":"Field","name":{"kind":"Name","value":"nacelleEntryId"}},{"kind":"Field","name":{"kind":"Name","value":"typedFields"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"TypedFieldsExamplePageFields"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"__typename"}},{"kind":"Field","name":{"kind":"Name","value":"handle"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"sections"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"edges"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"node"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"TypedFieldsExampleArticle"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nacelleEntryId"}},{"kind":"Field","name":{"kind":"Name","value":"typedFields"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"__typename"}},{"kind":"Field","name":{"kind":"Name","value":"haiku"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"author"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"typedFields"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"firstName"}},{"kind":"Field","name":{"kind":"Name","value":"lastName"}}]}}]}}]}}]}},{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"TypedFieldsExampleLinks"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nacelleEntryId"}},{"kind":"Field","name":{"kind":"Name","value":"typedFields"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"__typename"}},{"kind":"Field","name":{"kind":"Name","value":"links"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"edges"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"node"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"typedFields"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"handle"}}]}}]}}]}}]}}]}}]}}]}}]}}]}}]}}]}}]}}]}}]}}]}}]} as unknown as DocumentNode<AllContentQuery, AllContentQueryVariables>;

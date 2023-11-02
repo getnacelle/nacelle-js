@@ -1,16 +1,12 @@
 import React from 'react';
 import Link from 'next/link';
-import { ContentTypedFields } from '@/gql/graphql';
+import { TypedFieldsExampleLinksFields } from '@/gql/graphql';
 
 interface LinksProps {
-  content: ContentTypedFields;
-  section: string;
+  content: TypedFieldsExampleLinksFields;
 }
 
 const Links: React.FC<LinksProps> = ({ content }) => {
-  if (content?.__typename !== 'TypedFieldsexampleprojectLinksFields')
-    return null;
-
   const links = content?.links?.edges?.map((edge) => edge?.node?.typedFields);
 
   if (!links) return null;
