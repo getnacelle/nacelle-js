@@ -28,6 +28,7 @@ export const PAGE_QUERY_BY_HANDLE = graphql(/* GraphQL */ `
                 edges {
                   node {
                     ... on TypedFieldsExampleArticle {
+                      nacelleEntryId
                       typedFields {
                         __typename
                         haiku
@@ -41,6 +42,7 @@ export const PAGE_QUERY_BY_HANDLE = graphql(/* GraphQL */ `
                       }
                     }
                     ... on TypedFieldsExampleLinks {
+                      nacelleEntryId
                       typedFields {
                         __typename
                         links {

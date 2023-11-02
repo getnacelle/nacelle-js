@@ -1,7 +1,8 @@
 import type { TypedFieldsExamplePageFields } from '@/gql/graphql';
 import { CONTENT_ROUTES_QUERY, PAGE_QUERY_BY_HANDLE } from '@/queries/pages';
 import nacelleClient from '@/services/nacelleClient';
-import Section from '@/components/Section';
+import Article from '@/components/Article';
+import Links from '@/components/Links';
 
 export default async function Page({
   params: { handle }
@@ -12,17 +13,24 @@ export default async function Page({
 
   if (!data) return <div>404</div>;
 
-  const sections = data?.sections?.edges?.map(
-    (edge) => edge?.node?.typedFields
-  );
+  const sections = data?.sections?.edges?.map((edge) => {
+    const { nacelleEntryId, typedFields } = edge?.node || {};
 
-  return (
-    <div>
-      {sections?.map((content, i) =>
-        content ? <Section key={i} content={content} /> : <div key={i} />
-      )}
-    </div>
-  );
+    switch (typedFields?.__typename) {
+      case 'TypedFieldsExampleArticleFields':
+        return <Article key={nacelleEntryId} content={typedFields} />;
+      case 'TypedFieldsExampleLinksFields':
+        return <Links key={nacelleEntryId} content={typedFields} />;
+      default:
+        return (
+          <div key={nacelleEntryId}>
+            Component not found for type {typedFields?.__typename}
+          </div>
+        );
+    }
+  });
+
+  return <div>{sections}</div>;
 }
 
 export async function generateStaticParams(): Promise<
