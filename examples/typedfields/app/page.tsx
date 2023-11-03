@@ -1,7 +1,7 @@
 import type { TypedFieldsExamplePageFields } from '@/gql/graphql';
 import { PAGE_QUERY_BY_HANDLE } from '@/queries/pages';
 import nacelleClient from '@/services/nacelleClient';
-import Links from '@/components/Links';
+import ArticleLinks from '@/components/ArticleLinks';
 
 export default async function HomePage(): Promise<JSX.Element> {
   const data = await getData();
@@ -13,7 +13,7 @@ export default async function HomePage(): Promise<JSX.Element> {
 
     switch (typedFields?.__typename) {
       case 'TypedFieldsExampleLinksFields':
-        return <Links key={nacelleEntryId} content={typedFields} />;
+        return <ArticleLinks key={nacelleEntryId} content={typedFields} />;
       default:
         return (
           <div key={nacelleEntryId}>
