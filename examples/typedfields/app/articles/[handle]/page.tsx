@@ -2,7 +2,7 @@ import type { TypedFieldsExamplePageFields } from '@/gql/graphql';
 import { CONTENT_ROUTES_QUERY, PAGE_QUERY_BY_HANDLE } from '@/queries/pages';
 import nacelleClient from '@/services/nacelleClient';
 import Article from '@/components/Article';
-import Links from '@/components/Links';
+import ArticleLinks from '@/components/ArticleLinks';
 
 export default async function Page({
   params: { handle }
@@ -20,7 +20,7 @@ export default async function Page({
       case 'TypedFieldsExampleArticleFields':
         return <Article key={nacelleEntryId} content={typedFields} />;
       case 'TypedFieldsExampleLinksFields':
-        return <Links key={nacelleEntryId} content={typedFields} />;
+        return <ArticleLinks key={nacelleEntryId} content={typedFields} />;
       default:
         return (
           <div key={nacelleEntryId}>
