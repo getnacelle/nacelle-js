@@ -14,7 +14,14 @@ module.exports = {
     'plugin:monorepo/recommended',
     'prettier'
   ],
-  ignorePatterns: ['node_modules', 'build', 'dist', 'public'],
+  ignorePatterns: [
+    '.next',
+    'build',
+    'coverage',
+    'dist',
+    'node_modules',
+    'public'
+  ],
   parser: '@typescript-eslint/parser',
   parserOptions: {
     ecmaFeatures: {
