@@ -53,7 +53,7 @@ The queries in this project demonstrate [Fragment Masking](https://the-guild.dev
 
 This project uses [GraphQL Config](https://the-guild.dev/graphql/config) to enable autocomplete and linting for GraphQL queries:
 
-![Screen capture a TypeScript file in VSCode shows the crafting of a query to the Nacelle Storefront GraphQL API for `Content.typedFields`. The fields available for querying are listed via autocomplete.]('./docs/assets/demo-graphql-config-autocomplete-with-typed-fields.gif' 'Autocomplete powered by GraphQL Config')
+![Screen capture a TypeScript file in VSCode shows the crafting of a query to the Nacelle Storefront GraphQL API for `Content.typedFields`. The fields available for querying are listed via autocomplete.](./docs/assets/demo-graphql-config-autocomplete-with-typed-fields.gif 'Autocomplete powered by GraphQL Config')
 
 This allows developers to author queries without constantly referring to their Nacelle Storefront GraphQL API schema, and without a priori knowledge of the fields available in various content types.
 
