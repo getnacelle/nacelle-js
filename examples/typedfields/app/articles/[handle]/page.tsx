@@ -1,60 +1,96 @@
-import type { TypedFieldsExamplePageFields } from '@/gql/graphql';
-import { CONTENT_ROUTES_QUERY, PAGE_QUERY_BY_HANDLE } from '@/queries/pages';
 import nacelleClient from '@/services/nacelleClient';
 import Article from '@/components/Article';
 import ArticleLinks from '@/components/ArticleLinks';
+import { PAGE_FIELDS_FRAGMENT, PAGE_QUERY_BY_HANDLE } from '@/app/page';
+import { getFragmentData, type FragmentType, graphql } from '@/gql';
+
+export const CONTENT_ROUTES_QUERY = graphql(/* GraphQL */ `
+  query ContentRoutes {
+    pages: allContent(filter: { type: "page" }) {
+      edges {
+        node {
+          handle
+        }
+      }
+    }
+  }
+`);
+
+interface PageProps {
+  params: {
+    handle: string;
+  };
+}
 
 export default async function Page({
   params: { handle }
-}: {
-  params: { handle: string };
-}): Promise<JSX.Element> {
-  const data = await getData(handle);
+}: Readonly<PageProps>): Promise<JSX.Element> {
+  const data = await getData(handle).then((d) =>
+    getFragmentData(PAGE_FIELDS_FRAGMENT, d)
+  );
 
   if (!data) return <div>404</div>;
 
-  const sections = data?.sections?.edges?.map((edge) => {
-    const { nacelleEntryId, typedFields } = edge?.node || {};
+  const sections = data.sections?.edges.map((edge) => {
+    if (edge.node?.__typename === undefined) return null;
 
-    switch (typedFields?.__typename) {
-      case 'TypedFieldsExampleArticleFields':
-        return <Article key={nacelleEntryId} content={typedFields} />;
-      case 'TypedFieldsExampleLinksFields':
-        return <ArticleLinks key={nacelleEntryId} content={typedFields} />;
-      default:
+    switch (edge.node.__typename) {
+      case 'TypedFieldsExampleArticle': {
+        return <Article key={edge.node.nacelleEntryId} content={edge.node} />;
+      }
+
+      case 'TypedFieldsExampleLinks': {
         return (
-          <div key={nacelleEntryId}>
-            Component not found for type {typedFields?.__typename}
-          </div>
+          <ArticleLinks key={edge.node.nacelleEntryId} content={edge.node} />
         );
+      }
+
+      default:
+        return <div>Component not found</div>;
     }
   });
 
   return <div>{sections}</div>;
 }
 
-export async function generateStaticParams(): Promise<
-  { params: { handle: string } }[]
-> {
+interface StaticParams {
+  params: {
+    handle: string;
+  };
+}
+
+export async function generateStaticParams(): Promise<Array<StaticParams>> {
   const { data } = await nacelleClient.query({
     query: CONTENT_ROUTES_QUERY
   });
 
-  const handles = (data?.pages?.edges ?? [])
-    .filter((page) => page.node.handle)
-    .map((page) => ({
-      params: { handle: page.node?.handle || '' }
-    }));
+  const handles = (data?.pages?.edges ?? []).reduce<Array<StaticParams>>(
+    (acc, el) => {
+      if (el?.node?.handle) {
+        acc.push({ params: { handle: el.node.handle } });
+      }
+
+      return acc;
+    },
+    []
+  );
 
   return handles;
 }
 
-async function getData(handle: string): Promise<TypedFieldsExamplePageFields> {
+async function getData(
+  handle: string
+): Promise<NonNullable<FragmentType<typeof PAGE_FIELDS_FRAGMENT>>> {
   const { data } = await nacelleClient.query({
     query: PAGE_QUERY_BY_HANDLE,
     variables: { handle, type: 'page' }
   });
 
-  return data?.allContent?.edges?.[0]?.node
-    ?.typedFields as TypedFieldsExamplePageFields;
+  const pageFields = data?.allContent?.edges?.at(0)?.node?.typedFields;
+
+  if (pageFields?.__typename !== 'TypedFieldsExamplePageFields') {
+    throw new Error('Page not found');
+  }
+
+  return pageFields;
 }

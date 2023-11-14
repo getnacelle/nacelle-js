@@ -14,266 +14,10 @@ export type Scalars = {
   Boolean: { input: boolean; output: boolean; }
   Int: { input: number; output: number; }
   Float: { input: number; output: number; }
-  Count: { input: any; output: any; }
-  /** A base64 encoded string */
-  Cursor: { input: any; output: any; }
   /** A signed decimal number, which supports arbitrary precision and is serialized as a string. Example value: "29.99". */
   Decimal: { input: any; output: any; }
-  /** Represents the status of a fulfillment. Possible values: open, partially_fulfilled, in_progress, scheduled, cancelled, on_hold, incomplete, succeeded */
-  FulfillmentStatus: { input: any; output: any; }
   /** The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf). */
   JSON: { input: any; output: any; }
-  /** Maps represent a custom json object attached to a resource. */
-  Map: { input: any; output: any; }
-  /** Represents a nullable time */
-  NullTime: { input: any; output: any; }
-  /** Represents the status of a payment. Possible values: created, pending, succeeded, failed, requires_confirmation, balance_due, credit_owed */
-  PaymentStatus: { input: any; output: any; }
-  /** Represents the enum for services used for calculating TaxResult */
-  Service: { input: any; output: any; }
-  /** Represents a date and time according to ISO-8601 */
-  Time: { input: any; output: any; }
-  /** Represents a UUID according to RFC 4122 */
-  UUID: { input: any; output: any; }
-  /** Represents a positive integer value */
-  Uint: { input: any; output: any; }
-};
-
-/** An Address is a object representing a physical address that can be used for shipping or billing */
-export type Address = {
-  __typename?: 'Address';
-  /** The first line of the address. Typically the street address or PO Box number. */
-  address1: Scalars['String']['output'];
-  /** The second line of the address. Typically the number of the apartment, suite, or unit. */
-  address2?: Maybe<Scalars['String']['output']>;
-  /** The name of the city, district, village, or town */
-  city: Scalars['String']['output'];
-  comment?: Maybe<Scalars['String']['output']>;
-  /** @deprecated use countryISO2 instead */
-  country: Scalars['String']['output'];
-  /** The two-letter code for the country of the address. */
-  countryISO2: Scalars['String']['output'];
-  /** The unique address id */
-  id: Scalars['UUID']['output'];
-  /** The postal code for the address */
-  postalCode: Scalars['String']['output'];
-  /** The region of the address, such as the province, state, or district. */
-  province?: Maybe<Scalars['String']['output']>;
-  /** The state for the address */
-  state: Scalars['String']['output'];
-  /** @deprecated use postalCode instead */
-  zip: Scalars['String']['output'];
-};
-
-/** An input type for associated address data */
-export type AddressInput = {
-  /** The first line of the address e.g. 123 Main St */
-  address1?: InputMaybe<Scalars['String']['input']>;
-  /** The second line of the address e.g. Apt 1 */
-  address2?: InputMaybe<Scalars['String']['input']>;
-  /** The city of the address e.g. San Francisco */
-  city?: InputMaybe<Scalars['String']['input']>;
-  /** A comment about the address */
-  comment?: InputMaybe<Scalars['String']['input']>;
-  /** The country ISO2 code of the address, e.g. US */
-  countryIso2?: InputMaybe<Scalars['String']['input']>;
-  /** The unique address id */
-  id?: InputMaybe<Scalars['String']['input']>;
-  /** The postal code of the address e.g. 94111 */
-  postalCode?: InputMaybe<Scalars['String']['input']>;
-  /** The province of the address */
-  province?: InputMaybe<Scalars['String']['input']>;
-  /** The state of the address e.g. CA */
-  state?: InputMaybe<Scalars['String']['input']>;
-};
-
-/** Represents a tax result calculated by a tax service containing the tax data for the cart */
-export type CalcResult = {
-  __typename?: 'CalcResult';
-  /** When the tax result was created */
-  createdAt?: Maybe<Scalars['Int']['output']>;
-  /** Currency in ISO 4217 three-letter format. */
-  currency?: Maybe<Scalars['String']['output']>;
-  /** Time at which the tax data will expire. Measured in seconds since the Unix epoch. */
-  expiresAt?: Maybe<Scalars['Int']['output']>;
-  /** External ID used in tax service API (e.g. stripe). */
-  externalID?: Maybe<Scalars['String']['output']>;
-  /** Tax data for order items. */
-  items?: Maybe<CalcResultItemsData>;
-  /** Service that was used for generating tax data */
-  service?: Maybe<Scalars['Service']['output']>;
-  /** Tax data for order shipping. */
-  shipping?: Maybe<CalcResultShippingData>;
-  /** Tax datetime that was used for calculating the tax data. Measured in seconds since the Unix epoch. */
-  taxDate?: Maybe<Scalars['Int']['output']>;
-};
-
-/** Represents a tax result entry */
-export type CalcResultEntry = {
-  __typename?: 'CalcResultEntry';
-  /** Amount used for calculating taxes in string-decimal format. */
-  amount?: Maybe<Scalars['String']['output']>;
-  /** Tax details breakdown (if tax service API provides this data). */
-  breakdown?: Maybe<Array<Maybe<CalcResultEntryBreakdown>>>;
-  /** Item ID. Filled only for items data. */
-  orderItemID?: Maybe<Scalars['String']['output']>;
-  /** Quantity of items. Filled only for items data. */
-  quantity?: Maybe<Scalars['Uint']['output']>;
-  /** Amount of taxes for this object in string-decimal format. */
-  taxAmount?: Maybe<Scalars['String']['output']>;
-  /**
-   * Specifies whether the `amount` includes taxes.
-   * Could be 'inclusive' or 'exclusive'.
-   */
-  taxBehavior?: Maybe<Scalars['String']['output']>;
-  /**
-   * Tax code used for calculating taxes for this object.
-   * Depends on the used tax service API.
-   */
-  taxCode?: Maybe<Scalars['String']['output']>;
-};
-
-/** Represents a breakdown of a tax result entry */
-export type CalcResultEntryBreakdown = {
-  __typename?: 'CalcResultEntryBreakdown';
-  /** Amount of tax in string-decimal format. */
-  amount?: Maybe<Scalars['String']['output']>;
-  /**
-   * A localized display name for tax type, intended to be human-readable.
-   * Depends on the used tax service API.
-   */
-  displayName?: Maybe<Scalars['String']['output']>;
-  /** The tax rate percentage in string-decimal format. */
-  percentage?: Maybe<Scalars['String']['output']>;
-  /**
-   * The tax type, such as 'vat' or 'sales_tax'.
-   * Depends on the used tax service API.
-   */
-  taxType?: Maybe<Scalars['String']['output']>;
-  /**
-   * The reasoning behind this tax.
-   * Depends on the used tax service API.
-   */
-  taxabilityReason?: Maybe<Scalars['String']['output']>;
-};
-
-/** Represents a tax result of all item data */
-export type CalcResultItemsData = {
-  __typename?: 'CalcResultItemsData';
-  /** Tax details for these items. */
-  entries?: Maybe<Array<Maybe<CalcResultEntry>>>;
-  /** Total amount of items without taxes in string-decimal format. */
-  totalAmount?: Maybe<Scalars['String']['output']>;
-  /** Total amount of items taxes in string-decimal format. */
-  totalTaxAmount?: Maybe<Scalars['String']['output']>;
-  /** Total amount of items with taxes in string-decimal format. */
-  totalWithTaxAmount?: Maybe<Scalars['String']['output']>;
-};
-
-/** Represents a tax result of shipping data */
-export type CalcResultShippingData = {
-  __typename?: 'CalcResultShippingData';
-  /** Tax details for the shipping. */
-  entries?: Maybe<CalcResultEntry>;
-  /** Total amount of shipping without taxes in string-decimal format. */
-  totalAmount?: Maybe<Scalars['String']['output']>;
-  /** Total amount of shipping taxes in string-decimal format. */
-  totalTaxAmount?: Maybe<Scalars['String']['output']>;
-  /** Total amount of shipping with taxes in string-decimal format. */
-  totalWithTaxAmount?: Maybe<Scalars['String']['output']>;
-};
-
-/** An input type for associated cart data */
-export type CartInput = {
-  /** The billing address associated with this cart */
-  billingAddress?: InputMaybe<AddressInput>;
-  /** The currency of the cart, e.g. USD */
-  currency?: InputMaybe<Scalars['String']['input']>;
-  /** The customer associated with this cart */
-  customer?: InputMaybe<CustomerInput>;
-  /** The cart level discounts associated with this cart */
-  discounts?: InputMaybe<Array<DiscountInput>>;
-  /** The email associated with this cart */
-  email?: InputMaybe<Scalars['String']['input']>;
-  /** The unique checkout id, used to update an existing checkout */
-  id?: InputMaybe<Scalars['ID']['input']>;
-  /** The items associated with this cart */
-  items?: InputMaybe<Array<ItemInput>>;
-  /** Merchant metadata associated with this cart */
-  metadata?: InputMaybe<Scalars['Map']['input']>;
-  /** The payment associated with this cart */
-  payment?: InputMaybe<PaymentInput>;
-  /** The phone associated with this cart */
-  phone?: InputMaybe<Scalars['String']['input']>;
-  /** The promotions associated with this cart */
-  promotions?: InputMaybe<PromotionInput>;
-  /** The shipping address associated with this cart */
-  shippingAddress?: InputMaybe<AddressInput>;
-  /** The shipping method of the cart, e.g. StandardGround */
-  shippingMethod?: InputMaybe<Scalars['String']['input']>;
-  /** The shipping price of the cart, e.g. 10.00 */
-  shippingPrice?: InputMaybe<Scalars['String']['input']>;
-  /** The shipping rate associated with this cart */
-  shippingRate?: InputMaybe<ShippingRateInput>;
-  /** The tax rate of the cart, e.g. 0.10 */
-  taxRate?: InputMaybe<Scalars['String']['input']>;
-  /** The total discounts of the cart, e.g. 0.00 */
-  totalDiscounts?: InputMaybe<Scalars['String']['input']>;
-  /** The total price of the cart, e.g. 100.00 */
-  totalPrice?: InputMaybe<Scalars['String']['input']>;
-  /** The sub total price of the cart, e.g. 90.00 */
-  totalSubtotalPrice?: InputMaybe<Scalars['String']['input']>;
-  /** The total tax of the cart, e.g. 10.00 */
-  totalTotalTax?: InputMaybe<Scalars['String']['input']>;
-};
-
-/** Checkout represents a cart with associated data such as customer, shipping address, billing address, and payment. It also contains the tax breakdown for the cart. */
-export type Checkout = {
-  __typename?: 'Checkout';
-  /** The billing address associated with this checkout */
-  billingAddress?: Maybe<Address>;
-  /** When the checkout was created */
-  createdAt?: Maybe<Scalars['Time']['output']>;
-  /** The currency of the checkout, e.g. USD */
-  currency?: Maybe<Scalars['String']['output']>;
-  /** The customer associated with this checkout */
-  customer?: Maybe<Customer>;
-  /** The cart level discounts associated with this checkout */
-  discounts: Array<Discount>;
-  /** The email associated with this checkout */
-  email?: Maybe<Scalars['String']['output']>;
-  /** The unique checkout id */
-  id: Scalars['UUID']['output'];
-  /** The items associated with this checkout */
-  items: Array<Item>;
-  /** Merchant metadata associated with this checkout */
-  metadata?: Maybe<Scalars['Map']['output']>;
-  /** When the checkout was last modified */
-  modifiedAt?: Maybe<Scalars['Time']['output']>;
-  /** The phone associated with this checkout */
-  phone?: Maybe<Scalars['String']['output']>;
-  /** The promotions associated with this checkout */
-  promotions?: Maybe<Promotion>;
-  /** The shipping address associated with this checkout */
-  shippingAddress?: Maybe<Address>;
-  /** The shipping method of the checkout */
-  shippingMethod?: Maybe<Scalars['String']['output']>;
-  /** The shipping price of the checkout */
-  shippingPrice: Money;
-  /** The shipping rate associated with this cart */
-  shippingRate?: Maybe<ShippingRate>;
-  /** The tax breakdown associated with this checkout */
-  taxData?: Maybe<CalcResult>;
-  /** The tax rate of the checkout */
-  taxRate?: Maybe<Scalars['String']['output']>;
-  /** The total discounts of the checkout */
-  totalDiscounts: Money;
-  /** The total price of the checkout */
-  totalPrice: Money;
-  /** The sub total price of the checkout */
-  totalSubtotalPrice: Money;
-  /** The total tax of the checkout */
-  totalTotalTax: Money;
 };
 
 export type CollectionContent = Node & {
@@ -493,169 +237,13 @@ export type ContentSearchOptions = {
 
 export type ContentTypedFields = TypedFieldsExampleArticleFields | TypedFieldsExampleAuthorFields | TypedFieldsExampleLinksFields | TypedFieldsExamplePageFields;
 
-/** Represents a customer in the system */
-export type Customer = {
-  __typename?: 'Customer';
-  /** The customers addresses */
-  addresses?: Maybe<Array<Maybe<Address>>>;
-  /** When the customer was created */
-  createdAt?: Maybe<Scalars['Time']['output']>;
-  /** The destination id of the customer, used for syncing with external systems */
-  destinationExternalID?: Maybe<Scalars['String']['output']>;
-  /** The customers email */
-  email?: Maybe<Scalars['String']['output']>;
-  /** The customers first name */
-  firstName?: Maybe<Scalars['String']['output']>;
-  /** The unique customer id */
-  id: Scalars['UUID']['output'];
-  /** The customers last name */
-  lastName?: Maybe<Scalars['String']['output']>;
-  /** A map of meta data for the customer */
-  meta?: Maybe<Scalars['Map']['output']>;
-  /** When the customer was last modified */
-  modifiedAt?: Maybe<Scalars['Time']['output']>;
-  /** The customers phone number */
-  phone?: Maybe<Scalars['String']['output']>;
-  /** The external id of the source, used for syncing with external systems */
-  sourceExternalID?: Maybe<Scalars['String']['output']>;
-};
-
-/** An input type for associated customer data */
-export type CustomerInput = {
-  /** The email of the customer */
-  email?: InputMaybe<Scalars['String']['input']>;
-  /** The first name of the customer */
-  firstName?: InputMaybe<Scalars['String']['input']>;
-  /** The last name of the customer */
-  lastName?: InputMaybe<Scalars['String']['input']>;
-  /** The phone of the customer */
-  phone?: InputMaybe<Scalars['String']['input']>;
-};
-
-/** Direction to return results in */
-export enum Direction {
-  Asc = 'ASC',
-  Desc = 'DESC'
-}
-
-export type Discount = {
-  __typename?: 'Discount';
-  /** The amount that the discount is for */
-  amount: Money;
-  /** A description about the discount */
-  description: Scalars['String']['output'];
-  /** The effect type that the discount was for. Used to determine how to apply the discount and how to parse any meta data. */
-  effectType: Scalars['String']['output'];
-  /** Add meta field for additional props the merchant may want to use to display additional context to the user */
-  meta?: Maybe<Scalars['Map']['output']>;
-  /** A descriptive name to display to a user */
-  name: Scalars['String']['output'];
-};
-
-export type DiscountInput = {
-  /** The amount that the discount is for */
-  amount: Scalars['String']['input'];
-  /** A description about the discount */
-  description: Scalars['String']['input'];
-  /** The effect type that the discount was for. Used to determine how to apply the discount and how to parse any meta data. */
-  effectType: Scalars['String']['input'];
-  /** Add meta field for additional props the merchant may want to use to display additional context to the user */
-  meta?: InputMaybe<Scalars['Map']['input']>;
-  /** A descriptive name to display to a user */
-  name: Scalars['String']['input'];
-};
-
-export type DiscountItem = {
-  __typename?: 'DiscountItem';
-  /** The amount that the discount is for */
-  amount: Money;
-  /** A description about the discount */
-  description: Scalars['String']['output'];
-  /** The effect type that the discount was for. Used to determine how to apply the discount and how to parse any meta data. */
-  effectType: Scalars['String']['output'];
-  /** Add meta field for additional props the merchant may want to use to display additional context to the user */
-  meta?: Maybe<Scalars['Map']['output']>;
-  /** A descriptive name to display to a user */
-  name: Scalars['String']['output'];
-};
-
-/** Represents a fulfillment in the system */
-export type Fulfillment = {
-  __typename?: 'Fulfillment';
-  /** External location ID that has been assigned for fulfillment work */
-  assignedLocationId?: Maybe<Scalars['String']['output']>;
-  /** Timestamp at which the Fulfillment has been delivered (unix timestamp in seconds) */
-  deliveryDate?: Maybe<Scalars['Int']['output']>;
-  /**
-   * Comment describing when delivery expected, received from the shipping company.
-   * E.g. "28 July 2023 before 9pm".
-   */
-  deliveryEstimation?: Maybe<Scalars['String']['output']>;
-  /** The type of delivery method */
-  deliveryMethod: Scalars['String']['output'];
-  /** The type of delivery */
-  deliveryType: Scalars['String']['output'];
-  /** The destination where the items should be sent */
-  destinationAddress?: Maybe<Address>;
-  /** The external id for the fulfillment */
-  externalId: Scalars['String']['output'];
-  /** A list of order item fulfillment data */
-  fulfillmentOrderItems?: Maybe<Array<FulfillmentOrderItem>>;
-  /** The unique fulfillment id */
-  id: Scalars['UUID']['output'];
-  /** The nacelle status of the fulfillment */
-  nacelle_status: Scalars['FulfillmentStatus']['output'];
-  /** The current shipment status of the fulfillment */
-  shipmentStatus?: Maybe<Scalars['String']['output']>;
-  /** The merchant status of the fulfillment */
-  status?: Maybe<Scalars['String']['output']>;
-  /** The name of the tracking company */
-  trackingCompany?: Maybe<Scalars['String']['output']>;
-  /** A list of tracking numbers provided by the shipping company */
-  trackingNumbers?: Maybe<Array<Scalars['String']['output']>>;
-  /** A list of tracking URLs */
-  trackingUrls?: Maybe<Array<Scalars['String']['output']>>;
-};
-
-/** An object containing an array of Fulfillment data and pagination information */
-export type FulfillmentConnection = {
-  __typename?: 'FulfillmentConnection';
-  /** An array of FulfillmentsEdge's. */
-  edges: Array<Maybe<FulfillmentEdge>>;
-  /** Information to aid in pagination. */
-  pageInfo: PageInfo;
-};
-
-/** An object containing a node with Fulfillment data and a cursor */
-export type FulfillmentEdge = {
-  __typename?: 'FulfillmentEdge';
-  /** A cursor for use in pagination. */
-  cursor: Scalars['Cursor']['output'];
-  /** The order item data */
-  node: Fulfillment;
-};
-
-/** Filter results for Fulfillment collections */
-export type FulfillmentFilter = {
-  /** (Optional) A cursor for navigating in forwards through data */
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  /** (Optional) A cursor for navigating in backwards through data */
-  before?: InputMaybe<Scalars['Cursor']['input']>;
-  /** (Optional) What direction the data is retrieved by. */
-  direction?: InputMaybe<Direction>;
-  /** (Optional) How many records to return. Defaults to 50. Max value of 100 */
-  first?: InputMaybe<Scalars['Int']['input']>;
-  /** (Optional) How the returned rows are ordered either version, or timestamp. */
-  orderBy?: InputMaybe<OrderBy>;
-};
-
-/** Represents a fulfillment order item data attached to the Fulfillment object. */
-export type FulfillmentOrderItem = {
-  __typename?: 'FulfillmentOrderItem';
-  /** Order Item ID */
-  orderItemID: Scalars['UUID']['output'];
-  /** Quantity of fulfilled goods for this Order Item */
-  quantity: Scalars['Uint']['output'];
+/** Represents a ISO 6709 coordinate. */
+export type Coordinate = {
+  __typename?: 'Coordinate';
+  /** [source] Location north or south of the equator. */
+  latitude: Scalars['Float']['output'];
+  /** [source] Location east or west of the prime meridian. */
+  longitude: Scalars['Float']['output'];
 };
 
 /** Genesis object indicating which entries map to remixed ones. */
@@ -705,6 +293,8 @@ export type InventoryLevel = {
 /** Fields available for inventory location */
 export type InventoryLocation = {
   __typename?: 'InventoryLocation';
+  /** [source] The coordinates of the location. */
+  coordinates?: Maybe<Coordinate>;
   /** [source] The country code of the location. */
   countryCode?: Maybe<Scalars['String']['output']>;
   /** [source] List of metafields associated with the item. */
@@ -727,57 +317,6 @@ export type InventoryLocationFilterInput = {
   name?: InputMaybe<Scalars['String']['input']>;
   /** Filter inventory by location region code */
   regionCode?: InputMaybe<Scalars['String']['input']>;
-};
-
-/** An item represents a product variant in a cart */
-export type Item = {
-  __typename?: 'Item';
-  /** The available quantity of the item, e.g. 1 */
-  available?: Maybe<Scalars['Uint']['output']>;
-  /** The item level discounts associated with this checkout */
-  discounts: Array<Discount>;
-  /** Merchant metadata associated with this item */
-  metadata?: Maybe<Scalars['Map']['output']>;
-  /** The price of the item */
-  price: Money;
-  /** The nacelle product ID of the item */
-  productID: Scalars['String']['output'];
-  /** The positive quantity of the item */
-  quantity: Scalars['Uint']['output'];
-  /** The sku of the item */
-  sku?: Maybe<Scalars['String']['output']>;
-  /** The subtotal price of the item */
-  subtotalPrice: Money;
-  /** The tax of the item */
-  tax: Money;
-  /** The total amount discounted from this item */
-  totalDiscounts: Money;
-  /** The nacelle variant ID of the item */
-  variantID: Scalars['String']['output'];
-};
-
-/** An input type for associated item data */
-export type ItemInput = {
-  /** The item level discounts associated with this item */
-  discounts?: InputMaybe<Array<DiscountInput>>;
-  /** Merchant metadata associated with this item */
-  metadata?: InputMaybe<Scalars['Map']['input']>;
-  /** The price of the item, e.g. 100.00 */
-  price?: InputMaybe<Scalars['String']['input']>;
-  /** The nacelle product ID of the item */
-  productID: Scalars['String']['input'];
-  /** The positive quantity of the item, e.g. 1 */
-  quantity: Scalars['Uint']['input'];
-  /** The sku of the item */
-  sku?: InputMaybe<Scalars['String']['input']>;
-  /** The subtotal price of the item, e.g. 90.00 */
-  subtotalPrice?: InputMaybe<Scalars['String']['input']>;
-  /** The tax of the item, e.g. 10.00 */
-  tax?: InputMaybe<Scalars['String']['input']>;
-  /** The discounts of the item, e.g. 0.00 */
-  totalDiscounts?: InputMaybe<Scalars['String']['input']>;
-  /** The nacelle variant ID of the item */
-  variantID: Scalars['String']['input'];
 };
 
 /** A piece of media that can represent an Image, 3dModel, or Video. */
@@ -811,26 +350,10 @@ export type Money = {
   precisionDigits?: Maybe<Scalars['Int']['output']>;
 };
 
+/** The mutation root. */
 export type Mutation = {
   __typename?: 'Mutation';
-  /**
-   * This mutation will create a checkout session.
-   * Returns a new checkout ID.
-   */
-  createCheckout: Scalars['String']['output'];
   root?: Maybe<Scalars['String']['output']>;
-  /** This mutation will update the existing checkout session. */
-  updateCheckout: Checkout;
-};
-
-
-export type MutationCreateCheckoutArgs = {
-  cart: CartInput;
-};
-
-
-export type MutationUpdateCheckoutArgs = {
-  cart: CartInput;
 };
 
 /** The filter to apply, when selecting navigation items. */
@@ -912,293 +435,13 @@ export type NodeEdge = {
   node: Node;
 };
 
-/** Represents a single order in the system */
-export type Order = {
-  __typename?: 'Order';
-  /** The cart level discounts applied to this order */
-  appliedDiscounts?: Maybe<Array<Discount>>;
-  /** [source] The billing address for the order */
-  billingAddress?: Maybe<Address>;
-  /** When the order was canceled */
-  canceledAt?: Maybe<Scalars['NullTime']['output']>;
-  /** The reason the order was canceled */
-  canceledReason?: Maybe<Scalars['String']['output']>;
-  /** A comment about the order */
-  comment?: Maybe<Scalars['String']['output']>;
-  /** When the order was created */
-  createdAt: Scalars['Time']['output'];
-  /** The currency of the order for example USD, CAD, etc. */
-  currency?: Maybe<Scalars['String']['output']>;
-  /** [source] The customer for the order */
-  customer?: Maybe<Customer>;
-  deadline?: Maybe<Scalars['Uint']['output']>;
-  /** The destination id of the order, used for syncing with external systems */
-  destinationExternalId?: Maybe<Scalars['String']['output']>;
-  /** [source] The total discounts of the order */
-  discounts?: Maybe<Money>;
-  /** The email address associated with the customer. */
-  email?: Maybe<Scalars['String']['output']>;
-  /** [source] A query to get all the fulfillments based on the filter */
-  fulfillments: FulfillmentConnection;
-  /** The unique order id */
-  id: Scalars['UUID']['output'];
-  /** [source] A query to get all the order items based on the filter */
-  items: OrderItemConnection;
-  /** [source] The meta data for the order */
-  meta?: Maybe<Scalars['Map']['output']>;
-  /** When the order was last modified */
-  modifiedAt: Scalars['Time']['output'];
-  /** The nacelle entry id of the order */
-  nacelleEntryId?: Maybe<Scalars['String']['output']>;
-  /** @deprecated use items instead */
-  orderItems: Array<Maybe<OrderItem>>;
-  /** [source] The payment information for the order */
-  payment?: Maybe<Payment>;
-  /** @deprecated use payment instead */
-  paymentMethod?: Maybe<Scalars['String']['output']>;
-  /** @deprecated use payment instead */
-  paymentService?: Maybe<Scalars['String']['output']>;
-  /** @deprecated use payment instead */
-  paymentStatus?: Maybe<Scalars['String']['output']>;
-  /** The phone number associated with the customer. */
-  phone?: Maybe<Scalars['String']['output']>;
-  /** [source] The total price of the order */
-  price?: Maybe<Money>;
-  /** The promotion associated with this order */
-  promotion?: Maybe<Promotion>;
-  /** [source] The shipping address for the order */
-  shippingAddress?: Maybe<Address>;
-  /** @deprecated use shippingRate instead */
-  shippingMethod?: Maybe<Scalars['String']['output']>;
-  /** @deprecated use shippingRate instead */
-  shippingPrice?: Maybe<Money>;
-  /** [source] The shipping rate information for the order */
-  shippingRate?: Maybe<ShippingRate>;
-  /** The external id of the orders source */
-  sourceExternalId?: Maybe<Scalars['String']['output']>;
-  /** The status of the order */
-  status: Scalars['String']['output'];
-  /** [source] The subtotal price of the order */
-  subtotalPrice?: Maybe<Money>;
-  /** [source] The total tax of the order */
-  tax?: Maybe<Money>;
-  /** The tax rate of the order in string-decimal format */
-  taxRate?: Maybe<Scalars['String']['output']>;
-  /** [source] The tax calculation information for the order */
-  taxResult?: Maybe<CalcResult>;
-  /** @deprecated use discounts instead */
-  totalDiscounts?: Maybe<Scalars['Int']['output']>;
-  /** @deprecated use price instead */
-  totalPrice?: Maybe<Scalars['Int']['output']>;
-  /** @deprecated use subtotalPrice instead */
-  totalSubtotalPrice?: Maybe<Scalars['Int']['output']>;
-  /** @deprecated use tax instead */
-  totalTotalTax?: Maybe<Scalars['Int']['output']>;
-};
-
-
-/** Represents a single order in the system */
-export type OrderFulfillmentsArgs = {
-  filter?: InputMaybe<FulfillmentFilter>;
-};
-
-
-/** Represents a single order in the system */
-export type OrderItemsArgs = {
-  filter?: InputMaybe<OrderItemFilter>;
-};
-
-/** What to order results by in a collection */
-export enum OrderBy {
-  Createdat = 'CREATEDAT',
-  Modifiedat = 'MODIFIEDAT'
-}
-
-/** An object containing an array of Order data and pagination information */
-export type OrderConnection = {
-  __typename?: 'OrderConnection';
-  /** An list of edges. */
-  edges: Array<Maybe<OrderEdge>>;
-  /** Information to aid in pagination. */
-  pageInfo: PageInfo;
-};
-
-/** An object containing a node with Order data and a cursor */
-export type OrderEdge = {
-  __typename?: 'OrderEdge';
-  /** A cursor for use in pagination. */
-  cursor: Scalars['Cursor']['output'];
-  /** The item at the end of OrderEdge. */
-  node: Order;
-};
-
-/** Filter results for Order collections */
-export type OrderFilter = {
-  /** (Optional) A cursor for navigating in forwards through data */
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  /** (Optional) A cursor for navigating in backwards through data */
-  before?: InputMaybe<Scalars['Cursor']['input']>;
-  /** (Optional) What direction the data is retrieved by. */
-  direction?: InputMaybe<Direction>;
-  /** (Optional) A timestamp that filters out all events after it, timezone is utc +00:00 */
-  end?: InputMaybe<Scalars['Time']['input']>;
-  /** (Optional) First denotes how many records to return */
-  first?: Scalars['Int']['input'];
-  /** (Optional) The order id to filter by */
-  id?: InputMaybe<Scalars['UUID']['input']>;
-  /** (Optional) How the returned rows are ordered either version, or timestamp. */
-  orderBy?: InputMaybe<OrderBy>;
-  /** (Optional) The string to search for in the order */
-  search?: InputMaybe<Scalars['String']['input']>;
-  /** (Optional) A timestamp that filters out all events before it, timezone is utc +00:00 */
-  start?: InputMaybe<Scalars['Time']['input']>;
-  /** (Optional) The status to filter by */
-  status?: InputMaybe<Scalars['String']['input']>;
-};
-
-/** Represents a single order item in an order */
-export type OrderItem = {
-  __typename?: 'OrderItem';
-  /** The item level discounts applied to this order item */
-  appliedDiscounts?: Maybe<Array<DiscountItem>>;
-  /** A comment about the order item */
-  comment?: Maybe<Scalars['String']['output']>;
-  /** When the order item was created */
-  createdAt: Scalars['Time']['output'];
-  /** @deprecated use meta instead */
-  description?: Maybe<Scalars['String']['output']>;
-  /** The destination id of the order item, used for syncing with external systems */
-  destinationExternalID?: Maybe<Scalars['String']['output']>;
-  /** The total discounts of the order item */
-  discountsAmount?: Maybe<Money>;
-  /** The unique order item id */
-  id: Scalars['UUID']['output'];
-  /** The meta data for the order item */
-  meta?: Maybe<Scalars['Map']['output']>;
-  /** @deprecated use productID instead */
-  nacelleEntryID?: Maybe<Scalars['String']['output']>;
-  /** @deprecated use priceAmount instead */
-  price?: Maybe<Scalars['Int']['output']>;
-  /** The total price of the order item */
-  priceAmount?: Maybe<Money>;
-  /** @deprecated use variantID instead */
-  productExternalID?: Maybe<Scalars['String']['output']>;
-  /** The nacelle entry id of the product this item represents */
-  productID?: Maybe<Scalars['String']['output']>;
-  /** The total quantity of the order item */
-  quantity?: Maybe<Scalars['Uint']['output']>;
-  /** The product sku */
-  sku?: Maybe<Scalars['String']['output']>;
-  /** The external id of the order item */
-  sourceExternalID?: Maybe<Scalars['String']['output']>;
-  /** The status of the order item */
-  status: Scalars['String']['output'];
-  /** The subtotal price of the order item */
-  subtotalPriceAmount?: Maybe<Money>;
-  /** The total tax of the order item */
-  taxAmount?: Maybe<Money>;
-  /** The tax rate of the order item in string-decimal format */
-  taxRate?: Maybe<Scalars['String']['output']>;
-  /** The nacelle entery id of the variant this item represents */
-  variantID?: Maybe<Scalars['String']['output']>;
-};
-
-/** An object containing an array of OrderItem data and pagination information */
-export type OrderItemConnection = {
-  __typename?: 'OrderItemConnection';
-  /** An array of OrderItemsEdge's. */
-  edges: Array<Maybe<OrderItemEdge>>;
-  /** Information to aid in pagination. */
-  pageInfo: PageInfo;
-};
-
-/** An object containing a node with OrderItem data and a cursor */
-export type OrderItemEdge = {
-  __typename?: 'OrderItemEdge';
-  /** A cursor for use in pagination. */
-  cursor: Scalars['Cursor']['output'];
-  /** The order item data */
-  node: OrderItem;
-};
-
-/** Filter results for OrderItem collections */
-export type OrderItemFilter = {
-  /** (Optional) A cursor for navigating in forwards through data */
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  /** (Optional) A cursor for navigating in backwards through data */
-  before?: InputMaybe<Scalars['Cursor']['input']>;
-  /** (Optional) What direction the data is retrieved by. */
-  direction?: InputMaybe<Direction>;
-  /** (Optional) How many records to return. Defaults to 50. Max value of 100 */
-  first?: InputMaybe<Scalars['Int']['input']>;
-  /** (Optional) How the returned rows are ordered either version, or timestamp. */
-  orderBy?: InputMaybe<OrderBy>;
-  /** (Optional) Whether to return canceled items */
-  showCanceled?: InputMaybe<Scalars['Boolean']['input']>;
-};
-
-/** Contains information that can be used to navigate through paginated data, additionally details whether there are more pages to query. */
+/** Pagination object indicating if there are more pages of data and where the next page starts. */
 export type PageInfo = {
   __typename?: 'PageInfo';
-  /** The ending cursor of this request */
   endCursor: Scalars['String']['output'];
-  /** Whether there is a next page to view */
   hasNextPage: Scalars['Boolean']['output'];
-  /** Whether there is a previous page to view */
   hasPreviousPage: Scalars['Boolean']['output'];
-  /** The starting cursor of this request */
   startCursor: Scalars['String']['output'];
-};
-
-/** Represents a payment in the system */
-export type Payment = {
-  __typename?: 'Payment';
-  /** @deprecated use amountValue instead */
-  amount: Scalars['Int']['output'];
-  /** The total price of the payment */
-  amountValue?: Maybe<Money>;
-  /** @deprecated use cardBrand instead */
-  brand?: Maybe<Scalars['String']['output']>;
-  /** The brand of the card used for the payment. For example Visa, Mastercard, etc. */
-  cardBrand?: Maybe<Scalars['String']['output']>;
-  /** The currency of the payment for example USD, CAD, etc. */
-  currency: Scalars['String']['output'];
-  /** The external id for the payment for example the stripe payment intent id */
-  external_id?: Maybe<Scalars['String']['output']>;
-  /** The unique payment id */
-  id: Scalars['UUID']['output'];
-  /** The meta data for the payment */
-  payment_data?: Maybe<Scalars['Map']['output']>;
-  /** The type of payment. For example credit card, paypal, etc. */
-  payment_type?: Maybe<Scalars['String']['output']>;
-  /** The payment processor name for the payment. For example Stripe, Paypal, etc. */
-  processor_name?: Maybe<Scalars['String']['output']>;
-  /** The status of the payment processor */
-  processor_status?: Maybe<Scalars['String']['output']>;
-  /** The status of the payment */
-  status: Scalars['PaymentStatus']['output'];
-};
-
-/** An input type for associated payment data */
-export type PaymentInput = {
-  /** The amount of the payment e.g. 100.00 */
-  amount: Scalars['String']['input'];
-  /** The brand of the card e.g. visa */
-  cardBrand?: InputMaybe<Scalars['String']['input']>;
-  /** The currency of the payment e.g. USD */
-  currency: Scalars['String']['input'];
-  /** The external ID of the payment e.g. the stripe payment intent ID */
-  externalID: Scalars['String']['input'];
-  /** The payment method ID e.g. the stripe payment method ID */
-  paymentMethodID: Scalars['String']['input'];
-  /** The payment type e.g. card */
-  paymentType?: InputMaybe<Scalars['String']['input']>;
-  /** The payment processor name e.g. stripe */
-  processorName?: InputMaybe<Scalars['String']['input']>;
-  /** The status of the payment processor e.g. succeeded, created */
-  processorStatus?: InputMaybe<Scalars['String']['input']>;
-  /** The status of the payment */
-  status: Scalars['String']['input'];
 };
 
 /** A price break definition. */
@@ -1526,38 +769,6 @@ export type ProductSearchOptions = {
   term?: InputMaybe<Scalars['String']['input']>;
 };
 
-export type Promotion = {
-  __typename?: 'Promotion';
-  /** Any coupon codes entered. */
-  couponCodes?: Maybe<Array<Scalars['String']['output']>>;
-  /** Session custom identifiers that you can set limits on or use inside your rules. Such as the users IP address. */
-  identifiers?: Maybe<Array<Scalars['String']['output']>>;
-  /** Any loyalty cards used. */
-  loyaltyCard?: Maybe<Scalars['String']['output']>;
-  /** Add meta fields to allow tracking additional data for promotion systems such as customer profile ids */
-  meta?: Maybe<Scalars['Map']['output']>;
-  /** ID of the customer profile set by your integration layer. */
-  profileId?: Maybe<Scalars['String']['output']>;
-  /** Any referral code entered. */
-  referralCode?: Maybe<Scalars['String']['output']>;
-};
-
-export type PromotionInput = {
-  /** Any coupon codes entered. */
-  couponCodes?: InputMaybe<Array<Scalars['String']['input']>>;
-  /** Session custom identifiers that you can set limits on or use inside your rules. Such as the users IP address. */
-  identifiers?: InputMaybe<Array<Scalars['String']['input']>>;
-  /** Any loyalty cards used. */
-  loyaltyCard?: InputMaybe<Scalars['String']['input']>;
-  /** Add meta fields to allow tracking additional data for promotion systems such as customer profile ids */
-  meta?: InputMaybe<Scalars['Map']['input']>;
-  /** ID of the customer profile set by your integration layer. */
-  profileId?: InputMaybe<Scalars['String']['input']>;
-  /** Any referral code entered. */
-  referralCode?: InputMaybe<Scalars['String']['input']>;
-};
-
-/** The query root. These queries are authenticated and will return data based on the customer associated with the authentication token. */
 export type Query = {
   __typename?: 'Query';
   _service: _Service;
@@ -1582,18 +793,8 @@ export type Query = {
    * @deprecated `allContent` should be used for paginated content queries.
    */
   contentCollections: Array<ContentCollection>;
-  /** This query will return the customer. */
-  customer?: Maybe<Customer>;
-  /** This query will return a checkout. */
-  getCheckout: Checkout;
-  /** This query will return a list of available shipping rates. */
-  getShippingRates: ShippingRates;
   /** Get navigation groups for a space */
   navigation: Array<NavigationGroup>;
-  /** This query will return a single order given its id. */
-  order?: Maybe<Order>;
-  /** This query will return a orders for a customer. */
-  orders: OrderConnection;
   /**
    * Query a collection of products
    * @deprecated `allProductCollections` should be used for paginated product collection queries.
@@ -1610,79 +811,46 @@ export type Query = {
 };
 
 
-/** The query root. These queries are authenticated and will return data based on the customer associated with the authentication token. */
 export type QueryAllContentArgs = {
   filter?: InputMaybe<ContentFilterInput>;
 };
 
 
-/** The query root. These queries are authenticated and will return data based on the customer associated with the authentication token. */
 export type QueryAllContentCollectionsArgs = {
   filter?: InputMaybe<ContentCollectionFilterInput>;
 };
 
 
-/** The query root. These queries are authenticated and will return data based on the customer associated with the authentication token. */
 export type QueryAllProductCollectionsArgs = {
   filter?: InputMaybe<ProductCollectionFilterInput>;
 };
 
 
-/** The query root. These queries are authenticated and will return data based on the customer associated with the authentication token. */
 export type QueryAllProductsArgs = {
   filter?: InputMaybe<ProductFilterInput>;
 };
 
 
-/** The query root. These queries are authenticated and will return data based on the customer associated with the authentication token. */
 export type QueryContentArgs = {
   filter?: InputMaybe<ContentFilterInput>;
 };
 
 
-/** The query root. These queries are authenticated and will return data based on the customer associated with the authentication token. */
 export type QueryContentCollectionsArgs = {
   filter?: InputMaybe<ContentCollectionFilterInput>;
 };
 
 
-/** The query root. These queries are authenticated and will return data based on the customer associated with the authentication token. */
-export type QueryGetCheckoutArgs = {
-  checkoutID: Scalars['ID']['input'];
-};
-
-
-/** The query root. These queries are authenticated and will return data based on the customer associated with the authentication token. */
-export type QueryGetShippingRatesArgs = {
-  address: AddressInput;
-};
-
-
-/** The query root. These queries are authenticated and will return data based on the customer associated with the authentication token. */
 export type QueryNavigationArgs = {
   filter?: InputMaybe<NavigationFilterInput>;
 };
 
 
-/** The query root. These queries are authenticated and will return data based on the customer associated with the authentication token. */
-export type QueryOrderArgs = {
-  id: Scalars['UUID']['input'];
-};
-
-
-/** The query root. These queries are authenticated and will return data based on the customer associated with the authentication token. */
-export type QueryOrdersArgs = {
-  filter?: InputMaybe<OrderFilter>;
-};
-
-
-/** The query root. These queries are authenticated and will return data based on the customer associated with the authentication token. */
 export type QueryProductCollectionsArgs = {
   filter?: InputMaybe<ProductCollectionFilterInput>;
 };
 
 
-/** The query root. These queries are authenticated and will return data based on the customer associated with the authentication token. */
 export type QueryProductsArgs = {
   filter?: InputMaybe<ProductFilterInput>;
 };
@@ -1706,61 +874,6 @@ export type SelectedOption = {
   label?: Maybe<Scalars['String']['output']>;
   name: Scalars['String']['output'];
   value: Scalars['String']['output'];
-};
-
-/** Represents a shipping rate in the system */
-export type ShippingRate = {
-  __typename?: 'ShippingRate';
-  /** Price of the shipping rate */
-  amount: Money;
-  /** Value of the upper bound of the estimated range. If empty, represents no upper bound. */
-  deliveryEstimateMax?: Maybe<Scalars['Uint']['output']>;
-  /** Value of the lower bound of the estimated range. If empty, represents no lower bound. */
-  deliveryEstimateMin?: Maybe<Scalars['Uint']['output']>;
-  /** Unit of the delivery estimated range */
-  deliveryEstimateUnit?: Maybe<Scalars['String']['output']>;
-  /** Detailed description of the shipping rate */
-  description?: Maybe<Scalars['String']['output']>;
-  /** The display name of the shipping rate */
-  displayName: Scalars['String']['output'];
-  /** The external id for the shipping rate */
-  externalID: Scalars['String']['output'];
-  /** The unique shipping rate id */
-  id?: Maybe<Scalars['UUID']['output']>;
-  /** Name of the shipping company */
-  serviceName?: Maybe<Scalars['String']['output']>;
-  /** Describes if shipping rate price includes taxes */
-  taxBehavior: Scalars['String']['output'];
-};
-
-export type ShippingRateInput = {
-  /** Price of the shipping rate in string-decimal format, e.g. 10.25 */
-  amount: Scalars['String']['input'];
-  /** The currency of the shipping rate, e.g. USD */
-  currency: Scalars['String']['input'];
-  /** Value of the upper bound of the estimated range. If empty, represents no upper bound, e.g. 10 */
-  deliveryEstimateMax?: InputMaybe<Scalars['Uint']['input']>;
-  /** Value of the lower bound of the estimated range. If empty, represents no lower bound, e.g. 2 */
-  deliveryEstimateMin?: InputMaybe<Scalars['Uint']['input']>;
-  /** Unit of the delivery estimated range, e.g. hour / day / business_day / week / month */
-  deliveryEstimateUnit?: InputMaybe<Scalars['String']['input']>;
-  /** Detailed description of the shipping rate, e.g. Ship orders within the U.S. that need to arrive in the afternoon of the next business day. */
-  description?: InputMaybe<Scalars['String']['input']>;
-  /** The display name of the shipping rate, e.g. Ground shipping */
-  displayName: Scalars['String']['input'];
-  /** External (non-nacelle) id of the ShippingRate object from the ShippingRate API service. */
-  externalID: Scalars['String']['input'];
-  /** Name of the shipping company, e.g. UPS */
-  serviceName?: InputMaybe<Scalars['String']['input']>;
-  /** Describes if shipping rate price includes taxes, e.g. unspecified / inclusive / exclusive */
-  taxBehavior: Scalars['String']['input'];
-};
-
-/** ShippingRates result. */
-export type ShippingRates = {
-  __typename?: 'ShippingRates';
-  /** List of available shipping rates for specific Address. */
-  rates?: Maybe<Array<ShippingRate>>;
 };
 
 export type SpaceProperties = {
@@ -2096,35 +1209,47 @@ export type _Service = {
   sdl?: Maybe<Scalars['String']['output']>;
 };
 
-export type ArticleFragmentFragment = { __typename?: 'TypedFieldsExampleArticle', nacelleEntryId: string, typedFields?: { __typename: 'TypedFieldsExampleArticleFields', haiku?: string | null, title?: string | null, author?: { __typename?: 'TypedFieldsExampleAuthor', typedFields?: { __typename?: 'TypedFieldsExampleAuthorFields', firstName?: string | null, lastName?: string | null } | null } | null } | null } & { ' $fragmentName'?: 'ArticleFragmentFragment' };
-
-export type LinkFragmentFragment = { __typename?: 'TypedFieldsExampleArticle', nacelleEntryId: string, typedFields?: { __typename: 'TypedFieldsExampleArticleFields', title?: string | null, author?: { __typename?: 'TypedFieldsExampleAuthor', typedFields?: { __typename?: 'TypedFieldsExampleAuthorFields', firstName?: string | null, lastName?: string | null } | null } | null } | null } & { ' $fragmentName'?: 'LinkFragmentFragment' };
-
-export type LinksFragmentFragment = { __typename?: 'TypedFieldsExampleLinks', nacelleEntryId: string, typedFields?: { __typename: 'TypedFieldsExampleLinksFields', title?: string | null, links?: { __typename?: 'TypedFieldsExampleLinksFieldsLinksConnection', edges: Array<{ __typename?: 'TypedFieldsExampleLinksFieldsLinksEdge', node?: { __typename?: 'TypedFieldsExamplePage', typedFields?: { __typename?: 'TypedFieldsExamplePageFields', handle?: string | null, sections?: { __typename?: 'TypedFieldsExamplePageFieldsSectionsConnection', edges: Array<{ __typename?: 'TypedFieldsExamplePageFieldsSectionsEdge', node?: (
-                  { __typename?: 'TypedFieldsExampleArticle' }
-                  & { ' $fragmentRefs'?: { 'LinkFragmentFragment': LinkFragmentFragment } }
-                ) | { __typename?: 'TypedFieldsExampleLinks' } | null }> } | null } | null } | null }> } | null } | null } & { ' $fragmentName'?: 'LinksFragmentFragment' };
-
 export type ContentRoutesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type ContentRoutesQuery = { __typename?: 'Query', pages: { __typename?: 'ContentConnection', edges: Array<{ __typename?: 'ContentEdge', node: { __typename?: 'Content', handle?: string | null } }> } };
 
-export type AllContentQueryVariables = Exact<{
+export type PageFields_PageFieldsFragment = { __typename: 'TypedFieldsExamplePageFields', handle?: string | null, title?: string | null, sections?: { __typename?: 'TypedFieldsExamplePageFieldsSectionsConnection', edges: Array<{ __typename?: 'TypedFieldsExamplePageFieldsSectionsEdge', node?: (
+        { __typename: 'TypedFieldsExampleArticle', nacelleEntryId: string }
+        & { ' $fragmentRefs'?: { 'Article_ContentFragment': Article_ContentFragment } }
+      ) | (
+        { __typename: 'TypedFieldsExampleLinks', nacelleEntryId: string }
+        & { ' $fragmentRefs'?: { 'Links_ContentFragment': Links_ContentFragment } }
+      ) | null }> } | null } & { ' $fragmentName'?: 'PageFields_PageFieldsFragment' };
+
+export type PageByHandleQueryVariables = Exact<{
   handle: Scalars['String']['input'];
 }>;
 
 
-export type AllContentQuery = { __typename?: 'Query', allContent: { __typename?: 'ContentConnection', edges: Array<{ __typename?: 'ContentEdge', node: { __typename?: 'Content', handle?: string | null, nacelleEntryId: string, typedFields?: { __typename?: 'TypedFieldsExampleArticleFields' } | { __typename?: 'TypedFieldsExampleAuthorFields' } | { __typename?: 'TypedFieldsExampleLinksFields' } | { __typename: 'TypedFieldsExamplePageFields', handle?: string | null, title?: string | null, sections?: { __typename?: 'TypedFieldsExamplePageFieldsSectionsConnection', edges: Array<{ __typename?: 'TypedFieldsExamplePageFieldsSectionsEdge', node?: (
-                { __typename?: 'TypedFieldsExampleArticle' }
-                & { ' $fragmentRefs'?: { 'ArticleFragmentFragment': ArticleFragmentFragment } }
-              ) | (
-                { __typename?: 'TypedFieldsExampleLinks' }
-                & { ' $fragmentRefs'?: { 'LinksFragmentFragment': LinksFragmentFragment } }
-              ) | null }> } | null } | null } }> } };
+export type PageByHandleQuery = { __typename?: 'Query', allContent: { __typename?: 'ContentConnection', edges: Array<{ __typename?: 'ContentEdge', node: { __typename?: 'Content', handle?: string | null, nacelleEntryId: string, typedFields?: { __typename: 'TypedFieldsExampleArticleFields' } | { __typename: 'TypedFieldsExampleAuthorFields' } | { __typename: 'TypedFieldsExampleLinksFields' } | (
+          { __typename: 'TypedFieldsExamplePageFields' }
+          & { ' $fragmentRefs'?: { 'PageFields_PageFieldsFragment': PageFields_PageFieldsFragment } }
+        ) | null } }> } };
 
-export const ArticleFragmentFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"ArticleFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"TypedFieldsExampleArticle"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nacelleEntryId"}},{"kind":"Field","name":{"kind":"Name","value":"typedFields"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"__typename"}},{"kind":"Field","name":{"kind":"Name","value":"haiku"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"author"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"typedFields"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"firstName"}},{"kind":"Field","name":{"kind":"Name","value":"lastName"}}]}}]}}]}}]}}]} as unknown as DocumentNode<ArticleFragmentFragment, unknown>;
-export const LinkFragmentFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"LinkFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"TypedFieldsExampleArticle"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nacelleEntryId"}},{"kind":"Field","name":{"kind":"Name","value":"typedFields"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"__typename"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"author"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"typedFields"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"firstName"}},{"kind":"Field","name":{"kind":"Name","value":"lastName"}}]}}]}}]}}]}}]} as unknown as DocumentNode<LinkFragmentFragment, unknown>;
-export const LinksFragmentFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"LinksFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"TypedFieldsExampleLinks"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nacelleEntryId"}},{"kind":"Field","name":{"kind":"Name","value":"typedFields"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"__typename"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"links"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"edges"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"node"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"typedFields"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"handle"}},{"kind":"Field","name":{"kind":"Name","value":"sections"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"edges"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"node"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"LinkFragment"}}]}}]}}]}}]}}]}}]}}]}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"LinkFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"TypedFieldsExampleArticle"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nacelleEntryId"}},{"kind":"Field","name":{"kind":"Name","value":"typedFields"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"__typename"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"author"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"typedFields"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"firstName"}},{"kind":"Field","name":{"kind":"Name","value":"lastName"}}]}}]}}]}}]}}]} as unknown as DocumentNode<LinksFragmentFragment, unknown>;
+export type Article_ContentFragment = { __typename?: 'TypedFieldsExampleArticle', nacelleEntryId: string, typedFields?: { __typename?: 'TypedFieldsExampleArticleFields', haiku?: string | null, title?: string | null, author?: { __typename?: 'TypedFieldsExampleAuthor', typedFields?: { __typename?: 'TypedFieldsExampleAuthorFields', firstName?: string | null, lastName?: string | null } | null } | null } | null } & { ' $fragmentName'?: 'Article_ContentFragment' };
+
+export type LinkArticle_ContentFragment = { __typename: 'TypedFieldsExampleArticle', nacelleEntryId: string, title?: string | null, typedFields?: { __typename?: 'TypedFieldsExampleArticleFields', author?: { __typename?: 'TypedFieldsExampleAuthor', typedFields?: { __typename?: 'TypedFieldsExampleAuthorFields', firstName?: string | null, lastName?: string | null } | null } | null } | null } & { ' $fragmentName'?: 'LinkArticle_ContentFragment' };
+
+export type Link_ContentFragment = { __typename: 'TypedFieldsExamplePage', nacelleEntryId: string, handle?: string | null, typedFields?: { __typename?: 'TypedFieldsExamplePageFields', sections?: { __typename?: 'TypedFieldsExamplePageFieldsSectionsConnection', edges: Array<{ __typename?: 'TypedFieldsExamplePageFieldsSectionsEdge', node?: (
+          { __typename?: 'TypedFieldsExampleArticle' }
+          & { ' $fragmentRefs'?: { 'LinkArticle_ContentFragment': LinkArticle_ContentFragment } }
+        ) | { __typename?: 'TypedFieldsExampleLinks' } | null }> } | null } | null } & { ' $fragmentName'?: 'Link_ContentFragment' };
+
+export type Links_ContentFragment = { __typename?: 'TypedFieldsExampleLinks', nacelleEntryId: string, typedFields?: { __typename?: 'TypedFieldsExampleLinksFields', title?: string | null, links?: { __typename?: 'TypedFieldsExampleLinksFieldsLinksConnection', edges: Array<{ __typename?: 'TypedFieldsExampleLinksFieldsLinksEdge', node?: (
+          { __typename?: 'TypedFieldsExamplePage', nacelleEntryId: string }
+          & { ' $fragmentRefs'?: { 'Link_ContentFragment': Link_ContentFragment } }
+        ) | null }> } | null } | null } & { ' $fragmentName'?: 'Links_ContentFragment' };
+
+export const Article_ContentFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"Article_Content"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"TypedFieldsExampleArticle"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nacelleEntryId"}},{"kind":"Field","name":{"kind":"Name","value":"typedFields"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"haiku"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"author"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"typedFields"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"firstName"}},{"kind":"Field","name":{"kind":"Name","value":"lastName"}}]}}]}}]}}]}}]} as unknown as DocumentNode<Article_ContentFragment, unknown>;
+export const LinkArticle_ContentFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"LinkArticle_Content"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"TypedFieldsExampleArticle"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"__typename"}},{"kind":"Field","name":{"kind":"Name","value":"nacelleEntryId"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"typedFields"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"author"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"typedFields"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"firstName"}},{"kind":"Field","name":{"kind":"Name","value":"lastName"}}]}}]}}]}}]}}]} as unknown as DocumentNode<LinkArticle_ContentFragment, unknown>;
+export const Link_ContentFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"Link_Content"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"TypedFieldsExamplePage"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"__typename"}},{"kind":"Field","name":{"kind":"Name","value":"nacelleEntryId"}},{"kind":"Field","name":{"kind":"Name","value":"handle"}},{"kind":"Field","name":{"kind":"Name","value":"typedFields"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"sections"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"edges"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"node"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"LinkArticle_Content"}}]}}]}}]}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"LinkArticle_Content"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"TypedFieldsExampleArticle"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"__typename"}},{"kind":"Field","name":{"kind":"Name","value":"nacelleEntryId"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"typedFields"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"author"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"typedFields"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"firstName"}},{"kind":"Field","name":{"kind":"Name","value":"lastName"}}]}}]}}]}}]}}]} as unknown as DocumentNode<Link_ContentFragment, unknown>;
+export const Links_ContentFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"Links_Content"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"TypedFieldsExampleLinks"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nacelleEntryId"}},{"kind":"Field","name":{"kind":"Name","value":"typedFields"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"links"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"edges"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"node"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Node"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nacelleEntryId"}}]}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"Link_Content"}}]}}]}}]}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"LinkArticle_Content"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"TypedFieldsExampleArticle"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"__typename"}},{"kind":"Field","name":{"kind":"Name","value":"nacelleEntryId"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"typedFields"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"author"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"typedFields"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"firstName"}},{"kind":"Field","name":{"kind":"Name","value":"lastName"}}]}}]}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"Link_Content"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"TypedFieldsExamplePage"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"__typename"}},{"kind":"Field","name":{"kind":"Name","value":"nacelleEntryId"}},{"kind":"Field","name":{"kind":"Name","value":"handle"}},{"kind":"Field","name":{"kind":"Name","value":"typedFields"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"sections"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"edges"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"node"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"LinkArticle_Content"}}]}}]}}]}}]}}]}}]} as unknown as DocumentNode<Links_ContentFragment, unknown>;
+export const PageFields_PageFieldsFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"PageFields_PageFields"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"TypedFieldsExamplePageFields"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"__typename"}},{"kind":"Field","name":{"kind":"Name","value":"handle"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"sections"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"edges"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"node"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"__typename"}},{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Node"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nacelleEntryId"}}]}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"Article_Content"}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"Links_Content"}}]}}]}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"LinkArticle_Content"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"TypedFieldsExampleArticle"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"__typename"}},{"kind":"Field","name":{"kind":"Name","value":"nacelleEntryId"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"typedFields"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"author"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"typedFields"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"firstName"}},{"kind":"Field","name":{"kind":"Name","value":"lastName"}}]}}]}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"Link_Content"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"TypedFieldsExamplePage"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"__typename"}},{"kind":"Field","name":{"kind":"Name","value":"nacelleEntryId"}},{"kind":"Field","name":{"kind":"Name","value":"handle"}},{"kind":"Field","name":{"kind":"Name","value":"typedFields"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"sections"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"edges"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"node"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"LinkArticle_Content"}}]}}]}}]}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"Article_Content"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"TypedFieldsExampleArticle"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nacelleEntryId"}},{"kind":"Field","name":{"kind":"Name","value":"typedFields"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"haiku"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"author"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"typedFields"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"firstName"}},{"kind":"Field","name":{"kind":"Name","value":"lastName"}}]}}]}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"Links_Content"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"TypedFieldsExampleLinks"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nacelleEntryId"}},{"kind":"Field","name":{"kind":"Name","value":"typedFields"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"links"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"edges"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"node"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Node"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nacelleEntryId"}}]}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"Link_Content"}}]}}]}}]}}]}}]}}]} as unknown as DocumentNode<PageFields_PageFieldsFragment, unknown>;
 export const ContentRoutesDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"ContentRoutes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","alias":{"kind":"Name","value":"pages"},"name":{"kind":"Name","value":"allContent"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"filter"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"type"},"value":{"kind":"StringValue","value":"page","block":false}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"edges"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"node"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"handle"}}]}}]}}]}}]}}]} as unknown as DocumentNode<ContentRoutesQuery, ContentRoutesQueryVariables>;
-export const AllContentDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"allContent"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"handle"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"allContent"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"filter"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"type"},"value":{"kind":"StringValue","value":"page","block":false}},{"kind":"ObjectField","name":{"kind":"Name","value":"handles"},"value":{"kind":"ListValue","values":[{"kind":"Variable","name":{"kind":"Name","value":"handle"}}]}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"edges"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"node"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"handle"}},{"kind":"Field","name":{"kind":"Name","value":"nacelleEntryId"}},{"kind":"Field","name":{"kind":"Name","value":"typedFields"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"TypedFieldsExamplePageFields"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"__typename"}},{"kind":"Field","name":{"kind":"Name","value":"handle"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"sections"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"edges"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"node"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"ArticleFragment"}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"LinksFragment"}}]}}]}}]}}]}}]}}]}}]}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"LinkFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"TypedFieldsExampleArticle"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nacelleEntryId"}},{"kind":"Field","name":{"kind":"Name","value":"typedFields"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"__typename"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"author"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"typedFields"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"firstName"}},{"kind":"Field","name":{"kind":"Name","value":"lastName"}}]}}]}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"ArticleFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"TypedFieldsExampleArticle"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nacelleEntryId"}},{"kind":"Field","name":{"kind":"Name","value":"typedFields"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"__typename"}},{"kind":"Field","name":{"kind":"Name","value":"haiku"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"author"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"typedFields"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"firstName"}},{"kind":"Field","name":{"kind":"Name","value":"lastName"}}]}}]}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"LinksFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"TypedFieldsExampleLinks"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nacelleEntryId"}},{"kind":"Field","name":{"kind":"Name","value":"typedFields"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"__typename"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"links"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"edges"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"node"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"typedFields"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"handle"}},{"kind":"Field","name":{"kind":"Name","value":"sections"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"edges"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"node"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"LinkFragment"}}]}}]}}]}}]}}]}}]}}]}}]}}]}}]} as unknown as DocumentNode<AllContentQuery, AllContentQueryVariables>;
+export const PageByHandleDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"PageByHandle"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"handle"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"allContent"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"filter"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"type"},"value":{"kind":"StringValue","value":"page","block":false}},{"kind":"ObjectField","name":{"kind":"Name","value":"handles"},"value":{"kind":"ListValue","values":[{"kind":"Variable","name":{"kind":"Name","value":"handle"}}]}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"edges"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"node"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"handle"}},{"kind":"Field","name":{"kind":"Name","value":"nacelleEntryId"}},{"kind":"Field","name":{"kind":"Name","value":"typedFields"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"__typename"}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"PageFields_PageFields"}}]}}]}}]}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"Article_Content"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"TypedFieldsExampleArticle"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nacelleEntryId"}},{"kind":"Field","name":{"kind":"Name","value":"typedFields"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"haiku"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"author"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"typedFields"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"firstName"}},{"kind":"Field","name":{"kind":"Name","value":"lastName"}}]}}]}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"LinkArticle_Content"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"TypedFieldsExampleArticle"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"__typename"}},{"kind":"Field","name":{"kind":"Name","value":"nacelleEntryId"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"typedFields"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"author"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"typedFields"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"firstName"}},{"kind":"Field","name":{"kind":"Name","value":"lastName"}}]}}]}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"Link_Content"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"TypedFieldsExamplePage"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"__typename"}},{"kind":"Field","name":{"kind":"Name","value":"nacelleEntryId"}},{"kind":"Field","name":{"kind":"Name","value":"handle"}},{"kind":"Field","name":{"kind":"Name","value":"typedFields"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"sections"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"edges"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"node"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"LinkArticle_Content"}}]}}]}}]}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"Links_Content"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"TypedFieldsExampleLinks"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nacelleEntryId"}},{"kind":"Field","name":{"kind":"Name","value":"typedFields"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"links"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"edges"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"node"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Node"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nacelleEntryId"}}]}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"Link_Content"}}]}}]}}]}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"PageFields_PageFields"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"TypedFieldsExamplePageFields"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"__typename"}},{"kind":"Field","name":{"kind":"Name","value":"handle"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"sections"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"edges"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"node"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"__typename"}},{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Node"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nacelleEntryId"}}]}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"Article_Content"}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"Links_Content"}}]}}]}}]}}]}}]} as unknown as DocumentNode<PageByHandleQuery, PageByHandleQueryVariables>;
