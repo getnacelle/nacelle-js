@@ -24,10 +24,11 @@
   "homepage": "https://github.com/getnacelle/nacelle-js/tree/main/packages/shopify-cart#readme",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/getnacelle/shopify-cart.git"
+    "url": "https://github.com/getnacelle/nacelle-js.git",
+    "directory": "packages/shopify-cart"
   },
   "bugs": {
-    "url": "https://github.com/getnacelle/shopify-cart/issues"
+    "url": "https://github.com/getnacelle/nacelle-js/issues"
   },
   "engines": {
     "node": ">=14",
@@ -39,6 +40,7 @@
   "jsdelivr": "./dist/nacelle-shopify-cart.iife.js",
   "exports": {
     ".": {
+      "types": "./dist/types/index.d.ts",
       "import": "./dist/nacelle-shopify-cart.mjs",
       "require": "./dist/nacelle-shopify-cart.umd.js"
     }

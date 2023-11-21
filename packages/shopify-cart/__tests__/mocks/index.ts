@@ -25,7 +25,7 @@ export const clientSettings = {
 };
 import type { ShopifyError } from '../../src/types/errors.type';
 
-export const graphqlEndpoint = `https://${clientSettings.shopifyShopId}.myshopify.com/api/2023-01/graphql`;
+export const graphqlEndpoint = `https://${clientSettings.shopifyShopId}.myshopify.com/api/2023-10/graphql`;
 export const cartId = 'gid://shopify/Cart/112233';
 const checkoutUrl = 'https://pepper-wood-apparel.myshopify.com/cart/c/334455';
 

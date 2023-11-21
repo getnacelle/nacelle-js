@@ -115,7 +115,6 @@ const cartClient = createShopifyCartClient({
 [graphql-docs]: https://graphql.org/learn
 [graphql-fragments-docs]: https://graphql.org/learn/queries/#fragments
 [nacelle-shopify-cart-fragments]: https://github.com/getnacelle/nacelle-js/tree/main/packages/shopify-cart/src/graphql/fragments
-[shopify-access-scopes]: https://shopify.dev/api/usage/access-scopes#unauthenticated-access-scopes
-[shopify-cart-object]: https://shopify.dev/api/storefront/2023-01/objects/Cart
-[shopify-cart-user-error]: https://shopify.dev/api/storefront/2023-01/objects/CartUserError
-[shopify-graphiql-explorer]: https://shopify.dev/custom-storefronts/tools/graphiql-storefront-api
+[shopify-access-scopes]: https://shopify.dev/docs/api/usage/access-scopes#unauthenticated-access-scopes
+[shopify-cart-object]: https://shopify.dev/docs/api/storefront/2023-10/objects/Cart
+[shopify-graphiql-explorer]: https://shopify.dev/docs/custom-storefronts/building-with-the-storefront-api/api-exploration/graphiql-storefront-api

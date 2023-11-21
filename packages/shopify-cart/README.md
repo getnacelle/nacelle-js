@@ -319,14 +319,14 @@ cartClient.setConfig({ country: 'CA', language: 'FR' });
 
 [custom-fragments-docs]: https://github.com/getnacelle/nacelle-js/tree/main/packages/shopify-cart/docs/custom-fragments.md
 [shopify-access-scopes]: https://shopify.dev/api/usage/access-scopes#unauthenticated-access-scopes
-[shopify-cart-object]: https://shopify.dev/api/storefront/2023-01/objects/Cart
-[shopify-cart-user-error]: https://shopify.dev/api/storefront/2023-01/objects/CartUserError
+[shopify-cart-object]: https://shopify.dev/api/storefront/2023-10/objects/Cart
+[shopify-cart-user-error]: https://shopify.dev/api/storefront/2023-10/objects/CartUserError
 [shopify-api-error]: https://shopify.dev/api/storefront#status_and_error_codes
-[shopify-attributes-input]: https://shopify.dev/api/storefront/2023-01/input-objects/AttributeInput
-[shopify-buyer-identity-input]: https://shopify.dev/api/storefront/2023-01/input-objects/CartBuyerIdentityInput
-[shopify-cart-input]: https://shopify.dev/api/storefront/2023-01/input-objects/CartInput
-[shopify-cart-line-input]: https://shopify.dev/api/storefront/2023-01/input-objects/CartLineInput
-[shopify-cart-line-update-input]: https://shopify.dev/api/storefront/2023-01/input-objects/CartLineUpdateInput
+[shopify-attributes-input]: https://shopify.dev/api/storefront/2023-10/input-objects/AttributeInput
+[shopify-buyer-identity-input]: https://shopify.dev/api/storefront/2023-10/input-objects/CartBuyerIdentityInput
+[shopify-cart-input]: https://shopify.dev/api/storefront/2023-10/input-objects/CartInput
+[shopify-cart-line-input]: https://shopify.dev/api/storefront/2023-10/input-objects/CartLineInput
+[shopify-cart-line-update-input]: https://shopify.dev/api/storefront/2023-10/input-objects/CartLineUpdateInput
 [shopify-release-schedule]: https://shopify.dev/api/usage/versioning#release-schedule
-[shopify-cart-language-code]: https://shopify.dev/api/storefront/2023-01/enums/LanguageCode
-[shopify-cart-country-code]: https://shopify.dev/api/storefront/2023-01/enums/CountryCode
+[shopify-cart-language-code]: https://shopify.dev/api/storefront/2023-10/enums/LanguageCode
+[shopify-cart-country-code]: https://shopify.dev/api/storefront/2023-10/enums/CountryCode
