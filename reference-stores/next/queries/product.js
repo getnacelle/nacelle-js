@@ -1,6 +1,5 @@
-export const PRODUCT_QUERY_FRAGMENT = `
-edges {
-  node {    
+export const PRODUCT_QUERY_FRAGMENT = /* GraphQL */ `
+  fragment ProductFragment on Product {
     nacelleEntryId
     sourceEntryId
     availableForSale
@@ -39,13 +38,17 @@ edges {
       }
     }
   }
-}
 `;
 
-export const PRODUCTS_QUERY = `
+export const PRODUCTS_QUERY = /* GraphQL */ `
   query Products($handles: [String!]) {
     products: allProducts(filter: { handles: $handles }) {
-      ${PRODUCT_QUERY_FRAGMENT}
+      edges {
+        node {
+          ...ProductFragment
+        }
+      }
     }
   }
+  ${PRODUCT_QUERY_FRAGMENT}
 `;

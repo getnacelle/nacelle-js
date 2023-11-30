@@ -1,6 +1,6 @@
 import { PRODUCT_QUERY_FRAGMENT } from './product';
 
-export const COLLECTION_PRODUCTS_QUERY = `
+export const COLLECTION_PRODUCTS_QUERY = /* GraphQL */ `
   query CollectionProducts($handle: String!, $after: String!) {
     collections: allProductCollections(filter: { handles: [$handle] }) {
       edges {
@@ -10,10 +10,15 @@ export const COLLECTION_PRODUCTS_QUERY = `
               endCursor
               hasNextPage
             }
-            ${PRODUCT_QUERY_FRAGMENT}
+            edges {
+              node {
+                ...ProductFragment
+              }
+            }
           }
         }
       }
     }
   }
+  ${PRODUCT_QUERY_FRAGMENT}
 `;

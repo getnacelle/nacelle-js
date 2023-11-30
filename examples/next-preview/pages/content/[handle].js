@@ -62,14 +62,14 @@ export async function getStaticProps({ params, preview, previewData }) {
 
   return {
     props: {
-      content: contents[0],
+      content: contents.at(0),
       preview: preview || false,
       path: `/content/${params.handle}`
     }
   };
 }
 
-const HANDLES_QUERY = `
+const HANDLES_QUERY = /* GraphQL */ `
   {
     allContent {
       edges {

@@ -1,6 +1,6 @@
 import CollectionProductFragment from './collection-product-fragment.query';
 
-export default `
+export default /* GraphQL */ `
   query CollectionPage($handle: String!) {
     allProductCollections(filter: { handles: [$handle] }) {
       edges {
@@ -29,8 +29,8 @@ export default `
   ${CollectionProductFragment}
 `;
 
-export const CollectionProductsQuery = `
-  query CollectionProducts($handle: String) {
+export const CollectionProductsQuery = /* GraphQL */ `
+  query CollectionProducts($handle: String!, $after: String!) {
     allProductCollections(filter: { handles: [$handle] }) {
       edges {
         node {

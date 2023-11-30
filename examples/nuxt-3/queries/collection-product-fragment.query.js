@@ -1,5 +1,5 @@
 /* eslint-disable no-undef */
-export default `
+export default /* GraphQL */ `
   fragment CollectionProductFragment on Product {
     nacelleEntryId
     sourceEntryId

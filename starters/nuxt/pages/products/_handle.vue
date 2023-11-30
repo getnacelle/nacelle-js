@@ -72,12 +72,12 @@ import { getCartVariant } from '~/utils/getCartVariant';
 export default {
   name: 'ProductPage',
   async asyncData({ app, params }) {
-    const { products } = await app.$nacelle.query({
+    const { allProducts } = await app.$nacelle.query({
       query: PAGE_QUERY,
       variables: { handle: params.handle }
     });
     return {
-      product: products[0]
+      product: allProducts.edges.at(0)?.node
     };
   },
   data: () => ({
@@ -103,7 +103,7 @@ export default {
     }
   },
   created() {
-    this.selectedVariant = { ...this.product.variants[0] };
+    this.selectedVariant = { ...this.product?.variants.at(0) };
     this.selectedOptions = [...this.selectedVariant?.content?.selectedOptions];
   },
   methods: {
@@ -137,42 +137,46 @@ export default {
   }
 };
 
-const PAGE_QUERY = `
-  query ProductPage($handle: String!){
-    products(filter: { handles: [$handle] }){
-      nacelleEntryId
-      sourceEntryId
-      content{
-        handle
-        title
-        description
-        options{
-          name
-          values
-        }
-        featuredMedia{
-          src
-          thumbnailSrc
-          altText
-        }
-			}
-      variants{
-        nacelleEntryId
-        sourceEntryId
-        sku
-        availableForSale
-        price
-        compareAtPrice
-        content{
-          title
-          selectedOptions{
-            name
-            value
+const PAGE_QUERY = /* GraphQL */ `
+  query ProductPage($handle: String!) {
+    allProducts(filter: { handles: [$handle] }) {
+      edges {
+        node {
+          nacelleEntryId
+          sourceEntryId
+          content {
+            handle
+            title
+            description
+            options {
+              name
+              values
+            }
+            featuredMedia {
+              src
+              thumbnailSrc
+              altText
+            }
           }
-          featuredMedia{
-            src
-            thumbnailSrc
-            altText
+          variants {
+            nacelleEntryId
+            sourceEntryId
+            sku
+            availableForSale
+            price
+            compareAtPrice
+            content {
+              title
+              selectedOptions {
+                name
+                value
+              }
+              featuredMedia {
+                src
+                thumbnailSrc
+                altText
+              }
+            }
           }
         }
       }

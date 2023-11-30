@@ -1,4 +1,4 @@
-export default `
+export default /* GraphQL */ `
   query ProductPage($handle: String!) {
     products(filter: { handles: [$handle] }) {
       nacelleEntryId

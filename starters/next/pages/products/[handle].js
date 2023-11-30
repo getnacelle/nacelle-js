@@ -9,7 +9,9 @@ import styles from 'styles/Product.module.css';
 
 function Product({ product }) {
   const { addItem } = useCart();
-  const [selectedVariant, setSelectedVariant] = useState(product.variants[0]);
+  const [selectedVariant, setSelectedVariant] = useState(
+    product.variants.at(0)
+  );
   const [selectedOptions, setSelectedOptions] = useState(
     selectedVariant.content.selectedOptions
   );
@@ -146,9 +148,9 @@ export async function getStaticPaths() {
   const results = await nacelleClient.query({
     query: HANDLES_QUERY
   });
-  const handles = results.products
-    .filter((product) => product.content?.handle)
-    .map((product) => ({ params: { handle: product.content.handle } }));
+  const handles = results.allProducts.edges
+    .filter((product) => product.node.content?.handle)
+    .map((product) => ({ params: { handle: product.node.content.handle } }));
 
   return {
     paths: handles,
@@ -160,12 +162,12 @@ export async function getStaticProps({ params }) {
   // Performs a GraphQL query to Nacelle to get product data,
   // using the handle of the current page.
   // (https://nacelle.com/docs/querying-data/storefront-sdk)
-  const { products } = await nacelleClient.query({
+  const { allProducts } = await nacelleClient.query({
     query: PAGE_QUERY,
     variables: { handle: params.handle }
   });
 
-  if (!products.length) {
+  if (!allProducts.edges.length) {
     return {
       notFound: true
     };
@@ -173,18 +175,22 @@ export async function getStaticProps({ params }) {
 
   return {
     props: {
-      product: products[0]
+      product: allProducts.edges.at(0).node
     }
   };
 }
 
 // GraphQL query for the handles of products. Used in `getStaticPaths`.
 // (https://nacelle.com/docs/querying-data/storefront-api)
-const HANDLES_QUERY = `
+const HANDLES_QUERY = /* GraphQL */ `
   {
-    products {
-      content {
-        handle
+    allProducts {
+      edges {
+        node {
+          content {
+            handle
+          }
+        }
       }
     }
   }
@@ -192,42 +198,46 @@ const HANDLES_QUERY = `
 
 // GraphQL query for product content. Used in `getStaticProps`.
 // (https://nacelle.com/docs/querying-data/storefront-api)
-const PAGE_QUERY = `
-  query ProductPage($handle: String!){
-    products(filter: { handles: [$handle] }){
-      nacelleEntryId
-      sourceEntryId
-      content{
-        handle
-        title
-        description
-        options{
-          name
-          values
-        }
-        featuredMedia{
-          src
-          thumbnailSrc
-          altText
-        }
-			}
-      variants{
-        nacelleEntryId
-        sourceEntryId
-        sku
-        availableForSale
-        price
-        compareAtPrice
-        content{
-          title
-          selectedOptions{
-            name
-            value
+const PAGE_QUERY = /* GraphQL */ `
+  query ProductPage($handle: String!) {
+    allProducts(filter: { handles: [$handle] }) {
+      edges {
+        node {
+          nacelleEntryId
+          sourceEntryId
+          content {
+            handle
+            title
+            description
+            options {
+              name
+              values
+            }
+            featuredMedia {
+              src
+              thumbnailSrc
+              altText
+            }
           }
-          featuredMedia{
-            src
-            thumbnailSrc
-            altText
+          variants {
+            nacelleEntryId
+            sourceEntryId
+            sku
+            availableForSale
+            price
+            compareAtPrice
+            content {
+              title
+              selectedOptions {
+                name
+                value
+              }
+              featuredMedia {
+                src
+                thumbnailSrc
+                altText
+              }
+            }
           }
         }
       }
