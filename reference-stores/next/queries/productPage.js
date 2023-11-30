@@ -1,20 +1,20 @@
 import { CONTENT_QUERY_FRAGMENT } from './content';
 
-export const PRODUCT_ROUTES_QUERY = `
-{
-  products: allProducts {
-    edges {
-      node {
-        content {
-          handle
+export const PRODUCT_ROUTES_QUERY = /* GraphQL */ `
+  {
+    products: allProducts {
+      edges {
+        node {
+          content {
+            handle
+          }
         }
       }
     }
   }
-}
 `;
 
-export const PRODUCT_PAGE_QUERY = `
+export const PRODUCT_PAGE_QUERY = /* GraphQL */ `
   query ProductPage($handle: String!, $pageHandle: String!) {
     products: allProducts(filter: { handles: [$handle] }) {
       edges {
@@ -54,12 +54,17 @@ export const PRODUCT_PAGE_QUERY = `
                 altText
               }
             }
-          }    
+          }
         }
       }
     }
     pages: allContent(filter: { type: "pageProduct", handles: [$pageHandle] }) {
-      ${CONTENT_QUERY_FRAGMENT}
+      edges {
+        node {
+          ...ContentFragment
+        }
+      }
     }
   }
+  ${CONTENT_QUERY_FRAGMENT}
 `;

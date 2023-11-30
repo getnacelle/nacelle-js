@@ -22,9 +22,11 @@ export default {
       query: CONTENT_PAGE_QUERY,
       variables: { handle: 'page-homepage' }
     });
+
+    console.log(pages);
     const { page } = await resolvePageData({
       client: app.$nacelle,
-      page: pages.edges[0]?.node
+      page: pages.edges.at(0)?.node
     });
     return {
       page

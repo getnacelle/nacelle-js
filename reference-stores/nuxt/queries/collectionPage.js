@@ -1,29 +1,55 @@
 import { PRODUCT_QUERY_FRAGMENT } from './product';
 import { CONTENT_QUERY_FRAGMENT } from './content';
 
-export const COLLECTION_PAGE_QUERY = `
-  query CollectionPage($handle: String!, $pageHandle: String!){
-    collections: allProductCollections(filter: { handles: [$handle] }){
+export const COLLECTION_ROUTES_QUERY = /* GraphQL */ `
+  {
+    collections: allProductCollections {
       edges {
         node {
-          nacelleEntryId
-          sourceEntryId
-          content{
+          content {
             handle
-            title
-          }
-          products: productConnection(first: 13){
-            pageInfo {
-              endCursor
-              hasNextPage
-            }      
-            ${PRODUCT_QUERY_FRAGMENT}
           }
         }
       }
     }
-    pages: allContent(filter: { type: "pageCollection", handles: [$pageHandle] }){
-      ${CONTENT_QUERY_FRAGMENT}
+  }
+`;
+
+export const COLLECTION_PAGE_QUERY = /* GraphQL */ `
+  query CollectionPage($handle: String!, $pageHandle: String!) {
+    collections: allProductCollections(filter: { handles: [$handle] }) {
+      edges {
+        node {
+          nacelleEntryId
+          sourceEntryId
+          content {
+            handle
+            title
+          }
+          products: productConnection(first: 13) {
+            pageInfo {
+              endCursor
+              hasNextPage
+            }
+            edges {
+              node {
+                ...ProductFragment
+              }
+            }
+          }
+        }
+      }
+    }
+    pages: allContent(
+      filter: { type: "pageCollection", handles: [$pageHandle] }
+    ) {
+      edges {
+        node {
+          ...ContentFragment
+        }
+      }
     }
   }
+  ${PRODUCT_QUERY_FRAGMENT}
+  ${CONTENT_QUERY_FRAGMENT}
 `;

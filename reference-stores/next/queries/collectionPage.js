@@ -1,21 +1,21 @@
 import { PRODUCT_QUERY_FRAGMENT } from './product';
 import { CONTENT_QUERY_FRAGMENT } from './content';
 
-export const COLLECTION_ROUTES_QUERY = `
-{
-  collections: allProductCollections {
-    edges {
-      node {
-        content {
-          handle
+export const COLLECTION_ROUTES_QUERY = /* GraphQL */ `
+  {
+    collections: allProductCollections {
+      edges {
+        node {
+          content {
+            handle
+          }
         }
       }
     }
   }
-}
 `;
 
-export const COLLECTION_PAGE_QUERY = `
+export const COLLECTION_PAGE_QUERY = /* GraphQL */ `
   query CollectionPage($handle: String!, $pageHandle: String!) {
     collections: allProductCollections(filter: { handles: [$handle] }) {
       edges {
@@ -30,14 +30,26 @@ export const COLLECTION_PAGE_QUERY = `
             pageInfo {
               endCursor
               hasNextPage
-            }      
-            ${PRODUCT_QUERY_FRAGMENT}
+            }
+            edges {
+              node {
+                ...ProductFragment
+              }
+            }
           }
         }
       }
     }
-    pages: allContent(filter: { type: "pageCollection", handles: [$pageHandle] }) {
-      ${CONTENT_QUERY_FRAGMENT}
+    pages: allContent(
+      filter: { type: "pageCollection", handles: [$pageHandle] }
+    ) {
+      edges {
+        node {
+          ...ContentFragment
+        }
+      }
     }
   }
+  ${PRODUCT_QUERY_FRAGMENT}
+  ${CONTENT_QUERY_FRAGMENT}
 `;

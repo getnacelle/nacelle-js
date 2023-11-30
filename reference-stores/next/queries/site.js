@@ -1,6 +1,6 @@
 import { CONTENT_QUERY_FRAGMENT } from './content';
 
-export const SITE_QUERY = `
+export const SITE_QUERY = /* GraphQL */ `
   {
     space: spaceProperties {
       properties {
@@ -11,17 +11,41 @@ export const SITE_QUERY = `
         }
       }
     }
-    header: allContent(filter: { type: "componentHeader", handles: ["component-header"] }) {
-      ${CONTENT_QUERY_FRAGMENT}
+    header: allContent(
+      filter: { type: "componentHeader", handles: ["component-header"] }
+    ) {
+      edges {
+        node {
+          ...ContentFragment
+        }
+      }
     }
-    newsletter: allContent(filter: { type: "componentNewsletter", handles: ["component-newsletter"] }) {
-      ${CONTENT_QUERY_FRAGMENT}
+    newsletter: allContent(
+      filter: { type: "componentNewsletter", handles: ["component-newsletter"] }
+    ) {
+      edges {
+        node {
+          ...ContentFragment
+        }
+      }
     }
-    footer: allContent(filter: { type: "componentFooter", handles: ["component-footer"] }) {
-      ${CONTENT_QUERY_FRAGMENT} 
+    footer: allContent(
+      filter: { type: "componentFooter", handles: ["component-footer"] }
+    ) {
+      edges {
+        node {
+          ...ContentFragment
+        }
+      }
     }
-    cart: allContent(filter: { type: "componentCart",  handles: ["component-cart"] }) {
-      ${CONTENT_QUERY_FRAGMENT}
+    cart: allContent(
+      filter: { type: "componentCart", handles: ["component-cart"] }
+    ) {
+      edges {
+        node {
+          ...ContentFragment
+        }
+      }
     }
     products: allProducts {
       edges {
@@ -44,4 +68,5 @@ export const SITE_QUERY = `
       }
     }
   }
+  ${CONTENT_QUERY_FRAGMENT}
 `;

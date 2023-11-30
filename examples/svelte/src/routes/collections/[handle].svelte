@@ -1,34 +1,16 @@
 <script context="module">
   import { nacelleClient } from '~/services'
 
-  export const PRODUCT_FRAGMENT = `
-  nacelleEntryId
-  sourceEntryId
-  content{
-    handle
-    title
-    options{
-      name
-      values
-    }
-    featuredMedia{
-      src
-      thumbnailSrc
-      altText
-    }
-  }
-  variants{
+  export const PRODUCT_FRAGMENT =  /* GraphQL */ `
+  fragment CollectionProductFragment on Product {
     nacelleEntryId
     sourceEntryId
-    sku
-    availableForSale
-    price
-    compareAtPrice
     content{
+      handle
       title
-      selectedOptions{
+      options{
         name
-        value
+        values
       }
       featuredMedia{
         src
@@ -36,31 +18,61 @@
         altText
       }
     }
-  }
-`;
-
-const PAGE_QUERY = `
-  query CollectionPage($handle: String!){
-    productCollections(filter: { handles: [$handle] }){
+    variants{
       nacelleEntryId
       sourceEntryId
+      sku
+      availableForSale
+      price
+      compareAtPrice
       content{
         title
-      }
-      products(first: 13){
-        ${PRODUCT_FRAGMENT}
+        selectedOptions{
+          name
+          value
+        }
+        featuredMedia{
+          src
+          thumbnailSrc
+          altText
+        }
       }
     }
   }
 `;
 
+const PAGE_QUERY =  /* GraphQL */ `
+  query CollectionPage($handle: String!){
+    allProductCollections(filter: { handles: [$handle] }){
+      edges {
+        node {
+          nacelleEntryId
+          sourceEntryId
+          content{
+            title
+          }
+          productConnection(first: 13){
+            edges {
+              node {
+                ...CollectionProductFragment
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  ${PRODUCT_FRAGMENT}
+`;
+
   export async function load({ params }) {
-    const { productCollections } = await nacelleClient.query({
+    const { allProductCollections } = await nacelleClient.query({
       query: PAGE_QUERY,
       variables: { handle: params.handle }
     });
-    if (productCollections[0]) {
-      const { products, ...rest } = productCollections[0];
+    if (allProductCollections.edges.at(0)) {
+      const { productConnection, ...rest } = allProductCollections.edges.at(0).node;
+      const products = productConnection.edges.map((edge) => edge.node);
       return {
         props: {
           collection: rest,
@@ -81,14 +93,24 @@ const PAGE_QUERY = `
     handle = value.params.handle
   })
 
-  const PRODUCTS_QUERY = `
+  const PRODUCTS_QUERY = /* GraphQL */ `
     query CollectionProducts($handle: String!, $after: String!){
-      productCollections(filter: { handles: [$handle] }){
-        products(first: 12, after: $after){
-          ${PRODUCT_FRAGMENT}
+      allProductCollections(filter: { handles: [$handle] }){
+        edges {
+          node {
+            productConnection(first: 13) {
+              edges {
+                node {
+                  ...CollectionProductFragment
+                }
+              }
+            }
+
+          }
         }
       }
     }
+    ${PRODUCT_FRAGMENT}
   `;
 
   export let collection
@@ -105,11 +127,11 @@ const PAGE_QUERY = `
   export const handleFetch = async() => {
     isFetching = true
     const after = products[products?.length - 1].nacelleEntryId;
-    const { productCollections } = await nacelleClient.query({
+    const { allProductCollections } = await nacelleClient.query({
       query: PRODUCTS_QUERY,
       variables: { handle, after }
     });
-    const fetchedProducts = productCollections[0]?.products;
+    const fetchedProducts = allProductCollections.edges.at(0)?.node.productConnection.edges.map((edge) => edge.node);
     if (fetchedProducts) {
       canFetch = fetchedProducts.length === 12;
       products = [...products, ...fetchedProducts];

@@ -27,12 +27,14 @@
 export default {
   name: 'CollectionPage',
   async asyncData({ app, params }) {
-    const { productCollections } = await app.$nacelle.query({
+    const { allProductCollections } = await app.$nacelle.query({
       query: PAGE_QUERY,
       variables: { handle: params.handle }
     });
-    if (productCollections[0]) {
-      const { products, ...rest } = productCollections[0];
+    if (allProductCollections.edges.at(0)) {
+      const { productConnection, ...rest } =
+        allProductCollections.edges.at(0).node;
+      const products = productConnection.edges.map((edge) => edge.node);
       return {
         collection: rest,
         products,
@@ -57,11 +59,13 @@ export default {
     async handleFetch() {
       this.isFetching = true;
       const after = this.products[this.products?.length - 1].nacelleEntryId;
-      const { productCollections } = await this.$nacelle.query({
+      const { allProductCollections } = await this.$nacelle.query({
         query: PRODUCTS_QUERY,
         variables: { handle: this.$route.params.handle, after }
       });
-      const products = productCollections[0]?.products;
+      const products = allProductCollections.edges
+        .at(0)
+        ?.node.productConnection.edges.map((edge) => edge.node);
       if (products) {
         this.canFetch = products.length === 12;
         this.products = [...this.products, ...products];
@@ -70,68 +74,99 @@ export default {
     }
   }
 };
-
-const PRODUCT_FRAGMENT = `
-  nacelleEntryId
-  sourceEntryId
-  content{
-    handle
-    title
-    options{
-      name
-      values
-    }
-    featuredMedia{
-      src
-      thumbnailSrc
-      altText
-    }
-  }
-  variants{
+// GraphQL fragment of necessary product data.
+// (https://nacelle.com/docs/querying-data/storefront-api)
+const PRODUCT_FRAGMENT = /* GraphQL */ `
+  fragment CollectionProductFragment on Product {
     nacelleEntryId
     sourceEntryId
-    sku
-    availableForSale
-    price
-    compareAtPrice
-    content{
+    content {
+      handle
       title
-      selectedOptions{
+      options {
         name
-        value
+        values
       }
-      featuredMedia{
+      featuredMedia {
         src
         thumbnailSrc
         altText
       }
     }
-  }
-`;
-
-const PAGE_QUERY = `
-  query CollectionPage($handle: String!){
-    productCollections(filter: { handles: [$handle] }){
+    variants {
       nacelleEntryId
       sourceEntryId
-      content{
+      sku
+      availableForSale
+      price
+      compareAtPrice
+      content {
         title
-      }
-      products(first: 13){
-        ${PRODUCT_FRAGMENT}
+        selectedOptions {
+          name
+          value
+        }
+        featuredMedia {
+          src
+          thumbnailSrc
+          altText
+        }
       }
     }
   }
 `;
 
-const PRODUCTS_QUERY = `
-  query CollectionProducts($handle: String!, $after: String!){
-    productCollections(filter: { handles: [$handle] }){
-      products(first: 12, after: $after){
-        ${PRODUCT_FRAGMENT}
+// GraphQL query for product collection content and initial products.
+// Used in `getStaticProps`.
+// (https://nacelle.com/docs/querying-data/storefront-api)
+const PAGE_QUERY = /* GraphQL */ `
+  query CollectionPage($handle: String!) {
+    allProductCollections(filter: { handles: [$handle] }) {
+      edges {
+        node {
+          nacelleEntryId
+          sourceEntryId
+          content {
+            title
+          }
+          productConnection(first: 13) {
+            edges {
+              node {
+                ...CollectionProductFragment
+              }
+            }
+          }
+        }
       }
     }
   }
+  ${PRODUCT_FRAGMENT}
+`;
+
+// GraphQL query for paginated products within a collection.
+// Used in `handleFetch`.
+// (https://nacelle.com/docs/querying-data/storefront-api)
+const PRODUCTS_QUERY = /* GraphQL */ `
+  query CollectionProducts($handle: String!, $after: String!) {
+    allProductCollections(filter: { handles: [$handle] }) {
+      edges {
+        node {
+          productConnection(first: 12, after: $after) {
+            pageInfo {
+              hasNextPage
+              endCursor
+            }
+            edges {
+              node {
+                ...CollectionProductFragment
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  ${PRODUCT_FRAGMENT}
 `;
 </script>
 

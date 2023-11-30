@@ -2,42 +2,46 @@
   import { nacelleClient } from '~/services'
   import { v4 as uuid } from 'uuid';
 
-  const PAGE_QUERY = `
+  const PAGE_QUERY =  /* GraphQL */ `
     query ProductPage($handle: String!){
-      products(filter: { handles: [$handle] }){
-        nacelleEntryId
-        sourceEntryId
-        content{
-          handle
-          title
-          description
-          options{
-            name
-            values
-          }
-          featuredMedia{
-            src
-            thumbnailSrc
-            altText
-          }
-        }
-        variants{
-          nacelleEntryId
-          sourceEntryId
-          sku
-          availableForSale
-          price
-          compareAtPrice
-          content{
-            title
-            selectedOptions{
-              name
-              value
+      allProducts(filter: { handles: [$handle] }){
+        edges {
+          node {
+            nacelleEntryId
+            sourceEntryId
+            content{
+              handle
+              title
+              description
+              options{
+                name
+                values
+              }
+              featuredMedia{
+                src
+                thumbnailSrc
+                altText
+              }
             }
-            featuredMedia{
-              src
-              thumbnailSrc
-              altText
+            variants{
+              nacelleEntryId
+              sourceEntryId
+              sku
+              availableForSale
+              price
+              compareAtPrice
+              content{
+                title
+                selectedOptions{
+                  name
+                  value
+                }
+                featuredMedia{
+                  src
+                  thumbnailSrc
+                  altText
+                }
+              }
             }
           }
         }
@@ -46,13 +50,14 @@
   `;
 
   export async function load({ params }) {
-    const { products } = await nacelleClient.query({
+    const { allProducts } = await nacelleClient.query({
       query: PAGE_QUERY,
       variables: { handle: params.handle }
     });
+    const products = allProducts.edges.map(({ node }) => node);
     return {
       props: { 
-        product: products[0],
+        product: products.at(0),
         uniqueId: uuid()
       }
     };
@@ -66,7 +71,7 @@
 
   export let product
   export let uniqueId
-  export let selectedVariant = {...product?.variants[0]}
+  export let selectedVariant = {...product?.variants.at(0)}
   
   let selectedOptions = [...selectedVariant?.content?.selectedOptions]
   

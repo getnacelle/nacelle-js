@@ -22,9 +22,13 @@ In this example, the [Nacelle Storefront SDK](https://www.npmjs.com/package/@nac
 Excerpt from `pages/collections/[handle].js`:
 
 ```gql
-flashSales: content(filter: { type: "flashSale" }){
-  fields
-}
+  flashSales: allContent(filter: { type: "flashSale" }) {
+    edges {
+      node {
+        fields
+      }
+    }
+  }
 ```
 
 From the results of this query the flash sales are checked for a matching identifier, in this case a collection handle, and if the end date has not yet passed. The active flash sale is then returned as a prop.
