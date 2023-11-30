@@ -5,16 +5,24 @@ export const buildRoutes = async () => {
     storefrontEndpoint: process.env.NACELLE_STOREFRONT_ENDPOINT,
     token: process.env.NACELLE_STOREFRONT_TOKEN
   });
-  const QUERY = `
+  const QUERY = /* GraphQL */ `
     {
-      products {
-        content {
-          handle
+      allProducts {
+        edges {
+          node {
+            content {
+              handle
+            }
+          }
         }
       }
-      productCollections {
-        content {
-          handle
+      allProductCollections {
+        edges {
+          node {
+            content {
+              handle
+            }
+          }
         }
       }
     }
@@ -22,11 +30,11 @@ export const buildRoutes = async () => {
 
   const response = await client.query({ query: QUERY });
   return [
-    ...response?.products.map(
-      (product) => `/products/${product.content.handle}`
+    ...response?.allProducts.edges.map(
+      (edge) => `/products/${edge.node.content.handle}`
     ),
-    ...response?.productCollections.map(
-      (productCollection) => `/collections/${productCollection.content.handle}`
+    ...response?.allProductCollections.edges.map(
+      (edge) => `/collections/${edge.node.content.handle}`
     )
   ];
 };

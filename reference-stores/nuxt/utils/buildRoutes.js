@@ -6,34 +6,35 @@ export const buildRoutes = async () => {
     token: process.env.NACELLE_STOREFRONT_TOKEN,
     locale: process.env.NACELLE_STOREFRONT_LOCALE
   });
-  const QUERY = `
-  {
-    products: allProducts {
-      edges {
-        node {
-          content {
+  const QUERY = /* GraphQL */ `
+    {
+      products: allProducts {
+        edges {
+          node {
+            content {
+              handle
+            }
+          }
+        }
+      }
+      collections: allProductCollections {
+        edges {
+          node {
+            content {
+              handle
+            }
+          }
+        }
+      }
+      pages: allContent(filter: { type: "pageSections" }) {
+        edges {
+          node {
             handle
           }
         }
       }
     }
-    collections: allProductCollections {
-      edges {
-        node {
-          content {
-            handle
-          }
-        }
-      }
-    }
-    pages: allContent(filter: { type: "pageSections"  }) {
-      edges {
-        node {
-          handle
-        }
-      }
-    }
-  }`;
+  `;
   const { products, collections, pages } = await client.query({
     query: QUERY
   });

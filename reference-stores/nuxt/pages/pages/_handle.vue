@@ -22,7 +22,6 @@ export default {
       query: CONTENT_PAGE_QUERY,
       variables: { handle: `page-${params.handle}` }
     });
-    console.log('HELLO', pages.edges);
     return {
       page: pages.edges.at(0)?.node
     };
