@@ -263,6 +263,22 @@ describe('retry logic', () => {
 		expect(mockedFetch).toBeCalledTimes(2);
 	}, 10_000);
 
+	it("doesn't retry if response includes a 400 error status", async () => {
+		mockedFetch.mockRestore();
+		mockedFetch
+			.mockImplementationOnce(() =>
+				Promise.resolve(
+					getFetchPayload({ message: 'this is an error' }, { status: 400 })
+				)
+			)
+			.mockImplementation(() =>
+				// return a valid response so we don't loop forever
+				Promise.resolve(getFetchPayload({ data: NavigationResult }))
+			);
+		await client.query({ query: NavigationDocument });
+		expect(mockedFetch).toBeCalledTimes(1);
+	});
+
 	it('retries if response includes an INTERNAL_SERVER_ERROR in the gql error', async () => {
 		mockedFetch
 			.mockImplementationOnce(() =>
