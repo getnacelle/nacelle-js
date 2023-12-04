@@ -1,5 +1,11 @@
 # @nacelle/shopify-cart
 
+## 1.1.1
+
+### Patch Changes
+
+- 7f2fa0f: Updated the `engines.node` setting in `package.json` to remove the upper bound for a project's Node.js version. This removes superficial warnings related to Node.js versions when installing `@nacelle/shopify-cart` in a project that uses Node.js 19+.
+
 ## 1.1.0
 
 ### Minor Changes
