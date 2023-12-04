@@ -53,6 +53,12 @@ export const retryExchange = urqlRetryExchange({
 	initialDelayMs: 500,
 	retryIf: (error) => {
 		if (error.networkError) {
+			const statusCode = (error.response as globalThis.Response)?.status;
+
+			if (statusCode === 400) {
+				return false;
+			}
+
 			return true;
 		} else {
 			return error.graphQLErrors.some((err) =>
