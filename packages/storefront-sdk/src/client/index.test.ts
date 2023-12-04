@@ -263,7 +263,7 @@ describe('retry logic', () => {
 		expect(mockedFetch).toBeCalledTimes(2);
 	}, 10_000);
 
-	it("doesn'tretries if response includes a 400 error status", async () => {
+	it("doesn't retry if response includes a 400 error status", async () => {
 		mockedFetch.mockRestore();
 		mockedFetch
 			.mockImplementationOnce(() =>
