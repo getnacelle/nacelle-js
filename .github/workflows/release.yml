@@ -16,15 +16,20 @@ jobs:
       - name: Checkout Repo
         uses: actions/checkout@v4
         with:
-          # This makes Actions fetch all Git history so that Changesets can generate changelogs with the correct commits
-          fetch-depth: 0
+          repository: getnacelle/shared-code
+          path: shared-code
+          token: ${{ secrets.PACKAGES_TOKEN }}
+          fetch-depth: 0 # This makes Actions fetch all git history to prevent issues with SonarCloud analysis
 
-      - name: Setup Node.js 18.x
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 18.x
-          cache: 'npm'
-          cache-dependency-path: '**/package-lock.json'
+          node-version: '18.x'
+
+      - name: Cache dependencies
+        uses: ./shared-code/actions/common/cache
+        with:
+          runtime: 'nodejs'
 
       - uses: dorny/paths-filter@v2
         id: changes
