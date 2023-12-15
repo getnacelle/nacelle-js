@@ -18,9 +18,8 @@ jobs:
         with:
           repository: getnacelle/shared-code
           path: shared-code
-          token: ${{ secrets.PACKAGES_TOKEN }}
-          fetch-depth: 0 # This makes Actions fetch all git history to prevent issues with SonarCloud analysis
-
+          ref: main
+          
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
