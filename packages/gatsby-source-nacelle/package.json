@@ -29,7 +29,7 @@
   "peerDependencies": {
     "gatsby": "^4.0.0",
     "gatsby-source-filesystem": "^4.0.0",
-    "graphql": "^15.0.0"
+    "graphql": "^16.0.0"
   },
   "peerDependenciesMeta": {
     "gatsby-source-filesystem": {
