@@ -13,22 +13,18 @@ jobs:
     name: Release
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Repo
-        uses: actions/checkout@v4
-        with:
-          repository: getnacelle/shared-code
-          path: shared-code
-          ref: main
-          
+    
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '18.x'
 
-      - name: Cache dependencies
-        uses: ./shared-code/actions/common/cache
+      - name: Cache NPM packages
+        uses: actions/cache@v2
         with:
-          runtime: 'nodejs'
+          path: ~/.npm
+          key: ${{ runner.os }}-npm-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: ${{ runner.os }}-npm-
 
       - uses: dorny/paths-filter@v2
         id: changes
