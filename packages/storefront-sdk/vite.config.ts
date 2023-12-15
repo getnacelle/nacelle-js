@@ -29,21 +29,7 @@ export const config: UserConfig = {
 			}
 		}
 	},
-	plugins: [],
-	test: {
-		coverage: {
-			enabled: true,
-			include: ['src/**/*.ts'],
-			provider: 'c8',
-			reportsDirectory: 'coverage',
-			reporter: ['text', 'lcov']
-		},
-		environment: 'jsdom',
-		typecheck: {
-			include: ['**/*.test.ts']
-		},
-		setupFiles: ['vitest.setup.ts']
-	}
+	plugins: []
 };
 
 export default defineConfig(config);
