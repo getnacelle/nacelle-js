@@ -8,15 +8,19 @@ jobs:
   PR:
     runs-on: ubuntu-20.04
     steps:
-      - name: Checkout Repo
-        uses: actions/checkout@v3
-        with:
-          # This makes Actions fetch all git history to prevent issues with SonarCloud analysis
-          fetch-depth: 0
-      - uses: actions/setup-node@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
           node-version: '18.x'
-          registry-url: 'https://npm.pkg.github.com/'
+
+      - name: Cache NPM packages
+        uses: actions/cache@v2
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-npm-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: ${{ runner.os }}-npm-
+
       - uses: dorny/paths-filter@v2
         id: changes
         with:
