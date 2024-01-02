@@ -34,7 +34,7 @@ export async function getStaticPaths() {
     query: HANDLES_QUERY
   });
   const handles = results.allContent.edges
-    .filter((node) => node?.handle)
+    ?.filter((node) => node?.handle)
     .map((node) => ({ params: { handle: node.handle } }));
 
   return {
