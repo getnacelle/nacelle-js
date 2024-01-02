@@ -555,7 +555,7 @@ describe('createShopifyCartClient', () => {
           }
         `,
         EXTEND_CART_LINE: `
-          fragment CartLine_extendCartLine on CartLine {
+          fragment CartLine_extendCartLine on BaseCartLine {
             sellingPlanAllocation {
               checkoutChargeAmount {
                 amount
@@ -578,7 +578,7 @@ describe('createShopifyCartClient', () => {
 
     // EXTEND_CART_LINE
     expect(requestBody).toMatch(
-      /fragment CartLine_extendCartLine on CartLine {\\n\s+ sellingPlanAllocation {\\n\s+ checkoutChargeAmount {\\n\s+ amount\\n\s+ }\\n\s+ }\\n\s+ }/
+      /fragment CartLine_extendCartLine on BaseCartLine {\\n\s+ sellingPlanAllocation {\\n\s+ checkoutChargeAmount {\\n\s+ amount\\n\s+ }\\n\s+ }\\n\s+ }/
     );
   });
 
