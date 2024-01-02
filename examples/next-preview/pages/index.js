@@ -30,29 +30,28 @@ export default function Home() {
         <b>
           To get started with the demo, navigate to a URL following these rules:
         </b>
-        <ul>
-          <li>
-            For a published content navigate to:{' '}
-            <code>/content/CONTENT_HANDLE</code> without activating the preview.
-          </li>
-          <li>
-            To activate the preview navigate to: <code>/api/preview</code>
-          </li>
-          <li>
-            To activate the preview & see preview content navigate to:{' '}
-            <code>/api/preview?redirect=/content/CONTENT_HANDLE</code> or{' '}
-            <code>/api/preview</code>
-          </li>
-          <li>
-            To deactivate the preview navigate to:{' '}
-            <code>/api/exit-preview</code>
-          </li>
-          <li>
-            To verify is the preview is active or not you can check whether or
-            not you have an active <code>preview</code> cookie
-          </li>
-        </ul>
       </p>
+      <ul>
+        <li>
+          For a published content navigate to:{' '}
+          <code>/content/CONTENT_HANDLE</code> without activating the preview.
+        </li>
+        <li>
+          To activate the preview navigate to: <code>/api/preview</code>
+        </li>
+        <li>
+          To activate the preview & see preview content navigate to:{' '}
+          <code>/api/preview?redirect=/content/CONTENT_HANDLE</code> or{' '}
+          <code>/api/preview</code>
+        </li>
+        <li>
+          To deactivate the preview navigate to: <code>/api/exit-preview</code>
+        </li>
+        <li>
+          To verify is the preview is active or not you can check whether or not
+          you have an active <code>preview</code> cookie
+        </li>
+      </ul>
     </div>
   );
 }
