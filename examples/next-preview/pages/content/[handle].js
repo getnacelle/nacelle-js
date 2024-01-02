@@ -30,10 +30,10 @@ function Content({ content, preview, path }) {
 export default Content;
 
 export async function getStaticPaths() {
-  const results = await nacelleClient.query({
+  const { data } = await nacelleClient.query({
     query: HANDLES_QUERY
   });
-  const handles = results.allContent.edges
+  const handles = data.allContent?.edges
     ?.filter((node) => node?.handle)
     .map((node) => ({ params: { handle: node.handle } }));
 
