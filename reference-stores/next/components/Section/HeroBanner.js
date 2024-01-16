@@ -4,7 +4,10 @@ import { contentfulUtils } from 'services';
 const HeroBanner = ({ content }) => {
   return (
     content && (
-      <section className="py-12 bg-gray-50 sm:py-16 lg:py-20">
+      <section
+        className="py-12 bg-gray-50 sm:py-16 lg:py-20"
+        data-nacelle-entry-id={content.nacelleEntryId}
+      >
         <div
           className="
             max-w-md

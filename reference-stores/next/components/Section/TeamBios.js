@@ -4,7 +4,10 @@ import { contentfulUtils } from 'services';
 const TeamBios = ({ content }) => {
   return (
     content && (
-      <div className="bg-gray-50">
+      <div
+        className="bg-gray-50"
+        data-nacelle-entry-id={content.nacelleEntryId}
+      >
         <div className="mx-auto py-24 px-4 max-w-7xl sm:px-6 lg:px-8 lg:py-32">
           <div className="space-y-12">
             {content.fields.heading && (

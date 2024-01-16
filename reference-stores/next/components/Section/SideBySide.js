@@ -4,7 +4,7 @@ import { contentfulUtils } from 'services';
 const SideBySide = ({ content }) => {
   return (
     content && (
-      <div className="bg-white">
+      <div className="bg-white" data-nacelle-entry-id={content.nacelleEntryId}>
         <div className="max-w-7xl mx-auto py-24 sm:px-2 sm:py-32 lg:px-4">
           <div className="max-w-2xl mx-auto px-4 lg:max-w-none">
             <div className="grid grid-cols-1 items-center gap-y-10 gap-x-16 lg:grid-cols-2">
