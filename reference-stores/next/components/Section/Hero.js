@@ -5,7 +5,10 @@ import { contentfulUtils } from 'services';
 const Hero = ({ content }) => {
   return (
     content && (
-      <section className="bg-white">
+      <section
+        className="bg-white"
+        data-nacelle-entry-id={content.nacelleEntryId}
+      >
         <div className="relative bg-gray-900">
           {content.fields.image && (
             <div

@@ -15,7 +15,10 @@ const ContactForm = ({ content }) => {
 
   return (
     content && (
-      <section className="py-12 px-4 sm:py-16 lg:py-20">
+      <section
+        className="py-12 px-4 sm:py-16 lg:py-20"
+        data-nacelle-entry-id={content.nacelleEntryId}
+      >
         <div className="max-w-3xl mx-auto">
           {success && (
             <div

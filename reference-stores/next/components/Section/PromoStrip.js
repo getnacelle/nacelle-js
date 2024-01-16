@@ -4,7 +4,10 @@ import { contentfulUtils } from 'services';
 const PromoStrip = ({ content }) => {
   return (
     content && (
-      <section className="relative bg-gray-800 py-28 px-6 sm:py-32 sm:px-12 lg:px-16">
+      <section
+        className="relative bg-gray-800 py-28 px-6 sm:py-32 sm:px-12 lg:px-16"
+        data-nacelle-entry-id={content.nacelleEntryId}
+      >
         {content.fields.image && (
           <div className="absolute inset-0 overflow-hidden">
             <Image

@@ -5,7 +5,10 @@ import { contentfulUtils } from 'services';
 const CtaStrip = ({ content }) => {
   return (
     content && (
-      <section className="relative overflow-hidden">
+      <section
+        className="relative overflow-hidden"
+        data-nacelle-entry-id={content.nacelleEntryId}
+      >
         <div aria-hidden="true" className="absolute inset-0">
           {content.fields.image && (
             <div className="absolute inset-0 max-w-7xl mx-auto overflow-hidden xl:px-8">

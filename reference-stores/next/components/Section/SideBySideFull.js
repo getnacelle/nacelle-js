@@ -5,7 +5,10 @@ import { contentfulUtils } from 'services';
 const SideBySideFull = ({ content }) => {
   return (
     content && (
-      <section className="relative bg-white">
+      <section
+        className="relative bg-white"
+        data-nacelle-entry-id={content.nacelleEntryId}
+      >
         <div className="lg:absolute lg:inset-0">
           <div
             className={`
