@@ -13,19 +13,19 @@
   "dependencies": {
     "@nacelle/storefront-sdk": "^2.0.3",
     "graphql": "^16.8.1",
-    "next": "14.0.0",
+    "next": "14.2.16",
     "react": "^18",
     "react-dom": "^18"
   },
   "devDependencies": {
-    "@graphql-codegen/cli": "5.0.0",
-    "@graphql-codegen/client-preset": "4.1.0",
+    "@graphql-codegen/cli": "5.0.3",
+    "@graphql-codegen/client-preset": "4.4.0",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "autoprefixer": "^10",
     "eslint": "^8",
-    "eslint-config-next": "14.0.0",
+    "eslint-config-next": "14.2.16",
     "graphql-config": "^5.0.3",
     "postcss": "^8",
     "tailwindcss": "^3",
