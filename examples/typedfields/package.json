@@ -13,7 +13,7 @@
   "dependencies": {
     "@nacelle/storefront-sdk": "^2.0.3",
     "graphql": "^16.8.1",
-    "next": "14.0.0",
+    "next": "15.0.1",
     "react": "^18",
     "react-dom": "^18"
   },
@@ -25,7 +25,7 @@
     "@types/react-dom": "^18",
     "autoprefixer": "^10",
     "eslint": "^8",
-    "eslint-config-next": "14.0.0",
+    "eslint-config-next": "15.0.1",
     "graphql-config": "^5.0.3",
     "postcss": "^8",
     "tailwindcss": "^3",

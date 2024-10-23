@@ -12,13 +12,13 @@
     "@nacelle/shopify-cart": "^1.0.0",
     "@nacelle/storefront-sdk": "^1.0.3",
     "idb-keyval": "^6.2.0",
-    "next": "^12.3.1",
+    "next": "^15.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "uuid": "^9.0.0"
   },
   "devDependencies": {
     "eslint": "^8.4.1",
-    "eslint-config-next": "12.0.7"
+    "eslint-config-next": "15.0.1"
   }
 }
