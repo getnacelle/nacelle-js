@@ -14,7 +14,7 @@
     "nuxt": "^3.0.0-rc.8"
   },
   "dependencies": {
-    "@nacelle/shopify-checkout": "^0.0.11",
+    "@nacelle/shopify-checkout": "^0.1.0",
     "@nacelle/storefront-sdk": "^1.5.1",
     "fuse.js": "^6.6.2",
     "idb-keyval": "^6.1.0",
