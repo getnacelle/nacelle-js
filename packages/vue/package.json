@@ -51,9 +51,9 @@
     "vue": "^2.7.14"
   },
   "devDependencies": {
-    "@babel/cli": "^7.15.4",
-    "@babel/core": "^7.15.5",
-    "@babel/preset-env": "^7.15.6",
+    "@babel/cli": "^8.0.0",
+    "@babel/core": "^8.0.0",
+    "@babel/preset-env": "^8.0.0",
     "@testing-library/jest-dom": "^5.14.1",
     "@vitejs/plugin-vue2": "^2.2.0",
     "@vue/compiler-sfc": "^3.2.11",
