@@ -29,7 +29,7 @@ import type {
 	Product,
 	SpaceProperties
 } from '../types/storefront.js';
-import type { StorefrontConfig } from '../types/config.js';
+import type { SetConfigParams, StorefrontConfig } from '../types/config.js';
 import type { StorefrontClientParams, WithStorefrontQuery } from '../index.js';
 
 const storefrontEndpoint =
@@ -722,6 +722,77 @@ it('unsets the `previewToken`, query param, and header when `setConfig` is calle
 		[X_NACELLE_PREVIEW_TOKEN]?: string;
 	};
 	expect(requestHeaders[X_NACELLE_PREVIEW_TOKEN]).toBeUndefined();
+});
+
+const falseyPreviewTokenCases: [string, SetConfigParams][] = [
+	['`previewToken: undefined`', { previewToken: undefined }],
+	['`previewToken: ""`', { previewToken: '' }],
+	['no `previewToken`', {}]
+];
+
+for (const [description, setConfigParams] of falseyPreviewTokenCases) {
+	it(`unsets the \`previewToken\`, query param, and header when \`setConfig\` is called with ${description}`, async () => {
+		const client = new StorefrontClient({
+			storefrontEndpoint,
+			previewToken: 'xxx',
+			fetchClient: mockedFetch as (
+				input: RequestInfo | URL,
+				init?: RequestInit | undefined
+			) => Promise<Response>
+		});
+
+		const response = client.setConfig(setConfigParams);
+		const { previewToken, storefrontEndpoint: endpoint } = client.getConfig();
+		expect(previewToken).toBe(undefined);
+		expect(response.previewToken).toBe(undefined);
+		expect(new URL(endpoint).searchParams.get('preview')).toBe(null);
+		expect(new URL(response.endpoint).searchParams.get('preview')).toBe(null);
+
+		mockedFetch.mockImplementationOnce(() =>
+			// return a valid response so we don't loop forever
+			Promise.resolve(getFetchPayload({ data: {} }))
+		);
+		await client.query({
+			query: `query { allContent { edges { node { nacelleEntryId } } } }`
+		});
+		const lastFetch = mockedFetch.mock.lastCall as mockRequestArgs;
+		expect(new URL(lastFetch[0] as string).searchParams.get('preview')).toBe(
+			null
+		);
+		const requestHeaders = lastFetch[1]?.headers as HeadersInit & {
+			[X_NACELLE_PREVIEW_TOKEN]?: string;
+		};
+		expect(requestHeaders[X_NACELLE_PREVIEW_TOKEN]).toBeUndefined();
+	});
+}
+
+it('keeps sending the preview token header after `setConfig` switches tokens', async () => {
+	const client = new StorefrontClient({
+		storefrontEndpoint,
+		previewToken: 'first-token',
+		fetchClient: mockedFetch as (
+			input: RequestInfo | URL,
+			init?: RequestInit | undefined
+		) => Promise<Response>
+	});
+
+	client.setConfig({ previewToken: 'second-token' });
+	expect(client.getConfig().previewToken).toBe('second-token');
+
+	mockedFetch.mockImplementationOnce(() =>
+		Promise.resolve(getFetchPayload({ data: {} }))
+	);
+	await client.query({
+		query: `query { allContent { edges { node { nacelleEntryId } } } }`
+	});
+	const lastFetch = mockedFetch.mock.lastCall as mockRequestArgs;
+	expect(new URL(lastFetch[0] as string).searchParams.get('preview')).toBe(
+		'true'
+	);
+	const requestHeaders = lastFetch[1]?.headers as HeadersInit & {
+		[X_NACELLE_PREVIEW_TOKEN]?: string;
+	};
+	expect(requestHeaders[X_NACELLE_PREVIEW_TOKEN]).toBe('second-token');
 });
 
 it("makes requests with APQ enabled when `exchanges` aren't set", async () => {
