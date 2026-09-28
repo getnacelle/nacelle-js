@@ -150,21 +150,22 @@ export class StorefrontClient {
 	 * ```
 	 */
 	setConfig(setConfigParams: SetConfigParams): SetConfigResponse {
+		// `null`, `undefined` and empty strings all disable preview mode, so the
+		// stored token, the `preview` query param and the preview token header
+		// are always derived from the same value
+		const previewToken = setConfigParams.previewToken || null;
+
 		this.#config.storefrontEndpoint = StorefrontClient.getStorefrontEndpoint(
 			this.#config.storefrontEndpoint,
-			setConfigParams.previewToken
+			previewToken
 		);
-
-		if (typeof setConfigParams.previewToken !== 'undefined') {
-			// set to `undefined` if `null` or empty string
-			this.#config.previewToken = setConfigParams.previewToken || undefined;
-		}
+		this.#config.previewToken = previewToken ?? undefined;
 
 		this.#graphqlClient = createClient({
 			url: this.#config.storefrontEndpoint,
 			fetch: this.#config.fetchClient,
 			fetchOptions: {
-				headers: StorefrontClient.getHeaders(setConfigParams.previewToken)
+				headers: StorefrontClient.getHeaders(this.#config.previewToken)
 			},
 			exchanges: this.#config.exchanges
 		});
