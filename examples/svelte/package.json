@@ -26,7 +26,7 @@
 	"type": "module",
 	"dependencies": {
 		"@nacelle/shopify-checkout": "^0.0.11",
-		"@nacelle/storefront-sdk": "^1.7.1",
+		"@nacelle/storefront-sdk": "^2.0.0",
 		"idb-keyval": "^6.1.0",
 		"uuid": "^8.3.2"
 	}
