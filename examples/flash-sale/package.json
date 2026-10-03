@@ -10,7 +10,7 @@
     "precommit": "lint-staged"
   },
   "dependencies": {
-    "@nacelle/storefront-sdk": "^1.1.1",
+    "@nacelle/storefront-sdk": "^2.0.0",
     "next": "12.1.0",
     "react": "17.0.2",
     "react-countdown": "^2.3.2",
