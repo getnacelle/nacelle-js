@@ -10,13 +10,13 @@
   "dependencies": {
     "@nacelle/shopify-checkout": "^0.1.2",
     "@nacelle/vue": "^0.1.0",
-    "@nuxtjs/composition-api": "^0.33.1",
+    "@nuxtjs/composition-api": "^0.34.0",
     "core-js": "^3.19.3",
     "isomorphic-unfetch": "^3.1.0",
     "nuxt": "^2.17.1"
   },
   "devDependencies": {
-    "@nuxt/image": "^0.6.0",
+    "@nuxt/image": "^0.7.0",
     "@nuxtjs/pwa": "^3.3.5",
     "fibers": "^5.0.0",
     "sass": "^1.53.0",
