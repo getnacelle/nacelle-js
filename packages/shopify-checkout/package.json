@@ -51,7 +51,7 @@
     "url": "https://github.com/getnacelle/nacelle-js/issues"
   },
   "devDependencies": {
-    "@babel/preset-typescript": "^7.15.0",
+    "@babel/preset-typescript": "^8.0.0",
     "@types/jest": "^27.0.1",
     "cross-fetch": "^3.1.4",
     "jest": "^27.0.1",
