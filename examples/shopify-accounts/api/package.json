@@ -11,7 +11,7 @@
     "cookie-parser": "^1.4.5",
     "countrycitystatejson": "^20.8.9-a",
     "dotenv": "^16.0.0",
-    "express": "^4.17.1",
+    "express": "^5.0.0",
     "jsonwebtoken": "^8.5.1",
     "multipassify": "^1.1.0",
     "passport": "^0.4.1",
